@@ -53,6 +53,11 @@
   @apply transition-all duration-700 hover:-translate-y-2 hover:shadow-[0_40px_80px_-20px_rgba(139,92,246,0.12)];
 }
 
+.card-premium-bg {
+  background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(249,247,255,1) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.08);
+}
+
 @keyframes float {
   0% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-15px) rotate(0.5deg); }
