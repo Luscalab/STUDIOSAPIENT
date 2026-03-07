@@ -23,7 +23,7 @@
     --border: 272 20% 90%;
     --input: 272 20% 90%;
     --ring: 263 80% 60%;
-    --radius: 1.25rem;
+    --radius: 1.5rem;
   }
 }
 
@@ -46,9 +46,19 @@
 }
 
 .premium-shadow {
-  box-shadow: 0 20px 40px -15px rgba(139, 92, 246, 0.1);
+  box-shadow: 0 30px 60px -15px rgba(139, 92, 246, 0.12);
 }
 
 .hover-lift {
-  @apply transition-transform duration-500 hover:-translate-y-2;
+  @apply transition-all duration-700 hover:-translate-y-3 hover:shadow-2xl hover:shadow-primary/10;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }

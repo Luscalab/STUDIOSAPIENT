@@ -5,57 +5,57 @@ import { Badge } from "@/components/ui/badge";
 const services = [
   {
     title: "Publicidade/marketing",
-    description: "Estratégias 360º de alta performance para converter leads em clientes leais.",
+    description: "Estratégias 360º de alta performance focadas em escala e retorno sobre investimento.",
     icon: <Megaphone className="h-10 w-10 text-primary" />,
-    features: ["Google Ads", "Social Ads", "E-mail Marketing", "SEO Premium"]
+    features: ["Google & Meta Ads", "Marketing de Influência", "E-mail de Performance", "SEO Editorial"]
   },
   {
     title: "Design Estratégico",
-    description: "Criação de identidades visuais potentes que comunicam luxo e valor real.",
+    description: "Criação de ecossistemas visuais que comunicam autoridade e valor inquestionável.",
     icon: <Palette className="h-10 w-10 text-primary" />,
-    features: ["Branding de Luxo", "UI/UX Design", "Identidade Visual", "Naming"]
+    features: ["Branding de Luxo", "UI/UX de Alta Conversão", "Posicionamento Visual", "Visual Identity"]
   },
   {
     title: "Gestão de Redes",
-    description: "Presença social impecável com conteúdo premium e engajamento orgânico.",
+    description: "Construção de comunidades leais através de narrativa premium e estética impecável.",
     icon: <Share2 className="h-10 w-10 text-primary" />,
-    features: ["Cronograma Estratégico", "Copywriting", "Audiovisual", "Relatórios de ROI"]
+    features: ["Curadoria de Conteúdo", "Copywriting Persuasivo", "Social Intelligence", "Gestão de Crise"]
   }
 ];
 
 export function Services() {
   return (
-    <section id="servicos" className="py-32 bg-secondary/50 relative overflow-hidden">
+    <section id="servicos" className="py-40 bg-secondary/30 relative overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="mb-24 text-center">
-          <Badge className="mb-6 bg-primary/10 text-primary hover:bg-primary/20 px-6 py-1.5 text-xs font-bold uppercase tracking-widest">Expertise</Badge>
-          <h2 className="font-headline text-4xl md:text-6xl font-bold mb-8 text-foreground tracking-tight">Soluções Completas</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-xl font-medium">
-            Unimos estética impecável e dados precisos para gerar resultados extraordinários.
+        <div className="mb-32 text-center">
+          <Badge className="mb-8 bg-primary/10 text-primary px-8 py-2 text-xs font-black uppercase tracking-[0.4em] rounded-full">Manifesto</Badge>
+          <h2 className="font-headline text-5xl md:text-8xl font-bold mb-10 text-foreground tracking-tighter">Nosso Expertise</h2>
+          <p className="text-muted-foreground max-w-3xl mx-auto text-2xl font-medium leading-relaxed">
+            Unimos a precisão dos dados à sensibilidade do design para criar resultados que não apenas convertem, mas encantam.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
           {services.map((service, idx) => (
-            <Card key={idx} className="bg-white border-transparent hover:border-primary/20 transition-all duration-500 group overflow-hidden premium-shadow rounded-[3rem] hover-lift">
-              <CardHeader className="p-10 pb-6">
-                <div className="mb-8 p-5 rounded-[1.5rem] bg-secondary w-fit group-hover:bg-primary group-hover:text-white transition-all duration-500">
+            <Card key={idx} className="bg-white border-transparent hover:border-primary/20 transition-all duration-700 group overflow-hidden premium-shadow rounded-[3.5rem] hover-lift">
+              <CardHeader className="p-12 pb-8">
+                <div className="mb-10 p-6 rounded-3xl bg-secondary w-fit group-hover:bg-primary group-hover:text-white transition-all duration-700 group-hover:rotate-6">
                   {service.icon}
                 </div>
-                <CardTitle className="font-headline text-3xl mb-4 group-hover:text-primary transition-colors">{service.title}</CardTitle>
-                <CardDescription className="text-muted-foreground text-lg leading-relaxed">{service.description}</CardDescription>
+                <CardTitle className="font-headline text-4xl mb-6 group-hover:text-primary transition-colors tracking-tight font-extrabold">{service.title}</CardTitle>
+                <CardDescription className="text-muted-foreground text-xl leading-relaxed font-medium">{service.description}</CardDescription>
               </CardHeader>
-              <CardContent className="px-10 pb-12">
-                <ul className="space-y-4 mb-10">
+              <CardContent className="px-12 pb-16">
+                <ul className="space-y-5 mb-12">
                   {service.features.map((feature, fIdx) => (
-                    <li key={fIdx} className="text-base flex items-center font-medium">
-                      <div className="mr-3 h-1.5 w-1.5 rounded-full bg-primary" />
+                    <li key={fIdx} className="text-lg flex items-center font-bold text-muted-foreground/80 group-hover:text-foreground transition-colors duration-500">
+                      <div className="mr-4 h-2 w-2 rounded-full bg-primary/40 group-hover:bg-primary transition-colors" />
                       {feature}
                     </li>
                   ))}
                 </ul>
-                <button className="flex items-center gap-2 text-primary font-bold text-sm uppercase tracking-widest group/btn">
-                  Saiba Mais <ArrowUpRight className="h-4 w-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                <button className="flex items-center gap-3 text-primary font-black text-xs uppercase tracking-[0.2em] group/btn">
+                  Explorar Detalhes <ArrowUpRight className="h-5 w-5 group-hover/btn:translate-x-2 group-hover/btn:-translate-y-2 transition-transform duration-500" />
                 </button>
               </CardContent>
             </Card>
