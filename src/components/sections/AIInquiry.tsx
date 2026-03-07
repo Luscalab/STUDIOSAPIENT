@@ -29,70 +29,70 @@ export function AIInquiry() {
   };
 
   return (
-    <section className="py-32 relative overflow-hidden bg-white">
-      <div className="container mx-auto px-6 max-w-5xl">
-        <div className="text-center mb-16">
-          <Badge className="mb-6 bg-primary/10 text-primary px-6 py-1.5 text-xs font-bold uppercase tracking-widest">Innovation</Badge>
-          <h2 className="font-headline text-4xl md:text-7xl font-bold mb-8 text-foreground tracking-tighter">Consultoria Inteligente</h2>
-          <p className="text-muted-foreground text-xl font-medium max-w-3xl mx-auto">
-            Nossa IA analisa seus objetivos e sugere o caminho ideal para sua marca alcançar o próximo nível.
+    <section className="section-spacing relative overflow-hidden bg-white">
+      <div className="container mx-auto px-6 max-w-6xl">
+        <div className="text-center mb-24">
+          <Badge className="mb-8 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em]">Tecnologia Própria</Badge>
+          <h2 className="font-headline text-5xl md:text-8xl font-bold mb-10 text-foreground tracking-tighter leading-none">Concierge<br />Inteligente</h2>
+          <p className="text-muted-foreground/70 text-2xl font-medium max-w-3xl mx-auto tracking-tight">
+            Nossa inteligência artificial analisa sua visão e desenha o mapa estratégico ideal para sua dominação de mercado.
           </p>
         </div>
 
-        <Card className="bg-secondary/30 border-none rounded-[3rem] p-6 md:p-12 premium-shadow overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-            <Sparkles className="h-32 w-32 text-primary" />
+        <Card className="bg-secondary/30 border-none rounded-[4rem] p-10 md:p-20 premium-shadow overflow-hidden relative border border-primary/5">
+          <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
+            <Sparkles className="h-48 w-48 text-primary" />
           </div>
           
-          <CardHeader className="p-0 mb-10">
-            <CardTitle className="font-headline text-3xl font-extrabold flex items-center gap-3 mb-4">
-              <Sparkles className="h-8 w-8 text-primary" /> Como podemos ajudar?
+          <CardHeader className="p-0 mb-16">
+            <CardTitle className="font-headline text-4xl font-extrabold flex items-center gap-4 mb-6 tracking-tighter">
+              <Sparkles className="h-10 w-10 text-primary" /> Qual é o seu objetivo?
             </CardTitle>
-            <CardDescription className="text-lg font-medium text-muted-foreground">
-              Descreva os desafios e metas do seu negócio.
+            <CardDescription className="text-xl font-medium text-muted-foreground/70 tracking-tight">
+              Descreva os desafios da sua marca e onde deseja chegar.
             </CardDescription>
           </CardHeader>
           
           <CardContent className="p-0">
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-12">
               <Textarea 
-                placeholder="Ex: Quero reposicionar minha clínica estética para o mercado de luxo e aumentar o ticket médio das vendas..."
-                className="min-h-[200px] bg-white border-transparent focus:border-primary/20 text-lg p-8 rounded-[2rem] premium-shadow"
+                placeholder="Ex: Quero reposicionar minha joalheria para o público ultra-high-net-worth e triplicar o ticket médio..."
+                className="min-h-[250px] bg-white border-transparent focus:ring-primary/10 text-xl p-10 rounded-[3rem] premium-shadow border-none placeholder:text-muted-foreground/30 leading-relaxed"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
               />
               <Button 
                 type="submit" 
                 disabled={loading || !input.trim()} 
-                className="w-full h-20 text-xl font-extrabold bg-primary hover:bg-primary/90 rounded-full shadow-xl shadow-primary/20"
+                className="w-full h-24 text-2xl font-black bg-primary hover:bg-primary/90 rounded-full shadow-2xl shadow-primary/30 transition-all active:scale-[0.98] uppercase tracking-widest"
               >
                 {loading ? (
                   <>
-                    <Loader2 className="mr-3 h-6 w-6 animate-spin" /> Analisando Visão...
+                    <Loader2 className="mr-4 h-8 w-8 animate-spin" /> Processando Visão...
                   </>
                 ) : (
-                  "Receber Recomendação AI"
+                  "Solicitar Consultoria AI"
                 )}
               </Button>
             </form>
 
             {result && (
-              <div className="mt-16 space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
-                <div className="p-10 md:p-16 rounded-[3rem] bg-white border border-primary/10 shadow-2xl relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-2 h-full bg-primary" />
-                  <h3 className="font-headline text-3xl font-extrabold mb-8 flex items-center gap-3">
-                    <CheckCircle2 className="h-8 w-8 text-primary" /> Diagnóstico Estratégico:
+              <div className="mt-20 space-y-12 animate-in fade-in slide-in-from-bottom-12 duration-1000">
+                <div className="p-12 md:p-20 rounded-[4rem] bg-white border border-primary/10 shadow-2xl relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-3 h-full bg-primary" />
+                  <h3 className="font-headline text-4xl font-extrabold mb-12 flex items-center gap-4 tracking-tighter">
+                    <CheckCircle2 className="h-10 w-10 text-primary" /> Diagnóstico da Sapient:
                   </h3>
                   
-                  <div className="flex flex-wrap gap-3 mb-10">
+                  <div className="flex flex-wrap gap-4 mb-12">
                     {result.recommendedServices.map((service, idx) => (
-                      <Badge key={idx} className="bg-primary/10 text-primary border-none px-6 py-2 text-sm font-bold rounded-full">
+                      <Badge key={idx} className="bg-primary/5 text-primary border border-primary/10 px-10 py-3 text-sm font-black rounded-full uppercase tracking-widest">
                         {service}
                       </Badge>
                     ))}
                   </div>
 
-                  <div className="prose prose-lg max-w-none text-muted-foreground font-medium leading-relaxed">
+                  <div className="prose prose-2xl max-w-none text-muted-foreground/80 font-medium leading-relaxed tracking-tight">
                     <p className="whitespace-pre-line">
                       {result.reasoning}
                     </p>
@@ -100,8 +100,8 @@ export function AIInquiry() {
                 </div>
                 
                 <div className="text-center">
-                  <Button variant="link" className="text-primary font-bold text-lg hover:underline" onClick={() => {setResult(null); setInput("");}}>
-                    Nova Consulta
+                  <Button variant="link" className="text-primary font-black text-xl hover:underline uppercase tracking-widest" onClick={() => {setResult(null); setInput("");}}>
+                    Nova Estratégia
                   </Button>
                 </div>
               </div>
