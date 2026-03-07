@@ -18,19 +18,22 @@ import {
   ShoppingBag,
   Store,
   Shirt,
-  Scissors
+  Scissors,
+  Home,
+  GraduationCap,
+  Hammer
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 const QUICK_NICHES = [
-  { label: "Moda / Vestuário", icon: <Shirt className="h-4 w-4" />, prompt: "Minha loja de roupas [Nome] foca no público [X] e precisamos de um branding que transmita mais valor e tráfego." },
-  { label: "Farmácia / Mercado", icon: <Store className="h-4 w-4" />, prompt: "Nosso estabelecimento [Nome] é do setor [Farmácia/Mercado] e queremos dominar as buscas locais no Google." },
-  { label: "Nails / Designer", icon: <Scissors className="h-4 w-4" />, prompt: "Sou Designer de Unhas na [Nome] e preciso de uma identidade visual luxuosa e autoridade no Instagram." },
-  { label: "Saúde / Clínica", icon: <Stethoscope className="h-4 w-4" />, prompt: "Minha clínica [Nome] atua na área de [Especialidade] e nosso desafio é ser referência local no Google." },
-  { label: "Estética / Luxo", icon: <Sparkles className="h-4 w-4" />, prompt: "Meu espaço de estética [Nome] foca em [Serviço] e nossa identidade visual não condiz com nosso valor premium." },
-  { label: "Varejo Local", icon: <ShoppingBag className="h-4 w-4" />, prompt: "Minha loja [Nome] vende [Produtos] e precisamos de escala de vendas via anúncios locais." },
+  { label: "Moda / Varejo", icon: <Shirt className="h-4 w-4" />, prompt: "Minha loja de [Tipo de Roupa] chama [Nome] e precisamos de um branding que transmita valor e atraia clientes qualificados." },
+  { label: "Saúde / Clínicas", icon: <Stethoscope className="h-4 w-4" />, prompt: "Minha clínica de [Especialidade] chama [Nome] e nosso desafio é ser referência local no Google e transmitir confiança." },
+  { label: "Imobiliária", icon: <Home className="h-4 w-4" />, prompt: "Sou da imobiliária [Nome] e precisamos de anúncios segmentados e uma apresentação visual que venda imóveis de alto padrão." },
+  { label: "Nails / Estética", icon: <Scissors className="h-4 w-4" />, prompt: "Sou Designer de Unhas na [Nome] e preciso de uma identidade visual luxuosa e autoridade no Instagram para cobrar mais caro." },
+  { label: "Educação / Cursos", icon: <GraduationCap className="h-4 w-4" />, prompt: "Tenho um negócio de cursos chamado [Nome] e preciso de autoridade social e um design que venda minha mentoria." },
+  { label: "Urgência / Serviços", icon: <Hammer className="h-4 w-4" />, prompt: "Trabalho com [Tipo de Serviço] na [Nome] e precisamos dominar as buscas locais no Google para sermos achados na hora da urgência." },
 ];
 
 export function AIChat() {
@@ -68,7 +71,7 @@ export function AIChat() {
       if (!recommendation.isDataSufficient) {
         setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Preciso de mais contexto sobre sua marca." }]);
       } else {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: "Análise concluída. Gerando Dossiê Estratégico para seu nicho..." }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Audit concluído. O Arquiteto gerou seu Dossiê Estratégico abaixo:" }]);
       }
     } catch (error) {
       console.error("Erro ao processar consulta AI:", error);
@@ -110,7 +113,7 @@ export function AIChat() {
               <ShieldCheck className="h-5 w-5 md:h-7 md:w-7 text-white" />
             </div>
             <div>
-              <Badge className="bg-white/20 text-white border-none text-[7px] md:text-[8px] font-black uppercase tracking-[0.3em] mb-1.5 md:mb-2 px-3">Protocolo de Audit</Badge>
+              <Badge className="bg-white/20 text-white border-none text-[7px] md:text-[8px] font-black uppercase tracking-[0.3em] mb-1.5 md:mb-2 px-3">Consultoria de Elite</Badge>
               <h3 className="font-headline font-black text-xl md:text-2xl tracking-tighter leading-none">Arquiteto Sapient</h3>
             </div>
           </div>
@@ -121,10 +124,10 @@ export function AIChat() {
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
               <div className="space-y-4">
                 <p className="text-xl md:text-2xl font-black text-foreground tracking-tighter leading-tight">
-                  Inicie seu Diagnóstico Profissional.
+                  Inicie seu Audit Estratégico.
                 </p>
                 <p className="text-muted-foreground/60 text-base md:text-lg font-medium leading-relaxed tracking-tight">
-                  Selecione seu nicho ou descreva sua marca para o Arquiteto:
+                  Selecione sua área ou descreva o cenário do seu negócio:
                 </p>
               </div>
 
@@ -180,7 +183,7 @@ export function AIChat() {
 
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Activity className="h-3 w-3" /> 02. Gargalo Identificado
+                  <Activity className="h-3 w-3" /> 02. Gargalo Estratégico
                 </p>
                 <div className="bg-secondary/50 p-5 md:p-6 rounded-2xl border border-primary/5">
                   <p className="text-base text-foreground font-black leading-tight tracking-tighter italic">
@@ -191,7 +194,7 @@ export function AIChat() {
 
               <div className="space-y-4">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Zap className="h-3 w-3" /> 03. Intervenção Proposta
+                  <Zap className="h-3 w-3" /> 03. Intervenção Sapient
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {result.recommendedServices.map((service, idx) => (
@@ -204,7 +207,7 @@ export function AIChat() {
 
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Target className="h-3 w-3" /> 04. Valor Sapient
+                  <Target className="h-3 w-3" /> 04. Valor da Execução
                 </p>
                 <div className="bg-white p-6 rounded-[2rem] border border-primary/5">
                   <p className="text-sm text-muted-foreground font-medium leading-relaxed">
@@ -221,7 +224,7 @@ export function AIChat() {
                     document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
-                  Agendar Consultoria Humana <ArrowRight className="ml-2 h-4 w-4" />
+                  Falar com Especialista <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 <button 
                   onClick={() => {setResult(null); setInput(""); setChatHistory([]);}}
@@ -236,7 +239,7 @@ export function AIChat() {
           {loading && (
             <div className="flex items-center gap-3 animate-in fade-in slide-in-from-left-4 duration-500">
               <Loader2 className="h-4 w-4 text-primary animate-spin" />
-              <p className="text-[8px] font-black uppercase tracking-widest text-primary/60">Analisando Matriz Estratégica...</p>
+              <p className="text-[8px] font-black uppercase tracking-widest text-primary/60">Arquiteto Analisando Ecossistema...</p>
             </div>
           )}
         </div>
@@ -245,7 +248,7 @@ export function AIChat() {
           <form onSubmit={handleSubmit} className="p-6 md:p-8 border-t border-muted bg-white/50 backdrop-blur-xl shrink-0">
             <div className="relative">
               <Textarea
-                placeholder="Ex: Sou a Loja [Nome], nicho [X] e preciso de escala..."
+                placeholder="Ex: Minha empresa é [Nome] do setor [X] e precisamos de..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={loading}
