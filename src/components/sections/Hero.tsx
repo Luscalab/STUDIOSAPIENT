@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, ChevronDown } from "lucide-react";
 
 export function Hero() {
   return (
@@ -8,6 +8,10 @@ export function Hero() {
       <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none overflow-hidden">
         <div className="absolute top-[-15%] right-[-10%] w-[90%] h-[90%] bg-primary/5 blur-[250px] rounded-full animate-float" />
         <div className="absolute bottom-[-15%] left-[-10%] w-[70%] h-[70%] bg-accent/5 blur-[250px] rounded-full animate-float [animation-delay:4s]" />
+        
+        {/* Floating Accent Shapes */}
+        <div className="absolute top-[20%] left-[10%] w-64 h-64 border border-primary/10 rounded-full animate-pulse opacity-20" />
+        <div className="absolute bottom-[30%] right-[15%] w-96 h-96 border border-accent/10 rounded-[3rem] rotate-12 animate-pulse opacity-20 [animation-delay:2s]" />
       </div>
       
       <div className="container relative z-10 mx-auto px-6 text-center">
@@ -31,7 +35,7 @@ export function Hero() {
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-12 animate-fade-in-up [animation-delay:600ms]">
-          <Button className="h-24 px-16 text-xl font-black bg-primary hover:bg-primary/90 shadow-[0_25px_50px_rgba(139,92,246,0.3)] transition-all hover:scale-105 active:scale-95 rounded-full uppercase tracking-widest">
+          <Button className="h-24 px-16 text-xl font-black bg-primary hover:bg-primary/90 shadow-[0_25px_50px_rgba(139,92,246,0.3)] transition-all hover:scale-105 active:scale-95 rounded-full uppercase tracking-widest text-white">
             Criar meu Legado
           </Button>
           <Button variant="outline" className="h-24 px-16 text-xl font-black border-primary/10 hover:bg-primary/5 transition-all rounded-full group uppercase tracking-widest">
@@ -41,9 +45,11 @@ export function Hero() {
       </div>
       
       {/* Scroll Down Indicator */}
-      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6 opacity-40 animate-bounce">
+      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6 opacity-40">
         <span className="text-[10px] uppercase tracking-[0.6em] font-black text-primary">Explore</span>
-        <div className="w-[2px] h-16 bg-gradient-to-b from-primary to-transparent" />
+        <div className="relative w-[2px] h-20 bg-muted overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1/2 bg-primary animate-[scroll-indicator_2s_infinite]" />
+        </div>
       </div>
     </section>
   );

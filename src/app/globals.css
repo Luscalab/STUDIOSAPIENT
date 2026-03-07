@@ -60,6 +60,11 @@
   100% { transform: translateY(0px) rotate(0deg); }
 }
 
+@keyframes scroll-indicator {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
 .animate-float {
   animation: float 12s ease-in-out infinite;
 }
@@ -71,4 +76,22 @@
 .soft-gradient-bg {
   background: radial-gradient(circle at top right, hsla(263, 85%, 55%, 0.05), transparent 40%),
               radial-gradient(circle at bottom left, hsla(280, 95%, 60%, 0.05), transparent 40%);
+}
+
+/* Scrollbar refinement */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--secondary));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.4);
 }
