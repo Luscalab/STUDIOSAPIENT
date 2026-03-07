@@ -4,26 +4,26 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 272 60% 10%;
+    --background: 270 20% 98%;
+    --foreground: 272 60% 5%;
     --card: 0 0% 100%;
     --card-foreground: 272 60% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 272 60% 10%;
-    --primary: 263 85% 55%;
+    --primary: 265 90% 56%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 272 20% 98%;
+    --secondary: 272 30% 96%;
     --secondary-foreground: 272 60% 20%;
-    --muted: 272 10% 96%;
+    --muted: 272 10% 94%;
     --muted-foreground: 272 20% 45%;
-    --accent: 280 95% 60%;
+    --accent: 285 95% 58%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 272 20% 92%;
-    --input: 272 20% 92%;
-    --ring: 263 80% 60%;
-    --radius: 2rem;
+    --border: 272 20% 90%;
+    --input: 272 20% 90%;
+    --ring: 265 90% 60%;
+    --radius: 2.5rem;
   }
 }
 
@@ -34,14 +34,19 @@
   body {
     @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary overflow-x-hidden antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
-    background-image: 
-      radial-gradient(circle at 100% 0%, hsla(263, 85%, 55%, 0.03), transparent 35%),
-      radial-gradient(circle at 0% 100%, hsla(280, 95%, 60%, 0.03), transparent 35%);
+    background-color: #fbfaff;
   }
 }
 
+.soft-gradient-bg {
+  background: 
+    radial-gradient(circle at 100% 0%, hsla(265, 90%, 56%, 0.08), transparent 40%),
+    radial-gradient(circle at 0% 100%, hsla(285, 95%, 58%, 0.08), transparent 40%),
+    radial-gradient(circle at 50% 50%, hsla(265, 90%, 56%, 0.02), transparent 60%);
+}
+
 .glass-morphism {
-  @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_0_rgba(139,92,246,0.04)];
+  @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_0_rgba(139,92,246,0.08)];
 }
 
 .text-gradient {
@@ -49,21 +54,21 @@
 }
 
 .premium-shadow {
-  box-shadow: 0 20px 50px -12px rgba(139, 92, 246, 0.08), 0 8px 24px -16px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 25px 60px -15px rgba(139, 92, 246, 0.12), 0 10px 30px -20px rgba(0, 0, 0, 0.05);
 }
 
 .hover-lift {
-  @apply transition-all duration-700 hover:-translate-y-2 hover:shadow-[0_40px_80px_-20px_rgba(139,92,246,0.12)];
+  @apply transition-all duration-700 hover:-translate-y-3 hover:shadow-[0_45px_90px_-25px_rgba(139,92,246,0.18)];
 }
 
 .card-premium-bg {
-  background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(249,247,255,1) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.08);
+  background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(251,248,255,1) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.12);
 }
 
 @keyframes float {
   0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(0.5deg); }
+  50% { transform: translateY(-20px) rotate(1deg); }
   100% { transform: translateY(0px) rotate(0deg); }
 }
 
@@ -74,21 +79,16 @@
 }
 
 .animate-float {
-  animation: float 10s ease-in-out infinite;
+  animation: float 12s ease-in-out infinite;
 }
 
 .section-spacing {
-  @apply py-20 md:py-32 lg:py-40;
-}
-
-.soft-gradient-bg {
-  background: radial-gradient(circle at top right, hsla(263, 85%, 55%, 0.05), transparent 50%),
-              radial-gradient(circle at bottom left, hsla(280, 95%, 60%, 0.05), transparent 50%);
+  @apply py-24 md:py-32 lg:py-40;
 }
 
 /* Scrollbar refinement */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -96,15 +96,16 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.1);
-  border-radius: 10px;
+  background: hsl(var(--primary) / 0.15);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.2);
+  background: hsl(var(--primary) / 0.3);
 }
 
-/* Custom Typography Utils */
 .text-balance {
   text-wrap: balance;
 }
