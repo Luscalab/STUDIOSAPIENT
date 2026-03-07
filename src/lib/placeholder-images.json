@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-bg",
+      "description": "Abstract premium purple waves",
+      "imageUrl": "https://picsum.photos/seed/sapient-hero-v2/1920/1080",
+      "imageHint": "abstract purple"
+    },
+    {
+      "id": "team-lucas",
+      "description": "Lucas Souza - Marketing and Designer",
+      "imageUrl": "https://picsum.photos/seed/lucas-souza/400/400",
+      "imageHint": "man professional"
+    },
+    {
+      "id": "team-luan",
+      "description": "Luan Guimarães - Sales Consultant",
+      "imageUrl": "https://picsum.photos/seed/luan-guimaraes/400/400",
+      "imageHint": "man suit"
+    },
+    {
+      "id": "portfolio-1",
+      "description": "Premium branding project",
+      "imageUrl": "https://picsum.photos/seed/sap-port-1/800/1000",
+      "imageHint": "premium brand"
+    },
+    {
+      "id": "portfolio-2",
+      "description": "Modern marketing campaign",
+      "imageUrl": "https://picsum.photos/seed/sap-port-2/800/1000",
+      "imageHint": "marketing digital"
+    },
+    {
+      "id": "portfolio-3",
+      "description": "Strategic social media management",
+      "imageUrl": "https://picsum.photos/seed/sap-port-3/800/1000",
+      "imageHint": "social design"
+    }
+  ]
 }

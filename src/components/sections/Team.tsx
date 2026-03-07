@@ -6,12 +6,12 @@ const team = [
   {
     name: "Lucas Souza",
     role: "Marketing & Designer",
-    image: PlaceHolderImages.find(img => img.id === "team-lucas")?.imageUrl || ""
+    image: PlaceHolderImages.find(img => img.id === "team-lucas")?.imageUrl || "https://picsum.photos/seed/lucas/400/400"
   },
   {
     name: "Luan Guimarães",
     role: "Consultor de Vendas",
-    image: PlaceHolderImages.find(img => img.id === "team-luan")?.imageUrl || ""
+    image: PlaceHolderImages.find(img => img.id === "team-luan")?.imageUrl || "https://picsum.photos/seed/luan/400/400"
   }
 ];
 

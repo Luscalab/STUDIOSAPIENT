@@ -7,17 +7,17 @@ const projects = [
   {
     title: "Vanguard Lux",
     category: "Branding & Web",
-    image: PlaceHolderImages.find(img => img.id === "portfolio-1")?.imageUrl || ""
+    image: PlaceHolderImages.find(img => img.id === "portfolio-1")?.imageUrl || "https://picsum.photos/seed/sap-p1/800/1000"
   },
   {
     title: "Nexus Tech",
     category: "Marketing Digital",
-    image: PlaceHolderImages.find(img => img.id === "portfolio-2")?.imageUrl || ""
+    image: PlaceHolderImages.find(img => img.id === "portfolio-2")?.imageUrl || "https://picsum.photos/seed/sap-p2/800/1000"
   },
   {
     title: "Sabor & Arte",
     category: "Gestão de Redes",
-    image: PlaceHolderImages.find(img => img.id === "portfolio-3")?.imageUrl || ""
+    image: PlaceHolderImages.find(img => img.id === "portfolio-3")?.imageUrl || "https://picsum.photos/seed/sap-p3/800/1000"
   }
 ];
 
