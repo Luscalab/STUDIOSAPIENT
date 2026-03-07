@@ -3,10 +3,10 @@ import { Hero } from "@/components/sections/Hero";
 import { Services } from "@/components/sections/Services";
 import { Process } from "@/components/sections/Process";
 import { Portfolio } from "@/components/sections/Portfolio";
-import { AIInquiry } from "@/components/sections/AIInquiry";
 import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/layout/Footer";
+import { AIChat } from "@/components/ai/AIChat";
 
 export default function Home() {
   return (
@@ -16,10 +16,12 @@ export default function Home() {
       <Services />
       <Process />
       <Portfolio />
-      <AIInquiry />
       <FAQ />
       <Contact />
       <Footer />
+      
+      {/* Floating AI Interface */}
+      <AIChat />
     </main>
   );
 }
