@@ -5,22 +5,22 @@ const steps = [
   {
     icon: <Search className="h-8 w-8" />,
     title: "Entendimento",
-    description: "Estudamos o seu mercado e os seus desafios atuais para traçar o melhor caminho."
+    description: "Analisamos seu contexto e objetivos para entender onde sua marca precisa chegar."
   },
   {
     icon: <Target className="h-8 w-8" />,
     title: "Estratégia",
-    description: "Desenhamos um plano de ação focado em alcançar seus objetivos comerciais."
+    description: "Desenhamos um caminho claro e visualmente impactante para sua comunicação."
   },
   {
     icon: <PenTool className="h-8 w-8" />,
-    title: "Desenvolvimento",
-    description: "Transformamos a estratégia em ativos visuais e comunicação eficiente."
+    title: "Execução",
+    description: "Transformamos conceitos em design de alto nível e ativos prontos para o mercado."
   },
   {
     icon: <Rocket className="h-8 w-8" />,
-    title: "Execução & Ajuste",
-    description: "Colocamos as campanhas no ar e otimizamos constantemente com base em dados."
+    title: "Acompanhamento",
+    description: "Não apenas entregamos; acompanhamos o impacto e ajustamos para o melhor resultado."
   }
 ];
 
@@ -28,17 +28,17 @@ export function Process() {
   return (
     <section className="section-spacing bg-white relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20vw] font-black text-secondary/30 pointer-events-none select-none tracking-tighter uppercase opacity-30">
-        Fluxo
+        Workflow
       </div>
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between mb-32 gap-16">
           <div className="max-w-2xl">
-            <Badge className="mb-8 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">Como Trabalhamos</Badge>
-            <h2 className="font-headline text-5xl md:text-8xl font-bold tracking-tighter leading-none text-foreground">Nosso processo<br />de entrega</h2>
+            <Badge className="mb-8 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">Nosso Método</Badge>
+            <h2 className="font-headline text-5xl md:text-8xl font-bold tracking-tighter leading-none text-foreground">Como fazemos<br />acontecer</h2>
           </div>
           <p className="text-muted-foreground/60 text-xl md:text-2xl font-medium max-w-md leading-relaxed">
-            Um método estruturado para garantir que cada projeto entregue valor real ao seu negócio.
+            Um processo direto e transparente focado em entregar resultados que elevam sua marca.
           </p>
         </div>
 

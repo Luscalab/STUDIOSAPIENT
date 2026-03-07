@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export function Hero() {
+  const behanceUrl = "https://www.behance.net/sapient";
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-40 pb-32 bg-white soft-gradient-bg">
       {/* Dynamic Background Elements */}
@@ -13,10 +16,10 @@ export function Hero() {
       <div className="container relative z-10 mx-auto px-6 text-center">
         <div className="inline-flex items-center gap-4 rounded-full border border-primary/10 bg-white/50 backdrop-blur-md px-10 py-4 text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-16 animate-fade-in-up shadow-sm">
           <Sparkles className="h-4 w-4" />
-          <span>Sapient Studio • Estratégia & Design</span>
+          <span>Sapient Studio • Design & Branding</span>
         </div>
         
-        <h1 className="font-headline text-7xl md:text-9xl lg:text-[11.5rem] font-extrabold tracking-tighter mb-16 animate-fade-in-up [animation-delay:200ms] text-foreground leading-[0.75] md:leading-[0.75]">
+        <h1 className="font-headline text-7xl md:text-9xl lg:text-[11.5rem] font-extrabold tracking-tighter mb-16 animate-fade-in-up [animation-delay:200ms] text-foreground leading-[0.75]">
           Sua marca,<br />
           <span className="text-primary italic relative inline-block group py-4">
             estratégica.
@@ -26,17 +29,21 @@ export function Hero() {
           </span>
         </h1>
         
-        <p className="max-w-4xl mx-auto text-xl md:text-4xl text-muted-foreground/70 mb-24 animate-fade-in-up [animation-delay:400ms] leading-relaxed font-medium tracking-tight">
-          Ajudamos negócios a crescerem através de design estratégico e gestão de marketing focada em resultados reais.
+        <p className="max-w-4xl mx-auto text-xl md:text-3xl text-muted-foreground/70 mb-24 animate-fade-in-up [animation-delay:400ms] leading-relaxed font-medium tracking-tight">
+          Ajudamos negócios a se tornarem referências através de design estratégico e posicionamento de elite.
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-12 animate-fade-in-up [animation-delay:600ms]">
-          <Button className="h-24 px-16 text-xl font-black bg-primary hover:bg-primary/90 shadow-[0_25px_50px_rgba(139,92,246,0.3)] transition-all hover:scale-105 active:scale-95 rounded-full uppercase tracking-widest text-white">
-            Iniciar um Projeto
-          </Button>
-          <Button variant="outline" className="h-24 px-16 text-xl font-black border-primary/10 hover:bg-primary/5 transition-all rounded-full group uppercase tracking-widest">
-            Ver Portfólio <ArrowRight className="ml-4 h-8 w-8 group-hover:translate-x-3 transition-transform duration-700" />
-          </Button>
+          <Link href="#contato">
+            <Button className="h-24 px-16 text-xl font-black bg-primary hover:bg-primary/90 shadow-[0_25px_50px_rgba(139,92,246,0.3)] transition-all hover:scale-105 active:scale-95 rounded-full uppercase tracking-widest text-white">
+              Iniciar Conversa
+            </Button>
+          </Link>
+          <Link href={behanceUrl} target="_blank">
+            <Button variant="outline" className="h-24 px-16 text-xl font-black border-primary/10 hover:bg-primary/5 transition-all rounded-full group uppercase tracking-widest">
+              Behance <ArrowRight className="ml-4 h-8 w-8 group-hover:translate-x-3 transition-transform duration-700" />
+            </Button>
+          </Link>
         </div>
       </div>
       
