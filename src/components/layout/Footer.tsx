@@ -12,7 +12,7 @@ export function Footer() {
               <span className="tracking-widest text-foreground">PIENT</span>
             </Link>
             <p className="text-muted-foreground text-lg mb-10 font-medium leading-relaxed">
-              Transformando marcas comuns em símbolos de desejo através de design impecável e estratégia de elite.
+              Transformamos negócios comuns em marcas desejadas através de design estratégico e performance de elite.
             </p>
             <div className="flex gap-6">
               <Link href="https://instagram.com/studiosapient" target="_blank" className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all shadow-sm">
@@ -33,31 +33,34 @@ export function Footer() {
           <div>
             <h4 className="font-headline font-bold text-xl mb-10">Serviços</h4>
             <ul className="space-y-6 text-muted-foreground font-medium">
-              <li><Link href="#" className="hover:text-primary transition-colors">Marketing de Performance</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Branding Premium</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Design Estratégico</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Gestão de Autoridade</Link></li>
+              <li><Link href="#servicos" className="hover:text-primary transition-colors">Publicidade & Marketing</Link></li>
+              <li><Link href="#servicos" className="hover:text-primary transition-colors">Design Estratégico</Link></li>
+              <li><Link href="#servicos" className="hover:text-primary transition-colors">Gestão de Redes</Link></li>
+              <li><Link href="#servicos" className="hover:text-primary transition-colors">Branding Premium</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-headline font-bold text-xl mb-10">Agência</h4>
             <ul className="space-y-6 text-muted-foreground font-medium">
-              <li><Link href="#" className="hover:text-primary transition-colors">Sobre a Sapient</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Case Studies</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Metodologia</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Contato</Link></li>
+              <li><Link href="#sobre" className="hover:text-primary transition-colors">Sobre a Sapient</Link></li>
+              <li><Link href="#portfolio" className="hover:text-primary transition-colors">Case Studies</Link></li>
+              <li><Link href="#contato" className="hover:text-primary transition-colors">Contato</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-headline font-bold text-xl mb-10">Insights</h4>
-            <p className="text-muted-foreground mb-8 text-lg font-medium leading-relaxed">Assine nossa curadoria sobre branding e luxo digital.</p>
+            <h4 className="font-headline font-bold text-xl mb-10">Contato Oficial</h4>
+            <div className="space-y-4 text-muted-foreground font-medium mb-8">
+              <p>sapientcontato@gmail.com</p>
+              <p>+55 11 95963-1870</p>
+            </div>
+            <p className="text-muted-foreground mb-8 text-lg font-medium leading-relaxed">Assine nossa curadoria sobre branding.</p>
             <div className="flex flex-col gap-4">
               <input 
                 type="email" 
                 placeholder="E-mail profissional" 
-                className="bg-secondary border-none rounded-2xl px-6 py-5 text-base w-full focus:ring-2 focus:ring-primary/20 outline-none"
+                className="bg-secondary border-none rounded-2xl px-6 py-5 text-base w-full focus:ring-2 focus:ring-primary/20 outline-none shadow-inner"
               />
               <button className="bg-primary hover:bg-primary/90 text-white rounded-2xl px-8 py-5 font-bold transition-all shadow-lg shadow-primary/20">Inscrever-se</button>
             </div>
