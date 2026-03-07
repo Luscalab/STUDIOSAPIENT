@@ -28,7 +28,7 @@ export function Team() {
             <h2 className="font-headline text-5xl md:text-8xl font-bold text-foreground tracking-tighter">Mentes por trás do brilho</h2>
           </div>
           <p className="text-muted-foreground text-2xl font-medium max-w-md lg:text-right leading-relaxed">
-            Uma combinação única de estratégia comercial e criatividade disruptiva.
+            Uma combination única de estratégia comercial e criatividade disruptiva.
           </p>
         </div>
 
