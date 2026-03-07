@@ -9,18 +9,29 @@ import {
   Zap, 
   SendHorizontal,
   FileText,
-  ChevronRight,
   ShieldCheck,
   Target,
   ArrowRight,
   Search,
   Activity,
   Info,
-  UserCircle2
+  Stethoscope,
+  Briefcase,
+  Utensils,
+  Sparkles,
+  ShoppingBag
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+
+const QUICK_NICHES = [
+  { label: "Saúde / Clínica", icon: <Stethoscope className="h-4 w-4" />, prompt: "Minha clínica [Nome] atua na área de [Especialidade] e nosso desafio é ser referência local no Google." },
+  { label: "Direito / Jurídico", icon: <Briefcase className="h-4 w-4" />, prompt: "Meu escritório de advocacia [Nome] atua em [Área] e queremos elevar nossa autoridade nas redes sociais." },
+  { label: "Gastronomia", icon: <Utensils className="h-4 w-4" />, prompt: "Meu restaurante [Nome] é do nicho [Nicho] e precisamos atrair mais clientes via Google e Social." },
+  { label: "Estética / Luxo", icon: <Sparkles className="h-4 w-4" />, prompt: "Meu espaço de estética [Nome] foca em [Serviço] e nossa identidade visual não condiz com nosso valor premium." },
+  { label: "Varejo Local", icon: <ShoppingBag className="h-4 w-4" />, prompt: "Minha loja [Nome] vende [Produtos] e precisamos de escala de vendas via anúncios locais." },
+];
 
 export function AIChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +47,10 @@ export function AIChat() {
     }
   }, [result, loading, chatHistory]);
 
+  const handleQuickNiche = (nichePrompt: string) => {
+    setInput(nichePrompt);
+  };
+
   const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (!input.trim() || loading) return;
@@ -46,17 +61,14 @@ export function AIChat() {
     setLoading(true);
     
     try {
-      // Enviamos o histórico acumulado ou apenas a última mensagem
-      // Como o flow é sem estado no backend, enviamos a concatenação para contexto
       const context = chatHistory.map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`).join('\n') + `\nCliente: ${userText}`;
-      
       const recommendation = await recommendServices({ clientNeedsAndGoals: context });
       setResult(recommendation);
       
       if (!recommendation.isDataSufficient) {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Preciso de mais dados." }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Preciso de mais contexto sobre sua marca." }]);
       } else {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: "Audit Concluído. Gerando Dossiê Estratégico..." }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Análise concluída. Gerando Dossiê Estratégico para seu nicho..." }]);
       }
     } catch (error) {
       console.error("Erro ao processar consulta AI:", error);
@@ -67,7 +79,6 @@ export function AIChat() {
 
   return (
     <>
-      {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
@@ -79,7 +90,6 @@ export function AIChat() {
         <div className="relative z-10">
           {isOpen ? <X className="h-6 w-6 md:h-8 md:w-8" /> : <Zap className="h-6 w-6 md:h-10 md:w-10 group-hover:animate-pulse" />}
         </div>
-        
         {!isOpen && (
           <span className="absolute -top-1 -right-1 flex h-4 w-4 md:h-6 md:w-6">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
@@ -88,55 +98,55 @@ export function AIChat() {
         )}
       </button>
 
-      {/* Chat Window */}
       <div
         className={cn(
           "fixed bottom-24 md:bottom-32 right-4 md:right-8 z-[100] w-[calc(100vw-2rem)] md:w-[480px] h-[75vh] md:max-h-[85vh] glass-morphism rounded-[2.5rem] md:rounded-[3rem] border-primary/10 shadow-[0_40px_100px_-20px_rgba(139,92,246,0.25)] transition-all duration-700 origin-bottom-right flex flex-col overflow-hidden",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-20 invisible pointer-events-none"
         )}
       >
-        {/* Header */}
         <div className="p-8 md:p-10 bg-gradient-to-br from-primary to-accent text-white relative overflow-hidden shrink-0">
-          <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-            <Target className="h-24 w-24 md:h-32 md:w-32" />
-          </div>
-          
           <div className="relative z-10 flex items-center gap-4">
             <div className="h-10 w-10 md:h-14 md:w-14 rounded-xl md:rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-xl border border-white/20">
               <ShieldCheck className="h-5 w-5 md:h-7 md:w-7 text-white" />
             </div>
             <div>
-              <Badge className="bg-white/20 text-white border-none text-[7px] md:text-[8px] font-black uppercase tracking-[0.3em] mb-1.5 md:mb-2 px-3">Consultoria Prévia</Badge>
+              <Badge className="bg-white/20 text-white border-none text-[7px] md:text-[8px] font-black uppercase tracking-[0.3em] mb-1.5 md:mb-2 px-3">Protocolo de Audit</Badge>
               <h3 className="font-headline font-black text-xl md:text-2xl tracking-tighter leading-none">Arquiteto Sapient</h3>
             </div>
           </div>
         </div>
 
-        {/* Content Area */}
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 md:p-10 space-y-6 md:y-8 custom-scrollbar bg-white/30">
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 md:p-10 space-y-6 md:y-8 bg-white/30 custom-scrollbar">
           {chatHistory.length === 0 && (
-            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
               <div className="space-y-4">
                 <p className="text-xl md:text-2xl font-black text-foreground tracking-tighter leading-tight">
-                  Inicie seu Diagnóstico.
+                  Inicie seu Diagnóstico Profissional.
                 </p>
                 <p className="text-muted-foreground/60 text-base md:text-lg font-medium leading-relaxed tracking-tight">
-                  Para um audit profissional, preciso conhecer seu negócio. Qual o nome da sua marca e qual seu principal desafio hoje?
+                  Selecione seu nicho para carregar a matriz estratégica ou descreva seu negócio:
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 gap-2.5">
-                <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 flex gap-3 items-start">
-                  <Info className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                  <p className="text-[10px] font-bold text-primary/60 uppercase tracking-widest leading-relaxed">
-                    Ex: "Sou a [Marca], do nicho [Nicho], e não apareço no Google"
-                  </p>
-                </div>
+              <div className="flex flex-col gap-2.5">
+                {QUICK_NICHES.map((niche, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleQuickNiche(niche.prompt)}
+                    className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-primary/5 hover:border-primary/20 hover:bg-primary/5 transition-all text-left group"
+                  >
+                    <div className="h-10 w-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                      {niche.icon}
+                    </div>
+                    <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground group-hover:text-primary">
+                      {niche.label}
+                    </span>
+                  </button>
+                ))}
               </div>
             </div>
           )}
 
-          {/* Chat Bubbles */}
           <div className="space-y-6">
             {chatHistory.map((msg, i) => (
               <div key={i} className={cn(
@@ -151,33 +161,18 @@ export function AIChat() {
                 )}>
                   {msg.text}
                 </div>
-                <div className="flex items-center gap-2 px-2">
-                  {msg.role === 'user' ? (
-                    <span className="text-[8px] font-black uppercase tracking-widest text-muted-foreground/40">Você</span>
-                  ) : (
-                    <span className="text-[8px] font-black uppercase tracking-widest text-primary/60">Sapient Strategist</span>
-                  )}
-                </div>
               </div>
             ))}
           </div>
 
-          {/* Final Dossiê Result */}
           {result?.isDataSufficient && (
-            <div className="space-y-8 md:space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-6 md:pb-8 pt-8 border-t border-primary/5">
-              <div>
-                <Badge className="mb-4 md:mb-6 bg-primary/10 text-primary border-none px-5 md:px-6 py-1.5 md:py-2 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] rounded-full">Audit Estratégico Concluído</Badge>
-                <h4 className="font-headline text-2xl md:text-3xl font-black tracking-tighter mb-4 flex items-center gap-3">
-                  <FileText className="h-6 w-6 md:h-7 md:w-7 text-primary" /> Dossiê Sapient
-                </h4>
-              </div>
-
+            <div className="space-y-8 md:space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-8 pt-8 border-t border-primary/10">
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Search className="h-3 w-3" /> 01. Audit de Presença & Estética
+                  <Search className="h-3 w-3" /> 01. Audit do Ecossistema
                 </p>
-                <div className="bg-white p-5 md:p-6 rounded-2xl md:rounded-[2rem] border border-primary/5 shadow-sm">
-                  <p className="text-xs md:text-sm text-muted-foreground font-medium leading-relaxed tracking-tight">
+                <div className="bg-white p-5 md:p-6 rounded-2xl border border-primary/5 shadow-sm">
+                  <p className="text-sm text-muted-foreground font-medium leading-relaxed">
                     {result.brandAudit}
                   </p>
                 </div>
@@ -185,10 +180,10 @@ export function AIChat() {
 
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Activity className="h-3 w-3" /> 02. Diagnóstico de Gargalo
+                  <Activity className="h-3 w-3" /> 02. Gargalo Identificado
                 </p>
-                <div className="bg-secondary/50 p-5 md:p-6 rounded-2xl md:rounded-[2rem] border border-primary/5">
-                  <p className="text-sm md:text-base text-foreground font-black leading-tight italic tracking-tighter">
+                <div className="bg-secondary/50 p-5 md:p-6 rounded-2xl border border-primary/5">
+                  <p className="text-base text-foreground font-black leading-tight tracking-tighter italic">
                     "{result.diagnosis}"
                   </p>
                 </div>
@@ -200,7 +195,7 @@ export function AIChat() {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {result.recommendedServices.map((service, idx) => (
-                    <Badge key={idx} className="bg-primary text-white border-none px-4 md:px-5 py-2 text-[8px] md:text-[9px] font-black rounded-full uppercase tracking-widest">
+                    <Badge key={idx} className="bg-primary text-white border-none px-4 py-2 text-[8px] font-black rounded-full uppercase tracking-widest">
                       {service}
                     </Badge>
                   ))}
@@ -209,31 +204,30 @@ export function AIChat() {
 
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Target className="h-3 w-3" /> 04. Valor da Execução Sapient
+                  <Target className="h-3 w-3" /> 04. Valor Sapient
                 </p>
-                <div className="bg-white p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border border-primary/5 shadow-inner">
-                  <p className="text-sm md:text-base text-muted-foreground font-medium leading-relaxed whitespace-pre-line tracking-tight">
+                <div className="bg-white p-6 rounded-[2rem] border border-primary/5">
+                  <p className="text-sm text-muted-foreground font-medium leading-relaxed">
                     {result.strategicValue}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-6 space-y-4">
+              <div className="pt-6">
                 <Button 
-                  className="w-full h-16 md:h-20 bg-primary hover:bg-primary/90 text-white rounded-full font-black uppercase tracking-[0.2em] text-[10px] md:text-sm shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] flex items-center justify-center gap-3 md:gap-4"
+                  className="w-full h-16 bg-primary hover:bg-primary/90 text-white rounded-full font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-primary/20 transition-all hover:scale-[1.02]"
                   onClick={() => {
                     setIsOpen(false);
-                    const contactSection = document.getElementById('contato');
-                    contactSection?.scrollIntoView({ behavior: 'smooth' });
+                    document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
-                  Agendar Consultoria <ArrowRight className="h-4 w-4 md:h-5 md:w-5" />
+                  Agendar Consultoria Humana <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
                 <button 
                   onClick={() => {setResult(null); setInput(""); setChatHistory([]);}}
-                  className="w-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/30 hover:text-primary transition-colors py-2"
+                  className="w-full text-[8px] font-black uppercase tracking-[0.4em] text-muted-foreground/30 hover:text-primary transition-colors py-4"
                 >
-                  Nova Consultoria
+                  Reiniciar Protocolo
                 </button>
               </div>
             </div>
@@ -241,24 +235,21 @@ export function AIChat() {
 
           {loading && (
             <div className="flex items-center gap-3 animate-in fade-in slide-in-from-left-4 duration-500">
-              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <Loader2 className="h-4 w-4 text-primary animate-spin" />
-              </div>
-              <p className="text-[8px] font-black uppercase tracking-widest text-primary/60">Arquiteto Sapient está analisando...</p>
+              <Loader2 className="h-4 w-4 text-primary animate-spin" />
+              <p className="text-[8px] font-black uppercase tracking-widest text-primary/60">Analisando Matriz Estratégica...</p>
             </div>
           )}
         </div>
 
-        {/* Input Area */}
         {(!result || !result.isDataSufficient) && (
           <form onSubmit={handleSubmit} className="p-6 md:p-8 border-t border-muted bg-white/50 backdrop-blur-xl shrink-0">
             <div className="relative">
               <Textarea
-                placeholder="Diga-me o nome do seu negócio e seu objetivo..."
+                placeholder="Ex: Sou a Clínica [Nome], nicho [X] e preciso de mais pacientes..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={loading}
-                className="min-h-[80px] md:min-h-[100px] bg-white border-transparent rounded-2xl md:rounded-[2rem] p-6 md:p-8 pr-16 md:pr-20 text-sm md:text-lg font-medium focus:ring-primary/10 placeholder:text-muted-foreground/20 resize-none shadow-2xl shadow-primary/5 border border-primary/5 leading-tight"
+                className="min-h-[80px] bg-white border-transparent rounded-2xl p-6 pr-16 text-sm font-medium focus:ring-primary/10 placeholder:text-muted-foreground/20 resize-none shadow-2xl shadow-primary/5 border border-primary/5 leading-tight"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -269,9 +260,9 @@ export function AIChat() {
               <button
                 type="submit"
                 disabled={loading || !input.trim()}
-                className="absolute bottom-4 right-4 md:bottom-6 md:right-6 h-10 w-10 md:h-12 md:w-12 rounded-xl md:rounded-2xl bg-primary text-white flex items-center justify-center shadow-xl shadow-primary/30 disabled:opacity-20 transition-all hover:scale-110 active:scale-90"
+                className="absolute bottom-4 right-4 h-10 w-10 rounded-xl bg-primary text-white flex items-center justify-center shadow-xl shadow-primary/30 disabled:opacity-20 transition-all hover:scale-110 active:scale-90"
               >
-                <SendHorizontal className="h-4 w-4 md:h-6 md:w-6" />
+                <SendHorizontal className="h-4 w-4" />
               </button>
             </div>
           </form>
