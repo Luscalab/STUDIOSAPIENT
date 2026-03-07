@@ -108,7 +108,7 @@ export function AIInquiry() {
                   <div className="mt-16 pt-16 border-t border-muted text-center">
                     <p className="text-sm font-black text-primary uppercase tracking-[0.5em] mb-8">Próximo Passo:</p>
                     <Button className="h-20 px-16 text-lg font-black bg-primary rounded-full uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 transition-all">
-                      Conversar com Especialista
+                      Falar com Especialista
                     </Button>
                   </div>
                 </div>

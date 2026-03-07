@@ -38,7 +38,7 @@ export function Navbar() {
       )}>
         <Link href="/" className="font-headline text-xl md:text-2xl font-bold tracking-tighter flex items-center gap-1 group">
           <span className="text-primary group-hover:scale-110 transition-transform duration-500 italic">S@</span>
-          <span className="tracking-widest text-foreground">PIENT</span>
+          <span className="tracking-widest text-foreground uppercase">PIENT</span>
         </Link>
 
         {/* Desktop Links */}
@@ -55,7 +55,7 @@ export function Navbar() {
           ))}
           <Link href="#contato">
             <Button size="sm" className="bg-primary hover:bg-primary/90 text-white font-bold rounded-full px-8 h-10 shadow-lg shadow-primary/20 text-[10px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95">
-              Falar com Especialista
+              Iniciar Projeto
             </Button>
           </Link>
         </div>
@@ -83,7 +83,7 @@ export function Navbar() {
             </Link>
           ))}
           <Button className="w-full bg-primary font-bold py-8 text-lg rounded-full shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
-            Iniciar Projeto
+            Falar com Especialista
           </Button>
         </div>
       )}
