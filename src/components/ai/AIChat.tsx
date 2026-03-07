@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { 
-  Sparkles, 
   Loader2, 
   X, 
   Zap, 
@@ -12,7 +11,8 @@ import {
   FileText,
   ChevronRight,
   ShieldCheck,
-  Target
+  Target,
+  ArrowRight
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { Badge } from "@/components/ui/badge";
@@ -65,7 +65,7 @@ export function AIChat() {
       {/* Chat Window */}
       <div
         className={cn(
-          "fixed bottom-28 md:bottom-32 right-6 md:right-8 z-[100] w-[calc(100vw-3rem)] md:w-[480px] max-h-[75vh] glass-morphism rounded-[3rem] border-primary/10 shadow-[0_40px_100px_-20px_rgba(139,92,246,0.25)] transition-all duration-700 origin-bottom-right flex flex-col overflow-hidden",
+          "fixed bottom-28 md:bottom-32 right-6 md:right-8 z-[100] w-[calc(100vw-3rem)] md:w-[480px] max-h-[85vh] glass-morphism rounded-[3rem] border-primary/10 shadow-[0_40px_100px_-20px_rgba(139,92,246,0.25)] transition-all duration-700 origin-bottom-right flex flex-col overflow-hidden",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-20 invisible pointer-events-none"
         )}
       >
@@ -95,7 +95,7 @@ export function AIChat() {
                   Inicie seu Diagnóstico.
                 </p>
                 <p className="text-muted-foreground/60 text-lg font-medium leading-relaxed">
-                  Descreva seus desafios atuais. Nossa IA analisará seus gargalos e mapeará as soluções Sapient ideais para seu caso.
+                  Descreva seus desafios. Nossa IA identificará seus gargalos e apresentará como a Sapient assumirá o controle do seu crescimento.
                 </p>
               </div>
               
@@ -121,13 +121,13 @@ export function AIChat() {
               <div>
                 <Badge className="mb-6 bg-primary/10 text-primary border-none px-6 py-2 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">Análise Concluída</Badge>
                 <h4 className="font-headline text-3xl font-black tracking-tighter mb-4 flex items-center gap-3">
-                  <FileText className="h-7 w-7 text-primary" /> Seu Dossiê Sapient
+                  <FileText className="h-7 w-7 text-primary" /> Diagnóstico Sapient
                 </h4>
               </div>
 
               {/* Diagnosis Section */}
               <div className="space-y-3">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">01. Diagnóstico de Gargalos</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">01. Gargalos Identificados</p>
                 <div className="bg-secondary/40 p-6 rounded-[2rem] border border-primary/5">
                   <p className="text-base text-foreground font-medium leading-relaxed italic">
                     "{result.diagnosis}"
@@ -137,7 +137,7 @@ export function AIChat() {
 
               {/* Solutions Mapping */}
               <div className="space-y-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">02. Soluções Mapeadas</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">02. Arsenal Estratégico</p>
                 <div className="flex flex-wrap gap-2">
                   {result.recommendedServices.map((service, idx) => (
                     <Badge key={idx} className="bg-primary/5 text-primary border border-primary/10 px-5 py-2 text-[9px] font-black rounded-full uppercase tracking-widest">
@@ -149,7 +149,7 @@ export function AIChat() {
 
               {/* Strategic Action */}
               <div className="space-y-3">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">03. Como faremos por você</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">03. Nossa Intervenção</p>
                 <div className="bg-white p-8 rounded-[2.5rem] border border-primary/5 shadow-inner">
                   <p className="text-base text-muted-foreground font-medium leading-relaxed whitespace-pre-line tracking-tight">
                     {result.strategicValue}
@@ -160,13 +160,14 @@ export function AIChat() {
               {/* Next Step */}
               <div className="pt-6 space-y-4">
                 <Button 
-                  className="w-full h-20 bg-primary hover:bg-primary/90 text-white rounded-full font-black uppercase tracking-[0.2em] text-sm shadow-xl shadow-primary/20 transition-all hover:scale-[1.02]"
+                  className="w-full h-20 bg-primary hover:bg-primary/90 text-white rounded-full font-black uppercase tracking-[0.2em] text-sm shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] flex items-center justify-center gap-4"
                   onClick={() => {
                     setIsOpen(false);
-                    window.location.href = '#contato';
+                    const contactSection = document.getElementById('contato');
+                    contactSection?.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
-                  Agendar Consultoria Humana
+                  Agendar Consultoria Humana <ArrowRight className="h-5 w-5" />
                 </Button>
                 <button 
                   onClick={() => {setResult(null); setInput("");}}
@@ -184,7 +185,7 @@ export function AIChat() {
                 <Loader2 className="h-20 w-20 animate-spin stroke-[1.5px]" />
                 <Target className="h-8 w-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
               </div>
-              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-center">Processando<br />Arquitetura Estratégica</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-center">Cruzando Dados<br />Estratégicos</p>
             </div>
           )}
         </div>
