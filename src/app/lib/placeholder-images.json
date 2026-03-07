@@ -1,0 +1,71 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-bg",
+      "description": "Abstract purple and dark waves representing digital transformation",
+      "imageUrl": "https://picsum.photos/seed/sapient-hero/1920/1080",
+      "imageHint": "abstract purple"
+    },
+    {
+      "id": "service-marketing",
+      "description": "Modern office setting with digital marketing dashboards",
+      "imageUrl": "https://picsum.photos/seed/sapient-mkt/800/600",
+      "imageHint": "digital marketing"
+    },
+    {
+      "id": "service-design",
+      "description": "Designer working on a premium visual identity project",
+      "imageUrl": "https://picsum.photos/seed/sapient-design/800/600",
+      "imageHint": "graphic design"
+    },
+    {
+      "id": "service-social",
+      "description": "Smartphone displaying high-engagement social media feeds",
+      "imageUrl": "https://picsum.photos/seed/sapient-social/800/600",
+      "imageHint": "social media"
+    },
+    {
+      "id": "service-audio",
+      "description": "Professional recording studio microphone and soundboard",
+      "imageUrl": "https://picsum.photos/seed/sapient-audio/800/600",
+      "imageHint": "audio studio"
+    },
+    {
+      "id": "portfolio-1",
+      "description": "Branding project for a luxury watch company",
+      "imageUrl": "https://picsum.photos/seed/sapient-port1/600/800",
+      "imageHint": "luxury watch"
+    },
+    {
+      "id": "portfolio-2",
+      "description": "Marketing campaign for a high-tech startup",
+      "imageUrl": "https://picsum.photos/seed/sapient-port2/600/800",
+      "imageHint": "tech startup"
+    },
+    {
+      "id": "portfolio-3",
+      "description": "Visual identity for a gourmet restaurant",
+      "imageUrl": "https://picsum.photos/seed/sapient-port3/600/800",
+      "imageHint": "gourmet food"
+    },
+    {
+      "id": "team-1",
+      "description": "Creative Director with professional look",
+      "imageUrl": "https://picsum.photos/seed/sapient-team1/400/400",
+      "imageHint": "professional man"
+    },
+    {
+      "id": "team-2",
+      "description": "Head of Design with creative vibe",
+      "imageUrl": "https://picsum.photos/seed/sapient-team2/400/400",
+      "imageHint": "professional woman"
+    },
+    {
+      "id": "team-3",
+      "description": "Marketing Strategist smiling",
+      "imageUrl": "https://picsum.photos/seed/sapient-team3/400/400",
+      "imageHint": "smiling professional"
+    }
+  ]
+}
