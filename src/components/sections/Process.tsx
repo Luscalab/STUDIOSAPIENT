@@ -3,57 +3,53 @@ import { Target, Search, PenTool, Rocket } from "lucide-react";
 
 const steps = [
   {
-    icon: <Search className="h-8 w-8" />,
-    title: "Entendimento",
-    description: "Analisamos seu contexto e objetivos para entender onde sua marca precisa chegar."
+    icon: <Search className="h-7 w-7" />,
+    title: "Análise",
+    description: "Entendemos seu contexto e objetivos para traçar o melhor caminho."
   },
   {
-    icon: <Target className="h-8 w-8" />,
+    icon: <Target className="h-7 w-7" />,
     title: "Estratégia",
-    description: "Desenhamos um caminho claro e visualmente impactante para sua comunicação."
+    description: "Desenhamos um conceito visual e narrativo de alto impacto."
   },
   {
-    icon: <PenTool className="h-8 w-8" />,
-    title: "Execução",
-    description: "Transformamos conceitos em design de alto nível e ativos prontos para o mercado."
+    icon: <PenTool className="h-7 w-7" />,
+    title: "Criação",
+    description: "Transformamos conceitos em design e ativos prontos para o mercado."
   },
   {
-    icon: <Rocket className="h-8 w-8" />,
-    title: "Acompanhamento",
-    description: "Não apenas entregamos; acompanhamos o impacto e ajustamos para o melhor resultado."
+    icon: <Rocket className="h-7 w-7" />,
+    title: "Entrega",
+    description: "Lançamos seu projeto e acompanhamos o impacto inicial."
   }
 ];
 
 export function Process() {
   return (
     <section className="section-spacing bg-white relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20vw] font-black text-secondary/30 pointer-events-none select-none tracking-tighter uppercase opacity-30">
-        Workflow
-      </div>
-      
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between mb-32 gap-16">
-          <div className="max-w-2xl">
-            <Badge className="mb-8 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">Nosso Método</Badge>
-            <h2 className="font-headline text-5xl md:text-8xl font-bold tracking-tighter leading-none text-foreground">Como fazemos<br />acontecer</h2>
+        <div className="flex flex-col lg:flex-row items-center justify-between mb-16 md:mb-24 gap-10">
+          <div className="max-w-xl text-center lg:text-left">
+            <Badge className="mb-6 bg-primary/5 text-primary px-8 py-2 text-[9px] font-bold uppercase tracking-[0.4em] rounded-full">Metodologia</Badge>
+            <h2 className="font-headline text-4xl md:text-7xl font-bold tracking-tighter leading-none text-foreground">Como fazemos acontecer</h2>
           </div>
-          <p className="text-muted-foreground/60 text-xl md:text-2xl font-medium max-w-md leading-relaxed">
-            Um processo direto e transparente focado em entregar resultados que elevam sua marca.
+          <p className="text-muted-foreground/60 text-lg md:text-xl font-medium max-w-sm leading-relaxed text-center lg:text-left">
+            Um processo direto e transparente focado em resultados que elevam sua marca.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
           {steps.map((step, idx) => (
             <div key={idx} className="relative group">
-              <div className="absolute -top-6 -left-6 text-9xl font-black text-secondary/50 group-hover:text-primary/10 transition-colors duration-700">
+              <div className="absolute -top-4 -left-4 text-7xl font-black text-secondary/40 group-hover:text-primary/5 transition-colors duration-500">
                 0{idx + 1}
               </div>
-              <div className="relative pt-20">
-                <div className="h-20 w-20 rounded-[1.5rem] bg-secondary flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-700 mb-8 shadow-sm">
+              <div className="relative pt-12">
+                <div className="h-16 w-16 rounded-[1.25rem] bg-secondary flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500 mb-6 shadow-sm">
                   {step.icon}
                 </div>
-                <h3 className="font-headline text-2xl font-bold mb-6 tracking-tight">{step.title}</h3>
-                <p className="text-muted-foreground/70 leading-relaxed font-medium">
+                <h3 className="font-headline text-xl font-bold mb-4 tracking-tight">{step.title}</h3>
+                <p className="text-muted-foreground/70 leading-relaxed font-medium text-sm md:text-base">
                   {step.description}
                 </p>
               </div>
