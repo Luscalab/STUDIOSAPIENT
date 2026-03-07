@@ -27,30 +27,30 @@ export function Navbar() {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 pt-4",
-      isScrolled ? "pt-2" : "pt-4"
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 pt-6",
+      isScrolled ? "pt-2" : "pt-6"
     )}>
       <div className={cn(
-        "container mx-auto h-16 rounded-2xl flex items-center justify-between px-6 transition-all duration-300 border border-transparent",
-        isScrolled ? "bg-background/80 backdrop-blur-lg border-primary/10 shadow-lg" : "bg-transparent"
+        "container mx-auto h-20 rounded-[2rem] flex items-center justify-between px-10 transition-all duration-500",
+        isScrolled ? "bg-white/80 backdrop-blur-md border border-primary/10 shadow-lg" : "bg-transparent"
       )}>
-        <Link href="/" className="font-headline text-2xl font-bold tracking-tighter flex items-center gap-1 group">
+        <Link href="/" className="font-headline text-3xl font-bold tracking-tighter flex items-center gap-1 group">
           <span className="text-primary group-hover:scale-110 transition-transform duration-300 italic">S@</span>
-          <span className="tracking-widest">PIENT</span>
+          <span className="tracking-widest text-foreground">PIENT</span>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
               href={link.href} 
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors"
             >
               {link.name}
             </Link>
           ))}
-          <Button size="sm" className="bg-primary hover:bg-primary/90 font-semibold px-6">
+          <Button size="lg" className="bg-primary hover:bg-primary/90 font-bold px-8 rounded-full">
             Consultoria Grátis
           </Button>
         </div>
@@ -66,18 +66,18 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-24 left-4 right-4 bg-background/95 backdrop-blur-xl rounded-2xl border border-primary/10 p-8 flex flex-col gap-6 animate-in slide-in-from-top-4 duration-300">
+        <div className="md:hidden absolute top-32 left-6 right-6 bg-white rounded-3xl border border-primary/10 p-10 flex flex-col gap-8 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-500">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
               href={link.href} 
-              className="text-lg font-medium border-b border-primary/10 pb-2"
+              className="text-xl font-bold border-b border-muted pb-4"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.name}
             </Link>
           ))}
-          <Button size="lg" className="w-full bg-primary font-bold">
+          <Button size="lg" className="w-full bg-primary font-bold py-8 text-lg rounded-full">
             Consultoria Grátis
           </Button>
         </div>
