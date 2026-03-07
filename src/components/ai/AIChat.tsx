@@ -12,7 +12,9 @@ import {
   ChevronRight,
   ShieldCheck,
   Target,
-  ArrowRight
+  ArrowRight,
+  Search,
+  Activity
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { Badge } from "@/components/ui/badge";
@@ -102,15 +104,15 @@ export function AIChat() {
                   Inicie seu Diagnóstico.
                 </p>
                 <p className="text-muted-foreground/60 text-base md:text-lg font-medium leading-relaxed tracking-tight">
-                  Descreva seus desafios. Nossa IA identificará seus gargalos e apresentará como a Sapient assumirá o controle do seu crescimento.
+                  Descreva sua marca, seu nicho e quais desafios está enfrentando. Nossa IA fará um audit profundo antes de propor a intervenção ideal.
                 </p>
               </div>
               
               <div className="grid grid-cols-1 gap-2.5">
                 {[
-                  "Minha marca não transmite valor premium",
-                  "Minhas redes sociais não convertem",
-                  "Preciso de escala em tráfego pago"
+                  "Marca de moda luxo estagnada no Instagram",
+                  "Empresa B2B sem autoridade digital",
+                  "E-commerce precisando de escala em Ads"
                 ].map((hint, i) => (
                   <button 
                     key={i}
@@ -126,17 +128,31 @@ export function AIChat() {
           ) : (
             <div className="space-y-8 md:space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-6 md:pb-8">
               <div>
-                <Badge className="mb-4 md:mb-6 bg-primary/10 text-primary border-none px-5 md:px-6 py-1.5 md:py-2 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] rounded-full">Análise Concluída</Badge>
+                <Badge className="mb-4 md:mb-6 bg-primary/10 text-primary border-none px-5 md:px-6 py-1.5 md:py-2 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] rounded-full">Audit Concluído</Badge>
                 <h4 className="font-headline text-2xl md:text-3xl font-black tracking-tighter mb-4 flex items-center gap-3">
-                  <FileText className="h-6 w-6 md:h-7 md:w-7 text-primary" /> Diagnóstico Sapient
+                  <FileText className="h-6 w-6 md:h-7 md:w-7 text-primary" /> Dossiê Sapient
                 </h4>
+              </div>
+
+              {/* Brand Audit Section */}
+              <div className="space-y-3">
+                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
+                  <Search className="h-3 w-3" /> 01. Audit de Marca
+                </p>
+                <div className="bg-white p-5 md:p-6 rounded-2xl md:rounded-[2rem] border border-primary/5 shadow-sm">
+                  <p className="text-xs md:text-sm text-muted-foreground font-medium leading-relaxed tracking-tight">
+                    {result.brandAudit}
+                  </p>
+                </div>
               </div>
 
               {/* Diagnosis Section */}
               <div className="space-y-3">
-                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">01. Gargalos Identificados</p>
+                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
+                  <Activity className="h-3 w-3" /> 02. Gargalos Críticos
+                </p>
                 <div className="bg-secondary/50 p-5 md:p-6 rounded-2xl md:rounded-[2rem] border border-primary/5">
-                  <p className="text-sm md:text-base text-foreground font-medium leading-relaxed italic tracking-tight">
+                  <p className="text-sm md:text-base text-foreground font-black leading-tight italic tracking-tighter">
                     "{result.diagnosis}"
                   </p>
                 </div>
@@ -144,10 +160,12 @@ export function AIChat() {
 
               {/* Solutions Mapping */}
               <div className="space-y-4">
-                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">02. Arsenal Estratégico</p>
+                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
+                  <Zap className="h-3 w-3" /> 03. Arsenal de Intervenção
+                </p>
                 <div className="flex flex-wrap gap-2">
                   {result.recommendedServices.map((service, idx) => (
-                    <Badge key={idx} className="bg-primary/5 text-primary border border-primary/10 px-4 md:px-5 py-2 text-[8px] md:text-[9px] font-black rounded-full uppercase tracking-widest">
+                    <Badge key={idx} className="bg-primary text-white border-none px-4 md:px-5 py-2 text-[8px] md:text-[9px] font-black rounded-full uppercase tracking-widest">
                       {service}
                     </Badge>
                   ))}
@@ -156,7 +174,9 @@ export function AIChat() {
 
               {/* Strategic Action */}
               <div className="space-y-3">
-                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">03. Nossa Intervenção</p>
+                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
+                  <Target className="h-3 w-3" /> 04. Nossa Execução
+                </p>
                 <div className="bg-white p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border border-primary/5 shadow-inner">
                   <p className="text-sm md:text-base text-muted-foreground font-medium leading-relaxed whitespace-pre-line tracking-tight">
                     {result.strategicValue}
@@ -180,7 +200,7 @@ export function AIChat() {
                   onClick={() => {setResult(null); setInput("");}}
                   className="w-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/30 hover:text-primary transition-colors py-2"
                 >
-                  Novo Diagnóstico
+                  Novo Audit de Marca
                 </button>
               </div>
             </div>
@@ -190,9 +210,9 @@ export function AIChat() {
             <div className="flex flex-col items-center justify-center py-20 space-y-6 text-primary animate-in fade-in zoom-in duration-500">
               <div className="relative">
                 <Loader2 className="h-14 w-14 md:h-20 md:w-20 animate-spin stroke-[1.5px]" />
-                <Target className="h-6 w-6 md:h-8 md:w-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+                <Search className="h-6 w-6 md:h-8 md:w-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
               </div>
-              <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.5em] text-center">Cruzando Dados<br />Estratégicos</p>
+              <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.5em] text-center">Auditando Ecossistema<br />da Marca</p>
             </div>
           )}
         </div>
@@ -202,7 +222,7 @@ export function AIChat() {
           <form onSubmit={handleSubmit} className="p-6 md:p-8 border-t border-muted bg-white/50 backdrop-blur-xl shrink-0">
             <div className="relative">
               <Textarea
-                placeholder="Ex: Minha marca parece amadora..."
+                placeholder="Ex: Sou uma clínica de estética em SP, focada em público classe A, mas meu feed parece amador..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="min-h-[100px] md:min-h-[120px] bg-white border-transparent rounded-2xl md:rounded-[2rem] p-6 md:p-8 pr-16 md:pr-20 text-sm md:text-lg font-medium focus:ring-primary/10 placeholder:text-muted-foreground/20 resize-none shadow-2xl shadow-primary/5 border border-primary/5 leading-tight"
@@ -223,7 +243,7 @@ export function AIChat() {
             </div>
             <div className="mt-4 md:mt-6 flex items-center justify-center gap-2 opacity-20">
               <div className="h-1 w-1 rounded-full bg-primary" />
-              <p className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] text-foreground">Sapient Neural Engine v3.0</p>
+              <p className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] text-foreground">Sapient Neural Engine v4.0</p>
               <div className="h-1 w-1 rounded-full bg-primary" />
             </div>
           </form>
