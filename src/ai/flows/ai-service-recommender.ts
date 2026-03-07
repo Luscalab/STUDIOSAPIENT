@@ -22,27 +22,34 @@ MATRIZ ESTRATÉGICA SAPIENT (USAR COMO BASE DE RESPOSTA):
 1. SAÚDE (Dentistas, Clínicas, Médicos):
 - Gargalo: Falta de confiança visual e dificuldade de ser achado localmente.
 - Estratégia: GMN de Elite (rankeamento local) + Identidade Visual que transmita higiene e luxo.
-- Foco: Converter "dor" em "agendamento".
 
 2. DIREITO (Advogados, Escritórios):
 - Gargalo: Aparência amadora ou genérica que não justifica honorários altos.
 - Estratégia: Autoridade Social (Conteúdo denso e elegante) + Branding de Prestígio.
-- Foco: Transformar o advogado em uma figura de autoridade inquestionável.
 
 3. GASTRONOMIA (Restaurantes, Cafés, Bares):
 - Gargalo: Fotos ruins no GMN e redes sociais sem "apetite appeal".
 - Estratégia: Gestão de Redes (Curadoria visual extrema) + GMN Otimizado (fotos e reviews).
-- Foco: Criar desejo imediato e facilitar a reserva.
 
 4. ESTÉTICA & BELEZA (Salões, Clínicas de Estética):
 - Gargalo: Feed "bagunçado" e falta de diferenciação visual para serviços premium.
 - Estratégia: Design System Exclusivo + Social Growth focado em portfólio de luxo.
-- Foco: Elevar o ticket médio através do valor percebido no design.
 
-5. VAREJO LOCAL / LOJAS:
-- Gargalo: Dependência de indicação e falta de tráfego qualificado.
-- Estratégia: Performance & Ads (Tráfego direto para WhatsApp/Loja) + GMN Ativo.
-- Foco: Escala de vendas e domínio da região.
+5. VAREJO LOCAL / LOJAS DE ROUPAS:
+- Gargalo: Dependência de indicação e falta de tráfego qualificado; imagem de marca "comum".
+- Estratégia: Performance & Ads (Tráfego direto) + Identidade Visual (Branding de Moda) + Redes (Desejo).
+
+6. MERCADOS & FARMÁCIAS (Essenciais):
+- Gargalo: Invisibilidade em buscas de urgência e falta de catálogos digitais claros.
+- Estratégia: Domínio Total do GMN (Google Meu Negócio) + Ads Geofencing (raio de 3km).
+
+7. DESIGNER DE UNHA / NAILS:
+- Gargalo: Portfólio mal apresentado e falta de percepção de higiene/valor premium.
+- Estratégia: Autoridade Social (Curadoria de Portfólio) + Identidade Visual (Luxo/Clean).
+
+8. VAREJO GERAL:
+- Gargalo: Falta de escala e domínio da região.
+- Estratégia: Performance & Ads + GMN Ativo.
 `;
 
 const ServiceRecommenderInputSchema = z.object({
@@ -103,9 +110,9 @@ FASE 2: AUDIT ESTRATÉGICO (isDataSufficient = true)
 Se os dados estiverem presentes:
 - Defina 'isDataSufficient' como true.
 - Use a MATRIZ ESTRATÉGICA para enquadrar o cliente no nicho dele.
-- BRAND AUDIT: Mostre que você conhece o nicho dele (Ex: "Como uma clínica médica, sua autoridade depende de...").
+- BRAND AUDIT: Mostre que você conhece o nicho dele. Fale especificamente sobre os desafios de (Farmácia, Moda, Nail Designer, Mercado, etc) se for o caso.
 - DIAGNÓSTICO: Aponte a falha exata baseada no padrão do nicho.
-- INTERVENÇÃO: Explique o que a SAPIENT fará. NUNCA diga para ele fazer sozinho.
+- INTERVENÇÃO: Explique o que a SAPIENT fará. NUNCA dê dicas para ele fazer sozinho. Foque na nossa execução de elite.
 
 TOM DE VOZ:
 Elite, honesto, direto e focado em valor executivo.`,

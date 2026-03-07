@@ -8,27 +8,27 @@ import {
   X, 
   Zap, 
   SendHorizontal,
-  FileText,
   ShieldCheck,
   Target,
   ArrowRight,
   Search,
   Activity,
-  Info,
   Stethoscope,
-  Briefcase,
-  Utensils,
   Sparkles,
-  ShoppingBag
+  ShoppingBag,
+  Store,
+  Shirt,
+  Scissors
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 const QUICK_NICHES = [
+  { label: "Moda / Vestuário", icon: <Shirt className="h-4 w-4" />, prompt: "Minha loja de roupas [Nome] foca no público [X] e precisamos de um branding que transmita mais valor e tráfego." },
+  { label: "Farmácia / Mercado", icon: <Store className="h-4 w-4" />, prompt: "Nosso estabelecimento [Nome] é do setor [Farmácia/Mercado] e queremos dominar as buscas locais no Google." },
+  { label: "Nails / Designer", icon: <Scissors className="h-4 w-4" />, prompt: "Sou Designer de Unhas na [Nome] e preciso de uma identidade visual luxuosa e autoridade no Instagram." },
   { label: "Saúde / Clínica", icon: <Stethoscope className="h-4 w-4" />, prompt: "Minha clínica [Nome] atua na área de [Especialidade] e nosso desafio é ser referência local no Google." },
-  { label: "Direito / Jurídico", icon: <Briefcase className="h-4 w-4" />, prompt: "Meu escritório de advocacia [Nome] atua em [Área] e queremos elevar nossa autoridade nas redes sociais." },
-  { label: "Gastronomia", icon: <Utensils className="h-4 w-4" />, prompt: "Meu restaurante [Nome] é do nicho [Nicho] e precisamos atrair mais clientes via Google e Social." },
   { label: "Estética / Luxo", icon: <Sparkles className="h-4 w-4" />, prompt: "Meu espaço de estética [Nome] foca em [Serviço] e nossa identidade visual não condiz com nosso valor premium." },
   { label: "Varejo Local", icon: <ShoppingBag className="h-4 w-4" />, prompt: "Minha loja [Nome] vende [Produtos] e precisamos de escala de vendas via anúncios locais." },
 ];
@@ -45,7 +45,7 @@ export function AIChat() {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [result, loading, chatHistory]);
+  }, [result, loading, chatHistory, isOpen]);
 
   const handleQuickNiche = (nichePrompt: string) => {
     setInput(nichePrompt);
@@ -116,7 +116,7 @@ export function AIChat() {
           </div>
         </div>
 
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 md:p-10 space-y-6 md:y-8 bg-white/30 custom-scrollbar">
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 md:p-10 space-y-6 md:space-y-8 bg-white/30 custom-scrollbar">
           {chatHistory.length === 0 && (
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
               <div className="space-y-4">
@@ -124,11 +124,11 @@ export function AIChat() {
                   Inicie seu Diagnóstico Profissional.
                 </p>
                 <p className="text-muted-foreground/60 text-base md:text-lg font-medium leading-relaxed tracking-tight">
-                  Selecione seu nicho para carregar a matriz estratégica ou descreva seu negócio:
+                  Selecione seu nicho ou descreva sua marca para o Arquiteto:
                 </p>
               </div>
 
-              <div className="flex flex-col gap-2.5">
+              <div className="grid grid-cols-1 gap-2.5">
                 {QUICK_NICHES.map((niche, i) => (
                   <button
                     key={i}
@@ -138,7 +138,7 @@ export function AIChat() {
                     <div className="h-10 w-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
                       {niche.icon}
                     </div>
-                    <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground group-hover:text-primary">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground group-hover:text-primary">
                       {niche.label}
                     </span>
                   </button>
@@ -245,7 +245,7 @@ export function AIChat() {
           <form onSubmit={handleSubmit} className="p-6 md:p-8 border-t border-muted bg-white/50 backdrop-blur-xl shrink-0">
             <div className="relative">
               <Textarea
-                placeholder="Ex: Sou a Clínica [Nome], nicho [X] e preciso de mais pacientes..."
+                placeholder="Ex: Sou a Loja [Nome], nicho [X] e preciso de escala..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={loading}
