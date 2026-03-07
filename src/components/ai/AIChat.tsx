@@ -10,7 +10,9 @@ import {
   Zap, 
   SendHorizontal,
   FileText,
-  ChevronRight
+  ChevronRight,
+  ShieldCheck,
+  Target
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { Badge } from "@/components/ui/badge";
@@ -49,7 +51,7 @@ export function AIChat() {
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         <div className="relative z-10">
-          {isOpen ? <X className="h-8 w-8" /> : <Sparkles className="h-8 w-8 md:h-10 md:w-10 group-hover:animate-pulse" />}
+          {isOpen ? <X className="h-8 w-8" /> : <Zap className="h-8 w-8 md:h-10 md:w-10 group-hover:animate-pulse" />}
         </div>
         
         {!isOpen && (
@@ -70,15 +72,15 @@ export function AIChat() {
         {/* Header */}
         <div className="p-10 bg-gradient-to-br from-primary to-accent text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-            <Sparkles className="h-32 w-32" />
+            <Target className="h-32 w-32" />
           </div>
           
           <div className="relative z-10 flex items-center gap-4">
             <div className="h-14 w-14 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-xl border border-white/20">
-              <Zap className="h-7 w-7 text-white animate-pulse" />
+              <ShieldCheck className="h-7 w-7 text-white" />
             </div>
             <div>
-              <Badge className="bg-white/20 text-white border-none text-[8px] font-black uppercase tracking-[0.3em] mb-2 px-3">Sapient Neural</Badge>
+              <Badge className="bg-white/20 text-white border-none text-[8px] font-black uppercase tracking-[0.3em] mb-2 px-3">Arquitetura de Dados</Badge>
               <h3 className="font-headline font-black text-2xl tracking-tighter leading-none">Dossiê Estratégico</h3>
             </div>
           </div>
@@ -90,18 +92,18 @@ export function AIChat() {
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
               <div className="space-y-4">
                 <p className="text-xl md:text-2xl font-bold text-foreground tracking-tight leading-tight">
-                  Olá. Sou a inteligência da Sapient Studio.
+                  Inicie seu Diagnóstico.
                 </p>
                 <p className="text-muted-foreground/60 text-lg font-medium leading-relaxed">
-                  Para iniciarmos, descreva os objetivos atuais do seu negócio ou os desafios que deseja superar.
+                  Descreva seus desafios atuais. Nossa IA analisará seus gargalos e mapeará as soluções Sapient ideais para seu caso.
                 </p>
               </div>
               
               <div className="grid grid-cols-1 gap-3">
                 {[
-                  "Escalar vendas no Instagram",
-                  "Redesign de marca premium",
-                  "Gestão estratégica de tráfego"
+                  "Minha marca não transmite valor premium",
+                  "Minhas redes sociais não convertem",
+                  "Preciso de escala em tráfego pago"
                 ].map((hint, i) => (
                   <button 
                     key={i}
@@ -115,28 +117,47 @@ export function AIChat() {
               </div>
             </div>
           ) : (
-            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            <div className="space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-8">
               <div>
                 <Badge className="mb-6 bg-primary/10 text-primary border-none px-6 py-2 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">Análise Concluída</Badge>
-                <h4 className="font-headline text-2xl font-black tracking-tighter mb-6 flex items-center gap-3">
-                  <FileText className="h-6 w-6 text-primary" /> Diagnóstico Sapient
+                <h4 className="font-headline text-3xl font-black tracking-tighter mb-4 flex items-center gap-3">
+                  <FileText className="h-7 w-7 text-primary" /> Seu Dossiê Sapient
                 </h4>
               </div>
 
-              <div className="flex flex-wrap gap-2">
-                {result.recommendedServices.map((service, idx) => (
-                  <Badge key={idx} className="bg-primary/5 text-primary border border-primary/10 px-5 py-2 text-[9px] font-black rounded-full uppercase tracking-widest">
-                    {service}
-                  </Badge>
-                ))}
+              {/* Diagnosis Section */}
+              <div className="space-y-3">
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">01. Diagnóstico de Gargalos</p>
+                <div className="bg-secondary/40 p-6 rounded-[2rem] border border-primary/5">
+                  <p className="text-base text-foreground font-medium leading-relaxed italic">
+                    "{result.diagnosis}"
+                  </p>
+                </div>
               </div>
 
-              <div className="bg-secondary/30 p-8 rounded-[2.5rem] border border-primary/5 shadow-inner">
-                <p className="text-base md:text-lg text-muted-foreground/80 font-medium leading-relaxed whitespace-pre-line tracking-tight">
-                  {result.reasoning}
-                </p>
+              {/* Solutions Mapping */}
+              <div className="space-y-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">02. Soluções Mapeadas</p>
+                <div className="flex flex-wrap gap-2">
+                  {result.recommendedServices.map((service, idx) => (
+                    <Badge key={idx} className="bg-primary/5 text-primary border border-primary/10 px-5 py-2 text-[9px] font-black rounded-full uppercase tracking-widest">
+                      {service}
+                    </Badge>
+                  ))}
+                </div>
               </div>
 
+              {/* Strategic Action */}
+              <div className="space-y-3">
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">03. Como faremos por você</p>
+                <div className="bg-white p-8 rounded-[2.5rem] border border-primary/5 shadow-inner">
+                  <p className="text-base text-muted-foreground font-medium leading-relaxed whitespace-pre-line tracking-tight">
+                    {result.strategicValue}
+                  </p>
+                </div>
+              </div>
+
+              {/* Next Step */}
               <div className="pt-6 space-y-4">
                 <Button 
                   className="w-full h-20 bg-primary hover:bg-primary/90 text-white rounded-full font-black uppercase tracking-[0.2em] text-sm shadow-xl shadow-primary/20 transition-all hover:scale-[1.02]"
@@ -145,25 +166,25 @@ export function AIChat() {
                     window.location.href = '#contato';
                   }}
                 >
-                  Consultoria Humana
+                  Agendar Consultoria Humana
                 </Button>
                 <button 
                   onClick={() => {setResult(null); setInput("");}}
                   className="w-full text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/30 hover:text-primary transition-colors py-2"
                 >
-                  Reiniciar Dossiê
+                  Novo Diagnóstico
                 </button>
               </div>
             </div>
           )}
 
           {loading && (
-            <div className="flex flex-col items-center justify-center py-12 space-y-6 text-primary animate-in fade-in zoom-in duration-500">
+            <div className="flex flex-col items-center justify-center py-20 space-y-6 text-primary animate-in fade-in zoom-in duration-500">
               <div className="relative">
-                <Loader2 className="h-16 w-16 animate-spin stroke-[1.5px]" />
-                <Sparkles className="h-6 w-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+                <Loader2 className="h-20 w-20 animate-spin stroke-[1.5px]" />
+                <Target className="h-8 w-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
               </div>
-              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-center">Processando<br />Arquitetura de Dados</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-center">Processando<br />Arquitetura Estratégica</p>
             </div>
           )}
         </div>
@@ -173,7 +194,7 @@ export function AIChat() {
           <form onSubmit={handleSubmit} className="p-8 border-t border-muted bg-white/50 backdrop-blur-xl">
             <div className="relative">
               <Textarea
-                placeholder="Ex: Quero elevar meu posicionamento..."
+                placeholder="Ex: Minha marca parece amadora e não vendo..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="min-h-[120px] bg-white border-transparent rounded-[2rem] p-8 pr-20 text-base md:text-lg font-medium focus:ring-primary/10 placeholder:text-muted-foreground/20 resize-none shadow-2xl shadow-primary/5 border border-primary/5 leading-tight"
@@ -194,7 +215,7 @@ export function AIChat() {
             </div>
             <div className="mt-6 flex items-center justify-center gap-2 opacity-20">
               <div className="h-1 w-1 rounded-full bg-primary" />
-              <p className="text-[8px] font-black uppercase tracking-[0.4em] text-foreground">Sapient AI Engine v2.5</p>
+              <p className="text-[8px] font-black uppercase tracking-[0.4em] text-foreground">Sapient Neural Engine v3.0</p>
               <div className="h-1 w-1 rounded-full bg-primary" />
             </div>
           </form>

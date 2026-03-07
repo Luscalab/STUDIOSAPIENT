@@ -1,10 +1,10 @@
 'use server';
 /**
- * @fileOverview An AI-powered conversational tool that assesses client needs and recommends suitable Sapient services.
+ * @fileOverview Um motor de diagnóstico estratégico que analisa dores de negócio e recomenda soluções Sapient.
  *
- * - recommendServices - A function that handles the service recommendation process.
- * - ServiceRecommenderInput - The input type for the recommendServices function.
- * - ServiceRecommenderOutput - The return type for the recommendServices function.
+ * - recommendServices - Função que processa o diagnóstico e recomenda produtos.
+ * - ServiceRecommenderInput - Entrada com as dores e objetivos do cliente.
+ * - ServiceRecommenderOutput - Saída com diagnóstico, serviços recomendados e justificativa estratégica.
  */
 
 import {ai} from '@/ai/genkit';
@@ -19,17 +19,20 @@ const SapientServices = [
 const ServiceRecommenderInputSchema = z.object({
   clientNeedsAndGoals: z
     .string()
-    .describe("A detailed description of the potential client's business needs, goals, and current challenges."),
+    .describe("Descrição detalhada das dores, objetivos e desafios atuais da marca/negócio."),
 });
 export type ServiceRecommenderInput = z.infer<typeof ServiceRecommenderInputSchema>;
 
 const ServiceRecommenderOutputSchema = z.object({
+  diagnosis: z
+    .string()
+    .describe('Um diagnóstico profissional e direto dos principais gargalos identificados no negócio do cliente.'),
   recommendedServices: z
     .array(z.enum(SapientServices))
-    .describe('An array of Sapient Studio services recommended for the client.'),
-  reasoning: z
+    .describe('Array de serviços da Sapient Studio que resolvem os problemas diagnosticados.'),
+  strategicValue: z
     .string()
-    .describe('A detailed explanation of why each service was recommended, tailored to the client\u0027s specific needs.'),
+    .describe('Explicação de como a Sapient vai atuar especificamente para transformar essa realidade, focando em ROI e valor de marca.'),
 });
 export type ServiceRecommenderOutput = z.infer<typeof ServiceRecommenderOutputSchema>;
 
@@ -43,16 +46,19 @@ const serviceRecommenderPrompt = ai.definePrompt({
   name: 'serviceRecommenderPrompt',
   input: {schema: ServiceRecommenderInputSchema},
   output: {schema: ServiceRecommenderOutputSchema},
-  prompt: `You are an AI-powered consultant for Sapient Studio, a digital marketing and branding company. Your goal is to understand a potential client's business needs and goals and recommend the most suitable services from Sapient Studio.
+  prompt: `Você é o Arquiteto de Estratégia da Sapient Studio. Sua função não é bater papo, mas diagnosticar problemas de negócio e mapear soluções precisas dentro do nosso ecossistema.
 
-Sapient Studio offers the following services:
-- Publicidade/marketing: Comprehensive advertising and marketing strategies, campaign execution, and digital presence enhancement.
-- Design Estratégico: Strategic visual identity development, branding, UI/UX design, and creative solutions that reflect a brand's core values.
-- Gestão de Redes: Professional management of social media platforms, content creation, community engagement, and audience growth.
+Nossos Produtos/Serviços:
+- Publicidade/marketing: Escala de vendas, tráfego pago de elite, campanhas de performance e crescimento exponencial.
+- Design Estratégico: Identidade visual de luxo, Branding que gera desejo, UI/UX de alta conversão e reposicionamento premium.
+- Gestão de Redes: Curadoria de conteúdo de autoridade, copywriting hipnótico, gestão de comunidade e transformação de redes em canais de desejo.
 
-Based on the client's description below, identify which of Sapient Studio's services would best help them achieve their goals. Explain your reasoning clearly for each recommended service, ensuring it directly addresses the client's specific needs and objectives.
+Com base no relato do cliente: "{{{clientNeedsAndGoals}}}", faça o seguinte:
+1. DIAGNÓSTICO: Identifique as 2 ou 3 principais falhas ou oportunidades perdidas no momento atual dele. Seja honesto e direto.
+2. SELEÇÃO: Escolha quais dos nossos 3 serviços acima são indispensáveis para ele agora.
+3. VALOR ESTRATÉGICO: Explique EXATAMENTE o que faremos por ele e como isso mudará os números ou a percepção da marca dele.
 
-Client's Business Needs and Goals: {{{clientNeedsAndGoals}}}`,
+Mantenha um tom profissional, autoritário, honesto e focado em resultados de alto nível.`,
 });
 
 const aiServiceRecommenderFlow = ai.defineFlow(
