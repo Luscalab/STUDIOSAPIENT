@@ -32,8 +32,11 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary overflow-x-hidden;
+    @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary overflow-x-hidden antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    background-image: 
+      radial-gradient(circle at 100% 0%, hsla(263, 85%, 55%, 0.03), transparent 35%),
+      radial-gradient(circle at 0% 100%, hsla(280, 95%, 60%, 0.03), transparent 35%);
   }
 }
 
@@ -75,12 +78,12 @@
 }
 
 .section-spacing {
-  @apply py-24 md:py-32;
+  @apply py-20 md:py-32 lg:py-40;
 }
 
 .soft-gradient-bg {
-  background: radial-gradient(circle at top right, hsla(263, 85%, 55%, 0.04), transparent 45%),
-              radial-gradient(circle at bottom left, hsla(280, 95%, 60%, 0.04), transparent 45%);
+  background: radial-gradient(circle at top right, hsla(263, 85%, 55%, 0.05), transparent 50%),
+              radial-gradient(circle at bottom left, hsla(280, 95%, 60%, 0.05), transparent 50%);
 }
 
 /* Scrollbar refinement */
@@ -99,4 +102,9 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--primary) / 0.2);
+}
+
+/* Custom Typography Utils */
+.text-balance {
+  text-wrap: balance;
 }
