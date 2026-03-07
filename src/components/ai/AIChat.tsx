@@ -15,10 +15,8 @@ import {
   ArrowRight,
   Search,
   Activity,
-  MapPin,
-  Palette,
-  Share2,
-  Info
+  Info,
+  UserCircle2
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { Badge } from "@/components/ui/badge";
@@ -29,26 +27,36 @@ export function AIChat() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ServiceRecommenderOutput | null>(null);
+  const [chatHistory, setChatHistory] = useState<{role: 'user' | 'assistant', text: string}[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [result, loading]);
+  }, [result, loading, chatHistory]);
 
   const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (!input.trim() || loading) return;
     
+    const userText = input;
+    setChatHistory(prev => [...prev, { role: 'user', text: userText }]);
+    setInput("");
     setLoading(true);
+    
     try {
-      const recommendation = await recommendServices({ clientNeedsAndGoals: input });
+      // Enviamos o histórico acumulado ou apenas a última mensagem
+      // Como o flow é sem estado no backend, enviamos a concatenação para contexto
+      const context = chatHistory.map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`).join('\n') + `\nCliente: ${userText}`;
+      
+      const recommendation = await recommendServices({ clientNeedsAndGoals: context });
       setResult(recommendation);
       
-      // Se a IA pedir mais info, mantemos o input para o usuário complementar se quiser
       if (!recommendation.isDataSufficient) {
-        // Opcional: manter o input ou limpar
+        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Preciso de mais dados." }]);
+      } else {
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Audit Concluído. Gerando Dossiê Estratégico..." }]);
       }
     } catch (error) {
       console.error("Erro ao processar consulta AI:", error);
@@ -98,56 +106,67 @@ export function AIChat() {
               <ShieldCheck className="h-5 w-5 md:h-7 md:w-7 text-white" />
             </div>
             <div>
-              <Badge className="bg-white/20 text-white border-none text-[7px] md:text-[8px] font-black uppercase tracking-[0.3em] mb-1.5 md:mb-2 px-3">Arquitetura de Dados</Badge>
-              <h3 className="font-headline font-black text-xl md:text-2xl tracking-tighter leading-none">Dossiê Estratégico</h3>
+              <Badge className="bg-white/20 text-white border-none text-[7px] md:text-[8px] font-black uppercase tracking-[0.3em] mb-1.5 md:mb-2 px-3">Consultoria Prévia</Badge>
+              <h3 className="font-headline font-black text-xl md:text-2xl tracking-tighter leading-none">Arquiteto Sapient</h3>
             </div>
           </div>
         </div>
 
         {/* Content Area */}
         <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 md:p-10 space-y-6 md:y-8 custom-scrollbar bg-white/30">
-          {(!result || !result.isDataSufficient) ? (
+          {chatHistory.length === 0 && (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
               <div className="space-y-4">
                 <p className="text-xl md:text-2xl font-black text-foreground tracking-tighter leading-tight">
-                  {result && !result.isDataSufficient ? "Dados Insuficientes." : "Inicie seu Diagnóstico."}
+                  Inicie seu Diagnóstico.
                 </p>
                 <p className="text-muted-foreground/60 text-base md:text-lg font-medium leading-relaxed tracking-tight">
-                  {result && !result.isDataSufficient 
-                    ? result.missingInfoMessage 
-                    : "Para um audit profissional, preciso saber o nome da sua marca, seu nicho e seu objetivo atual."}
+                  Para um audit profissional, preciso conhecer seu negócio. Qual o nome da sua marca e qual seu principal desafio hoje?
                 </p>
               </div>
 
-              {!result && (
-                <div className="grid grid-cols-1 gap-2.5">
-                  <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 flex gap-3 items-start">
-                    <Info className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                    <p className="text-[10px] font-bold text-primary/60 uppercase tracking-widest leading-relaxed">
-                      Siga o padrão: <br />"Sou [Marca], do nicho [Nicho], e quero [Objetivo]"
-                    </p>
-                  </div>
-                  {[
-                    "Minha clínica de estética não aparece no Google",
-                    "Minha marca de moda parece amadora no Instagram",
-                    "Loja física precisando de escala via Google Ads"
-                  ].map((hint, i) => (
-                    <button 
-                      key={i}
-                      onClick={() => { setInput(hint); }}
-                      className="text-left px-5 py-4 rounded-xl md:rounded-2xl bg-white border border-primary/5 text-[9px] md:text-xs font-black uppercase tracking-widest text-primary/60 hover:bg-primary/5 hover:text-primary transition-all flex items-center justify-between group shadow-sm"
-                    >
-                      {hint}
-                      <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0" />
-                    </button>
-                  ))}
+              <div className="grid grid-cols-1 gap-2.5">
+                <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 flex gap-3 items-start">
+                  <Info className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                  <p className="text-[10px] font-bold text-primary/60 uppercase tracking-widest leading-relaxed">
+                    Ex: "Sou a [Marca], do nicho [Nicho], e não apareço no Google"
+                  </p>
                 </div>
-              )}
+              </div>
             </div>
-          ) : (
-            <div className="space-y-8 md:space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-6 md:pb-8">
+          )}
+
+          {/* Chat Bubbles */}
+          <div className="space-y-6">
+            {chatHistory.map((msg, i) => (
+              <div key={i} className={cn(
+                "flex flex-col gap-2 max-w-[85%]",
+                msg.role === 'user' ? "ml-auto items-end" : "items-start"
+              )}>
+                <div className={cn(
+                  "p-4 md:p-5 rounded-2xl md:rounded-[1.5rem] text-sm md:text-base font-medium leading-relaxed shadow-sm",
+                  msg.role === 'user' 
+                    ? "bg-primary text-white rounded-tr-none" 
+                    : "bg-white border border-primary/5 text-muted-foreground rounded-tl-none"
+                )}>
+                  {msg.text}
+                </div>
+                <div className="flex items-center gap-2 px-2">
+                  {msg.role === 'user' ? (
+                    <span className="text-[8px] font-black uppercase tracking-widest text-muted-foreground/40">Você</span>
+                  ) : (
+                    <span className="text-[8px] font-black uppercase tracking-widest text-primary/60">Sapient Strategist</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Final Dossiê Result */}
+          {result?.isDataSufficient && (
+            <div className="space-y-8 md:space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-6 md:pb-8 pt-8 border-t border-primary/5">
               <div>
-                <Badge className="mb-4 md:mb-6 bg-primary/10 text-primary border-none px-5 md:px-6 py-1.5 md:py-2 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] rounded-full">Audit Concluído</Badge>
+                <Badge className="mb-4 md:mb-6 bg-primary/10 text-primary border-none px-5 md:px-6 py-1.5 md:py-2 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] rounded-full">Audit Estratégico Concluído</Badge>
                 <h4 className="font-headline text-2xl md:text-3xl font-black tracking-tighter mb-4 flex items-center gap-3">
                   <FileText className="h-6 w-6 md:h-7 md:w-7 text-primary" /> Dossiê Sapient
                 </h4>
@@ -155,7 +174,7 @@ export function AIChat() {
 
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Search className="h-3 w-3" /> 01. Audit de Marca & Presença
+                  <Search className="h-3 w-3" /> 01. Audit de Presença & Estética
                 </p>
                 <div className="bg-white p-5 md:p-6 rounded-2xl md:rounded-[2rem] border border-primary/5 shadow-sm">
                   <p className="text-xs md:text-sm text-muted-foreground font-medium leading-relaxed tracking-tight">
@@ -166,7 +185,7 @@ export function AIChat() {
 
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Activity className="h-3 w-3" /> 02. Gargalos Estratégicos
+                  <Activity className="h-3 w-3" /> 02. Diagnóstico de Gargalo
                 </p>
                 <div className="bg-secondary/50 p-5 md:p-6 rounded-2xl md:rounded-[2rem] border border-primary/5">
                   <p className="text-sm md:text-base text-foreground font-black leading-tight italic tracking-tighter">
@@ -177,7 +196,7 @@ export function AIChat() {
 
               <div className="space-y-4">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Zap className="h-3 w-3" /> 03. Intervenção Sapient
+                  <Zap className="h-3 w-3" /> 03. Intervenção Proposta
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {result.recommendedServices.map((service, idx) => (
@@ -190,7 +209,7 @@ export function AIChat() {
 
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Target className="h-3 w-3" /> 04. Nossa Execução Profissional
+                  <Target className="h-3 w-3" /> 04. Valor da Execução Sapient
                 </p>
                 <div className="bg-white p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border border-primary/5 shadow-inner">
                   <p className="text-sm md:text-base text-muted-foreground font-medium leading-relaxed whitespace-pre-line tracking-tight">
@@ -211,35 +230,35 @@ export function AIChat() {
                   Agendar Consultoria <ArrowRight className="h-4 w-4 md:h-5 md:w-5" />
                 </Button>
                 <button 
-                  onClick={() => {setResult(null); setInput("");}}
+                  onClick={() => {setResult(null); setInput(""); setChatHistory([]);}}
                   className="w-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/30 hover:text-primary transition-colors py-2"
                 >
-                  Novo Audit de Marca
+                  Nova Consultoria
                 </button>
               </div>
             </div>
           )}
 
           {loading && (
-            <div className="flex flex-col items-center justify-center py-20 space-y-6 text-primary animate-in fade-in zoom-in duration-500">
-              <div className="relative">
-                <Loader2 className="h-14 w-14 md:h-20 md:w-20 animate-spin stroke-[1.5px]" />
-                <Search className="h-6 w-6 md:h-8 md:w-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+            <div className="flex items-center gap-3 animate-in fade-in slide-in-from-left-4 duration-500">
+              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <Loader2 className="h-4 w-4 text-primary animate-spin" />
               </div>
-              <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.5em] text-center">Auditando Google, Visual<br />e Redes Sociais</p>
+              <p className="text-[8px] font-black uppercase tracking-widest text-primary/60">Arquiteto Sapient está analisando...</p>
             </div>
           )}
         </div>
 
         {/* Input Area */}
-        {(!result || !result.isDataSufficient) && !loading && (
+        {(!result || !result.isDataSufficient) && (
           <form onSubmit={handleSubmit} className="p-6 md:p-8 border-t border-muted bg-white/50 backdrop-blur-xl shrink-0">
             <div className="relative">
               <Textarea
-                placeholder="Ex: Minha marca é [Nome], do nicho [Nicho], e meu desafio é [Desafio]..."
+                placeholder="Diga-me o nome do seu negócio e seu objetivo..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="min-h-[100px] md:min-h-[120px] bg-white border-transparent rounded-2xl md:rounded-[2rem] p-6 md:p-8 pr-16 md:pr-20 text-sm md:text-lg font-medium focus:ring-primary/10 placeholder:text-muted-foreground/20 resize-none shadow-2xl shadow-primary/5 border border-primary/5 leading-tight"
+                disabled={loading}
+                className="min-h-[80px] md:min-h-[100px] bg-white border-transparent rounded-2xl md:rounded-[2rem] p-6 md:p-8 pr-16 md:pr-20 text-sm md:text-lg font-medium focus:ring-primary/10 placeholder:text-muted-foreground/20 resize-none shadow-2xl shadow-primary/5 border border-primary/5 leading-tight"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -254,11 +273,6 @@ export function AIChat() {
               >
                 <SendHorizontal className="h-4 w-4 md:h-6 md:w-6" />
               </button>
-            </div>
-            <div className="mt-4 md:mt-6 flex items-center justify-center gap-2 opacity-20">
-              <div className="h-1 w-1 rounded-full bg-primary" />
-              <p className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] text-foreground">Sapient Neural Engine v4.0</p>
-              <div className="h-1 w-1 rounded-full bg-primary" />
             </div>
           </form>
         )}
