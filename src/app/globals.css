@@ -10,20 +10,20 @@
     --card-foreground: 272 60% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 272 60% 10%;
-    --primary: 263 80% 60%;
+    --primary: 263 85% 55%;
     --primary-foreground: 0 0% 100%;
     --secondary: 272 20% 98%;
     --secondary-foreground: 272 60% 20%;
     --muted: 272 10% 96%;
     --muted-foreground: 272 20% 45%;
-    --accent: 280 90% 65%;
+    --accent: 280 95% 60%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
     --border: 272 20% 92%;
     --input: 272 20% 92%;
     --ring: 263 80% 60%;
-    --radius: 2rem;
+    --radius: 2.5rem;
   }
 }
 
@@ -32,13 +32,13 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary;
+    @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary overflow-x-hidden;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 .glass-morphism {
-  @apply bg-white/80 backdrop-blur-2xl border border-white/40 shadow-2xl;
+  @apply bg-white/70 backdrop-blur-3xl border border-white/40 shadow-[0_8px_32px_0_rgba(139,92,246,0.1)];
 }
 
 .text-gradient {
@@ -46,23 +46,29 @@
 }
 
 .premium-shadow {
-  box-shadow: 0 40px 80px -20px rgba(139, 92, 246, 0.12);
+  box-shadow: 0 50px 100px -20px rgba(139, 92, 246, 0.15), 0 30px 60px -30px rgba(0, 0, 0, 0.1);
 }
 
 .hover-lift {
-  @apply transition-all duration-700 hover:-translate-y-4 hover:shadow-2xl hover:shadow-primary/15;
+  @apply transition-all duration-700 hover:-translate-y-4 hover:shadow-[0_60px_90px_-20px_rgba(139,92,246,0.2)];
 }
 
 @keyframes float {
-  0% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-30px) scale(1.05); }
-  100% { transform: translateY(0px) scale(1); }
+  0% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-30px) rotate(2deg); }
+  66% { transform: translateY(10px) rotate(-1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
 }
 
 .animate-float {
-  animation: float 10s ease-in-out infinite;
+  animation: float 12s ease-in-out infinite;
 }
 
 .section-spacing {
-  @apply py-32 md:py-56;
+  @apply py-32 md:py-64;
+}
+
+.soft-gradient-bg {
+  background: radial-gradient(circle at top right, hsla(263, 85%, 55%, 0.05), transparent 40%),
+              radial-gradient(circle at bottom left, hsla(280, 95%, 60%, 0.05), transparent 40%);
 }

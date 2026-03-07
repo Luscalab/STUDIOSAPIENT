@@ -32,26 +32,26 @@ export function Navbar() {
     )}>
       <div className={cn(
         "container mx-auto h-20 rounded-full flex items-center justify-between px-10 transition-all duration-1000 border border-transparent",
-        isScrolled ? "bg-white/90 backdrop-blur-2xl border-primary/10 shadow-2xl scale-[0.97]" : "bg-transparent"
+        isScrolled ? "glass-morphism border-primary/10 scale-[0.98]" : "bg-transparent"
       )}>
         <Link href="/" className="font-headline text-3xl font-bold tracking-tighter flex items-center gap-1 group">
           <span className="text-primary group-hover:scale-110 transition-transform duration-700 italic">S@</span>
-          <span className="tracking-widest text-foreground group-hover:tracking-[0.25em] transition-all duration-700">PIENT</span>
+          <span className="tracking-widest text-foreground group-hover:tracking-[0.2em] transition-all duration-700">PIENT</span>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-16">
+        <div className="hidden md:flex items-center gap-12">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
               href={link.href} 
-              className="text-xs uppercase tracking-[0.3em] font-black text-muted-foreground hover:text-primary transition-all duration-500 relative group"
+              className="text-[10px] uppercase tracking-[0.4em] font-black text-muted-foreground/60 hover:text-primary transition-all duration-500 relative group"
             >
               {link.name}
               <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full" />
             </Link>
           ))}
-          <Button className="bg-primary hover:bg-primary/90 text-white font-black px-12 rounded-full h-14 shadow-xl shadow-primary/25 transition-all hover:scale-105 active:scale-95 text-xs uppercase tracking-widest">
+          <Button className="bg-primary hover:bg-primary/90 text-white font-black px-10 rounded-full h-12 shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95 text-[10px] uppercase tracking-widest">
             Falar com Especialista
           </Button>
         </div>
@@ -61,24 +61,24 @@ export function Navbar() {
           className="md:hidden text-foreground p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <X size={32} /> : <Menu size={32} />}
+          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-32 left-6 right-6 bg-white rounded-[4rem] border border-primary/10 p-16 flex flex-col gap-10 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700">
+        <div className="md:hidden absolute top-32 left-6 right-6 glass-morphism rounded-[3rem] p-12 flex flex-col gap-8 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-700">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
               href={link.href} 
-              className="text-3xl font-bold border-b border-muted pb-8 hover:text-primary transition-colors tracking-tighter"
+              className="text-2xl font-bold border-b border-muted pb-6 hover:text-primary transition-colors tracking-tighter"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.name}
             </Link>
           ))}
-          <Button className="w-full bg-primary font-black py-10 text-2xl rounded-full shadow-2xl shadow-primary/25">
+          <Button className="w-full bg-primary font-black py-8 text-xl rounded-full shadow-2xl shadow-primary/25">
             Iniciar Projeto
           </Button>
         </div>
