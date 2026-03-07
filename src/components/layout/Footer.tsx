@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
+import { Instagram, Linkedin, Twitter, Youtube, Palette } from "lucide-react";
 
 export function Footer() {
   return (
@@ -18,11 +18,11 @@ export function Footer() {
               <Link href="https://instagram.com/studiosapient" target="_blank" className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all shadow-sm">
                 <Instagram className="h-5 w-5" />
               </Link>
+              <Link href="https://www.behance.net/sapient" target="_blank" className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all shadow-sm">
+                <Palette className="h-5 w-5" />
+              </Link>
               <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all shadow-sm cursor-pointer">
                 <Linkedin className="h-5 w-5" />
-              </div>
-              <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all shadow-sm cursor-pointer">
-                <Twitter className="h-5 w-5" />
               </div>
               <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all shadow-sm cursor-pointer">
                 <Youtube className="h-5 w-5" />
@@ -44,7 +44,7 @@ export function Footer() {
             <h4 className="font-headline font-bold text-xl mb-10">Agência</h4>
             <ul className="space-y-6 text-muted-foreground font-medium">
               <li><Link href="#sobre" className="hover:text-primary transition-colors">Sobre a Sapient</Link></li>
-              <li><Link href="#portfolio" className="hover:text-primary transition-colors">Case Studies</Link></li>
+              <li><Link href="https://www.behance.net/sapient" target="_blank" className="hover:text-primary transition-colors">Behance Portfólio</Link></li>
               <li><Link href="#contato" className="hover:text-primary transition-colors">Contato</Link></li>
             </ul>
           </div>

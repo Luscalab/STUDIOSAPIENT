@@ -2,6 +2,7 @@ import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 const projects = [
   {
@@ -33,9 +34,13 @@ export function Portfolio() {
               Trabalhos que ajudaram marcas a se posicionarem melhor no ambiente digital.
             </p>
           </div>
-          <button className="group flex items-center gap-3 text-primary font-bold text-lg hover:underline transition-all">
-            Ver Todos <ExternalLink className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-          </button>
+          <Link 
+            href="https://www.behance.net/sapient" 
+            target="_blank" 
+            className="group flex items-center gap-3 text-primary font-bold text-lg hover:underline transition-all"
+          >
+            Ver no Behance <ExternalLink className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
