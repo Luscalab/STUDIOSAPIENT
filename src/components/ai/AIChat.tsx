@@ -17,7 +17,8 @@ import {
   Activity,
   MapPin,
   Palette,
-  Share2
+  Share2,
+  Info
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { Badge } from "@/components/ui/badge";
@@ -44,6 +45,11 @@ export function AIChat() {
     try {
       const recommendation = await recommendServices({ clientNeedsAndGoals: input });
       setResult(recommendation);
+      
+      // Se a IA pedir mais info, mantemos o input para o usuário complementar se quiser
+      if (!recommendation.isDataSufficient) {
+        // Opcional: manter o input ou limpar
+      }
     } catch (error) {
       console.error("Erro ao processar consulta AI:", error);
     } finally {
@@ -100,40 +106,43 @@ export function AIChat() {
 
         {/* Content Area */}
         <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 md:p-10 space-y-6 md:y-8 custom-scrollbar bg-white/30">
-          {!result ? (
+          {(!result || !result.isDataSufficient) ? (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
               <div className="space-y-4">
                 <p className="text-xl md:text-2xl font-black text-foreground tracking-tighter leading-tight">
-                  Inicie seu Diagnóstico.
+                  {result && !result.isDataSufficient ? "Dados Insuficientes." : "Inicie seu Diagnóstico."}
                 </p>
                 <p className="text-muted-foreground/60 text-base md:text-lg font-medium leading-relaxed tracking-tight">
-                  Especialistas em Google Meu Negócio, Identidade Visual e Redes Sociais. Descreva sua marca para iniciarmos o audit.
+                  {result && !result.isDataSufficient 
+                    ? result.missingInfoMessage 
+                    : "Para um audit profissional, preciso saber o nome da sua marca, seu nicho e seu objetivo atual."}
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-2 mb-4">
-                <Badge variant="outline" className="text-[7px] uppercase tracking-widest border-primary/20 flex gap-1 items-center"><MapPin className="h-2 w-2" /> Google Local</Badge>
-                <Badge variant="outline" className="text-[7px] uppercase tracking-widest border-primary/20 flex gap-1 items-center"><Palette className="h-2 w-2" /> Branding</Badge>
-                <Badge variant="outline" className="text-[7px] uppercase tracking-widest border-primary/20 flex gap-1 items-center"><Share2 className="h-2 w-2" /> Social Media</Badge>
-              </div>
-              
-              <div className="grid grid-cols-1 gap-2.5">
-                {[
-                  "Minha loja não aparece no Google Maps",
-                  "Minha Identidade Visual parece amadora",
-                  "Redes sociais sem engajamento ou vendas",
-                  "Clínica precisando de escala via Google Ads"
-                ].map((hint, i) => (
-                  <button 
-                    key={i}
-                    onClick={() => { setInput(hint); }}
-                    className="text-left px-5 py-4 rounded-xl md:rounded-2xl bg-white border border-primary/5 text-[9px] md:text-xs font-black uppercase tracking-widest text-primary/60 hover:bg-primary/5 hover:text-primary transition-all flex items-center justify-between group shadow-sm"
-                  >
-                    {hint}
-                    <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0" />
-                  </button>
-                ))}
-              </div>
+              {!result && (
+                <div className="grid grid-cols-1 gap-2.5">
+                  <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 flex gap-3 items-start">
+                    <Info className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                    <p className="text-[10px] font-bold text-primary/60 uppercase tracking-widest leading-relaxed">
+                      Siga o padrão: <br />"Sou [Marca], do nicho [Nicho], e quero [Objetivo]"
+                    </p>
+                  </div>
+                  {[
+                    "Minha clínica de estética não aparece no Google",
+                    "Minha marca de moda parece amadora no Instagram",
+                    "Loja física precisando de escala via Google Ads"
+                  ].map((hint, i) => (
+                    <button 
+                      key={i}
+                      onClick={() => { setInput(hint); }}
+                      className="text-left px-5 py-4 rounded-xl md:rounded-2xl bg-white border border-primary/5 text-[9px] md:text-xs font-black uppercase tracking-widest text-primary/60 hover:bg-primary/5 hover:text-primary transition-all flex items-center justify-between group shadow-sm"
+                    >
+                      {hint}
+                      <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             <div className="space-y-8 md:space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-6 md:pb-8">
@@ -144,7 +153,6 @@ export function AIChat() {
                 </h4>
               </div>
 
-              {/* Brand Audit Section */}
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
                   <Search className="h-3 w-3" /> 01. Audit de Marca & Presença
@@ -156,7 +164,6 @@ export function AIChat() {
                 </div>
               </div>
 
-              {/* Diagnosis Section */}
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
                   <Activity className="h-3 w-3" /> 02. Gargalos Estratégicos
@@ -168,7 +175,6 @@ export function AIChat() {
                 </div>
               </div>
 
-              {/* Solutions Mapping */}
               <div className="space-y-4">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
                   <Zap className="h-3 w-3" /> 03. Intervenção Sapient
@@ -182,7 +188,6 @@ export function AIChat() {
                 </div>
               </div>
 
-              {/* Strategic Action */}
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
                   <Target className="h-3 w-3" /> 04. Nossa Execução Profissional
@@ -194,7 +199,6 @@ export function AIChat() {
                 </div>
               </div>
 
-              {/* Next Step */}
               <div className="pt-6 space-y-4">
                 <Button 
                   className="w-full h-16 md:h-20 bg-primary hover:bg-primary/90 text-white rounded-full font-black uppercase tracking-[0.2em] text-[10px] md:text-sm shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] flex items-center justify-center gap-3 md:gap-4"
@@ -228,11 +232,11 @@ export function AIChat() {
         </div>
 
         {/* Input Area */}
-        {!result && !loading && (
+        {(!result || !result.isDataSufficient) && !loading && (
           <form onSubmit={handleSubmit} className="p-6 md:p-8 border-t border-muted bg-white/50 backdrop-blur-xl shrink-0">
             <div className="relative">
               <Textarea
-                placeholder="Ex: Minha clínica não aparece no Google e minha marca parece amadora no Instagram..."
+                placeholder="Ex: Minha marca é [Nome], do nicho [Nicho], e meu desafio é [Desafio]..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="min-h-[100px] md:min-h-[120px] bg-white border-transparent rounded-2xl md:rounded-[2rem] p-6 md:p-8 pr-16 md:pr-20 text-sm md:text-lg font-medium focus:ring-primary/10 placeholder:text-muted-foreground/20 resize-none shadow-2xl shadow-primary/5 border border-primary/5 leading-tight"

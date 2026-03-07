@@ -1,6 +1,7 @@
 'use server';
 /**
  * @fileOverview Um motor de diagnóstico estratégico especializado em Google Meu Negócio, Identidade Visual e Social Media.
+ * Agora com protocolo de coleta de dados obrigatório para evitar diagnósticos superficiais.
  */
 
 import {ai} from '@/ai/genkit';
@@ -20,12 +21,19 @@ const ServiceRecommenderInputSchema = z.object({
 export type ServiceRecommenderInput = z.infer<typeof ServiceRecommenderInputSchema>;
 
 const ServiceRecommenderOutputSchema = z.object({
+  isDataSufficient: z
+    .boolean()
+    .describe('Indica se o usuário forneceu informações suficientes (Nome, Nicho, Objetivo) para um audit.'),
+  missingInfoMessage: z
+    .string()
+    .optional()
+    .describe('Mensagem solicitando os dados que faltam, caso isDataSufficient seja false.'),
   brandAudit: z
     .string()
     .describe('Análise profunda sobre a percepção atual, presença no Google, força da Identidade Visual e maturidade nas redes sociais.'),
   diagnosis: z
     .string()
-    .describe('Identificação cirúrgica do gargalo: Onde a marca está perdendo dinheiro por falta de visual, presença local ou autoridade social.'),
+    .describe('Identificação cirúrgica do gargalo: Onde a marca está perdendo dinheiro.'),
   recommendedServices: z
     .array(z.enum(SapientServices))
     .describe('Serviços específicos da Sapient para a intervenção necessária.'),
@@ -45,22 +53,29 @@ const serviceRecommenderPrompt = ai.definePrompt({
   name: 'serviceRecommenderPrompt',
   input: {schema: ServiceRecommenderInputSchema},
   output: {schema: ServiceRecommenderOutputSchema},
-  prompt: `Você é o Arquiteto-Chefe de Estratégia da Sapient Studio. Sua missão é realizar um AUDIT DE MARCA focado em três pilares fundamentais:
+  prompt: `Você é o Arquiteto-Chefe de Estratégia da Sapient Studio. 
 
-1. PRESENÇA LOCAL (Google Meu Negócio): A marca é encontrável? Ela passa confiança no Google?
-2. IDENTIDADE VISUAL: O design comunica valor premium ou parece amador? A marca tem unidade visual?
-3. AUTORIDADE SOCIAL (Social Media): O conteúdo gera desejo ou é apenas ruído?
+PROTOCOLO DE AUDIT ESTRATÉGICO:
+Antes de realizar qualquer diagnóstico, você deve verificar se a mensagem do usuário: "{{{clientNeedsAndGoals}}}" contém pelo menos:
+1. O Nome da Marca ou Negócio.
+2. O Nicho de Atuação (Ex: Clínica de Estética, Loja de Roupas, Escritório de Advocacia).
+3. O Problema ou Objetivo principal.
 
-Com base nos dados: "{{{clientNeedsAndGoals}}}", siga este protocolo:
+SE FALTAR ESSAS INFORMAÇÕES:
+- Defina 'isDataSufficient' como false.
+- No campo 'missingInfoMessage', responda como um consultor premium: "Para que eu possa realizar um audit honesto e cirúrgico da sua marca, preciso saber primeiro: Qual o nome do seu negócio? Em qual nicho você atua e qual seu principal desafio hoje?"
+- Deixe os outros campos com mensagens genéricas de "Aguardando dados".
 
-- BRAND AUDIT: Analise como a marca se apresenta hoje. Se o cliente mencionou falta de clientes, verifique se a falha é no Google (presença local) ou no Desejo (Identidade e Social).
-- DIAGNÓSTICO: Aponte o erro fatal. Ex: "Sua marca é invisível localmente" ou "Sua Identidade Visual está repelindo clientes de alto ticket". Seja direto.
-- SELEÇÃO: Escolha entre nossos pilares:
-  - Performance & Ads (incl. Google Meu Negócio): Para busca direta e escala.
-  - Design Estratégico & Identidade Visual: Para percepção de valor e autoridade estética.
-  - Gestão de Redes & Autoridade Social: Para retenção, desejo e comunidade.
+SE AS INFORMAÇÕES ESTIVEREM PRESENTES:
+- Defina 'isDataSufficient' como true.
+- Realize um AUDIT DE MARCA focado em:
+  1. PRESENÇA LOCAL (Google Meu Negócio).
+  2. IDENTIDADE VISUAL (Estética e Valor).
+  3. AUTORIDADE SOCIAL (Engajamento e Desejo).
 
-- VALOR ESTRATÉGICO: Diga o que NÓS faremos. Não dê dicas para ele fazer sozinho. Foque em: "Nossa intervenção vai criar um ecossistema onde sua marca deixa de ser uma opção e se torna o padrão de luxo".
+- DIAGNÓSTICO: Aponte o erro fatal. Seja direto.
+- SELEÇÃO: Escolha entre nossos pilares: Performance & Ads, Design Estratégico ou Gestão de Redes.
+- VALOR ESTRATÉGICO: Diga o que NÓS faremos profissionalmente. Não dê dicas para ele fazer sozinho.
 
 O tom é de um consultor de elite: caro, inteligente, honesto e focado em fechar a parceria.`,
 });
