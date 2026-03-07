@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -35,9 +34,9 @@ export function Navbar() {
         "container mx-auto h-16 rounded-2xl flex items-center justify-between px-6 transition-all duration-300 border border-transparent",
         isScrolled ? "bg-background/80 backdrop-blur-lg border-primary/10 shadow-lg" : "bg-transparent"
       )}>
-        <Link href="/" className="font-headline text-2xl font-bold tracking-tighter flex items-center gap-2">
-          <span className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white text-lg">S</span>
-          SAPIENT
+        <Link href="/" className="font-headline text-2xl font-bold tracking-tighter flex items-center gap-1 group">
+          <span className="text-primary group-hover:scale-110 transition-transform duration-300 italic">S@</span>
+          <span className="tracking-widest">PIENT</span>
         </Link>
 
         {/* Desktop Links */}

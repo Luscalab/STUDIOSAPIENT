@@ -14,7 +14,6 @@ const SapientServices = [
   'Publicidade/marketing',
   'Design Estratégico',
   'Gestão de Redes',
-  'Áudio',
 ] as const;
 
 const ServiceRecommenderInputSchema = z.object({
@@ -50,7 +49,6 @@ Sapient Studio offers the following services:
 - Publicidade/marketing: Comprehensive advertising and marketing strategies, campaign execution, and digital presence enhancement.
 - Design Estratégico: Strategic visual identity development, branding, UI/UX design, and creative solutions that reflect a brand's core values.
 - Gestão de Redes: Professional management of social media platforms, content creation, community engagement, and audience growth.
-- Áudio: Production of audio content, including podcasts, jingles, voice-overs, and sound design for various media.
 
 Based on the client's description below, identify which of Sapient Studio's services would best help them achieve their goals. Explain your reasoning clearly for each recommended service, ensuring it directly addresses the client's specific needs and objectives.
 

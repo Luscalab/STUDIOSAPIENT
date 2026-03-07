@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 
@@ -8,15 +7,17 @@ export function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-1">
-            <Link href="/" className="font-headline text-2xl font-bold tracking-tighter flex items-center gap-2 mb-6">
-              <span className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white text-lg">S</span>
-              SAPIENT
+            <Link href="/" className="font-headline text-2xl font-bold tracking-tighter flex items-center gap-1 mb-6">
+              <span className="text-primary italic">S@</span>
+              <span className="tracking-widest">PIENT</span>
             </Link>
             <p className="text-muted-foreground mb-6">
               Transformando negócios comuns em marcas desejadas através de estratégia, design e marketing de alta performance.
             </p>
             <div className="flex gap-4">
-              <Instagram className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
+              <Link href="https://instagram.com/studiosapient" target="_blank">
+                <Instagram className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
+              </Link>
               <Linkedin className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
               <Twitter className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
               <Youtube className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
@@ -29,7 +30,6 @@ export function Footer() {
               <li><Link href="#" className="hover:text-primary transition-colors">Marketing Digital</Link></li>
               <li><Link href="#" className="hover:text-primary transition-colors">Branding & Design</Link></li>
               <li><Link href="#" className="hover:text-primary transition-colors">Gestão de Social Media</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Produção de Áudio</Link></li>
             </ul>
           </div>
 

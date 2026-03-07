@@ -1,6 +1,5 @@
-
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Megaphone, Palette, Share2, Mic2 } from "lucide-react";
+import { Megaphone, Palette, Share2 } from "lucide-react";
 
 const services = [
   {
@@ -20,12 +19,6 @@ const services = [
     description: "Presença social profissional com conteúdo de alta qualidade e engajamento real.",
     icon: <Share2 className="h-8 w-8 text-primary" />,
     features: ["Cronograma de Postagens", "Copywriting", "Atendimento", "Relatórios"]
-  },
-  {
-    title: "Áudio",
-    description: "Produção sonora premium para jingles, podcasts e sound design de impacto.",
-    icon: <Mic2 className="h-8 w-8 text-primary" />,
-    features: ["Podcasts", "Voice-overs", "Jingles", "Trilhas Exclusivas"]
   }
 ];
 
@@ -40,7 +33,7 @@ export function Services() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, idx) => (
             <Card key={idx} className="bg-card/50 border-primary/10 hover:border-primary/30 transition-all group overflow-hidden">
               <CardHeader>
