@@ -1,15 +1,15 @@
 'use server';
 /**
- * @fileOverview Um motor de diagnóstico estratégico que realiza um audit de marca antes de recomendar intervenções.
+ * @fileOverview Um motor de diagnóstico estratégico especializado em Google Meu Negócio, Identidade Visual e Social Media.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const SapientServices = [
-  'Publicidade/marketing',
-  'Design Estratégico',
-  'Gestão de Redes',
+  'Performance & Ads (incl. Google Meu Negócio)',
+  'Design Estratégico & Identidade Visual',
+  'Gestão de Redes & Autoridade Social',
 ] as const;
 
 const ServiceRecommenderInputSchema = z.object({
@@ -22,16 +22,16 @@ export type ServiceRecommenderInput = z.infer<typeof ServiceRecommenderInputSche
 const ServiceRecommenderOutputSchema = z.object({
   brandAudit: z
     .string()
-    .describe('Uma análise perspicaz sobre a percepção atual da marca e seu posicionamento no mercado com base no relato.'),
+    .describe('Análise profunda sobre a percepção atual, presença no Google, força da Identidade Visual e maturidade nas redes sociais.'),
   diagnosis: z
     .string()
-    .describe('Identificação cirúrgica do principal gargalo estratégico que está impedindo o crescimento ou a percepção de valor.'),
+    .describe('Identificação cirúrgica do gargalo: Onde a marca está perdendo dinheiro por falta de visual, presença local ou autoridade social.'),
   recommendedServices: z
     .array(z.enum(SapientServices))
     .describe('Serviços específicos da Sapient para a intervenção necessária.'),
   strategicValue: z
     .string()
-    .describe('Como a execução da Sapient vai transformar a realidade do negócio, focando em autoridade e escala.'),
+    .describe('Como a intervenção da Sapient em design, performance local ou social vai transformar o faturamento.'),
 });
 export type ServiceRecommenderOutput = z.infer<typeof ServiceRecommenderOutputSchema>;
 
@@ -45,21 +45,24 @@ const serviceRecommenderPrompt = ai.definePrompt({
   name: 'serviceRecommenderPrompt',
   input: {schema: ServiceRecommenderInputSchema},
   output: {schema: ServiceRecommenderOutputSchema},
-  prompt: `Você é o Arquiteto-Chefe de Estratégia da Sapient Studio. Sua missão é realizar um AUDIT DE MARCA e propor uma INTERVENÇÃO ESTRATÉGICA.
+  prompt: `Você é o Arquiteto-Chefe de Estratégia da Sapient Studio. Sua missão é realizar um AUDIT DE MARCA focado em três pilares fundamentais:
 
-Nossos Pilares de Intervenção:
-- Publicidade/marketing: Escala de vendas, tráfego pago de elite e performance.
-- Design Estratégico: Branding de luxo, UI/UX de alta conversão e reposicionamento premium.
-- Gestão de Redes: Curadoria de autoridade, copywriting hipnótico e desejo de marca.
+1. PRESENÇA LOCAL (Google Meu Negócio): A marca é encontrável? Ela passa confiança no Google?
+2. IDENTIDADE VISUAL: O design comunica valor premium ou parece amador? A marca tem unidade visual?
+3. AUTORIDADE SOCIAL (Social Media): O conteúdo gera desejo ou é apenas ruído?
 
-Com base nos dados fornecidos: "{{{clientNeedsAndGoals}}}", siga rigorosamente este protocolo:
+Com base nos dados: "{{{clientNeedsAndGoals}}}", siga este protocolo:
 
-1. BRAND AUDIT: Primeiro, demonstre que você entendeu a marca. Analise o nicho, a provável percepção de público e as falhas na mensagem atual. Seja perspicaz, mostre que você "leu" a alma do negócio.
-2. DIAGNÓSTICO: Aponte o erro fatal. Onde a marca está perdendo dinheiro ou autoridade? Seja direto e autoritário.
-3. SELEÇÃO: Identifique quais dos nossos 3 serviços são a cura exata.
-4. VALOR ESTRATÉGICO: Não dê conselhos. Diga o que NÓS faremos. Use frases como "Nossa intervenção em X vai garantir que sua marca Y alcance Z". Foque na nossa execução retirando o peso das costas do cliente.
+- BRAND AUDIT: Analise como a marca se apresenta hoje. Se o cliente mencionou falta de clientes, verifique se a falha é no Google (presença local) ou no Desejo (Identidade e Social).
+- DIAGNÓSTICO: Aponte o erro fatal. Ex: "Sua marca é invisível localmente" ou "Sua Identidade Visual está repelindo clientes de alto ticket". Seja direto.
+- SELEÇÃO: Escolha entre nossos pilares:
+  - Performance & Ads (incl. Google Meu Negócio): Para busca direta e escala.
+  - Design Estratégico & Identidade Visual: Para percepção de valor e autoridade estética.
+  - Gestão de Redes & Autoridade Social: Para retenção, desejo e comunidade.
 
-O tom deve ser de um consultor de elite: caro, inteligente, honesto e focado em fechar a parceria para resolver o problema. Se o cliente não agir, ele continuará estagnado.`,
+- VALOR ESTRATÉGICO: Diga o que NÓS faremos. Não dê dicas para ele fazer sozinho. Foque em: "Nossa intervenção vai criar um ecossistema onde sua marca deixa de ser uma opção e se torna o padrão de luxo".
+
+O tom é de um consultor de elite: caro, inteligente, honesto e focado em fechar a parceria.`,
 });
 
 const aiServiceRecommenderFlow = ai.defineFlow(

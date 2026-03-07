@@ -14,7 +14,10 @@ import {
   Target,
   ArrowRight,
   Search,
-  Activity
+  Activity,
+  MapPin,
+  Palette,
+  Share2
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { Badge } from "@/components/ui/badge";
@@ -104,15 +107,22 @@ export function AIChat() {
                   Inicie seu Diagnóstico.
                 </p>
                 <p className="text-muted-foreground/60 text-base md:text-lg font-medium leading-relaxed tracking-tight">
-                  Descreva sua marca, seu nicho e quais desafios está enfrentando. Nossa IA fará um audit profundo antes de propor a intervenção ideal.
+                  Especialistas em Google Meu Negócio, Identidade Visual e Redes Sociais. Descreva sua marca para iniciarmos o audit.
                 </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2 mb-4">
+                <Badge variant="outline" className="text-[7px] uppercase tracking-widest border-primary/20 flex gap-1 items-center"><MapPin className="h-2 w-2" /> Google Local</Badge>
+                <Badge variant="outline" className="text-[7px] uppercase tracking-widest border-primary/20 flex gap-1 items-center"><Palette className="h-2 w-2" /> Branding</Badge>
+                <Badge variant="outline" className="text-[7px] uppercase tracking-widest border-primary/20 flex gap-1 items-center"><Share2 className="h-2 w-2" /> Social Media</Badge>
               </div>
               
               <div className="grid grid-cols-1 gap-2.5">
                 {[
-                  "Marca de moda luxo estagnada no Instagram",
-                  "Empresa B2B sem autoridade digital",
-                  "E-commerce precisando de escala em Ads"
+                  "Minha loja não aparece no Google Maps",
+                  "Minha Identidade Visual parece amadora",
+                  "Redes sociais sem engajamento ou vendas",
+                  "Clínica precisando de escala via Google Ads"
                 ].map((hint, i) => (
                   <button 
                     key={i}
@@ -137,7 +147,7 @@ export function AIChat() {
               {/* Brand Audit Section */}
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Search className="h-3 w-3" /> 01. Audit de Marca
+                  <Search className="h-3 w-3" /> 01. Audit de Marca & Presença
                 </p>
                 <div className="bg-white p-5 md:p-6 rounded-2xl md:rounded-[2rem] border border-primary/5 shadow-sm">
                   <p className="text-xs md:text-sm text-muted-foreground font-medium leading-relaxed tracking-tight">
@@ -149,7 +159,7 @@ export function AIChat() {
               {/* Diagnosis Section */}
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Activity className="h-3 w-3" /> 02. Gargalos Críticos
+                  <Activity className="h-3 w-3" /> 02. Gargalos Estratégicos
                 </p>
                 <div className="bg-secondary/50 p-5 md:p-6 rounded-2xl md:rounded-[2rem] border border-primary/5">
                   <p className="text-sm md:text-base text-foreground font-black leading-tight italic tracking-tighter">
@@ -161,7 +171,7 @@ export function AIChat() {
               {/* Solutions Mapping */}
               <div className="space-y-4">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Zap className="h-3 w-3" /> 03. Arsenal de Intervenção
+                  <Zap className="h-3 w-3" /> 03. Intervenção Sapient
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {result.recommendedServices.map((service, idx) => (
@@ -175,7 +185,7 @@ export function AIChat() {
               {/* Strategic Action */}
               <div className="space-y-3">
                 <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-                  <Target className="h-3 w-3" /> 04. Nossa Execução
+                  <Target className="h-3 w-3" /> 04. Nossa Execução Profissional
                 </p>
                 <div className="bg-white p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border border-primary/5 shadow-inner">
                   <p className="text-sm md:text-base text-muted-foreground font-medium leading-relaxed whitespace-pre-line tracking-tight">
@@ -212,7 +222,7 @@ export function AIChat() {
                 <Loader2 className="h-14 w-14 md:h-20 md:w-20 animate-spin stroke-[1.5px]" />
                 <Search className="h-6 w-6 md:h-8 md:w-8 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
               </div>
-              <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.5em] text-center">Auditando Ecossistema<br />da Marca</p>
+              <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.5em] text-center">Auditando Google, Visual<br />e Redes Sociais</p>
             </div>
           )}
         </div>
@@ -222,7 +232,7 @@ export function AIChat() {
           <form onSubmit={handleSubmit} className="p-6 md:p-8 border-t border-muted bg-white/50 backdrop-blur-xl shrink-0">
             <div className="relative">
               <Textarea
-                placeholder="Ex: Sou uma clínica de estética em SP, focada em público classe A, mas meu feed parece amador..."
+                placeholder="Ex: Minha clínica não aparece no Google e minha marca parece amadora no Instagram..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="min-h-[100px] md:min-h-[120px] bg-white border-transparent rounded-2xl md:rounded-[2rem] p-6 md:p-8 pr-16 md:pr-20 text-sm md:text-lg font-medium focus:ring-primary/10 placeholder:text-muted-foreground/20 resize-none shadow-2xl shadow-primary/5 border border-primary/5 leading-tight"
