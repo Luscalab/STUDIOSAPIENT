@@ -9,56 +9,61 @@ export function Portfolio() {
   const featuredImage = PlaceHolderImages.find(img => img.id === "portfolio-1")?.imageUrl || "https://picsum.photos/seed/sap-p-main/1200/800";
 
   return (
-    <section id="portfolio" className="py-32 bg-white">
+    <section id="portfolio" className="section-spacing bg-white overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto text-center mb-24">
-          <Badge className="mb-8 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">Trabalhos</Badge>
-          <h2 className="font-headline text-5xl md:text-8xl font-bold mb-10 tracking-tighter">Nosso Portfólio</h2>
-          <p className="text-muted-foreground/60 text-xl md:text-2xl font-medium leading-relaxed tracking-tight">
-            Acreditamos na transparência. Nossos projetos são documentados em detalhes exclusivamente em nossa galeria oficial do Behance.
+        <div className="max-w-5xl mx-auto text-center mb-32">
+          <Badge className="mb-10 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">Galeria</Badge>
+          <h2 className="font-headline text-5xl md:text-9xl font-black mb-12 tracking-tighter leading-none">Nosso Universo</h2>
+          <p className="text-muted-foreground/60 text-2xl md:text-3xl font-medium leading-relaxed tracking-tight max-w-3xl mx-auto">
+            Acreditamos na honestidade visual. O acervo completo das nossas criações está documentado exclusivamente em nossa galeria oficial.
           </p>
         </div>
 
-        <Link 
-          href={behanceUrl} 
-          target="_blank"
-          className="group relative block w-full aspect-[16/9] md:aspect-[21/9] rounded-[4rem] overflow-hidden bg-secondary premium-shadow hover-lift transition-all duration-1000"
-        >
-          <Image 
-            src={featuredImage}
-            alt="Sapient Portfolio on Behance"
-            fill
-            className="object-cover transition-all duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-            data-ai-hint="design portfolio"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-700" />
-          
-          <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-24">
-            <div className="flex flex-col md:flex-row justify-between items-end gap-10">
-              <div className="max-w-2xl text-left">
-                <Badge className="mb-6 bg-white/10 text-white border-white/20 backdrop-blur-md px-6 py-2 text-[10px] font-black uppercase tracking-widest">
-                  Galeria Oficial
-                </Badge>
-                <h3 className="font-headline text-4xl md:text-7xl font-extrabold text-white tracking-tighter mb-4 leading-[0.9]">
-                  Explore nosso universo no Behance
-                </h3>
-                <p className="text-white/60 text-lg md:text-xl font-medium tracking-tight">Identidade Visual • Branding • Social Media • Web Design</p>
-              </div>
-              <div className="h-24 w-24 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all duration-700 shadow-primary/20">
-                <ExternalLink size={40} />
+        <div className="relative group max-w-7xl mx-auto">
+          <Link 
+            href={behanceUrl} 
+            target="_blank"
+            className="block relative w-full aspect-[16/9] md:aspect-[21/9] rounded-[4.5rem] overflow-hidden bg-secondary shadow-2xl transition-all duration-1000 group-hover:shadow-primary/10"
+          >
+            <Image 
+              src={featuredImage}
+              alt="Sapient Portfolio on Behance"
+              fill
+              className="object-cover transition-all duration-[3000ms] group-hover:scale-110 opacity-90 group-hover:opacity-100"
+              data-ai-hint="luxury design"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/20 to-transparent opacity-50 group-hover:opacity-80 transition-opacity duration-1000" />
+            
+            <div className="absolute inset-0 flex flex-col justify-end p-12 md:p-24">
+              <div className="flex flex-col md:flex-row justify-between items-end gap-16">
+                <div className="max-w-2xl text-left">
+                  <Badge className="mb-8 bg-white/20 text-white border-white/20 backdrop-blur-xl px-8 py-3 text-[10px] font-black uppercase tracking-[0.4em]">
+                    Clique para Explorar
+                  </Badge>
+                  <h3 className="font-headline text-4xl md:text-8xl font-black text-white tracking-tighter mb-6 leading-[0.85] animate-in slide-in-from-bottom-10 duration-1000">
+                    Behance Oficial
+                  </h3>
+                  <p className="text-white/60 text-xl md:text-2xl font-medium tracking-tight">Estratégia • Identidade • Experiência Digital</p>
+                </div>
+                <div className="h-24 w-24 md:h-32 md:w-32 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all duration-1000 shadow-primary/30 group-hover:rotate-12">
+                  <ExternalLink size={48} className="md:h-16 md:w-16" />
+                </div>
               </div>
             </div>
-          </div>
-        </Link>
+          </Link>
+          
+          {/* Decorative Corner */}
+          <div className="absolute -top-10 -right-10 h-40 w-40 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-1000" />
+        </div>
 
-        <div className="mt-24 text-center">
-          <p className="text-muted-foreground/40 font-bold mb-8 uppercase tracking-[0.3em] text-xs italic">Acesse @studiosapient para curadoria completa</p>
+        <div className="mt-32 text-center">
+          <p className="text-muted-foreground/30 font-black mb-10 uppercase tracking-[0.5em] text-xs">Curadoria Permanente @studiosapient</p>
           <Link 
             href={behanceUrl} 
             target="_blank" 
-            className="inline-flex items-center gap-2 text-primary font-black text-sm uppercase tracking-[0.4em] hover:tracking-[0.6em] transition-all duration-700"
+            className="inline-flex items-center gap-4 text-primary font-black text-sm uppercase tracking-[0.6em] hover:tracking-[0.8em] transition-all duration-1000 group"
           >
-            Abrir Behance <ArrowUpRight className="h-4 w-4" />
+            Abrir Portfólio <ArrowUpRight className="h-5 w-5 group-hover:-translate-y-2 group-hover:translate-x-2 transition-transform duration-500" />
           </Link>
         </div>
       </div>
