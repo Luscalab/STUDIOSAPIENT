@@ -32,10 +32,10 @@ export function AIInquiry() {
     <section className="section-spacing relative overflow-hidden bg-white">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="text-center mb-24">
-          <Badge className="mb-8 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">Tecnologia Própria</Badge>
-          <h2 className="font-headline text-5xl md:text-8xl font-bold mb-10 text-foreground tracking-tighter leading-none">Concierge<br />Inteligente</h2>
+          <Badge className="mb-8 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">Ferramenta Exclusiva</Badge>
+          <h2 className="font-headline text-5xl md:text-8xl font-bold mb-10 text-foreground tracking-tighter leading-none">Análise<br />Estratégica</h2>
           <p className="text-muted-foreground/60 text-2xl font-medium max-w-3xl mx-auto tracking-tight">
-            Nossa inteligência artificial analisa sua visão e desenha o mapa estratégico ideal para sua dominação de mercado.
+            Nossa IA ajuda a identificar as melhores soluções para os desafios atuais do seu negócio.
           </p>
         </div>
 
@@ -46,17 +46,17 @@ export function AIInquiry() {
           
           <CardHeader className="p-0 mb-16">
             <CardTitle className="font-headline text-4xl font-extrabold flex items-center gap-4 mb-6 tracking-tighter">
-              <Zap className="h-10 w-10 text-primary animate-pulse" /> Qual é o seu objetivo?
+              <Zap className="h-10 w-10 text-primary animate-pulse" /> O que você busca hoje?
             </CardTitle>
             <CardDescription className="text-xl font-medium text-muted-foreground/60 tracking-tight">
-              Descreva os desafios da sua marca e onde deseja chegar.
+              Conte-nos brevemente sobre seu projeto e seus objetivos.
             </CardDescription>
           </CardHeader>
           
           <CardContent className="p-0">
             <form onSubmit={handleSubmit} className="space-y-12">
               <Textarea 
-                placeholder="Ex: Quero reposicionar minha joalheria para o público ultra-high-net-worth e triplicar o ticket médio..."
+                placeholder="Ex: Quero melhorar meu posicionamento no Instagram e atrair clientes mais qualificados..."
                 className="min-h-[250px] bg-white border-transparent focus:ring-primary/10 text-xl p-10 rounded-[3rem] premium-shadow border-none placeholder:text-muted-foreground/30 leading-relaxed shadow-inner"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -68,10 +68,10 @@ export function AIInquiry() {
               >
                 {loading ? (
                   <>
-                    <Loader2 className="mr-4 h-8 w-8 animate-spin" /> Mapeando Mercado...
+                    <Loader2 className="mr-4 h-8 w-8 animate-spin" /> Analisando...
                   </>
                 ) : (
-                  "Solicitar Consultoria AI"
+                  "Receber Indicação"
                 )}
               </Button>
             </form>
@@ -83,9 +83,9 @@ export function AIInquiry() {
                   
                   <div className="flex justify-between items-start mb-16">
                     <div>
-                      <Badge className="mb-6 bg-primary/5 text-primary px-6 py-2 text-[10px] font-black uppercase tracking-[0.3em] rounded-full">Diagnóstico Estratégico</Badge>
+                      <Badge className="mb-6 bg-primary/5 text-primary px-6 py-2 text-[10px] font-black uppercase tracking-[0.3em] rounded-full">Resultado da Análise</Badge>
                       <h3 className="font-headline text-4xl font-extrabold flex items-center gap-4 tracking-tighter">
-                        <FileText className="h-10 w-10 text-primary" /> Relatório Sapient
+                        <FileText className="h-10 w-10 text-primary" /> Diagnóstico Sapient
                       </h3>
                     </div>
                     <Sparkles className="h-12 w-12 text-primary/20" />
@@ -108,14 +108,14 @@ export function AIInquiry() {
                   <div className="mt-16 pt-16 border-t border-muted text-center">
                     <p className="text-sm font-black text-primary uppercase tracking-[0.5em] mb-8">Próximo Passo:</p>
                     <Button className="h-20 px-16 text-lg font-black bg-primary rounded-full uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 transition-all">
-                      Validar com Especialista
+                      Conversar com Especialista
                     </Button>
                   </div>
                 </div>
                 
                 <div className="text-center">
                   <Button variant="link" className="text-muted-foreground/40 font-black text-sm hover:text-primary transition-colors uppercase tracking-widest" onClick={() => {setResult(null); setInput("");}}>
-                    Iniciar Nova Análise
+                    Nova Análise
                   </Button>
                 </div>
               </div>

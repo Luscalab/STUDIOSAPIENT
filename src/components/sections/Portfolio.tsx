@@ -27,14 +27,14 @@ export function Portfolio() {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-10">
           <div className="max-w-2xl">
-            <Badge className="mb-6 bg-secondary text-primary border-none px-6 py-1.5 text-xs font-bold uppercase tracking-widest">Craftmanship</Badge>
-            <h2 className="font-headline text-4xl md:text-7xl font-bold mb-8 text-foreground tracking-tighter">Portfólio de Elite</h2>
+            <Badge className="mb-6 bg-secondary text-primary border-none px-6 py-1.5 text-xs font-bold uppercase tracking-widest">Entregas</Badge>
+            <h2 className="font-headline text-4xl md:text-7xl font-bold mb-8 text-foreground tracking-tighter">Alguns Projetos</h2>
             <p className="text-muted-foreground text-xl font-medium">
-              Transformando visões em realidades digitais que dominam o mercado.
+              Trabalhos que ajudaram marcas a se posicionarem melhor no ambiente digital.
             </p>
           </div>
           <button className="group flex items-center gap-3 text-primary font-bold text-lg hover:underline transition-all">
-            Explorar Projetos <ExternalLink className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            Ver Todos <ExternalLink className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </button>
         </div>
 
@@ -47,7 +47,7 @@ export function Portfolio() {
                   alt={project.title}
                   fill
                   className="object-cover transition-all duration-1000 group-hover:scale-110"
-                  data-ai-hint="luxury brand design"
+                  data-ai-hint="modern design project"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-foreground via-foreground/20 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700" />

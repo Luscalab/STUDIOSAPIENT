@@ -4,42 +4,41 @@ import { Target, Search, PenTool, Rocket } from "lucide-react";
 const steps = [
   {
     icon: <Search className="h-8 w-8" />,
-    title: "Imersão & Diagnóstico",
-    description: "Analisamos profundamente seu nicho, concorrentes e o DNA da sua marca para identificar oportunidades invisíveis."
+    title: "Entendimento",
+    description: "Estudamos o seu mercado e os seus desafios atuais para traçar o melhor caminho."
   },
   {
     icon: <Target className="h-8 w-8" />,
-    title: "Estratégia de Elite",
-    description: "Desenhamos um mapa de guerra personalizado, focando em posicionamento de luxo e escala de alta performance."
+    title: "Estratégia",
+    description: "Desenhamos um plano de ação focado em alcançar seus objetivos comerciais."
   },
   {
     icon: <PenTool className="h-8 w-8" />,
-    title: "Execução Criativa",
-    description: "Nossos designers e copywriters transformam a estratégia em ativos visuais e narrativas que dominam a atenção."
+    title: "Desenvolvimento",
+    description: "Transformamos a estratégia em ativos visuais e comunicação eficiente."
   },
   {
     icon: <Rocket className="h-8 w-8" />,
-    title: "Escala & Otimização",
-    description: "Lançamos campanhas e acompanhamos dados em tempo real para garantir o máximo ROI e autoridade de marca."
+    title: "Execução & Ajuste",
+    description: "Colocamos as campanhas no ar e otimizamos constantemente com base em dados."
   }
 ];
 
 export function Process() {
   return (
     <section className="section-spacing bg-white relative overflow-hidden">
-      {/* Background Decorative Text */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20vw] font-black text-secondary/30 pointer-events-none select-none tracking-tighter uppercase opacity-50">
-        Método
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20vw] font-black text-secondary/30 pointer-events-none select-none tracking-tighter uppercase opacity-30">
+        Fluxo
       </div>
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between mb-32 gap-16">
           <div className="max-w-2xl">
-            <Badge className="mb-8 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">O Segredo do Sucesso</Badge>
-            <h2 className="font-headline text-5xl md:text-8xl font-bold tracking-tighter leading-none text-foreground">A Ciência por trás<br />do Legado</h2>
+            <Badge className="mb-8 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">Como Trabalhamos</Badge>
+            <h2 className="font-headline text-5xl md:text-8xl font-bold tracking-tighter leading-none text-foreground">Nosso processo<br />de entrega</h2>
           </div>
           <p className="text-muted-foreground/60 text-xl md:text-2xl font-medium max-w-md leading-relaxed">
-            Não acreditamos em sorte. Acreditamos em processos rigorosos que transformam marcas em potências de mercado.
+            Um método estruturado para garantir que cada projeto entregue valor real ao seu negócio.
           </p>
         </div>
 

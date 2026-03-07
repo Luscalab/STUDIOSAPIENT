@@ -11,19 +11,19 @@ import { Badge } from "@/components/ui/badge";
 const faqs = [
   {
     question: "Quanto tempo leva para ver resultados?",
-    answer: "Trabalhamos com estratégias de curto, médio e longo prazo. Campanhas de performance podem gerar leads em dias, enquanto o reposicionamento de branding premium é um processo de construção de autoridade que se consolida ao longo de 3 a 6 meses."
+    answer: "Os resultados variam conforme o serviço. Estratégias de tráfego pago podem gerar leads em poucos dias, enquanto o reposicionamento de marca é um processo gradual que se consolida entre 3 a 6 meses."
   },
   {
     question: "A Sapient atende qualquer tipo de empresa?",
-    answer: "Focamos em negócios ambiciosos que buscam se tornar líderes em seus nichos. Atendemos desde startups de tecnologia até marcas de luxo tradicionais, desde que haja o desejo de elevar o padrão criativo e comercial."
+    answer: "Atendemos negócios que buscam profissionalizar sua comunicação e aumentar sua presença digital. Seja você uma empresa estabelecida ou em crescimento, focamos em entregar soluções que façam sentido para o seu tamanho."
   },
   {
     question: "Qual o investimento mínimo necessário?",
-    answer: "Nossos projetos são personalizados. Iniciamos com uma consultoria gratuita para entender sua escala e objetivos, desenhando uma proposta que faça sentido para o seu momento atual de faturamento e ambição."
+    answer: "Trabalhamos com projetos personalizados. Após uma conversa inicial para entender seus objetivos, apresentamos uma proposta que se adeque ao seu orçamento e expectativas de retorno."
   },
   {
-    question: "Vocês cuidam apenas do design ou também das vendas?",
-    answer: "A Sapient Studio une o Design Estratégico (estética) com a Gestão de Performance (vendas). Entendemos que uma marca bonita sem vendas é apenas arte, e vendas sem marca é apenas commodity. Unimos os dois."
+    question: "Como funciona a gestão de redes sociais?",
+    answer: "Nossa gestão vai além de postar fotos. Envolve curadoria de conteúdo, escrita estratégica (copywriting) e monitoramento de resultados, garantindo que seu perfil seja uma ferramenta de vendas."
   }
 ];
 
@@ -32,9 +32,9 @@ export function FAQ() {
     <section className="section-spacing bg-secondary/20">
       <div className="container mx-auto px-6 max-w-4xl">
         <div className="text-center mb-24">
-          <Badge className="mb-8 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">Dúvidas Frequentes</Badge>
-          <h2 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-10">Perguntas Sapientes</h2>
-          <p className="text-muted-foreground/60 text-xl font-medium">Transparência total sobre como elevamos sua marca ao topo.</p>
+          <Badge className="mb-8 bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">Dúvidas Comuns</Badge>
+          <h2 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-10">Perguntas Frequentes</h2>
+          <p className="text-muted-foreground/60 text-xl font-medium">Esclarecemos as principais questões sobre como trabalhamos.</p>
         </div>
 
         <Accordion type="single" collapsible className="w-full space-y-4">

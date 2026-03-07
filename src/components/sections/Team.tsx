@@ -24,11 +24,11 @@ export function Team() {
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-end justify-between mb-40 gap-16">
           <div className="max-w-4xl">
-            <Badge className="mb-10 bg-secondary text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full shadow-sm">Fundadores</Badge>
-            <h2 className="font-headline text-6xl md:text-[10rem] font-bold text-foreground tracking-tighter leading-[0.85]">Mentes<br />Sapientes</h2>
+            <Badge className="mb-10 bg-secondary text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full shadow-sm">Quem Somos</Badge>
+            <h2 className="font-headline text-6xl md:text-[10rem] font-bold text-foreground tracking-tighter leading-[0.85]">Nossa<br />Equipe</h2>
           </div>
           <p className="text-muted-foreground/70 text-2xl md:text-3xl font-medium max-w-lg lg:text-right leading-relaxed tracking-tight">
-            A combinação exata entre inteligência comercial e maestria criativa.
+            Combinamos inteligência comercial com design criativo para impulsionar seu negócio.
           </p>
         </div>
 
@@ -42,7 +42,7 @@ export function Team() {
                     alt={member.name}
                     fill
                     className="object-cover transition-transform duration-[3000ms] group-hover:scale-110"
-                    data-ai-hint="luxury professional"
+                    data-ai-hint="professional portrait"
                   />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
