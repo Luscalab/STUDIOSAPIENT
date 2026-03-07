@@ -1,7 +1,7 @@
-
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Badge } from "@/components/ui/badge";
+import { ExternalLink } from "lucide-react";
 
 const projects = [
   {
@@ -23,33 +23,39 @@ const projects = [
 
 export function Portfolio() {
   return (
-    <section id="portfolio" className="py-24">
+    <section id="portfolio" className="py-32 bg-secondary/10">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-          <div>
-            <h2 className="font-headline text-3xl md:text-5xl font-bold mb-4">Portfólio Selecionado</h2>
-            <p className="text-muted-foreground max-w-xl">
-              Uma amostra dos nossos projetos mais recentes onde a estratégia encontra a criatividade.
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+          <div className="max-w-2xl">
+            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">Case Studies</Badge>
+            <h2 className="font-headline text-4xl md:text-6xl font-bold mb-6">Portfólio de Elite</h2>
+            <p className="text-muted-foreground text-lg">
+              Resultados tangíveis e estética impecável em cada projeto que assinamos.
             </p>
           </div>
-          <Badge variant="outline" className="text-primary border-primary/30 h-10 px-6 rounded-full text-base cursor-pointer hover:bg-primary/5">
-            Ver tudo
-          </Badge>
+          <button className="group flex items-center gap-2 text-primary font-bold hover:underline">
+            Ver Todos os Projetos <ExternalLink className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {projects.map((project, idx) => (
-            <div key={idx} className="group relative overflow-hidden rounded-2xl bg-secondary aspect-[3/4]">
+            <div key={idx} className="group relative overflow-hidden rounded-[2.5rem] bg-secondary aspect-[4/5] shadow-2xl border border-white/5">
               <Image 
                 src={project.image}
                 alt={project.title}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
-                data-ai-hint="portfolio project"
+                className="object-cover transition-all duration-1000 group-hover:scale-105 group-hover:blur-[2px]"
+                data-ai-hint="portfolio project design"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                <span className="text-primary font-medium mb-2">{project.category}</span>
-                <h3 className="font-headline text-2xl font-bold">{project.title}</h3>
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
+              
+              <div className="absolute inset-0 flex flex-col justify-end p-10 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                <Badge variant="outline" className="w-fit mb-4 text-primary border-primary/30 backdrop-blur-md">
+                  {project.category}
+                </Badge>
+                <h3 className="font-headline text-3xl font-bold mb-4">{project.title}</h3>
+                <div className="h-1 w-0 group-hover:w-full bg-primary transition-all duration-500" />
               </div>
             </div>
           ))}
