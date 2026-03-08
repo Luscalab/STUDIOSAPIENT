@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Megaphone, TrendingUp, Target, MapPin, ArrowRight, BarChart3, Search, Zap, MousePointer2 } from "lucide-react";
+import { Megaphone, TrendingUp, Target, MapPin, ArrowRight, BarChart3, Search, Zap, MousePointer2, Smartphone, Globe } from "lucide-react";
 
 export default function PerformanceAdsPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
@@ -15,7 +15,7 @@ export default function PerformanceAdsPage() {
     <main className="min-h-screen bg-[#fbfaff]">
       <Navbar />
       
-      <section className="relative pt-40 pb-20 md:pt-60 md:pb-40 hero-purple-mesh overflow-hidden">
+      <section className="relative pt-48 pb-24 md:pt-64 md:pb-48 hero-purple-mesh overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Escala & Resultado</Badge>
@@ -72,7 +72,7 @@ export default function PerformanceAdsPage() {
               
               <Button 
                 onClick={handleOpenChat}
-                className="h-20 px-12 text-lg font-black bg-primary rounded-full uppercase tracking-widest shadow-xl shadow-primary/20 group"
+                className="h-20 px-12 text-lg font-black bg-primary text-white rounded-full uppercase tracking-widest shadow-xl shadow-primary/20 group"
               >
                 Ativar meu Funil <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
               </Button>
@@ -98,6 +98,27 @@ export default function PerformanceAdsPage() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-32">
+            <div className="p-12 bg-white rounded-[3rem] border border-primary/5 space-y-6">
+              <div className="flex items-center gap-4">
+                <Smartphone className="h-8 w-8 text-primary" />
+                <h3 className="text-2xl font-black tracking-tighter">Mobile-First Ads</h3>
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                90% dos seus clientes estão no celular. Criamos anúncios otimizados para a tela vertical, garantindo que sua marca pareça nativa e atraente no Instagram e TikTok.
+              </p>
+            </div>
+            <div className="p-12 bg-white rounded-[3rem] border border-primary/5 space-y-6">
+              <div className="flex items-center gap-4">
+                <Globe className="h-8 w-8 text-primary" />
+                <h3 className="text-2xl font-black tracking-tighter">Presença no Google</h3>
+              </div>
+              <p className="text-muted-foreground leading-relaxed">
+                O Google é a "Lista Telefônica" moderna. Se você não está no topo quando buscam seu serviço, você não existe para o mercado. Nós colocamos você na frente de quem quer comprar.
+              </p>
             </div>
           </div>
         </div>

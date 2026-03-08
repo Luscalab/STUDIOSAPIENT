@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Palette, Layers, Award, ShieldCheck, ArrowRight, Diamond, CheckCircle2, Sparkles, Target, Landmark } from "lucide-react";
+import { Palette, Layers, Award, ShieldCheck, ArrowRight, Diamond, CheckCircle2, Sparkles, Target, Landmark, Brush, Monitor } from "lucide-react";
 
 export default function DesignEstrategicoPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
@@ -15,7 +15,7 @@ export default function DesignEstrategicoPage() {
     <main className="min-h-screen bg-[#fbfaff]">
       <Navbar />
       
-      <section className="relative pt-40 pb-20 md:pt-60 md:pb-40 hero-purple-mesh overflow-hidden">
+      <section className="relative pt-48 pb-24 md:pt-64 md:pb-48 hero-purple-mesh overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Identidade & Valor</Badge>
@@ -23,7 +23,7 @@ export default function DesignEstrategicoPage() {
               Sua Marca como <span className="text-white/70 italic">Autoridade</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/80 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
-              O design não é sobre "ficar bonito", é sobre quanto você pode cobrar. Transformamos sua imagem em um ativo de luxo que justifica seu valor de mercado.
+              O design não é sobre "ficar bonito", é sobre quanto você pode cobrar. Transformamos sua imagem em um ativo que justifica seu valor de mercado.
             </p>
           </div>
         </div>
@@ -85,10 +85,33 @@ export default function DesignEstrategicoPage() {
               
               <Button 
                 onClick={handleOpenChat}
-                className="h-20 px-12 text-lg font-black bg-primary rounded-full uppercase tracking-widest shadow-xl shadow-primary/20 group"
+                className="h-20 px-12 text-lg font-black bg-primary text-white rounded-full uppercase tracking-widest shadow-xl shadow-primary/20 group"
               >
                 Redesenhar minha Marca <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
               </Button>
+            </div>
+          </div>
+
+          <div className="max-w-4xl mx-auto mb-32 space-y-16">
+            <div className="text-center">
+              <h3 className="font-headline text-4xl font-black tracking-tighter mb-6">Por que investir em Design?</h3>
+              <p className="text-lg text-muted-foreground font-medium">Não é apenas estética, é clareza de negócio.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div className="space-y-4">
+                <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                  <Brush className="h-6 w-6" />
+                </div>
+                <h4 className="text-2xl font-bold tracking-tight">Diferenciação Real</h4>
+                <p className="text-muted-foreground leading-relaxed">Em um mercado saturado, ser "igual" é ser invisível. Criamos uma linguagem visual única que separa você da concorrência genérica.</p>
+              </div>
+              <div className="space-y-4">
+                <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                  <Monitor className="h-6 w-6" />
+                </div>
+                <h4 className="text-2xl font-bold tracking-tight">Presença Digital</h4>
+                <p className="text-muted-foreground leading-relaxed">Seu site e redes sociais são seus vendedores 24h. Garantimos que eles apresentem o seu negócio com a seriedade que ele merece.</p>
+              </div>
             </div>
           </div>
 

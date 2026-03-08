@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Share2, MessageSquare, Zap, ArrowRight, ShieldCheck, Users, Eye, TrendingUp } from "lucide-react";
+import { Share2, MessageSquare, Zap, ArrowRight, ShieldCheck, Users, Eye, TrendingUp, BarChart, PenTool } from "lucide-react";
 
 export default function GestaoSocialPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
@@ -15,7 +15,7 @@ export default function GestaoSocialPage() {
     <main className="min-h-screen bg-[#fbfaff]">
       <Navbar />
       
-      <section className="relative pt-40 pb-20 md:pt-60 md:pb-40 hero-purple-mesh overflow-hidden">
+      <section className="relative pt-48 pb-24 md:pt-64 md:pb-48 hero-purple-mesh overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Reputação & Presença</Badge>
@@ -73,7 +73,7 @@ export default function GestaoSocialPage() {
 
               <Button 
                 onClick={handleOpenChat}
-                className="h-20 px-12 text-lg font-black bg-primary rounded-full uppercase tracking-widest shadow-xl shadow-primary/20 group"
+                className="h-20 px-12 text-lg font-black bg-primary text-white rounded-full uppercase tracking-widest shadow-xl shadow-primary/20 group"
               >
                 Elevar meu Perfil <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
               </Button>
@@ -83,14 +83,14 @@ export default function GestaoSocialPage() {
                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 blur-[100px] rounded-full" />
                <h3 className="font-headline text-4xl font-black tracking-tighter relative z-10">Nosso Fluxo de Autoridade</h3>
                <p className="text-white/60 font-medium relative z-10">
-                 Trabalhamos com um cronograma rigoroso de 4 fases para garantir que sua marca nunca fique em silêncio.
+                 Trabalhamos com um cronograma rigoroso de 4 fases para garantir que sua marca nunca fique em silêncio e sempre gere valor.
                </p>
                <ul className="space-y-6 relative z-10">
                  {[
-                   { t: "Fase 1: Diagnóstico", d: "Entendemos seu público e tom de voz." },
-                   { t: "Fase 2: Curadoria", d: "Design de alto impacto para posts e stories." },
-                   { t: "Fase 3: Execução", d: "Agendamento e monitoramento constante." },
-                   { t: "Fase 4: Análise", d: "Relatórios de crescimento e melhoria contínua." }
+                   { t: "Fase 1: Diagnóstico", d: "Entendemos seu público, dores e tom de voz ideal." },
+                   { t: "Fase 2: Curadoria", d: "Design de alto impacto e temas que geram autoridade." },
+                   { t: "Fase 3: Execução", d: "Agendamento estratégico e monitoramento constante." },
+                   { t: "Fase 4: Análise", d: "Relatórios de crescimento e melhoria contínua baseada em dados." }
                  ].map((item, idx) => (
                    <li key={idx} className="flex items-start gap-4">
                      <div className="h-2 w-2 bg-primary rounded-full mt-2 shrink-0" /> 
@@ -101,6 +101,30 @@ export default function GestaoSocialPage() {
                    </li>
                  ))}
                </ul>
+            </div>
+          </div>
+
+          <div className="max-w-5xl mx-auto py-20 bg-white rounded-[3rem] border border-primary/5 p-12 text-center space-y-12">
+            <h3 className="font-headline text-3xl md:text-5xl font-black tracking-tighter">Muito Além de Curtidas</h3>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-medium">
+              O objetivo final é a venda. Curtidas são métricas de vaidade se não trouxerem leads qualificados para o seu comercial. Nossa gestão foca em converter seguidores em clientes.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="space-y-4">
+                <PenTool className="h-10 w-10 text-primary mx-auto" />
+                <h4 className="font-bold text-xl">Escrita que Vende</h4>
+                <p className="text-sm text-muted-foreground">Copywriting focado em persuadir o cliente a tomar uma ação imediata.</p>
+              </div>
+              <div className="space-y-4">
+                <BarChart className="h-10 w-10 text-primary mx-auto" />
+                <h4 className="font-bold text-xl">Monitoramento</h4>
+                <p className="text-sm text-muted-foreground">Acompanhamos o que funciona e descartamos o que não gera engajamento real.</p>
+              </div>
+              <div className="space-y-4">
+                <Users className="h-10 w-10 text-primary mx-auto" />
+                <h4 className="font-bold text-xl">Atração</h4>
+                <p className="text-sm text-muted-foreground">Estratégias para atrair exatamente o perfil de público que pode pagar pelo seu serviço.</p>
+              </div>
             </div>
           </div>
         </div>
