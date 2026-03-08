@@ -17,24 +17,24 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20">
-      {/* Background with Image + Intense Purple Overlays */}
+      {/* Background with Professional Base + Intense Purple Layers */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-[#0a051a]">
         <Image 
           src={heroBg}
           alt="Sapient Studio Hero Background"
           fill
-          className="object-cover transition-transform duration-[10s] hover:scale-110 grayscale contrast-125 brightness-[0.3]"
+          className="object-cover transition-transform duration-[10s] hover:scale-110 grayscale brightness-[0.25] contrast-125"
           priority
-          data-ai-hint="abstract purple background"
+          data-ai-hint="abstract design workspace"
         />
         
-        {/* Layered Purple Mesh Gradients */}
-        <div className="absolute inset-0 hero-purple-mesh opacity-80 mix-blend-screen" />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/20 via-primary/5 to-background" />
+        {/* Layered Purple Mesh Gradients - Dominating the visual */}
+        <div className="absolute inset-0 hero-purple-mesh opacity-90 mix-blend-screen" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/30 via-primary/5 to-background" />
         
-        {/* Accent Glows */}
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/30 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/20 rounded-full blur-[120px] animate-pulse [animation-delay:2s]" />
+        {/* Deep Purple Accent Glows */}
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-primary/40 rounded-full blur-[140px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-accent/30 rounded-full blur-[140px] animate-pulse [animation-delay:2s]" />
       </div>
       
       <div className="container relative z-10 mx-auto px-6 text-center">
@@ -43,7 +43,7 @@ export function Hero() {
           <span>Estratégia & Resultados Profissionais</span>
         </div>
         
-        <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter mb-8 animate-fade-in-up [animation-delay:200ms] text-white leading-[0.9] text-balance max-w-6xl mx-auto drop-shadow-[0_10px_30px_rgba(139,92,246,0.3)]">
+        <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter mb-8 animate-fade-in-up [animation-delay:200ms] text-white leading-[0.9] text-balance max-w-6xl mx-auto drop-shadow-[0_10px_40px_rgba(139,92,246,0.4)]">
           Sua marca,<br />
           <span className="text-primary italic">estratégica.</span>
         </h1>
@@ -55,7 +55,7 @@ export function Hero() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 animate-fade-in-up [animation-delay:600ms]">
           <Button 
             onClick={handleOpenChat}
-            className="w-full sm:w-auto h-16 md:h-20 px-12 md:px-16 text-sm font-bold bg-primary hover:bg-primary/90 shadow-[0_0_40px_rgba(139,92,246,0.4)] transition-all hover:scale-105 active:scale-95 rounded-full uppercase tracking-widest text-white border-none"
+            className="w-full sm:w-auto h-16 md:h-20 px-12 md:px-16 text-sm font-bold bg-primary hover:bg-primary/90 shadow-[0_0_50px_rgba(139,92,246,0.5)] transition-all hover:scale-105 active:scale-95 rounded-full uppercase tracking-widest text-white border-none"
           >
             Iniciar Diagnóstico
           </Button>
