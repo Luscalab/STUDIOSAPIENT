@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Linkedin, Palette, ArrowUpRight } from "lucide-react";
@@ -11,7 +10,7 @@ export function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 mb-32">
           <div className="lg:col-span-6">
-            <Link href="/" className="relative h-12 w-48 mb-10 block">
+            <Link href="/" className="relative h-16 w-64 mb-10 block">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"

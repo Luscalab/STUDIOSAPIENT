@@ -43,7 +43,7 @@ export function Navbar() {
           ? "glass-morphism border-primary/20 shadow-[0_20px_40px_-15px_rgba(139,92,246,0.12)]" 
           : "bg-white/10 backdrop-blur-md border-white/10"
       )}>
-        <Link href="/" className="relative h-6 w-16 md:h-7 md:w-24 group">
+        <Link href="/" className="relative h-8 w-28 md:h-10 md:w-40 group">
           <Image 
             src={logoUrl}
             alt="Sapient Studio Logo"
