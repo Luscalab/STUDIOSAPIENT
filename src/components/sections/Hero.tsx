@@ -17,50 +17,58 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20">
-      {/* Background with Image + Purple Gradient Mixture */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      {/* Background with Image + Intense Purple Overlays */}
+      <div className="absolute inset-0 z-0 overflow-hidden bg-[#0a051a]">
         <Image 
           src={heroBg}
           alt="Sapient Studio Hero Background"
           fill
-          className="object-cover transition-transform duration-[10s] hover:scale-110"
+          className="object-cover transition-transform duration-[10s] hover:scale-110 grayscale contrast-125 brightness-[0.3]"
           priority
           data-ai-hint="abstract purple background"
         />
-        {/* Intense Purple Gradient Mixture */}
-        <div className="absolute inset-0 hero-purple-mesh opacity-90 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/40 via-transparent to-background" />
+        
+        {/* Layered Purple Mesh Gradients */}
+        <div className="absolute inset-0 hero-purple-mesh opacity-80 mix-blend-screen" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/20 via-primary/5 to-background" />
+        
+        {/* Accent Glows */}
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/30 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/20 rounded-full blur-[120px] animate-pulse [animation-delay:2s]" />
       </div>
       
       <div className="container relative z-10 mx-auto px-6 text-center">
-        <div className="inline-flex items-center gap-3 rounded-full border border-primary/20 bg-white/40 backdrop-blur-xl px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-10 animate-fade-in-up shadow-sm">
-          <Target className="h-3.5 w-3.5" />
+        <div className="inline-flex items-center gap-3 rounded-full border border-primary/30 bg-white/5 backdrop-blur-2xl px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.3em] text-white/80 mb-10 animate-fade-in-up shadow-2xl">
+          <Target className="h-3.5 w-3.5 text-primary" />
           <span>Estratégia & Resultados Profissionais</span>
         </div>
         
-        <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter mb-8 animate-fade-in-up [animation-delay:200ms] text-foreground leading-[0.9] text-balance max-w-6xl mx-auto drop-shadow-sm">
+        <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter mb-8 animate-fade-in-up [animation-delay:200ms] text-white leading-[0.9] text-balance max-w-6xl mx-auto drop-shadow-[0_10px_30px_rgba(139,92,246,0.3)]">
           Sua marca,<br />
           <span className="text-primary italic">estratégica.</span>
         </h1>
         
-        <p className="max-w-2xl mx-auto text-lg md:text-2xl text-muted-foreground/80 mb-12 animate-fade-in-up [animation-delay:400ms] leading-relaxed font-medium tracking-tight px-4 text-balance">
+        <p className="max-w-2xl mx-auto text-lg md:text-2xl text-white/60 mb-12 animate-fade-in-up [animation-delay:400ms] leading-relaxed font-medium tracking-tight px-4 text-balance">
           Transformamos negócios através de design inteligente e posicionamento de autoridade no mercado digital.
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 animate-fade-in-up [animation-delay:600ms]">
           <Button 
             onClick={handleOpenChat}
-            className="w-full sm:w-auto h-16 md:h-20 px-12 md:px-16 text-sm font-bold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95 rounded-full uppercase tracking-widest text-white"
+            className="w-full sm:w-auto h-16 md:h-20 px-12 md:px-16 text-sm font-bold bg-primary hover:bg-primary/90 shadow-[0_0_40px_rgba(139,92,246,0.4)] transition-all hover:scale-105 active:scale-95 rounded-full uppercase tracking-widest text-white border-none"
           >
             Iniciar Diagnóstico
           </Button>
           <Link href={behanceUrl} target="_blank" className="w-full sm:w-auto">
-            <Button variant="outline" className="w-full sm:w-auto h-16 md:h-20 px-12 md:px-16 text-sm font-bold border-primary/20 hover:bg-primary/5 transition-all rounded-full group uppercase tracking-widest bg-white/40 backdrop-blur-sm shadow-sm">
+            <Button variant="outline" className="w-full sm:w-auto h-16 md:h-20 px-12 md:px-16 text-sm font-bold border-white/10 hover:bg-white/5 transition-all rounded-full group uppercase tracking-widest bg-white/5 backdrop-blur-sm text-white shadow-sm">
               Ver Portfólio <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
         </div>
       </div>
+
+      {/* Aesthetic Bottom Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
     </section>
   );
 }
