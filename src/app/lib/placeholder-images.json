@@ -1,10 +1,17 @@
+
 {
   "placeholderImages": [
     {
+      "id": "main-logo",
+      "description": "Sapient Studio Main Logo",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoxOTMwNjE0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM",
+      "imageHint": "company logo"
+    },
+    {
       "id": "hero-bg",
-      "description": "Abstract premium purple waves",
-      "imageUrl": "https://picsum.photos/seed/sapient-hero-v2/1920/1080",
-      "imageHint": "abstract purple"
+      "description": "Fundo oficial do header Sapient Studio",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/1772938763354.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvMTc3MjkzODc2MzM1NC5wbmciLCJpYXQiOjE3NzI5Mzg4MzEsImV4cCI6MjA4ODI5ODgzMX0.k8MaLf8sdPsqRBa9g2FA-p-Qw_RDx8WK0sNTGOyKqYc",
+      "imageHint": "abstract background"
     },
     {
       "id": "team-lucas",
