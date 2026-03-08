@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,6 +36,7 @@
     @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary overflow-x-hidden antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
     background-color: #fbfaff;
+    -webkit-tap-highlight-color: transparent; /* Otimização mobile */
   }
 }
 
@@ -46,13 +48,12 @@
 }
 
 .hero-purple-mesh {
-  /* Fundo roxo vibrante profundo (não preto) */
   background-color: hsl(265, 75%, 15%);
   background-image: 
     radial-gradient(at 0% 0%, hsla(265, 95%, 60%, 0.6) 0, transparent 50%), 
     radial-gradient(at 100% 0%, hsla(285, 95%, 55%, 0.5) 0, transparent 50%), 
-    radial-gradient(at 100% 100%, hsla(200, 95%, 50%, 0.4) 0, transparent 50%), /* Complementar: Azul Elétrico */
-    radial-gradient(at 0% 100%, hsla(45, 100%, 65%, 0.2) 0, transparent 40%), /* Complementar: Dourado/Amarelo */
+    radial-gradient(at 100% 100%, hsla(200, 95%, 50%, 0.4) 0, transparent 50%), 
+    radial-gradient(at 0% 100%, hsla(45, 100%, 65%, 0.2) 0, transparent 40%), 
     radial-gradient(at 50% 50%, hsla(270, 90%, 70%, 0.15) 0, transparent 80%);
 }
 
@@ -94,12 +95,12 @@
 }
 
 .section-spacing {
-  @apply py-24 md:py-32 lg:py-40;
+  @apply py-16 md:py-32 lg:py-40; /* Ajustado para mobile */
 }
 
 /* Scrollbar refinement */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -109,14 +110,22 @@
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--primary) / 0.15);
   border-radius: 20px;
-  border: 2px solid transparent;
   background-clip: content-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.3);
 }
 
 .text-balance {
   text-wrap: balance;
+}
+
+/* Otimização de toque para mobile */
+@media (max-width: 768px) {
+  .section-spacing {
+    @apply py-12;
+  }
+  
+  h1 { @apply tracking-tight; }
+  
+  .glass-morphism {
+    @apply backdrop-blur-lg; /* Performance mobile */
+  }
 }

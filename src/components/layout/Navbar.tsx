@@ -35,26 +35,26 @@ export function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-2 md:p-3">
-      <div className="container mx-auto relative flex items-center justify-center min-h-[5rem] md:min-h-[8rem]">
+      <div className="container mx-auto relative flex items-center justify-center min-h-[4rem] md:min-h-[8rem]">
         
-        {/* Logo - Independente no canto superior esquerdo (Reduzido em 10% conforme solicitado) */}
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-auto -ml-4 md:-ml-8">
-          <Link href="/" className="relative h-25 w-58 md:h-50 md:w-[48rem] block group">
+        {/* Logo - Canto superior esquerdo */}
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-auto -ml-2 md:-ml-8">
+          <Link href="/" className="relative h-20 w-44 md:h-50 md:w-[48rem] block group">
             <Image 
               src={logoUrl}
               alt="Sapient Studio Logo"
               fill
-              className="object-contain object-left drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
+              className="object-contain object-left drop-shadow-[0_10px_20px_rgba(0,0,0,0.3)] md:drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
               priority
             />
           </Link>
         </div>
 
-        {/* Menu de Navegação - Cápsula Deslocada 25% para a Direita */}
+        {/* Menu de Navegação - Cápsula flutuante */}
         <div className={cn(
-          "pointer-events-auto h-14 md:h-16 px-8 md:px-12 rounded-full flex items-center transition-all duration-700 border md:translate-x-[25%]",
+          "pointer-events-auto h-12 md:h-16 px-4 md:px-12 rounded-full flex items-center transition-all duration-700 border ml-auto md:ml-0 md:translate-x-[25%]",
           isScrolled 
-            ? "glass-morphism border-primary/20 shadow-[0_20px_40px_-15px_rgba(139,92,246,0.12)] translate-y-0" 
+            ? "glass-morphism border-primary/20 shadow-lg translate-y-0" 
             : "bg-white/5 backdrop-blur-xl border-white/10 translate-y-1"
         )}>
           {/* Desktop Links */}
@@ -80,29 +80,30 @@ export function Navbar() {
 
           {/* Mobile Menu Trigger */}
           <button 
-            className="md:hidden text-white p-2 hover:bg-white/5 rounded-full transition-colors"
+            className="md:hidden text-white p-2 flex items-center gap-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <span className="text-[9px] font-black uppercase tracking-widest opacity-60">Menu</span>
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-24 left-4 right-4 glass-morphism rounded-[2.5rem] p-10 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20 pointer-events-auto">
+        <div className="md:hidden absolute top-20 left-4 right-4 glass-morphism rounded-[2rem] p-8 flex flex-col gap-5 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20 pointer-events-auto">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
               href={link.href} 
-              className="text-xl font-black border-b border-primary/10 pb-4 hover:text-primary transition-colors tracking-tighter"
+              className="text-lg font-black border-b border-primary/5 pb-3 hover:text-primary transition-colors tracking-tighter"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.name}
             </Link>
           ))}
           <Button 
-            className="w-full bg-primary font-black py-6 text-sm uppercase tracking-widest rounded-full shadow-xl shadow-primary/20"
+            className="w-full bg-primary font-black py-5 text-xs uppercase tracking-widest rounded-full shadow-xl shadow-primary/20"
             onClick={handleOpenChat}
           >
             Falar com Especialista
