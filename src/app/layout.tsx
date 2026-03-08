@@ -3,8 +3,8 @@ import type {Metadata} from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Sapient Studio | Transformando Marcas',
-  description: 'Sapient Studio - Digital Marketing and Branding Agency. Transformando negócios comuns em marcas desejadas.',
+  title: 'Sapient Studio | Estratégia e Resultados',
+  description: 'Sapient Studio - Agência de Marketing Digital e Branding. Transformando negócios em marcas de autoridade.',
 };
 
 export default function RootLayout({

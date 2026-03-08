@@ -1,9 +1,10 @@
+
 'use server';
 /**
  * @fileOverview Motor de Consultoria Estratégica Sapient Studio.
  * 
- * Implementa um protocolo de coleta de dados obrigatório e uma Matriz Estratégica de Nichos
- * expandida para abranger diversas áreas de negócios e serviços.
+ * Implementa um protocolo de coleta de dados obrigatório e uma Matriz Estratégica de Nichos.
+ * Foco em diagnóstico profissional e posicionamento de mercado.
  */
 
 import {ai} from '@/ai/genkit';
@@ -15,82 +16,69 @@ const SapientServices = [
   'Gestão de Redes & Autoridade Social',
 ] as const;
 
-// Base de Conhecimento Pré-Estabelecida Expandida
 const NICHE_STRATEGY_MATRIX = `
 MATRIZ ESTRATÉGICA SAPIENT (PROTOCOLOS POR NICHO):
 
 1. SAÚDE (Dentistas, Clínicas, Médicos):
-- Gargalo: Falta de confiança visual e dificuldade de ser achado localmente.
-- Estratégia: GMN de Elite (rankeamento) + Identidade Visual de Luxo.
+- Gargalo: Falta de presença local e inconsistência visual.
+- Estratégia: Otimização de GMN + Identidade Visual Profissional.
 
 2. DIREITO (Advogados, Escritórios):
-- Gargalo: Imagem amadora que não justifica honorários altos.
-- Estratégia: Autoridade Social (Conteúdo Elegante) + Branding de Prestígio.
+- Gargalo: Imagem amadora que não transmite confiança técnica.
+- Estratégia: Autoridade Social + Branding de Prestígio.
 
 3. GASTRONOMIA (Restaurantes, Cafés, Bares):
-- Gargalo: Fotos ruins e falta de "apetite appeal" nas redes.
-- Estratégia: Gestão de Redes (Curadoria Visual) + GMN Otimizado.
+- Gargalo: Baixa atratividade visual nas redes e pouca visibilidade em buscas.
+- Estratégia: Gestão de Redes (Curadoria Visual) + GMN Estratégico.
 
-4. ESTÉTICA, BELEZA & NAILS:
-- Gargalo: Feed bagunçado e falta de diferenciação para serviços premium.
-- Estratégia: Design System Exclusivo + Social Growth focado em portfólio de luxo.
+4. ESTÉTICA & BELEZA:
+- Gargalo: Dificuldade de diferenciação em um mercado saturado.
+- Estratégia: Design System Exclusivo + Social Growth focado em portfólio.
 
 5. VAREJO DE MODA / LOJAS:
-- Gargalo: Dependência de indicação e imagem de marca "comum".
-- Estratégia: Performance & Ads (Tráfego) + Identidade Visual (Branding de Moda).
+- Gargalo: Baixa conversão em anúncios e imagem de marca genérica.
+- Estratégia: Performance & Ads + Identidade Visual Estratégica.
 
 6. MERCADOS & FARMÁCIAS:
-- Gargalo: Invisibilidade em buscas de urgência e catálogos digitais confusos.
-- Estratégia: Domínio Total do GMN + Ads Geofencing (raio local).
+- Gargalo: Baixa visibilidade em buscas locais de urgência.
+- Estratégia: Domínio do GMN + Ads de Raio Local.
 
 7. IMOBILIÁRIA & CORRETAGEM:
-- Gargalo: Fotos de baixa qualidade e falta de anúncios segmentados por renda.
-- Estratégia: Design Estratégico (Apresentação de Imóveis) + Ads de Alta Conversão.
+- Gargalo: Apresentação visual pobre e falta de anúncios segmentados.
+- Estratégia: Design Estratégico + Ads de Alta Conversão.
 
-8. EDUCAÇÃO, CURSOS & MENTORIAS:
-- Gargalo: Falta de autoridade do instrutor e design genérico que não gera desejo.
-- Estratégia: Autoridade Social + Branding Educacional de Alto Valor.
-
-9. ARQUITETURA & ENGENHARIA:
-- Gargalo: Portfólio não transmite o luxo e a precisão do projeto final.
-- Estratégia: Identidade Visual Premium + Curadoria de Portfólio Digital.
-
-10. PET SHOPS & VETERINÁRIAS:
-- Gargalo: Falta de reviews positivos no GMN e redes sem humanização.
-- Estratégia: GMN de Elite + Gestão de Redes (Humanização e Confiança).
-
-11. SERVIÇOS DE URGÊNCIA (Eletricistas, Chaveiros, etc):
-- Gargalo: Não ser encontrado instantaneamente no Google no momento da dor.
-- Estratégia: Domínio Absoluto do GMN + Ads de Resposta Direta.
+8. SERVIÇOS DE URGÊNCIA (Eletricistas, Chaveiros, etc):
+- Gargalo: Não ser encontrado instantaneamente no Google no momento da necessidade.
+- Estratégia: Domínio do GMN + Ads de Resposta Direta.
 `;
 
 const ServiceRecommenderInputSchema = z.object({
   clientNeedsAndGoals: z
     .string()
-    .describe("Histórico da conversa ou descrição atual do cliente sobre sua marca e desafios."),
+    .describe("Histórico da conversa ou descrição do cliente sobre seu negócio."),
 });
 export type ServiceRecommenderInput = z.infer<typeof ServiceRecommenderInputSchema>;
 
 const ServiceRecommenderOutputSchema = z.object({
   isDataSufficient: z
     .boolean()
-    .describe('Indica se o usuário forneceu informações suficientes para um audit estratégico profissional.'),
+    .describe('Indica se as informações são suficientes para uma análise estratégica.'),
   missingInfoMessage: z
     .string()
     .optional()
-    .describe('Mensagem de consultor de elite solicitando os dados que faltam para prosseguir.'),
+    .describe('Mensagem solicitando os dados que faltam.'),
   brandAudit: z
     .string()
-    .describe('Análise da percepção de marca baseada na Matriz Estratégica de Nichos.'),
+    .describe('Análise da percepção de marca baseada no nicho.'),
   diagnosis: z
     .string()
-    .describe('Identificação do gargalo específico usando os padrões da Matriz.'),
+    .describe('Identificação do gargalo específico do negócio.'),
   recommendedServices: z
     .array(z.enum(SapientServices))
-    .describe('Intervenções específicas da Sapient Studio.'),
+    .describe('Serviços recomendados da Sapient Studio.'),
   strategicValue: z
     .string()
-    .describe('Valor da nossa execução profissional para este nicho específico.'),
+    .describe('Valor da execução profissional para este caso.'),
 });
 export type ServiceRecommenderOutput = z.infer<typeof ServiceRecommenderOutputSchema>;
 
@@ -104,30 +92,28 @@ const serviceRecommenderPrompt = ai.definePrompt({
   name: 'serviceRecommenderPrompt',
   input: {schema: ServiceRecommenderInputSchema},
   output: {schema: ServiceRecommenderOutputSchema},
-  prompt: `Você é o Arquiteto-Chefe de Estratégia da Sapient Studio. 
+  prompt: `Você é o Estrategista-Chefe da Sapient Studio. 
 
-PROTOCOLO DE CONSULTORIA PRÉVIA:
-Utilize a seguinte base de conhecimento para economizar processamento e ser cirúrgico:
+PROTOCOLO DE CONSULTORIA:
+Utilize a seguinte base para o diagnóstico:
 ${NICHE_STRATEGY_MATRIX}
 
-FASE 1: COLETA E ENTENDIMENTO (isDataSufficient = false)
-Se a entrada do usuário: "{{{clientNeedsAndGoals}}}" for vaga ou faltar:
-1. Nome da Marca/Negócio.
-2. Nicho de Atuação.
-3. O que buscam resolver agora.
+FASE 1: ENTENDIMENTO (isDataSufficient = false)
+Se a entrada: "{{{clientNeedsAndGoals}}}" não contiver:
+1. Nome do Negócio.
+2. Área de Atuação.
+3. Principal desafio atual.
 
-Ação: Defina 'isDataSufficient' como false. Peça os dados como um consultor de elite.
+Ação: Peça os dados de forma profissional e direta.
 
-FASE 2: AUDIT ESTRATÉGICO (isDataSufficient = true)
+FASE 2: ANÁLISE (isDataSufficient = true)
 Se os dados estiverem presentes:
-- Defina 'isDataSufficient' como true.
-- Use a MATRIZ ESTRATÉGICA para enquadrar o cliente no nicho dele. Se for um nicho novo, use os princípios de (Visibilidade Local, Autoridade Social ou Identidade Visual).
-- BRAND AUDIT: Mostre autoridade sobre o nicho dele.
-- DIAGNÓSTICO: Aponte a falha exata (GMN invisível, Design amador, Redes sem estratégia).
-- INTERVENÇÃO: Explique o que a SAPIENT fará para consertar isso. Fale de EXECUÇÃO, não de "dicas".
+- BRAND AUDIT: Analise como a marca é percebida no nicho.
+- DIAGNÓSTICO: Aponte a falha exata (GMN, Design ou Redes).
+- INTERVENÇÃO: Explique como a SAPIENT resolverá isso com execução profissional.
 
 TOM DE VOZ:
-Elite, honesto, direto e focado em valor executivo.`,
+Profissional, analítico, direto e focado em resultados. Evite termos como "luxo" ou "elite".`,
 });
 
 const aiServiceRecommenderFlow = ai.defineFlow(
