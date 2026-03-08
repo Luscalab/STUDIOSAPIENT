@@ -35,8 +35,8 @@ export function Navbar() {
 
   return (
     <>
-      {/* Logo Container - Absolute (Scrolls with page) */}
-      <div className="absolute top-6 md:top-0 left-0 right-0 z-50 pointer-events-none p-2 md:p-3 h-0 overflow-visible">
+      {/* Logo Container - Ajustado para subir 10% no desktop e descer 20% no mobile */}
+      <div className="absolute top-12 md:top-0 left-0 right-0 z-50 pointer-events-none p-2 md:p-3 h-0 overflow-visible">
         <div className="container mx-auto relative min-h-[4rem] md:min-h-[7rem]">
           <div className="absolute left-0 top-0 pointer-events-auto -ml-2 md:-ml-10">
             <Link href="/" className="relative h-16 w-36 md:h-[12.15rem] md:w-[45.9rem] block group">
@@ -52,10 +52,9 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Navigation Menu - Fixed (Stays on top) */}
-      <nav className="fixed top-6 md:top-6 left-0 right-0 z-50 pointer-events-none p-2 md:p-3">
+      {/* Navigation Menu - Ajustado 20% mais baixo no mobile e mais alto no desktop */}
+      <nav className="fixed top-12 md:top-4 left-0 right-0 z-50 pointer-events-none p-2 md:p-3">
         <div className="container mx-auto relative flex items-center justify-center min-h-[4rem] md:min-h-[7rem]">
-          {/* Menu de Navegação - Cápsula flutuante */}
           <div className={cn(
             "pointer-events-auto h-12 md:h-16 px-4 md:px-12 rounded-full flex items-center transition-all duration-700 border ml-auto md:ml-0 md:translate-x-[25%]",
             isScrolled 
