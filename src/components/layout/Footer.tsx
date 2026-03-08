@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Linkedin, Palette, ArrowUpRight } from "lucide-react";
@@ -10,17 +11,19 @@ export function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 mb-32 items-start">
           <div className="lg:col-span-6">
-            {/* Container do Logo com Fundo Gradiente Roxo */}
+            {/* Logo do Rodapé com Fundo Gradiente Roxo Intensificado */}
             <div className="relative mb-12 group w-fit">
-              <div className="absolute -inset-10 bg-gradient-to-br from-primary/20 via-accent/10 to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-              <Link href="/" className="relative block h-18 w-40 md:h-[13.5rem] md:w-[51rem]">
-                {/* Overlay gradiente suave exclusivo para o fundo do logo */}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-accent/5 rounded-[3rem] blur-2xl -z-10" />
+              {/* Brilho radial de fundo persistente */}
+              <div className="absolute -inset-16 bg-primary/10 rounded-full blur-[80px] opacity-100 group-hover:bg-primary/20 transition-all duration-1000" />
+              
+              <Link href="/" className="relative block h-16 w-36 md:h-[12.15rem] md:w-[45.9rem]">
+                {/* Overlay gradiente roxo e dourado para o logotipo */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/10 to-transparent rounded-[3rem] blur-3xl -z-10" />
                 <Image 
                   src={logoUrl}
                   alt="Sapient Studio Logo"
                   fill
-                  className="object-contain object-left drop-shadow-[0_10px_20px_rgba(0,0,0,0.1)] md:drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
+                  className="object-contain object-left drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] md:drop-shadow-[0_20px_40px_rgba(0,0,0,0.2)]"
                 />
               </Link>
             </div>
