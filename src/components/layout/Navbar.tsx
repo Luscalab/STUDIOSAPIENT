@@ -38,12 +38,12 @@ export function Navbar() {
       isScrolled ? "translate-y-1" : "translate-y-2"
     )}>
       <div className={cn(
-        "container mx-auto h-16 md:h-20 rounded-full flex items-center justify-between px-6 md:px-12 transition-all duration-700 border",
+        "container mx-auto h-20 md:h-24 rounded-full flex items-center justify-between px-6 md:px-12 transition-all duration-700 border",
         isScrolled 
           ? "glass-morphism border-primary/20 shadow-[0_20px_40px_-15px_rgba(139,92,246,0.12)]" 
           : "bg-white/10 backdrop-blur-md border-white/10"
       )}>
-        <Link href="/" className="relative h-11 w-40 md:h-14 md:w-56 group">
+        <Link href="/" className="relative h-16 w-56 md:h-20 md:w-80 group">
           <Image 
             src={logoUrl}
             alt="Sapient Studio Logo"
