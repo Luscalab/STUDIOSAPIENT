@@ -34,27 +34,28 @@ export function Navbar() {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-700 px-4 md:px-12 pt-0",
-      isScrolled ? "translate-y-1" : "translate-y-2"
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-700 px-4 md:px-12 pt-4",
+      isScrolled ? "translate-y-0" : "translate-y-2"
     )}>
       <div className={cn(
-        "container mx-auto h-28 md:h-40 rounded-[3rem] flex items-center justify-between px-6 md:px-16 transition-all duration-700 border",
+        "container mx-auto h-24 md:h-32 rounded-[2rem] md:rounded-[3rem] flex items-center justify-between px-6 md:px-12 transition-all duration-700 border",
         isScrolled 
           ? "glass-morphism border-primary/20 shadow-[0_20px_40px_-15px_rgba(139,92,246,0.12)]" 
-          : "bg-white/10 backdrop-blur-md border-white/10"
+          : "bg-white/5 backdrop-blur-xl border-white/10"
       )}>
-        <Link href="/" className="relative h-24 w-84 md:h-32 md:w-[35rem] group">
+        {/* Logo - Canto Superior Esquerdo */}
+        <Link href="/" className="relative h-20 w-48 md:h-36 md:w-[35rem] group -ml-4 md:-ml-8 shrink-0">
           <Image 
             src={logoUrl}
             alt="Sapient Studio Logo"
             fill
-            className="object-contain"
+            className="object-contain object-left"
             priority
           />
         </Link>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-6 lg:gap-10">
+        {/* Desktop Links - Canto Direito */}
+        <div className="hidden md:flex items-center gap-8 lg:gap-12">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
@@ -68,7 +69,7 @@ export function Navbar() {
           <Button 
             onClick={handleOpenChat}
             size="sm" 
-            className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-8 h-10 md:h-12 shadow-lg shadow-primary/20 text-[9px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
+            className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-10 h-12 shadow-lg shadow-primary/20 text-[9px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
           >
             Iniciar Projeto
           </Button>
@@ -79,13 +80,13 @@ export function Navbar() {
           className="md:hidden text-white p-2 hover:bg-white/5 rounded-full transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-32 left-4 right-4 glass-morphism rounded-[2.5rem] p-10 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20">
+        <div className="md:hidden absolute top-28 left-4 right-4 glass-morphism rounded-[2.5rem] p-10 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
