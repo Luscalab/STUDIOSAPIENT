@@ -35,7 +35,7 @@ export function Navbar() {
 
   return (
     <>
-      {/* Logo Container - Absolute (Scrolls with page) - Ajustado: Subiu mais 10% no desktop (md:top-0) */}
+      {/* Logo Container - Absolute (Scrolls with page) */}
       <div className="absolute top-6 md:top-0 left-0 right-0 z-50 pointer-events-none p-2 md:p-3 h-0 overflow-visible">
         <div className="container mx-auto relative min-h-[4rem] md:min-h-[7rem]">
           <div className="absolute left-0 top-0 pointer-events-auto -ml-2 md:-ml-10">
