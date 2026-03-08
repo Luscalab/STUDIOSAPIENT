@@ -6,9 +6,11 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Palette, Layers, Award, ShieldCheck, ArrowRight, Diamond, CheckCircle2 } from "lucide-react";
+import { Palette, Layers, Award, ShieldCheck, ArrowRight, Diamond, CheckCircle2, Sparkles, Target, Landmark } from "lucide-react";
 
 export default function DesignEstrategicoPage() {
+  const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
+
   return (
     <main className="min-h-screen bg-[#fbfaff]">
       <Navbar />
@@ -16,12 +18,12 @@ export default function DesignEstrategicoPage() {
       <section className="relative pt-40 pb-20 md:pt-60 md:pb-40 hero-purple-mesh overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Estética & Confiança</Badge>
+            <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Identidade & Valor</Badge>
             <h1 className="font-headline text-5xl md:text-8xl font-black text-white tracking-tighter leading-tight mb-8">
-              Sua Marca como <span className="text-white/70 italic">Referência</span>
+              Sua Marca como <span className="text-white/70 italic">Autoridade</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/80 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
-              O design estratégico não é apenas sobre beleza; é sobre como sua empresa é percebida. Transformamos negócios comuns em marcas que transmitem autoridade e valor imediato.
+              O design não é sobre "ficar bonito", é sobre quanto você pode cobrar. Transformamos sua imagem em um ativo de luxo que justifica seu valor de mercado.
             </p>
           </div>
         </div>
@@ -29,15 +31,15 @@ export default function DesignEstrategicoPage() {
 
       <section className="py-24 md:py-40">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
             <div className="order-2 lg:order-1 relative">
               <div className="aspect-[4/5] rounded-[4rem] overflow-hidden glass-morphism border border-primary/10 p-12 md:p-16 flex flex-col justify-end space-y-6">
                 <div className="h-20 w-20 rounded-3xl bg-primary flex items-center justify-center text-white mb-4">
-                  <Diamond className="h-10 w-10" />
+                  <Landmark className="h-10 w-10" />
                 </div>
-                <h3 className="font-headline text-4xl font-black text-foreground tracking-tighter">O Impacto Visual</h3>
-                <p className="text-lg text-muted-foreground font-medium">
-                  Antes mesmo de você falar sobre seu produto, o cliente já julgou sua empresa pela aparência. Nós garantimos que esse julgamento seja de alto nível.
+                <h3 className="font-headline text-4xl font-black text-foreground tracking-tighter">O Fim da Comparação de Preços</h3>
+                <p className="text-lg text-muted-foreground font-medium leading-relaxed">
+                  Quando sua marca parece a líder do mercado, o cliente para de questionar o orçamento e começa a desejar a experiência. O design estratégico elimina a objeção do custo.
                 </p>
                 <div className="h-1 w-20 bg-primary rounded-full" />
               </div>
@@ -45,9 +47,9 @@ export default function DesignEstrategicoPage() {
 
             <div className="order-1 lg:order-2 space-y-12">
               <div>
-                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Por que Design?</h2>
+                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Design é Confiança</h2>
                 <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed tracking-tight">
-                  No mercado saturado de hoje, a diferenciação é a única forma de não ser comparado pelo preço. Uma identidade visual profissional permite que você cobre o valor real do seu serviço.
+                  No mundo digital, você tem menos de 3 segundos para passar credibilidade. Se sua marca parece amadora, seu serviço é visto como amador. Nós garantimos que sua primeira impressão seja de excelência.
                 </p>
               </div>
               
@@ -55,18 +57,18 @@ export default function DesignEstrategicoPage() {
                 {[
                   { 
                     icon: <Award className="h-6 w-6" />, 
-                    title: "Branding Profissional", 
-                    desc: "Criação de logotipos e elementos visuais que contam a história da sua marca de forma clara e sofisticada." 
+                    title: "Branding de Prestígio", 
+                    desc: "Criamos logotipos e universos visuais que comunicam sucesso e estabilidade instantaneamente." 
                   },
                   { 
                     icon: <Layers className="h-6 w-6" />, 
-                    title: "Padronização Visual", 
-                    desc: "Garantimos que sua marca pareça a mesma em todos os lugares: site, redes sociais e materiais impressos." 
+                    title: "Ecossistema Visual", 
+                    desc: "Padronizamos tudo: do site ao cartão, do post ao material impresso. Unidade que gera reconhecimento." 
                   },
                   { 
                     icon: <ShieldCheck className="h-6 w-6" />, 
-                    title: "Percepção de Valor", 
-                    desc: "Ajustamos a estética para atrair o público que valoriza qualidade e está disposto a pagar por ela." 
+                    title: "Psicologia do Consumo", 
+                    desc: "Usamos cores e formas estrategicamente para atrair o público com maior poder de compra." 
                   }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-6 items-start p-8 rounded-[2.5rem] bg-white shadow-sm border border-primary/5 hover:border-primary/20 transition-all duration-500">
@@ -82,11 +84,29 @@ export default function DesignEstrategicoPage() {
               </div>
               
               <Button 
-                onClick={() => window.dispatchEvent(new CustomEvent('open-ai-chat'))}
+                onClick={handleOpenChat}
                 className="h-20 px-12 text-lg font-black bg-primary rounded-full uppercase tracking-widest shadow-xl shadow-primary/20 group"
               >
-                Solicitar Consultoria <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
+                Redesenhar minha Marca <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
               </Button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-12 rounded-[3.5rem] bg-foreground text-white space-y-6">
+              <Sparkles className="h-10 w-10 text-primary" />
+              <h4 className="text-2xl font-bold tracking-tighter">Estética de Elite</h4>
+              <p className="text-white/60 font-medium">Fuja do comum com um design system exclusivo feito sob medida para seu nicho.</p>
+            </div>
+            <div className="p-12 rounded-[3.5rem] card-premium-bg space-y-6">
+              <Target className="h-10 w-10 text-primary" />
+              <h4 className="text-2xl font-bold tracking-tighter">Foco em Conversão</h4>
+              <p className="text-muted-foreground font-medium">Cada elemento visual é posicionado para guiar o olhar do cliente para a compra.</p>
+            </div>
+            <div className="p-12 rounded-[3.5rem] bg-primary text-white space-y-6">
+              <CheckCircle2 className="h-10 w-10 text-white" />
+              <h4 className="text-2xl font-bold tracking-tighter">Pronto para Escala</h4>
+              <p className="text-white/80 font-medium">Uma marca bem estruturada permite que você cresça sem perder a essência original.</p>
             </div>
           </div>
         </div>

@@ -35,16 +35,16 @@ export function Navbar() {
 
   return (
     <>
-      {/* Container do Logo - Elevado conforme solicitado */}
-      <div className="absolute top-4 md:top-0 left-0 right-0 z-50 pointer-events-none p-2 md:p-3 h-0 overflow-visible">
-        <div className="container mx-auto relative min-h-[3rem] md:min-h-[4rem]">
-          <div className="absolute left-0 top-0 pointer-events-auto -ml-2 md:-ml-8">
-            <Link href="/" className="relative h-8 w-18 md:h-16 md:w-[15rem] block group">
+      {/* Container do Logo - Posicionado no Topo Absoluto no Desktop */}
+      <div className="absolute top-2 md:top-0 left-0 right-0 z-50 pointer-events-none p-2 h-0 overflow-visible">
+        <div className="container mx-auto relative">
+          <div className="absolute left-0 top-0 pointer-events-auto -ml-2 md:-ml-12">
+            <Link href="/" className="relative h-7 w-24 md:h-12 md:w-48 block group transition-all duration-500">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
                 fill
-                className="object-contain object-left drop-shadow-[0_10px_20px_rgba(0,0,0,0.2)] md:drop-shadow-[0_15px_30px_rgba(0,0,0,0.3)]"
+                className="object-contain object-left drop-shadow-xl"
                 priority
               />
             </Link>
@@ -52,14 +52,14 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Menu de Navegação - Elevado e Reduzido */}
-      <nav className="fixed top-12 md:top-4 left-0 right-0 z-50 pointer-events-none p-2 md:p-3">
-        <div className="container mx-auto relative flex items-center justify-center min-h-[3rem] md:min-h-[4rem]">
+      {/* Menu de Navegação - Compacto e Elevado */}
+      <nav className="fixed top-12 md:top-2 left-0 right-0 z-50 pointer-events-none p-2">
+        <div className="container mx-auto relative flex items-center justify-center">
           <div className={cn(
-            "pointer-events-auto h-7 md:h-8 px-4 md:px-6 rounded-full flex items-center transition-all duration-700 border ml-auto md:ml-0 md:translate-x-[20%]",
+            "pointer-events-auto h-7 md:h-7 px-4 md:px-5 rounded-full flex items-center transition-all duration-700 border ml-auto md:ml-0 md:translate-x-[15%]",
             isScrolled 
-              ? "glass-morphism border-primary/20 shadow-lg translate-y-0" 
-              : "bg-white/5 backdrop-blur-xl border-white/10 translate-y-1"
+              ? "glass-morphism border-primary/20 shadow-lg" 
+              : "bg-white/5 backdrop-blur-xl border-white/10"
           )}>
             <div className="hidden md:flex items-center gap-6 lg:gap-8">
               {navLinks.map((link) => (
@@ -75,7 +75,7 @@ export function Navbar() {
               <Button 
                 onClick={handleOpenChat}
                 size="sm" 
-                className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-5 h-5 shadow-lg shadow-primary/20 text-[7px] uppercase tracking-widest transition-all hover:scale-105"
+                className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-4 h-5 shadow-lg shadow-primary/20 text-[6px] uppercase tracking-widest transition-all hover:scale-105"
               >
                 Consultoria
               </Button>
@@ -86,7 +86,7 @@ export function Navbar() {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               <span className="text-[7px] font-black uppercase tracking-widest opacity-60">Menu</span>
-              {isMobileMenuOpen ? <X size={12} /> : <Menu size={12} />}
+              {isMobileMenuOpen ? <X size={10} /> : <Menu size={10} />}
             </button>
           </div>
         </div>
