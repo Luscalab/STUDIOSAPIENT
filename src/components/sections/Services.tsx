@@ -2,10 +2,12 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Megaphone, Palette, Share2, ArrowUpRight, CheckCircle2, BarChart3 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 const services = [
   {
     title: "Performance & Ads",
+    slug: "performance-ads",
     description: "Estratégias de escala focadas em retorno sobre investimento via Google Meu Negócio e Tráfego Pago.",
     icon: <Megaphone className="h-10 w-10" />,
     features: ["Google Meu Negócio Profissional", "Meta & Google Ads", "Funis de Vendas", "Growth Estratégico"],
@@ -13,6 +15,7 @@ const services = [
   },
   {
     title: "Design Estratégico",
+    slug: "design-estrategico",
     description: "Identidade visual que comunica autoridade e profissionalismo instantaneamente para seu negócio.",
     icon: <Palette className="h-10 w-10" />,
     features: ["Identidade Visual Moderna", "Design System", "Direção Criativa", "Branding de Autoridade"],
@@ -20,6 +23,7 @@ const services = [
   },
   {
     title: "Gestão Social",
+    slug: "gestao-social",
     description: "Transformamos perfis sociais em ferramentas de autoridade e conversão para sua marca.",
     icon: <Share2 className="h-10 w-10" />,
     features: ["Curadoria de Conteúdo", "Copywriting", "Gestão de Autoridade", "Planejamento Digital"],
@@ -27,6 +31,7 @@ const services = [
   },
   {
     title: "Narrativa Visual",
+    slug: "narrativa-visual",
     description: "Transformamos dados complexos em infográficos sofisticados que educam e convertem sua audiência.",
     icon: <BarChart3 className="h-10 w-10" />,
     features: ["Infográficos de Autoridade", "Data Visualization", "Assets Visuais Exclusivos", "Materiais de Alto Impacto"],
@@ -51,7 +56,6 @@ export function Services() {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 md:gap-6">
           {services.map((service, idx) => (
             <Card key={idx} className="card-premium-bg border-none group overflow-hidden shadow-xl rounded-[2.5rem] hover:-translate-y-2 transition-all duration-500 relative flex flex-col h-full">
-              {/* Subtle internal gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-transparent to-primary/5 pointer-events-none" />
               
               <CardHeader className="p-10 pb-6 relative z-10">
@@ -79,9 +83,9 @@ export function Services() {
                   ))}
                 </div>
                 
-                <button className="w-full flex items-center justify-between p-5 rounded-2xl bg-primary/5 group-hover:bg-primary group-hover:text-white transition-all duration-500 text-[10px] font-bold uppercase tracking-widest">
+                <Link href={`/servicos/${service.slug}`} className="w-full flex items-center justify-between p-5 rounded-2xl bg-primary/5 group-hover:bg-primary group-hover:text-white transition-all duration-500 text-[10px] font-bold uppercase tracking-widest">
                   Ver Mais <ArrowUpRight className="h-4 w-4" />
-                </button>
+                </Link>
               </CardContent>
             </Card>
           ))}
