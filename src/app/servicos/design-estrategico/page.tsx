@@ -1,3 +1,4 @@
+'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -43,7 +44,7 @@ export default function DesignEstrategicoPage() {
 
             <div className="order-1 lg:order-2 space-y-12">
               <div>
-                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">O Vies de Autoridade</h2>
+                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">O Viés de Autoridade</h2>
                 <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed tracking-tight">
                   No mercado atual, o profissionalismo é medido pela consistência visual. Marcas que investem em design estratégico convertem até 3x mais por transmitirem confiança imediata.
                 </p>
