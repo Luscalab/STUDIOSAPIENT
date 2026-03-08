@@ -17,23 +17,23 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
+      {/* Background with Image + Purple Gradient Mixture */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <Image 
           src={heroBg}
           alt="Sapient Studio Hero Background"
           fill
-          className="object-cover"
+          className="object-cover transition-transform duration-[10s] hover:scale-110"
           priority
-          data-ai-hint="abstract background"
+          data-ai-hint="abstract purple background"
         />
-        {/* Subtle Overlay to ensure readability */}
-        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] transition-all duration-700" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-background" />
+        {/* Layered Gradient Mixture for Depth and Brand Color */}
+        <div className="absolute inset-0 hero-purple-mesh opacity-80 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-background/90" />
       </div>
       
       <div className="container relative z-10 mx-auto px-6 text-center">
-        <div className="inline-flex items-center gap-3 rounded-full border border-primary/10 bg-white/60 backdrop-blur-xl px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-10 animate-fade-in-up">
+        <div className="inline-flex items-center gap-3 rounded-full border border-primary/20 bg-white/40 backdrop-blur-xl px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-10 animate-fade-in-up shadow-sm">
           <Target className="h-3.5 w-3.5" />
           <span>Estratégia & Resultados Profissionais</span>
         </div>
@@ -43,11 +43,11 @@ export function Hero() {
           <span className="text-primary italic">estratégica.</span>
         </h1>
         
-        <p className="max-w-2xl mx-auto text-lg md:text-2xl text-muted-foreground mb-12 animate-fade-in-up [animation-delay:400ms] leading-relaxed font-medium tracking-tight px-4 text-balance">
+        <p className="max-w-2xl mx-auto text-lg md:text-2xl text-muted-foreground/80 mb-12 animate-fade-in-up [animation-delay:400ms] leading-relaxed font-medium tracking-tight px-4 text-balance">
           Transformamos negócios através de design inteligente e posicionamento de autoridade no mercado digital.
         </p>
         
-        <div className="flex flex-col sm:row items-center justify-center gap-6 animate-fade-in-up [animation-delay:600ms]">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 animate-fade-in-up [animation-delay:600ms]">
           <Button 
             onClick={handleOpenChat}
             className="w-full sm:w-auto h-16 md:h-20 px-12 md:px-16 text-sm font-bold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95 rounded-full uppercase tracking-widest text-white"

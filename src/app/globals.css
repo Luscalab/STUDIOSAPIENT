@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -43,6 +44,14 @@
     radial-gradient(circle at 100% 0%, hsla(265, 90%, 56%, 0.08), transparent 40%),
     radial-gradient(circle at 0% 100%, hsla(285, 95%, 58%, 0.08), transparent 40%),
     radial-gradient(circle at 50% 50%, hsla(265, 90%, 56%, 0.02), transparent 60%);
+}
+
+.hero-purple-mesh {
+  background: 
+    radial-gradient(at 0% 0%, hsla(265, 90%, 60%, 0.4) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(272, 90%, 50%, 0.3) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(285, 90%, 60%, 0.4) 0, transparent 50%),
+    radial-gradient(at 50% 50%, hsla(265, 90%, 56%, 0.1), transparent 80%);
 }
 
 .glass-morphism {
