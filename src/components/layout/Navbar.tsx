@@ -35,10 +35,10 @@ export function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-4 md:p-8">
-      <div className="container mx-auto flex items-center justify-between">
+      <div className="container mx-auto relative flex items-center justify-center min-h-[7rem] md:min-h-[13rem]">
         
-        {/* Logo - Independente e sem fundo transparente */}
-        <div className="pointer-events-auto shrink-0 -ml-4 md:-ml-8">
+        {/* Logo - Independente no canto superior esquerdo */}
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-auto -ml-4 md:-ml-8">
           <Link href="/" className="relative h-28 w-64 md:h-52 md:w-[50rem] block group">
             <Image 
               src={logoUrl}
@@ -50,7 +50,7 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* Menu de Navegação - Com fundo transparente (Cápsula) */}
+        {/* Menu de Navegação - Cápsula Centralizada */}
         <div className={cn(
           "pointer-events-auto h-16 md:h-20 px-8 md:px-12 rounded-full flex items-center transition-all duration-700 border",
           isScrolled 
@@ -90,7 +90,7 @@ export function Navbar() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-28 left-4 right-4 glass-morphism rounded-[2.5rem] p-10 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20 pointer-events-auto">
+        <div className="md:hidden absolute top-32 left-4 right-4 glass-morphism rounded-[2.5rem] p-10 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20 pointer-events-auto">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
