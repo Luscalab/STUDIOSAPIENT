@@ -74,8 +74,17 @@
 }
 
 .card-premium-bg {
-  background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(251,248,255,1) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.12);
+  background: linear-gradient(165deg, rgba(255,255,255,1) 0%, rgba(249,247,255,1) 50%, rgba(242,238,255,1) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  box-shadow: 
+    0 10px 30px -5px rgba(139, 92, 246, 0.04),
+    0 4px 10px -2px rgba(0, 0, 0, 0.02);
+  @apply transition-all duration-500;
+}
+
+.card-premium-bg:hover {
+  background: linear-gradient(165deg, rgba(255,255,255,1) 0%, rgba(245,240,255,1) 100%);
+  @apply border-primary/20 shadow-2xl shadow-primary/10;
 }
 
 @keyframes float {

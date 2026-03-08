@@ -51,6 +51,9 @@ export function Services() {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 md:gap-6">
           {services.map((service, idx) => (
             <Card key={idx} className="card-premium-bg border-none group overflow-hidden shadow-xl rounded-[2.5rem] hover:-translate-y-2 transition-all duration-500 relative flex flex-col h-full">
+              {/* Subtle internal gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-transparent to-primary/5 pointer-events-none" />
+              
               <CardHeader className="p-10 pb-6 relative z-10">
                 <div className="flex justify-between items-start mb-10">
                   <div className="p-6 rounded-2xl bg-white text-primary shadow-sm border border-primary/5 group-hover:bg-primary group-hover:text-white transition-all duration-500">

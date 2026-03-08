@@ -1,3 +1,4 @@
+
 import { Badge } from "@/components/ui/badge";
 import { Target, Search, PenTool, Rocket, ChevronRight } from "lucide-react";
 
@@ -40,7 +41,7 @@ export function Process() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8">
           {steps.map((step, idx) => (
-            <div key={idx} className="relative group p-12 rounded-[3.5rem] bg-white border border-primary/5 transition-all duration-700 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2">
+            <div key={idx} className="relative group p-12 rounded-[3.5rem] card-premium-bg border border-primary/5 transition-all duration-700 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2">
               {/* Connector (Desktop Only) */}
               {idx < steps.length - 1 && (
                 <div className="hidden lg:block absolute top-1/2 -right-4 z-20 translate-y-[-50%] text-primary/10">
