@@ -38,12 +38,12 @@ export function Navbar() {
       isScrolled ? "translate-y-1" : "translate-y-2"
     )}>
       <div className={cn(
-        "container mx-auto h-20 md:h-24 rounded-full flex items-center justify-between px-6 md:px-12 transition-all duration-700 border",
+        "container mx-auto h-28 md:h-40 rounded-[3rem] flex items-center justify-between px-6 md:px-16 transition-all duration-700 border",
         isScrolled 
           ? "glass-morphism border-primary/20 shadow-[0_20px_40px_-15px_rgba(139,92,246,0.12)]" 
           : "bg-white/10 backdrop-blur-md border-white/10"
       )}>
-        <Link href="/" className="relative h-16 w-56 md:h-20 md:w-80 group">
+        <Link href="/" className="relative h-24 w-84 md:h-32 md:w-[35rem] group">
           <Image 
             src={logoUrl}
             alt="Sapient Studio Logo"
@@ -59,7 +59,7 @@ export function Navbar() {
             <Link 
               key={link.name} 
               href={link.href} 
-              className="text-[9px] uppercase tracking-[0.4em] font-black text-white/70 hover:text-white transition-all relative group"
+              className="text-[10px] uppercase tracking-[0.4em] font-black text-white/70 hover:text-white transition-all relative group"
             >
               {link.name}
               <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-primary transition-all duration-500 group-hover:w-full" />
@@ -68,7 +68,7 @@ export function Navbar() {
           <Button 
             onClick={handleOpenChat}
             size="sm" 
-            className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-6 h-8 md:h-10 shadow-lg shadow-primary/20 text-[8px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
+            className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-8 h-10 md:h-12 shadow-lg shadow-primary/20 text-[9px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
           >
             Iniciar Projeto
           </Button>
@@ -79,25 +79,25 @@ export function Navbar() {
           className="md:hidden text-white p-2 hover:bg-white/5 rounded-full transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-20 left-4 right-4 glass-morphism rounded-[2.5rem] p-8 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20">
+        <div className="md:hidden absolute top-32 left-4 right-4 glass-morphism rounded-[2.5rem] p-10 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
               href={link.href} 
-              className="text-lg font-black border-b border-primary/10 pb-4 hover:text-primary transition-colors tracking-tighter"
+              className="text-xl font-black border-b border-primary/10 pb-4 hover:text-primary transition-colors tracking-tighter"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.name}
             </Link>
           ))}
           <Button 
-            className="w-full bg-primary font-black py-5 text-xs uppercase tracking-widest rounded-full shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
+            className="w-full bg-primary font-black py-6 text-sm uppercase tracking-widest rounded-full shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
             onClick={handleOpenChat}
           >
             Falar com Especialista

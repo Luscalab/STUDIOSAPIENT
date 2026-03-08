@@ -10,7 +10,7 @@ export function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 mb-32">
           <div className="lg:col-span-6">
-            <Link href="/" className="relative h-32 w-[28rem] mb-10 block">
+            <Link href="/" className="relative h-48 w-[42rem] mb-12 block">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
