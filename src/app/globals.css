@@ -46,12 +46,14 @@
 }
 
 .hero-purple-mesh {
-  background-color: #0a051a;
+  /* Fundo roxo vibrante profundo (não preto) */
+  background-color: hsl(265, 75%, 15%);
   background-image: 
-    radial-gradient(at 0% 0%, hsla(265, 95%, 45%, 0.5) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, hsla(285, 95%, 45%, 0.5) 0, transparent 50%), 
-    radial-gradient(at 50% 100%, hsla(272, 95%, 40%, 0.4) 0, transparent 60%),
-    radial-gradient(at 50% 0%, hsla(265, 90%, 60%, 0.3) 0, transparent 70%);
+    radial-gradient(at 0% 0%, hsla(265, 95%, 60%, 0.6) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(285, 95%, 55%, 0.5) 0, transparent 50%), 
+    radial-gradient(at 100% 100%, hsla(200, 95%, 50%, 0.4) 0, transparent 50%), /* Complementar: Azul Elétrico */
+    radial-gradient(at 0% 100%, hsla(45, 100%, 65%, 0.2) 0, transparent 40%), /* Complementar: Dourado/Amarelo */
+    radial-gradient(at 50% 50%, hsla(270, 90%, 70%, 0.15) 0, transparent 80%);
 }
 
 .glass-morphism {
