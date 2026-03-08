@@ -35,15 +35,16 @@ export function Navbar() {
 
   return (
     <>
+      {/* Container do Logo - Elevado conforme solicitado */}
       <div className="absolute top-4 md:top-0 left-0 right-0 z-50 pointer-events-none p-2 md:p-3 h-0 overflow-visible">
-        <div className="container mx-auto relative min-h-[3rem] md:min-h-[5rem]">
-          <div className="absolute left-0 top-0 pointer-events-auto -ml-2 md:-ml-10">
-            <Link href="/" className="relative h-9 w-20 md:h-24 md:w-[22rem] block group">
+        <div className="container mx-auto relative min-h-[3rem] md:min-h-[4rem]">
+          <div className="absolute left-0 top-0 pointer-events-auto -ml-2 md:-ml-8">
+            <Link href="/" className="relative h-8 w-18 md:h-16 md:w-[15rem] block group">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
                 fill
-                className="object-contain object-left drop-shadow-[0_10px_20px_rgba(0,0,0,0.3)] md:drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
+                className="object-contain object-left drop-shadow-[0_10px_20px_rgba(0,0,0,0.2)] md:drop-shadow-[0_15px_30px_rgba(0,0,0,0.3)]"
                 priority
               />
             </Link>
@@ -51,10 +52,11 @@ export function Navbar() {
         </div>
       </div>
 
-      <nav className="fixed top-12 md:top-6 left-0 right-0 z-50 pointer-events-none p-2 md:p-3">
-        <div className="container mx-auto relative flex items-center justify-center min-h-[3rem] md:min-h-[5rem]">
+      {/* Menu de Navegação - Elevado e Reduzido */}
+      <nav className="fixed top-12 md:top-4 left-0 right-0 z-50 pointer-events-none p-2 md:p-3">
+        <div className="container mx-auto relative flex items-center justify-center min-h-[3rem] md:min-h-[4rem]">
           <div className={cn(
-            "pointer-events-auto h-7 md:h-8 px-4 md:px-6 rounded-full flex items-center transition-all duration-700 border ml-auto md:ml-0 md:translate-x-[25%]",
+            "pointer-events-auto h-7 md:h-8 px-4 md:px-6 rounded-full flex items-center transition-all duration-700 border ml-auto md:ml-0 md:translate-x-[20%]",
             isScrolled 
               ? "glass-morphism border-primary/20 shadow-lg translate-y-0" 
               : "bg-white/5 backdrop-blur-xl border-white/10 translate-y-1"
@@ -75,7 +77,7 @@ export function Navbar() {
                 size="sm" 
                 className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-5 h-5 shadow-lg shadow-primary/20 text-[7px] uppercase tracking-widest transition-all hover:scale-105"
               >
-                Iniciar Projeto
+                Consultoria
               </Button>
             </div>
 

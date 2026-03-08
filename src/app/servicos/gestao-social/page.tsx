@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -5,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Share2, Users, MessageSquare, Zap, ArrowRight, ShieldCheck } from "lucide-react";
+import { Share2, MessageSquare, Zap, ArrowRight, ShieldCheck, Users } from "lucide-react";
 
 export default function GestaoSocialPage() {
   return (
@@ -15,12 +16,12 @@ export default function GestaoSocialPage() {
       <section className="relative pt-40 pb-20 md:pt-60 md:pb-40 hero-purple-mesh overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Social Authority & Trust</Badge>
+            <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Presença & Autoridade</Badge>
             <h1 className="font-headline text-5xl md:text-8xl font-black text-white tracking-tighter leading-tight mb-8">
-              Gestão de <span className="text-white/70 italic">Autoridade</span>
+              Suas Redes como <span className="text-white/70 italic">Vitrine de Elite</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/80 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
-              Sua rede social não é apenas para postar fotos. É o ambiente onde sua autoridade é construída e sua audiência é educada para a compra.
+              Rede social não é lugar de "postar por postar". É o ambiente onde você constrói sua reputação e educa seu cliente para que ele valorize seu trabalho.
             </p>
           </div>
         </div>
@@ -31,18 +32,34 @@ export default function GestaoSocialPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-12">
               <div>
-                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Conteúdo de Alto Impacto</h2>
+                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Conexão Real</h2>
                 <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed tracking-tight">
-                  No cenário digital, se você não é visto como uma referência, você é comparado pelo preço. Nossa gestão foca em transformar sua presença social em um ativo de venda.
+                  Nós cuidamos de tudo: desde a estratégia do que postar até o design final. Seu perfil passará a transmitir o profissionalismo que sua empresa já possui no mundo real.
                 </p>
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {[
-                  { icon: <ShieldCheck className="text-primary" />, title: "Autoridade Social", desc: "Estratégias de posicionamento que garantem que sua marca seja respeitada no mercado." },
-                  { icon: <MessageSquare className="text-primary" />, title: "Copywriting Persuasivo", desc: "Textos desenhados para gerar desejo, resolver objeções e acelerar a decisão do cliente." },
-                  { icon: <Zap className="text-primary" />, title: "Growth & Engagement", desc: "Foco no crescimento orgânico qualificado e na retenção de uma audiência engajada." },
-                  { icon: <Share2 className="text-primary" />, title: "Curadoria Estética", desc: "Design focado em transmitir profissionalismo e sofisticação em cada publicação." }
+                  { 
+                    icon: <ShieldCheck className="text-primary" />, 
+                    title: "Autoridade Digital", 
+                    desc: "Posicionamos você como um especialista no seu assunto, gerando respeito e confiança." 
+                  },
+                  { 
+                    icon: <MessageSquare className="text-primary" />, 
+                    title: "Textos que Vendem", 
+                    desc: "Escrevemos legendas focadas em resolver as dúvidas do seu cliente e facilitar a compra." 
+                  },
+                  { 
+                    icon: <Zap className="text-primary" />, 
+                    title: "Engajamento Focado", 
+                    desc: "Não buscamos apenas curtidas, buscamos pessoas interessadas no que você oferece." 
+                  },
+                  { 
+                    icon: <Share2 className="text-primary" />, 
+                    title: "Design de Alto Padrão", 
+                    desc: "Cada post é uma peça de design pensada para manter a identidade visual da sua marca." 
+                  }
                 ].map((item, i) => (
                   <div key={i} className="p-8 rounded-[2.5rem] bg-white shadow-sm border border-primary/5 hover:bg-primary/5 transition-all duration-500">
                     <div className="mb-4">{item.icon}</div>
@@ -55,12 +72,12 @@ export default function GestaoSocialPage() {
 
             <div className="bg-foreground rounded-[4rem] p-12 md:p-20 text-white space-y-10 relative overflow-hidden">
                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 blur-[100px] rounded-full" />
-               <h3 className="font-headline text-4xl font-black tracking-tighter relative z-10">Dossiê Estratégico</h3>
+               <h3 className="font-headline text-4xl font-black tracking-tighter relative z-10">Gestão Completa</h3>
                <p className="text-white/60 font-medium relative z-10">
-                 Nossa metodologia envolve um acompanhamento rigoroso para garantir que cada postagem tenha um objetivo comercial claro.
+                 Foque em atender seus clientes, nós cuidamos da sua imagem digital com um planejamento rigoroso.
                </p>
                <ul className="space-y-6 relative z-10">
-                 {["Planejamento Narrativo Mensal", "Direção de Arte Exclusiva", "Monitoramento de Reputação", "Análise de Performance Social"].map((text, idx) => (
+                 {["Planejamento de Assuntos Mensais", "Design de Posts e Stories", "Análise de Melhores Horários", "Monitoramento de Comentários"].map((text, idx) => (
                    <li key={idx} className="flex items-center gap-4 text-white/80 font-medium">
                      <div className="h-2 w-2 bg-primary rounded-full" /> {text}
                    </li>
@@ -70,7 +87,7 @@ export default function GestaoSocialPage() {
                 onClick={() => window.dispatchEvent(new CustomEvent('open-ai-chat'))}
                 className="w-full h-20 text-lg font-black bg-white text-primary rounded-full uppercase tracking-widest relative z-10 hover:bg-white/90"
                >
-                 Falar com Consultor
+                 Elevar meu Perfil
                </Button>
             </div>
           </div>

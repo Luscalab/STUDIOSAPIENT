@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -5,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Megaphone, TrendingUp, Target, Search, ArrowRight, BarChart3, MapPin } from "lucide-react";
+import { Megaphone, TrendingUp, Target, MapPin, ArrowRight, BarChart3, Search } from "lucide-react";
 
 export default function PerformanceAdsPage() {
   return (
@@ -15,12 +16,12 @@ export default function PerformanceAdsPage() {
       <section className="relative pt-40 pb-20 md:pt-60 md:pb-40 hero-purple-mesh overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Data-Driven Growth</Badge>
+            <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Resultados & Escala</Badge>
             <h1 className="font-headline text-5xl md:text-8xl font-black text-white tracking-tighter leading-tight mb-8">
-              Performance que <span className="text-white/70 italic">Gera ROI</span>
+              Atraia os <span className="text-white/70 italic">Clientes Certos</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/80 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
-              Anúncios não são gastos, são investimentos. Focamos em tráfego qualificado para atrair clientes prontos para comprar de você.
+              Não basta apenas estar na internet, você precisa ser encontrado por quem quer comprar. Criamos estratégias de anúncios que colocam seu negócio na frente do público ideal.
             </p>
           </div>
         </div>
@@ -31,17 +32,29 @@ export default function PerformanceAdsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-12">
               <div>
-                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Engenharia de Conversão</h2>
+                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Crescimento Previsível</h2>
                 <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed tracking-tight">
-                  Diferente de agências tradicionais, nossa performance é baseada em funis de vendas que entendem a jornada de compra, desde a busca local até o fechamento.
+                  Nosso foco é o Retorno sobre o Investimento (ROI). Utilizamos as melhores ferramentas do mercado para garantir que cada centavo investido ajude sua empresa a crescer.
                 </p>
               </div>
               
               <div className="space-y-6">
                 {[
-                  { icon: <MapPin />, title: "Domínio do Google Meu Negócio", desc: "Otimização técnica para garantir que sua empresa seja a primeira opção em buscas locais de urgência e conveniência." },
-                  { icon: <Target />, title: "Gestão Estratégica de Ads", desc: "Campanhas em Meta e Google focadas no público de alta intenção, otimizando o Custo por Lead (CPL) continuamente." },
-                  { icon: <BarChart3 />, title: "Análise de Métricas Reais", desc: "Focamos em faturamento e ROI, não em 'métricas de vaidade'. Dados claros para decisões inteligentes." }
+                  { 
+                    icon: <MapPin />, 
+                    title: "Google Meu Negócio (GMN)", 
+                    desc: "Apareça nos mapas do Google. Quando alguém procurar pelo seu serviço na sua região, você será a primeira opção." 
+                  },
+                  { 
+                    icon: <Target />, 
+                    title: "Anúncios no Instagram & Google", 
+                    desc: "Criamos campanhas segmentadas para que seus anúncios apareçam exatamente para as pessoas que precisam do seu produto." 
+                  },
+                  { 
+                    icon: <BarChart3 />, 
+                    title: "Relatórios de Vendas", 
+                    desc: "Você acompanha tudo com clareza. Mostramos quantos novos clientes entraram em contato através das nossas campanhas." 
+                  }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-6 items-start p-8 rounded-[2.5rem] bg-white shadow-sm border border-primary/5 hover:border-primary/20 transition-all duration-500">
                     <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -61,15 +74,15 @@ export default function PerformanceAdsPage() {
                 <div className="h-24 w-24 rounded-full bg-primary/20 flex items-center justify-center text-primary animate-pulse">
                   <TrendingUp className="h-12 w-12" />
                 </div>
-                <h3 className="font-headline text-3xl font-black tracking-tighter">Escalabilidade Garantida</h3>
+                <h3 className="font-headline text-3xl font-black tracking-tighter">Domine seu Mercado</h3>
                 <p className="text-lg text-muted-foreground font-medium max-w-xs">
-                  Criamos máquinas de vendas que permitem que seu negócio cresça de forma previsível e lucrativa.
+                  Sua empresa merece ser vista como a melhor opção. Vamos construir seu funil de vendas hoje.
                 </p>
                 <Button 
                   onClick={() => window.dispatchEvent(new CustomEvent('open-ai-chat'))}
                   className="w-full h-20 text-lg font-black bg-primary rounded-full uppercase tracking-widest shadow-xl shadow-primary/20"
                 >
-                  Agendar Diagnóstico
+                  Iniciar Diagnóstico
                 </Button>
               </div>
             </div>
