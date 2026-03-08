@@ -35,15 +35,15 @@ export function Navbar() {
   return (
     <nav className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-1000 px-4 md:px-12",
-      isScrolled ? "pt-2" : "pt-4"
+      isScrolled ? "pt-1" : "pt-2"
     )}>
       <div className={cn(
-        "container mx-auto h-16 md:h-20 rounded-full flex items-center justify-between px-8 md:px-16 transition-all duration-1000 border",
+        "container mx-auto h-16 md:h-18 rounded-full flex items-center justify-between px-8 md:px-16 transition-all duration-1000 border",
         isScrolled 
           ? "glass-morphism border-primary/20 shadow-[0_25px_50px_-15px_rgba(139,92,246,0.15)]" 
           : "bg-white/40 backdrop-blur-xl border-white/40"
       )}>
-        <Link href="/" className="relative h-8 w-24 md:h-12 md:w-32 group">
+        <Link href="/" className="relative h-8 w-24 md:h-10 md:w-30 group">
           <Image 
             src={logoUrl}
             alt="Sapient Studio Logo"
@@ -68,7 +68,7 @@ export function Navbar() {
           <Button 
             onClick={handleOpenChat}
             size="lg" 
-            className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-12 h-12 md:h-14 shadow-xl shadow-primary/30 text-[10px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
+            className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-12 h-10 md:h-12 shadow-xl shadow-primary/30 text-[10px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
           >
             Iniciar Projeto
           </Button>
@@ -85,7 +85,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-24 left-4 right-4 glass-morphism rounded-[3rem] p-10 flex flex-col gap-8 shadow-2xl animate-in fade-in zoom-in-95 duration-700 border-primary/20">
+        <div className="md:hidden absolute top-20 left-4 right-4 glass-morphism rounded-[3rem] p-10 flex flex-col gap-8 shadow-2xl animate-in fade-in zoom-in-95 duration-700 border-primary/20">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
