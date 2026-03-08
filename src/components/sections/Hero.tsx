@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -37,7 +38,8 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-[#fbfaff]" />
       </div>
       
-      <div className="container relative z-10 mx-auto px-6">
+      {/* Container do conteúdo elevado em 30% (usando translate-y negativo) */}
+      <div className="container relative z-10 mx-auto px-6 -translate-y-[15%] md:-translate-y-[20%]">
         <div className="max-w-[1100px] mx-auto text-center">
           <div className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 backdrop-blur-3xl px-6 py-2 text-[9px] font-bold uppercase tracking-[0.4em] text-white mb-3 animate-fade-in-up shadow-2xl">
             <Sparkles className="h-3 w-3 text-primary" />
