@@ -38,12 +38,12 @@ export function Navbar() {
       isScrolled ? "translate-y-1" : "translate-y-2"
     )}>
       <div className={cn(
-        "container mx-auto h-12 md:h-14 rounded-full flex items-center justify-between px-6 md:px-12 transition-all duration-700 border",
+        "container mx-auto h-16 md:h-20 rounded-full flex items-center justify-between px-6 md:px-12 transition-all duration-700 border",
         isScrolled 
           ? "glass-morphism border-primary/20 shadow-[0_20px_40px_-15px_rgba(139,92,246,0.12)]" 
           : "bg-white/10 backdrop-blur-md border-white/10"
       )}>
-        <Link href="/" className="relative h-8 w-28 md:h-10 md:w-40 group">
+        <Link href="/" className="relative h-11 w-40 md:h-14 md:w-56 group">
           <Image 
             src={logoUrl}
             alt="Sapient Studio Logo"
@@ -68,7 +68,7 @@ export function Navbar() {
           <Button 
             onClick={handleOpenChat}
             size="sm" 
-            className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-6 h-8 md:h-9 shadow-lg shadow-primary/20 text-[8px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
+            className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-6 h-8 md:h-10 shadow-lg shadow-primary/20 text-[8px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
           >
             Iniciar Projeto
           </Button>
@@ -79,13 +79,13 @@ export function Navbar() {
           className="md:hidden text-white p-2 hover:bg-white/5 rounded-full transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-14 left-4 right-4 glass-morphism rounded-[2.5rem] p-8 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20">
+        <div className="md:hidden absolute top-20 left-4 right-4 glass-morphism rounded-[2.5rem] p-8 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
