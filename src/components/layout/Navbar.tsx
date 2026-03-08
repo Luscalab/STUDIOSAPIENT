@@ -35,11 +35,11 @@ export function Navbar() {
 
   return (
     <>
-      {/* Container do Logo - Posicionado no Topo Absoluto no Desktop */}
-      <div className="absolute top-2 md:top-0 left-0 right-0 z-50 pointer-events-none p-2 h-0 overflow-visible">
+      {/* Container do Logo - Posicionado com margem superior no Desktop */}
+      <div className="absolute top-2 md:top-6 left-0 right-0 z-50 pointer-events-none p-2 h-0 overflow-visible">
         <div className="container mx-auto relative">
           <div className="absolute left-0 top-0 pointer-events-auto -ml-2 md:-ml-12">
-            <Link href="/" className="relative h-7 w-24 md:h-12 md:w-48 block group transition-all duration-500">
+            <Link href="/" className="relative h-7 w-24 md:h-16 md:w-64 block group transition-all duration-500">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -52,11 +52,11 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Menu de Navegação - Compacto e Elevado */}
-      <nav className="fixed top-12 md:top-2 left-0 right-0 z-50 pointer-events-none p-2">
+      {/* Menu de Navegação - Descido 20% conforme solicitado */}
+      <nav className="fixed top-12 md:top-10 left-0 right-0 z-50 pointer-events-none p-2">
         <div className="container mx-auto relative flex items-center justify-center">
           <div className={cn(
-            "pointer-events-auto h-7 md:h-7 px-4 md:px-5 rounded-full flex items-center transition-all duration-700 border ml-auto md:ml-0 md:translate-x-[15%]",
+            "pointer-events-auto h-7 md:h-8 px-4 md:px-6 rounded-full flex items-center transition-all duration-700 border ml-auto md:ml-0 md:translate-x-[15%]",
             isScrolled 
               ? "glass-morphism border-primary/20 shadow-lg" 
               : "bg-white/5 backdrop-blur-xl border-white/10"
@@ -66,7 +66,7 @@ export function Navbar() {
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className="text-[7px] uppercase tracking-[0.4em] font-black text-white/70 hover:text-white transition-all relative group"
+                  className="text-[7px] md:text-[8px] uppercase tracking-[0.4em] font-black text-white/70 hover:text-white transition-all relative group"
                 >
                   {link.name}
                   <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all duration-500 group-hover:w-full" />
@@ -75,7 +75,7 @@ export function Navbar() {
               <Button 
                 onClick={handleOpenChat}
                 size="sm" 
-                className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-4 h-5 shadow-lg shadow-primary/20 text-[6px] uppercase tracking-widest transition-all hover:scale-105"
+                className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-4 h-5 md:h-6 shadow-lg shadow-primary/20 text-[6px] md:text-[7px] uppercase tracking-widest transition-all hover:scale-105"
               >
                 Consultoria
               </Button>
