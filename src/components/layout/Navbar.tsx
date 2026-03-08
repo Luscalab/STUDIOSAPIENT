@@ -34,12 +34,12 @@ export function Navbar() {
   const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoxOTMwNjE0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM";
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-4 md:p-8">
-      <div className="container mx-auto relative flex items-center justify-center min-h-[7rem] md:min-h-[13rem]">
+    <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-2 md:p-4">
+      <div className="container mx-auto relative flex items-center justify-center min-h-[6rem] md:min-h-[10rem]">
         
         {/* Logo - Independente no canto superior esquerdo */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-auto -ml-4 md:-ml-8">
-          <Link href="/" className="relative h-28 w-64 md:h-52 md:w-[50rem] block group">
+          <Link href="/" className="relative h-32 w-72 md:h-64 md:w-[60rem] block group">
             <Image 
               src={logoUrl}
               alt="Sapient Studio Logo"
@@ -52,10 +52,10 @@ export function Navbar() {
 
         {/* Menu de Navegação - Cápsula Deslocada para a Direita */}
         <div className={cn(
-          "pointer-events-auto h-16 md:h-20 px-8 md:px-12 rounded-full flex items-center transition-all duration-700 border md:translate-x-[15%]",
+          "pointer-events-auto h-14 md:h-16 px-8 md:px-12 rounded-full flex items-center transition-all duration-700 border md:translate-x-[15%]",
           isScrolled 
             ? "glass-morphism border-primary/20 shadow-[0_20px_40px_-15px_rgba(139,92,246,0.12)] translate-y-0" 
-            : "bg-white/5 backdrop-blur-xl border-white/10 translate-y-2"
+            : "bg-white/5 backdrop-blur-xl border-white/10 translate-y-1"
         )}>
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-8 lg:gap-12">
@@ -72,7 +72,7 @@ export function Navbar() {
             <Button 
               onClick={handleOpenChat}
               size="sm" 
-              className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-10 h-10 shadow-lg shadow-primary/20 text-[9px] uppercase tracking-widest transition-all hover:scale-105"
+              className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-10 h-8 shadow-lg shadow-primary/20 text-[9px] uppercase tracking-widest transition-all hover:scale-105"
             >
               Iniciar Projeto
             </Button>
@@ -90,7 +90,7 @@ export function Navbar() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-32 left-4 right-4 glass-morphism rounded-[2.5rem] p-10 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20 pointer-events-auto">
+        <div className="md:hidden absolute top-24 left-4 right-4 glass-morphism rounded-[2.5rem] p-10 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20 pointer-events-auto">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
