@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -16,7 +15,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20">
+    <section className="relative min-h-[85vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-20">
       {/* Background Layered System */}
       <div className="absolute inset-0 z-0 hero-purple-mesh">
         {/* Subtle Texture for depth */}
