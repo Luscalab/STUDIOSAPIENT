@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Megaphone, Palette, Share2, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { Megaphone, Palette, Share2, ArrowUpRight, CheckCircle2, BarChart3 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const services = [
@@ -24,6 +24,13 @@ const services = [
     icon: <Share2 className="h-10 w-10" />,
     features: ["Curadoria de Conteúdo", "Copywriting", "Gestão de Autoridade", "Planejamento Digital"],
     badge: "Autoridade"
+  },
+  {
+    title: "Narrativa Visual",
+    description: "Transformamos dados complexos em infográficos sofisticados que educam e convertem sua audiência.",
+    icon: <BarChart3 className="h-10 w-10" />,
+    features: ["Infográficos de Autoridade", "Data Visualization", "Assets Visuais Exclusivos", "Materiais de Alto Impacto"],
+    badge: "Clareza"
   }
 ];
 
@@ -41,7 +48,7 @@ export function Services() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 md:gap-6">
           {services.map((service, idx) => (
             <Card key={idx} className="card-premium-bg border-none group overflow-hidden shadow-xl rounded-[2.5rem] hover:-translate-y-2 transition-all duration-500 relative flex flex-col h-full">
               <CardHeader className="p-10 pb-6 relative z-10">
