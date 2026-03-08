@@ -50,6 +50,13 @@ export function AIChat() {
     }
   }, [result, loading, chatHistory, isOpen]);
 
+  // Listen for custom event to open the chat
+  useEffect(() => {
+    const handleOpenChat = () => setIsOpen(true);
+    window.addEventListener('open-ai-chat', handleOpenChat);
+    return () => window.removeEventListener('open-ai-chat', handleOpenChat);
+  }, []);
+
   const handleQuickNiche = (nichePrompt: string) => {
     setInput(nichePrompt);
   };
@@ -71,7 +78,7 @@ export function AIChat() {
       if (!recommendation.isDataSufficient) {
         setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Preciso de mais contexto sobre sua marca." }]);
       } else {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: "Audit concluído. O Arquiteto gerou seu Dossiê Estratégico abaixo:" }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Consultoria concluída. O Arquiteto gerou seu Dossiê Estratégico abaixo:" }]);
       }
     } catch (error) {
       console.error("Erro ao processar consulta AI:", error);
@@ -113,7 +120,7 @@ export function AIChat() {
               <ShieldCheck className="h-5 w-5 md:h-7 md:w-7 text-white" />
             </div>
             <div>
-              <Badge className="bg-white/20 text-white border-none text-[7px] md:text-[8px] font-black uppercase tracking-[0.3em] mb-1.5 md:mb-2 px-3">Consultoria de Elite</Badge>
+              <Badge className="bg-white/20 text-white border-none text-[7px] md:text-[8px] font-black uppercase tracking-[0.3em] mb-1.5 md:mb-2 px-3">Protocolo Consultivo</Badge>
               <h3 className="font-headline font-black text-xl md:text-2xl tracking-tighter leading-none">Arquiteto Sapient</h3>
             </div>
           </div>
@@ -124,10 +131,10 @@ export function AIChat() {
             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
               <div className="space-y-4">
                 <p className="text-xl md:text-2xl font-black text-foreground tracking-tighter leading-tight">
-                  Inicie seu Audit Estratégico.
+                  Inicie seu Protocolo de Audit.
                 </p>
                 <p className="text-muted-foreground/60 text-base md:text-lg font-medium leading-relaxed tracking-tight">
-                  Selecione sua área ou descreva o cenário do seu negócio:
+                  Para uma consultoria honesta, conte-nos sobre seu negócio ou selecione uma área abaixo:
                 </p>
               </div>
 
@@ -239,7 +246,7 @@ export function AIChat() {
           {loading && (
             <div className="flex items-center gap-3 animate-in fade-in slide-in-from-left-4 duration-500">
               <Loader2 className="h-4 w-4 text-primary animate-spin" />
-              <p className="text-[8px] font-black uppercase tracking-widest text-primary/60">Arquiteto Analisando Ecossistema...</p>
+              <p className="text-[8px] font-black uppercase tracking-widest text-primary/60">Arquiteto Estudando Ecossistema...</p>
             </div>
           )}
         </div>
@@ -248,7 +255,7 @@ export function AIChat() {
           <form onSubmit={handleSubmit} className="p-6 md:p-8 border-t border-muted bg-white/50 backdrop-blur-xl shrink-0">
             <div className="relative">
               <Textarea
-                placeholder="Ex: Minha empresa é [Nome] do setor [X] e precisamos de..."
+                placeholder="Descreva seu negócio e o que busca resolver..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={loading}

@@ -18,6 +18,11 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleOpenChat = () => {
+    setIsMobileMenuOpen(false);
+    window.dispatchEvent(new CustomEvent('open-ai-chat'));
+  };
+
   const navLinks = [
     { name: "Serviços", href: "#servicos" },
     { name: "Portfólio", href: "#portfolio" },
@@ -52,11 +57,13 @@ export function Navbar() {
               <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full" />
             </Link>
           ))}
-          <Link href="#contato">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-12 h-12 md:h-14 shadow-xl shadow-primary/30 text-[10px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95">
-              Iniciar Projeto
-            </Button>
-          </Link>
+          <Button 
+            onClick={handleOpenChat}
+            size="lg" 
+            className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-12 h-12 md:h-14 shadow-xl shadow-primary/30 text-[10px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
+          >
+            Iniciar Projeto
+          </Button>
         </div>
 
         {/* Mobile Menu Trigger */}
@@ -83,10 +90,7 @@ export function Navbar() {
           ))}
           <Button 
             className="w-full bg-primary font-black py-8 text-base uppercase tracking-widest rounded-full shadow-2xl shadow-primary/30 hover:scale-[1.02] active:scale-95 transition-all"
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={handleOpenChat}
           >
             Falar com Especialista
           </Button>

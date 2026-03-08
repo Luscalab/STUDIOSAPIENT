@@ -1,9 +1,15 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export function Hero() {
   const behanceUrl = "https://www.behance.net/sapient";
+
+  const handleOpenChat = () => {
+    window.dispatchEvent(new CustomEvent('open-ai-chat'));
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20 soft-gradient-bg">
@@ -32,11 +38,12 @@ export function Hero() {
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-8 animate-fade-in-up [animation-delay:600ms]">
-          <Link href="#contato" className="w-full sm:w-auto">
-            <Button className="w-full sm:w-auto h-20 md:h-24 px-16 md:px-20 text-lg md:text-xl font-black bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/40 transition-all hover:scale-105 active:scale-95 rounded-full uppercase tracking-widest text-white">
-              Iniciar Conversa
-            </Button>
-          </Link>
+          <Button 
+            onClick={handleOpenChat}
+            className="w-full sm:w-auto h-20 md:h-24 px-16 md:px-20 text-lg md:text-xl font-black bg-primary hover:bg-primary/90 shadow-2xl shadow-primary/40 transition-all hover:scale-105 active:scale-95 rounded-full uppercase tracking-widest text-white"
+          >
+            Iniciar Conversa
+          </Button>
           <Link href={behanceUrl} target="_blank" className="w-full sm:w-auto">
             <Button variant="outline" className="w-full sm:w-auto h-20 md:h-24 px-16 md:px-20 text-lg md:text-xl font-black border-primary/20 hover:bg-primary/5 transition-all rounded-full group uppercase tracking-widest bg-white/20 backdrop-blur-sm">
               Behance <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform duration-500" />
