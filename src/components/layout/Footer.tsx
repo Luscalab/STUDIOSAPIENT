@@ -13,12 +13,12 @@ export function Footer() {
           <div className="lg:col-span-6">
             {/* Logo do Rodapé com Fundo Gradiente Roxo Intensificado */}
             <div className="relative mb-12 group w-fit">
-              {/* Brilho radial de fundo persistente */}
-              <div className="absolute -inset-16 bg-primary/10 rounded-full blur-[80px] opacity-100 group-hover:bg-primary/20 transition-all duration-1000" />
+              {/* Brilho radial de fundo persistente mais forte e roxo */}
+              <div className="absolute -inset-20 bg-primary/20 rounded-full blur-[100px] opacity-100 group-hover:bg-primary/30 transition-all duration-1000" />
               
               <Link href="/" className="relative block h-16 w-36 md:h-[12.15rem] md:w-[45.9rem]">
-                {/* Overlay gradiente roxo e dourado para o logotipo */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/10 to-transparent rounded-[3rem] blur-3xl -z-10" />
+                {/* Overlay gradiente roxo vibrante para o logotipo */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-accent/20 to-transparent rounded-[3rem] blur-3xl -z-10" />
                 <Image 
                   src={logoUrl}
                   alt="Sapient Studio Logo"
