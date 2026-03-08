@@ -44,15 +44,15 @@ export function Navbar() {
               src={logoUrl}
               alt="Sapient Studio Logo"
               fill
-              className="object-contain object-left drop-shadow-[0_10px_20px_rgba(0,0,0,0.3)]"
+              className="object-contain object-left drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
               priority
             />
           </Link>
         </div>
 
-        {/* Menu de Navegação - Cápsula Centralizada */}
+        {/* Menu de Navegação - Cápsula Deslocada para a Direita */}
         <div className={cn(
-          "pointer-events-auto h-16 md:h-20 px-8 md:px-12 rounded-full flex items-center transition-all duration-700 border",
+          "pointer-events-auto h-16 md:h-20 px-8 md:px-12 rounded-full flex items-center transition-all duration-700 border md:translate-x-[15%]",
           isScrolled 
             ? "glass-morphism border-primary/20 shadow-[0_20px_40px_-15px_rgba(139,92,246,0.12)] translate-y-0" 
             : "bg-white/5 backdrop-blur-xl border-white/10 translate-y-2"
