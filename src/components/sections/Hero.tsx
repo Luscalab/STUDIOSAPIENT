@@ -17,7 +17,7 @@ export function Hero() {
 
   return (
     <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden pt-8 pb-10">
-      {/* Background Layered System */}
+      {/* Background Layered System - Vibrant Purples & Complements (No Black) */}
       <div className="absolute inset-0 z-0 hero-purple-mesh">
         {/* Subtle Texture for depth */}
         <div className="absolute inset-0 opacity-[0.2] mix-blend-overlay">
@@ -34,12 +34,12 @@ export function Hero() {
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-primary/40 rounded-full blur-[160px] animate-pulse" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/30 rounded-full blur-[140px] animate-pulse [animation-delay:4s]" />
         
-        {/* Transition Overlay - Gradiente suave para o fundo da página */}
+        {/* Transition Overlay - Smooth gradient to page background */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-[#fbfaff]" />
       </div>
       
-      {/* Container do conteúdo elevado em 30% (usando translate-y negativo) */}
-      <div className="container relative z-10 mx-auto px-6 -translate-y-[15%] md:-translate-y-[20%]">
+      {/* Content elevated 30% more as requested (increased from previous translations) */}
+      <div className="container relative z-10 mx-auto px-6 -translate-y-[25%] md:-translate-y-[35%]">
         <div className="max-w-[1100px] mx-auto text-center">
           <div className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 backdrop-blur-3xl px-6 py-2 text-[9px] font-bold uppercase tracking-[0.4em] text-white mb-3 animate-fade-in-up shadow-2xl">
             <Sparkles className="h-3 w-3 text-primary" />

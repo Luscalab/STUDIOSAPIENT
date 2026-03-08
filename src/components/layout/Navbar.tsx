@@ -37,9 +37,9 @@ export function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-2 md:p-3">
       <div className="container mx-auto relative flex items-center justify-center min-h-[5rem] md:min-h-[8rem]">
         
-        {/* Logo - Independente no canto superior esquerdo (Reduzido em 10%) */}
+        {/* Logo - Independente no canto superior esquerdo (Reduzido em 10% conforme solicitado) */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-auto -ml-4 md:-ml-8">
-          <Link href="/" className="relative h-28 w-64 md:h-56 md:w-[54rem] block group">
+          <Link href="/" className="relative h-25 w-58 md:h-50 md:w-[48rem] block group">
             <Image 
               src={logoUrl}
               alt="Sapient Studio Logo"
@@ -50,7 +50,7 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* Menu de Navegação - Cápsula Deslocada para a Direita */}
+        {/* Menu de Navegação - Cápsula Deslocada 25% para a Direita */}
         <div className={cn(
           "pointer-events-auto h-14 md:h-16 px-8 md:px-12 rounded-full flex items-center transition-all duration-700 border md:translate-x-[25%]",
           isScrolled 
