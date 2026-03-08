@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -33,60 +34,63 @@ export function Navbar() {
   const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoxOTMwNjE0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM";
 
   return (
-    <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-700 px-4 md:px-12 pt-4",
-      isScrolled ? "translate-y-0" : "translate-y-2"
-    )}>
-      <div className={cn(
-        "container mx-auto h-24 md:h-32 rounded-[2rem] md:rounded-[3rem] flex items-center justify-between px-6 md:px-12 transition-all duration-700 border",
-        isScrolled 
-          ? "glass-morphism border-primary/20 shadow-[0_20px_40px_-15px_rgba(139,92,246,0.12)]" 
-          : "bg-white/5 backdrop-blur-xl border-white/10"
-      )}>
-        {/* Logo - Canto Superior Esquerdo */}
-        <Link href="/" className="relative h-20 w-48 md:h-36 md:w-[35rem] group -ml-4 md:-ml-8 shrink-0">
-          <Image 
-            src={logoUrl}
-            alt="Sapient Studio Logo"
-            fill
-            className="object-contain object-left"
-            priority
-          />
-        </Link>
-
-        {/* Desktop Links - Canto Direito */}
-        <div className="hidden md:flex items-center gap-8 lg:gap-12">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              href={link.href} 
-              className="text-[10px] uppercase tracking-[0.4em] font-black text-white/70 hover:text-white transition-all relative group"
-            >
-              {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-primary transition-all duration-500 group-hover:w-full" />
-            </Link>
-          ))}
-          <Button 
-            onClick={handleOpenChat}
-            size="sm" 
-            className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-10 h-12 shadow-lg shadow-primary/20 text-[9px] uppercase tracking-widest transition-all hover:scale-105 active:scale-95"
-          >
-            Iniciar Projeto
-          </Button>
+    <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-4 md:p-8">
+      <div className="container mx-auto flex items-center justify-between">
+        
+        {/* Logo - Independente e sem fundo transparente */}
+        <div className="pointer-events-auto shrink-0 -ml-4 md:-ml-8">
+          <Link href="/" className="relative h-28 w-64 md:h-52 md:w-[50rem] block group">
+            <Image 
+              src={logoUrl}
+              alt="Sapient Studio Logo"
+              fill
+              className="object-contain object-left drop-shadow-[0_10px_20px_rgba(0,0,0,0.3)]"
+              priority
+            />
+          </Link>
         </div>
 
-        {/* Mobile Menu Trigger */}
-        <button 
-          className="md:hidden text-white p-2 hover:bg-white/5 rounded-full transition-colors"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        {/* Menu de Navegação - Com fundo transparente (Cápsula) */}
+        <div className={cn(
+          "pointer-events-auto h-16 md:h-20 px-8 md:px-12 rounded-full flex items-center transition-all duration-700 border",
+          isScrolled 
+            ? "glass-morphism border-primary/20 shadow-[0_20px_40px_-15px_rgba(139,92,246,0.12)] translate-y-0" 
+            : "bg-white/5 backdrop-blur-xl border-white/10 translate-y-2"
+        )}>
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-8 lg:gap-12">
+            {navLinks.map((link) => (
+              <Link 
+                key={link.name} 
+                href={link.href} 
+                className="text-[10px] uppercase tracking-[0.4em] font-black text-white/70 hover:text-white transition-all relative group"
+              >
+                {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-primary transition-all duration-500 group-hover:w-full" />
+              </Link>
+            ))}
+            <Button 
+              onClick={handleOpenChat}
+              size="sm" 
+              className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-10 h-10 shadow-lg shadow-primary/20 text-[9px] uppercase tracking-widest transition-all hover:scale-105"
+            >
+              Iniciar Projeto
+            </Button>
+          </div>
+
+          {/* Mobile Menu Trigger */}
+          <button 
+            className="md:hidden text-white p-2 hover:bg-white/5 rounded-full transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-28 left-4 right-4 glass-morphism rounded-[2.5rem] p-10 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20">
+        <div className="md:hidden absolute top-28 left-4 right-4 glass-morphism rounded-[2.5rem] p-10 flex flex-col gap-6 shadow-2xl animate-in fade-in zoom-in-95 duration-500 border-primary/20 pointer-events-auto">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
@@ -98,7 +102,7 @@ export function Navbar() {
             </Link>
           ))}
           <Button 
-            className="w-full bg-primary font-black py-6 text-sm uppercase tracking-widest rounded-full shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
+            className="w-full bg-primary font-black py-6 text-sm uppercase tracking-widest rounded-full shadow-xl shadow-primary/20"
             onClick={handleOpenChat}
           >
             Falar com Especialista
