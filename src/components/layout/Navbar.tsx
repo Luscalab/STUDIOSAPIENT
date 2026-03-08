@@ -1,7 +1,9 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
@@ -29,6 +31,8 @@ export function Navbar() {
     { name: "Contato", href: "#contato" },
   ];
 
+  const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoxOTMwNjE0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM";
+
   return (
     <nav className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-1000 px-4 md:px-12",
@@ -40,9 +44,14 @@ export function Navbar() {
           ? "glass-morphism border-primary/20 shadow-[0_25px_50px_-15px_rgba(139,92,246,0.15)]" 
           : "bg-white/40 backdrop-blur-xl border-white/40"
       )}>
-        <Link href="/" className="font-headline text-xl md:text-3xl font-bold tracking-tighter flex items-center gap-1 group">
-          <span className="text-primary group-hover:scale-110 transition-transform duration-500 italic">S@</span>
-          <span className="tracking-widest text-foreground uppercase">PIENT</span>
+        <Link href="/" className="relative h-8 w-24 md:h-12 md:w-32 group">
+          <Image 
+            src={logoUrl}
+            alt="Sapient Studio Logo"
+            fill
+            className="object-contain"
+            priority
+          />
         </Link>
 
         {/* Desktop Links */}

@@ -1,15 +1,23 @@
+
 import Link from "next/link";
+import Image from "next/image";
 import { Instagram, Linkedin, Palette, ArrowUpRight } from "lucide-react";
 
 export function Footer() {
+  const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoxOTMwNjE0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM";
+
   return (
     <footer className="py-24 border-t border-muted bg-white">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 mb-32">
           <div className="lg:col-span-6">
-            <Link href="/" className="font-headline text-3xl font-bold tracking-tighter flex items-center gap-1 mb-10">
-              <span className="text-primary italic">S@</span>
-              <span className="tracking-widest text-foreground uppercase">PIENT</span>
+            <Link href="/" className="relative h-12 w-48 mb-10 block">
+              <Image 
+                src={logoUrl}
+                alt="Sapient Studio Logo"
+                fill
+                className="object-contain object-left"
+              />
             </Link>
             <p className="text-muted-foreground/60 text-xl mb-12 font-medium leading-relaxed max-w-md tracking-tight">
               Transformamos negócios comuns em marcas desejadas através de design estratégico e performance de elite.
