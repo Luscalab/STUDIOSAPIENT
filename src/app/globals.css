@@ -48,10 +48,10 @@
 
 .hero-purple-mesh {
   background: 
-    radial-gradient(at 0% 0%, hsla(265, 90%, 60%, 0.4) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, hsla(272, 90%, 50%, 0.3) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, hsla(285, 90%, 60%, 0.4) 0, transparent 50%),
-    radial-gradient(at 50% 50%, hsla(265, 90%, 56%, 0.1), transparent 80%);
+    radial-gradient(at 0% 0%, hsla(265, 95%, 45%, 0.7) 0, transparent 60%), 
+    radial-gradient(at 50% 0%, hsla(272, 95%, 40%, 0.6) 0, transparent 60%), 
+    radial-gradient(at 100% 0%, hsla(285, 95%, 45%, 0.7) 0, transparent 60%),
+    radial-gradient(at 50% 50%, hsla(265, 90%, 56%, 0.4), transparent 80%);
 }
 
 .glass-morphism {

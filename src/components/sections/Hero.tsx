@@ -27,9 +27,9 @@ export function Hero() {
           priority
           data-ai-hint="abstract purple background"
         />
-        {/* Layered Gradient Mixture for Depth and Brand Color */}
-        <div className="absolute inset-0 hero-purple-mesh opacity-80 mix-blend-overlay" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-background/90" />
+        {/* Intense Purple Gradient Mixture */}
+        <div className="absolute inset-0 hero-purple-mesh opacity-90 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/40 via-transparent to-background" />
       </div>
       
       <div className="container relative z-10 mx-auto px-6 text-center">
