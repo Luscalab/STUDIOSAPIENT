@@ -34,8 +34,8 @@ export function Navbar() {
   const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoxOTMwNjE0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM";
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-2 md:p-4">
-      <div className="container mx-auto relative flex items-center justify-center min-h-[6rem] md:min-h-[10rem]">
+    <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-2 md:p-3">
+      <div className="container mx-auto relative flex items-center justify-center min-h-[5rem] md:min-h-[8rem]">
         
         {/* Logo - Independente no canto superior esquerdo */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-auto -ml-4 md:-ml-8">
@@ -52,7 +52,7 @@ export function Navbar() {
 
         {/* Menu de Navegação - Cápsula Deslocada para a Direita */}
         <div className={cn(
-          "pointer-events-auto h-14 md:h-16 px-8 md:px-12 rounded-full flex items-center transition-all duration-700 border md:translate-x-[15%]",
+          "pointer-events-auto h-14 md:h-16 px-8 md:px-12 rounded-full flex items-center transition-all duration-700 border md:translate-x-[25%]",
           isScrolled 
             ? "glass-morphism border-primary/20 shadow-[0_20px_40px_-15px_rgba(139,92,246,0.12)] translate-y-0" 
             : "bg-white/5 backdrop-blur-xl border-white/10 translate-y-1"
