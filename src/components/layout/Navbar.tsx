@@ -36,9 +36,9 @@ export function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-2 md:p-3">
       <div className="container mx-auto relative flex items-center justify-center min-h-[4rem] md:min-h-[8rem]">
         
-        {/* Logo - Canto superior esquerdo - Aumentado em 40% no desktop */}
+        {/* Logo - Canto superior esquerdo - Reduzido 15% do tamanho anterior imponente */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-auto -ml-2 md:-ml-8">
-          <Link href="/" className="relative h-20 w-44 md:h-[17.5rem] md:w-[67rem] block group">
+          <Link href="/" className="relative h-20 w-44 md:h-[15rem] md:w-[57rem] block group">
             <Image 
               src={logoUrl}
               alt="Sapient Studio Logo"

@@ -10,8 +10,8 @@ export function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 mb-32">
           <div className="lg:col-span-6">
-            {/* Logo aumentado em 40% no desktop */}
-            <Link href="/" className="relative h-48 w-[42rem] lg:h-[17rem] lg:w-[59rem] mb-12 block">
+            {/* Logo reduzido em 15% conforme solicitado para desktop */}
+            <Link href="/" className="relative h-48 w-[42rem] lg:h-[14.5rem] lg:w-[50rem] mb-12 block">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
