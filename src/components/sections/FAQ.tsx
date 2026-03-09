@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -35,41 +34,41 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-24 md:py-40 bg-[#0c0a1a] relative overflow-hidden">
+    <section id="faq" className="py-32 md:py-64 bg-[#0c0a1a] relative overflow-hidden">
       {/* Background Sophistication */}
-      <div className="absolute top-0 left-0 w-full h-full hero-purple-mesh opacity-20 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-full hero-purple-mesh opacity-30 pointer-events-none" />
       
-      <div className="container mx-auto px-6 max-w-5xl relative z-10">
-        <div className="text-center mb-24">
-          <Badge className="mb-8 bg-primary/10 text-primary border-primary/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full">
+      <div className="container mx-auto px-6 max-w-6xl relative z-10">
+        <div className="text-center mb-40">
+          <Badge className="mb-12 bg-primary/10 text-primary border-primary/20 px-12 py-5 text-[10px] font-black uppercase tracking-[0.6em] rounded-full backdrop-blur-3xl">
             Esclarecimento Estratégico
           </Badge>
-          <h2 className="font-headline text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-none text-white">
+          <h2 className="font-headline text-6xl md:text-[8.5rem] font-black tracking-tighter mb-12 leading-[0.85] text-white">
             Dúvidas <br /><span className="text-primary italic opacity-90">Frequentes.</span>
           </h2>
-          <p className="text-white/40 text-xl md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
+          <p className="text-white/40 text-2xl md:text-3xl font-medium max-w-3xl mx-auto leading-relaxed tracking-tight">
             Transparência absoluta sobre nossa metodologia e processos de engenharia visual.
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="w-full space-y-6">
+        <Accordion type="single" collapsible className="w-full space-y-8">
           {faqs.map((faq, idx) => (
             <AccordionItem 
               key={idx} 
               value={`item-${idx}`} 
-              className="border-none bg-white/5 backdrop-blur-3xl rounded-[2.5rem] px-8 md:px-12 py-2 shadow-sm border border-white/5 hover:border-primary/20 data-[state=open]:bg-primary/5 data-[state=open]:border-primary/20 transition-all duration-700 overflow-hidden"
+              className="border-none bg-white/5 backdrop-blur-3xl rounded-[3.5rem] px-10 md:px-20 py-6 shadow-2xl border border-white/5 hover:border-primary/20 data-[state=open]:bg-primary/5 data-[state=open]:border-primary/20 transition-all duration-1000 overflow-hidden"
             >
-              <AccordionTrigger className="text-xl md:text-2xl font-black tracking-tighter hover:no-underline text-left py-8 group text-white">
-                <div className="flex items-center gap-6">
-                  <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                    <HelpCircle className="h-5 w-5" />
+              <AccordionTrigger className="text-2xl md:text-4xl font-black tracking-tighter hover:no-underline text-left py-10 group text-white">
+                <div className="flex items-center gap-10">
+                  <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform border border-primary/20">
+                    <HelpCircle className="h-8 w-8" />
                   </div>
                   {faq.question}
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="text-lg md:text-xl text-white/40 leading-relaxed pb-10 font-medium tracking-tight">
-                <div className="pl-16 relative">
-                  <div className="absolute left-6 top-0 bottom-0 w-px bg-primary/20" />
+              <AccordionContent className="text-xl md:text-2xl text-white/40 leading-relaxed pb-16 font-medium tracking-tight">
+                <div className="pl-24 relative">
+                  <div className="absolute left-10 top-0 bottom-0 w-px bg-primary/30" />
                   {faq.answer}
                 </div>
               </AccordionContent>
@@ -78,8 +77,8 @@ export function FAQ() {
         </Accordion>
 
         {/* Floating Decoration */}
-        <div className="absolute -bottom-20 -right-20 p-24 opacity-[0.03] text-primary pointer-events-none">
-          <Sparkles className="h-96 w-96" />
+        <div className="absolute -bottom-20 -right-20 p-32 opacity-[0.05] text-primary pointer-events-none">
+          <Sparkles className="h-[40rem] w-[40rem]" />
         </div>
       </div>
     </section>
