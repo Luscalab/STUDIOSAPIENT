@@ -45,16 +45,16 @@ export function Hero() {
           {/* Badge with glass effect */}
           <div className="inline-flex items-center gap-2 md:gap-3 rounded-full border border-white/20 bg-white/10 backdrop-blur-3xl px-6 py-2 md:px-8 md:py-3 text-[9px] md:text-[11px] font-bold uppercase tracking-[0.4em] md:tracking-[0.5em] text-white mb-8 animate-fade-in-up shadow-2xl">
             <Sparkles className="h-4 w-4 text-primary" />
-            <span>Consultoria & Design de Performance</span>
+            <span>Engenharia de Branding & Performance</span>
           </div>
           
           <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-[-0.04em] mb-10 animate-fade-in-up [animation-delay:200ms] text-white leading-[0.9] text-balance drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
             Design que posiciona.<br />
-            <span className="text-white tracking-[-0.01em] italic font-semibold opacity-90">Estratégia que escala.</span>
+            <span className="text-white tracking-[-0.01em] italic font-semibold opacity-90">Estratégia que traciona.</span>
           </h1>
           
           <p className="max-w-xl md:max-w-3xl mx-auto text-base md:text-xl lg:text-2xl text-white/80 mb-14 animate-fade-in-up [animation-delay:400ms] leading-relaxed font-medium tracking-tight text-balance">
-            Transformamos negócios em referências através de ecossistemas digitais de alta clareza e autoridade visual.
+            Arquitetura digital de alta performance para marcas que exigem autoridade e buscam escala real de faturamento.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 animate-fade-in-up [animation-delay:600ms]">
@@ -68,7 +68,7 @@ export function Hero() {
               Iniciar Diagnóstico
             </Button>
             <Link href={behanceUrl} target="_blank" className="w-full sm:w-auto">
-              <Button variant="outline" className="w-full sm:w-auto h-16 md:h-20 px-12 md:px-16 text-[11px] md:text-[13px] font-black border-white/30 hover:bg-white/10 transition-all rounded-full group uppercase tracking-[0.25em] bg-white/5 backdrop-blur-md text-white">
+              <Button variant="outline" className="w-full sm:w-auto h-16 md:h-20 px-12 md:px-16 text-[11px] md:text-[13px] font-black border-white/40 hover:bg-white/20 transition-all rounded-full group uppercase tracking-[0.25em] bg-white/10 backdrop-blur-md text-white shadow-[0_0_40px_rgba(255,255,255,0.1)]">
                 Ver Portfólio <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
