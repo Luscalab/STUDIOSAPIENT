@@ -18,7 +18,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative min-h-[90vh] md:min-h-[100vh] flex items-center justify-center overflow-hidden pt-48 pb-24 md:pt-64 md:pb-32">
+    <section className="relative min-h-[90vh] md:min-h-[100vh] flex items-center justify-center overflow-hidden pt-48 pb-24 md:pt-64 md:pb-32 max-w-full">
       {/* Background Layered System */}
       <div className="absolute inset-0 z-0 hero-purple-mesh">
         <div className="absolute inset-0 opacity-[0.2] mix-blend-overlay">
@@ -40,7 +40,7 @@ export function Hero() {
       </div>
       
       {/* Content */}
-      <div className="container relative z-10 mx-auto px-6">
+      <div className="container relative z-10 mx-auto px-6 max-w-full">
         <div className="max-w-[1200px] mx-auto text-center">
           {/* Badge with glass effect */}
           <div className="inline-flex items-center gap-2 md:gap-3 rounded-full border border-white/20 bg-white/10 backdrop-blur-3xl px-6 py-2 md:px-8 md:py-3 text-[9px] md:text-[11px] font-bold uppercase tracking-[0.4em] md:tracking-[0.5em] text-white mb-10 animate-fade-in-up shadow-2xl">
@@ -48,7 +48,7 @@ export function Hero() {
             <span>Consultoria & Design de Performance</span>
           </div>
           
-          <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-[8rem] font-extrabold tracking-[-0.04em] mb-10 animate-fade-in-up [animation-delay:200ms] text-white leading-[0.9] md:leading-[0.85] text-balance drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
+          <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl lg:text-[7.5rem] font-extrabold tracking-[-0.04em] mb-10 animate-fade-in-up [animation-delay:200ms] text-white leading-[0.95] md:leading-[0.85] text-balance drop-shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
             Design que posiciona.<br />
             <span className="text-white tracking-[-0.01em] italic font-semibold opacity-90">Estratégia que escala.</span>
           </h1>
