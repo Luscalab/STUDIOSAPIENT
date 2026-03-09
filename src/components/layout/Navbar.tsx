@@ -25,20 +25,13 @@ export function Navbar() {
 
   return (
     <>
-      {/* 
-        Header Estático: Posicionado no topo absoluto da página. 
-        Py reduzido para "elevar" o conjunto em relação ao topo.
-      */}
-      <header className="absolute top-0 left-0 right-0 z-50 py-4 md:py-6">
+      {/* Header Estático: Não acompanha o scroll */}
+      <header className="absolute top-0 left-0 right-0 z-50 pt-2 pb-2 md:pt-4 md:pb-4">
         <div className="container mx-auto px-6 flex items-center justify-between">
           
-          {/* 
-            Container do Logotipo: 
-            Tamanho ampliado significativamente (Desktop: 480px, Mobile: 240px).
-            Utiliza object-contain para garantir que a imagem não distorça.
-          */}
-          <div className="flex-shrink-0 animate-logo-reveal flex items-center">
-            <Link href="/" className="relative block w-60 h-16 md:w-[480px] md:h-32 group">
+          {/* Lado Esquerdo: Logotipo Imponente */}
+          <div className="flex items-center">
+            <Link href="/" className="relative block w-64 h-16 md:w-[650px] md:h-44 group transition-transform">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -49,16 +42,13 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* 
-            Navegação Desktop: 
-            Mantém o alinhamento centralizado com o logo.
-          */}
-          <nav className="hidden md:flex items-center gap-10 px-10 py-4 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl">
+          {/* Lado Direito: Menu Desktop Padronizado */}
+          <nav className="hidden md:flex items-center gap-10 px-10 py-5 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all relative group"
+                className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all relative group whitespace-nowrap"
               >
                 {link.name}
                 <span className="absolute -bottom-1.5 left-0 w-0 h-[1px] bg-primary transition-all duration-500 group-hover:w-full" />
@@ -67,37 +57,36 @@ export function Navbar() {
             
             <button 
               onClick={handleOpenChat}
-              className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all relative group"
+              className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all relative group whitespace-nowrap"
             >
               Análise Estratégica
               <span className="absolute -bottom-1.5 left-0 w-0 h-[1px] bg-primary transition-all duration-500 group-hover:w-full" />
             </button>
           </nav>
 
-          {/* Botão do Menu Mobile */}
+          {/* Menu Mobile Button */}
           <button 
-            className="md:hidden p-3 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95"
+            className="md:hidden p-4 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95 shrink-0"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <span className="text-[10px] font-black uppercase tracking-[0.3em]">Menu</span>
-            {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
-        {/* Overlay do Menu Mobile */}
+        {/* Overlay Menu Mobile Refinado */}
         <div className={cn(
           "md:hidden fixed inset-0 z-[60] bg-white transition-all duration-500 ease-in-out transform",
           isMobileMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
         )}>
-          <div className="h-full flex flex-col p-10 pt-32">
-            <div className="flex flex-col gap-10 text-center">
+          <div className="h-full flex flex-col p-10 pt-32 bg-[#fbfaff]">
+            <div className="flex flex-col gap-12 text-center">
               {navLinks.map((link, idx) => (
                 <Link 
                   key={link.name} 
                   href={link.href} 
                   className="text-4xl font-black text-foreground tracking-tighter flex items-center justify-center group"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  style={{ transitionDelay: `${idx * 100}ms` }}
                 >
                   {link.name}
                   <ArrowRight className="ml-4 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0" />
@@ -106,26 +95,25 @@ export function Navbar() {
               <button 
                 className="text-4xl font-black text-foreground tracking-tighter text-center flex items-center justify-center group"
                 onClick={handleOpenChat}
-                style={{ transitionDelay: `${navLinks.length * 100}ms` }}
               >
                 Análise Estratégica
                 <ArrowRight className="ml-4 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0" />
               </button>
             </div>
             
-            <div className="mt-auto pt-10 border-t border-muted text-center">
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground mb-6">Contatos Diretos</p>
-              <div className="space-y-4">
-                <p className="font-bold text-lg">sapientcontato@gmail.com</p>
-                <p className="font-bold text-lg">+55 11 95963-1870</p>
+            <div className="mt-auto pt-10 border-t border-muted text-center space-y-6">
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">Contatos</p>
+              <div className="space-y-2">
+                <p className="font-bold text-lg text-foreground">sapientcontato@gmail.com</p>
+                <p className="font-bold text-lg text-foreground">+55 11 95963-1870</p>
               </div>
             </div>
             
             <button 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-8 right-8 h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-primary"
+              className="absolute top-8 right-8 h-14 w-14 rounded-full bg-secondary flex items-center justify-center text-primary shadow-lg"
             >
-              <X size={24} />
+              <X size={28} />
             </button>
           </div>
         </div>
