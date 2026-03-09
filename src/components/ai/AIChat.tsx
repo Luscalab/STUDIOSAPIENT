@@ -84,16 +84,16 @@ export function AIChat() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Diagnóstico IA"
         className={cn(
-          "fixed bottom-6 right-6 z-[100] h-10 w-10 rounded-full flex items-center justify-center transition-all duration-1000 hover:scale-110 active:scale-95 border-2 border-white/40 backdrop-blur-3xl group overflow-hidden shadow-2xl",
+          "fixed bottom-6 right-6 z-[100] h-16 w-16 rounded-full flex items-center justify-center transition-all duration-1000 hover:scale-110 active:scale-95 border-2 border-white/40 backdrop-blur-3xl group overflow-hidden shadow-2xl",
           isOpen ? "bg-foreground rotate-90" : "bg-primary animate-glow-pulse"
         )}
       >
-        {isOpen ? <X className="h-4 w-4 text-white" /> : <Sparkles className="h-4 w-4 text-white animate-pulse" />}
+        {isOpen ? <X className="h-6 w-6 text-white" /> : <Sparkles className="h-6 w-6 text-white animate-pulse" />}
       </button>
 
       <div
         className={cn(
-          "fixed bottom-20 right-4 z-[100] w-[calc(100vw-2rem)] md:w-[300px] h-[50vh] md:max-h-[50vh] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-1000 origin-bottom-right flex flex-col overflow-hidden",
+          "fixed bottom-24 right-4 z-[100] w-[calc(100vw-2rem)] md:w-[350px] h-[60vh] md:max-h-[60vh] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-1000 origin-bottom-right flex flex-col overflow-hidden",
           isOpen ? "scale-100 opacity-100 visible" : "scale-0 opacity-0 invisible"
         )}
         role="dialog"
@@ -102,23 +102,23 @@ export function AIChat() {
         <div className="p-4 bg-primary text-white shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ClipboardCheck className="h-4 w-4" />
+              <ClipboardCheck className="h-5 w-5" />
               <h3 className="font-headline font-black text-sm tracking-tighter uppercase text-white">Estrategista IA</h3>
             </div>
             <div className="flex items-center gap-1 bg-black/10 rounded-full p-1">
               <button 
                 onClick={handleZoomOut} 
-                className="h-5 w-5 rounded-full hover:bg-white/20 flex items-center justify-center"
+                className="h-6 w-6 rounded-full hover:bg-white/20 flex items-center justify-center"
                 aria-label="Diminuir texto do chat"
               >
-                <Minus className="h-2 w-2" />
+                <Minus className="h-3 w-3" />
               </button>
               <button 
                 onClick={handleZoomIn} 
-                className="h-5 w-5 rounded-full hover:bg-white/20 flex items-center justify-center"
+                className="h-6 w-6 rounded-full hover:bg-white/20 flex items-center justify-center"
                 aria-label="Aumentar texto do chat"
               >
-                <Plus className="h-2 w-2" />
+                <Plus className="h-3 w-3" />
               </button>
             </div>
           </div>
@@ -134,9 +134,9 @@ export function AIChat() {
               <p className="text-sm font-black text-foreground uppercase tracking-tight">Atalhos Estratégicos:</p>
               <div className="grid grid-cols-1 gap-2">
                 {QUICK_NICHES.map((niche, i) => (
-                  <button key={i} onClick={() => handleQuickNiche(niche.prompt)} className="flex items-center gap-3 p-2 rounded-xl bg-white border border-primary/5 hover:bg-primary/5 transition-all text-left group shadow-sm">
-                    <div className="h-6 w-6 rounded-lg bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">{niche.icon}</div>
-                    <span className="text-[8px] font-black uppercase tracking-wider text-muted-foreground group-hover:text-primary">{niche.label}</span>
+                  <button key={i} onClick={() => handleQuickNiche(niche.prompt)} className="flex items-center gap-4 p-3 rounded-xl bg-white border border-primary/5 hover:bg-primary/5 transition-all text-left group shadow-sm">
+                    <div className="h-8 w-8 rounded-lg bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">{niche.icon}</div>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground group-hover:text-primary">{niche.label}</span>
                   </button>
                 ))}
               </div>
@@ -146,7 +146,7 @@ export function AIChat() {
           <div className="space-y-4">
             {chatHistory.map((msg, i) => (
               <div key={i} className={cn("flex flex-col gap-1 max-w-[90%]", msg.role === 'user' ? "ml-auto items-end" : "items-start")}>
-                <div className={cn("p-3 rounded-2xl font-medium leading-snug shadow-sm", msg.role === 'user' ? "bg-primary text-white" : "bg-white border border-primary/10 text-muted-foreground/80")} style={{ fontSize: `${textScale * 12}px` }}>{msg.text}</div>
+                <div className={cn("p-4 rounded-2xl font-medium leading-snug shadow-sm", msg.role === 'user' ? "bg-primary text-white" : "bg-white border border-primary/10 text-muted-foreground/80")} style={{ fontSize: `${textScale * 14}px` }}>{msg.text}</div>
               </div>
             ))}
           </div>
@@ -154,32 +154,32 @@ export function AIChat() {
           {result?.isDataSufficient && (
             <div className="space-y-4 pt-4 border-t border-primary/10">
               <div className="space-y-1">
-                <p className="text-[6px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-2 w-2" /> Auditoria</p>
-                <div className="bg-white p-3 rounded-xl border border-primary/10 text-muted-foreground/70 italic" style={{ fontSize: `${textScale * 10}px` }}>"{result.brandAudit}"</div>
+                <p className="text-[8px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-3 w-3" /> Auditoria</p>
+                <div className="bg-white p-4 rounded-xl border border-primary/10 text-muted-foreground/70 italic" style={{ fontSize: `${textScale * 12}px` }}>"{result.brandAudit}"</div>
               </div>
               <div className="space-y-1">
-                <p className="text-[6px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity className="h-2 w-2" /> Diagnóstico</p>
-                <div className="bg-secondary/50 p-3 rounded-xl border border-primary/10 font-black text-foreground tracking-tighter" style={{ fontSize: `${textScale * 13}px` }}>{result.diagnosis}</div>
+                <p className="text-[8px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity className="h-3 w-3" /> Diagnóstico</p>
+                <div className="bg-secondary/50 p-4 rounded-xl border border-primary/10 font-black text-foreground tracking-tighter" style={{ fontSize: `${textScale * 15}px` }}>{result.diagnosis}</div>
               </div>
-              <Button className="w-full h-10 bg-primary text-white rounded-full font-black uppercase tracking-widest text-[8px]" onClick={() => { setIsOpen(false); document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' }); }}>Agendar Consultoria <ArrowRight className="ml-2 h-3 w-3" /></Button>
+              <Button className="w-full h-12 bg-primary text-white rounded-full font-black uppercase tracking-widest text-[10px]" onClick={() => { setIsOpen(false); document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' }); }}>Agendar Consultoria <ArrowRight className="ml-2 h-4 w-4" /></Button>
             </div>
           )}
 
-          {loading && <div className="flex items-center gap-2 bg-primary/5 p-2 rounded-full w-fit"><Loader2 className="h-2 w-2 text-primary animate-spin" /><p className="text-[6px] font-black uppercase tracking-widest text-primary">Analisando...</p></div>}
+          {loading && <div className="flex items-center gap-2 bg-primary/5 p-3 rounded-full w-fit"><Loader2 className="h-3 w-3 text-primary animate-spin" /><p className="text-[8px] font-black uppercase tracking-widest text-primary">Analisando...</p></div>}
         </div>
 
         {(!result || !result.isDataSufficient) && (
-          <form onSubmit={handleSubmit} className="p-3 border-t bg-white">
+          <form onSubmit={handleSubmit} className="p-4 border-t bg-white">
             <div className="relative">
               <Textarea
                 placeholder="Qual o seu nicho?"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={loading}
-                className="min-h-[50px] bg-secondary/30 border-transparent rounded-xl p-3 pr-10 text-[10px] resize-none"
-                style={{ fontSize: `${textScale * 11}px` }}
+                className="min-h-[60px] bg-secondary/30 border-transparent rounded-xl p-4 pr-12 text-[12px] resize-none"
+                style={{ fontSize: `${textScale * 13}px` }}
               />
-              <button type="submit" aria-label="Enviar mensagem" disabled={loading || !input.trim()} className="absolute bottom-2 right-2 h-7 w-7 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-20"><SendHorizontal className="h-3 w-3" /></button>
+              <button type="submit" aria-label="Enviar mensagem" disabled={loading || !input.trim()} className="absolute bottom-3 right-3 h-8 w-8 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-20"><SendHorizontal className="h-4 w-4" /></button>
             </div>
           </form>
         )}

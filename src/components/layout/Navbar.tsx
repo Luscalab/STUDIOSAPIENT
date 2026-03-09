@@ -28,7 +28,7 @@ export function Navbar() {
       <header className="absolute top-10 left-0 right-0 z-[150]" role="banner">
         <div className="container mx-auto px-6 flex items-center justify-between gap-12">
           
-          <Link href="/" className="relative block w-[200px] h-[50px] lg:w-[600px] lg:h-[160px] transition-transform duration-700 hover:scale-105 active:scale-95">
+          <Link href="/" className="relative block w-[280px] h-[75px] lg:w-[600px] lg:h-[160px] transition-transform duration-700 hover:scale-105 active:scale-95">
             <Image 
               src={logoUrl}
               alt="studiosapient Logo"
@@ -66,7 +66,7 @@ export function Navbar() {
             className="lg:hidden p-5 rounded-2xl bg-white/5 backdrop-blur-3xl text-white border border-white/10"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
@@ -80,14 +80,14 @@ export function Navbar() {
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className="text-2xl font-black text-white tracking-tighter uppercase"
+                  className="text-3xl font-black text-white tracking-tighter uppercase"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
                 </Link>
               ))}
               <button 
-                className="text-2xl font-black text-primary tracking-tighter text-left uppercase"
+                className="text-3xl font-black text-primary tracking-tighter text-left uppercase"
                 onClick={handleOpenChat}
               >
                 Análise IA
@@ -95,9 +95,9 @@ export function Navbar() {
             </div>
             <button 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-10 right-10 h-14 w-14 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10"
+              className="absolute top-10 right-10 h-16 w-16 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10"
             >
-              <X size={24} />
+              <X size={32} />
             </button>
           </div>
         </div>
