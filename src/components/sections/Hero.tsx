@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -56,15 +57,15 @@ export function Hero() {
             <Button 
               onClick={handleOpenChat}
               className={cn(
-                "w-full sm:w-auto h-20 md:h-24 px-16 md:px-20 text-[12px] font-black bg-white text-primary hover:bg-white/90 shadow-[0_20px_60px_rgba(255,255,255,0.1)] transition-all rounded-full uppercase tracking-[0.3em]",
+                "w-full sm:w-auto h-20 md:h-24 px-16 md:px-20 text-[12px] font-black bg-white text-primary hover:bg-white/90 hover:scale-105 hover:shadow-[0_25px_60px_rgba(255,255,255,0.2)] transition-all duration-1000 rounded-full uppercase tracking-[0.3em]",
                 isTouchDevice && "active:scale-95"
               )}
             >
               Iniciar Diagnóstico
             </Button>
             <Link href={behanceUrl} target="_blank" className="w-full sm:w-auto">
-              <Button variant="outline" className="w-full sm:w-auto h-20 md:h-24 px-16 md:px-20 text-[12px] font-black border-white/30 hover:bg-white/20 transition-all rounded-full group uppercase tracking-[0.3em] bg-white/10 backdrop-blur-md text-white">
-                Ver Portfólio <ArrowRight className="ml-4 h-7 w-7 group-hover:translate-x-2 transition-transform" />
+              <Button variant="outline" className="w-full sm:w-auto h-20 md:h-24 px-16 md:px-20 text-[12px] font-black border-white/30 hover:bg-white/20 hover:scale-105 transition-all duration-1000 rounded-full group uppercase tracking-[0.3em] bg-white/10 backdrop-blur-md text-white">
+                Ver Portfólio <ArrowRight className="ml-4 h-7 w-7 group-hover:translate-x-4 transition-transform duration-700" />
               </Button>
             </Link>
           </div>

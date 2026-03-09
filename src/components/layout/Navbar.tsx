@@ -34,7 +34,7 @@ export function Navbar() {
             <Link 
               href="/" 
               aria-label="Sapient Studio Home"
-              className="relative block w-48 h-12 md:w-[420px] md:h-32 group transition-transform hover:scale-[1.01]"
+              className="relative block w-48 h-12 md:w-[420px] md:h-32 group transition-all duration-1000 hover:scale-[1.03] hover:drop-shadow-[0_20px_40px_rgba(139,92,246,0.3)]"
             >
               <Image 
                 src={logoUrl}
@@ -51,26 +51,26 @@ export function Navbar() {
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all relative group whitespace-nowrap"
+                className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all duration-700 relative group whitespace-nowrap"
               >
                 {link.name}
-                <span className="absolute -bottom-2 left-0 w-0 h-[1.5px] bg-primary transition-all duration-500 group-hover:w-full" />
+                <span className="absolute -bottom-2 left-0 w-0 h-[3px] bg-primary transition-all duration-1000 group-hover:w-full rounded-full" />
               </Link>
             ))}
             
             <button 
               onClick={handleOpenChat}
               aria-label="Iniciar Análise com Inteligência Artificial"
-              className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all relative group whitespace-nowrap flex items-center gap-2"
+              className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all duration-700 relative group whitespace-nowrap flex items-center gap-2"
             >
-              <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true" />
+              <div className="h-2 w-2 rounded-full bg-primary animate-pulse" aria-hidden="true" />
               Análise IA
-              <span className="absolute -bottom-2 left-0 w-0 h-[1.5px] bg-primary transition-all duration-500 group-hover:w-full" />
+              <span className="absolute -bottom-2 left-0 w-0 h-[3px] bg-primary transition-all duration-1000 group-hover:w-full rounded-full" />
             </button>
           </nav>
 
           <button 
-            className="xl:hidden ml-auto p-4 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95 shrink-0"
+            className="xl:hidden ml-auto p-4 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95 shrink-0 transition-all duration-500 hover:bg-white/20"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-expanded={isMobileMenuOpen}
             aria-label="Abrir menu de navegação"
@@ -93,14 +93,14 @@ export function Navbar() {
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className="text-4xl font-black text-foreground tracking-tighter hover:text-primary transition-colors"
+                  className="text-4xl font-black text-foreground tracking-tighter hover:text-primary transition-colors duration-500"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
                 </Link>
               ))}
               <button 
-                className="text-4xl font-black text-foreground tracking-tighter text-left hover:text-primary transition-colors"
+                className="text-4xl font-black text-foreground tracking-tighter text-left hover:text-primary transition-colors duration-500"
                 onClick={handleOpenChat}
               >
                 Análise Estratégica
@@ -115,7 +115,7 @@ export function Navbar() {
             <button 
               onClick={() => setIsMobileMenuOpen(false)}
               aria-label="Fechar menu"
-              className="absolute top-10 right-10 h-16 w-16 rounded-full bg-secondary flex items-center justify-center text-primary shadow-xl"
+              className="absolute top-10 right-10 h-16 w-16 rounded-full bg-secondary flex items-center justify-center text-primary shadow-xl hover:scale-110 transition-transform duration-500"
             >
               <X size={32} />
             </button>
