@@ -28,7 +28,9 @@ import {
   MousePointer2,
   Gamepad2,
   Palette,
-  UserRound
+  UserRound,
+  Phone,
+  MessageCircle
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -52,6 +54,9 @@ export default function UrbeLudoPage() {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const contactEmail = "sapientcontato@gmail.com";
+  const contactPhone = "+55 11 95963-1870";
 
   return (
     <main className="min-h-screen bg-[#fbfaff] selection:bg-cyan-500/30">
@@ -193,7 +198,7 @@ export default function UrbeLudoPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 max-w-[90rem] mx-auto">
             
             {/* A. Investimento */}
-            <div className="p-16 rounded-[5rem] bg-foreground text-white flex flex-col justify-between group hover:scale-[1.03] transition-all duration-1000 border-t-[8px] border-cyan-500 shadow-4xl relative overflow-hidden">
+            <div className="p-16 rounded-[5rem] bg-foreground text-white flex flex-col group hover:scale-[1.03] transition-all duration-1000 border-t-[8px] border-cyan-500 shadow-4xl relative overflow-hidden">
               <div className="absolute top-0 right-0 p-12 opacity-5">
                 <TrendingUp className="h-64 w-64" />
               </div>
@@ -211,28 +216,32 @@ export default function UrbeLudoPage() {
                   </p>
                 </div>
               </div>
-              <div className="mt-16 space-y-6 relative z-10">
-                <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 text-center space-y-2 group/email">
-                  <p className="text-[10px] font-black text-cyan-400 uppercase tracking-[0.4em] mb-1">Contato Direto</p>
-                  <p className="text-lg font-black text-white">sapientcontato@gmail.com</p>
+              <div className="mt-16 space-y-4 relative z-10">
+                <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10 text-center space-y-1">
+                  <p className="text-[9px] font-black text-cyan-400 uppercase tracking-[0.4em]">E-mail Oficial</p>
+                  <p className="text-base font-black text-white">{contactEmail}</p>
                   <button 
-                    onClick={() => copyToClipboard("sapientcontato@gmail.com", "E-mail")}
-                    className="flex items-center gap-2 mx-auto text-[9px] font-bold text-white/40 hover:text-cyan-400 transition-colors uppercase tracking-widest"
+                    onClick={() => copyToClipboard(contactEmail, "E-mail")}
+                    className="flex items-center gap-2 mx-auto text-[8px] font-bold text-white/40 hover:text-cyan-400 transition-colors uppercase tracking-widest"
                   >
                     <Copy className="h-3 w-3" /> Copiar E-mail
                   </button>
                 </div>
-                <Button 
-                  onClick={() => window.location.href = "mailto:sapientcontato@gmail.com?subject=Interesse em Investimento - UrbeLudo"}
-                  className="w-full h-24 bg-cyan-500 hover:bg-cyan-400 text-foreground font-black uppercase tracking-[0.3em] rounded-full text-[12px] shadow-2xl transition-all"
-                >
-                  Solicitar Pitch Deck
-                </Button>
+                <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10 text-center space-y-1">
+                  <p className="text-[9px] font-black text-cyan-400 uppercase tracking-[0.4em]">WhatsApp</p>
+                  <p className="text-base font-black text-white">{contactPhone}</p>
+                  <button 
+                    onClick={() => copyToClipboard(contactPhone, "WhatsApp")}
+                    className="flex items-center gap-2 mx-auto text-[8px] font-bold text-white/40 hover:text-cyan-400 transition-colors uppercase tracking-widest"
+                  >
+                    <Copy className="h-3 w-3" /> Copiar Número
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* B. Doações */}
-            <div className="p-16 rounded-[5rem] bg-white border border-primary/10 flex flex-col justify-between group hover:scale-[1.03] transition-all duration-1000 shadow-4xl border-t-[8px] border-primary relative overflow-hidden">
+            <div className="p-16 rounded-[5rem] bg-white border border-primary/10 flex flex-col group hover:scale-[1.03] transition-all duration-1000 shadow-4xl border-t-[8px] border-primary relative overflow-hidden">
               <div className="absolute top-0 right-0 p-12 opacity-5">
                 <Heart className="h-64 w-64" />
               </div>
@@ -250,23 +259,25 @@ export default function UrbeLudoPage() {
                   </p>
                 </div>
               </div>
-              <div className="mt-16 space-y-6 relative z-10">
-                <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/10 text-center space-y-2">
-                  <p className="text-[10px] font-black text-primary uppercase tracking-[0.4em] mb-1">Pix Direto (E-mail)</p>
-                  <p className="text-lg font-black text-foreground">sapientcontato@gmail.com</p>
-                  <p className="text-[9px] font-bold text-muted-foreground/60 uppercase tracking-widest">Favorecido: Lucas Santos de Souza</p>
+              <div className="mt-16 space-y-4 relative z-10">
+                <div className="p-6 rounded-[2rem] bg-primary/5 border border-primary/10 text-center space-y-1">
+                  <p className="text-[9px] font-black text-primary uppercase tracking-[0.4em]">Pix Direto</p>
+                  <p className="text-base font-black text-foreground">{contactEmail}</p>
+                  <button 
+                    onClick={() => copyToClipboard(contactEmail, "Chave PIX")}
+                    className="flex items-center gap-2 mx-auto text-[8px] font-bold text-primary/40 hover:text-primary transition-colors uppercase tracking-widest"
+                  >
+                    <QrCode className="h-3 w-3" /> Copiar Chave PIX
+                  </button>
                 </div>
-                <Button 
-                  onClick={() => copyToClipboard("sapientcontato@gmail.com", "Chave PIX")}
-                  className="w-full h-24 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-[0.3em] rounded-full text-[12px] flex items-center justify-center gap-4 shadow-2xl shadow-primary/20 transition-all"
-                >
-                  <QrCode className="h-6 w-6" /> Copiar Chave PIX
-                </Button>
+                <div className="p-4 text-center">
+                   <p className="text-[9px] font-bold text-muted-foreground/40 uppercase tracking-widest">Favorecido: Lucas Santos de Souza</p>
+                </div>
               </div>
             </div>
 
             {/* C. Colaboração */}
-            <div className="p-16 rounded-[5rem] bg-secondary/40 flex flex-col justify-between group hover:scale-[1.03] transition-all duration-1000 border-t-[8px] border-indigo-500 shadow-4xl relative overflow-hidden">
+            <div className="p-16 rounded-[5rem] bg-secondary/40 flex flex-col group hover:scale-[1.03] transition-all duration-1000 border-t-[8px] border-indigo-500 shadow-4xl relative overflow-hidden">
               <div className="absolute top-0 right-0 p-12 opacity-5">
                 <Code2 className="h-64 w-64" />
               </div>
@@ -280,39 +291,31 @@ export default function UrbeLudoPage() {
                 <div className="space-y-6">
                   <h4 className="font-headline text-4xl font-black tracking-tighter">Colaboração Técnica</h4>
                   <p className="text-muted-foreground/70 font-medium text-lg leading-relaxed tracking-tight">
-                    Fonoaudiólogos, psicólogos, psicomotricistas, designers e desenvolvedores (Unity/AI): junte-se ao nosso ecossistema como testador ou revisor.
+                    Devs (Unity/AI), Designers, Psicólogos e Fonoaudiólogos: junte-se ao nosso ecossistema como testador ou revisor.
                   </p>
-                  <div className="flex flex-wrap gap-3 pt-2">
-                    <div className="flex items-center gap-1.5 text-[8px] font-black uppercase tracking-wider text-indigo-600/60 bg-indigo-500/5 px-3 py-1.5 rounded-full border border-indigo-500/10">
-                      <Gamepad2 className="h-3 w-3" /> Dev Games
-                    </div>
-                    <div className="flex items-center gap-1.5 text-[8px] font-black uppercase tracking-wider text-indigo-600/60 bg-indigo-500/5 px-3 py-1.5 rounded-full border border-indigo-500/10">
-                      <Palette className="h-3 w-3" /> Designers
-                    </div>
-                    <div className="flex items-center gap-1.5 text-[8px] font-black uppercase tracking-wider text-indigo-600/60 bg-indigo-500/5 px-3 py-1.5 rounded-full border border-indigo-500/10">
-                      <UserRound className="h-3 w-3" /> Psicólogos
-                    </div>
-                  </div>
                 </div>
               </div>
-              <div className="mt-16 space-y-6 relative z-10">
-                <div className="p-8 rounded-[2.5rem] bg-indigo-500/5 border border-indigo-500/10 text-center space-y-2">
-                  <p className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.4em] mb-1">Candidatura</p>
-                  <p className="text-lg font-black text-indigo-900">sapientcontato@gmail.com</p>
+              <div className="mt-16 space-y-4 relative z-10">
+                <div className="p-6 rounded-[2rem] bg-indigo-500/5 border border-indigo-500/10 text-center space-y-1">
+                  <p className="text-[9px] font-black text-indigo-600 uppercase tracking-[0.4em]">E-mail de Candidatura</p>
+                  <p className="text-base font-black text-indigo-900">{contactEmail}</p>
                   <button 
-                    onClick={() => copyToClipboard("sapientcontato@gmail.com", "E-mail")}
-                    className="flex items-center gap-2 mx-auto text-[9px] font-bold text-indigo-400 hover:text-indigo-600 transition-colors uppercase tracking-widest"
+                    onClick={() => copyToClipboard(contactEmail, "E-mail")}
+                    className="flex items-center gap-2 mx-auto text-[8px] font-bold text-indigo-400 hover:text-indigo-600 transition-colors uppercase tracking-widest"
                   >
                     <Copy className="h-3 w-3" /> Copiar E-mail
                   </button>
                 </div>
-                <Button 
-                  onClick={() => window.location.href = "mailto:sapientcontato@gmail.com?subject=Colaboração Técnica - UrbeLudo"}
-                  variant="outline"
-                  className="w-full h-24 border-indigo-500/30 text-indigo-600 hover:bg-indigo-50 font-black uppercase tracking-[0.3em] rounded-full text-[12px] flex items-center justify-center gap-4 transition-all"
-                >
-                  <Mail className="h-6 w-6" /> Quero Colaborar
-                </Button>
+                <div className="p-6 rounded-[2rem] bg-indigo-500/5 border border-indigo-500/10 text-center space-y-1">
+                  <p className="text-[9px] font-black text-indigo-600 uppercase tracking-[0.4em]">WhatsApp</p>
+                  <p className="text-base font-black text-indigo-900">{contactPhone}</p>
+                  <button 
+                    onClick={() => copyToClipboard(contactPhone, "WhatsApp")}
+                    className="flex items-center gap-2 mx-auto text-[8px] font-bold text-indigo-400 hover:text-indigo-600 transition-colors uppercase tracking-widest"
+                  >
+                    <Copy className="h-3 w-3" /> Copiar Número
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -336,7 +339,7 @@ export default function UrbeLudoPage() {
               </div>
               <div className="flex flex-col items-center md:items-end opacity-40 hover:opacity-100 transition-opacity">
                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] mb-1">Conexão Estratégica</p>
-                 <p className="text-sm font-black text-cyan-400 tracking-wider">sapientcontato@gmail.com</p>
+                 <p className="text-sm font-black text-cyan-400 tracking-wider">{contactEmail}</p>
               </div>
             </div>
           </div>
