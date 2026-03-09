@@ -25,12 +25,14 @@ import {
   Mail,
   QrCode,
   Copy,
-  MousePointer2,
   Gamepad2,
-  Palette,
-  UserRound,
+  Puzzle,
+  Waves,
+  Target,
+  Trophy,
   Phone,
-  MessageCircle
+  MessageCircle,
+  Dna
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -43,8 +45,9 @@ export default function UrbeLudoPage() {
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     toast({
-      title: `${label} Copiado!`,
-      description: `Valor: ${text}`,
+      title: `[ ${label.toUpperCase()} COPIADO ]`,
+      description: "Pronto para uso na sua área de transferência.",
+      className: "bg-black border-cyan-500 text-white font-black uppercase tracking-widest text-[10px]"
     });
   };
 
@@ -59,262 +62,283 @@ export default function UrbeLudoPage() {
   const contactPhone = "+55 11 95963-1870";
 
   return (
-    <main className="min-h-screen bg-[#fbfaff] selection:bg-cyan-500/30">
+    <main className="min-h-screen bg-[#0a0a0c] text-white selection:bg-cyan-500/30 selection:text-white">
       <Navbar />
       
-      {/* 1. Hero Section (O Impacto Visual) */}
-      <section className="relative pt-48 pb-32 md:pt-64 md:pb-56 hero-purple-mesh overflow-hidden">
+      {/* 1. Hero Section (Ultra Premium / Game HUD Style) */}
+      <section className="relative pt-48 pb-32 md:pt-64 md:pb-56 overflow-hidden">
+        {/* Background Dinâmico */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.15),transparent_70%)]" />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-cyan-500/10 blur-[150px] rounded-full animate-pulse" />
+          <div className="absolute top-1/4 left-10 w-[300px] h-[300px] bg-primary/10 blur-[120px] rounded-full animate-float" />
+          {/* Grid de fundo sutil */}
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />
+        </div>
+
         <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-5xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 mb-10 animate-slide-up">
-              <Badge className="bg-cyan-500/20 text-cyan-200 border-cyan-500/30 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md animate-glow-pulse">
-                [ PROJETO EM DESENVOLVIMENTO ]
+          <div className="max-w-6xl mx-auto text-center">
+            <div className="inline-flex items-center gap-3 mb-10 animate-slide-up">
+              <div className="h-2 w-2 rounded-full bg-cyan-400 animate-ping" />
+              <Badge className="bg-white/5 text-cyan-400 border-cyan-400/30 px-6 py-2 text-[9px] font-black uppercase tracking-[0.5em] rounded-sm backdrop-blur-3xl">
+                ESTÁGIO: PROTOTIPAGEM ALPHA_01
               </Badge>
             </div>
             
-            <h1 className="font-headline text-5xl md:text-9xl font-black text-white tracking-tighter leading-[0.9] mb-10 text-balance animate-slide-up [animation-delay:200ms]">
-              UrbeLudo — <span className="text-cyan-400 italic font-medium">A Ciência do Movimento</span> Codificada.
+            <h1 className="font-headline text-5xl md:text-[10rem] font-black text-white tracking-tighter leading-[0.85] mb-12 animate-slide-up [animation-delay:200ms]">
+              UrbeLudo <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-primary italic font-medium">A Ciência do Jogo.</span>
             </h1>
             
-            <p className="text-xl md:text-3xl text-white/70 font-medium max-w-4xl mx-auto leading-tight tracking-tight text-balance mb-16 animate-slide-up [animation-delay:400ms]">
-              Uma plataforma de suporte preditivo que une <span className="text-white font-bold">Psicomotricidade</span>, <span className="text-white font-bold">Fonoaudiologia</span> e <span className="text-white font-bold">Edge AI</span> para transformar a reabilitação institucional.
+            <p className="text-xl md:text-3xl text-white/60 font-medium max-w-4xl mx-auto leading-tight tracking-tight text-balance mb-20 animate-slide-up [animation-delay:400ms]">
+              Onde o movimento se torna dado e o dado se torna <span className="text-white font-bold">evolução.</span> Uma plataforma de biofeedback de elite para reabilitação cognitiva e motora.
             </p>
             
-            {/* Guias de Navegação Rápida - Estilo Premium */}
-            <div className="hidden md:flex flex-wrap items-center justify-center gap-10 mb-16 animate-slide-up [animation-delay:600ms]">
+            {/* Guias de Navegação HUD Style */}
+            <div className="hidden md:flex flex-wrap items-center justify-center gap-16 mb-20 animate-slide-up [animation-delay:600ms]">
               {[
-                { id: 'manifesto', label: 'Manifesto' },
-                { id: 'tecnologia', label: 'Engenharia' },
-                { id: 'engajamento', label: 'Impacto' }
+                { id: 'manifesto', label: 'Manifesto', icon: <Waves className="h-3 w-3" /> },
+                { id: 'tecnologia', label: 'Engine IA', icon: <Cpu className="h-3 w-3" /> },
+                { id: 'impacto', label: 'Missão', icon: <Target className="h-3 w-3" /> }
               ].map((nav) => (
                 <button 
                   key={nav.id}
                   onClick={() => scrollToSection(nav.id)} 
-                  className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] text-white/40 hover:text-cyan-400 transition-all duration-500"
+                  className="group flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.5em] text-white/30 hover:text-cyan-400 transition-all duration-700"
                 >
-                  <span className="h-[1px] w-0 bg-cyan-400 transition-all duration-500 group-hover:w-6" />
+                  <span className="p-2 rounded-lg bg-white/5 border border-white/10 group-hover:border-cyan-400/50 group-hover:bg-cyan-400/10 transition-all">
+                    {nav.icon}
+                  </span>
                   {nav.label}
                 </button>
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 animate-slide-up [animation-delay:800ms]">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-10 animate-slide-up [animation-delay:800ms]">
               <Button 
-                onClick={() => scrollToSection('engajamento')}
-                className="h-24 px-16 bg-white text-primary hover:bg-cyan-50 rounded-full font-black uppercase tracking-[0.3em] text-[12px] shadow-[0_20px_60px_rgba(0,0,0,0.3)] hover:scale-105 transition-all duration-700"
+                onClick={() => scrollToSection('impacto')}
+                className="h-24 px-16 bg-white text-black hover:bg-cyan-400 rounded-none font-black uppercase tracking-[0.4em] text-[12px] shadow-[0_0_50px_rgba(255,255,255,0.1)] hover:scale-105 transition-all duration-700"
               >
-                Como Ajudar <ArrowRight className="ml-4 h-5 w-5" />
+                [ JUNTE-SE À MISSÃO ]
               </Button>
               <button 
                 onClick={() => scrollToSection('manifesto')}
-                className="flex items-center gap-3 text-white/60 hover:text-white transition-all duration-500 text-[10px] font-black uppercase tracking-[0.4em] group"
+                className="flex items-center gap-4 text-white/40 hover:text-white transition-all duration-500 text-[10px] font-black uppercase tracking-[0.6em] group"
               >
-                Explorar Visão <ChevronDown className="h-5 w-5 animate-bounce group-hover:text-cyan-400" />
+                Explorar Core <ChevronDown className="h-5 w-5 animate-bounce group-hover:text-cyan-400" />
               </button>
             </div>
           </div>
         </div>
         
-        {/* Elementos Decorativos Flutuantes */}
-        <div className="absolute top-1/4 left-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 right-10 w-48 h-48 bg-primary/10 rounded-full blur-3xl animate-float [animation-delay:2s]" />
-        
-        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#fbfaff] to-transparent" />
+        {/* Playful Decorative Element */}
+        <div className="absolute bottom-10 left-10 flex items-center gap-4 opacity-20">
+           <Gamepad2 className="h-10 w-10 text-cyan-400 animate-float" />
+           <div className="h-1 w-24 bg-gradient-to-r from-cyan-400 to-transparent rounded-full" />
+        </div>
       </section>
 
-      {/* 2. O Manifesto (O "Porquê") */}
-      <section id="manifesto" className="py-32 md:py-56 bg-white relative overflow-hidden">
+      {/* 2. O Manifesto (Minimalist & Emotional) */}
+      <section id="manifesto" className="py-32 md:py-64 bg-white text-black relative overflow-hidden rounded-[5rem] md:rounded-[10rem] mx-4 my-10">
         <div className="container mx-auto px-6">
-          <div className="max-w-5xl mx-auto text-center space-y-16">
-            <div className="inline-flex h-20 w-20 items-center justify-center rounded-[2rem] bg-primary/5 text-primary mb-4 animate-float">
-              <Sparkles className="h-10 w-10" />
+          <div className="max-w-5xl mx-auto space-y-20">
+            <div className="flex items-center gap-6">
+              <Badge className="bg-black text-white px-6 py-2 text-[10px] font-black uppercase tracking-widest rounded-none">CAPÍTULO_01</Badge>
+              <div className="h-px flex-1 bg-black/10" />
             </div>
-            <h2 className="font-headline text-5xl md:text-8xl font-black tracking-tighter leading-[0.95]">
-              A reabilitação não precisa ser <span className="text-primary italic opacity-90">estática.</span>
+            
+            <h2 className="font-headline text-5xl md:text-9xl font-black tracking-tighter leading-[0.85]">
+              A reabilitação não precisa ser <span className="text-primary italic">estática.</span>
             </h2>
-            <blockquote className="text-2xl md:text-5xl text-muted-foreground/80 font-medium leading-tight tracking-tight italic max-w-4xl mx-auto">
-              "Acreditamos que o movimento humano é a interface mais rica que existe. O UrbeLudo nasce para dar voz ao corpo e dados ao terapeuta, criando uma ponte entre o exercício clínico e o engajamento lúdico de alta tecnologia."
-            </blockquote>
-            <div className="h-2 w-32 bg-primary/20 mx-auto rounded-full" />
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-end">
+              <blockquote className="text-2xl md:text-4xl text-black/80 font-medium leading-tight tracking-tight italic border-l-[12px] border-primary pl-10">
+                "O movimento humano é a interface definitiva. O UrbeLudo nasceu para dar voz ao corpo através do jogo."
+              </blockquote>
+              <div className="space-y-8">
+                <p className="text-xl text-black/50 font-medium leading-relaxed">
+                  Transformamos exercícios clínicos em jornadas épicas de engajamento, onde cada progresso é celebrado com precisão de dados.
+                </p>
+                <div className="h-2 w-32 bg-primary rounded-full" />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 3. Os Pilares Técnicos (O "Como") */}
-      <section id="tecnologia" className="py-32 md:py-56 bg-secondary/30 relative">
+      {/* 3. Os Pilares Técnicos (Bento Grid Style) */}
+      <section id="tecnologia" className="py-32 md:py-64 relative">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-32">
-            <p className="text-[11px] font-black uppercase tracking-[0.6em] text-primary mb-6">Engenharia Cognitiva</p>
-            <h3 className="font-headline text-5xl md:text-[7rem] font-black tracking-tighter leading-none">Pilares do Ecossistema</h3>
+          <div className="mb-32 text-center md:text-left">
+            <p className="text-[11px] font-black uppercase tracking-[0.8em] text-cyan-400 mb-6 flex items-center gap-4 justify-center md:justify-start">
+               <Dna className="h-4 w-4" /> CORE_TECH
+            </p>
+            <h3 className="font-headline text-5xl md:text-[8rem] font-black tracking-tighter leading-none text-white">Ecossistema <br /> de Precisão.</h3>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
-            {[
-              { 
-                icon: <Cpu className="h-10 w-10" />, 
-                title: "Edge AI", 
-                method: "Psicomotricidade", 
-                desc: "Processamento de dados em tempo real no dispositivo, garantindo privacidade e latência zero em diagnósticos de movimento." 
-              },
-              { 
-                icon: <Boxes className="h-10 w-10" />, 
-                title: "Unity Engine", 
-                method: "Fonoaudiologia", 
-                desc: "Ambientes imersivos e gamificados projetados para maximizar a adesão ao tratamento e o engajamento sensorial." 
-              },
-              { 
-                icon: <Activity className="h-10 w-10" />, 
-                title: "Biofeedback", 
-                method: "Análise Preditiva", 
-                desc: "Relatórios precisos sobre a evolução motora e vocal, facilitando decisões clínicas baseadas em evidências sólidas." 
-              }
-            ].map((pilar, i) => (
-              <div 
-                key={i} 
-                className="card-premium-bg p-16 rounded-[4.5rem] space-y-10 group hover:-translate-y-6 transition-all duration-1000 shadow-[0_20px_80px_-15px_rgba(0,0,0,0.05)]"
-              >
-                <div className="h-20 w-20 rounded-[2rem] bg-white flex items-center justify-center text-primary shadow-lg group-hover:bg-primary group-hover:text-white transition-all duration-700 group-hover:scale-110">
-                  {pilar.icon}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 max-w-7xl mx-auto">
+            {/* Edge AI - Big Card */}
+            <div className="md:col-span-8 p-16 rounded-[4.5rem] bg-white/5 border border-white/10 group hover:bg-white/10 transition-all duration-1000 relative overflow-hidden">
+               <div className="absolute top-0 right-0 p-12 opacity-10">
+                 <Cpu className="h-48 w-48 text-cyan-400" />
+               </div>
+               <div className="relative z-10 space-y-10">
+                 <div className="h-20 w-20 rounded-3xl bg-cyan-400/20 flex items-center justify-center text-cyan-400 border border-cyan-400/30">
+                   <Cpu className="h-10 w-10" />
+                 </div>
+                 <div className="space-y-6">
+                    <p className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-400/60">Latência Zero</p>
+                    <h4 className="font-headline text-4xl md:text-6xl font-black tracking-tighter">Edge AI Process</h4>
+                    <p className="text-xl text-white/50 font-medium max-w-xl">Inteligência processada na borda para diagnósticos imediatos de biomecânica e fonação.</p>
+                 </div>
+               </div>
+            </div>
+
+            {/* Unity - Small Card */}
+            <div className="md:col-span-4 p-12 rounded-[4.5rem] bg-primary text-white space-y-10 group hover:scale-[1.02] transition-all duration-1000">
+               <div className="h-20 w-20 rounded-3xl bg-white/20 flex items-center justify-center text-white">
+                 <Gamepad2 className="h-10 w-10" />
+               </div>
+               <div className="space-y-6">
+                  <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/60">Engagement</p>
+                  <h4 className="font-headline text-3xl font-black tracking-tighter">Ludicidade Imersiva</h4>
+                  <p className="text-lg text-white/80">Ambientes Unity projetados para máxima adesão sensorial.</p>
+               </div>
+            </div>
+
+            {/* Biofeedback - Bento Item */}
+            <div className="md:col-span-6 p-12 rounded-[4rem] bg-[#121216] border border-white/5 space-y-10">
+                <div className="flex items-center gap-4">
+                  <Activity className="h-8 w-8 text-cyan-400" />
+                  <h4 className="font-bold text-2xl tracking-tighter">Biofeedback Analítico</h4>
                 </div>
-                <div className="space-y-6">
-                  <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">{pilar.method}</p>
-                  <h4 className="font-headline text-3xl md:text-4xl font-black tracking-tighter group-hover:text-primary transition-colors">{pilar.title}</h4>
-                  <p className="text-lg text-muted-foreground font-medium leading-relaxed tracking-tight">{pilar.desc}</p>
+                <p className="text-white/40 leading-relaxed">Captura de dados biológicos para relatórios clínicos de alta fidelidade e análise preditiva de evolução.</p>
+            </div>
+
+            {/* Fono/Psico - Bento Item */}
+            <div className="md:col-span-6 p-12 rounded-[4rem] bg-[#121216] border border-white/5 space-y-10">
+                <div className="flex items-center gap-4">
+                  <Mic2 className="h-8 w-8 text-primary" />
+                  <h4 className="font-bold text-2xl tracking-tighter">Multidisciplinaridade</h4>
                 </div>
-              </div>
-            ))}
+                <p className="text-white/40 leading-relaxed">Protocolos integrados para Fonoaudiologia e Psicomotricidade em um único ambiente digital coeso.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 4. Mural de Engajamento (Como Ajudar) */}
-      <section id="engajamento" className="py-32 md:py-56 bg-white relative">
+      {/* 4. Mural de Engajamento (Premium Action Cards) */}
+      <section id="impacto" className="py-32 md:py-64 bg-white text-black relative rounded-[5rem] md:rounded-[10rem] mx-4 mb-24">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-4xl mx-auto mb-32">
-            <h3 className="font-headline text-5xl md:text-[8rem] font-black tracking-tighter leading-[0.85] mb-8">Mural de <br /><span className="text-primary italic opacity-90">Impacto.</span></h3>
-            <p className="text-2xl text-muted-foreground/70 font-medium tracking-tight">Escolha seu caminho para impulsionar a tecnologia de reabilitação brasileira.</p>
+            <h3 className="font-headline text-5xl md:text-[8rem] font-black tracking-tighter leading-[0.85] mb-8 text-black">Mural de <br /><span className="text-primary italic">Impacto.</span></h3>
+            <p className="text-2xl text-black/40 font-medium tracking-tight">Escolha seu caminho para impulsionar a tecnologia de reabilitação.</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 max-w-[90rem] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 max-w-[95rem] mx-auto">
             
             {/* A. Investimento */}
-            <div className="p-16 rounded-[5rem] bg-foreground text-white flex flex-col group hover:scale-[1.03] transition-all duration-1000 border-t-[8px] border-cyan-500 shadow-4xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-12 opacity-5">
-                <TrendingUp className="h-64 w-64" />
-              </div>
-              <div className="space-y-10 relative z-10">
-                <div className="flex items-center justify-between">
-                  <div className="h-20 w-20 rounded-3xl bg-cyan-500/20 flex items-center justify-center text-cyan-400">
-                    <TrendingUp className="h-10 w-10" />
+            <div className="group relative">
+              <div className="absolute inset-0 bg-primary/10 blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative p-16 rounded-[5rem] bg-black text-white flex flex-col h-full border-t-[10px] border-cyan-400 shadow-2xl hover:-translate-y-6 transition-all duration-1000">
+                <div className="space-y-10 flex-1">
+                  <div className="flex items-center justify-between">
+                    <div className="h-20 w-20 rounded-3xl bg-cyan-400/20 flex items-center justify-center text-cyan-400">
+                      <TrendingUp className="h-10 w-10" />
+                    </div>
+                    <Trophy className="h-10 w-10 text-cyan-400/20" />
                   </div>
-                  <Badge className="bg-cyan-500/20 text-cyan-400 border-none text-[10px] font-black px-6 py-2 rounded-full tracking-widest uppercase">EQUITY & SCALE</Badge>
+                  <div className="space-y-6">
+                    <h4 className="font-headline text-4xl font-black tracking-tighter">Investimento <br />Estratégico</h4>
+                    <p className="text-white/40 font-medium text-lg leading-relaxed">
+                      Buscamos investidores anjo e VCs para escala de hardware proprietário e expansão clínica.
+                    </p>
+                  </div>
                 </div>
-                <div className="space-y-6">
-                  <h4 className="font-headline text-4xl font-black tracking-tighter">Investimento Estratégico</h4>
-                  <p className="text-white/50 font-medium text-lg leading-relaxed tracking-tight">
-                    Buscamos investidores anjo e fundos de HealthTech para escala de desenvolvimento, hardware proprietário e certificações clínicas globais.
-                  </p>
-                </div>
-              </div>
-              <div className="mt-16 space-y-4 relative z-10">
-                <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10 text-center space-y-1">
-                  <p className="text-[9px] font-black text-cyan-400 uppercase tracking-[0.4em]">E-mail Oficial</p>
-                  <p className="text-base font-black text-white">{contactEmail}</p>
-                  <button 
-                    onClick={() => copyToClipboard(contactEmail, "E-mail")}
-                    className="flex items-center gap-2 mx-auto text-[8px] font-bold text-white/40 hover:text-cyan-400 transition-colors uppercase tracking-widest"
-                  >
-                    <Copy className="h-3 w-3" /> Copiar E-mail
-                  </button>
-                </div>
-                <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10 text-center space-y-1">
-                  <p className="text-[9px] font-black text-cyan-400 uppercase tracking-[0.4em]">WhatsApp</p>
-                  <p className="text-base font-black text-white">{contactPhone}</p>
-                  <button 
-                    onClick={() => copyToClipboard(contactPhone, "WhatsApp")}
-                    className="flex items-center gap-2 mx-auto text-[8px] font-bold text-white/40 hover:text-cyan-400 transition-colors uppercase tracking-widest"
-                  >
-                    <Copy className="h-3 w-3" /> Copiar Número
-                  </button>
+                
+                <div className="mt-16 space-y-6">
+                  <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-4">
+                    <div className="flex items-center gap-3">
+                      <Mail className="h-4 w-4 text-cyan-400" />
+                      <p className="text-base font-black truncate">{contactEmail}</p>
+                    </div>
+                    <button 
+                      onClick={() => copyToClipboard(contactEmail, "E-mail")}
+                      className="w-full py-4 rounded-xl bg-white/10 hover:bg-white/20 text-[9px] font-black uppercase tracking-widest transition-all"
+                    >
+                      Copiar E-mail Profissional
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* B. Doações */}
-            <div className="p-16 rounded-[5rem] bg-white border border-primary/10 flex flex-col group hover:scale-[1.03] transition-all duration-1000 shadow-4xl border-t-[8px] border-primary relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-12 opacity-5">
-                <Heart className="h-64 w-64" />
-              </div>
-              <div className="space-y-10 relative z-10">
-                <div className="flex items-center justify-between">
-                  <div className="h-20 w-20 rounded-3xl bg-primary/5 flex items-center justify-center text-primary">
-                    <Heart className="h-10 w-10" />
+            {/* B. Doações (Playful Touch) */}
+            <div className="group relative">
+              <div className="absolute inset-0 bg-primary/10 blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative p-16 rounded-[5rem] bg-white border-2 border-primary text-black flex flex-col h-full border-t-[10px] shadow-2xl hover:-translate-y-6 transition-all duration-1000">
+                <div className="space-y-10 flex-1">
+                  <div className="flex items-center justify-between">
+                    <div className="h-20 w-20 rounded-3xl bg-primary/5 flex items-center justify-center text-primary">
+                      <Heart className="h-10 w-10" />
+                    </div>
+                    <Puzzle className="h-10 w-10 text-primary/10" />
                   </div>
-                  <Badge className="bg-primary/5 text-primary border-none text-[10px] font-black px-6 py-2 rounded-full tracking-widest uppercase">RESEARCH & SOCIAL</Badge>
+                  <div className="space-y-6">
+                    <h4 className="font-headline text-4xl font-black tracking-tighter">Apoie a <br />Pesquisa Social</h4>
+                    <p className="text-black/40 font-medium text-lg leading-relaxed">
+                      Ajude a manter a plataforma acessível a ONGs e instituições públicas através de doações diretas.
+                    </p>
+                  </div>
                 </div>
-                <div className="space-y-6">
-                  <h4 className="font-headline text-4xl font-black tracking-tighter">Apoie a Pesquisa</h4>
-                  <p className="text-muted-foreground/70 font-medium text-lg leading-relaxed tracking-tight">
-                    Ajude a manter a plataforma acessível a instituições públicas e ONGs através de fomento à pesquisa contínua e inclusão digital.
-                  </p>
-                </div>
-              </div>
-              <div className="mt-16 space-y-4 relative z-10">
-                <div className="p-6 rounded-[2rem] bg-primary/5 border border-primary/10 text-center space-y-1">
-                  <p className="text-[9px] font-black text-primary uppercase tracking-[0.4em]">Pix Direto</p>
-                  <p className="text-base font-black text-foreground">{contactEmail}</p>
-                  <button 
-                    onClick={() => copyToClipboard(contactEmail, "Chave PIX")}
-                    className="flex items-center gap-2 mx-auto text-[8px] font-bold text-primary/40 hover:text-primary transition-colors uppercase tracking-widest"
-                  >
-                    <QrCode className="h-3 w-3" /> Copiar Chave PIX
-                  </button>
-                </div>
-                <div className="p-4 text-center">
-                   <p className="text-[9px] font-bold text-muted-foreground/40 uppercase tracking-widest">Favorecido: Lucas Santos de Souza</p>
+                
+                <div className="mt-16 space-y-6">
+                  <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/10 space-y-4 text-center">
+                    <p className="text-[10px] font-black uppercase text-primary tracking-widest">Favorecido: Lucas Santos de Souza</p>
+                    <p className="text-base font-black truncate">{contactEmail}</p>
+                    <button 
+                      onClick={() => copyToClipboard(contactEmail, "PIX")}
+                      className="w-full py-4 rounded-xl bg-primary text-white hover:bg-primary/90 text-[9px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3"
+                    >
+                      <QrCode className="h-4 w-4" /> Copiar Chave PIX
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* C. Colaboração */}
-            <div className="p-16 rounded-[5rem] bg-secondary/40 flex flex-col group hover:scale-[1.03] transition-all duration-1000 border-t-[8px] border-indigo-500 shadow-4xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-12 opacity-5">
-                <Code2 className="h-64 w-64" />
-              </div>
-              <div className="space-y-10 relative z-10">
-                <div className="flex items-center justify-between">
-                  <div className="h-20 w-20 rounded-3xl bg-indigo-500/10 flex items-center justify-center text-indigo-500">
-                    <Code2 className="h-10 w-10" />
+            <div className="group relative">
+              <div className="absolute inset-0 bg-primary/10 blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative p-16 rounded-[5rem] bg-[#f8f9fa] border border-black/5 text-black flex flex-col h-full border-t-[10px] border-primary shadow-2xl hover:-translate-y-6 transition-all duration-1000">
+                <div className="space-y-10 flex-1">
+                  <div className="flex items-center justify-between">
+                    <div className="h-20 w-20 rounded-3xl bg-black/5 flex items-center justify-center text-black">
+                      <Code2 className="h-10 w-10" />
+                    </div>
+                    <Boxes className="h-10 w-10 text-black/10" />
                   </div>
-                  <Badge className="bg-indigo-500/10 text-indigo-500 border-none text-[10px] font-black px-6 py-2 rounded-full tracking-widest uppercase">TALENT & KNOWLEDGE</Badge>
+                  <div className="space-y-6">
+                    <h4 className="font-headline text-4xl font-black tracking-tighter">Colaboração <br />Multidisciplinar</h4>
+                    <p className="text-black/40 font-medium text-lg leading-relaxed">
+                      Buscamos Devs (Unity/AI), Designers, Psicólogos e Fonoaudiólogos para validar nossa ciência.
+                    </p>
+                  </div>
                 </div>
-                <div className="space-y-6">
-                  <h4 className="font-headline text-4xl font-black tracking-tighter">Colaboração Técnica</h4>
-                  <p className="text-muted-foreground/70 font-medium text-lg leading-relaxed tracking-tight">
-                    Devs (Unity/AI), Designers, Psicólogos e Fonoaudiólogos: junte-se ao nosso ecossistema como testador ou revisor.
-                  </p>
-                </div>
-              </div>
-              <div className="mt-16 space-y-4 relative z-10">
-                <div className="p-6 rounded-[2rem] bg-indigo-500/5 border border-indigo-500/10 text-center space-y-1">
-                  <p className="text-[9px] font-black text-indigo-600 uppercase tracking-[0.4em]">E-mail de Candidatura</p>
-                  <p className="text-base font-black text-indigo-900">{contactEmail}</p>
-                  <button 
-                    onClick={() => copyToClipboard(contactEmail, "E-mail")}
-                    className="flex items-center gap-2 mx-auto text-[8px] font-bold text-indigo-400 hover:text-indigo-600 transition-colors uppercase tracking-widest"
-                  >
-                    <Copy className="h-3 w-3" /> Copiar E-mail
-                  </button>
-                </div>
-                <div className="p-6 rounded-[2rem] bg-indigo-500/5 border border-indigo-500/10 text-center space-y-1">
-                  <p className="text-[9px] font-black text-indigo-600 uppercase tracking-[0.4em]">WhatsApp</p>
-                  <p className="text-base font-black text-indigo-900">{contactPhone}</p>
-                  <button 
-                    onClick={() => copyToClipboard(contactPhone, "WhatsApp")}
-                    className="flex items-center gap-2 mx-auto text-[8px] font-bold text-indigo-400 hover:text-indigo-600 transition-colors uppercase tracking-widest"
-                  >
-                    <Copy className="h-3 w-3" /> Copiar Número
-                  </button>
+                
+                <div className="mt-16 space-y-4">
+                  <div className="p-8 rounded-[2.5rem] bg-black text-white space-y-4">
+                    <div className="flex items-center gap-3">
+                      <MessageCircle className="h-4 w-4 text-primary" />
+                      <p className="text-sm font-black">{contactPhone}</p>
+                    </div>
+                    <button 
+                      onClick={() => copyToClipboard(contactPhone, "WhatsApp")}
+                      className="w-full py-4 rounded-xl bg-white/10 hover:bg-white/20 text-[9px] font-black uppercase tracking-widest transition-all"
+                    >
+                      Copiar WhatsApp
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -323,23 +347,27 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 5. Rodapé Estratégico */}
-      <section className="py-24 bg-foreground text-white border-t border-white/5 relative overflow-hidden">
-        <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
+      {/* 5. Rodapé Especial (HUD Style) */}
+      <section className="py-24 bg-black text-white relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-16">
-            <div className="space-y-4 text-center md:text-left">
-              <p className="text-[11px] font-black uppercase tracking-[0.6em] text-white/30">Créditos de Engenharia</p>
-              <p className="text-3xl font-black tracking-tighter">Um projeto original <span className="text-primary italic">Studio Sapient</span> & LuscaLab.</p>
-            </div>
-            <div className="flex flex-col items-center md:items-end gap-6">
-              <div className="flex items-center gap-6 bg-white/5 px-10 py-5 rounded-full border border-white/10 backdrop-blur-3xl">
-                <div className="h-3 w-3 rounded-full bg-green-500 animate-pulse shadow-[0_0_15px_rgba(34,197,94,0.5)]" />
-                <p className="text-[11px] font-black uppercase tracking-[0.4em] text-white/70">Status: Prototipagem e validação clínica.</p>
+          <div className="flex flex-col md:flex-row justify-between items-end gap-16 border-t border-white/10 pt-16">
+            <div className="space-y-8">
+              <div className="flex items-center gap-4">
+                <div className="h-1 w-20 bg-cyan-400 rounded-full" />
+                <p className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40">SAPIENT_ENGINE_V2</p>
               </div>
-              <div className="flex flex-col items-center md:items-end opacity-40 hover:opacity-100 transition-opacity">
-                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] mb-1">Conexão Estratégica</p>
-                 <p className="text-sm font-black text-cyan-400 tracking-wider">{contactEmail}</p>
+              <p className="text-4xl md:text-6xl font-black tracking-tighter">Um projeto original <br /><span className="text-primary italic">Sapient Studio.</span></p>
+            </div>
+            
+            <div className="flex flex-col items-center md:items-end gap-10">
+              <div className="bg-white/5 border border-white/10 p-8 rounded-[2.5rem] backdrop-blur-3xl flex items-center gap-8">
+                <div className="text-center md:text-right">
+                  <p className="text-[9px] font-black text-white/30 uppercase tracking-widest mb-1">Status do Sistema</p>
+                  <p className="text-lg font-black text-green-400 tracking-tighter">ALPHA_VALIDATION</p>
+                </div>
+                <div className="h-12 w-12 rounded-full border border-green-400/30 flex items-center justify-center">
+                  <div className="h-3 w-3 rounded-full bg-green-400 animate-ping" />
+                </div>
               </div>
             </div>
           </div>
