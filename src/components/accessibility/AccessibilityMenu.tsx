@@ -27,6 +27,8 @@ export function AccessibilityMenu() {
   
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const lastSpokenTextRef = useRef<string>("");
+  const readableElementsRef = useRef<HTMLElement[]>([]);
+  const currentIndexRef = useRef<number>(-1);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -53,38 +55,68 @@ export function AccessibilityMenu() {
     else document.body.classList.remove('accessibility-highlight-links');
   }, [highlightLinks]);
 
-  // Efeito para a Audiodescrição Dinâmica (Leitura por Hover)
+  // Efeito para a Audiodescrição Dinâmica (Hover e Teclado)
   useEffect(() => {
     if (!isReading || !synthRef.current) return;
+
+    // Coleta todos os elementos que fazem sentido serem lidos
+    const selector = 'h1, h2, h3, h4, h5, h6, p, a, button, li, [role="button"], img[alt]';
+    readableElementsRef.current = Array.from(document.querySelectorAll(selector)) as HTMLElement[];
+    currentIndexRef.current = -1;
+
+    const speak = (text: string) => {
+      if (!synthRef.current) return;
+      const cleanText = text.trim();
+      if (cleanText && cleanText.length > 1 && cleanText !== lastSpokenTextRef.current) {
+        synthRef.current.cancel();
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'pt-BR';
+        utterance.rate = 1.1;
+        lastSpokenTextRef.current = cleanText;
+        synthRef.current.speak(utterance);
+      }
+    };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target) return;
+      const text = target.getAttribute('aria-label') || target.getAttribute('alt') || target.innerText || target.textContent || "";
+      speak(text);
+    };
 
-      // Tenta extrair texto relevante: aria-label, alt (para imagens) ou textContent
-      let textToSpeak = target.getAttribute('aria-label') || 
-                        target.getAttribute('alt') || 
-                        target.innerText || 
-                        target.textContent || "";
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const elements = readableElementsRef.current;
+        if (elements.length === 0) return;
 
-      textToSpeak = textToSpeak.trim();
+        if (e.key === 'ArrowDown') {
+          currentIndexRef.current = (currentIndexRef.current + 1) % elements.length;
+        } else {
+          currentIndexRef.current = (currentIndexRef.current - 1 + elements.length) % elements.length;
+        }
 
-      // Evita ler textos vazios, muito curtos ou repetir o mesmo texto imediatamente
-      if (textToSpeak && textToSpeak.length > 1 && textToSpeak !== lastSpokenTextRef.current) {
-        synthRef.current?.cancel(); // Interrompe a fala anterior
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        utterance.lang = 'pt-BR';
-        utterance.rate = 1.1; // Velocidade levemente aumentada para agilidade
+        const currentElement = elements[currentIndexRef.current];
+        currentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         
-        lastSpokenTextRef.current = textToSpeak;
-        synthRef.current?.speak(utterance);
+        // Pequeno destaque visual temporário
+        const originalOutline = currentElement.style.outline;
+        currentElement.style.outline = '3px solid hsl(var(--primary))';
+        setTimeout(() => {
+          currentElement.style.outline = originalOutline;
+        }, 1000);
+
+        const text = currentElement.getAttribute('aria-label') || currentElement.getAttribute('alt') || currentElement.innerText || currentElement.textContent || "";
+        speak(text);
       }
     };
 
     document.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('keydown', handleKeyDown);
     
     return () => {
       document.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('keydown', handleKeyDown);
       if (synthRef.current) synthRef.current.cancel();
     };
   }, [isReading]);
@@ -104,10 +136,16 @@ export function AccessibilityMenu() {
       lastSpokenTextRef.current = "";
     } else {
       setIsReading(true);
-      // Feedback inicial ao ativar
-      const initialGreet = new SpeechSynthesisUtterance("Modo de audiodescrição ativado. Explore o site passando o cursor sobre os elementos.");
-      initialGreet.lang = 'pt-BR';
-      synthRef.current?.speak(initialGreet);
+      // Instruções iniciais por voz
+      if (synthRef.current) {
+        const welcome = new SpeechSynthesisUtterance(
+          "Modo de audiodescrição ativado. Passe o mouse sobre os elementos para ouvir, ou use as setas para cima e para baixo do seu teclado para navegar entre os textos do site."
+        );
+        welcome.lang = 'pt-BR';
+        welcome.rate = 1;
+        synthRef.current.cancel();
+        synthRef.current.speak(welcome);
+      }
     }
   };
 
