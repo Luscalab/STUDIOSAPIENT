@@ -26,11 +26,11 @@ export function Navbar() {
 
   return (
     <>
-      <header className="absolute top-0 left-0 right-0 z-50 p-4 md:p-12 w-full max-w-full overflow-hidden">
-        <div className="container mx-auto flex items-start justify-between relative h-40 md:h-72 max-w-full px-4">
+      <header className="absolute top-0 left-0 right-0 z-50 p-4 md:p-10 w-full max-w-full overflow-hidden">
+        <div className="container mx-auto flex items-start justify-between relative h-32 md:h-52 max-w-full px-4">
           
           <div className="animate-logo-reveal flex-shrink-0">
-            <Link href="/" className="relative block group transition-all duration-500 w-40 h-16 md:w-[420px] md:h-56 origin-top-left">
+            <Link href="/" className="relative block group transition-all duration-500 w-36 h-14 md:w-[320px] md:h-44 origin-top-left">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -42,7 +42,7 @@ export function Navbar() {
           </div>
 
           <div className={cn(
-            "h-12 md:h-16 px-6 md:px-10 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-4 md:-translate-x-[30px] flex-shrink-0",
+            "h-12 md:h-14 px-6 md:px-10 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-4 md:-translate-x-[30px] flex-shrink-0",
             "bg-white/10 backdrop-blur-3xl border-white/20 shadow-2xl"
           )}>
             <div className="hidden md:flex items-center gap-10">
@@ -50,7 +50,7 @@ export function Navbar() {
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className="text-[12px] uppercase tracking-[0.5em] font-black text-white hover:text-primary transition-all relative group"
+                  className="text-[11px] uppercase tracking-[0.5em] font-black text-white hover:text-primary transition-all relative group"
                 >
                   {link.name}
                   <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
@@ -59,9 +59,9 @@ export function Navbar() {
               <Button 
                 onClick={handleOpenChat}
                 size="lg" 
-                className="bg-gradient-to-r from-primary to-accent hover:scale-105 active:scale-95 text-white font-black rounded-full px-8 h-10 shadow-[0_10px_30px_rgba(139,92,246,0.4)] text-[10px] uppercase tracking-[0.2em] transition-all duration-500 border border-white/20"
+                className="bg-gradient-to-r from-primary to-accent hover:scale-105 active:scale-95 text-white font-black rounded-full px-8 h-9 shadow-[0_10px_30px_rgba(139,92,246,0.4)] text-[9px] uppercase tracking-[0.2em] transition-all duration-500 border border-white/20"
               >
-                Consultoria <span className="ml-2 opacity-50 group-hover:translate-x-1 transition-transform">→</span>
+                Iniciativa IA <span className="ml-2 opacity-50 group-hover:translate-x-1 transition-transform">→</span>
               </Button>
             </div>
 
@@ -91,7 +91,7 @@ export function Navbar() {
               className="w-full h-20 bg-primary font-black text-sm uppercase tracking-widest rounded-full shadow-2xl shadow-primary/30"
               onClick={handleOpenChat}
             >
-              Falar com Especialista
+              Diagnóstico Especializado
             </Button>
           </div>
         )}
