@@ -2,7 +2,7 @@
 "use client";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
-import { Megaphone, Palette, ArrowUpRight, Bot, Zap, ShieldCheck, Sparkles, Share2, FileText } from "lucide-react";
+import { TrendingUp, Palette, ArrowUpRight, Bot, Zap, ShieldCheck, Sparkles, Share2, FileText } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -12,56 +12,56 @@ const services = [
     title: "Performance & Ads",
     slug: "performance-ads",
     description: "Engenharia de tráfego de alta precisão focada em capturar demanda qualificada no momento exato da intenção.",
-    icon: <Megaphone className="h-7 w-7" />,
+    icon: <TrendingUp className="h-8 w-8" />,
     features: ["Google Maps / GMN", "Ads de Alta Intenção", "ROI Estratégico"],
     badge: "Escala",
-    color: "text-primary",
-    glow: "group-hover:shadow-primary/20",
-    bg: "bg-primary/5"
+    color: "text-white",
+    glow: "group-hover:shadow-primary/30",
+    bg: "bg-primary"
   },
   {
     title: "Design Estratégico",
     slug: "design-estrategico",
     description: "Sistemas de identidade visual de autoridade que eliminam o amadorismo e elevam o valor percebido da marca.",
-    icon: <Palette className="h-7 w-7" />,
+    icon: <Palette className="h-8 w-8" />,
     features: ["Branding de Prestígio", "Design Systems", "Dossiês Premium"],
     badge: "Autoridade",
-    color: "text-accent",
-    glow: "group-hover:shadow-accent/20",
-    bg: "bg-accent/5"
+    color: "text-white",
+    glow: "group-hover:shadow-primary/30",
+    bg: "bg-primary"
   },
   {
     title: "Ecossistemas Chat IA",
     slug: "chat-ia",
     description: "Agentes inteligentes treinados na sua expertise para atender, qualificar e converter leads 24/7.",
-    icon: <Bot className="h-7 w-7" />,
+    icon: <Bot className="h-8 w-8" />,
     features: ["WhatsApp Inteligente", "Qualificação de Leads", "Automação 4.0"],
     badge: "Tecnologia",
-    color: "text-primary",
-    glow: "group-hover:shadow-primary/20",
-    bg: "bg-primary/5"
+    color: "text-white",
+    glow: "group-hover:shadow-primary/30",
+    bg: "bg-primary"
   },
   {
     title: "Gestão de Redes",
     slug: "gestao-social",
     description: "Curadoria de autoridade social desenhada para construir narrativas que facilitam o fechamento comercial.",
-    icon: <Share2 className="h-7 w-7" />,
+    icon: <Share2 className="h-8 w-8" />,
     features: ["Copywriting Técnico", "Design de Autoridade", "Growth Qualificado"],
     badge: "Presença",
-    color: "text-primary",
-    glow: "group-hover:shadow-primary/20",
-    bg: "bg-primary/5"
+    color: "text-white",
+    glow: "group-hover:shadow-primary/30",
+    bg: "bg-primary"
   },
   {
     title: "Narrativa Visual",
     slug: "narrativa-visual",
     description: "Tradução de processos complexos em infográficos e dossiês de venda de alta cognição e impacto.",
-    icon: <FileText className="h-7 w-7" />,
+    icon: <FileText className="h-8 w-8" />,
     features: ["Clareza Cognitiva", "Data Visualization", "Propostas de Valor"],
     badge: "Conversão",
-    color: "text-primary",
-    glow: "group-hover:shadow-primary/20",
-    bg: "bg-primary/5"
+    color: "text-white",
+    glow: "group-hover:shadow-primary/30",
+    bg: "bg-primary"
   }
 ];
 
@@ -104,7 +104,7 @@ export function Services() {
               
               <div className="relative z-10">
                 <div className="flex justify-between items-start mb-16">
-                  <div className={cn("h-24 w-24 rounded-3xl flex items-center justify-center transition-all duration-1000 shadow-xl group-hover:scale-110 border border-muted/20", service.bg, service.color)}>
+                  <div className={cn("h-20 w-20 rounded-3xl flex items-center justify-center transition-all duration-1000 shadow-xl group-hover:scale-110 shadow-primary/20", service.bg, service.color)}>
                     {service.icon}
                   </div>
                   <Badge variant="secondary" className="font-black text-[9px] uppercase tracking-[0.4em] px-6 py-3 rounded-full border border-muted bg-white/50 backdrop-blur-sm">
@@ -115,7 +115,7 @@ export function Services() {
                 <CardTitle className="font-display text-4xl mb-6 tracking-tighter font-black text-foreground group-hover:text-primary transition-colors duration-500 leading-none">
                   {service.title}
                 </CardTitle>
-                <CardDescription className="text-muted-foreground text-xl leading-relaxed font-medium mb-12">
+                <CardDescription className="text-foreground/70 text-xl leading-relaxed font-medium mb-12">
                   {service.description}
                 </CardDescription>
 
