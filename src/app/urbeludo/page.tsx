@@ -85,7 +85,7 @@ export default function UrbeLudoPage() {
               </Badge>
             </div>
             
-            <h1 className="font-headline text-5xl md:text-[10rem] font-black text-white tracking-tighter leading-[0.85] mb-12 animate-slide-up [animation-delay:200ms]">
+            <h1 className="font-headline text-5xl md:text-7xl lg:text-9xl font-black text-white tracking-tighter leading-[1.1] mb-12 animate-slide-up [animation-delay:200ms] py-4">
               UrbeLudo <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-primary italic font-medium">A Ciência do Jogo.</span>
             </h1>
