@@ -33,7 +33,7 @@ export function Process() {
       <div className="absolute inset-0 bg-black/30 pointer-events-none" />
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between mb-32 gap-12">
+        <div className="flex flex-col lg:flex-row items-center justify-between mb-24 lg:mb-32 gap-12">
           <div className="max-w-2xl text-center lg:text-left">
             <Badge className="mb-8 bg-white/10 text-white border-white/20 px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full backdrop-blur-md">Metodologia Técnica</Badge>
             <h2 className="font-headline text-5xl md:text-8xl font-black tracking-tighter leading-none text-white drop-shadow-2xl">Estrutura de<br />Crescimento</h2>
@@ -45,12 +45,12 @@ export function Process() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, idx) => (
-            <div key={idx} className="relative group p-10 rounded-[3rem] bg-white/5 backdrop-blur-3xl border border-white/10 transition-all duration-700 hover:bg-white/15 hover:-translate-y-2 shadow-2xl overflow-hidden">
+            <div key={idx} className="relative group p-10 rounded-[3rem] bg-white/5 backdrop-blur-3xl border border-white/10 transition-all duration-700 hover:bg-white/15 hover:-translate-y-2 shadow-2xl">
               <div className="flex items-center justify-between mb-8">
                 <div className="h-16 w-16 rounded-2xl bg-white/10 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-primary/30 transition-all duration-700 border border-white/10">
                   {step.icon}
                 </div>
-                <span className="text-4xl font-black text-white/5 group-hover:text-white/20 transition-colors select-none">
+                <span className="text-4xl font-black text-white/10 group-hover:text-white/20 transition-colors select-none">
                   0{idx + 1}
                 </span>
               </div>
