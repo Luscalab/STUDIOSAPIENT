@@ -6,6 +6,9 @@ import { Toaster } from "@/components/ui/toaster";
 export const metadata: Metadata = {
   title: 'Sapient Studio | Estratégia e Resultados',
   description: 'Sapient Studio - Agência de Marketing Digital e Branding. Transformando negócios em marcas de autoridade.',
+  icons: {
+    icon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%238b5cf6%22/><text y=%22.9em%22 x=%2215%22 font-size=%2280%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22900%22>S</text></svg>',
+  },
 };
 
 export default function RootLayout({
