@@ -13,7 +13,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-48 pb-24 hero-purple-mesh">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-64 pb-24 hero-purple-mesh">
       {/* Luzes Dinâmicas de Fundo */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-primary/30 blur-[150px] animate-pulse rounded-full" />
@@ -28,7 +28,7 @@ export function Hero() {
           </h1>
           
           <p className="max-w-3xl mx-auto text-xl md:text-2xl text-white/50 animate-slide-up [animation-delay:400ms] leading-tight font-medium tracking-tight text-balance">
-            Ajudamos o seu negócio a comunicar valor real e atrair clientes qualificados através de <span className="text-white font-bold">design profissional e tráfego inteligente.</span>
+            Ajudamos o seu negócio a comunicar valor real e atrair clientes qualificados através de <span className="text-white font-bold">design profissional e estratégia digital inteligente.</span>
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-12 animate-slide-up [animation-delay:600ms]">

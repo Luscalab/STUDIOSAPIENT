@@ -68,7 +68,6 @@ const services = [
 export function Services() {
   return (
     <section id="servicos" className="py-32 md:py-64 bg-white relative overflow-hidden">
-      {/* Elementos Decorativos de Fundo */}
       <div className="absolute top-0 right-0 p-32 opacity-[0.03] text-primary pointer-events-none">
         <Sparkles className="h-[40rem] w-[40rem]" />
       </div>
@@ -86,7 +85,7 @@ export function Services() {
           </div>
           <div className="max-w-sm space-y-8">
             <p className="text-muted-foreground/60 text-2xl md:text-3xl font-medium leading-tight tracking-tight">
-              Fundimos design de prestígio e engenharia comercial para marcas de elite.
+              Fundimos design de prestígio e estratégia digital para marcas de elite.
             </p>
             <div className="h-1.5 w-24 bg-primary rounded-full" />
           </div>
@@ -97,16 +96,15 @@ export function Services() {
             <Card 
               key={idx} 
               className={cn(
-                "group relative border border-muted bg-white rounded-[4rem] p-12 transition-all duration-1000 hover:-translate-y-6 hover:shadow-[0_50px_100px_-20px_rgba(139,92,246,0.15)] overflow-hidden flex flex-col justify-between",
+                "group relative border border-muted bg-white rounded-[4rem] p-12 transition-all duration-1000 hover:-translate-y-6 hover:shadow-[0_50px_100px_-20px_rgba(139,92,246,0.15)] overflow-hidden flex flex-col justify-between min-h-[500px]",
                 service.glow
               )}
             >
-              {/* Overlay de Vidro Interno */}
               <div className="absolute inset-0 bg-gradient-to-br from-transparent to-primary/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
               
               <div className="relative z-10">
                 <div className="flex justify-between items-start mb-16">
-                  <div className={cn("h-24 w-24 rounded-3xl flex items-center justify-center transition-all duration-1000 group-hover:bg-primary group-hover:text-white shadow-xl group-hover:scale-110", service.bg, service.color)}>
+                  <div className={cn("h-24 w-24 rounded-3xl flex items-center justify-center transition-all duration-1000 group-hover:bg-primary group-hover:text-white shadow-xl group-hover:scale-110 border border-muted/20", service.bg, service.color)}>
                     {service.icon}
                   </div>
                   <Badge variant="secondary" className="font-black text-[9px] uppercase tracking-[0.4em] px-6 py-3 rounded-full border border-muted bg-white/50 backdrop-blur-sm">
@@ -117,7 +115,7 @@ export function Services() {
                 <CardTitle className="font-display text-4xl mb-6 tracking-tighter font-black text-foreground group-hover:text-primary transition-colors duration-500 leading-none">
                   {service.title}
                 </CardTitle>
-                <CardDescription className="text-muted-foreground/60 text-xl leading-relaxed font-medium mb-12 min-h-[5rem]">
+                <CardDescription className="text-muted-foreground/60 text-xl leading-relaxed font-medium mb-12">
                   {service.description}
                 </CardDescription>
 
