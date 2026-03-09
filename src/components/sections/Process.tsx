@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Badge } from "@/components/ui/badge";
@@ -29,14 +28,14 @@ const steps = [
 
 export function Process() {
   return (
-    <section id="metodologia" className="py-32 md:py-64 hero-purple-mesh relative overflow-hidden">
+    <section id="metodologia" className="py-32 md:py-64 hero-purple-mesh relative overflow-hidden transition-mask-top transition-mask-bottom">
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-start justify-between mb-40 gap-20">
           <div className="max-w-5xl">
             <div className="flex items-center gap-6 mb-12">
                <Dna className="text-primary h-8 w-8 animate-pulse" />
                <Badge className="bg-white/5 text-white/70 border-white/10 px-10 py-4 text-[10px] font-black uppercase tracking-[0.6em] rounded-full backdrop-blur-3xl">
-                 Protocolo Sapient Studio V.2
+                 Protocolo studiosapient V.2
                </Badge>
             </div>
             <h2 className="font-display text-6xl md:text-[8.5rem] font-black tracking-tighter leading-[0.85] text-white">

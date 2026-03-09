@@ -67,11 +67,20 @@
 }
 
 .glass-morphism {
-  @apply bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(139,92,246,0.1)];
+  @apply bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(139,92,246,0.15)];
 }
 
 .glass-light {
   @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-xl;
+}
+
+/* Transições suaves entre seções */
+.transition-mask-bottom {
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+.transition-mask-top {
+  mask-image: linear-gradient(to top, black 85%, transparent 100%);
 }
 
 @keyframes float {

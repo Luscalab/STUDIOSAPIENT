@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -13,7 +12,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-80 pb-24 hero-purple-mesh">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-80 pb-32 hero-purple-mesh transition-mask-bottom">
       {/* Luzes Dinâmicas de Fundo */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-primary/30 blur-[150px] animate-pulse rounded-full" />
@@ -21,7 +20,7 @@ export function Hero() {
       </div>
 
       <div className="container relative z-10 mx-auto px-6">
-        <div className="text-center space-y-16">
+        <div className="text-center space-y-12">
           <h1 className="font-display text-4xl md:text-6xl lg:text-[7.5rem] font-black tracking-[-0.05em] animate-slide-up [animation-delay:200ms] text-white leading-[0.85] text-balance mt-24">
             Clareza Visual e <br />
             <span className="text-primary italic font-medium">Estratégia Digital.</span>
@@ -31,15 +30,15 @@ export function Hero() {
             Ajudamos o seu negócio a comunicar valor real e atrair clientes qualificados através de <span className="text-white font-bold">design profissional e estratégia digital inteligente.</span>
           </p>
           
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-12 animate-slide-up [animation-delay:600ms]">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8 animate-slide-up [animation-delay:600ms]">
             <Button 
               onClick={handleOpenChat}
-              className="w-full sm:w-auto h-24 px-20 text-[11px] font-black bg-white text-black hover:bg-primary hover:text-white transition-all duration-700 rounded-full uppercase tracking-[0.5em] shadow-2xl shadow-white/5"
+              className="w-full sm:w-auto h-20 px-16 text-[11px] font-black bg-white text-black hover:bg-primary hover:text-white transition-all duration-700 rounded-full uppercase tracking-[0.5em] shadow-2xl shadow-white/5"
             >
               Iniciar Diagnóstico
             </Button>
             <Link href={behanceUrl} target="_blank" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto h-24 px-20 text-[11px] font-black bg-white text-black hover:bg-primary hover:text-white transition-all duration-700 rounded-full uppercase tracking-[0.5em] shadow-2xl shadow-white/5 group">
+              <Button className="w-full sm:w-auto h-20 px-16 text-[11px] font-black bg-white text-black hover:bg-primary hover:text-white transition-all duration-700 rounded-full uppercase tracking-[0.5em] shadow-2xl shadow-white/5 group">
                 PORTFÓLIO <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform" />
               </Button>
             </Link>
