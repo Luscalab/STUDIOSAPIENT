@@ -20,10 +20,10 @@ export default function GestaoSocialPage() {
           <div className="max-w-4xl mx-auto text-center">
             <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Reputação & Desejo de Marca</Badge>
             <h1 className="font-headline text-5xl md:text-8xl font-black text-white tracking-tighter leading-tight mb-8 text-balance">
-              Transforme Seu Perfil em uma <span className="text-white/70 italic">Vitrine de Elite</span>
+              Transforme Seu Perfil em uma <span className="text-white/70 italic">Vitrine de Autoridade</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/80 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight text-balance">
-              Suas redes sociais são a prova social mais poderosa do seu negócio. Transformamos perfis amadores em canais de autoridade que atraem clientes qualificados todos os dias.
+              Suas redes sociais são a prova social mais poderosa do seu negócio. Transformamos perfis amadores em canais estratégicos que atraem clientes qualificados todos os dias.
             </p>
           </div>
         </div>
@@ -36,7 +36,7 @@ export default function GestaoSocialPage() {
               <div>
                 <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Conteúdo com Propósito Real</h2>
                 <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed tracking-tight">
-                  Esqueça as postagens por obrigação. Na Sapient, cada postagem tem uma função estratégica: educar o cliente, quebrar objeções de compra ou criar um desejo imediato pelo seu serviço.
+                  Esqueça as postagens por obrigação. Na Sapient, cada postagem tem uma função estratégica: educar o cliente, quebrar objeções de compra ou criar um interesse imediato pelo seu serviço.
                 </p>
               </div>
               
@@ -44,23 +44,23 @@ export default function GestaoSocialPage() {
                 {[
                   { 
                     icon: <Eye className="text-primary" />, 
-                    title: "Curadoria Visual de Luxo", 
-                    desc: "Um feed organizado e sofisticado que transmite profissionalismo absoluto logo no primeiro segundo." 
+                    title: "Curadoria Visual Estratégica", 
+                    desc: "Um feed organizado e profissional que transmite solidez absoluta logo no primeiro segundo." 
                   },
                   { 
                     icon: <MessageSquare className="text-primary" />, 
-                    title: "Escrita Estratégica", 
+                    title: "Escrita de Conversão", 
                     desc: "Legendas pensadas para conectar com as dores reais do seu cliente e oferecer a solução correta." 
                   },
                   { 
                     icon: <TrendingUp className="text-primary" />, 
                     title: "Crescimento Qualificado", 
-                    desc: "Uso inteligente de algoritmos para atrair pessoas que realmente têm poder de compra para o seu negócio." 
+                    desc: "Uso inteligente de algoritmos para atrair pessoas que realmente têm interesse no seu negócio." 
                   },
                   { 
                     icon: <Users className="text-primary" />, 
                     title: "Autoridade de Mercado", 
-                    desc: "Posicionamos você como o especialista número 1 no seu nicho, gerando confiança e admiração." 
+                    desc: "Posicionamos sua marca como referência no nicho, gerando confiança e reconhecimento." 
                   }
                 ].map((item, i) => (
                   <div key={i} className="p-8 rounded-[2.5rem] bg-white shadow-sm border border-primary/5 hover:bg-primary/5 transition-all duration-500">
@@ -81,9 +81,9 @@ export default function GestaoSocialPage() {
 
             <div className="bg-foreground rounded-[4rem] p-12 md:p-20 text-white space-y-10 relative overflow-hidden">
                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 blur-[100px] rounded-full" />
-               <h3 className="font-headline text-4xl font-black tracking-tighter relative z-10">Nosso Método Sapient</h3>
+               <h3 className="font-headline text-4xl font-black tracking-tighter relative z-10">Método de Gestão</h3>
                <p className="text-white/60 font-medium relative z-10">
-                 Trabalhamos com um cronograma rigoroso para que sua marca seja vista como líder constante.
+                 Trabalhamos com um cronograma rigoroso para que sua marca seja vista de forma consistente.
                </p>
                <ul className="space-y-8 relative z-10">
                  {[
@@ -105,9 +105,9 @@ export default function GestaoSocialPage() {
           </div>
 
           <div className="max-w-5xl mx-auto py-24 bg-white rounded-[4rem] border border-primary/10 p-12 md:p-24 text-center space-y-12 shadow-sm">
-            <h3 className="font-headline text-3xl md:text-5xl font-black tracking-tighter">Muito Além de Métricas de Vaidade</h3>
+            <h3 className="font-headline text-3xl md:text-5xl font-black tracking-tighter">Muito Além de Métricas Sociais</h3>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-medium leading-relaxed">
-              O objetivo final é gerar negócio. Curtidas não pagam as contas. Nossa gestão foca em converter seguidores em leads qualificados prontos para o seu time comercial.
+              O objetivo final é gerar negócio. Nossa gestão foca em converter seguidores em contatos qualificados prontos para o seu time comercial.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-8">
               <div className="space-y-4">
@@ -121,15 +121,15 @@ export default function GestaoSocialPage() {
                 <div className="h-16 w-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto text-primary">
                   <BarChart className="h-8 w-8" />
                 </div>
-                <h4 className="font-bold text-xl">Gestão de Resposta</h4>
-                <p className="text-sm text-muted-foreground">Acompanhamento e análise de cada interação para otimizar o ROI.</p>
+                <h4 className="font-bold text-xl">Gestão Analítica</h4>
+                <p className="text-sm text-muted-foreground">Acompanhamento e análise de cada interação para otimizar o retorno.</p>
               </div>
               <div className="space-y-4">
                 <div className="h-16 w-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto text-primary">
                   <Sparkles className="h-8 w-8" />
                 </div>
-                <h4 className="font-bold text-xl">Desejo de Marca</h4>
-                <p className="text-sm text-muted-foreground">Construção de uma comunidade fiel que valoriza e recomenda seu serviço.</p>
+                <h4 className="font-bold text-xl">Reconhecimento</h4>
+                <p className="text-sm text-muted-foreground">Construção de uma comunidade que valoriza e recomenda seu serviço.</p>
               </div>
             </div>
           </div>
