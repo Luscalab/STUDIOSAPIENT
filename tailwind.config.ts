@@ -23,9 +23,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Plus Jakarta Sans', 'sans-serif'],
-        headline: ['Plus Jakarta Sans', 'sans-serif'],
-        display: ['Space Grotesk', 'sans-serif'],
+        body: ['Inter', 'sans-serif'],
+        headline: ['Outfit', 'sans-serif'],
+        display: ['Outfit', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {

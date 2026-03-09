@@ -5,23 +5,23 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 272 60% 5%;
+    --foreground: 220 10% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 272 60% 10%;
+    --card-foreground: 220 10% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 272 60% 10%;
+    --popover-foreground: 220 10% 10%;
     --primary: 265 90% 56%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 272 30% 98%;
-    --secondary-foreground: 272 60% 20%;
-    --muted: 272 10% 96%;
-    --muted-foreground: 272 20% 45%;
+    --secondary: 220 10% 98%;
+    --secondary-foreground: 220 10% 20%;
+    --muted: 220 10% 96%;
+    --muted-foreground: 220 10% 45%;
     --accent: 285 95% 58%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 272 20% 92%;
-    --input: 272 20% 92%;
+    --border: 220 10% 92%;
+    --input: 220 10% 92%;
     --ring: 265 90% 60%;
     --radius: 2.5rem;
   }
@@ -51,16 +51,18 @@
     overflow-x: hidden;
   }
   body {
-    @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary antialiased font-body;
     text-rendering: optimizeLegibility;
     min-height: 100vh;
   }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
 }
 
-/* Atmosfera Sapient Original - Roxo Vibrante */
+/* Estilo Vibrant Original - Roxo Intenso */
 .hero-purple-mesh {
-  background: linear-gradient(180deg, #6d28d9 0%, #8b5cf6 40%, #ffffff 100%);
+  background: linear-gradient(180deg, #0c0a1a 0%, #6d28d9 40%, #ffffff 100%);
   position: relative;
 }
 
@@ -91,9 +93,9 @@
 }
 
 @keyframes glow-pulse {
-  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2); }
-  70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+  70% { box-shadow: 0 0 0 20px rgba(139, 92, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
 }
 
 .animate-glow-pulse {
@@ -107,13 +109,4 @@
 
 .animate-slide-up {
   animation: slide-up-reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.font-display {
-  font-family: 'Space Grotesk', sans-serif;
-  letter-spacing: -0.04em;
-}
-
-.font-body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
 }
