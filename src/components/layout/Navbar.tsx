@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -26,7 +27,6 @@ export function Navbar() {
   return (
     <>
       <header className="absolute top-0 left-0 right-0 z-50 p-4 md:p-12 w-full max-w-full overflow-hidden">
-        {/* Aumentei a altura md:h-48 para md:h-72 para dar mais profundidade inferior */}
         <div className="container mx-auto flex items-start justify-between relative h-40 md:h-72 max-w-full px-4">
           
           <div className="animate-logo-reveal flex-shrink-0">
