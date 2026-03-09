@@ -28,14 +28,14 @@ export function Navbar() {
       <header className="absolute top-0 left-0 right-0 z-50 p-4 md:pt-4 md:pb-12 md:px-10 w-full max-w-full overflow-visible">
         <div className="container mx-auto flex items-start justify-between relative h-32 md:h-44 max-w-full px-4 overflow-visible">
           
-          {/* Logo container - Elevated aggressively by using relative positioning and breaking animation transform dependency */}
-          <div className="flex-shrink-0 relative -top-16 md:-top-32 z-[70] animate-logo-reveal">
+          {/* Logo container - Elevated visually but safe from overflow */}
+          <div className="flex-shrink-0 relative -top-10 md:-top-20 z-[70] animate-logo-reveal">
             <Link href="/" className="relative block group transition-all duration-500 w-36 h-14 md:w-[280px] md:h-40 origin-top-left">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
                 fill
-                className="object-contain object-left drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-transform duration-700 group-hover:scale-[1.01]"
+                className="object-contain object-left drop-shadow-[0_15px_30px_rgba(0,0,0,0.2)] transition-transform duration-700 group-hover:scale-[1.01]"
                 priority
               />
             </Link>

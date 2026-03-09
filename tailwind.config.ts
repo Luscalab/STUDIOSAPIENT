@@ -100,7 +100,7 @@ export default {
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'logo-reveal': {
-          '0%': { opacity: '0', filter: 'blur(15px)', transform: 'scale(0.9)' },
+          '0%': { opacity: '0', filter: 'blur(15px)', transform: 'scale(0.95)' },
           '100%': { opacity: '1', filter: 'blur(0)', transform: 'scale(1)' },
         },
         'page-enter': {

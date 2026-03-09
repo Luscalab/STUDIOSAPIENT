@@ -41,16 +41,16 @@ export function Hero() {
         <div className="text-center">
           <div className="inline-flex items-center gap-2 md:gap-3 rounded-full border border-white/20 bg-white/10 backdrop-blur-3xl px-6 py-2 md:px-8 md:py-3 text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] md:tracking-[0.5em] text-white mb-8 animate-fade-in-up shadow-2xl">
             <Sparkles className="h-4 w-4 text-primary" />
-            <span>SAPIENT STRATEGIC STUDIO</span>
+            <span>Consultoria Estratégica Sapient</span>
           </div>
           
-          <h1 className="font-headline text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.04em] mb-10 animate-fade-in-up [animation-delay:200ms] text-white leading-[1.15] text-balance drop-shadow-[0_15px_40px_rgba(0,0,0,0.4)]">
-            Construímos Presença e<br />
-            <span className="text-white tracking-[-0.01em] italic font-semibold opacity-90">Resultados Digitais.</span>
+          <h1 className="font-headline text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-[-0.04em] mb-10 animate-fade-in-up [animation-delay:200ms] text-white leading-[1.1] text-balance drop-shadow-[0_15px_40px_rgba(0,0,0,0.3)]">
+            Clareza Visual e<br />
+            <span className="text-white tracking-[-0.01em] italic font-semibold opacity-90">Eficiência de Marca.</span>
           </h1>
           
           <p className="max-w-xl md:max-w-2xl mx-auto text-base md:text-lg lg:text-xl text-white/80 mb-14 animate-fade-in-up [animation-delay:400ms] leading-relaxed font-medium tracking-tight text-balance">
-            Elevamos sua marca através de ecossistemas visuais eficientes, unindo design estratégico e análise de performance para negócios que buscam crescimento sólido.
+            Transformamos a comunicação técnica de empresas em ativos de autoridade visual, unindo design profissional e estratégias de performance para resultados reais.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 animate-fade-in-up [animation-delay:600ms]">
@@ -61,7 +61,7 @@ export function Hero() {
                 isTouchDevice && "active:scale-95"
               )}
             >
-              Consultoria Estratégica
+              Fazer Diagnóstico
             </Button>
             <Link href={behanceUrl} target="_blank" className="w-full sm:w-auto">
               <Button variant="outline" className="w-full sm:w-auto h-16 md:h-20 px-12 md:px-16 text-[11px] md:text-[12px] font-black border-white/40 hover:bg-white/20 transition-all rounded-full group uppercase tracking-[0.25em] bg-white/10 backdrop-blur-md text-white shadow-[0_0_40px_rgba(255,255,255,0.05)]">
