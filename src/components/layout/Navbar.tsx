@@ -35,13 +35,13 @@ export function Navbar() {
 
   return (
     <>
-      {/* Container Principal do Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-4 md:p-6">
-        <div className="container mx-auto flex items-start justify-between relative h-24 md:h-32">
+      {/* Container Principal do Header - Fixo */}
+      <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-4 md:p-8">
+        <div className="container mx-auto flex items-start justify-between relative h-32 md:h-48">
           
-          {/* Logo - Ampliado 40% e elevado 10% */}
-          <div className="pointer-events-auto -mt-2 md:-mt-6">
-            <Link href="/" className="relative block group transition-all duration-500 w-40 h-16 md:w-80 md:h-32">
+          {/* Logo - Ampliado 40% e elevado para evitar sobreposição */}
+          <div className="pointer-events-auto -mt-4 md:-mt-10">
+            <Link href="/" className="relative block group transition-all duration-500 w-48 h-20 md:w-[480px] md:h-48">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -52,28 +52,28 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* Navegação - Estilo Cápsula Refinado */}
+          {/* Navegação - Estilo Cápsula Refinado e Fixo à Direita */}
           <div className={cn(
-            "pointer-events-auto h-10 md:h-12 px-6 md:px-10 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-4",
+            "pointer-events-auto h-12 md:h-14 px-6 md:px-12 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-6",
             isScrolled 
-              ? "glass-morphism border-primary/30 shadow-[0_8px_32px_rgba(139,92,246,0.2)]" 
-              : "bg-white/10 backdrop-blur-2xl border-white/20"
+              ? "glass-morphism border-primary/30 shadow-[0_12px_40px_rgba(139,92,246,0.25)]" 
+              : "bg-white/10 backdrop-blur-3xl border-white/20 shadow-xl"
           )}>
-            <div className="hidden md:flex items-center gap-10">
+            <div className="hidden md:flex items-center gap-12">
               {navLinks.map((link) => (
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className="text-[10px] uppercase tracking-[0.45em] font-black text-white hover:text-primary transition-all relative group"
+                  className="text-[11px] uppercase tracking-[0.5em] font-black text-white hover:text-primary transition-all relative group"
                 >
                   {link.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-primary transition-all duration-500 group-hover:w-full" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full" />
                 </Link>
               ))}
               <Button 
                 onClick={handleOpenChat}
                 size="sm" 
-                className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-8 h-8 shadow-lg shadow-primary/30 text-[9px] uppercase tracking-widest transition-all hover:scale-110 active:scale-95"
+                className="bg-primary hover:bg-primary/90 text-white font-black rounded-full px-10 h-10 shadow-lg shadow-primary/30 text-[10px] uppercase tracking-widest transition-all hover:scale-110 active:scale-95"
               >
                 Consultoria
               </Button>
@@ -81,30 +81,30 @@ export function Navbar() {
 
             {/* Mobile Menu Trigger */}
             <button 
-              className="md:hidden text-white p-2 flex items-center gap-3 active:scale-90 transition-transform"
+              className="md:hidden text-white p-2 flex items-center gap-4 active:scale-90 transition-transform"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              <span className="text-[10px] font-black uppercase tracking-[0.3em]">Menu</span>
-              {isMobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
+              <span className="text-[11px] font-black uppercase tracking-[0.4em]">Menu</span>
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
 
         {/* Mobile Dropdown */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-24 left-4 right-4 glass-morphism rounded-[2.5rem] p-10 flex flex-col gap-8 shadow-[0_20px_50px_rgba(0,0,0,0.3)] animate-in fade-in zoom-in-95 duration-500 border-primary/30 pointer-events-auto">
+          <div className="md:hidden absolute top-32 left-4 right-4 glass-morphism rounded-[3rem] p-12 flex flex-col gap-10 shadow-[0_30px_70px_rgba(0,0,0,0.4)] animate-in fade-in zoom-in-95 duration-500 border-primary/30 pointer-events-auto">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="text-2xl font-black border-b border-primary/10 pb-4 hover:text-primary transition-colors tracking-tighter text-foreground"
+                className="text-3xl font-black border-b border-primary/10 pb-6 hover:text-primary transition-colors tracking-tighter text-foreground"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
             <Button 
-              className="w-full h-16 bg-primary font-black text-xs uppercase tracking-widest rounded-full shadow-2xl shadow-primary/30"
+              className="w-full h-20 bg-primary font-black text-sm uppercase tracking-widest rounded-full shadow-2xl shadow-primary/30"
               onClick={handleOpenChat}
             >
               Falar com Especialista
