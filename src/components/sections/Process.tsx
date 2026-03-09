@@ -35,7 +35,7 @@ const steps = [
 export function Process() {
   return (
     <section id="metodologia" className="py-32 md:py-64 hero-purple-mesh relative overflow-hidden">
-      <div className="absolute inset-0 bg-black/75 backdrop-blur-sm pointer-events-none" />
+      <div className="absolute inset-0 bg-[#0c0a1a]/85 backdrop-blur-sm pointer-events-none" />
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-start justify-between mb-40 gap-24">

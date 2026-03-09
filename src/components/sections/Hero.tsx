@@ -2,7 +2,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, ShieldCheck, Zap } from "lucide-react";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -22,23 +22,23 @@ export function Hero() {
     <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden pt-32 pb-24 max-w-full px-4">
       {/* Dynamic Premium Purple Background */}
       <div className="absolute inset-0 z-0 bg-[#0c0a1a]">
-        <div className="absolute inset-0 opacity-[0.5] mix-blend-screen">
+        <div className="absolute inset-0 opacity-[0.4] mix-blend-screen">
            <Image 
             src={heroBg}
             alt="Design Texture"
             fill
-            className="object-cover scale-110 animate-[pulse_10s_infinite]"
+            className="object-cover scale-110 animate-[pulse_15s_infinite]"
             priority
           />
         </div>
         
-        {/* Deep Purple Mesh Gradients */}
-        <div className="absolute top-[-20%] left-[-10%] w-[100%] h-[80%] bg-primary/40 rounded-full blur-[180px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[70%] h-[70%] bg-accent/30 rounded-full blur-[160px] animate-pulse [animation-delay:4s]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,transparent_0%,#0c0a1a_90%)]" />
+        {/* Deep Purple Mesh Gradients - Enhanced for "Roxo" focus */}
+        <div className="absolute top-[-20%] left-[-10%] w-[120%] h-[100%] bg-primary/40 rounded-full blur-[200px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[80%] h-[80%] bg-accent/30 rounded-full blur-[180px] animate-pulse [animation-delay:4s]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,transparent_0%,#0c0a1a_85%)]" />
         
         {/* Noise Texture Overaly */}
-        <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
       </div>
       
       <div className="container relative z-10 mx-auto max-w-7xl">
@@ -73,21 +73,6 @@ export function Hero() {
                 Ver Dossiês <ArrowRight className="ml-4 h-6 w-6 group-hover:translate-x-4 transition-transform duration-700" />
               </Button>
             </Link>
-          </div>
-          
-          {/* Quick Stats/Trust HUD */}
-          <div className="pt-24 grid grid-cols-2 md:grid-cols-4 gap-12 max-w-4xl mx-auto animate-slide-up [animation-delay:800ms] opacity-40 group">
-             {[
-               { label: "Projetos", val: "250+" },
-               { label: "ROI Médio", val: "3.5x" },
-               { label: "Autoridade", val: "Global" },
-               { label: "Retenção", val: "94%" }
-             ].map((stat, i) => (
-               <div key={i} className="text-center space-y-2 group-hover:opacity-100 transition-opacity duration-1000">
-                 <p className="text-2xl font-black text-white tracking-tighter">{stat.val}</p>
-                 <p className="text-[8px] font-black uppercase tracking-[0.4em] text-primary">{stat.label}</p>
-               </div>
-             ))}
           </div>
         </div>
       </div>

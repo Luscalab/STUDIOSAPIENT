@@ -2,7 +2,7 @@
 "use client";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
-import { Megaphone, Palette, Share2, ArrowUpRight, BarChart3, Zap, Bot, Shield } from "lucide-react";
+import { Megaphone, Palette, Share2, ArrowUpRight, BarChart3, Bot, Shield } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -73,6 +73,7 @@ const services = [
 export function Services() {
   return (
     <section id="servicos" className="py-32 md:py-64 relative overflow-hidden bg-background">
+      {/* Background Sophistication - More Purple */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/10 blur-[200px] rounded-full translate-x-1/4 -translate-y-1/4 pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
