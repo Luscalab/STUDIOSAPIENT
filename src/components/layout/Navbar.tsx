@@ -17,7 +17,9 @@ export function Navbar() {
 
   const navLinks = [
     { name: "Serviços", href: "/#servicos" },
+    { name: "Metodologia", href: "/#metodologia" },
     { name: "Portfólio", href: "/#portfolio" },
+    { name: "Dúvidas", href: "/#faq" },
     { name: "Contato", href: "/#contato" },
   ];
 
@@ -26,12 +28,12 @@ export function Navbar() {
   return (
     <>
       {/* Header Estático: Não acompanha o scroll */}
-      <header className="absolute top-0 left-0 right-0 z-50 pt-2 pb-2 md:pt-4 md:pb-4">
+      <header className="absolute top-4 left-0 right-0 z-50">
         <div className="container mx-auto px-6 flex items-center justify-between">
           
           {/* Lado Esquerdo: Logotipo Imponente */}
           <div className="flex items-center">
-            <Link href="/" className="relative block w-64 h-16 md:w-[650px] md:h-44 group transition-transform">
+            <Link href="/" className="relative block w-72 h-16 md:w-[750px] md:h-52 group transition-transform">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -43,7 +45,7 @@ export function Navbar() {
           </div>
 
           {/* Lado Direito: Menu Desktop Padronizado */}
-          <nav className="hidden md:flex items-center gap-10 px-10 py-5 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl">
+          <nav className="hidden xl:flex items-center gap-8 px-10 py-5 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
@@ -66,7 +68,7 @@ export function Navbar() {
 
           {/* Menu Mobile Button */}
           <button 
-            className="md:hidden p-4 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95 shrink-0"
+            className="xl:hidden p-4 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95 shrink-0"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <span className="text-[10px] font-black uppercase tracking-[0.3em]">Menu</span>
@@ -74,18 +76,18 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Overlay Menu Mobile Refinado */}
+        {/* Overlay Menu Mobile */}
         <div className={cn(
-          "md:hidden fixed inset-0 z-[60] bg-white transition-all duration-500 ease-in-out transform",
+          "xl:hidden fixed inset-0 z-[60] bg-white transition-all duration-500 ease-in-out transform",
           isMobileMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
         )}>
           <div className="h-full flex flex-col p-10 pt-32 bg-[#fbfaff]">
-            <div className="flex flex-col gap-12 text-center">
-              {navLinks.map((link, idx) => (
+            <div className="flex flex-col gap-8 text-center">
+              {navLinks.map((link) => (
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className="text-4xl font-black text-foreground tracking-tighter flex items-center justify-center group"
+                  className="text-3xl font-black text-foreground tracking-tighter flex items-center justify-center group"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
@@ -93,7 +95,7 @@ export function Navbar() {
                 </Link>
               ))}
               <button 
-                className="text-4xl font-black text-foreground tracking-tighter text-center flex items-center justify-center group"
+                className="text-3xl font-black text-foreground tracking-tighter text-center flex items-center justify-center group"
                 onClick={handleOpenChat}
               >
                 Análise Estratégica

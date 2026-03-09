@@ -34,7 +34,7 @@ const steps = [
 
 export function Process() {
   return (
-    <section className="section-spacing hero-purple-mesh relative overflow-hidden">
+    <section id="metodologia" className="section-spacing hero-purple-mesh relative overflow-hidden">
       {/* Camada de sofisticação sobre o mesh */}
       <div className="absolute inset-0 bg-black/60 pointer-events-none" />
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -72,7 +72,7 @@ export function Process() {
                   step.color
                 )} />
 
-                {/* Step Number - Fixo e sem bug visual */}
+                {/* Step Number */}
                 <div className="flex items-center justify-between mb-12 relative z-10">
                   <div className="h-14 w-14 rounded-2xl bg-white/10 flex items-center justify-center text-white group-hover:bg-primary group-hover:scale-110 transition-all duration-500 border border-white/10">
                     {step.icon}

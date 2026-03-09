@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
-import { HelpCircle, Sparkles, Plus } from "lucide-react";
+import { HelpCircle, Sparkles } from "lucide-react";
 
 const faqs = [
   {
@@ -35,7 +35,7 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section className="py-24 md:py-40 bg-white relative overflow-hidden">
+    <section id="faq" className="py-24 md:py-40 bg-white relative overflow-hidden">
       {/* Background Sophistication */}
       <div className="absolute top-0 left-0 w-full h-full soft-gradient-bg opacity-20 pointer-events-none" />
       
