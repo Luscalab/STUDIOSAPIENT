@@ -28,9 +28,9 @@ export function Navbar() {
       <header className="absolute top-0 left-0 right-0 z-50 py-8 md:py-12">
         <div className="container mx-auto px-6 flex items-center justify-between">
           
-          {/* Logo - Alinhado verticalmente com o menu */}
+          {/* Logo - Aumentado em 40% (aprox. w-44/h-11 mobile e w-72/h-16 desktop) */}
           <div className="flex-shrink-0 animate-logo-reveal">
-            <Link href="/" className="relative block group w-32 h-8 md:w-52 md:h-12">
+            <Link href="/" className="relative block group w-44 h-11 md:w-72 md:h-16">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
