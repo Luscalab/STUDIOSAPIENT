@@ -1,3 +1,4 @@
+
 import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/sections/Hero";
 import { Services } from "@/components/sections/Services";
@@ -7,10 +8,14 @@ import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
+import { UrbeLudoBanner } from "@/components/sections/UrbeLudoBanner";
 
 export default function Home() {
   return (
     <main id="main-content" className="min-h-screen">
+      {/* Dynamic Announcement Banner */}
+      <UrbeLudoBanner />
+      
       <Navbar />
       <Hero />
       <Services />
