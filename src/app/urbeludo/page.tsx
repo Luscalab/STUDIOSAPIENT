@@ -25,7 +25,10 @@ import {
   Mail,
   QrCode,
   Copy,
-  MousePointer2
+  MousePointer2,
+  Gamepad2,
+  Palette,
+  UserRound
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -35,11 +38,11 @@ export default function UrbeLudoPage() {
   
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
 
-  const copyPix = () => {
-    navigator.clipboard.writeText("sapientcontato@gmail.com");
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
     toast({
-      title: "Chave PIX Copiada!",
-      description: "Chave: sapientcontato@gmail.com (Lucas Santos de Souza)",
+      title: `${label} Copiado!`,
+      description: `Valor: ${text}`,
     });
   };
 
@@ -209,7 +212,16 @@ export default function UrbeLudoPage() {
                 </div>
               </div>
               <div className="mt-16 space-y-6 relative z-10">
-                <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] text-center">Falar com Estrategista</p>
+                <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 text-center space-y-2 group/email">
+                  <p className="text-[10px] font-black text-cyan-400 uppercase tracking-[0.4em] mb-1">Contato Direto</p>
+                  <p className="text-lg font-black text-white">sapientcontato@gmail.com</p>
+                  <button 
+                    onClick={() => copyToClipboard("sapientcontato@gmail.com", "E-mail")}
+                    className="flex items-center gap-2 mx-auto text-[9px] font-bold text-white/40 hover:text-cyan-400 transition-colors uppercase tracking-widest"
+                  >
+                    <Copy className="h-3 w-3" /> Copiar E-mail
+                  </button>
+                </div>
                 <Button 
                   onClick={() => window.location.href = "mailto:sapientcontato@gmail.com?subject=Interesse em Investimento - UrbeLudo"}
                   className="w-full h-24 bg-cyan-500 hover:bg-cyan-400 text-foreground font-black uppercase tracking-[0.3em] rounded-full text-[12px] shadow-2xl transition-all"
@@ -245,7 +257,7 @@ export default function UrbeLudoPage() {
                   <p className="text-[9px] font-bold text-muted-foreground/60 uppercase tracking-widest">Favorecido: Lucas Santos de Souza</p>
                 </div>
                 <Button 
-                  onClick={copyPix}
+                  onClick={() => copyToClipboard("sapientcontato@gmail.com", "Chave PIX")}
                   className="w-full h-24 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-[0.3em] rounded-full text-[12px] flex items-center justify-center gap-4 shadow-2xl shadow-primary/20 transition-all"
                 >
                   <QrCode className="h-6 w-6" /> Copiar Chave PIX
@@ -268,11 +280,32 @@ export default function UrbeLudoPage() {
                 <div className="space-y-6">
                   <h4 className="font-headline text-4xl font-black tracking-tighter">Colaboração Técnica</h4>
                   <p className="text-muted-foreground/70 font-medium text-lg leading-relaxed tracking-tight">
-                    Fonoaudiólogos, psicomotricistas e desenvolvedores (Unity/AI): junte-se ao nosso ecossistema como testador beta ou revisor científico.
+                    Fonoaudiólogos, psicólogos, psicomotricistas, designers e desenvolvedores (Unity/AI): junte-se ao nosso ecossistema como testador ou revisor.
                   </p>
+                  <div className="flex flex-wrap gap-3 pt-2">
+                    <div className="flex items-center gap-1.5 text-[8px] font-black uppercase tracking-wider text-indigo-600/60 bg-indigo-500/5 px-3 py-1.5 rounded-full border border-indigo-500/10">
+                      <Gamepad2 className="h-3 w-3" /> Dev Games
+                    </div>
+                    <div className="flex items-center gap-1.5 text-[8px] font-black uppercase tracking-wider text-indigo-600/60 bg-indigo-500/5 px-3 py-1.5 rounded-full border border-indigo-500/10">
+                      <Palette className="h-3 w-3" /> Designers
+                    </div>
+                    <div className="flex items-center gap-1.5 text-[8px] font-black uppercase tracking-wider text-indigo-600/60 bg-indigo-500/5 px-3 py-1.5 rounded-full border border-indigo-500/10">
+                      <UserRound className="h-3 w-3" /> Psicólogos
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="mt-16 space-y-6 relative z-10">
+                <div className="p-8 rounded-[2.5rem] bg-indigo-500/5 border border-indigo-500/10 text-center space-y-2">
+                  <p className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.4em] mb-1">Candidatura</p>
+                  <p className="text-lg font-black text-indigo-900">sapientcontato@gmail.com</p>
+                  <button 
+                    onClick={() => copyToClipboard("sapientcontato@gmail.com", "E-mail")}
+                    className="flex items-center gap-2 mx-auto text-[9px] font-bold text-indigo-400 hover:text-indigo-600 transition-colors uppercase tracking-widest"
+                  >
+                    <Copy className="h-3 w-3" /> Copiar E-mail
+                  </button>
+                </div>
                 <Button 
                   onClick={() => window.location.href = "mailto:sapientcontato@gmail.com?subject=Colaboração Técnica - UrbeLudo"}
                   variant="outline"
