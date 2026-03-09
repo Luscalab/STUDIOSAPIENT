@@ -25,6 +25,11 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
+        {/* Skip Link para Acessibilidade de Teclado */}
+        <a href="#main-content" className="skip-link">
+          Pular para o conteúdo principal
+        </a>
+
         {/* Componentes de Acessibilidade - Carregados em todas as páginas */}
         <VLibras />
         <AccessibilityMenu />

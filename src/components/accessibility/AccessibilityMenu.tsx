@@ -12,7 +12,9 @@ import {
   SunMoon,
   Hand,
   Volume2,
-  VolumeX
+  VolumeX,
+  Zap,
+  ZapOff
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +26,7 @@ export function AccessibilityMenu() {
   const [highlightLinks, setHighlightLinks] = useState(false);
   const [isLibrasActive, setIsLibrasActive] = useState(false);
   const [isReading, setIsReading] = useState(false);
+  const [stopAnimations, setStopAnimations] = useState(false);
   
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const lastSpokenTextRef = useRef<string>("");
@@ -55,11 +58,15 @@ export function AccessibilityMenu() {
     else document.body.classList.remove('accessibility-highlight-links');
   }, [highlightLinks]);
 
+  useEffect(() => {
+    if (stopAnimations) document.body.classList.add('accessibility-stop-animations');
+    else document.body.classList.remove('accessibility-stop-animations');
+  }, [stopAnimations]);
+
   // Efeito para a Audiodescrição Dinâmica (Hover e Teclado)
   useEffect(() => {
     if (!isReading || !synthRef.current) return;
 
-    // Coleta todos os elementos que fazem sentido serem lidos
     const selector = 'h1, h2, h3, h4, h5, h6, p, a, button, li, [role="button"], img[alt]';
     readableElementsRef.current = Array.from(document.querySelectorAll(selector)) as HTMLElement[];
     currentIndexRef.current = -1;
@@ -100,7 +107,6 @@ export function AccessibilityMenu() {
         const currentElement = elements[currentIndexRef.current];
         currentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         
-        // Pequeno destaque visual temporário
         const originalOutline = currentElement.style.outline;
         currentElement.style.outline = '3px solid hsl(var(--primary))';
         setTimeout(() => {
@@ -111,7 +117,6 @@ export function AccessibilityMenu() {
         speak(text);
       }
 
-      // Ativação por ENTER
       if (e.key === 'Enter' && currentIndexRef.current !== -1) {
         const currentElement = elements[currentIndexRef.current];
         const isClickable = ['A', 'BUTTON'].includes(currentElement.tagName) || currentElement.getAttribute('role') === 'button';
@@ -149,7 +154,6 @@ export function AccessibilityMenu() {
       lastSpokenTextRef.current = "";
     } else {
       setIsReading(true);
-      // Instruções iniciais por voz aprimoradas
       if (synthRef.current) {
         const welcome = new SpeechSynthesisUtterance(
           "Modo de audiodescrição ativado. Explore com o mouse ou utilize as setas para cima e para baixo do seu teclado para navegar. Pressione a tecla Enter para selecionar links ou botões quando eles forem lidos."
@@ -168,6 +172,7 @@ export function AccessibilityMenu() {
     setGrayscale(false);
     setHighlightLinks(false);
     setIsReading(false);
+    setStopAnimations(false);
     if (synthRef.current) synthRef.current.cancel();
   };
 
@@ -186,7 +191,7 @@ export function AccessibilityMenu() {
 
       <div
         className={cn(
-          "fixed bottom-40 right-6 z-[100] w-[260px] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-700 origin-bottom-right p-6 space-y-6",
+          "fixed bottom-40 right-6 z-[100] w-[280px] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-700 origin-bottom-right p-6 space-y-6",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-10 invisible pointer-events-none"
         )}
       >
@@ -201,9 +206,9 @@ export function AccessibilityMenu() {
           <div className="space-y-2">
             <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Escala Global</p>
             <div className="flex items-center justify-between bg-secondary/50 rounded-2xl p-2">
-              <button onClick={() => setFontSize(prev => Math.max(prev - 10, 80))} className="h-7 w-7 rounded-lg hover:bg-white flex items-center justify-center"><Minus className="h-3 w-3" /></button>
+              <button onClick={() => setFontSize(prev => Math.max(prev - 10, 80))} className="h-7 w-7 rounded-lg hover:bg-white flex items-center justify-center" aria-label="Diminuir fonte"><Minus className="h-3 w-3" /></button>
               <span className="text-[10px] font-bold">{fontSize}%</span>
-              <button onClick={() => setFontSize(prev => Math.min(prev + 10, 150))} className="h-7 w-7 rounded-lg hover:bg-white flex items-center justify-center"><Plus className="h-3 w-3" /></button>
+              <button onClick={() => setFontSize(prev => Math.min(prev + 10, 150))} className="h-7 w-7 rounded-lg hover:bg-white flex items-center justify-center" aria-label="Aumentar fonte"><Plus className="h-3 w-3" /></button>
             </div>
           </div>
 
@@ -214,9 +219,12 @@ export function AccessibilityMenu() {
             <button onClick={toggleReadingMode} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", isReading ? "bg-primary text-white" : "bg-white text-muted-foreground")}>{isReading ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}Voz Nativa</button>
           </div>
 
-          <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("w-full flex items-center justify-center gap-3 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", highlightLinks ? "bg-primary text-white" : "bg-white text-muted-foreground")}><LinkIcon className="h-3 w-3" />Realçar Links</button>
+          <div className="grid grid-cols-2 gap-2">
+            <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase text-center", highlightLinks ? "bg-primary text-white" : "bg-white text-muted-foreground")}><LinkIcon className="h-4 w-4" />Realçar Links</button>
+            <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase text-center", stopAnimations ? "bg-primary text-white" : "bg-white text-muted-foreground")}>{stopAnimations ? <ZapOff className="h-4 w-4" /> : <Zap className="h-4 w-4" />}Animações</button>
+          </div>
           
-          <button onClick={resetAll} className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-secondary/30 text-[8px] font-black uppercase text-muted-foreground"><RotateCcw className="h-3 w-3" />Resetar</button>
+          <button onClick={resetAll} className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-secondary/30 text-[8px] font-black uppercase text-muted-foreground"><RotateCcw className="h-3 w-3" />Resetar Preferências</button>
         </div>
       </div>
     </>

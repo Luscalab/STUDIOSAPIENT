@@ -49,6 +49,13 @@
     background-color: yellow !important;
     padding: 2px !important;
   }
+
+  .accessibility-stop-animations * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @layer base {
@@ -77,6 +84,28 @@
     overflow-x: hidden;
     position: relative;
   }
+
+  /* Foco de Alta Visibilidade */
+  :focus-visible {
+    outline: 3px solid hsl(var(--primary));
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  /* Respeito à preferência do sistema por movimento reduzido */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Skip to Content Link */
+.skip-link {
+  @apply fixed top-4 left-4 z-[200] bg-primary text-white px-6 py-3 rounded-full font-black uppercase text-[10px] tracking-widest -translate-y-24 transition-transform duration-300 focus:translate-y-0 shadow-2xl;
 }
 
 /* Ocultar botão nativo do VLibras mantendo funcionalidade de clique */
