@@ -74,15 +74,18 @@
 [vw].enabled,
 [vw-access-button],
 .vw-plugin-wrapper,
-.v-plugin-top-wrapper {
+.v-plugin-top-wrapper,
+.access-button,
+.vp-container {
   z-index: 99999 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* Garante visibilidade sobre o menu de acessibilidade e chats */
 [vw-access-button].active {
   z-index: 99999 !important;
-  opacity: 1 !important;
-  visibility: visible !important;
+  display: block !important;
 }
 
 /* Modos de Acessibilidade */
