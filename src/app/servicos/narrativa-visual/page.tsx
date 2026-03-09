@@ -6,13 +6,13 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BarChart3, Lightbulb, CheckCircle2, FileText, BrainCircuit, Info, MessageSquareText, Sparkles } from "lucide-react";
+import { BrainCircuit, FileText, Lightbulb, Sparkles } from "lucide-react";
 
 export default function NarrativaVisualPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
 
   return (
-    <main className="min-h-screen bg-[#0c0a1a]">
+    <main className="min-h-screen bg-white">
       <Navbar />
       
       <section className="relative pt-64 pb-24 md:pt-80 md:pb-48 hero-purple-mesh overflow-hidden text-center">
@@ -30,24 +30,24 @@ export default function NarrativaVisualPage() {
       <section className="py-24 md:py-40 bg-white relative">
         <div className="container mx-auto px-6 relative z-10 text-foreground">
           <div className="max-w-4xl mx-auto text-center mb-32">
-            <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Clareza gera Confiança</h2>
-            <p className="text-lg md:text-xl text-muted-foreground/60 font-medium leading-relaxed tracking-tight">
+            <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8 text-foreground">Clareza gera Confiança</h2>
+            <p className="text-lg md:text-xl text-foreground/80 font-medium leading-relaxed tracking-tight">
               Muitos negócios perdem vendas porque o cliente não entende o real valor da solução. Nossa narrativa visual traduz sua expertise em desejo imediato.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-40">
             {[
-              { icon: <BrainCircuit className="h-10 w-10" />, title: "Infográficos", desc: "Desenhamos seu método para que o benefício seja indiscutível." },
+              { icon: <BrainCircuit className="h-10 w-10" />, title: "Infográficos", desc: "Desenhamos seu método para que the benefício seja indiscutível." },
               { icon: <FileText className="h-10 w-10" />, title: "Dossiês de Venda", desc: "Apresentações comerciais para decisores qualificados." },
               { icon: <Lightbulb className="h-10 w-10" />, title: "Visualização de Dados", desc: "Resultados técnicos transformados em provas visuais de competência." }
             ].map((card, i) => (
-              <div key={i} className="bg-secondary p-12 rounded-[3.5rem] text-center space-y-6 flex flex-col items-center hover:scale-105 transition-all shadow-xl border border-muted">
-                <div className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center text-primary">
+              <div key={i} className="bg-secondary p-12 rounded-[3.5rem] text-center space-y-6 flex flex-col items-center hover:scale-105 transition-all shadow-xl border border-muted/10">
+                <div className="w-20 h-20 rounded-3xl bg-white flex items-center justify-center text-primary border border-muted/10">
                   {card.icon}
                 </div>
-                <h3 className="font-bold text-2xl tracking-tighter">{card.title}</h3>
-                <p className="text-muted-foreground/50 font-medium leading-relaxed">{card.desc}</p>
+                <h3 className="font-bold text-2xl tracking-tighter text-foreground">{card.title}</h3>
+                <p className="text-foreground/60 font-medium leading-relaxed">{card.desc}</p>
               </div>
             ))}
           </div>
@@ -62,7 +62,7 @@ export default function NarrativaVisualPage() {
                 <p className="text-xl text-white/40 leading-relaxed font-medium">
                   "Onde existe clareza, a decisão de compra é natural." Atuamos como o filtro de valor do seu negócio.
                 </p>
-                <Button onClick={handleOpenChat} className="h-20 px-12 text-lg font-black bg-primary text-white rounded-full uppercase tracking-widest shadow-xl">
+                <Button onClick={handleOpenChat} className="h-20 px-12 text-[11px] font-black bg-primary text-white rounded-full uppercase tracking-[0.5em] shadow-2xl hover:bg-primary/90 transition-all">
                   Simplificar Minha Autoridade
                 </Button>
               </div>

@@ -6,13 +6,13 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, MapPin, ArrowRight, BarChart3, MousePointer2, Smartphone, Globe, CheckCircle2 } from "lucide-react";
+import { TrendingUp, MapPin, ArrowRight, BarChart3, MousePointer2 } from "lucide-react";
 
 export default function PerformanceAdsPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
 
   return (
-    <main className="min-h-screen bg-[#0c0a1a]">
+    <main className="min-h-screen bg-white">
       <Navbar />
       
       <section className="relative pt-64 pb-24 md:pt-80 md:pb-48 hero-purple-mesh overflow-hidden">
@@ -32,7 +32,7 @@ export default function PerformanceAdsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-40">
             <div className="space-y-12">
               <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8 text-foreground">Tráfego Inteligente</h2>
-              <p className="text-lg md:text-xl text-muted-foreground/60 font-medium leading-relaxed tracking-tight">
+              <p className="text-lg md:text-xl text-foreground/80 font-medium leading-relaxed tracking-tight">
                 Quando alguém pesquisa por sua solução, essa pessoa já está pronta para contratar. Nossa intervenção garante que seu negócio seja a escolha prioritária.
               </p>
               
@@ -43,19 +43,19 @@ export default function PerformanceAdsPage() {
                   { icon: <BarChart3 />, title: "Relatórios Claros", desc: "Transparência total sobre as novas oportunidades comerciais geradas." }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-6 items-start p-8 rounded-[2.5rem] bg-secondary border border-muted hover:border-primary/20 transition-all shadow-xl">
-                    <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                    <div className="h-12 w-12 rounded-2xl bg-white border border-muted/10 flex items-center justify-center text-primary shrink-0">
                       {item.icon}
                     </div>
                     <div>
                       <h3 className="font-bold text-xl mb-2 tracking-tight text-foreground">{item.title}</h3>
-                      <p className="text-muted-foreground/50 font-medium leading-snug">{item.desc}</p>
+                      <p className="text-foreground/60 font-medium leading-snug">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
               
-              <Button onClick={handleOpenChat} className="h-20 px-12 text-lg font-black bg-primary text-white rounded-full uppercase tracking-widest shadow-xl group">
-                Diagnóstico de Performance <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
+              <Button onClick={handleOpenChat} className="h-20 px-12 text-[11px] font-black bg-primary text-white rounded-full uppercase tracking-[0.5em] shadow-2xl hover:bg-primary/90 transition-all group">
+                Diagnóstico de Performance <ArrowRight className="ml-2 group-hover:translate-x-3 transition-transform" />
               </Button>
             </div>
 

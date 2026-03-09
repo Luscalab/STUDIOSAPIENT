@@ -32,7 +32,7 @@ export default function ChatIAPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center mb-64">
             <div className="space-y-16">
               <h2 className="font-headline text-5xl md:text-8xl font-black tracking-tighter mb-12 text-foreground leading-[0.85]">Atendimento Sem Espera</h2>
-              <p className="text-xl md:text-3xl text-muted-foreground/60 font-medium leading-relaxed tracking-tight">
+              <p className="text-xl md:text-3xl text-foreground/80 font-medium leading-relaxed tracking-tight">
                 Não perca vendas por demora. Nossos ecossistemas de Chat IA garantem resposta imediata e precisão técnica em cada interação.
               </p>
               
@@ -44,14 +44,16 @@ export default function ChatIAPage() {
                   { icon: <Sparkles className="text-primary h-8 w-8" />, title: "Performance 24/7", desc: "Atendimento imediato a qualquer hora do dia." }
                 ].map((item, i) => (
                   <div key={i} className="p-12 rounded-[3.5rem] bg-secondary border border-muted hover:border-primary/20 transition-all shadow-xl group">
-                    <div className="mb-8 p-6 rounded-2xl bg-white w-fit group-hover:bg-primary group-hover:text-white transition-all">{item.icon}</div>
+                    <div className="mb-8 p-6 rounded-2xl bg-white w-fit text-primary transition-all border border-muted/10">
+                      {item.icon}
+                    </div>
                     <h3 className="font-black text-2xl mb-4 tracking-tighter text-foreground leading-none">{item.title}</h3>
-                    <p className="text-lg text-muted-foreground/50 font-medium leading-snug">{item.desc}</p>
+                    <p className="text-lg text-foreground/60 font-medium leading-snug">{item.desc}</p>
                   </div>
                 ))}
               </div>
 
-              <Button onClick={handleOpenChat} className="h-24 px-16 text-lg font-black bg-primary text-white rounded-full uppercase tracking-widest shadow-xl w-full sm:w-auto group">
+              <Button onClick={handleOpenChat} className="h-24 px-16 text-[11px] font-black bg-primary text-white rounded-full uppercase tracking-[0.5em] shadow-2xl hover:bg-primary/90 transition-all w-full sm:w-auto group">
                 Simular Agente IA <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
               </Button>
             </div>

@@ -37,9 +37,9 @@ const services = [
     icon: <Bot className="h-7 w-7" />,
     features: ["WhatsApp Inteligente", "Qualificação de Leads", "Automação 4.0"],
     badge: "Tecnologia",
-    color: "text-cyan-500",
-    glow: "group-hover:shadow-cyan-500/20",
-    bg: "bg-cyan-500/5"
+    color: "text-primary",
+    glow: "group-hover:shadow-primary/20",
+    bg: "bg-primary/5"
   },
   {
     title: "Gestão de Redes",
@@ -48,9 +48,9 @@ const services = [
     icon: <Share2 className="h-7 w-7" />,
     features: ["Copywriting Técnico", "Design de Autoridade", "Growth Qualificado"],
     badge: "Presença",
-    color: "text-purple-500",
-    glow: "group-hover:shadow-purple-500/20",
-    bg: "bg-purple-500/5"
+    color: "text-primary",
+    glow: "group-hover:shadow-primary/20",
+    bg: "bg-primary/5"
   },
   {
     title: "Narrativa Visual",
@@ -59,9 +59,9 @@ const services = [
     icon: <FileText className="h-7 w-7" />,
     features: ["Clareza Cognitiva", "Data Visualization", "Propostas de Valor"],
     badge: "Conversão",
-    color: "text-indigo-500",
-    glow: "group-hover:shadow-indigo-500/20",
-    bg: "bg-indigo-500/5"
+    color: "text-primary",
+    glow: "group-hover:shadow-primary/20",
+    bg: "bg-primary/5"
   }
 ];
 
@@ -104,7 +104,7 @@ export function Services() {
               
               <div className="relative z-10">
                 <div className="flex justify-between items-start mb-16">
-                  <div className={cn("h-24 w-24 rounded-3xl flex items-center justify-center transition-all duration-1000 group-hover:bg-primary group-hover:text-white shadow-xl group-hover:scale-110 border border-muted/20", service.bg, service.color)}>
+                  <div className={cn("h-24 w-24 rounded-3xl flex items-center justify-center transition-all duration-1000 shadow-xl group-hover:scale-110 border border-muted/20", service.bg, service.color)}>
                     {service.icon}
                   </div>
                   <Badge variant="secondary" className="font-black text-[9px] uppercase tracking-[0.4em] px-6 py-3 rounded-full border border-muted bg-white/50 backdrop-blur-sm">
@@ -121,8 +121,8 @@ export function Services() {
 
                 <div className="space-y-4 mb-16">
                   {service.features.map((feature, fIdx) => (
-                    <div key={fIdx} className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground group-hover:text-foreground transition-all">
-                      <ShieldCheck className="h-4 w-4 text-primary/40 group-hover:text-primary transition-colors" />
+                    <div key={fIdx} className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-foreground transition-all">
+                      <ShieldCheck className="h-4 w-4 text-primary transition-colors" />
                       {feature}
                     </div>
                   ))}

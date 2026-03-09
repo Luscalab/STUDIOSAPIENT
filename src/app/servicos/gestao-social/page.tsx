@@ -6,13 +6,13 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MessageSquare, ArrowRight, Eye, TrendingUp, Users, BarChart, PenTool, Sparkles } from "lucide-react";
+import { MessageSquare, ArrowRight, Eye, TrendingUp, Users, Sparkles } from "lucide-react";
 
 export default function GestaoSocialPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
 
   return (
-    <main className="min-h-screen bg-[#0c0a1a]">
+    <main className="min-h-screen bg-white">
       <Navbar />
       
       <section className="relative pt-64 pb-24 md:pt-80 md:pb-48 hero-purple-mesh overflow-hidden text-center">
@@ -31,8 +31,8 @@ export default function GestaoSocialPage() {
         <div className="container mx-auto px-6 relative z-10 text-foreground">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-40">
             <div className="space-y-12">
-              <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Narrativas de Conversão</h2>
-              <p className="text-lg md:text-xl text-muted-foreground/60 font-medium leading-relaxed tracking-tight">
+              <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8 text-foreground">Narrativas de Conversão</h2>
+              <p className="text-lg md:text-xl text-foreground/80 font-medium leading-relaxed tracking-tight">
                 Cada publicação tem uma função estratégica: educar o cliente, eliminar barreiras e posicionar você como autoridade.
               </p>
               
@@ -44,14 +44,14 @@ export default function GestaoSocialPage() {
                   { icon: <Users className="text-primary" />, title: "Referência de Mercado", desc: "Posicionamento que torna sua marca a primeira lembrança." }
                 ].map((item, i) => (
                   <div key={i} className="p-8 rounded-[2.5rem] bg-secondary border border-muted hover:border-primary/20 transition-all shadow-xl">
-                    <div className="mb-4">{item.icon}</div>
-                    <h3 className="font-bold text-lg mb-2 tracking-tight">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground/50 font-medium leading-snug">{item.desc}</p>
+                    <div className="mb-4 text-primary">{item.icon}</div>
+                    <h3 className="font-bold text-lg mb-2 tracking-tight text-foreground">{item.title}</h3>
+                    <p className="text-sm text-foreground/60 font-medium leading-snug">{item.desc}</p>
                   </div>
                 ))}
               </div>
 
-              <Button onClick={handleOpenChat} className="h-20 px-12 text-lg font-black bg-primary text-white rounded-full uppercase tracking-widest shadow-xl group">
+              <Button onClick={handleOpenChat} className="h-20 px-12 text-[11px] font-black bg-primary text-white rounded-full uppercase tracking-[0.5em] shadow-2xl hover:bg-primary/90 transition-all group">
                 Auditoria de Autoridade <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
               </Button>
             </div>
