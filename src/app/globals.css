@@ -40,6 +40,32 @@
   }
 }
 
+/* Custom Scrollbar Implementation */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.15);
+  border-radius: 10px;
+  border: 3px solid hsl(var(--background));
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.4);
+}
+
+/* Firefox Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.2) hsl(var(--background));
+}
+
 .soft-gradient-bg {
   background: 
     radial-gradient(circle at 100% 0%, hsla(265, 90%, 56%, 0.08), transparent 40%),
@@ -97,22 +123,31 @@
   @apply py-16 md:py-32 lg:py-40;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.15);
-  border-radius: 20px;
-  background-clip: content-box;
-}
-
 @media (max-width: 768px) {
   .section-spacing {
     @apply py-12;
   }
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes logo-reveal {
+  0% { opacity: 0; transform: scale(0.9) translateY(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes page-enter {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.animate-page-enter {
+  animation: page-enter 0.8s ease-out forwards;
+}
+
+.animate-logo-reveal {
+  animation: logo-reveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
