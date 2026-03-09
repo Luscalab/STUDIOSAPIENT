@@ -25,12 +25,12 @@ export function Navbar() {
 
   return (
     <>
-      <header className="absolute top-0 left-0 right-0 z-50 py-8 md:py-12">
+      <header className="absolute top-0 left-0 right-0 z-50 py-8 md:py-10">
         <div className="container mx-auto px-6 flex items-center justify-between">
           
-          {/* Logo - Ampliado em mais 40% (w-60/h-16 mobile e w-[400px]/h-24 desktop) */}
+          {/* Logo - Ampliado em mais 40% (aprox. w-80 h-24 mobile e w-[560px] h-32 desktop) */}
           <div className="flex-shrink-0 animate-logo-reveal">
-            <Link href="/" className="relative block group w-60 h-16 md:w-[400px] md:h-24">
+            <Link href="/" className="relative block group w-80 h-24 md:w-[560px] md:h-32">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -79,30 +79,30 @@ export function Navbar() {
           isMobileMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
         )}>
           <div className="h-full flex flex-col p-10 pt-32">
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-8 text-center">
               {navLinks.map((link, idx) => (
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className="text-4xl font-black text-foreground tracking-tighter flex items-center justify-between group"
+                  className="text-4xl font-black text-foreground tracking-tighter flex items-center justify-center group"
                   onClick={() => setIsMobileMenuOpen(false)}
                   style={{ transitionDelay: `${idx * 100}ms` }}
                 >
                   {link.name}
-                  <ArrowRight className="text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0" />
+                  <ArrowRight className="ml-4 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0" />
                 </Link>
               ))}
               <button 
-                className="text-4xl font-black text-foreground tracking-tighter text-left flex items-center justify-between group"
+                className="text-4xl font-black text-foreground tracking-tighter text-center flex items-center justify-center group"
                 onClick={handleOpenChat}
                 style={{ transitionDelay: `${navLinks.length * 100}ms` }}
               >
                 Análise Estratégica
-                <ArrowRight className="text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0" />
+                <ArrowRight className="ml-4 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0" />
               </button>
             </div>
             
-            <div className="mt-auto pt-10 border-t border-muted">
+            <div className="mt-auto pt-10 border-t border-muted text-center">
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground mb-6">Contatos Diretos</p>
               <div className="space-y-4">
                 <p className="font-bold text-lg">sapientcontato@gmail.com</p>
