@@ -3,8 +3,8 @@
 import Script from 'next/script';
 
 /**
- * Componente de Acessibilidade VLibras.
- * Encapsula a lógica do widget e o script oficial do governo.
+ * Componente de Acessibilidade VLibras oficial.
+ * Tradução em tempo real para Libras em todo o site.
  */
 export function VLibras() {
   return (
@@ -27,7 +27,7 @@ export function VLibras() {
               new window.VLibras.Widget('https://vlibras.gov.br/app');
             }
           } catch (e) {
-            console.error('Falha ao inicializar VLibras:', e);
+            console.error('Falha ao inicializar o VLibras:', e);
           }
         }}
       />

@@ -24,7 +24,7 @@ export function AccessibilityMenu() {
   const [highlightLinks, setHighlightLinks] = useState(false);
 
   useEffect(() => {
-    // Load preferences
+    // Carregar preferências salvas
     const savedFontSize = localStorage.getItem('access-font-size');
     const savedContrast = localStorage.getItem('access-contrast') === 'true';
     const savedGrayscale = localStorage.getItem('access-grayscale') === 'true';
@@ -37,13 +37,13 @@ export function AccessibilityMenu() {
   }, []);
 
   useEffect(() => {
-    // Apply Font Size
+    // Aplicar Tamanho de Fonte Global
     document.documentElement.style.fontSize = `${(fontSize / 100) * 16}px`;
     localStorage.setItem('access-font-size', fontSize.toString());
   }, [fontSize]);
 
   useEffect(() => {
-    // Apply High Contrast
+    // Aplicar Alto Contraste
     if (highContrast) {
       document.body.classList.add('accessibility-high-contrast');
     } else {
@@ -53,7 +53,7 @@ export function AccessibilityMenu() {
   }, [highContrast]);
 
   useEffect(() => {
-    // Apply Grayscale
+    // Aplicar Escala de Cinza
     if (grayscale) {
       document.documentElement.classList.add('accessibility-grayscale');
     } else {
@@ -63,7 +63,7 @@ export function AccessibilityMenu() {
   }, [grayscale]);
 
   useEffect(() => {
-    // Apply Link Highlights
+    // Aplicar Realce de Links
     if (highlightLinks) {
       document.body.classList.add('accessibility-highlight-links');
     } else {
@@ -81,24 +81,24 @@ export function AccessibilityMenu() {
 
   return (
     <>
-      {/* Botão Flutuante de Acessibilidade */}
+      {/* Botão Flutuante - Posicionado Acima do Chat IA no lado DIREITO */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Menu de Acessibilidade"
         className={cn(
-          "fixed bottom-6 left-6 z-[100] h-12 w-12 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-xl",
+          "fixed bottom-24 right-6 z-[100] h-12 w-12 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-xl",
           isOpen 
             ? "bg-foreground text-white" 
-            : "bg-primary text-white animate-glow-pulse"
+            : "bg-primary text-white"
         )}
       >
         {isOpen ? <X className="h-5 w-5" /> : <Accessibility className="h-5 w-5" />}
       </button>
 
-      {/* Janela do Menu */}
+      {/* Painel do Menu de Acessibilidade */}
       <div
         className={cn(
-          "fixed bottom-24 left-6 z-[100] w-[280px] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-500 origin-bottom-left p-6 space-y-6",
+          "fixed bottom-40 right-6 z-[100] w-[280px] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-700 origin-bottom-right p-6 space-y-6",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-10 invisible pointer-events-none"
         )}
       >
@@ -110,9 +110,8 @@ export function AccessibilityMenu() {
         </div>
 
         <div className="space-y-4">
-          {/* Controle de Fonte */}
           <div className="space-y-2">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Tamanho do Texto</p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Tamanho do Texto Site</p>
             <div className="flex items-center justify-between bg-secondary/50 rounded-2xl p-2">
               <button 
                 onClick={() => setFontSize(prev => Math.max(prev - 10, 80))}
@@ -130,7 +129,6 @@ export function AccessibilityMenu() {
             </div>
           </div>
 
-          {/* Atalhos Rápidos */}
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setHighContrast(!highContrast)}
@@ -173,7 +171,7 @@ export function AccessibilityMenu() {
         </div>
 
         <p className="text-[8px] font-black text-center text-muted-foreground/40 uppercase tracking-[0.3em]">
-          Sapient Studio • Inclusão
+          Sapient Studio • Inclusão Global
         </p>
       </div>
     </>
