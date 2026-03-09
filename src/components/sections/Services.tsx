@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
-import { TrendingUp, Palette, ArrowUpRight, Bot, Share2, FileText, ShieldCheck } from "lucide-react";
+import { TrendingUp, Palette, ArrowUpRight, Bot, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 const services = [
