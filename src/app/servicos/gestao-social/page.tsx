@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Share2, MessageSquare, Zap, ArrowRight, ShieldCheck, Users, Eye, TrendingUp, BarChart, PenTool, CheckCircle2 } from "lucide-react";
+import { Share2, MessageSquare, Zap, ArrowRight, ShieldCheck, Users, Eye, TrendingUp, BarChart, PenTool, CheckCircle2, Sparkles } from "lucide-react";
 
 export default function GestaoSocialPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
@@ -23,7 +23,7 @@ export default function GestaoSocialPage() {
               Transforme Seu Perfil em uma <span className="text-white/70 italic">Vitrine de Elite</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/80 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight text-balance">
-              Redes sociais não são apenas para postar fotos. Elas são a prova social que seu cliente busca antes de decidir se confia ou não no seu serviço.
+              Suas redes sociais são a prova social mais poderosa do seu negócio. Transformamos perfis amadores em canais de autoridade que atraem clientes qualificados todos os dias.
             </p>
           </div>
         </div>
@@ -34,9 +34,9 @@ export default function GestaoSocialPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-40">
             <div className="space-y-12">
               <div>
-                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Conteúdo com Propósito</h2>
+                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Conteúdo com Propósito Real</h2>
                 <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed tracking-tight">
-                  Muitas empresas postam por obrigação. Na Sapient, cada postagem tem um objetivo claro: educar o cliente, quebrar uma objeção ou criar o desejo imediato de compra.
+                  Esqueça as postagens por obrigação. Na Sapient, cada postagem tem uma função estratégica: educar o cliente, quebrar objeções de compra ou criar um desejo imediato pelo seu serviço.
                 </p>
               </div>
               
@@ -44,23 +44,23 @@ export default function GestaoSocialPage() {
                 {[
                   { 
                     icon: <Eye className="text-primary" />, 
-                    title: "Estética Magnética", 
-                    desc: "Um feed organizado que transmite profissionalismo logo no primeiro segundo." 
+                    title: "Curadoria Visual de Luxo", 
+                    desc: "Um feed organizado e sofisticado que transmite profissionalismo absoluto logo no primeiro segundo." 
                   },
                   { 
                     icon: <MessageSquare className="text-primary" />, 
-                    title: "Escrita que Vende", 
-                    desc: "Legendas pensadas para conectar com as dores do cliente e oferecer a solução certa." 
+                    title: "Escrita Estratégica", 
+                    desc: "Legendas pensadas para conectar com as dores reais do seu cliente e oferecer a solução correta." 
                   },
                   { 
                     icon: <TrendingUp className="text-primary" />, 
-                    title: "Estratégia de Crescimento", 
-                    desc: "Uso inteligente de formatos como Reels para atrair novas pessoas interessadas no seu nicho." 
+                    title: "Crescimento Qualificado", 
+                    desc: "Uso inteligente de algoritmos para atrair pessoas que realmente têm poder de compra para o seu negócio." 
                   },
                   { 
                     icon: <Users className="text-primary" />, 
-                    title: "Autoridade Real", 
-                    desc: "Posicionamos você como um especialista no assunto, gerando confiança absoluta." 
+                    title: "Autoridade de Mercado", 
+                    desc: "Posicionamos você como o especialista número 1 no seu nicho, gerando confiança e admiração." 
                   }
                 ].map((item, i) => (
                   <div key={i} className="p-8 rounded-[2.5rem] bg-white shadow-sm border border-primary/5 hover:bg-primary/5 transition-all duration-500">
@@ -81,16 +81,16 @@ export default function GestaoSocialPage() {
 
             <div className="bg-foreground rounded-[4rem] p-12 md:p-20 text-white space-y-10 relative overflow-hidden">
                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 blur-[100px] rounded-full" />
-               <h3 className="font-headline text-4xl font-black tracking-tighter relative z-10">Nosso Fluxo de Sucesso</h3>
+               <h3 className="font-headline text-4xl font-black tracking-tighter relative z-10">Nosso Método Sapient</h3>
                <p className="text-white/60 font-medium relative z-10">
-                 Trabalhamos com um cronograma rigoroso para garantir que sua marca nunca fique em silêncio.
+                 Trabalhamos com um cronograma rigoroso para que sua marca seja vista como líder constante.
                </p>
                <ul className="space-y-8 relative z-10">
                  {[
-                   { t: "01. Planejamento", d: "Entendemos seu público e definimos o tom de voz ideal para sua marca." },
-                   { t: "02. Curadoria Visual", d: "Design de alto impacto que destaca seu negócio da multidão." },
-                   { t: "03. Execução Estratégica", d: "Agendamento nos melhores horários para máximo alcance." },
-                   { t: "04. Análise de Dados", d: "Acompanhamos o que funciona e otimizamos a cada semana." }
+                   { t: "01. Diagnóstico de Público", d: "Entendemos quem é seu cliente ideal e o que ele busca nas redes." },
+                   { t: "02. Design de Impacto", d: "Criamos ativos visuais que destacam sua marca em qualquer feed." },
+                   { t: "03. Cronograma Inteligente", d: "Agendamentos em horários estratégicos para máxima visibilidade." },
+                   { t: "04. Relatórios de Performance", d: "Acompanhamos o crescimento e ajustamos a estratégia semanalmente." }
                  ].map((item, idx) => (
                    <li key={idx} className="flex items-start gap-4">
                      <div className="h-2 w-2 bg-primary rounded-full mt-2 shrink-0" /> 
@@ -104,32 +104,32 @@ export default function GestaoSocialPage() {
             </div>
           </div>
 
-          <div className="max-w-5xl mx-auto py-24 bg-white rounded-[4rem] border border-primary/10 p-12 md:p-24 text-center space-y-12">
-            <h3 className="font-headline text-3xl md:text-5xl font-black tracking-tighter">Muito Além de Curtidas</h3>
+          <div className="max-w-5xl mx-auto py-24 bg-white rounded-[4rem] border border-primary/10 p-12 md:p-24 text-center space-y-12 shadow-sm">
+            <h3 className="font-headline text-3xl md:text-5xl font-black tracking-tighter">Muito Além de Métricas de Vaidade</h3>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-medium leading-relaxed">
-              O objetivo final é a venda. Métricas de vaidade não pagam as contas. Nossa gestão foca em converter seguidores em clientes reais para o seu comercial.
+              O objetivo final é gerar negócio. Curtidas não pagam as contas. Nossa gestão foca em converter seguidores em leads qualificados prontos para o seu time comercial.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-8">
               <div className="space-y-4">
                 <div className="h-16 w-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto text-primary">
                   <PenTool className="h-8 w-8" />
                 </div>
-                <h4 className="font-bold text-xl">Copywriting de Venda</h4>
-                <p className="text-sm text-muted-foreground">Textos persuasivos que convidam o cliente para o próximo passo.</p>
+                <h4 className="font-bold text-xl">Escrita Persuasiva</h4>
+                <p className="text-sm text-muted-foreground">Textos que guiam o cliente até o próximo passo da jornada de compra.</p>
               </div>
               <div className="space-y-4">
                 <div className="h-16 w-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto text-primary">
                   <BarChart className="h-8 w-8" />
                 </div>
-                <h4 className="font-bold text-xl">Monitoramento Semanal</h4>
-                <p className="text-sm text-muted-foreground">Acompanhamento rigoroso de crescimento e engajamento qualificado.</p>
+                <h4 className="font-bold text-xl">Gestão de Resposta</h4>
+                <p className="text-sm text-muted-foreground">Acompanhamento e análise de cada interação para otimizar o ROI.</p>
               </div>
               <div className="space-y-4">
                 <div className="h-16 w-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto text-primary">
-                  <Users className="h-8 w-8" />
+                  <Sparkles className="h-8 w-8" />
                 </div>
-                <h4 className="font-bold text-xl">Atração de Leads</h4>
-                <p className="text-sm text-muted-foreground">Estratégias para trazer exatamente quem tem poder de compra.</p>
+                <h4 className="font-bold text-xl">Desejo de Marca</h4>
+                <p className="text-sm text-muted-foreground">Construção de uma comunidade fiel que valoriza e recomenda seu serviço.</p>
               </div>
             </div>
           </div>

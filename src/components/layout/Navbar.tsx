@@ -35,11 +35,11 @@ export function Navbar() {
 
   return (
     <>
-      {/* Container do Logo - Ampliado e Elevado conforme solicitado */}
-      <div className="absolute top-2 md:top-6 left-0 right-0 z-50 pointer-events-none p-2 h-0 overflow-visible">
+      {/* Container do Logo - Ampliado 40% e elevado 10% */}
+      <div className="absolute top-2 md:top-2 left-0 right-0 z-50 pointer-events-none p-2 h-0 overflow-visible">
         <div className="container mx-auto relative">
           <div className="absolute left-0 top-0 pointer-events-auto -ml-2 md:-ml-12">
-            <Link href="/" className="relative h-12 w-40 md:h-28 md:w-[28rem] block group transition-all duration-500">
+            <Link href="/" className="relative h-12 w-40 md:h-40 md:w-[40rem] block group transition-all duration-500">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -53,10 +53,10 @@ export function Navbar() {
       </div>
 
       {/* Menu de Navegação - Posicionamento equilibrado */}
-      <nav className="fixed top-12 md:top-10 left-0 right-0 z-50 pointer-events-none p-2">
+      <nav className="fixed top-12 md:top-8 left-0 right-0 z-50 pointer-events-none p-2">
         <div className="container mx-auto relative flex items-center justify-center">
           <div className={cn(
-            "pointer-events-auto h-8 md:h-10 px-6 md:px-8 rounded-full flex items-center transition-all duration-700 border ml-auto md:ml-0 md:translate-x-[15%]",
+            "pointer-events-auto h-8 md:h-10 px-6 md:px-8 rounded-full flex items-center transition-all duration-700 border ml-auto md:ml-0 md:translate-x-[20%]",
             isScrolled 
               ? "glass-morphism border-primary/20 shadow-lg" 
               : "bg-white/5 backdrop-blur-xl border-white/10"

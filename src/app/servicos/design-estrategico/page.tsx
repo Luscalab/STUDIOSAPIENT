@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Palette, Layers, Award, ShieldCheck, ArrowRight, Landmark, Brush, Monitor, CheckCircle2, Sparkles, Target } from "lucide-react";
+import { Palette, Layers, Award, ShieldCheck, ArrowRight, Landmark, Brush, Monitor, CheckCircle2, Sparkles, Target, Zap } from "lucide-react";
 
 export default function DesignEstrategicoPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
@@ -23,7 +23,7 @@ export default function DesignEstrategicoPage() {
               Sua Marca como <span className="text-white/70 italic">Autoridade</span> Inquestionável
             </h1>
             <p className="text-xl md:text-2xl text-white/80 font-medium max-w-2xl mx-auto leading-relaxed tracking-tight text-balance">
-              O design não é apenas estética; é uma ferramenta de negócio para elevar seu preço e atrair clientes que valorizam excelência.
+              O design estratégico não é sobre estética vazia, é sobre posicionamento de mercado. Transformamos sua identidade visual em um ativo que justifica seu preço e atrai os melhores clientes.
             </p>
           </div>
         </div>
@@ -39,7 +39,7 @@ export default function DesignEstrategicoPage() {
                 </div>
                 <h3 className="font-headline text-4xl font-black text-foreground tracking-tighter">O Fim da Comparação de Preços</h3>
                 <p className="text-lg text-muted-foreground font-medium leading-relaxed">
-                  Quando sua marca transmite sucesso e estabilidade, o cliente para de questionar o seu valor. Nós garantimos que seu visual seja o seu melhor argumento de venda.
+                  Quando sua marca transmite sucesso, solidez e cuidado em cada detalhe, o cliente para de questionar o seu valor e passa a desejar sua solução. O design é o seu melhor argumento silencioso de venda.
                 </p>
                 <div className="h-1 w-20 bg-primary rounded-full" />
               </div>
@@ -47,9 +47,9 @@ export default function DesignEstrategicoPage() {
 
             <div className="order-1 lg:order-2 space-y-12">
               <div>
-                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">O Poder da Primeira Impressão</h2>
+                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter mb-8">Por que o Design Importa?</h2>
                 <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed tracking-tight">
-                  No digital, você é julgado em segundos. Se sua marca parece amadora, seu serviço é percebido como amador. Transformamos essa percepção em admiração e confiança imediata.
+                  No mundo digital, você é julgado em frações de segundo. Se sua marca parece amadora, seu serviço será percebido como amador. Um design de elite cria confiança imediata, permitindo que você cobre o que realmente vale.
                 </p>
               </div>
               
@@ -57,18 +57,18 @@ export default function DesignEstrategicoPage() {
                 {[
                   { 
                     icon: <Award className="h-6 w-6" />, 
-                    title: "Branding de Alto Padrão", 
-                    desc: "Criação de logotipos e universos visuais que comunicam profissionalismo e solidez no mercado." 
+                    title: "Percepção de Valor Imediata", 
+                    desc: "Criação de logotipos e universos visuais que comunicam profissionalismo, solidez e exclusividade logo no primeiro contato." 
                   },
                   { 
                     icon: <Layers className="h-6 w-6" />, 
-                    title: "Unidade Visual Total", 
-                    desc: "Sua marca coerente em todos os pontos: redes sociais, site, propostas e materiais físicos." 
+                    title: "Ecossistema Visual Coerente", 
+                    desc: "Garantimos que sua marca seja a mesma em todos os lugares: redes sociais, site, propostas e apresentações comerciais." 
                   },
                   { 
                     icon: <ShieldCheck className="h-6 w-6" />, 
-                    title: "Design Psicológico", 
-                    desc: "Uso estratégico de cores e formas para atrair o perfil de público que realmente investe no seu serviço." 
+                    title: "Psicologia do Consumo", 
+                    desc: "Uso estratégico de cores, fontes e formas para atrair especificamente o perfil de público que você deseja atender." 
                   }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-6 items-start p-8 rounded-[2.5rem] bg-white shadow-sm border border-primary/5 hover:border-primary/20 transition-all duration-500">
@@ -87,7 +87,7 @@ export default function DesignEstrategicoPage() {
                 onClick={handleOpenChat}
                 className="h-20 px-12 text-lg font-black bg-primary text-white rounded-full uppercase tracking-widest shadow-xl shadow-primary/20 group w-full sm:w-auto"
               >
-                Consultoria de Design <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
+                Diagnóstico de Design <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
               </Button>
             </div>
           </div>
@@ -98,16 +98,16 @@ export default function DesignEstrategicoPage() {
             </div>
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <div className="space-y-8">
-                <h3 className="font-headline text-4xl md:text-5xl font-black tracking-tighter">Por que investir agora?</h3>
+                <h3 className="font-headline text-4xl md:text-5xl font-black tracking-tighter text-balance">Transformação em 360 Graus</h3>
                 <p className="text-xl text-white/70 leading-relaxed font-medium">
-                  Não é sobre "ficar bonito". É sobre posicionamento de mercado e clareza de negócio.
+                  Não entregamos apenas um logo. Entregamos um guia completo de como sua marca deve se comportar para dominar o mercado.
                 </p>
                 <ul className="space-y-4">
                   {[
-                    "Diferenciação real frente aos concorrentes genéricos.",
-                    "Aumento da confiança percebida pelo seu cliente ideal.",
-                    "Facilidade na tomada de decisão de compra.",
-                    "Materiais que vendem por você 24 horas por dia."
+                    "Diferenciação absoluta frente à concorrência genérica.",
+                    "Clareza total na comunicação do seu diferencial.",
+                    "Materiais comerciais que fecham vendas por você.",
+                    "Aumento comprovado na confiança do cliente ideal."
                   ].map((text, i) => (
                     <li key={i} className="flex items-center gap-4 text-lg font-bold">
                       <CheckCircle2 className="h-6 w-6 text-primary shrink-0" /> {text}
@@ -117,14 +117,14 @@ export default function DesignEstrategicoPage() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md">
-                  <Brush className="h-10 w-10 text-primary mb-4" />
-                  <h4 className="font-bold text-xl mb-2">Exclusividade</h4>
-                  <p className="text-sm text-white/50">Fuja dos modelos prontos e tenha uma marca única.</p>
+                  <Zap className="h-10 w-10 text-primary mb-4" />
+                  <h4 className="font-bold text-xl mb-2">Agilidade</h4>
+                  <p className="text-sm text-white/50">Processos otimizados para entrega de alto nível sem demora.</p>
                 </div>
                 <div className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md">
                   <Monitor className="h-10 w-10 text-primary mb-4" />
                   <h4 className="font-bold text-xl mb-2">Presença</h4>
-                  <p className="text-sm text-white/50">Destaque-se em qualquer tela, do mobile ao outdoor.</p>
+                  <p className="text-sm text-white/50">Sua marca pronta para qualquer tela ou formato físico.</p>
                 </div>
               </div>
             </div>
@@ -134,17 +134,17 @@ export default function DesignEstrategicoPage() {
             <div className="p-12 rounded-[3.5rem] bg-white border border-primary/10 space-y-6 hover:shadow-2xl transition-all duration-500">
               <Sparkles className="h-10 w-10 text-primary" />
               <h4 className="text-2xl font-bold tracking-tighter">Elegância Visual</h4>
-              <p className="text-muted-foreground font-medium">Um sistema de design feito sob medida para transmitir sofisticação sem esforço.</p>
+              <p className="text-muted-foreground font-medium">Um sistema de design feito sob medida para transmitir sofisticação sem esforço e clareza absoluta.</p>
             </div>
             <div className="p-12 rounded-[3.5rem] card-premium-bg space-y-6">
               <Target className="h-10 w-10 text-primary" />
               <h4 className="text-2xl font-bold tracking-tighter">Foco no Cliente</h4>
-              <p className="text-muted-foreground font-medium">Cada detalhe visual é pensado para guiar a atenção do seu cliente para o que importa: seu serviço.</p>
+              <p className="text-muted-foreground font-medium">Cada detalhe visual é pensado para guiar a atenção do seu cliente para o que realmente importa: seu serviço.</p>
             </div>
             <div className="p-12 rounded-[3.5rem] bg-primary text-white space-y-6">
               <CheckCircle2 className="h-10 w-10 text-white" />
-              <h4 className="text-2xl font-bold tracking-tighter">Pronto para Crescer</h4>
-              <p className="text-white/80 font-medium">Uma marca bem estruturada permite que você escale seu negócio com segurança e autoridade.</p>
+              <h4 className="text-2xl font-bold tracking-tighter">Pronto para Escalar</h4>
+              <p className="text-white/80 font-medium">Uma marca bem estruturada permite que você cresça com segurança, sabendo que sua imagem acompanha sua ambição.</p>
             </div>
           </div>
         </div>
