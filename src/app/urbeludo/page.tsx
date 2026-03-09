@@ -20,11 +20,31 @@ import {
   Boxes,
   Activity,
   Mic2,
-  Info
+  Info,
+  ChevronDown,
+  Mail,
+  QrCode
 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function UrbeLudoPage() {
+  const { toast } = useToast();
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
+
+  const copyPix = () => {
+    navigator.clipboard.writeText("sapientcontato@gmail.com");
+    toast({
+      title: "Chave PIX Copiada!",
+      description: "Chave: sapientcontato@gmail.com (Lucas Santos de Souza)",
+    });
+  };
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#fbfaff]">
@@ -43,13 +63,29 @@ export default function UrbeLudoPage() {
             <p className="text-xl md:text-3xl text-white/70 font-medium max-w-4xl mx-auto leading-tight tracking-tight text-balance mb-12">
               Uma plataforma de suporte preditivo que une <span className="text-white font-bold">Psicomotricidade</span>, <span className="text-white font-bold">Fonoaudiologia</span> e <span className="text-white font-bold">Edge AI</span> para transformar a reabilitação institucional.
             </p>
+            
+            {/* Guias de Navegação Rápida */}
+            <div className="flex flex-wrap items-center justify-center gap-4 mb-12">
+              <button onClick={() => scrollToSection('manifesto')} className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-cyan-400 transition-colors">Manifesto</button>
+              <div className="h-1 w-1 rounded-full bg-white/20" />
+              <button onClick={() => scrollToSection('tecnologia')} className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-cyan-400 transition-colors">Tecnologia</button>
+              <div className="h-1 w-1 rounded-full bg-white/20" />
+              <button onClick={() => scrollToSection('engajamento')} className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 hover:text-cyan-400 transition-colors">Engajamento</button>
+            </div>
+
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <Button 
-                onClick={handleOpenChat}
+                onClick={() => scrollToSection('engajamento')}
                 className="h-16 px-10 bg-white text-primary hover:bg-cyan-50 rounded-full font-black uppercase tracking-widest shadow-2xl transition-all hover:scale-105"
               >
-                Saber Mais <ArrowRight className="ml-2 h-4 w-4" />
+                Como Ajudar <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
+              <button 
+                onClick={() => scrollToSection('manifesto')}
+                className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-[10px] font-black uppercase tracking-widest"
+              >
+                Conhecer a Visão <ChevronDown className="h-4 w-4 animate-bounce" />
+              </button>
             </div>
           </div>
         </div>
@@ -129,7 +165,7 @@ export default function UrbeLudoPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             
             {/* A. Investimento */}
-            <div className="p-12 rounded-[4rem] bg-foreground text-white flex flex-col justify-between group hover:scale-[1.02] transition-all duration-700 border-t-4 border-cyan-500">
+            <div className="p-12 rounded-[4rem] bg-foreground text-white flex flex-col justify-between group hover:scale-[1.02] transition-all duration-700 border-t-4 border-cyan-500 shadow-2xl">
               <div className="space-y-8">
                 <div className="flex items-center justify-between">
                   <TrendingUp className="h-10 w-10 text-cyan-400" />
@@ -142,16 +178,19 @@ export default function UrbeLudoPage() {
                   </p>
                 </div>
               </div>
-              <Button 
-                onClick={() => window.location.href = "mailto:sapientcontato@gmail.com?subject=Interesse em Investimento - UrbeLudo"}
-                className="mt-12 w-full h-16 bg-cyan-500 hover:bg-cyan-400 text-foreground font-black uppercase tracking-widest rounded-full text-[10px]"
-              >
-                Solicitar Pitch Deck
-              </Button>
+              <div className="mt-12 space-y-4">
+                <p className="text-[8px] font-black text-white/40 uppercase tracking-widest text-center">Falar com Estrategista</p>
+                <Button 
+                  onClick={() => window.location.href = "mailto:sapientcontato@gmail.com?subject=Interesse em Investimento - UrbeLudo"}
+                  className="w-full h-16 bg-cyan-500 hover:bg-cyan-400 text-foreground font-black uppercase tracking-widest rounded-full text-[10px]"
+                >
+                  Solicitar Pitch Deck
+                </Button>
+              </div>
             </div>
 
             {/* B. Doações */}
-            <div className="p-12 rounded-[4rem] bg-white border border-primary/10 flex flex-col justify-between group hover:scale-[1.02] transition-all duration-700 shadow-sm border-t-4 border-primary">
+            <div className="p-12 rounded-[4rem] bg-white border border-primary/10 flex flex-col justify-between group hover:scale-[1.02] transition-all duration-700 shadow-xl border-t-4 border-primary">
               <div className="space-y-8">
                 <div className="flex items-center justify-between">
                   <Heart className="h-10 w-10 text-primary" />
@@ -164,16 +203,23 @@ export default function UrbeLudoPage() {
                   </p>
                 </div>
               </div>
-              <Button 
-                onClick={handleOpenChat}
-                className="mt-12 w-full h-16 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest rounded-full text-[10px]"
-              >
-                Apoiar com PIX
-              </Button>
+              <div className="mt-12 space-y-4">
+                <div className="p-6 rounded-3xl bg-primary/5 border border-primary/10 text-center">
+                  <p className="text-[8px] font-black text-primary uppercase tracking-[0.2em] mb-1">Pix Direto (CNPJ/E-mail)</p>
+                  <p className="text-xs font-bold text-foreground">sapientcontato@gmail.com</p>
+                  <p className="text-[7px] font-medium text-muted-foreground mt-1 uppercase">Lucas Santos de Souza</p>
+                </div>
+                <Button 
+                  onClick={copyPix}
+                  className="w-full h-16 bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest rounded-full text-[10px] flex items-center justify-center gap-2"
+                >
+                  <QrCode className="h-3 w-3" /> Copiar Chave PIX
+                </Button>
+              </div>
             </div>
 
             {/* C. Colaboração */}
-            <div className="p-12 rounded-[4rem] bg-secondary/40 flex flex-col justify-between group hover:scale-[1.02] transition-all duration-700 border-t-4 border-indigo-500">
+            <div className="p-12 rounded-[4rem] bg-secondary/40 flex flex-col justify-between group hover:scale-[1.02] transition-all duration-700 border-t-4 border-indigo-500 shadow-xl">
               <div className="space-y-8">
                 <div className="flex items-center justify-between">
                   <Code2 className="h-10 w-10 text-indigo-500" />
@@ -182,17 +228,19 @@ export default function UrbeLudoPage() {
                 <div className="space-y-4">
                   <h4 className="font-headline text-2xl font-black tracking-tighter">Colaboração Técnica</h4>
                   <p className="text-muted-foreground font-medium text-sm leading-relaxed">
-                    Fonoaudiólogos, psicomotricistas e desenvolvedores (Unity/AI): junte-se como testador beta ou revisor científico.
+                    Fonoaudiólogos, psicomotricistas e desenvolvedores: junte-se como testador beta ou revisor científico.
                   </p>
                 </div>
               </div>
-              <Button 
-                onClick={handleOpenChat}
-                variant="outline"
-                className="mt-12 w-full h-16 border-indigo-500/30 text-indigo-600 hover:bg-indigo-50 font-black uppercase tracking-widest rounded-full text-[10px]"
-              >
-                Quero Colaborar
-              </Button>
+              <div className="mt-12 space-y-4">
+                <Button 
+                  onClick={() => window.location.href = "mailto:sapientcontato@gmail.com?subject=Colaboração Técnica - UrbeLudo"}
+                  variant="outline"
+                  className="w-full h-16 border-indigo-500/30 text-indigo-600 hover:bg-indigo-50 font-black uppercase tracking-widest rounded-full text-[10px] flex items-center justify-center gap-2"
+                >
+                  <Mail className="h-3 w-3" /> Quero Colaborar
+                </Button>
+              </div>
             </div>
 
           </div>
@@ -207,9 +255,12 @@ export default function UrbeLudoPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">Créditos de Engenharia</p>
               <p className="text-xl font-bold">Um projeto original <span className="text-primary">Studio Sapient</span> & LuscaLab.</p>
             </div>
-            <div className="flex items-center gap-4 bg-white/5 px-8 py-4 rounded-full border border-white/10 backdrop-blur-md">
-              <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-              <p className="text-[10px] font-black uppercase tracking-widest">Status: Fase de prototipagem e validação clínica.</p>
+            <div className="flex flex-col items-center md:items-end gap-2">
+              <div className="flex items-center gap-4 bg-white/5 px-8 py-4 rounded-full border border-white/10 backdrop-blur-md">
+                <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                <p className="text-[10px] font-black uppercase tracking-widest">Status: Prototipagem e validação clínica.</p>
+              </div>
+              <p className="text-[8px] text-white/20 font-bold uppercase tracking-widest">Contato: sapientcontato@gmail.com</p>
             </div>
           </div>
         </div>
