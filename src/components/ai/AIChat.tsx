@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -15,8 +14,6 @@ import {
   Stethoscope,
   Home,
   Scissors,
-  GraduationCap,
-  Hammer,
   ClipboardCheck,
   Sparkles,
   Plus,
@@ -87,16 +84,16 @@ export function AIChat() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Diagnóstico IA"
         className={cn(
-          "fixed bottom-6 right-6 z-[100] h-10 w-10 md:h-12 md:w-12 rounded-full flex items-center justify-center transition-all duration-1000 hover:scale-110 active:scale-95 border-2 border-white/40 backdrop-blur-3xl group overflow-hidden shadow-2xl",
+          "fixed bottom-6 right-6 z-[100] h-10 w-10 rounded-full flex items-center justify-center transition-all duration-1000 hover:scale-110 active:scale-95 border-2 border-white/40 backdrop-blur-3xl group overflow-hidden shadow-2xl",
           isOpen ? "bg-foreground rotate-90" : "bg-gradient-to-br from-primary via-primary to-accent animate-glow-pulse"
         )}
       >
-        {isOpen ? <X className="h-4 w-4 text-white" /> : <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-white animate-pulse" />}
+        {isOpen ? <X className="h-4 w-4 text-white" /> : <Sparkles className="h-4 w-4 text-white animate-pulse" />}
       </button>
 
       <div
         className={cn(
-          "fixed bottom-20 md:bottom-24 right-4 md:right-10 z-[100] w-[calc(100vw-2rem)] md:w-[340px] h-[50vh] md:max-h-[60vh] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-1000 origin-bottom-right flex flex-col overflow-hidden",
+          "fixed bottom-20 right-4 z-[100] w-[calc(100vw-2rem)] md:w-[300px] h-[50vh] md:max-h-[50vh] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-1000 origin-bottom-right flex flex-col overflow-hidden",
           isOpen ? "scale-100 opacity-100 visible" : "scale-0 opacity-0 invisible"
         )}
       >
