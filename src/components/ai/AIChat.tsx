@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -19,7 +18,8 @@ import {
   Home,
   GraduationCap,
   Hammer,
-  ClipboardCheck
+  ClipboardCheck,
+  Sparkles
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { Badge } from "@/components/ui/badge";
@@ -89,54 +89,66 @@ export function AIChat() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[100] h-14 w-14 md:h-16 md:w-16 rounded-full bg-primary text-white shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95",
-          isOpen && "rotate-90 bg-foreground"
+          "fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] h-14 w-14 md:h-20 md:w-20 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 shadow-[0_20px_60px_rgba(139,92,246,0.5)] border-2 border-white/20",
+          isOpen 
+            ? "bg-foreground rotate-90" 
+            : "bg-gradient-to-br from-primary via-primary to-accent animate-glow-pulse"
         )}
       >
-        {isOpen ? <X className="h-6 w-6" /> : <Zap className="h-6 w-6" />}
+        {isOpen ? (
+          <X className="h-6 w-6 text-white" />
+        ) : (
+          <div className="relative">
+            <Sparkles className="h-7 w-7 md:h-9 md:h-9 text-white animate-pulse" />
+            <div className="absolute -top-1 -right-1 h-3 w-3 bg-white rounded-full animate-ping" />
+          </div>
+        )}
       </button>
 
       <div
         className={cn(
-          "fixed bottom-24 md:bottom-28 right-4 md:right-8 z-[100] w-[calc(100vw-2rem)] md:w-[420px] h-[70vh] md:max-h-[80vh] glass-morphism rounded-[2rem] border-primary/10 shadow-2xl transition-all duration-500 origin-bottom-right flex flex-col overflow-hidden",
+          "fixed bottom-24 md:bottom-32 right-4 md:right-10 z-[100] w-[calc(100vw-2rem)] md:w-[450px] h-[75vh] md:max-h-[85vh] glass-morphism rounded-[3rem] border-primary/20 shadow-[0_30px_100px_rgba(0,0,0,0.3)] transition-all duration-700 origin-bottom-right flex flex-col overflow-hidden",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-20 invisible pointer-events-none"
         )}
       >
-        <div className="p-6 bg-primary text-white shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-lg bg-white/20 flex items-center justify-center backdrop-blur-md">
-              <ClipboardCheck className="h-5 w-5" />
+        <div className="p-8 bg-gradient-to-br from-primary to-accent text-white shrink-0 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-4 opacity-10">
+            <Sparkles className="h-24 w-24" />
+          </div>
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="h-12 w-12 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-xl border border-white/20">
+              <ClipboardCheck className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-[9px] font-bold uppercase tracking-widest opacity-80">Consultoria Digital</p>
-              <h3 className="font-headline font-bold text-lg leading-tight">Estrategista Sapient</h3>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-80">Consultoria Estratégica</p>
+              <h3 className="font-headline font-black text-2xl tracking-tighter leading-tight">Estrategista IA</h3>
             </div>
           </div>
         </div>
 
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-white/50 custom-scrollbar">
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 bg-white/60 custom-scrollbar">
           {chatHistory.length === 0 && (
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <p className="text-xl font-bold text-foreground tracking-tight">
-                  Inicie seu diagnóstico.
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <p className="text-2xl font-black text-foreground tracking-tighter">
+                  Diagnóstico Instantâneo.
                 </p>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  Para uma análise profissional, conte sobre seu negócio ou selecione uma categoria:
+                <p className="text-muted-foreground font-medium leading-relaxed">
+                  Selecione sua categoria abaixo ou descreva seu principal gargalo comercial agora.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 gap-2">
+              <div className="grid grid-cols-1 gap-3">
                 {QUICK_NICHES.map((niche, i) => (
                   <button
                     key={i}
                     onClick={() => handleQuickNiche(niche.prompt)}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-white border border-primary/5 hover:border-primary/20 hover:bg-primary/5 transition-all text-left group"
+                    className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-primary/5 hover:border-primary/20 hover:bg-primary/5 transition-all text-left group shadow-sm"
                   >
-                    <div className="h-8 w-8 rounded-lg bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                    <div className="h-10 w-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
                       {niche.icon}
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground group-hover:text-primary">
+                    <span className="text-[11px] font-black uppercase tracking-widest text-muted-foreground group-hover:text-primary transition-colors">
                       {niche.label}
                     </span>
                   </button>
@@ -145,17 +157,17 @@ export function AIChat() {
             </div>
           )}
 
-          <div className="space-y-4">
+          <div className="space-y-5">
             {chatHistory.map((msg, i) => (
               <div key={i} className={cn(
-                "flex flex-col gap-1 max-w-[90%]",
+                "flex flex-col gap-2 max-w-[92%]",
                 msg.role === 'user' ? "ml-auto items-end" : "items-start"
               )}>
                 <div className={cn(
-                  "p-3.5 rounded-2xl text-sm font-medium leading-relaxed shadow-sm",
+                  "p-5 rounded-[1.5rem] text-sm md:text-base font-medium leading-relaxed shadow-sm",
                   msg.role === 'user' 
                     ? "bg-primary text-white rounded-tr-none" 
-                    : "bg-white border border-primary/5 text-muted-foreground rounded-tl-none"
+                    : "bg-white border border-primary/10 text-muted-foreground rounded-tl-none"
                 )}>
                   {msg.text}
                 </div>
@@ -164,69 +176,69 @@ export function AIChat() {
           </div>
 
           {result?.isDataSufficient && (
-            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-4 pt-4 border-t border-primary/10">
-              <div className="space-y-2">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-primary flex items-center gap-2">
-                  <Search className="h-3 w-3" /> 01. Análise de Marca
+            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-6 pt-6 border-t border-primary/10">
+              <div className="space-y-3">
+                <p className="text-[11px] font-black uppercase tracking-[0.4em] text-primary flex items-center gap-3">
+                  <Search className="h-4 w-4" /> Análise de Mercado
                 </p>
-                <div className="bg-white p-4 rounded-xl border border-primary/5 shadow-sm text-sm text-muted-foreground leading-relaxed">
+                <div className="bg-white p-6 rounded-[2rem] border border-primary/10 shadow-sm text-sm text-muted-foreground leading-relaxed font-medium">
                   {result.brandAudit}
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-primary flex items-center gap-2">
-                  <Activity className="h-3 w-3" /> 02. Diagnóstico
+              <div className="space-y-3">
+                <p className="text-[11px] font-black uppercase tracking-[0.4em] text-primary flex items-center gap-3">
+                  <Activity className="h-4 w-4" /> Diagnóstico Crítico
                 </p>
-                <div className="bg-secondary/30 p-4 rounded-xl border border-primary/5 text-sm font-bold text-foreground">
+                <div className="bg-secondary/40 p-6 rounded-[2rem] border border-primary/10 text-sm font-black text-foreground leading-relaxed">
                   {result.diagnosis}
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-primary flex items-center gap-2">
-                  <Zap className="h-3 w-3" /> 03. Intervenção
+              <div className="space-y-4">
+                <p className="text-[11px] font-black uppercase tracking-[0.4em] text-primary flex items-center gap-3">
+                  <Zap className="h-4 w-4" /> Intervenção Sapient
                 </p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-3">
                   {result.recommendedServices.map((service, idx) => (
-                    <Badge key={idx} className="bg-primary text-white border-none px-3 py-1 text-[9px] font-bold rounded-full uppercase">
+                    <Badge key={idx} className="bg-primary text-white border-none px-4 py-2 text-[10px] font-black rounded-full uppercase tracking-widest">
                       {service}
                     </Badge>
                   ))}
                 </div>
               </div>
 
-              <div className="pt-4">
+              <div className="pt-6">
                 <Button 
-                  className="w-full h-12 bg-primary hover:bg-primary/90 text-white rounded-full font-bold uppercase tracking-widest text-[10px]"
+                  className="w-full h-16 bg-primary hover:bg-primary/90 text-white rounded-full font-black uppercase tracking-[0.2em] text-[11px] shadow-2xl shadow-primary/30 group"
                   onClick={() => {
                     setIsOpen(false);
                     document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
-                  Falar com Especialista <ArrowRight className="ml-2 h-3 w-3" />
+                  Falar com Especialista <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
             </div>
           )}
 
           {loading && (
-            <div className="flex items-center gap-2">
-              <Loader2 className="h-3 w-3 text-primary animate-spin" />
-              <p className="text-[9px] font-bold uppercase tracking-widest text-primary/60">Analisando dados...</p>
+            <div className="flex items-center gap-3 bg-primary/5 p-4 rounded-full w-fit">
+              <Loader2 className="h-4 w-4 text-primary animate-spin" />
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Análise Estratégica em curso...</p>
             </div>
           )}
         </div>
 
         {(!result || !result.isDataSufficient) && (
-          <form onSubmit={handleSubmit} className="p-4 border-t border-muted bg-white shrink-0">
-            <div className="relative">
+          <form onSubmit={handleSubmit} className="p-6 border-t border-muted bg-white shrink-0">
+            <div className="relative group">
               <Textarea
-                placeholder="Conte sobre seu negócio..."
+                placeholder="Conte sobre seu negócio ou desafio atual..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={loading}
-                className="min-h-[60px] bg-secondary/20 border-transparent rounded-xl p-4 pr-12 text-sm focus:ring-primary/10 resize-none"
+                className="min-h-[70px] bg-secondary/30 border-transparent rounded-[1.5rem] p-5 pr-14 text-sm focus:ring-primary/20 resize-none transition-all duration-500 hover:bg-secondary/50"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -237,9 +249,9 @@ export function AIChat() {
               <button
                 type="submit"
                 disabled={loading || !input.trim()}
-                className="absolute bottom-3 right-3 h-8 w-8 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-20 transition-all hover:scale-105"
+                className="absolute bottom-4 right-4 h-10 w-10 rounded-xl bg-primary text-white flex items-center justify-center disabled:opacity-20 transition-all hover:scale-110 shadow-lg shadow-primary/20"
               >
-                <SendHorizontal className="h-4 w-4" />
+                <SendHorizontal className="h-5 w-5" />
               </button>
             </div>
           </form>
