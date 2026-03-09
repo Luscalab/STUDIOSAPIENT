@@ -34,7 +34,7 @@ export function Navbar() {
             <Link 
               href="/" 
               aria-label="Sapient Studio Home"
-              className="relative block w-72 h-20 md:w-[480px] md:h-36 transition-all duration-1000 hover:scale-105"
+              className="relative block w-80 h-24 md:w-[520px] md:h-40 transition-all duration-1000 hover:scale-105"
             >
               <Image 
                 src={logoUrl}

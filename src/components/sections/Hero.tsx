@@ -2,7 +2,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export function Hero() {
@@ -22,15 +22,13 @@ export function Hero() {
 
       <div className="container relative z-10 mx-auto px-6">
         <div className="text-center space-y-16">
-          {/* Título ajustado para escala menor e com mais respiro superior */}
-          
           <h1 className="font-display text-4xl md:text-6xl lg:text-[7.5rem] font-black tracking-[-0.05em] animate-slide-up [animation-delay:200ms] text-white leading-[0.85] text-balance mt-12">
-            Onde a <span className="text-primary italic font-medium">Clareza</span><br />
-            Encontra a <span className="text-white">Escala.</span>
+            Clareza Visual e <br />
+            <span className="text-primary italic font-medium">Estratégia Digital.</span>
           </h1>
           
           <p className="max-w-3xl mx-auto text-xl md:text-2xl text-white/50 animate-slide-up [animation-delay:400ms] leading-tight font-medium tracking-tight text-balance">
-            Traduzimos expertises complexas em ativos estratégicos de <span className="text-white font-bold">performance comercial absoluta.</span>
+            Ajudamos o seu negócio a comunicar valor real e atrair clientes qualificados através de <span className="text-white font-bold">design profissional e tráfego inteligente.</span>
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-12 animate-slide-up [animation-delay:600ms]">
