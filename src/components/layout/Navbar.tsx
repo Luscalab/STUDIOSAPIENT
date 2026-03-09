@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -26,31 +27,31 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-8 left-0 right-0 z-[150] transition-all duration-1000" role="banner">
+      <header className="absolute top-12 left-0 right-0 z-[150] transition-all duration-1000" role="banner">
         <div className="container mx-auto px-6 flex items-center justify-between">
           
           <div className="flex items-center shrink-0">
             <Link 
               href="/" 
               aria-label="Sapient Studio Home"
-              className="relative block w-40 h-10 md:w-56 md:h-14 transition-all duration-1000 hover:scale-105"
+              className="relative block w-56 h-14 md:w-80 md:h-24 transition-all duration-1000 hover:scale-105"
             >
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
                 fill
-                className="object-contain object-left drop-shadow-[0_8px_20px_rgba(0,0,0,0.15)]"
+                className="object-contain object-left drop-shadow-[0_12px_30px_rgba(0,0,0,0.2)]"
                 priority
               />
             </Link>
           </div>
 
-          <nav className="hidden xl:flex items-center gap-10 px-12 py-6 rounded-full border bg-white/10 backdrop-blur-3xl border-white/20 shadow-2xl" aria-label="Navegação Principal">
+          <nav className="hidden xl:flex items-center gap-10 px-12 py-7 rounded-full border bg-white/10 backdrop-blur-3xl border-white/20 shadow-2xl" aria-label="Navegação Principal">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all duration-500 relative group whitespace-nowrap"
+                className="text-[11px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all duration-500 relative group whitespace-nowrap"
               >
                 {link.name}
                 <span className="absolute -bottom-2 left-0 w-0 h-[3px] bg-primary transition-all duration-500 group-hover:w-full rounded-full" />
@@ -60,7 +61,7 @@ export function Navbar() {
             <button 
               onClick={handleOpenChat}
               aria-label="Iniciar Análise com Inteligência Artificial"
-              className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all duration-500 relative group whitespace-nowrap flex items-center gap-3"
+              className="text-[11px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all duration-500 relative group whitespace-nowrap flex items-center gap-3"
             >
               <div className="h-2 w-2 rounded-full bg-primary animate-pulse" aria-hidden="true" />
               Análise IA
@@ -69,12 +70,12 @@ export function Navbar() {
           </nav>
 
           <button 
-            className="xl:hidden p-4 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-3xl text-white border border-white/20 active:scale-95 shrink-0"
+            className="xl:hidden p-5 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-3xl text-white border border-white/20 active:scale-95 shrink-0"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-expanded={isMobileMenuOpen}
           >
-            <span className="text-[10px] font-black uppercase tracking-[0.3em]">Menu</span>
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            <span className="text-[11px] font-black uppercase tracking-[0.3em]">Menu</span>
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
@@ -82,9 +83,9 @@ export function Navbar() {
           "xl:hidden fixed inset-0 z-[160] bg-[#0c0a1a] transition-all duration-700 ease-in-out transform",
           isMobileMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
         )}>
-          <div className="h-full flex flex-col p-12 pt-40 bg-hero-purple-mesh">
+          <div className="h-full flex flex-col p-12 pt-40 hero-purple-mesh">
              <div className="mb-20">
-               <Image src={logoUrl} alt="Logo" width={240} height={60} className="object-contain" />
+               <Image src={logoUrl} alt="Logo" width={320} height={100} className="object-contain" />
              </div>
             <div className="flex flex-col gap-12">
               {navLinks.map((link) => (
