@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -28,7 +29,7 @@ export function Navbar() {
       <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
         <div className="container mx-auto px-6 flex items-center justify-between gap-8">
           
-          <Link href="/" className="relative block w-[200px] h-[50px] lg:w-[330px] lg:h-[90px] transition-all hover:scale-105 active:scale-95">
+          <Link href="/" className="relative block w-[200px] h-[50px] lg:w-[495px] lg:h-[135px] transition-all hover:scale-105 active:scale-95">
             <Image 
               src={logoUrl}
               alt="studiosapient Logo"
@@ -75,20 +76,20 @@ export function Navbar() {
           "lg:hidden fixed inset-0 z-[160] bg-[#09080f] transition-all duration-700 ease-in-out transform",
           isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
         )}>
-          <div className="h-full flex flex-col p-10 pt-32 hero-purple-mesh">
-            <div className="flex flex-col gap-10">
+          <div className="h-full flex flex-col p-10 pt-40 hero-purple-mesh">
+            <div className="flex flex-col gap-8">
               {navLinks.map((link) => (
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  className="text-4xl font-black text-white tracking-tighter uppercase"
+                  className="text-2xl font-black text-white tracking-tighter uppercase"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
                 </Link>
               ))}
               <button 
-                className="text-4xl font-black text-primary tracking-tighter text-left uppercase"
+                className="text-2xl font-black text-primary tracking-tighter text-left uppercase"
                 onClick={handleOpenChat}
               >
                 Análise IA
