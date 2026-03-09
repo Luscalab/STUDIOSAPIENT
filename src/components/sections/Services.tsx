@@ -13,7 +13,7 @@ const services = [
     slug: "performance-ads",
     description: "Tráfego de alta precisão focado em capturar demanda qualificada no momento exato da necessidade.",
     icon: <Megaphone className="h-8 w-8" />,
-    features: ["Otimização GMN", "Ads de Intenção", "ROI Monitorado"],
+    features: ["Otimização GMN", "Ads de Intenção", "ROI Estratégico"],
     badge: "Escala",
     colorClass: "text-primary",
     bgGradient: "from-primary/20 via-primary/5 to-transparent",
@@ -72,24 +72,24 @@ const services = [
 
 export function Services() {
   return (
-    <section id="servicos" className="py-32 md:py-64 relative overflow-hidden bg-background">
-      {/* Background Sophistication - More Purple */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/10 blur-[200px] rounded-full translate-x-1/4 -translate-y-1/4 pointer-events-none" />
+    <section id="servicos" className="py-32 md:py-64 relative overflow-hidden bg-[#0c0a1a]">
+      {/* Background Deep Purple Mesh */}
+      <div className="absolute top-0 right-0 w-full h-full hero-purple-mesh opacity-30 pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="mb-32 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-16">
           <div className="max-w-5xl">
             <div className="flex items-center gap-4 mb-10">
-               <div className="h-px w-12 bg-primary/30" />
+               <div className="h-px w-12 bg-primary/40" />
                <Badge className="bg-primary/10 text-primary border-primary/20 px-8 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-none">Dossiê de Intervenção</Badge>
             </div>
-            <h2 className="font-display text-5xl md:text-[9.5rem] font-black text-foreground tracking-tighter leading-[0.8] mb-8">
+            <h2 className="font-display text-5xl md:text-[9.5rem] font-black text-white tracking-tighter leading-[0.8] mb-8">
               Protocolos de <br />
               <span className="text-primary italic">Impacto.</span>
             </h2>
           </div>
           <div className="max-w-sm space-y-8 lg:pb-12">
-            <p className="text-muted-foreground/80 text-xl md:text-2xl font-medium leading-tight tracking-tight">
+            <p className="text-white/60 text-xl md:text-2xl font-medium leading-tight tracking-tight">
               Fundimos design de prestígio e engenharia comercial para criar ecossistemas de alta performance.
             </p>
             <div className="flex items-center gap-3 text-primary text-[10px] font-black uppercase tracking-[0.4em]">
@@ -103,7 +103,7 @@ export function Services() {
             <Card 
               key={idx} 
               className={cn(
-                "group relative border-none bg-white/5 backdrop-blur-3xl rounded-[4rem] p-2 transition-all duration-1000 hover:-translate-y-8 shadow-[0_40px_100px_-20px_rgba(139,92,246,0.1)] overflow-hidden border border-white/10",
+                "group relative border-none bg-white/5 backdrop-blur-3xl rounded-[4rem] p-1 transition-all duration-1000 hover:-translate-y-8 shadow-[0_40px_100px_-20px_rgba(139,92,246,0.15)] overflow-hidden border border-white/10",
                 service.hoverBorder
               )}
             >
@@ -121,22 +121,22 @@ export function Services() {
                   )}>
                     {service.icon}
                   </div>
-                  <Badge variant="outline" className="border-white/10 text-primary/60 font-black text-[8px] uppercase tracking-[0.4em] px-8 py-3 rounded-full bg-white/5 backdrop-blur-md">
+                  <Badge variant="outline" className="border-white/10 text-white/40 font-black text-[8px] uppercase tracking-[0.4em] px-8 py-3 rounded-full bg-white/5 backdrop-blur-md">
                     {service.badge}
                   </Badge>
                 </div>
 
                 <div className="flex-1">
-                  <CardTitle className="font-display text-4xl mb-8 tracking-tighter font-black text-foreground group-hover:text-primary transition-colors duration-700">
+                  <CardTitle className="font-display text-4xl mb-8 tracking-tighter font-black text-white group-hover:text-primary transition-colors duration-700">
                     {service.title}
                   </CardTitle>
-                  <CardDescription className="text-muted-foreground/70 text-xl leading-snug font-medium mb-16 max-w-xs">
+                  <CardDescription className="text-white/50 text-xl leading-snug font-medium mb-16 max-w-xs">
                     {service.description}
                   </CardDescription>
 
                   <ul className="space-y-6 mb-20">
                     {service.features.map((feature, fIdx) => (
-                      <li key={fIdx} className="flex items-center gap-6 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40 group-hover:text-foreground transition-all duration-700">
+                      <li key={fIdx} className="flex items-center gap-6 text-[10px] font-black uppercase tracking-[0.3em] text-white/20 group-hover:text-white transition-all duration-700">
                         <div className={cn("h-1.5 w-1.5 rounded-full", service.iconBg)} />
                         {feature}
                       </li>

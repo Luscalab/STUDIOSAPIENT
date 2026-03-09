@@ -38,9 +38,9 @@ export function Contact() {
   };
 
   return (
-    <section id="contato" className="py-32 md:py-64 bg-background relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/20 blur-[200px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-accent/10 blur-[150px] rounded-full pointer-events-none" />
+    <section id="contato" className="py-32 md:py-64 bg-[#0c0a1a] relative overflow-hidden">
+      {/* Mesh background for consistency */}
+      <div className="absolute top-0 right-0 w-full h-full hero-purple-mesh opacity-30 pointer-events-none" />
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
@@ -50,20 +50,20 @@ export function Contact() {
                   <div className="h-px w-12 bg-primary" />
                   <p className="text-[11px] font-black uppercase tracking-[0.6em] text-primary">Conexão Estratégica</p>
                </div>
-               <h2 className="font-display text-6xl md:text-[9rem] font-black tracking-tighter leading-[0.85] text-foreground">
+               <h2 className="font-display text-6xl md:text-[9rem] font-black tracking-tighter leading-[0.85] text-white">
                  Vamos <br /><span className="text-primary italic">Conversar?</span>
                </h2>
              </div>
-             <p className="text-muted-foreground/60 text-2xl md:text-4xl font-medium leading-tight tracking-tight text-balance pb-8">
-               Estamos prontos para ouvir seus desafios e transformar sua visão em <span className="text-foreground font-bold">autoridade inquestionável.</span>
+             <p className="text-white/40 text-2xl md:text-4xl font-medium leading-tight tracking-tight text-balance pb-8">
+               Estamos prontos para ouvir seus desafios e transformar sua visão em <span className="text-white font-bold">autoridade inquestionável.</span>
              </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* Email Card */}
-            <a 
-              href={`mailto:${email}`} 
-              className="flex flex-col items-center p-16 rounded-[4.5rem] bg-white/5 backdrop-blur-3xl text-white border border-white/10 shadow-2xl h-full group relative overflow-hidden transition-all duration-1000 hover:-translate-y-8"
+            <div 
+              className="flex flex-col items-center p-16 rounded-[4.5rem] bg-white/5 backdrop-blur-3xl text-white border border-white/10 shadow-2xl h-full group relative overflow-hidden transition-all duration-1000 hover:-translate-y-8 cursor-pointer"
+              onClick={() => window.location.href = `mailto:${email}`}
             >
               <div className="absolute top-0 right-0 p-12 opacity-5">
                 <Mail className="h-48 w-48 text-primary" />
@@ -81,12 +81,12 @@ export function Contact() {
                 {copiedEmail ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 {copiedEmail ? "Identidade Copiada" : "Copiar E-mail"}
               </button>
-            </a>
+            </div>
             
             {/* Phone Card */}
-            <a 
-              href={`tel:${phone.replace(/\D/g, '')}`} 
-              className="flex flex-col items-center p-16 rounded-[4.5rem] bg-white/5 backdrop-blur-3xl text-white border border-white/10 shadow-2xl h-full group relative overflow-hidden transition-all duration-1000 hover:-translate-y-8"
+            <div 
+              className="flex flex-col items-center p-16 rounded-[4.5rem] bg-white/5 backdrop-blur-3xl text-white border border-white/10 shadow-2xl h-full group relative overflow-hidden transition-all duration-1000 hover:-translate-y-8 cursor-pointer"
+              onClick={() => window.location.href = `tel:${phone.replace(/\D/g, '')}`}
             >
               <div className="absolute top-0 right-0 p-12 opacity-5">
                 <Phone className="h-48 w-48 text-primary" />
@@ -104,7 +104,7 @@ export function Contact() {
                 {copiedPhone ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 {copiedPhone ? "Número Copiado" : "Copiar Telefone"}
               </button>
-            </a>
+            </div>
 
             {/* WhatsApp Card - Direct Impact */}
             <a 

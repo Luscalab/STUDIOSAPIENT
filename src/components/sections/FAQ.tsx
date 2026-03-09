@@ -35,19 +35,19 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-24 md:py-40 bg-white relative overflow-hidden">
+    <section id="faq" className="py-24 md:py-40 bg-[#0c0a1a] relative overflow-hidden">
       {/* Background Sophistication */}
-      <div className="absolute top-0 left-0 w-full h-full soft-gradient-bg opacity-20 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-full hero-purple-mesh opacity-20 pointer-events-none" />
       
       <div className="container mx-auto px-6 max-w-5xl relative z-10">
         <div className="text-center mb-24">
           <Badge className="mb-8 bg-primary/10 text-primary border-primary/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full">
             Esclarecimento Estratégico
           </Badge>
-          <h2 className="font-headline text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-none">
+          <h2 className="font-headline text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-none text-white">
             Dúvidas <br /><span className="text-primary italic opacity-90">Frequentes.</span>
           </h2>
-          <p className="text-muted-foreground/60 text-xl md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
+          <p className="text-white/40 text-xl md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
             Transparência absoluta sobre nossa metodologia e processos de engenharia visual.
           </p>
         </div>
@@ -57,17 +57,17 @@ export function FAQ() {
             <AccordionItem 
               key={idx} 
               value={`item-${idx}`} 
-              className="border-none bg-white/50 backdrop-blur-xl rounded-[2.5rem] px-8 md:px-12 py-2 shadow-sm border border-primary/5 hover:border-primary/20 data-[state=open]:bg-primary/5 data-[state=open]:border-primary/20 transition-all duration-700 overflow-hidden"
+              className="border-none bg-white/5 backdrop-blur-3xl rounded-[2.5rem] px-8 md:px-12 py-2 shadow-sm border border-white/5 hover:border-primary/20 data-[state=open]:bg-primary/5 data-[state=open]:border-primary/20 transition-all duration-700 overflow-hidden"
             >
-              <AccordionTrigger className="text-xl md:text-2xl font-black tracking-tighter hover:no-underline text-left py-8 group">
+              <AccordionTrigger className="text-xl md:text-2xl font-black tracking-tighter hover:no-underline text-left py-8 group text-white">
                 <div className="flex items-center gap-6">
-                  <div className="h-10 w-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                  <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                     <HelpCircle className="h-5 w-5" />
                   </div>
                   {faq.question}
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="text-lg md:text-xl text-muted-foreground/70 leading-relaxed pb-10 font-medium tracking-tight">
+              <AccordionContent className="text-lg md:text-xl text-white/40 leading-relaxed pb-10 font-medium tracking-tight">
                 <div className="pl-16 relative">
                   <div className="absolute left-6 top-0 bottom-0 w-px bg-primary/20" />
                   {faq.answer}
