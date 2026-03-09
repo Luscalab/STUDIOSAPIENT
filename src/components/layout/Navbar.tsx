@@ -50,7 +50,7 @@ export function Navbar() {
           </div>
 
           <div className={cn(
-            "pointer-events-auto h-12 md:h-16 px-6 md:px-14 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-4",
+            "pointer-events-auto h-12 md:h-16 px-6 md:px-14 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-4 md:-translate-x-[30px]",
             isScrolled 
               ? "glass-morphism border-primary/30 shadow-[0_15px_50px_rgba(139,92,246,0.3)]" 
               : "bg-white/10 backdrop-blur-3xl border-white/20 shadow-2xl"
