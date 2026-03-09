@@ -13,7 +13,8 @@ import {
   Hand,
   Volume2,
   VolumeX,
-  ZapOff
+  ZapOff,
+  Mic
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -28,6 +29,7 @@ export function AccessibilityMenu() {
   const [highlightLinks, setHighlightLinks] = useState(false);
   const [isLibrasActive, setIsLibrasActive] = useState(false);
   const [isReading, setIsReading] = useState(false);
+  const [isVoiceGuideActive, setIsVoiceGuideActive] = useState(false);
   const [stopAnimations, setStopAnimations] = useState(false);
   
   const synthRef = useRef<SpeechSynthesis | null>(null);
@@ -167,12 +169,18 @@ export function AccessibilityMenu() {
     }
   };
 
+  const toggleVoiceGuide = () => {
+    setIsVoiceGuideActive(!isVoiceGuideActive);
+    window.dispatchEvent(new CustomEvent('toggle-voice-discussion'));
+  };
+
   const resetAll = () => {
     setFontSize(100);
     setHighContrast(false);
     setGrayscale(false);
     setHighlightLinks(false);
     setIsReading(false);
+    setIsVoiceGuideActive(false);
     setStopAnimations(false);
     if (synthRef.current) synthRef.current.cancel();
   };
@@ -223,8 +231,8 @@ export function AccessibilityMenu() {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
+            <button onClick={toggleVoiceGuide} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", isVoiceGuideActive ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Mic className="h-6 w-6" />Guia de Voz</button>
             <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", highlightLinks ? "bg-primary text-white" : "bg-white text-muted-foreground")}><LinkIcon className="h-6 w-6" />Realçar Links</button>
-            <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", stopAnimations ? "bg-primary text-white" : "bg-white text-muted-foreground")}><ZapOff className="h-6 w-6" />Animações</button>
           </div>
           
           <button onClick={resetAll} className="w-full flex items-center justify-center gap-2 p-4 rounded-2xl bg-secondary/30 text-[10px] font-black uppercase text-muted-foreground"><RotateCcw className="h-4 w-4" />Resetar Preferências</button>
