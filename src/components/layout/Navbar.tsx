@@ -25,52 +25,52 @@ export function Navbar() {
 
   return (
     <>
-      {/* Header estático (não acompanha o scroll) - Elevado em 20% reduzindo o pt */}
-      <header className="absolute top-0 left-0 right-0 z-50 pt-2 pb-6 md:pt-4 md:pb-8">
+      {/* Header estático (não acompanha o scroll) - Posicionado no topo absoluto */}
+      <header className="absolute top-0 left-0 right-0 z-50 pt-3 md:pt-5 pb-6">
         <div className="container mx-auto px-6 flex items-center justify-between">
           
-          {/* Logo - Ampliado e Elevado */}
+          {/* Logo - Tamanho Ajustado para Autoridade sem quebrar o layout */}
           <div className="flex-shrink-0 animate-logo-reveal">
-            <Link href="/" className="relative block group w-80 h-24 md:w-[1500px] md:h-80">
+            <Link href="/" className="relative block group w-48 h-12 md:w-80 md:h-20">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
                 fill
-                className="object-contain object-left drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)]"
+                className="object-contain object-left drop-shadow-[0_8px_16px_rgba(0,0,0,0.1)]"
                 priority
               />
             </Link>
           </div>
 
-          {/* Desktop Navigation - Alinhado na mesma altura do logo */}
-          <nav className="hidden md:flex items-center gap-10 h-14 px-10 rounded-full border bg-white/10 backdrop-blur-3xl border-white/20 shadow-2xl">
+          {/* Desktop Navigation - Alinhado horizontalmente com o centro do logo */}
+          <nav className="hidden md:flex items-center gap-10 h-12 px-10 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="text-[11px] uppercase tracking-[0.5em] font-black text-white hover:text-primary transition-all relative group"
+                className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all relative group"
               >
                 {link.name}
-                <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full" />
+                <span className="absolute -bottom-1.5 left-0 w-0 h-[1px] bg-primary transition-all duration-500 group-hover:w-full" />
               </Link>
             ))}
             
             <button 
               onClick={handleOpenChat}
-              className="text-[11px] uppercase tracking-[0.5em] font-black text-white hover:text-primary transition-all relative group"
+              className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all relative group"
             >
               Análise Estratégica
-              <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full" />
+              <span className="absolute -bottom-1.5 left-0 w-0 h-[1px] bg-primary transition-all duration-500 group-hover:w-full" />
             </button>
           </nav>
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden p-3 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95"
+            className="md:hidden p-2.5 rounded-xl flex items-center gap-2.5 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Menu</span>
-            {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            <span className="text-[9px] font-black uppercase tracking-[0.3em]">Menu</span>
+            {isMobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
           </button>
         </div>
 
