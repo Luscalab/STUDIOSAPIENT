@@ -10,7 +10,6 @@ import {
   RotateCcw,
   Link as LinkIcon,
   SunMoon,
-  Hand,
   Volume2,
   VolumeX,
   ZapOff,
@@ -27,7 +26,6 @@ export function AccessibilityMenu() {
   const [highContrast, setHighContrast] = useState(false);
   const [grayscale, setGrayscale] = useState(false);
   const [highlightLinks, setHighlightLinks] = useState(false);
-  const [isLibrasActive, setIsLibrasActive] = useState(false);
   const [isReading, setIsReading] = useState(false);
   const [isVoiceGuideActive, setIsVoiceGuideActive] = useState(false);
   const [stopAnimations, setStopAnimations] = useState(false);
@@ -120,7 +118,6 @@ export function AccessibilityMenu() {
     };
 
     const handleGlobalInteraction = (e: MouseEvent | TouchEvent) => {
-      // Don't interfere with the accessibility menu itself
       if ((e.target as HTMLElement).closest('.accessibility-menu-container')) return;
 
       const target = (e.target as HTMLElement).closest(selector) as HTMLElement;
@@ -130,11 +127,9 @@ export function AccessibilityMenu() {
       const isSameElement = target === lastInteractedElementRef.current;
       const timeDiff = now - lastClickTimeRef.current;
 
-      // Logic: First click describes, Second click (within 600ms) activates
       if (isSameElement && timeDiff < 600) {
         lastInteractedElementRef.current = null;
         lastClickTimeRef.current = 0;
-        // Proceed with normal action (don't preventDefault)
         return; 
       } else {
         e.preventDefault();
@@ -158,14 +153,6 @@ export function AccessibilityMenu() {
       if (synthRef.current) synthRef.current.cancel();
     };
   }, [isReading, isMobile, mounted]);
-
-  const toggleLibras = () => {
-    const librasButton = document.querySelector('[vw-access-button]');
-    if (librasButton) {
-      (librasButton as HTMLElement).click();
-      setIsLibrasActive(!isLibrasActive);
-    }
-  };
 
   const toggleReadingMode = () => {
     if (isReading) {
@@ -244,16 +231,17 @@ export function AccessibilityMenu() {
           <div className="grid grid-cols-2 gap-3">
             <button onClick={() => setHighContrast(!highContrast)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", highContrast ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Contrast className="h-6 w-6" />Contraste</button>
             <button onClick={() => setGrayscale(!grayscale)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", grayscale ? "bg-primary text-white" : "bg-white text-muted-foreground")}><SunMoon className="h-6 w-6" />Monocromo</button>
-            <button onClick={toggleLibras} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", isLibrasActive ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Hand className="h-6 w-6" />Libras</button>
-            <button onClick={toggleReadingMode} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", isReading ? "bg-primary text-white" : "bg-white text-muted-foreground")}>{isReading ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}Voz Nativa</button>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
+            <button onClick={toggleReadingMode} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", isReading ? "bg-primary text-white" : "bg-white text-muted-foreground")}>{isReading ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}Voz Nativa</button>
             <button onClick={toggleVoiceGuide} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", isVoiceGuideActive ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Mic className="h-6 w-6" />Guia de Voz</button>
-            <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", highlightLinks ? "bg-primary text-white" : "bg-white text-muted-foreground")}><LinkIcon className="h-6 w-6" />Realçar Links</button>
           </div>
 
-          <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("w-full flex items-center justify-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", stopAnimations ? "bg-primary text-white" : "bg-white text-muted-foreground")}><ZapOff className="h-4 w-4" />{stopAnimations ? "Ativar Movimento" : "Parar Movimento"}</button>
+          <div className="space-y-3">
+            <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("w-full flex items-center justify-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", highlightLinks ? "bg-primary text-white" : "bg-white text-muted-foreground")}><LinkIcon className="h-4 w-4" />Realçar Links</button>
+            <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("w-full flex items-center justify-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", stopAnimations ? "bg-primary text-white" : "bg-white text-muted-foreground")}><ZapOff className="h-4 w-4" />{stopAnimations ? "Ativar Movimento" : "Parar Movimento"}</button>
+          </div>
           
           <button onClick={resetAll} className="w-full flex items-center justify-center gap-2 p-4 rounded-2xl bg-secondary/30 text-[10px] font-black uppercase text-muted-foreground"><RotateCcw className="h-4 w-4" />Resetar Preferências</button>
         </div>
