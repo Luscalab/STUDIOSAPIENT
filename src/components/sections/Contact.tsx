@@ -1,11 +1,38 @@
 
 "use client";
 
-import { Mail, Phone, MessageCircle } from "lucide-react";
+import { Mail, Phone, MessageCircle, Copy, Check } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export function Contact() {
+  const { toast } = useToast();
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
+
+  const email = "sapientcontato@gmail.com";
+  const phone = "+55 11 95963-1870";
   const whatsappNumber = "5511959631870";
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
+
+  const handleCopy = (e: React.MouseEvent, text: string, type: 'email' | 'phone') => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(text);
+    
+    toast({
+      title: "Copiado!",
+      description: `${type === 'email' ? 'E-mail' : 'Telefone'} copiado para a área de transferência.`,
+    });
+
+    if (type === 'email') {
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2000);
+    } else {
+      setCopiedPhone(true);
+      setTimeout(() => setCopiedPhone(false), 2000);
+    }
+  };
 
   return (
     <section id="contato" className="py-24 bg-white relative overflow-hidden">
@@ -17,47 +44,68 @@ export function Contact() {
           <h2 className="font-headline text-5xl md:text-8xl font-bold mb-10 tracking-tighter leading-none">
             Vamos conversar?
           </h2>
-          <p className="text-muted-foreground/60 text-xl md:text-2xl mb-20 max-w-2xl mx-auto font-medium leading-relaxed tracking-tight">
+          <p className="text-muted-foreground/60 text-xl md:text-2xl mb-20 max-w-2xl mx-auto font-medium leading-relaxed tracking-tight text-balance">
             Estamos prontos para ouvir seus desafios e transformar sua visão em realidade através dos nossos canais de atendimento direto.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Email Card */}
-            <a 
-              href="mailto:sapientcontato@gmail.com" 
-              className="flex flex-col items-center p-12 rounded-[3.5rem] card-premium-bg border border-primary/5 hover:bg-primary hover:text-white transition-all duration-700 group shadow-sm"
-            >
-              <div className="h-20 w-20 rounded-3xl bg-primary/5 flex items-center justify-center mb-8 group-hover:bg-white/20 transition-all duration-500 shadow-inner">
-                <Mail className="h-8 w-8 text-primary group-hover:text-white" />
-              </div>
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary group-hover:text-white/80 mb-3">E-mail Profissional</p>
-              <p className="font-bold text-lg md:text-xl tracking-tight break-all">sapientcontato@gmail.com</p>
-            </a>
+            <div className="relative group">
+              <a 
+                href={`mailto:${email}`} 
+                className="flex flex-col items-center p-12 rounded-[3.5rem] card-premium-bg border border-primary/5 hover:bg-primary hover:text-white transition-all duration-700 group/card shadow-sm h-full"
+              >
+                <div className="h-20 w-20 rounded-3xl bg-primary/5 flex items-center justify-center mb-8 group-hover/card:bg-white/20 transition-all duration-500 shadow-inner">
+                  <Mail className="h-8 w-8 text-primary group-hover/card:text-white" />
+                </div>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary group-hover/card:text-white/80 mb-3">E-mail Profissional</p>
+                <p className="font-bold text-lg md:text-xl tracking-tight break-all mb-4">{email}</p>
+                
+                <button 
+                  onClick={(e) => handleCopy(e, email, 'email')}
+                  className="mt-auto flex items-center gap-2 px-4 py-2 rounded-full bg-black/5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/10 text-[10px] font-bold uppercase tracking-widest transition-all"
+                >
+                  {copiedEmail ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                  {copiedEmail ? "Copiado" : "Copiar"}
+                </button>
+              </a>
+            </div>
             
             {/* Phone Card */}
-            <a 
-              href={`tel:+5511959631870`} 
-              className="flex flex-col items-center p-12 rounded-[3.5rem] card-premium-bg border border-primary/5 hover:bg-primary hover:text-white transition-all duration-700 group shadow-sm"
-            >
-              <div className="h-20 w-20 rounded-3xl bg-primary/5 flex items-center justify-center mb-8 group-hover:bg-white/20 transition-all duration-500 shadow-inner">
-                <Phone className="h-8 w-8 text-primary group-hover:text-white" />
-              </div>
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary group-hover:text-white/80 mb-3">Atendimento</p>
-              <p className="font-bold text-lg md:text-xl tracking-tight">+55 11 95963-1870</p>
-            </a>
+            <div className="relative group">
+              <a 
+                href={`tel:${phone.replace(/\D/g, '')}`} 
+                className="flex flex-col items-center p-12 rounded-[3.5rem] card-premium-bg border border-primary/5 hover:bg-primary hover:text-white transition-all duration-700 group/card shadow-sm h-full"
+              >
+                <div className="h-20 w-20 rounded-3xl bg-primary/5 flex items-center justify-center mb-8 group-hover/card:bg-white/20 transition-all duration-500 shadow-inner">
+                  <Phone className="h-8 w-8 text-primary group-hover/card:text-white" />
+                </div>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary group-hover/card:text-white/80 mb-3">Atendimento</p>
+                <p className="font-bold text-lg md:text-xl tracking-tight mb-4">{phone}</p>
+                
+                <button 
+                  onClick={(e) => handleCopy(e, phone, 'phone')}
+                  className="mt-auto flex items-center gap-2 px-4 py-2 rounded-full bg-black/5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/10 text-[10px] font-bold uppercase tracking-widest transition-all"
+                >
+                  {copiedPhone ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+                  {copiedPhone ? "Copiado" : "Copiar"}
+                </button>
+              </a>
+            </div>
 
             {/* WhatsApp Card */}
             <a 
               href={whatsappLink} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="flex flex-col items-center p-12 rounded-[3.5rem] bg-[#25D366]/5 border border-[#25D366]/10 hover:bg-[#25D366] hover:text-white transition-all duration-700 group shadow-sm"
+              className="flex flex-col items-center p-12 rounded-[3.5rem] bg-[#25D366]/5 border border-[#25D366]/10 hover:bg-[#25D366] hover:text-white transition-all duration-700 group shadow-sm h-full"
             >
               <div className="h-20 w-20 rounded-3xl bg-[#25D366]/10 flex items-center justify-center mb-8 group-hover:bg-white/20 transition-all duration-500 shadow-inner">
                 <MessageCircle className="h-8 w-8 text-[#25D366] group-hover:text-white" />
               </div>
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#25D366] group-hover:text-white/80 mb-3">WhatsApp Business</p>
               <p className="font-bold text-lg md:text-xl tracking-tight uppercase">Inicie Agora</p>
+              <p className="mt-4 text-[10px] font-medium opacity-60">Resposta em tempo real</p>
             </a>
           </div>
         </div>
