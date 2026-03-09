@@ -67,51 +67,51 @@ export function Services() {
       </div>
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="mb-40 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-20">
-          <div className="max-w-4xl space-y-12">
-            <div className="flex items-center gap-6">
-               <Zap className="text-primary h-6 w-6" />
-               <Badge className="bg-primary/5 text-primary border-none px-10 py-4 text-[10px] font-black uppercase tracking-[0.5em] rounded-full font-display">Serviços</Badge>
+        <div className="mb-48 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-24">
+          <div className="max-w-5xl space-y-12">
+            <div className="flex items-center gap-8">
+               <Zap className="text-primary h-8 w-8 animate-pulse" />
+               <Badge className="bg-primary/5 text-primary border-none px-12 py-5 text-[10px] font-black uppercase tracking-[0.6em] rounded-full font-display">Especialidades</Badge>
             </div>
-            <h2 className="font-display text-6xl md:text-[8.5rem] font-black text-foreground tracking-tighter leading-[0.85]">
+            <h2 className="font-display text-6xl md:text-[9rem] font-black text-foreground tracking-tighter leading-[0.85]">
               Protocolos de <br /><span className="text-primary italic">Impacto.</span>
             </h2>
           </div>
-          <div className="max-w-sm space-y-8">
-            <p className="text-foreground/40 text-2xl md:text-3xl font-medium leading-tight tracking-tight">
+          <div className="max-w-md space-y-10">
+            <p className="text-foreground/40 text-2xl md:text-4xl font-medium leading-tight tracking-tighter font-body">
               Fundimos design de prestígio e estratégia digital para marcas de elite.
             </p>
-            <div className="h-2 w-24 bg-primary rounded-full" />
+            <div className="h-2 w-32 bg-primary rounded-full" />
           </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
           {services.map((service, idx) => (
             <Card 
               key={idx} 
-              className="group relative border border-muted bg-white rounded-[4rem] p-12 transition-all duration-1000 hover:-translate-y-6 hover:shadow-[0_50px_100px_-20px_rgba(139,92,246,0.1)] overflow-hidden flex flex-col justify-between min-h-[550px]"
+              className="group relative border border-muted bg-white rounded-[4.5rem] p-12 transition-all duration-1000 hover:-translate-y-6 hover:shadow-[0_50px_100px_-20px_rgba(139,92,246,0.1)] overflow-hidden flex flex-col justify-between min-h-[600px]"
             >
               <div className="relative z-10">
-                <div className="flex justify-between items-start mb-16">
-                  <div className={cn("h-20 w-20 rounded-3xl flex items-center justify-center transition-all duration-1000 shadow-xl group-hover:scale-110", service.bg, service.color)}>
+                <div className="flex justify-between items-start mb-20">
+                  <div className={cn("h-24 w-24 rounded-[2rem] flex items-center justify-center transition-all duration-1000 shadow-xl group-hover:scale-110", service.bg, service.color)}>
                     {service.icon}
                   </div>
-                  <Badge variant="secondary" className="font-black text-[9px] uppercase tracking-[0.4em] px-6 py-3 rounded-full bg-secondary font-display">
+                  <Badge variant="secondary" className="font-black text-[10px] uppercase tracking-[0.5em] px-8 py-4 rounded-full bg-secondary font-display">
                     {service.badge}
                   </Badge>
                 </div>
 
-                <CardTitle className="font-display text-4xl mb-6 tracking-tighter font-black text-foreground group-hover:text-primary transition-colors duration-500 leading-none">
+                <CardTitle className="font-display text-4xl md:text-5xl mb-8 tracking-tighter font-black text-foreground group-hover:text-primary transition-colors duration-500 leading-none">
                   {service.title}
                 </CardTitle>
-                <CardDescription className="text-foreground/80 text-xl leading-relaxed font-medium mb-12">
+                <CardDescription className="text-foreground/80 text-xl md:text-2xl leading-relaxed font-medium mb-16 font-body">
                   {service.description}
                 </CardDescription>
 
-                <div className="space-y-4 mb-16">
+                <div className="space-y-6 mb-20">
                   {service.features.map((feature, fIdx) => (
-                    <div key={fIdx} className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-foreground font-display">
-                      <ShieldCheck className="h-4 w-4 text-primary" />
+                    <div key={fIdx} className="flex items-center gap-5 text-[11px] font-black uppercase tracking-[0.4em] text-foreground font-display">
+                      <ShieldCheck className="h-5 w-5 text-primary" />
                       {feature}
                     </div>
                   ))}
@@ -120,9 +120,9 @@ export function Services() {
               
               <Link 
                 href={`/servicos/${service.slug}`} 
-                className="relative z-10 flex items-center justify-between p-10 rounded-3xl bg-secondary text-foreground hover:bg-primary hover:text-white transition-all duration-700 text-[10px] font-black uppercase tracking-[0.5em] group/btn font-display"
+                className="relative z-10 flex items-center justify-between p-12 rounded-[2rem] bg-secondary text-foreground hover:bg-primary hover:text-white transition-all duration-700 text-[11px] font-black uppercase tracking-[0.6em] group/btn font-display"
               >
-                Explorar Detalhes <ArrowUpRight className="h-6 w-6 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                Explorar Detalhes <ArrowUpRight className="h-6 w-6 group-hover/btn:translate-x-2 group-hover/btn:-translate-y-2 transition-transform" />
               </Link>
             </Card>
           ))}

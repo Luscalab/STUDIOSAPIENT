@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
-import { HelpCircle, Sparkles } from "lucide-react";
+import { HelpCircle, Sparkles, Zap } from "lucide-react";
 
 const faqs = [
   {
@@ -35,39 +35,42 @@ const faqs = [
 export function FAQ() {
   return (
     <section id="faq" className="py-48 md:py-64 bg-[#0c0a1a] relative overflow-hidden section-flow-top section-flow-bottom">
-      <div className="absolute top-0 left-0 w-full h-full hero-purple-mesh opacity-20 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-full hero-purple-mesh opacity-30 pointer-events-none" />
       
-      <div className="container mx-auto px-6 max-w-6xl relative z-10">
-        <div className="text-center mb-48">
-          <Badge className="mb-12 bg-primary/10 text-primary border-primary/20 px-12 py-5 text-[10px] font-black uppercase tracking-[0.6em] rounded-full backdrop-blur-3xl font-display">
-            Esclarecimento Estratégico
-          </Badge>
-          <h2 className="font-display text-6xl md:text-[8.5rem] font-black tracking-tighter mb-12 leading-[0.85] text-white">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
+        <div className="text-center mb-48 space-y-12">
+          <div className="flex items-center justify-center gap-6">
+            <Zap className="h-6 w-6 text-primary animate-pulse" />
+            <Badge className="bg-primary/10 text-primary border-primary/20 px-14 py-5 text-[10px] font-black uppercase tracking-[0.8em] rounded-full backdrop-blur-3xl font-display">
+              Esclarecimento
+            </Badge>
+          </div>
+          <h2 className="font-display text-6xl md:text-[9.5rem] font-black tracking-tighter mb-12 leading-[0.85] text-white">
             Dúvidas <br /><span className="text-primary italic opacity-90">Frequentes.</span>
           </h2>
-          <p className="text-white/40 text-2xl md:text-3xl font-medium max-w-3xl mx-auto leading-relaxed tracking-tight">
+          <p className="text-white/30 text-2xl md:text-4xl font-medium max-w-4xl mx-auto leading-tight tracking-tighter font-body">
             Transparência absoluta sobre nossa metodologia e processos de engenharia visual.
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="w-full space-y-8">
+        <Accordion type="single" collapsible className="w-full space-y-10">
           {faqs.map((faq, idx) => (
             <AccordionItem 
               key={idx} 
               value={`item-${idx}`} 
-              className="border-none bg-white/5 backdrop-blur-3xl rounded-[3.5rem] px-10 md:px-20 py-8 shadow-2xl border border-white/5 hover:border-primary/20 data-[state=open]:bg-primary/5 data-[state=open]:border-primary/20 transition-all duration-1000 overflow-hidden"
+              className="border-none bg-white/5 backdrop-blur-[50px] rounded-[4.5rem] px-12 md:px-24 py-12 shadow-[0_30px_60px_rgba(0,0,0,0.5)] border border-white/5 hover:border-primary/20 data-[state=open]:bg-primary/5 data-[state=open]:border-primary/20 transition-all duration-1000 overflow-hidden"
             >
-              <AccordionTrigger className="text-2xl md:text-4xl font-black tracking-tighter hover:no-underline text-left py-10 group text-white font-display">
-                <div className="flex items-center gap-10">
-                  <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform border border-primary/20">
-                    <HelpCircle className="h-8 w-8" />
+              <AccordionTrigger className="text-3xl md:text-5xl font-black tracking-tighter hover:no-underline text-left py-12 group text-white font-display uppercase">
+                <div className="flex items-center gap-12">
+                  <div className="h-20 w-20 rounded-[1.5rem] bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform border border-primary/20">
+                    <HelpCircle className="h-10 w-10" />
                   </div>
                   {faq.question}
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="text-xl md:text-2xl text-white/50 leading-relaxed pb-16 font-medium tracking-tight">
-                <div className="pl-24 relative">
-                  <div className="absolute left-10 top-0 bottom-0 w-px bg-primary/20" />
+              <AccordionContent className="text-2xl md:text-3xl text-white/40 leading-relaxed pb-20 font-medium tracking-tight font-body">
+                <div className="pl-32 relative">
+                  <div className="absolute left-14 top-0 bottom-0 w-px bg-primary/30" />
                   {faq.answer}
                 </div>
               </AccordionContent>
@@ -75,8 +78,8 @@ export function FAQ() {
           ))}
         </Accordion>
 
-        <div className="absolute -bottom-20 -right-20 p-32 opacity-[0.03] text-primary pointer-events-none">
-          <Sparkles className="h-[40rem] w-[40rem]" />
+        <div className="absolute -bottom-40 -right-40 p-48 opacity-[0.05] text-primary pointer-events-none">
+          <Sparkles className="h-[50rem] w-[50rem]" />
         </div>
       </div>
     </section>

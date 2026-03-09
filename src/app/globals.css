@@ -58,23 +58,25 @@
   }
 }
 
-/* Atmosfera de Fundo Sapient - Liquid Mesh V2 */
+/* Atmosfera Liquid V3 - Sapient Engine */
 .hero-purple-mesh {
   background-color: #0c0a1a;
   background-image: 
-    radial-gradient(at 0% 0%, hsla(265, 95%, 60%, 0.12) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, hsla(285, 95%, 55%, 0.08) 0, transparent 50%), 
-    radial-gradient(at 50% 50%, hsla(270, 90%, 70%, 0.03) 0, transparent 80%);
+    radial-gradient(at 0% 0%, hsla(265, 95%, 60%, 0.15) 0, transparent 60%), 
+    radial-gradient(at 100% 0%, hsla(285, 95%, 55%, 0.12) 0, transparent 60%), 
+    radial-gradient(at 50% 50%, hsla(270, 90%, 70%, 0.05) 0, transparent 80%),
+    radial-gradient(at 80% 80%, hsla(240, 80%, 50%, 0.08) 0, transparent 50%),
+    radial-gradient(at 20% 80%, hsla(290, 90%, 60%, 0.05) 0, transparent 50%);
   position: relative;
 }
 
-/* Transições Atmosféricas Suavizadas (Longas) */
+/* Transições Atmosféricas Suavizadas (Ultra-Longas) */
 .section-flow-top {
-  mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
 }
 
 .section-flow-bottom {
-  mask-image: linear-gradient(to top, transparent 0%, black 25%);
+  mask-image: linear-gradient(to top, transparent 0%, black 15%);
 }
 
 .section-spacing {
@@ -82,11 +84,11 @@
 }
 
 .glass-morphism {
-  @apply bg-white/5 backdrop-blur-3xl border border-white/10 shadow-[0_8px_32px_0_rgba(139,92,246,0.1)];
+  @apply bg-white/5 backdrop-blur-[40px] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)];
 }
 
 .glass-light {
-  @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-xl;
+  @apply bg-white/80 backdrop-blur-3xl border border-white/40 shadow-2xl;
 }
 
 @keyframes float {
@@ -116,4 +118,13 @@
 
 .animate-slide-up {
   animation: slide-up-reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.font-display {
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.font-body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
