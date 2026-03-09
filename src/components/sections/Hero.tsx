@@ -13,7 +13,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-24 hero-purple-mesh">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-48 pb-24 hero-purple-mesh">
       {/* Luzes Dinâmicas de Fundo */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-primary/30 blur-[150px] animate-pulse rounded-full" />
@@ -21,15 +21,15 @@ export function Hero() {
       </div>
 
       <div className="container relative z-10 mx-auto px-6">
-        <div className="text-center space-y-12">
-          {/* Badge removido conforme solicitação */}
+        <div className="text-center space-y-16">
+          {/* Título ajustado para escala menor e com mais respiro superior */}
           
-          <h1 className="font-display text-5xl md:text-8xl lg:text-[9rem] font-black tracking-[-0.05em] animate-slide-up [animation-delay:200ms] text-white leading-[0.85] text-balance">
+          <h1 className="font-display text-4xl md:text-6xl lg:text-[7.5rem] font-black tracking-[-0.05em] animate-slide-up [animation-delay:200ms] text-white leading-[0.85] text-balance mt-12">
             Onde a <span className="text-primary italic font-medium">Clareza</span><br />
             Encontra a <span className="text-white">Escala.</span>
           </h1>
           
-          <p className="max-w-3xl mx-auto text-xl md:text-3xl text-white/50 animate-slide-up [animation-delay:400ms] leading-tight font-medium tracking-tight text-balance">
+          <p className="max-w-3xl mx-auto text-xl md:text-2xl text-white/50 animate-slide-up [animation-delay:400ms] leading-tight font-medium tracking-tight text-balance">
             Traduzimos expertises complexas em ativos estratégicos de <span className="text-white font-bold">performance comercial absoluta.</span>
           </p>
           
