@@ -45,67 +45,69 @@
 }
 
 /* Atmosfera Sapient - Estética Abissal & Roxo Vibrante */
-.bg-abyssal {
-  background-color: #08070b;
-}
-
 .hero-purple-mesh {
   background-color: #08070b;
   background-image: 
-    radial-gradient(circle at 50% -20%, rgba(139, 92, 246, 0.2) 0%, transparent 70%),
-    radial-gradient(circle at 80% 40%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
+    radial-gradient(circle at 50% -20%, rgba(139, 92, 246, 0.25) 0%, transparent 70%),
+    radial-gradient(circle at 80% 40%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
   position: relative;
 }
 
-/* Transições Liquefeitas (Gradient Easing) */
-/* Suavização de Entrada: Branco -> Abissal */
-.flow-fade-in {
-  position: relative;
-}
-.flow-fade-in::before {
-  content: '';
-  @apply absolute top-0 left-0 right-0 z-10 pointer-events-none;
-  height: 35rem;
-  background: linear-gradient(
-    to bottom,
-    hsl(var(--background)) 0%,
-    hsla(0, 0%, 100%, 0.95) 15%,
-    hsla(0, 0%, 100%, 0.7) 35%,
-    hsla(0, 0%, 100%, 0.4) 60%,
-    hsla(0, 0%, 100%, 0.1) 85%,
-    transparent 100%
-  );
-}
+/* 
+   LIQUID FLOW TRANSITIONS (Gradient Easing)
+   Transições ultra-suaves utilizando múltiplos pontos para eliminar "linhas" de corte.
+*/
 
-/* Suavização de Saída: Abissal -> Branco */
-.flow-fade-out {
-  position: relative;
-}
-.flow-fade-out::after {
+/* Transição de Saída: Escuro -> Branco (Hero para Serviços) */
+.section-flow-bottom::after {
   content: '';
-  @apply absolute bottom-0 left-0 right-0 z-10 pointer-events-none;
-  height: 35rem;
+  @apply absolute bottom-0 left-0 right-0 z-20 pointer-events-none;
+  height: 40rem;
   background: linear-gradient(
     to top,
     hsl(var(--background)) 0%,
-    hsla(0, 0%, 100%, 0.95) 15%,
-    hsla(0, 0%, 100%, 0.7) 35%,
-    hsla(0, 0%, 100%, 0.4) 60%,
-    hsla(0, 0%, 100%, 0.1) 85%,
+    hsla(0, 0%, 100%, 0.98) 8%,
+    hsla(0, 0%, 100%, 0.9) 15%,
+    hsla(0, 0%, 100%, 0.7) 30%,
+    hsla(0, 0%, 100%, 0.4) 50%,
+    hsla(0, 0%, 100%, 0.1) 75%,
     transparent 100%
   );
 }
 
-/* Transição para Seções Brancas */
-.section-flow-bottom {
-  position: relative;
-}
-.section-flow-bottom::after {
+/* Transição de Entrada: Branco -> Escuro (FAQ para Contato) */
+.flow-fade-in::before {
   content: '';
-  @apply absolute bottom-0 left-0 right-0 z-10 pointer-events-none;
-  height: 15rem;
-  background: linear-gradient(to top, transparent, hsl(var(--background)) 100%);
+  @apply absolute top-0 left-0 right-0 z-20 pointer-events-none;
+  height: 40rem;
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--background)) 0%,
+    hsla(0, 0%, 100%, 0.98) 8%,
+    hsla(0, 0%, 100%, 0.9) 15%,
+    hsla(0, 0%, 100%, 0.7) 30%,
+    hsla(0, 0%, 100%, 0.4) 50%,
+    hsla(0, 0%, 100%, 0.1) 75%,
+    transparent 100%
+  );
+}
+
+/* Transição de Saída: Escuro -> Branco (Contato para Footer) */
+.flow-fade-out::after {
+  content: '';
+  @apply absolute bottom-0 left-0 right-0 z-20 pointer-events-none;
+  height: 40rem;
+  background: linear-gradient(
+    to top,
+    hsl(var(--background)) 0%,
+    hsla(0, 0%, 100%, 0.98) 8%,
+    hsla(0, 0%, 100%, 0.9) 15%,
+    hsla(0, 0%, 100%, 0.7) 30%,
+    hsla(0, 0%, 100%, 0.4) 50%,
+    hsla(0, 0%, 100%, 0.1) 75%,
+    transparent 100%
+  );
 }
 
 .glass-morphism {
