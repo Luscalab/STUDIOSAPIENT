@@ -34,7 +34,7 @@ export function Navbar() {
             <Link 
               href="/" 
               aria-label="Sapient Studio Home"
-              className="relative block w-56 h-14 md:w-80 md:h-24 transition-all duration-1000 hover:scale-105"
+              className="relative block w-72 h-20 md:w-[480px] md:h-36 transition-all duration-1000 hover:scale-105"
             >
               <Image 
                 src={logoUrl}
@@ -85,7 +85,7 @@ export function Navbar() {
         )}>
           <div className="h-full flex flex-col p-12 pt-40 hero-purple-mesh">
              <div className="mb-20">
-               <Image src={logoUrl} alt="Logo" width={320} height={100} className="object-contain" />
+               <Image src={logoUrl} alt="Logo" width={400} height={120} className="object-contain" />
              </div>
             <div className="flex flex-col gap-12">
               {navLinks.map((link) => (

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -21,10 +22,7 @@ export function Hero() {
 
       <div className="container relative z-10 mx-auto px-6">
         <div className="text-center space-y-12">
-          <div className="inline-flex items-center gap-3 px-8 py-4 rounded-full border border-white/10 bg-white/5 backdrop-blur-3xl text-[10px] font-black uppercase tracking-[0.6em] text-white/90 animate-slide-up shadow-2xl">
-            <Sparkles className="h-4 w-4 text-primary animate-pulse" />
-            Engenharia de Autoridade Visual
-          </div>
+          {/* Badge removido conforme solicitação */}
           
           <h1 className="font-display text-5xl md:text-8xl lg:text-[9rem] font-black tracking-[-0.05em] animate-slide-up [animation-delay:200ms] text-white leading-[0.85] text-balance">
             Onde a <span className="text-primary italic font-medium">Clareza</span><br />
