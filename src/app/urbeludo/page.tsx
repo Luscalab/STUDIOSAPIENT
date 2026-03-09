@@ -22,7 +22,8 @@ import {
   TrendingUp,
   Users2,
   Globe2,
-  Target
+  Target,
+  Mail
 } from "lucide-react";
 
 export default function UrbeLudoPage() {
@@ -173,7 +174,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* Investir Section */}
+      {/* Investir Section - Private Equity Approach */}
       <section id="investir" className="py-24 md:py-40 bg-white overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="max-w-6xl mx-auto rounded-[4rem] border border-primary/10 p-12 md:p-24 shadow-2xl relative overflow-hidden bg-gradient-to-br from-white to-secondary/20">
@@ -184,21 +185,21 @@ export default function UrbeLudoPage() {
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
               <div className="space-y-10">
                 <Badge className="bg-primary/5 text-primary border-primary/10 px-8 py-2 text-[9px] font-black uppercase tracking-widest rounded-full">
-                  Oportunidade Estratégica
+                  Investimento Estratégico
                 </Badge>
                 <h3 className="font-headline text-4xl md:text-6xl font-black tracking-tighter leading-none">
-                  Investindo no <br />
-                  <span className="text-primary italic">Futuro da Saúde.</span>
+                  Aporte Direto no <br />
+                  <span className="text-primary italic">Próximo Unicórnio Health.</span>
                 </h3>
                 <p className="text-lg text-muted-foreground font-medium leading-relaxed">
-                  O mercado de Digital Health está em plena expansão. O UrbeLudo combina escalabilidade de SaaS com a precisão de Deep Tech.
+                  O UrbeLudo opera em regime de investimento privado (Private Equity / Pre-Seed). Não estamos listados em bolsa; buscamos parceiros estratégicos para expansão de hardware e inteligência de borda.
                 </p>
                 <ul className="space-y-4">
                   {[
-                    "Rodada Pre-Seed aberta para investidores estratégicos.",
+                    "Rodada Pre-Seed exclusiva para anjos e VCs.",
                     "Foco em expansão para o mercado LatAm e EUA.",
-                    "Desenvolvimento de hardware proprietário de biofeedback.",
-                    "Base de usuários em clínicas de alta autoridade."
+                    "Equity direto via contrato de investimento (SAFE).",
+                    "Acesso prioritário ao roadmap tecnológico."
                   ].map((text, i) => (
                     <li key={i} className="flex items-center gap-4 text-sm font-bold text-foreground">
                       <Sparkles className="h-5 w-5 text-primary shrink-0" /> {text}
@@ -209,24 +210,30 @@ export default function UrbeLudoPage() {
 
               <div className="space-y-8 p-12 bg-white rounded-[3rem] shadow-xl border border-primary/5">
                 <div className="space-y-2">
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Status do Projeto</p>
-                  <p className="text-3xl font-black tracking-tighter uppercase">MVP em Validação</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Canal do Investidor</p>
+                  <p className="text-3xl font-black tracking-tighter uppercase">Contato por E-mail</p>
                 </div>
                 <div className="grid grid-cols-2 gap-6">
                   <div className="p-6 bg-secondary/50 rounded-2xl border border-primary/5">
-                    <Globe2 className="h-6 w-6 text-primary mb-2" />
-                    <p className="text-[8px] font-black uppercase text-muted-foreground mb-1">Mercado Total</p>
-                    <p className="text-xl font-black">US$ 12.4B</p>
+                    <Mail className="h-6 w-6 text-primary mb-2" />
+                    <p className="text-[8px] font-black uppercase text-muted-foreground mb-1">Via Dossiê</p>
+                    <p className="text-xl font-black">Private</p>
                   </div>
                   <div className="p-6 bg-secondary/50 rounded-2xl border border-primary/5">
                     <BarChart3 className="h-6 w-6 text-primary mb-2" />
-                    <p className="text-[8px] font-black uppercase text-muted-foreground mb-1">Crescimento Ano</p>
-                    <p className="text-xl font-black">+24%</p>
+                    <p className="text-[8px] font-black uppercase text-muted-foreground mb-1">Previsão</p>
+                    <p className="text-xl font-black">+24% CAGR</p>
                   </div>
                 </div>
-                <Button className="w-full h-20 bg-foreground text-white hover:bg-primary font-black uppercase tracking-widest rounded-full transition-all">
+                <Button 
+                  onClick={() => window.location.href = "mailto:sapientcontato@gmail.com?subject=Interesse em Investimento - UrbeLudo"}
+                  className="w-full h-20 bg-foreground text-white hover:bg-primary font-black uppercase tracking-widest rounded-full transition-all"
+                >
                   Solicitar Pitch Deck
                 </Button>
+                <p className="text-[10px] text-center text-muted-foreground font-bold uppercase tracking-widest">
+                  Ou fale com nosso Estrategista no Chat IA
+                </p>
               </div>
             </div>
           </div>
