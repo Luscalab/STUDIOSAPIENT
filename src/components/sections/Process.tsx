@@ -1,4 +1,3 @@
-
 import { Badge } from "@/components/ui/badge";
 import { Target, Search, PenTool, Rocket, ChevronRight } from "lucide-react";
 
@@ -52,6 +51,7 @@ export function Process() {
                 </div>
               )}
               
+              {/* Step Number Background */}
               <div className="absolute top-8 right-8 text-5xl font-black text-white/5 group-hover:text-white/15 transition-colors select-none">
                 0{idx + 1}
               </div>
