@@ -41,10 +41,10 @@ export function Contact() {
                   Conexão
                 </Badge>
              </div>
-             <h2 className="font-display text-5xl md:text-7xl font-black tracking-tighter leading-none text-white uppercase">
+             <h2 className="font-display text-5xl md:text-7xl font-black tracking-tighter leading-none text-white uppercase text-balance">
                Vamos <span className="text-primary italic">Conversar?</span>
              </h2>
-             <p className="text-white/40 text-xl md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
+             <p className="text-white/40 text-xl md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed tracking-tight text-balance">
                Estamos prontos para ouvir seus desafios e encontrar a estratégia ideal para sua autoridade digital.
              </p>
           </div>
@@ -74,7 +74,7 @@ export function Contact() {
               className="p-12 rounded-[3rem] bg-white/5 border border-white/20 backdrop-blur-3xl hover:bg-white/10 transition-all duration-700 cursor-pointer group text-center shadow-2xl flex flex-col justify-between h-[380px]"
             >
               <div className="space-y-10">
-                <div className="h-20 w-20 rounded-2xl bg-accent/20 flex items-center justify-center text-accent mx-auto">
+                <div className="h-20 w-20 rounded-2xl bg-primary/20 flex items-center justify-center text-primary mx-auto">
                   <Mail className="h-10 w-10" />
                 </div>
                 <div>
@@ -82,7 +82,7 @@ export function Contact() {
                   <p className="text-white font-black text-lg break-all leading-tight font-body tracking-tight uppercase">{email}</p>
                 </div>
               </div>
-              <div className="mt-10 flex items-center justify-center gap-4 text-[11px] font-black uppercase tracking-[0.4em] text-accent group-hover:text-white transition-colors">
+              <div className="mt-10 flex items-center justify-center gap-4 text-[11px] font-black uppercase tracking-[0.4em] text-primary group-hover:text-white transition-colors">
                 {copiedEmail ? <Check className="h-5 w-5" /> : <Copy className="h-5 w-5" />}
                 {copiedEmail ? "Copiado" : "Copiar"}
               </div>
@@ -93,7 +93,7 @@ export function Contact() {
               className="p-12 rounded-[3rem] bg-white/5 border border-white/20 backdrop-blur-3xl hover:bg-white/10 transition-all duration-700 cursor-pointer group text-center shadow-2xl flex flex-col justify-between h-[380px]"
             >
               <div className="space-y-10">
-                <div className="h-20 w-20 rounded-2xl bg-purple-500/20 flex items-center justify-center text-purple-400 mx-auto">
+                <div className="h-20 w-20 rounded-2xl bg-primary/20 flex items-center justify-center text-primary mx-auto">
                   <Phone className="h-10 w-10" />
                 </div>
                 <div>
@@ -101,7 +101,7 @@ export function Contact() {
                   <p className="text-white font-black text-2xl tracking-tighter leading-none uppercase">{phone}</p>
                 </div>
               </div>
-              <div className="mt-10 flex items-center justify-center gap-4 text-[11px] font-black uppercase tracking-[0.4em] text-purple-400 group-hover:text-white transition-colors">
+              <div className="mt-10 flex items-center justify-center gap-4 text-[11px] font-black uppercase tracking-[0.4em] text-primary group-hover:text-white transition-colors">
                 {copiedPhone ? <Check className="h-5 w-5" /> : <Copy className="h-5 w-5" />}
                 {copiedPhone ? "Copiado" : "Copiar"}
               </div>

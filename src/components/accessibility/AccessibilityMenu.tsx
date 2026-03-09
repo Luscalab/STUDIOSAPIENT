@@ -199,7 +199,7 @@ export function AccessibilityMenu() {
           <div className="h-8 w-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
             <Accessibility className="h-4 w-4" />
           </div>
-          <h3 className="font-headline font-black text-xs tracking-tighter uppercase">Inclusão Digital</h3>
+          <h3 className="font-headline font-black text-xs tracking-tighter uppercase text-foreground">Inclusão Digital</h3>
         </div>
 
         <div className="space-y-4">

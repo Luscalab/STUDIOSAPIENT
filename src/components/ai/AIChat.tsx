@@ -85,7 +85,7 @@ export function AIChat() {
         aria-label="Diagnóstico IA"
         className={cn(
           "fixed bottom-6 right-6 z-[100] h-10 w-10 rounded-full flex items-center justify-center transition-all duration-1000 hover:scale-110 active:scale-95 border-2 border-white/40 backdrop-blur-3xl group overflow-hidden shadow-2xl",
-          isOpen ? "bg-foreground rotate-90" : "bg-gradient-to-br from-primary via-primary to-accent animate-glow-pulse"
+          isOpen ? "bg-foreground rotate-90" : "bg-primary animate-glow-pulse"
         )}
       >
         {isOpen ? <X className="h-4 w-4 text-white" /> : <Sparkles className="h-4 w-4 text-white animate-pulse" />}
@@ -99,11 +99,11 @@ export function AIChat() {
         role="dialog"
         aria-label="Janela de Consultoria IA"
       >
-        <div className="p-4 bg-gradient-to-br from-primary to-accent text-white shrink-0">
+        <div className="p-4 bg-primary text-white shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <ClipboardCheck className="h-4 w-4" />
-              <h3 className="font-headline font-black text-sm tracking-tighter uppercase">Estrategista IA</h3>
+              <h3 className="font-headline font-black text-sm tracking-tighter uppercase text-white">Estrategista IA</h3>
             </div>
             <div className="flex items-center gap-1 bg-black/10 rounded-full p-1">
               <button 
