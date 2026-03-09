@@ -27,13 +27,13 @@ export function Navbar() {
 
   return (
     <>
-      {/* Header Estático: Não acompanha o scroll */}
-      <header className="absolute top-4 left-0 right-0 z-50">
-        <div className="container mx-auto px-6 flex items-center justify-between">
+      {/* Header Estático: Elevado em 20% do topo original */}
+      <header className="absolute top-2 left-0 right-0 z-50">
+        <div className="container mx-auto px-6 flex items-center justify-start gap-12 lg:gap-20">
           
-          {/* Lado Esquerdo: Logotipo Imponente */}
-          <div className="flex items-center">
-            <Link href="/" className="relative block w-72 h-16 md:w-[750px] md:h-52 group transition-transform">
+          {/* Lado Esquerdo: Logotipo Imponente mas Equilibrado */}
+          <div className="flex items-center shrink-0">
+            <Link href="/" className="relative block w-48 h-12 md:w-[380px] md:h-28 group transition-transform hover:scale-[1.02]">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -44,8 +44,8 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* Lado Direito: Menu Desktop Padronizado */}
-          <nav className="hidden xl:flex items-center gap-8 px-10 py-5 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl">
+          {/* Menu Desktop: Ajustado mais para a esquerda, logo após o logo */}
+          <nav className="hidden xl:flex items-center gap-10 px-10 py-5 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
@@ -66,9 +66,9 @@ export function Navbar() {
             </button>
           </nav>
 
-          {/* Menu Mobile Button */}
+          {/* Menu Mobile Button - Mantido à direita para contraste funcional */}
           <button 
-            className="xl:hidden p-4 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95 shrink-0"
+            className="xl:hidden ml-auto p-4 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95 shrink-0"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <span className="text-[10px] font-black uppercase tracking-[0.3em]">Menu</span>
