@@ -30,8 +30,10 @@ export function Contact() {
   };
 
   return (
-    <section id="contato" className="py-32 md:py-64 hero-purple-mesh overflow-hidden flow-fade-in flow-fade-out">
-      <div className="container mx-auto px-6 relative z-30">
+    <section id="contato" className="py-24 md:py-48 bg-[#0c0a1a] text-white relative overflow-hidden rounded-[4rem] md:rounded-[8rem] mx-4 my-8 shadow-2xl">
+      <div className="absolute inset-0 z-0 opacity-20 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.2),transparent_70%)]" />
+      
+      <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-32 space-y-10">
              <h2 className="font-display text-5xl md:text-8xl font-black tracking-tighter leading-none text-white uppercase text-balance">
@@ -46,7 +48,7 @@ export function Contact() {
             <a 
               href={`https://wa.me/5511959631870`}
               target="_blank"
-              className="p-12 rounded-[3rem] bg-white/5 border border-white/20 backdrop-blur-3xl hover:bg-white/10 transition-all duration-700 group text-center shadow-2xl flex flex-col justify-between h-[400px]"
+              className="p-12 rounded-[3.5rem] bg-white/5 border border-white/10 backdrop-blur-3xl hover:bg-white/10 transition-all duration-700 group text-center shadow-2xl flex flex-col justify-between h-[400px]"
             >
               <div className="space-y-10">
                 <div className="h-20 w-20 rounded-2xl bg-primary/20 flex items-center justify-center text-primary mx-auto animate-glow-pulse">
@@ -64,7 +66,7 @@ export function Contact() {
 
             <div 
               onClick={() => handleCopy(email, 'email')}
-              className="p-12 rounded-[3rem] bg-white/5 border border-white/20 backdrop-blur-3xl hover:bg-white/10 transition-all duration-700 cursor-pointer group text-center shadow-2xl flex flex-col justify-between h-[400px]"
+              className="p-12 rounded-[3.5rem] bg-white/5 border border-white/10 backdrop-blur-3xl hover:bg-white/10 transition-all duration-700 cursor-pointer group text-center shadow-2xl flex flex-col justify-between h-[400px]"
             >
               <div className="space-y-10">
                 <div className="h-20 w-20 rounded-2xl bg-primary/20 flex items-center justify-center text-primary mx-auto">
@@ -83,7 +85,7 @@ export function Contact() {
 
             <div 
               onClick={() => handleCopy(phone, 'phone')}
-              className="p-12 rounded-[3rem] bg-white/5 border border-white/20 backdrop-blur-3xl hover:bg-white/10 transition-all duration-700 cursor-pointer group text-center shadow-2xl flex flex-col justify-between h-[400px]"
+              className="p-12 rounded-[3.5rem] bg-white/5 border border-white/10 backdrop-blur-3xl hover:bg-white/10 transition-all duration-700 cursor-pointer group text-center shadow-2xl flex flex-col justify-between h-[400px]"
             >
               <div className="space-y-10">
                 <div className="h-20 w-20 rounded-2xl bg-primary/20 flex items-center justify-center text-primary mx-auto">

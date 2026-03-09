@@ -1,45 +1,46 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
-import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 
 export function Hero() {
-  const behanceUrl = "https://www.behance.net/sapient";
-
-  const handleOpenChat = () => {
-    window.dispatchEvent(new CustomEvent('open-ai-chat'));
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
-    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-48 pb-32 hero-purple-mesh section-flow-bottom">
-      <div className="container relative z-10 mx-auto px-6">
-        <div className="text-center space-y-10 max-w-4xl mx-auto">
-          
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter animate-slide-up [animation-delay:200ms] text-white leading-[1.1] text-balance">
-            Clareza Visual e <br />
-            <span className="italic font-medium text-primary">Eficiência de Marca.</span>
+    <section className="relative pt-32 pb-24 md:pt-48 md:pb-32 overflow-hidden hero-purple-mesh">
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-5xl mx-auto text-center">
+          <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[1.05] mb-8 animate-slide-up py-4">
+            Sapient Studio <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-accent italic font-medium block">Clareza e Performance.</span>
           </h1>
           
-          <p className="max-w-2xl mx-auto text-base md:text-lg text-white/50 animate-slide-up [animation-delay:400ms] leading-relaxed font-medium tracking-tight text-balance">
-            Transformamos a comunicação técnica em ativos de autoridade visual, unindo design profissional e estratégias de performance de elite.
+          <p className="text-lg md:text-2xl text-white/50 font-medium max-w-3xl mx-auto leading-relaxed tracking-tight text-balance mb-16 animate-slide-up [animation-delay:200ms]">
+            Transformamos a complexidade técnica em ativos de <span className="text-white font-bold">autoridade digital.</span> Onde o design encontra a engenharia de resultados.
           </p>
           
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 pt-8 animate-slide-up [animation-delay:600ms]">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 animate-slide-up [animation-delay:400ms]">
             <Button 
-              onClick={handleOpenChat}
-              className="w-full sm:w-auto h-14 px-10 text-[10px] font-black bg-white text-primary hover:bg-primary hover:text-white transition-all duration-500 rounded-full uppercase tracking-[0.2em] shadow-xl active:scale-95"
+              onClick={() => scrollToSection('servicos')}
+              className="h-20 px-12 bg-white text-black hover:bg-primary hover:text-white rounded-full font-black uppercase tracking-[0.4em] text-[11px] transition-all duration-500"
             >
               INICIAR DIAGNÓSTICO
             </Button>
-            <Link href={behanceUrl} target="_blank" className="w-full sm:w-auto">
-              <Button 
-                variant="outline"
-                className="w-full sm:w-auto h-14 px-10 text-[10px] font-black bg-transparent text-white border-white/20 hover:border-white hover:bg-white hover:text-primary transition-all duration-500 rounded-full uppercase tracking-[0.2em] group active:scale-95"
-              >
-                PORTFÓLIO <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
+            <button 
+              onClick={() => scrollToSection('metodologia')}
+              className="flex items-center gap-4 text-white/30 hover:text-white transition-all duration-500 text-[9px] font-black uppercase tracking-[0.6em] group"
+            >
+              Nossa Metodologia <ChevronDown className="h-4 w-4 animate-bounce group-hover:text-primary" />
+            </button>
           </div>
         </div>
       </div>
