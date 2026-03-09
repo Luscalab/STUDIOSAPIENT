@@ -33,12 +33,12 @@ export function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8 pt-12 animate-slide-up [animation-delay:600ms]">
             <Button 
               onClick={handleOpenChat}
-              className="w-full sm:w-auto h-20 px-16 text-[10px] font-black bg-white text-black hover:bg-primary hover:text-white transition-all duration-700 rounded-full uppercase tracking-[0.5em] shadow-2xl"
+              className="w-full sm:w-auto h-20 px-16 text-[10px] font-black bg-white text-black hover:bg-primary hover:text-white transition-all duration-700 rounded-full uppercase tracking-[0.5em] shadow-2xl font-display"
             >
               Iniciar Diagnóstico
             </Button>
             <Link href={behanceUrl} target="_blank" className="w-full sm:w-auto">
-              <Button className="w-full sm:w-auto h-20 px-16 text-[10px] font-black bg-white text-black hover:bg-primary hover:text-white transition-all duration-700 rounded-full uppercase tracking-[0.5em] shadow-2xl group">
+              <Button className="w-full sm:w-auto h-20 px-16 text-[10px] font-black bg-white text-black hover:bg-primary hover:text-white transition-all duration-700 rounded-full uppercase tracking-[0.5em] shadow-2xl group font-display">
                 PORTFÓLIO <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-2 transition-transform" />
               </Button>
             </Link>

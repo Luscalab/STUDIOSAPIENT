@@ -58,13 +58,27 @@
   }
 }
 
-/* Atmosfera de Fundo Sapient */
+/* Atmosfera de Fundo Sapient - Liquid Mesh */
 .hero-purple-mesh {
   background-color: #0c0a1a;
   background-image: 
     radial-gradient(at 0% 0%, hsla(265, 95%, 60%, 0.15) 0, transparent 50%), 
     radial-gradient(at 100% 0%, hsla(285, 95%, 55%, 0.1) 0, transparent 50%), 
     radial-gradient(at 50% 50%, hsla(270, 90%, 70%, 0.05) 0, transparent 80%);
+  position: relative;
+}
+
+/* Transições Atmosféricas Suavizadas (Longas) */
+.section-flow-top {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
+}
+
+.section-flow-bottom {
+  mask-image: linear-gradient(to top, transparent 0%, black 25%);
+}
+
+.section-spacing {
+  @apply py-48 md:py-64;
 }
 
 .glass-morphism {
@@ -73,19 +87,6 @@
 
 .glass-light {
   @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-xl;
-}
-
-/* Transições Atmosféricas (Suaves) */
-.section-flow-top {
-  mask-image: linear-gradient(to bottom, transparent 0%, black 15%);
-}
-
-.section-flow-bottom {
-  mask-image: linear-gradient(to top, transparent 0%, black 15%);
-}
-
-.section-spacing {
-  @apply py-48 md:py-64;
 }
 
 @keyframes float {

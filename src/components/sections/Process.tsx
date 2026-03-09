@@ -34,7 +34,7 @@ export function Process() {
           <div className="max-w-5xl">
             <div className="flex items-center gap-6 mb-12">
                <Dna className="text-primary h-8 w-8 animate-pulse" />
-               <Badge className="bg-white/5 text-white/50 border-white/10 px-10 py-4 text-[10px] font-black uppercase tracking-[0.6em] rounded-full backdrop-blur-3xl">
+               <Badge className="bg-white/5 text-white/50 border-white/10 px-10 py-4 text-[10px] font-black uppercase tracking-[0.6em] rounded-full backdrop-blur-3xl font-display">
                  Protocolo studiosapient V.2
                </Badge>
             </div>
@@ -59,7 +59,7 @@ export function Process() {
               <h3 className="font-display text-3xl font-black text-white mb-6 tracking-tighter">
                 {step.title}
               </h3>
-              <p className="text-white/40 text-lg leading-relaxed font-medium mb-10">
+              <p className="text-white/60 text-lg leading-relaxed font-medium mb-10">
                 {step.desc}
               </p>
               <span className="text-[12rem] font-black text-white/5 absolute -bottom-10 -right-4 select-none group-hover:text-primary/10 transition-colors duration-1000">

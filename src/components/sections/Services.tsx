@@ -71,7 +71,7 @@ export function Services() {
           <div className="max-w-4xl space-y-12">
             <div className="flex items-center gap-6">
                <Zap className="text-primary h-6 w-6" />
-               <Badge className="bg-primary/5 text-primary border-none px-10 py-4 text-[10px] font-black uppercase tracking-[0.5em] rounded-full">Serviços</Badge>
+               <Badge className="bg-primary/5 text-primary border-none px-10 py-4 text-[10px] font-black uppercase tracking-[0.5em] rounded-full font-display">Serviços</Badge>
             </div>
             <h2 className="font-display text-6xl md:text-[8.5rem] font-black text-foreground tracking-tighter leading-[0.85]">
               Protocolos de <br /><span className="text-primary italic">Impacto.</span>
@@ -96,7 +96,7 @@ export function Services() {
                   <div className={cn("h-20 w-20 rounded-3xl flex items-center justify-center transition-all duration-1000 shadow-xl group-hover:scale-110", service.bg, service.color)}>
                     {service.icon}
                   </div>
-                  <Badge variant="secondary" className="font-black text-[9px] uppercase tracking-[0.4em] px-6 py-3 rounded-full bg-secondary">
+                  <Badge variant="secondary" className="font-black text-[9px] uppercase tracking-[0.4em] px-6 py-3 rounded-full bg-secondary font-display">
                     {service.badge}
                   </Badge>
                 </div>
@@ -104,13 +104,13 @@ export function Services() {
                 <CardTitle className="font-display text-4xl mb-6 tracking-tighter font-black text-foreground group-hover:text-primary transition-colors duration-500 leading-none">
                   {service.title}
                 </CardTitle>
-                <CardDescription className="text-foreground/60 text-xl leading-relaxed font-medium mb-12">
+                <CardDescription className="text-foreground/80 text-xl leading-relaxed font-medium mb-12">
                   {service.description}
                 </CardDescription>
 
                 <div className="space-y-4 mb-16">
                   {service.features.map((feature, fIdx) => (
-                    <div key={fIdx} className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-foreground">
+                    <div key={fIdx} className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-foreground font-display">
                       <ShieldCheck className="h-4 w-4 text-primary" />
                       {feature}
                     </div>
@@ -120,7 +120,7 @@ export function Services() {
               
               <Link 
                 href={`/servicos/${service.slug}`} 
-                className="relative z-10 flex items-center justify-between p-10 rounded-3xl bg-secondary text-foreground hover:bg-primary hover:text-white transition-all duration-700 text-[10px] font-black uppercase tracking-[0.5em] group/btn"
+                className="relative z-10 flex items-center justify-between p-10 rounded-3xl bg-secondary text-foreground hover:bg-primary hover:text-white transition-all duration-700 text-[10px] font-black uppercase tracking-[0.5em] group/btn font-display"
               >
                 Explorar Detalhes <ArrowUpRight className="h-6 w-6 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
               </Link>

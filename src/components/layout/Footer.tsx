@@ -15,7 +15,7 @@ export function Footer() {
               <p className="text-foreground text-4xl font-black tracking-tighter mb-6 uppercase font-display">
                 studiosapient.
               </p>
-              <p className="text-foreground/40 text-lg font-medium leading-relaxed tracking-tight max-w-sm">
+              <p className="text-foreground/60 text-lg font-medium leading-relaxed tracking-tight max-w-sm">
                 Transformamos negócios em referências através de ecossistemas digitais de alta clareza e autoridade visual.
               </p>
             </div>
@@ -41,10 +41,10 @@ export function Footer() {
 
           {/* Links Column 1 */}
           <div className="lg:col-span-3">
-            <h4 className="font-headline font-black text-[10px] uppercase tracking-[0.5em] text-primary mb-10">Ecossistema</h4>
+            <h4 className="font-headline font-black text-[10px] uppercase tracking-[0.5em] text-primary mb-10 font-display">Ecossistema</h4>
             <ul className="space-y-6">
               <li>
-                <Link href="/urbeludo" className="group flex items-center gap-2 w-fit text-cyan-600 hover:text-cyan-500 transition-all">
+                <Link href="/urbeludo" className="group flex items-center gap-2 w-fit text-cyan-600 hover:text-cyan-500 transition-all font-display">
                   <span className="text-[10px] font-black uppercase tracking-widest">Plataforma UrbeLudo</span>
                   <ArrowUpRight className="h-3 w-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </Link>
@@ -55,7 +55,7 @@ export function Footer() {
                 { name: "Ecossistemas IA", href: "/servicos/chat-ia" }
               ].map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-foreground/40 hover:text-primary text-[10px] font-black uppercase tracking-[0.3em] transition-colors flex items-center gap-2">
+                  <Link href={item.href} className="text-foreground/40 hover:text-primary text-[10px] font-black uppercase tracking-[0.3em] transition-colors flex items-center gap-2 font-display">
                     {item.name}
                   </Link>
                 </li>
@@ -65,7 +65,7 @@ export function Footer() {
 
           {/* Links Column 2 */}
           <div className="lg:col-span-4">
-            <h4 className="font-headline font-black text-[10px] uppercase tracking-[0.5em] text-primary mb-10">Agência</h4>
+            <h4 className="font-headline font-black text-[10px] uppercase tracking-[0.5em] text-primary mb-10 font-display">Agência</h4>
             <ul className="space-y-6">
               {[
                 { name: "Portfólio Behance", href: behanceUrl, external: true },
@@ -77,7 +77,7 @@ export function Footer() {
                   <Link 
                     href={item.href} 
                     target={item.external ? "_blank" : "_self"}
-                    className="text-foreground/40 hover:text-primary text-[10px] font-black uppercase tracking-[0.3em] transition-colors flex items-center gap-2"
+                    className="text-foreground/40 hover:text-primary text-[10px] font-black uppercase tracking-[0.3em] transition-colors flex items-center gap-2 font-display"
                   >
                     {item.name}
                   </Link>
@@ -90,10 +90,10 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-16 border-t border-muted text-[9px] font-black text-foreground/20 tracking-[0.5em] uppercase text-center md:text-left gap-8">
           <div className="space-y-1">
-            <p>© {new Date().getFullYear()} STUDIOSAPIENT. DESIGN & ESTRATÉGIA.</p>
-            <p className="text-[7px] opacity-50 tracking-[0.8em]">Todos os direitos reservados.</p>
+            <p className="font-display">© {new Date().getFullYear()} STUDIOSAPIENT. DESIGN & ESTRATÉGIA.</p>
+            <p className="text-[7px] opacity-50 tracking-[0.8em] font-display">Todos os direitos reservados.</p>
           </div>
-          <div className="flex gap-10">
+          <div className="flex gap-10 font-display">
             <Link href="#" className="hover:text-primary transition-colors">Privacidade</Link>
             <Link href="#" className="hover:text-primary transition-colors">Termos de Uso</Link>
           </div>

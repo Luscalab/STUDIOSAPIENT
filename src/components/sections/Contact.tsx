@@ -37,14 +37,14 @@ export function Contact() {
           <div className="text-center lg:text-left mb-32 space-y-10">
              <div className="flex items-center gap-6 justify-center lg:justify-start">
                 <Sparkles className="text-primary h-6 w-6 animate-pulse" />
-                <Badge className="bg-white/5 text-primary border-primary/20 px-10 py-4 text-[10px] font-black uppercase tracking-[0.5em] rounded-full backdrop-blur-3xl">
+                <Badge className="bg-white/5 text-primary border-primary/20 px-10 py-4 text-[10px] font-black uppercase tracking-[0.5em] rounded-full backdrop-blur-3xl font-display">
                   Conexão Estratégica
                 </Badge>
              </div>
              <h2 className="font-display text-6xl md:text-[8.5rem] font-black tracking-tighter leading-[0.85] text-white">
                Vamos <br /><span className="text-primary italic">Conversar?</span>
              </h2>
-             <p className="text-white/40 text-2xl md:text-3xl font-medium max-w-2xl mx-auto lg:mx-0 leading-tight tracking-tight">
+             <p className="text-white/60 text-2xl md:text-3xl font-medium max-w-2xl mx-auto lg:mx-0 leading-tight tracking-tight">
                Estamos prontos para ouvir seus desafios e encontrar a <span className="text-white font-bold">estratégia ideal</span> para o seu negócio.
              </p>
           </div>
@@ -61,13 +61,13 @@ export function Contact() {
                   <MessageCircle className="h-10 w-10" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 mb-4">WhatsApp Business</p>
-                  <p className="text-white font-black text-3xl tracking-tighter uppercase leading-none">Mensagem</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 mb-4 font-display">WhatsApp Business</p>
+                  <p className="text-white font-black text-3xl tracking-tighter uppercase leading-none font-display">Mensagem</p>
                 </div>
               </div>
               <div className="mt-12 space-y-6">
                 <div className="h-px w-full bg-white/10" />
-                <div className="flex items-center justify-center gap-3 text-[11px] font-black uppercase tracking-widest text-primary group-hover:text-white transition-colors">
+                <div className="flex items-center justify-center gap-3 text-[11px] font-black uppercase tracking-widest text-primary group-hover:text-white transition-colors font-display">
                   Iniciar Chat <ArrowRight className="h-4 w-4 group-hover:translate-x-3 transition-transform" />
                 </div>
               </div>
@@ -83,13 +83,13 @@ export function Contact() {
                   <Mail className="h-10 w-10" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 mb-4">E-mail Profissional</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 mb-4 font-display">E-mail Profissional</p>
                   <p className="text-white font-black text-lg break-all leading-tight">{email}</p>
                 </div>
               </div>
               <div className="mt-12 space-y-6">
                 <div className="h-px w-full bg-white/10" />
-                <div className="flex items-center justify-center gap-3 text-[11px] font-black uppercase tracking-widest text-accent group-hover:text-white transition-colors">
+                <div className="flex items-center justify-center gap-3 text-[11px] font-black uppercase tracking-widest text-accent group-hover:text-white transition-colors font-display">
                   {copiedEmail ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                   {copiedEmail ? "Copiado" : "Copiar E-mail"}
                 </div>
@@ -106,13 +106,13 @@ export function Contact() {
                   <Phone className="h-10 w-10" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 mb-4">Ligação Direta</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 mb-4 font-display">Ligação Direta</p>
                   <p className="text-white font-black text-2xl tracking-tighter leading-none">{phone}</p>
                 </div>
               </div>
               <div className="mt-12 space-y-6">
                 <div className="h-px w-full bg-white/10" />
-                <div className="flex items-center justify-center gap-3 text-[11px] font-black uppercase tracking-widest text-purple-400 group-hover:text-white transition-colors">
+                <div className="flex items-center justify-center gap-3 text-[11px] font-black uppercase tracking-widest text-purple-400 group-hover:text-white transition-colors font-display">
                   {copiedPhone ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                   {copiedPhone ? "Copiado" : "Copiar Número"}
                 </div>

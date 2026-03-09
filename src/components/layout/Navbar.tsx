@@ -56,7 +56,7 @@ export function Navbar() {
                 key={link.name} 
                 href={link.href} 
                 target={link.external ? "_blank" : "_self"}
-                className="text-[10px] uppercase tracking-[0.5em] font-black text-white/70 hover:text-white transition-all duration-500 relative group whitespace-nowrap"
+                className="text-[10px] uppercase tracking-[0.5em] font-black text-white/70 hover:text-white transition-all duration-500 relative group whitespace-nowrap font-display"
               >
                 {link.name}
                 <span className="absolute -bottom-3 left-1/2 w-0 h-[3px] bg-primary transition-all duration-500 group-hover:w-full group-hover:left-0 rounded-full" />
@@ -68,7 +68,7 @@ export function Navbar() {
             <button 
               onClick={handleOpenChat}
               aria-label="Iniciar Análise com Inteligência Artificial"
-              className="text-[10px] uppercase tracking-[0.5em] font-black text-white hover:text-primary transition-all duration-500 relative group whitespace-nowrap flex items-center gap-4"
+              className="text-[10px] uppercase tracking-[0.5em] font-black text-white hover:text-primary transition-all duration-500 relative group whitespace-nowrap flex items-center gap-4 font-display"
             >
               <div className="h-2 w-2 rounded-full bg-primary animate-glow-pulse" aria-hidden="true" />
               Análise IA
@@ -82,7 +82,7 @@ export function Navbar() {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-expanded={isMobileMenuOpen}
           >
-            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Menu</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] font-display">Menu</span>
             <div className="relative h-6 w-6">
                <Menu className={cn("absolute inset-0 transition-all duration-500", isMobileMenuOpen ? "opacity-0 scale-50 rotate-90" : "opacity-100 scale-100 rotate-0")} />
                <X className={cn("absolute inset-0 transition-all duration-500", isMobileMenuOpen ? "opacity-100 scale-100 rotate-0" : "opacity-0 scale-50 -rotate-90")} />
@@ -106,7 +106,7 @@ export function Navbar() {
                   key={link.name} 
                   href={link.href} 
                   target={link.external ? "_blank" : "_self"}
-                  className="text-5xl md:text-7xl font-black text-white tracking-tighter hover:text-primary transition-all duration-500 animate-slide-up"
+                  className="text-5xl md:text-7xl font-black text-white tracking-tighter hover:text-primary transition-all duration-500 animate-slide-up font-display"
                   style={{ animationDelay: `${i * 100}ms` }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -114,7 +114,7 @@ export function Navbar() {
                 </Link>
               ))}
               <button 
-                className="text-5xl md:text-7xl font-black text-primary tracking-tighter text-left hover:text-white transition-all duration-500 animate-slide-up [animation-delay:500ms]"
+                className="text-5xl md:text-7xl font-black text-primary tracking-tighter text-left hover:text-white transition-all duration-500 animate-slide-up [animation-delay:500ms] font-display"
                 onClick={handleOpenChat}
               >
                 Análise IA
@@ -122,7 +122,7 @@ export function Navbar() {
             </div>
 
             <div className="mt-auto pt-24 border-t border-white/5 flex flex-col gap-6 opacity-30">
-              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white">studiosapient. v2.0</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white font-display">studiosapient. v2.0</p>
               <p className="text-[8px] font-medium text-white/50 tracking-[0.3em]">Transformando negócios em autoridade.</p>
             </div>
             
