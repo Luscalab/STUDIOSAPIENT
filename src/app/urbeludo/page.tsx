@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Activity, Brain, Cpu, Mic, Move, Zap, ArrowRight, Sparkles, Database, BarChart3, HeartPulse } from "lucide-react";
+import { Activity, Brain, Cpu, Mic, Move, Zap, ArrowRight, Sparkles, Database, BarChart3, HeartPulse, Layers } from "lucide-react";
 
 export default function UrbeLudoPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
