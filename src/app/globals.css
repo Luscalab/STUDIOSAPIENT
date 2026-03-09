@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -79,9 +80,14 @@
   }
 }
 
-/* Ocultar botão nativo do VLibras para usar o do menu customizado */
+/* Ocultar botão nativo do VLibras mantendo funcionalidade de clique */
 [vw-access-button] {
-  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: fixed !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
 }
 
 /* Custom Scrollbar */

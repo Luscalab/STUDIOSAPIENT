@@ -4,8 +4,8 @@
 import Script from 'next/script';
 
 /**
- * Componente de Acessibilidade VLibras otimizado.
- * Integrado silenciosamente para controle via Menu de Acessibilidade.
+ * Componente de Acessibilidade VLibras oficial.
+ * Renderiza a estrutura necessária para o plugin do Governo Federal.
  */
 export function VLibras() {
   return (
@@ -19,7 +19,7 @@ export function VLibras() {
       <Script
         id="vlibras-script"
         src="https://vlibras.gov.br/app/vlibras-plugin.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onLoad={() => {
           try {
             // @ts-ignore
@@ -28,7 +28,7 @@ export function VLibras() {
               new window.VLibras.Widget('https://vlibras.gov.br/app');
             }
           } catch (e) {
-            console.error('Falha ao inicializar o VLibras:', e);
+            console.error('Erro ao carregar VLibras:', e);
           }
         }}
       />

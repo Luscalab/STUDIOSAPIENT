@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from "react";
@@ -12,8 +13,7 @@ import {
   SunMoon,
   Hand,
   Volume2,
-  VolumeX,
-  Loader2
+  VolumeX
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -26,70 +26,38 @@ export function AccessibilityMenu() {
   const [isLibrasActive, setIsLibrasActive] = useState(false);
   const [isReading, setIsReading] = useState(false);
   
-  // Referência para o sintetizador de voz nativo
   const synthRef = useRef<SpeechSynthesis | null>(null);
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   useEffect(() => {
-    // Inicializar Speech Synthesis
     if (typeof window !== 'undefined') {
       synthRef.current = window.speechSynthesis;
     }
-
-    const savedFontSize = localStorage.getItem('access-font-size');
-    const savedContrast = localStorage.getItem('access-contrast') === 'true';
-    const savedGrayscale = localStorage.getItem('access-grayscale') === 'true';
-    const savedLinks = localStorage.getItem('access-links') === 'true';
-
-    if (savedFontSize) setFontSize(parseInt(savedFontSize));
-    if (savedContrast) setHighContrast(savedContrast);
-    if (savedGrayscale) setGrayscale(savedGrayscale);
-    if (savedLinks) setHighlightLinks(savedLinks);
-
-    return () => {
-      if (synthRef.current) {
-        synthRef.current.cancel();
-      }
-    };
   }, []);
 
   useEffect(() => {
     document.documentElement.style.fontSize = `${(fontSize / 100) * 16}px`;
-    localStorage.setItem('access-font-size', fontSize.toString());
   }, [fontSize]);
 
   useEffect(() => {
-    if (highContrast) {
-      document.body.classList.add('accessibility-high-contrast');
-    } else {
-      document.body.classList.remove('accessibility-high-contrast');
-    }
-    localStorage.setItem('access-contrast', highContrast.toString());
+    if (highContrast) document.body.classList.add('accessibility-high-contrast');
+    else document.body.classList.remove('accessibility-high-contrast');
   }, [highContrast]);
 
   useEffect(() => {
-    if (grayscale) {
-      document.documentElement.classList.add('accessibility-grayscale');
-    } else {
-      document.documentElement.classList.remove('accessibility-grayscale');
-    }
-    localStorage.setItem('access-grayscale', grayscale.toString());
+    if (grayscale) document.documentElement.classList.add('accessibility-grayscale');
+    else document.documentElement.classList.remove('accessibility-grayscale');
   }, [grayscale]);
 
   useEffect(() => {
-    if (highlightLinks) {
-      document.body.classList.add('accessibility-highlight-links');
-    } else {
-      document.body.classList.remove('accessibility-highlight-links');
-    }
-    localStorage.setItem('access-links', highlightLinks.toString());
+    if (highlightLinks) document.body.classList.add('accessibility-highlight-links');
+    else document.body.classList.remove('accessibility-highlight-links');
   }, [highlightLinks]);
 
   const toggleLibras = () => {
-    const librasWidget = document.querySelector('[vw-access-button]');
-    if (librasWidget) {
-      const button = librasWidget.querySelector('img') || librasWidget;
-      (button as HTMLElement).click();
+    const librasButton = document.querySelector('[vw-access-button]');
+    if (librasButton) {
+      // Dispara o clique no elemento real do VLibras
+      (librasButton as HTMLElement).click();
       setIsLibrasActive(!isLibrasActive);
     }
   };
@@ -103,20 +71,14 @@ export function AccessibilityMenu() {
       return;
     }
 
-    // Coletar textos principais da página para audiodescrição
     const mainText = document.querySelector('h1')?.innerText || "Sapient Studio";
     const subText = document.querySelector('p')?.innerText || "";
-    const fullText = `Você está no site da Sapient Studio. ${mainText}. ${subText}`;
+    const fullText = `Você está navegando no site da Sapient Studio. Destaque principal: ${mainText}. Descrição estratégica: ${subText}`;
 
     const utterance = new SpeechSynthesisUtterance(fullText);
     utterance.lang = 'pt-BR';
-    utterance.rate = 1.0;
-    utterance.pitch = 1.0;
-    
     utterance.onend = () => setIsReading(false);
-    utterance.onerror = () => setIsReading(false);
     
-    utteranceRef.current = utterance;
     setIsReading(true);
     synthRef.current.speak(utterance);
   };
@@ -126,127 +88,57 @@ export function AccessibilityMenu() {
     setHighContrast(false);
     setGrayscale(false);
     setHighlightLinks(false);
-    setIsLibrasActive(false);
-    if (synthRef.current) {
-      synthRef.current.cancel();
-    }
     setIsReading(false);
+    if (synthRef.current) synthRef.current.cancel();
   };
 
   return (
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Menu de Acessibilidade"
+        aria-label="Menu de Acessibilidade Inclusiva"
         className={cn(
-          "fixed bottom-24 right-6 z-[100] h-12 w-12 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-xl",
-          isOpen 
-            ? "bg-foreground text-white" 
-            : "bg-primary text-white"
+          "fixed bottom-24 right-6 z-[100] h-10 w-10 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-xl",
+          isOpen ? "bg-foreground text-white" : "bg-primary text-white"
         )}
       >
-        {isOpen ? <X className="h-5 w-5" /> : <Accessibility className="h-5 w-5" />}
+        {isOpen ? <X className="h-4 w-4" /> : <Accessibility className="h-4 w-4" />}
       </button>
 
       <div
         className={cn(
-          "fixed bottom-40 right-6 z-[100] w-[280px] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-700 origin-bottom-right p-6 space-y-6",
+          "fixed bottom-40 right-6 z-[100] w-[260px] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-700 origin-bottom-right p-6 space-y-6",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-10 invisible pointer-events-none"
         )}
       >
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
             <Accessibility className="h-4 w-4" />
           </div>
-          <h3 className="font-headline font-black text-sm tracking-tighter uppercase">Inclusão Digital</h3>
+          <h3 className="font-headline font-black text-xs tracking-tighter uppercase">Inclusão Digital</h3>
         </div>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Escala de Leitura</p>
+            <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground">Escala Global</p>
             <div className="flex items-center justify-between bg-secondary/50 rounded-2xl p-2">
-              <button 
-                onClick={() => setFontSize(prev => Math.max(prev - 10, 80))}
-                className="h-8 w-8 rounded-lg hover:bg-white flex items-center justify-center transition-colors"
-              >
-                <Minus className="h-3 w-3" />
-              </button>
-              <span className="text-xs font-bold">{fontSize}%</span>
-              <button 
-                onClick={() => setFontSize(prev => Math.min(prev + 10, 150))}
-                className="h-8 w-8 rounded-lg hover:bg-white flex items-center justify-center transition-colors"
-              >
-                <Plus className="h-3 w-3" />
-              </button>
+              <button onClick={() => setFontSize(prev => Math.max(prev - 10, 80))} className="h-7 w-7 rounded-lg hover:bg-white flex items-center justify-center"><Minus className="h-3 w-3" /></button>
+              <span className="text-[10px] font-bold">{fontSize}%</span>
+              <button onClick={() => setFontSize(prev => Math.min(prev + 10, 150))} className="h-7 w-7 rounded-lg hover:bg-white flex items-center justify-center"><Plus className="h-3 w-3" /></button>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <button
-              onClick={() => setHighContrast(!highContrast)}
-              className={cn(
-                "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
-                highContrast ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
-              )}
-            >
-              <Contrast className="h-4 w-4" />
-              Contraste
-            </button>
-            <button
-              onClick={() => setGrayscale(!grayscale)}
-              className={cn(
-                "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
-                grayscale ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
-              )}
-            >
-              <SunMoon className="h-4 w-4" />
-              Monocromo
-            </button>
-            <button
-              onClick={toggleLibras}
-              className={cn(
-                "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
-                isLibrasActive ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
-              )}
-            >
-              <Hand className="h-4 w-4" />
-              Libras
-            </button>
-            <button
-              onClick={handleAudioDescription}
-              className={cn(
-                "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
-                isReading ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
-              )}
-            >
-              {isReading ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-              Voz Nativa
-            </button>
+            <button onClick={() => setHighContrast(!highContrast)} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", highContrast ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Contrast className="h-4 w-4" />Contraste</button>
+            <button onClick={() => setGrayscale(!grayscale)} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", grayscale ? "bg-primary text-white" : "bg-white text-muted-foreground")}><SunMoon className="h-4 w-4" />Monocromo</button>
+            <button onClick={toggleLibras} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", isLibrasActive ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Hand className="h-4 w-4" />Libras</button>
+            <button onClick={handleAudioDescription} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", isReading ? "bg-primary text-white" : "bg-white text-muted-foreground")}>{isReading ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}Voz Nativa</button>
           </div>
 
-          <button
-            onClick={() => setHighlightLinks(!highlightLinks)}
-            className={cn(
-              "w-full flex items-center justify-center gap-3 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
-              highlightLinks ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
-            )}
-          >
-            <LinkIcon className="h-3 w-3" />
-            Realçar Links
-          </button>
+          <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("w-full flex items-center justify-center gap-3 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", highlightLinks ? "bg-primary text-white" : "bg-white text-muted-foreground")}><LinkIcon className="h-3 w-3" />Realçar Links</button>
           
-          <button
-            onClick={resetAll}
-            className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-secondary/30 border border-transparent hover:bg-secondary/50 transition-all text-[9px] font-black uppercase tracking-wider text-muted-foreground"
-          >
-            <RotateCcw className="h-4 w-4" />
-            Resetar Tudo
-          </button>
+          <button onClick={resetAll} className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-secondary/30 text-[8px] font-black uppercase text-muted-foreground"><RotateCcw className="h-3 w-3" />Resetar</button>
         </div>
-
-        <p className="text-[8px] font-black text-center text-muted-foreground/40 uppercase tracking-[0.3em]">
-          Sapient Studio • Acessibilidade Nativa
-        </p>
       </div>
     </>
   );
