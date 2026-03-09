@@ -1,34 +1,38 @@
 
 import Link from "next/link";
-import { Instagram, Linkedin, Palette, ArrowUpRight } from "lucide-react";
+import { Instagram, Linkedin, Palette, ArrowUpRight, Github } from "lucide-react";
 
 export function Footer() {
   const behanceUrl = "https://www.behance.net/sapient";
 
   return (
-    <footer className="py-20 border-t border-muted bg-white overflow-hidden">
+    <footer className="py-32 border-t border-muted bg-white overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-20 mb-16 items-start">
-          <div className="lg:col-span-4">
-            <p className="text-foreground text-xl md:text-2xl mb-6 font-extrabold leading-tight tracking-tighter">
-              SAPIENT STUDIO
-            </p>
-            
-            <p className="text-muted-foreground/60 text-base md:text-lg mb-8 font-medium leading-relaxed tracking-tight max-w-sm">
-              Transformamos negócios em referências através de ecossistemas digitais de alta clareza e autoridade visual.
-            </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-20 lg:gap-32 mb-24 items-start">
+          
+          {/* Brand Column */}
+          <div className="lg:col-span-5 space-y-10">
+            <div>
+              <p className="text-foreground text-3xl font-black tracking-tighter mb-6 uppercase">
+                Sapient<span className="text-primary italic">Studio</span>
+              </p>
+              <p className="text-muted-foreground/60 text-xl font-medium leading-relaxed tracking-tight max-w-sm">
+                Transformamos negócios em referências através de ecossistemas digitais de alta clareza e autoridade visual.
+              </p>
+            </div>
             
             <div className="flex gap-4">
               {[
-                { icon: <Instagram className="h-5 w-5" />, href: "https://instagram.com/studiosapient" },
-                { icon: <Palette className="h-5 w-5" />, href: behanceUrl },
-                { icon: <Linkedin className="h-5 w-5" />, href: "#" }
+                { icon: <Instagram className="h-5 w-5" />, href: "https://instagram.com/studiosapient", label: "Instagram" },
+                { icon: <Palette className="h-5 w-5" />, href: behanceUrl, label: "Behance" },
+                { icon: <Linkedin className="h-5 w-5" />, href: "#", label: "LinkedIn" }
               ].map((social, i) => (
                 <Link 
                   key={i} 
                   href={social.href} 
                   target={social.href.startsWith('http') ? "_blank" : "_self"}
-                  className="h-10 w-10 rounded-xl bg-secondary flex items-center justify-center text-primary/60 hover:bg-primary hover:text-white hover:scale-110 transition-all duration-500 shadow-sm"
+                  aria-label={social.label}
+                  className="h-14 w-14 rounded-2xl bg-secondary flex items-center justify-center text-primary/60 hover:bg-primary hover:text-white hover:scale-110 transition-all duration-500 shadow-sm border border-muted/20"
                 >
                   {social.icon}
                 </Link>
@@ -36,47 +40,63 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="lg:col-span-4">
-            <h4 className="font-headline font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-6">Ecossistema Sapient</h4>
-            <ul className="space-y-4 text-muted-foreground/70 font-bold text-[10px] uppercase tracking-widest">
+          {/* Links Column 1 */}
+          <div className="lg:col-span-3">
+            <h4 className="font-headline font-black text-[10px] uppercase tracking-[0.5em] text-primary mb-10">Ecossistema</h4>
+            <ul className="space-y-6">
               <li>
-                <Link href="/urbeludo" className="hover:text-cyan-500 transition-colors flex items-center gap-2 group w-fit text-cyan-600 font-black">
-                  Plataforma UrbeLudo <ArrowUpRight className="h-3 w-3" />
+                <Link href="/urbeludo" className="group flex items-center gap-3 w-fit text-cyan-600 hover:text-cyan-500 transition-all">
+                  <span className="text-xs font-black uppercase tracking-widest">Plataforma UrbeLudo</span>
+                  <ArrowUpRight className="h-3 w-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </Link>
               </li>
-              <li>
-                <Link href="/servicos/performance-ads" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
-                  Performance & Ads <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/servicos/design-estrategico" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
-                  Design Estratégico <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/servicos/chat-ia" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
-                  Ecossistemas Chat IA <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
-                </Link>
-              </li>
+              {[
+                { name: "Performance & Ads", href: "/servicos/performance-ads" },
+                { name: "Design Estratégico", href: "/servicos/design-estrategico" },
+                { name: "Ecossistemas IA", href: "/servicos/chat-ia" }
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link href={item.href} className="text-muted-foreground/50 hover:text-primary text-[10px] font-black uppercase tracking-[0.3em] transition-colors flex items-center gap-2 group">
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
+          {/* Links Column 2 */}
           <div className="lg:col-span-4">
-            <h4 className="font-headline font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-6">A Agência</h4>
-            <ul className="space-y-4 text-muted-foreground/70 font-bold text-[10px] uppercase tracking-widest">
-              <li><Link href={behanceUrl} target="_blank" className="hover:text-primary transition-colors">Portfólio Behance</Link></li>
-              <li><Link href="#contato" className="hover:text-primary transition-colors">Falar com Consultor</Link></li>
-              <li><Link href="#sobre" className="hover:text-primary transition-colors">Nossa Metodologia</Link></li>
+            <h4 className="font-headline font-black text-[10px] uppercase tracking-[0.5em] text-primary mb-10">Agência</h4>
+            <ul className="space-y-6">
+              {[
+                { name: "Portfólio Behance", href: behanceUrl, external: true },
+                { name: "Falar com Consultor", href: "#contato" },
+                { name: "Nossa Metodologia", href: "#metodologia" },
+                { name: "Dúvidas Frequentes", href: "#faq" }
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link 
+                    href={item.href} 
+                    target={item.external ? "_blank" : "_self"}
+                    className="text-muted-foreground/50 hover:text-primary text-[10px] font-black uppercase tracking-[0.3em] transition-colors flex items-center gap-2 group"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-muted text-[8px] font-black text-muted-foreground/40 tracking-[0.4em] uppercase text-center md:text-left gap-6">
-          <p>© {new Date().getFullYear()} SAPIENT STUDIO. DESIGN & ESTRATÉGIA.</p>
-          <div className="flex gap-6">
-            <Link href="#" className="hover:text-primary transition-colors">PRIVACIDADE</Link>
-            <Link href="#" className="hover:text-primary transition-colors">TERMOS</Link>
+        {/* Bottom Bar */}
+        <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-muted/30 text-[9px] font-black text-muted-foreground/40 tracking-[0.5em] uppercase text-center md:text-left gap-8">
+          <div className="space-y-2">
+            <p>© {new Date().getFullYear()} SAPIENT STUDIO. DESIGN & ESTRATÉGIA.</p>
+            <p className="text-[7px] opacity-50 tracking-[0.8em]">Todos os direitos reservados.</p>
+          </div>
+          <div className="flex gap-10">
+            <Link href="#" className="hover:text-primary transition-colors">Privacidade</Link>
+            <Link href="#" className="hover:text-primary transition-colors">Termos de Uso</Link>
           </div>
         </div>
       </div>
