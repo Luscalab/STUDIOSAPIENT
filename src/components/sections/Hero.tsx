@@ -13,7 +13,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-64 pb-24 hero-purple-mesh">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-80 pb-24 hero-purple-mesh">
       {/* Luzes Dinâmicas de Fundo */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-primary/30 blur-[150px] animate-pulse rounded-full" />
@@ -22,12 +22,12 @@ export function Hero() {
 
       <div className="container relative z-10 mx-auto px-6">
         <div className="text-center space-y-16">
-          <h1 className="font-display text-4xl md:text-6xl lg:text-[7.5rem] font-black tracking-[-0.05em] animate-slide-up [animation-delay:200ms] text-white leading-[0.85] text-balance mt-12">
+          <h1 className="font-display text-4xl md:text-6xl lg:text-[7.5rem] font-black tracking-[-0.05em] animate-slide-up [animation-delay:200ms] text-white leading-[0.85] text-balance mt-24">
             Clareza Visual e <br />
             <span className="text-primary italic font-medium">Estratégia Digital.</span>
           </h1>
           
-          <p className="max-w-3xl mx-auto text-xl md:text-2xl text-white/50 animate-slide-up [animation-delay:400ms] leading-tight font-medium tracking-tight text-balance">
+          <p className="max-w-3xl mx-auto text-xl md:text-2xl text-white/70 animate-slide-up [animation-delay:400ms] leading-tight font-medium tracking-tight text-balance">
             Ajudamos o seu negócio a comunicar valor real e atrair clientes qualificados através de <span className="text-white font-bold">design profissional e estratégia digital inteligente.</span>
           </p>
           
@@ -39,8 +39,8 @@ export function Hero() {
               Iniciar Diagnóstico
             </Button>
             <Link href={behanceUrl} target="_blank" className="w-full sm:w-auto">
-              <Button variant="outline" className="w-full sm:w-auto h-24 px-20 text-[11px] font-black border-white/10 text-white hover:bg-white/10 transition-all duration-700 rounded-full group uppercase tracking-[0.5em] backdrop-blur-md">
-                Ver Dossiês <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform" />
+              <Button className="w-full sm:w-auto h-24 px-20 text-[11px] font-black bg-white text-black hover:bg-primary hover:text-white transition-all duration-700 rounded-full uppercase tracking-[0.5em] shadow-2xl shadow-white/5 group">
+                PORTFÓLIO <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform" />
               </Button>
             </Link>
           </div>
