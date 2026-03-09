@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Componente de Acessibilidade VLibras com injeção manual e montagem segura.
- * Garante que o widget seja inicializado apenas no cliente para evitar erros de hidratação.
+ * Componente de Acessibilidade VLibras com injeção estrutural bruta.
+ * Utiliza dangerouslySetInnerHTML para garantir que os atributos customizados 
+ * exigidos pelo script do governo (vw, vw-access-button) sejam preservados.
  */
 export function VLibras() {
   const [mounted, setMounted] = useState(false);
@@ -12,7 +13,7 @@ export function VLibras() {
   useEffect(() => {
     setMounted(true);
     
-    // Evita múltiplas injeções do script
+    // Evita injeções duplicadas
     if (document.getElementById('vlibras-script')) return;
 
     const script = document.createElement('script');
@@ -27,25 +28,25 @@ export function VLibras() {
           new window.VLibras.Widget('https://vlibras.gov.br/app');
         }
       } catch (e) {
-        console.error('Erro ao inicializar VLibras:', e);
+        console.error('Falha na inicialização do widget VLibras:', e);
       }
     };
     
     document.body.appendChild(script);
-
-    return () => {
-      // O VLibras geralmente não precisa ser removido, mas limpamos o script se necessário
-    };
   }, []);
 
   if (!mounted) return null;
 
   return (
-    <div {...{ vw: 'true' }} className="enabled">
-      <div {...{ 'vw-access-button': 'true' }} className="active" />
-      <div {...{ 'vw-plugin-wrapper': 'true' }}>
-        <div className="vw-plugin-top-wrapper" />
-      </div>
-    </div>
+    <div 
+      dangerouslySetInnerHTML={{ __html: `
+        <div vw="true" class="enabled">
+          <div vw-access-button="true" class="active"></div>
+          <div vw-plugin-wrapper="true">
+            <div class="vw-plugin-top-wrapper"></div>
+          </div>
+        </div>
+      ` }} 
+    />
   );
 }
