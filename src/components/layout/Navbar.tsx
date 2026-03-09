@@ -28,7 +28,7 @@ export function Navbar() {
       <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
         <div className="container mx-auto px-6 flex items-center justify-between gap-8">
           
-          <Link href="/" className="relative block w-[160px] h-[45px] transition-all hover:scale-105 active:scale-95">
+          <Link href="/" className="relative block w-[220px] h-[60px] transition-all hover:scale-105 active:scale-95">
             <Image 
               src={logoUrl}
               alt="studiosapient Logo"
@@ -44,7 +44,7 @@ export function Navbar() {
                 key={link.name} 
                 href={link.href} 
                 target={link.external ? "_blank" : "_self"}
-                className="text-xs uppercase tracking-[0.2em] font-bold text-white/70 hover:text-white transition-all relative group"
+                className="text-sm uppercase tracking-[0.2em] font-bold text-white/70 hover:text-white transition-all relative group"
               >
                 {link.name}
                 <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
@@ -55,7 +55,7 @@ export function Navbar() {
             
             <button 
               onClick={handleOpenChat}
-              className="text-xs uppercase tracking-[0.2em] font-black text-white hover:text-primary transition-all flex items-center gap-3"
+              className="text-sm uppercase tracking-[0.2em] font-black text-white hover:text-primary transition-all flex items-center gap-3"
             >
               <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
               Análise IA

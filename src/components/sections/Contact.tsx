@@ -35,12 +35,6 @@ export function Contact() {
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-24 space-y-10">
-             <div className="flex items-center gap-6 justify-center">
-                <Sparkles className="text-primary h-8 w-8" />
-                <Badge className="bg-white/5 text-primary border-primary/20 px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full backdrop-blur-3xl font-display">
-                  Conexão
-                </Badge>
-             </div>
              <h2 className="font-display text-5xl md:text-7xl font-black tracking-tighter leading-none text-white uppercase text-balance">
                Vamos <span className="text-primary italic">Conversar?</span>
              </h2>
