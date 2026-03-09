@@ -1,9 +1,8 @@
 "use client";
 
-import { Mail, MessageCircle, Copy, Check, ArrowRight, Sparkles, Phone } from "lucide-react";
+import { Mail, MessageCircle, Copy, Check, ArrowRight, Phone } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Badge } from "@/components/ui/badge";
 
 export function Contact() {
   const { toast } = useToast();
@@ -31,8 +30,8 @@ export function Contact() {
   };
 
   return (
-    <section id="contato" className="py-32 md:py-48 hero-purple-mesh relative overflow-hidden section-flow-top">
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="contato" className="py-32 md:py-48 hero-purple-mesh overflow-hidden flow-fade-out">
+      <div className="container mx-auto px-6 relative z-20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-24 space-y-10">
              <h2 className="font-display text-5xl md:text-7xl font-black tracking-tighter leading-none text-white uppercase text-balance">

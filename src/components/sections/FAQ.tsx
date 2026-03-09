@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -7,7 +6,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
 import { HelpCircle } from "lucide-react";
 
 const faqs = [
@@ -27,8 +25,8 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-32 md:py-48 bg-[#09080f] relative overflow-hidden section-flow-top">
-      <div className="container mx-auto px-6 max-w-4xl relative z-10">
+    <section id="faq" className="py-32 md:py-48 bg-abyssal relative overflow-hidden">
+      <div className="container mx-auto px-6 max-w-4xl relative z-20">
         <div className="text-center mb-20 space-y-6">
           <h2 className="font-display text-4xl md:text-6xl font-black tracking-tighter leading-none text-white uppercase">
             Dúvidas <span className="text-primary italic">Frequentes.</span>

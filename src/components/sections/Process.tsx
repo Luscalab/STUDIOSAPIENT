@@ -1,7 +1,5 @@
-
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Search, Target, PenTool, Rocket } from "lucide-react";
 
 const steps = [
@@ -29,10 +27,10 @@ const steps = [
 
 export function Process() {
   return (
-    <section id="metodologia" className="py-32 md:py-48 hero-purple-mesh relative overflow-hidden section-flow-top section-flow-bottom">
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="metodologia" className="py-32 md:py-48 hero-purple-mesh overflow-hidden flow-fade-in">
+      <div className="container mx-auto px-6 relative z-20">
         <div className="text-center mb-24 max-w-4xl mx-auto space-y-6">
-          <h2 className="font-display text-4xl md:text-6xl font-black tracking-tighter leading-none text-white uppercase">
+          <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none text-white uppercase">
             Engenharia de <span className="text-primary italic">Resultados.</span>
           </h2>
           <p className="text-white/40 text-xl font-medium leading-relaxed tracking-tight max-w-2xl mx-auto italic">

@@ -44,7 +44,11 @@
   }
 }
 
-/* Atmosfera Sapient - Estética Abissal & Roxo Vibrante com Gradient Easing */
+/* Atmosfera Sapient - Estética Abissal & Roxo Vibrante */
+.bg-abyssal {
+  background-color: #08070b;
+}
+
 .hero-purple-mesh {
   background-color: #08070b;
   background-image: 
@@ -53,31 +57,25 @@
   position: relative;
 }
 
-/* Transições Ultra-Suaves (Gradient Easing / Scrim) */
-.section-flow-bottom {
-  mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 50%,
-    rgba(0, 0, 0, 0.95) 65%,
-    rgba(0, 0, 0, 0.8) 75%,
-    rgba(0, 0, 0, 0.5) 85%,
-    rgba(0, 0, 0, 0.2) 93%,
-    transparent 100%
-  );
+/* Transições Liquefeitas (Gradient Easing) */
+.flow-fade-in {
+  position: relative;
+}
+.flow-fade-in::before {
+  content: '';
+  @apply absolute top-0 left-0 right-0 z-10 pointer-events-none;
+  height: 25rem;
+  background: linear-gradient(to bottom, hsl(var(--background)), transparent);
 }
 
-.section-flow-top {
-  mask-image: linear-gradient(
-    to top,
-    black 0%,
-    black 50%,
-    rgba(0, 0, 0, 0.95) 65%,
-    rgba(0, 0, 0, 0.8) 75%,
-    rgba(0, 0, 0, 0.5) 85%,
-    rgba(0, 0, 0, 0.2) 93%,
-    transparent 100%
-  );
+.flow-fade-out {
+  position: relative;
+}
+.flow-fade-out::after {
+  content: '';
+  @apply absolute bottom-0 left-0 right-0 z-10 pointer-events-none;
+  height: 25rem;
+  background: linear-gradient(to top, hsl(var(--background)), transparent);
 }
 
 .glass-morphism {
@@ -103,7 +101,7 @@
   animation: slide-up-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Acessibilidade - Contraste e Redução de Movimento */
+/* Acessibilidade */
 .accessibility-high-contrast {
   --primary: 265 100% 45%;
   --foreground: 0 0% 0%;
