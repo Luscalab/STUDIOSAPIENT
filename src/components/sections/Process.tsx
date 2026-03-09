@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Badge } from "@/components/ui/badge";
@@ -31,7 +32,6 @@ export function Process() {
     <section id="metodologia" className="py-32 md:py-48 hero-purple-mesh relative overflow-hidden section-flow-top section-flow-bottom">
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-24 max-w-4xl mx-auto space-y-6">
-          <Badge className="bg-white/10 text-white/50 border-white/10 px-8 py-2.5 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-3xl">Protocolo V.2.5</Badge>
           <h2 className="font-display text-4xl md:text-6xl font-black tracking-tighter leading-none text-white uppercase">
             Engenharia de <span className="text-primary italic">Resultados.</span>
           </h2>

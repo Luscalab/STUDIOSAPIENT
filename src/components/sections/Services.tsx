@@ -54,7 +54,6 @@ export function Services() {
     <section id="servicos" className="py-32 md:py-48 bg-white relative overflow-hidden section-flow-bottom">
       <div className="container mx-auto px-6 relative z-10">
         <div className="mb-24 text-center max-w-3xl mx-auto space-y-6">
-          <Badge className="bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full border-none">Nossas Soluções</Badge>
           <h2 className="font-display text-4xl md:text-7xl font-black text-foreground tracking-tighter leading-none uppercase">
             SER<span className="text-primary italic">VIÇOS.</span>
           </h2>

@@ -4,9 +4,8 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Bot, Zap, ArrowRight, Cpu, BarChart, Sparkles, Smartphone } from "lucide-react";
+import { Bot, ArrowRight, Cpu, BarChart, Sparkles, Smartphone } from "lucide-react";
 
 export default function ChatIAPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
@@ -17,7 +16,6 @@ export default function ChatIAPage() {
       
       <section className="relative pt-64 pb-32 md:pt-80 md:pb-64 hero-purple-mesh overflow-hidden text-center">
         <div className="container mx-auto px-6 relative z-10">
-          <Badge className="mb-12 bg-white/10 text-white border-white/20 px-10 py-4 text-[10px] font-black uppercase tracking-[0.5em] rounded-full backdrop-blur-md">Ecossistemas de IA</Badge>
           <h1 className="font-headline text-6xl md:text-[8.5rem] font-black text-white tracking-tighter leading-[0.85] mb-12 text-balance">
             Inteligência que <span className="text-primary italic">Atende e Vende</span>
           </h1>
