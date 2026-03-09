@@ -12,42 +12,36 @@ export function Hero() {
   };
 
   return (
-    <section className="relative pt-32 pb-48 md:pt-48 md:pb-64 overflow-hidden hero-purple-mesh flow-fade-out">
-      {/* Carbon Texture Overlay */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/20 via-transparent to-transparent" />
-      </div>
-
+    <section className="relative pt-48 pb-64 md:pt-64 md:pb-80 overflow-hidden hero-purple-mesh flow-fade-out">
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-[1400px] mx-auto text-center">
-          <div className="flex justify-center mb-12 animate-slide-up">
-            <div className="h-24 w-24 rounded-[2.5rem] bg-white/10 backdrop-blur-3xl border border-white/20 flex items-center justify-center text-white shadow-2xl">
-              <Zap className="h-12 w-12 animate-pulse" />
+          <div className="flex justify-center mb-16 animate-fade-in-up">
+            <div className="h-28 w-28 rounded-[3rem] bg-primary/10 backdrop-blur-3xl border border-primary/20 flex items-center justify-center text-primary shadow-2xl animate-glow-pulse">
+              <Zap className="h-14 w-14" />
             </div>
           </div>
 
-          <h1 className="font-headline text-5xl md:text-[9.5rem] font-black text-white tracking-tighter leading-[0.85] mb-12 animate-slide-up py-4">
+          <h1 className="font-headline text-6xl md:text-[9.5rem] font-black text-white tracking-tighter leading-[0.8] mb-16 animate-fade-in-up">
             Sapient Studio. <br />
-            <span className="text-white/40 italic font-medium block">Clareza é Performance.</span>
+            <span className="text-primary italic font-medium block mt-4">Clareza é Performance.</span>
           </h1>
           
-          <p className="text-xl md:text-4xl text-white/70 font-medium max-w-5xl mx-auto leading-tight tracking-tight text-balance mb-20 animate-slide-up [animation-delay:200ms]">
-            Transformamos a complexidade técnica em ativos de <span className="text-white font-bold">autoridade digital absoluta.</span> Onde o design de elite encontra a engenharia de resultados.
+          <p className="text-xl md:text-4xl text-white/40 font-medium max-w-5xl mx-auto leading-tight tracking-tight text-balance mb-24 animate-fade-in-up [animation-delay:200ms]">
+            Transformamos a complexidade técnica em ativos de <span className="text-white font-bold tracking-tight">autoridade digital absoluta.</span> Onde a engenharia de resultados encontra o design de elite.
           </p>
           
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-12 animate-slide-up [animation-delay:400ms]">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-16 animate-fade-in-up [animation-delay:400ms]">
             <Button 
               onClick={() => scrollToSection('servicos')}
-              className="h-28 px-20 bg-white text-black hover:bg-black hover:text-white rounded-full font-black uppercase tracking-[0.5em] text-[11px] transition-all duration-700 shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
+              className="h-32 px-24 bg-white text-black hover:bg-primary hover:text-white rounded-full font-black uppercase tracking-[0.5em] text-[11px] transition-all duration-1000 shadow-[0_40px_80px_rgba(0,0,0,0.5)] border-none"
             >
               INICIAR DIAGNÓSTICO
             </Button>
             <button 
               onClick={() => scrollToSection('metodologia')}
-              className="flex items-center gap-6 text-white/40 hover:text-white transition-all duration-500 text-[10px] font-black uppercase tracking-[0.6em] group"
+              className="flex items-center gap-8 text-white/20 hover:text-white transition-all duration-700 text-[10px] font-black uppercase tracking-[0.6em] group"
             >
-              Explore Nossa Metodologia <ChevronDown className="h-6 w-6 animate-bounce group-hover:text-white" />
+              Nossa Metodologia <ChevronDown className="h-6 w-6 animate-bounce group-hover:text-primary transition-colors" />
             </button>
           </div>
         </div>

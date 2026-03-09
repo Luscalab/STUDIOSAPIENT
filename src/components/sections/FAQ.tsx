@@ -11,7 +11,7 @@ import { HelpCircle } from "lucide-react";
 const faqs = [
   {
     question: "Quanto tempo leva para ver resultados?",
-    answer: "Tráfego pago pode gerar leads em dias. Reposicionamento de marca e autoridade visual consolida-se entre 3 a 6 meses de execução consistente e estratégica."
+    answer: "Tráfego pago pode gerar leads em dias. Reposicionamento de marca e autoridade visual consolida-se entre 3 a 6 meses de execução estratégica e consistente."
   },
   {
     question: "A Sapient atende qualquer tipo de empresa?",
@@ -25,33 +25,33 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-32 md:py-64 bg-white text-black relative overflow-hidden rounded-[4rem] md:rounded-[8rem] mx-4 my-8 shadow-2xl">
-      <div className="container mx-auto px-6 max-w-7xl relative z-20">
-        <div className="text-center mb-48 space-y-16">
-          <h2 className="font-headline text-6xl md:text-[8.5rem] font-black tracking-tighter leading-[0.85] text-black uppercase">
-            DÚVIDAS <span className="text-primary italic">FREQUENTES.</span>
+    <section id="faq" className="py-48 md:py-80 bg-white text-black relative overflow-hidden rounded-[4rem] md:rounded-[8rem] mx-6 my-12 shadow-2xl">
+      <div className="container mx-auto px-6 max-w-[1400px] relative z-20">
+        <div className="text-center mb-64">
+          <h2 className="font-headline text-6xl md:text-[9.5rem] font-black tracking-tighter leading-[0.8] text-black uppercase mb-16">
+            DÚVIDAS <span className="text-primary italic font-medium">FREQUENTES.</span>
           </h2>
-          <p className="text-black/40 text-2xl md:text-4xl font-medium tracking-tight max-w-4xl mx-auto">
-            Respostas para quem busca clareza técnica e autoridade absoluta.
+          <p className="text-black/30 text-2xl md:text-5xl font-medium tracking-tight max-w-5xl mx-auto leading-tight">
+            Respostas para quem busca clareza técnica e autoridade absoluta no digital.
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="w-full space-y-12">
+        <Accordion type="single" collapsible className="w-full space-y-16">
           {faqs.map((faq, idx) => (
             <AccordionItem 
               key={idx} 
               value={`item-${idx}`} 
-              className="border-none bg-secondary/60 rounded-[4rem] px-16 py-12 shadow-2xl border border-muted/20 hover:border-primary/20 transition-all duration-1000 overflow-hidden"
+              className="border-none bg-secondary/50 rounded-[5rem] px-20 py-16 shadow-2xl border border-muted/10 hover:border-primary/20 transition-all duration-1000 overflow-hidden"
             >
-              <AccordionTrigger className="text-3xl md:text-5xl font-black tracking-tighter hover:no-underline text-left py-12 group text-black uppercase leading-tight border-none">
-                <div className="flex items-center gap-12">
-                  <div className="h-24 w-24 rounded-[2.5rem] bg-white flex items-center justify-center text-primary border border-muted shadow-sm group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-1000">
-                    <HelpCircle className="h-12 w-12" />
+              <AccordionTrigger className="text-4xl md:text-6xl font-black tracking-tighter hover:no-underline text-left py-12 group text-black uppercase leading-[0.9] border-none">
+                <div className="flex items-center gap-16">
+                  <div className="h-32 w-32 rounded-[3rem] bg-white flex items-center justify-center text-primary border border-muted shadow-xl group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-1000">
+                    <HelpCircle className="h-16 w-16" />
                   </div>
                   <span className="flex-1">{faq.question}</span>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="text-2xl md:text-3xl text-black/50 leading-relaxed pb-20 font-medium tracking-tight px-16 border-l-[8px] border-primary/20 ml-12">
+              <AccordionContent className="text-2xl md:text-4xl text-black/40 leading-relaxed pb-24 font-medium tracking-tight px-24 border-l-[12px] border-primary/10 ml-16 mt-8">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
