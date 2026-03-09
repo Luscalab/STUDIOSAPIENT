@@ -27,6 +27,7 @@ export function AccessibilityMenu() {
   const [isReading, setIsReading] = useState(false);
   
   const synthRef = useRef<SpeechSynthesis | null>(null);
+  const lastSpokenTextRef = useRef<string>("");
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -53,34 +54,62 @@ export function AccessibilityMenu() {
     else document.body.classList.remove('accessibility-highlight-links');
   }, [highlightLinks]);
 
+  // Efeito para a Audiodescrição Dinâmica (Leitura por Hover)
+  useEffect(() => {
+    if (!isReading || !synthRef.current) return;
+
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target) return;
+
+      // Tenta extrair texto relevante: aria-label, alt (para imagens) ou textContent
+      let textToSpeak = target.getAttribute('aria-label') || 
+                        target.getAttribute('alt') || 
+                        target.innerText || 
+                        target.textContent || "";
+
+      textToSpeak = textToSpeak.trim();
+
+      // Evita ler textos vazios, muito curtos ou repetir o mesmo texto imediatamente
+      if (textToSpeak && textToSpeak.length > 1 && textToSpeak !== lastSpokenTextRef.current) {
+        synthRef.current?.cancel(); // Interrompe a fala anterior
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.lang = 'pt-BR';
+        utterance.rate = 1.1; // Velocidade levemente aumentada para agilidade
+        
+        lastSpokenTextRef.current = textToSpeak;
+        synthRef.current?.speak(utterance);
+      }
+    };
+
+    document.addEventListener('mouseover', handleMouseOver);
+    
+    return () => {
+      document.removeEventListener('mouseover', handleMouseOver);
+      if (synthRef.current) synthRef.current.cancel();
+    };
+  }, [isReading]);
+
   const toggleLibras = () => {
     const librasButton = document.querySelector('[vw-access-button]');
     if (librasButton) {
-      // Dispara o clique no elemento real do VLibras
       (librasButton as HTMLElement).click();
       setIsLibrasActive(!isLibrasActive);
     }
   };
 
-  const handleAudioDescription = () => {
-    if (!synthRef.current) return;
-
+  const toggleReadingMode = () => {
     if (isReading) {
-      synthRef.current.cancel();
+      if (synthRef.current) synthRef.current.cancel();
       setIsReading(false);
-      return;
+      lastSpokenTextRef.current = "";
+    } else {
+      setIsReading(true);
+      // Feedback inicial ao ativar
+      const initialGreet = new SpeechSynthesisUtterance("Modo de audiodescrição ativado. Explore o site passando o cursor sobre os elementos.");
+      initialGreet.lang = 'pt-BR';
+      synthRef.current?.speak(initialGreet);
     }
-
-    const mainText = document.querySelector('h1')?.innerText || "Sapient Studio";
-    const subText = document.querySelector('p')?.innerText || "";
-    const fullText = `Você está navegando no site da Sapient Studio. Destaque principal: ${mainText}. Descrição estratégica: ${subText}`;
-
-    const utterance = new SpeechSynthesisUtterance(fullText);
-    utterance.lang = 'pt-BR';
-    utterance.onend = () => setIsReading(false);
-    
-    setIsReading(true);
-    synthRef.current.speak(utterance);
   };
 
   const resetAll = () => {
@@ -132,7 +161,7 @@ export function AccessibilityMenu() {
             <button onClick={() => setHighContrast(!highContrast)} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", highContrast ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Contrast className="h-4 w-4" />Contraste</button>
             <button onClick={() => setGrayscale(!grayscale)} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", grayscale ? "bg-primary text-white" : "bg-white text-muted-foreground")}><SunMoon className="h-4 w-4" />Monocromo</button>
             <button onClick={toggleLibras} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", isLibrasActive ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Hand className="h-4 w-4" />Libras</button>
-            <button onClick={handleAudioDescription} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", isReading ? "bg-primary text-white" : "bg-white text-muted-foreground")}>{isReading ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}Voz Nativa</button>
+            <button onClick={toggleReadingMode} className={cn("flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", isReading ? "bg-primary text-white" : "bg-white text-muted-foreground")}>{isReading ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}Voz Nativa</button>
           </div>
 
           <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("w-full flex items-center justify-center gap-3 p-3 rounded-2xl border transition-all text-[8px] font-black uppercase", highlightLinks ? "bg-primary text-white" : "bg-white text-muted-foreground")}><LinkIcon className="h-3 w-3" />Realçar Links</button>
