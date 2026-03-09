@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Search, Target, PenTool, Rocket } from "lucide-react";

@@ -48,9 +48,9 @@
 .hero-purple-mesh {
   background-color: #08070b;
   background-image: 
-    radial-gradient(circle at 50% -20%, rgba(139, 92, 246, 0.25) 0%, transparent 70%),
-    radial-gradient(circle at 80% 40%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+    radial-gradient(circle at 50% -20%, rgba(139, 92, 246, 0.2) 0%, transparent 70%),
+    radial-gradient(circle at 80% 40%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
   position: relative;
 }
 
@@ -59,7 +59,7 @@
 }
 
 @keyframes glow-pulse {
-  0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+  0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.3); }
   70% { box-shadow: 0 0 0 15px rgba(139, 92, 246, 0); }
   100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
 }
@@ -75,6 +75,34 @@
 
 .animate-slide-up {
   animation: slide-up-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Gradient Easing Transitions */
+.section-flow-bottom {
+  position: relative;
+}
+
+.section-flow-bottom::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35rem;
+  pointer-events: none;
+  z-index: 10;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.01) 8%,
+    rgba(255, 255, 255, 0.05) 16%,
+    rgba(255, 255, 255, 0.12) 24%,
+    rgba(255, 255, 255, 0.25) 32%,
+    rgba(255, 255, 255, 0.45) 45%,
+    rgba(255, 255, 255, 0.7) 60%,
+    rgba(255, 255, 255, 0.9) 80%,
+    #08070b 100%
+  );
 }
 
 /* Acessibilidade */
