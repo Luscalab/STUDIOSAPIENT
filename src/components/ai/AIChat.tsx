@@ -96,6 +96,8 @@ export function AIChat() {
           "fixed bottom-20 right-4 z-[100] w-[calc(100vw-2rem)] md:w-[300px] h-[50vh] md:max-h-[50vh] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-1000 origin-bottom-right flex flex-col overflow-hidden",
           isOpen ? "scale-100 opacity-100 visible" : "scale-0 opacity-0 invisible"
         )}
+        role="dialog"
+        aria-label="Janela de Consultoria IA"
       >
         <div className="p-4 bg-gradient-to-br from-primary to-accent text-white shrink-0">
           <div className="flex items-center justify-between">
@@ -104,13 +106,29 @@ export function AIChat() {
               <h3 className="font-headline font-black text-sm tracking-tighter uppercase">Estrategista IA</h3>
             </div>
             <div className="flex items-center gap-1 bg-black/10 rounded-full p-1">
-              <button onClick={handleZoomOut} className="h-5 w-5 rounded-full hover:bg-white/20 flex items-center justify-center"><Minus className="h-2 w-2" /></button>
-              <button onClick={handleZoomIn} className="h-5 w-5 rounded-full hover:bg-white/20 flex items-center justify-center"><Plus className="h-2 w-2" /></button>
+              <button 
+                onClick={handleZoomOut} 
+                className="h-5 w-5 rounded-full hover:bg-white/20 flex items-center justify-center"
+                aria-label="Diminuir texto do chat"
+              >
+                <Minus className="h-2 w-2" />
+              </button>
+              <button 
+                onClick={handleZoomIn} 
+                className="h-5 w-5 rounded-full hover:bg-white/20 flex items-center justify-center"
+                aria-label="Aumentar texto do chat"
+              >
+                <Plus className="h-2 w-2" />
+              </button>
             </div>
           </div>
         </div>
 
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-5 bg-white/90">
+        <div 
+          ref={scrollRef} 
+          className="flex-1 overflow-y-auto p-5 space-y-5 bg-white/90"
+          aria-live="polite"
+        >
           {chatHistory.length === 0 && (
             <div className="space-y-4">
               <p className="text-sm font-black text-foreground uppercase tracking-tight">Atalhos Estratégicos:</p>
@@ -161,7 +179,7 @@ export function AIChat() {
                 className="min-h-[50px] bg-secondary/30 border-transparent rounded-xl p-3 pr-10 text-[10px] resize-none"
                 style={{ fontSize: `${textScale * 11}px` }}
               />
-              <button type="submit" disabled={loading || !input.trim()} className="absolute bottom-2 right-2 h-7 w-7 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-20"><SendHorizontal className="h-3 w-3" /></button>
+              <button type="submit" aria-label="Enviar mensagem" disabled={loading || !input.trim()} className="absolute bottom-2 right-2 h-7 w-7 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-20"><SendHorizontal className="h-3 w-3" /></button>
             </div>
           </form>
         )}

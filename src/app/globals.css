@@ -26,17 +26,18 @@
     --radius: 2.5rem;
   }
 
+  /* Modos de Acessibilidade */
   .accessibility-high-contrast {
     --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    --foreground: 60 100% 50%; /* Amarelo sobre Preto */
     --primary: 60 100% 50%;
     --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 80%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 60 100% 50%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 90%;
     --accent: 60 100% 50%;
-    --border: 0 0% 100%;
+    --border: 60 100% 50%;
   }
 
   .accessibility-grayscale {
@@ -45,15 +46,16 @@
 
   .accessibility-highlight-links a {
     text-decoration: underline !important;
-    color: hsl(var(--primary)) !important;
+    font-weight: 800 !important;
     background-color: yellow !important;
-    padding: 2px !important;
+    color: black !important;
+    padding: 2px 4px !important;
+    border-radius: 4px;
   }
 
   .accessibility-stop-animations * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation: none !important;
+    transition: none !important;
     scroll-behavior: auto !important;
   }
 }
@@ -77,19 +79,18 @@
     @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
     text-rendering: optimizeLegibility;
-    background-color: #fbfaff;
-    -webkit-tap-highlight-color: transparent;
     min-height: 100vh;
     max-width: 100vw;
     overflow-x: hidden;
     position: relative;
   }
 
-  /* Foco de Alta Visibilidade */
+  /* Foco de Alta Visibilidade para Acessibilidade de Teclado */
   :focus-visible {
-    outline: 3px solid hsl(var(--primary));
-    outline-offset: 4px;
-    border-radius: 4px;
+    outline: 4px solid hsl(var(--primary)) !important;
+    outline-offset: 4px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 0 0 8px hsla(var(--primary), 0.2) !important;
   }
 
   /* Respeito à preferência do sistema por movimento reduzido */
@@ -105,10 +106,10 @@
 
 /* Skip to Content Link */
 .skip-link {
-  @apply fixed top-4 left-4 z-[200] bg-primary text-white px-6 py-3 rounded-full font-black uppercase text-[10px] tracking-widest -translate-y-24 transition-transform duration-300 focus:translate-y-0 shadow-2xl;
+  @apply fixed top-4 left-4 z-[200] bg-primary text-white px-8 py-4 rounded-full font-black uppercase text-[12px] tracking-widest -translate-y-24 transition-transform duration-500 focus:translate-y-0 shadow-2xl;
 }
 
-/* Ocultar botão nativo do VLibras mantendo funcionalidade de clique */
+/* Ocultar botão nativo do VLibras sem quebrar a API */
 [vw-access-button] {
   opacity: 0 !important;
   pointer-events: none !important;
@@ -120,7 +121,7 @@
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
 
 ::-webkit-scrollbar-track {
@@ -128,21 +129,13 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.15);
-  border-radius: 10px;
-  border: 3px solid hsl(var(--background));
-  transition: all 0.3s ease;
+  background: hsl(var(--primary) / 0.2);
+  border-radius: 12px;
+  border: 4px solid hsl(var(--background));
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.4);
-}
-
-.soft-gradient-bg {
-  background: 
-    radial-gradient(circle at 100% 0%, hsla(265, 90%, 56%, 0.08), transparent 40%),
-    radial-gradient(circle at 0% 100%, hsla(285, 95%, 58%, 0.08), transparent 40%),
-    radial-gradient(circle at 50% 50%, hsla(265, 90%, 56%, 0.02), transparent 60%);
+  background: hsl(var(--primary) / 0.5);
 }
 
 .hero-purple-mesh {
@@ -159,46 +152,25 @@
   @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_0_rgba(139,92,246,0.08)];
 }
 
-.text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-br from-primary via-primary to-accent;
-}
-
-.premium-shadow {
-  box-shadow: 0 25px 60px -15px rgba(139, 92, 246, 0.12), 0 10px 30px -20px rgba(0, 0, 0, 0.05);
-}
-
 .card-premium-bg {
   background: linear-gradient(165deg, #ffffff 0%, #f7f3ff 60%, #efe9ff 100%);
   border: 1px solid rgba(139, 92, 246, 0.1);
-  box-shadow: 
-    0 10px 30px -5px rgba(139, 92, 246, 0.05),
-    0 4px 10px -2px rgba(0, 0, 0, 0.01);
-  @apply transition-all duration-500;
+  @apply transition-all duration-700;
 }
 
 .card-premium-bg:hover {
   background: linear-gradient(165deg, #ffffff 0%, #f0e8ff 100%);
-  @apply border-primary/20 shadow-2xl shadow-primary/10;
+  @apply border-primary/20 shadow-2xl shadow-primary/10 -translate-y-2;
 }
 
 @keyframes float {
-  0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(1deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
 }
 
 .animate-float {
   animation: float 12s ease-in-out infinite;
-}
-
-.section-spacing {
-  @apply py-16 md:py-32 lg:py-40;
-}
-
-@media (max-width: 768px) {
-  .section-spacing {
-    @apply py-12;
-  }
 }
 
 @keyframes glow-pulse {
@@ -217,5 +189,5 @@
 }
 
 .animate-slide-up {
-  animation: slide-up-reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slide-up-reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
