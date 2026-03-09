@@ -18,7 +18,6 @@ export function Navbar() {
     { name: "Serviços", href: "/#servicos" },
     { name: "UrbeLudo", href: "/urbeludo" },
     { name: "Portfólio", href: "https://www.behance.net/sapient", external: true },
-    { name: "Dúvidas", href: "/#faq" },
     { name: "Contato", href: "/#contato" },
   ];
 
@@ -26,111 +25,80 @@ export function Navbar() {
 
   return (
     <>
-      <header className="absolute top-10 left-0 right-0 z-[150] transition-all duration-1000" role="banner">
-        <div className="container mx-auto px-6 flex items-center justify-between gap-12">
+      <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
+        <div className="container mx-auto px-6 flex items-center justify-between gap-8">
           
-          {/* Logo Monumental */}
-          <div className="flex items-center shrink-0">
-            <Link 
-              href="/" 
-              aria-label="studiosapient Home"
-              className="relative block w-[200px] h-[60px] md:w-[420px] md:h-[100px] transition-all duration-1000 hover:scale-105 active:scale-95"
-            >
-              <Image 
-                src={logoUrl}
-                alt="studiosapient Logo"
-                fill
-                className="object-contain object-left drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)]"
-                priority
-              />
-            </Link>
-          </div>
+          <Link href="/" className="relative block w-[160px] h-[45px] transition-all hover:scale-105 active:scale-95">
+            <Image 
+              src={logoUrl}
+              alt="studiosapient Logo"
+              fill
+              className="object-contain object-left drop-shadow-lg"
+              priority
+            />
+          </Link>
 
-          {/* Navigation Dock - Desktop Premium */}
-          <nav 
-            className="hidden lg:flex items-center gap-12 px-14 py-8 rounded-full border bg-white/5 backdrop-blur-[70px] border-white/15 shadow-[0_30px_70px_rgba(0,0,0,0.5)] hover:border-white/25 transition-all duration-1000"
-            aria-label="Navegação Principal"
-          >
+          <nav className="hidden lg:flex items-center gap-10 px-10 py-5 rounded-full glass-morphism border-white/10">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
                 target={link.external ? "_blank" : "_self"}
-                className="text-[14px] uppercase tracking-[0.3em] font-black text-white/60 hover:text-white transition-all duration-500 relative group whitespace-nowrap"
+                className="text-xs uppercase tracking-[0.2em] font-bold text-white/70 hover:text-white transition-all relative group"
               >
                 {link.name}
-                <span className="absolute -bottom-3 left-1/2 w-0 h-1 bg-primary transition-all duration-700 group-hover:w-full group-hover:left-0 rounded-full" />
+                <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
               </Link>
             ))}
             
-            <div className="w-px h-8 bg-white/20 mx-2" />
+            <div className="w-px h-4 bg-white/20 mx-2" />
             
             <button 
               onClick={handleOpenChat}
-              aria-label="Iniciar Análise com Inteligência Artificial"
-              className="text-[14px] uppercase tracking-[0.3em] font-black text-white hover:text-primary transition-all duration-500 relative group whitespace-nowrap flex items-center gap-4"
+              className="text-xs uppercase tracking-[0.2em] font-black text-white hover:text-primary transition-all flex items-center gap-3"
             >
-              <div className="h-2.5 w-2.5 rounded-full bg-primary animate-glow-pulse" aria-hidden="true" />
+              <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
               Análise IA
-              <span className="absolute -bottom-3 left-1/2 w-0 h-1 bg-primary transition-all duration-700 group-hover:w-full group-hover:left-0 rounded-full" />
             </button>
           </nav>
 
-          {/* Mobile Trigger */}
           <button 
-            className="lg:hidden p-5 rounded-[2.5rem] flex items-center gap-5 bg-white/5 backdrop-blur-3xl text-white border border-white/10 active:scale-90 transition-all shadow-2xl shrink-0"
+            className="lg:hidden p-4 rounded-2xl bg-white/10 backdrop-blur-3xl text-white border border-white/10"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-expanded={isMobileMenuOpen}
           >
-            <span className="text-[12px] font-black uppercase tracking-widest">Menu</span>
-            <div className="relative h-7 w-7">
-               <Menu className={cn("absolute inset-0 transition-all duration-700", isMobileMenuOpen ? "opacity-0 scale-50 rotate-90" : "opacity-100 scale-100 rotate-0")} />
-               <X className={cn("absolute inset-0 transition-all duration-700", isMobileMenuOpen ? "opacity-100 scale-100 rotate-0" : "opacity-0 scale-50 -rotate-90")} />
-            </div>
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
         {/* Mobile Menu Overlay */}
         <div className={cn(
-          "lg:hidden fixed inset-0 z-[160] bg-[#09080f] transition-all duration-1000 ease-in-out transform",
-          isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+          "lg:hidden fixed inset-0 z-[160] bg-[#09080f] transition-all duration-700 ease-in-out transform",
+          isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
         )}>
-          <div className="h-full flex flex-col p-12 pt-40 hero-purple-mesh overflow-y-auto">
-             <div className="mb-24 animate-logo-reveal">
-               <Image src={logoUrl} alt="Logo" width={380} height={100} className="object-contain" />
-             </div>
-            
-            <div className="flex flex-col gap-14">
-              {navLinks.map((link, i) => (
+          <div className="h-full flex flex-col p-10 pt-32 hero-purple-mesh">
+            <div className="flex flex-col gap-10">
+              {navLinks.map((link) => (
                 <Link 
                   key={link.name} 
                   href={link.href} 
-                  target={link.external ? "_blank" : "_self"}
-                  className="text-6xl font-black text-white tracking-tighter hover:text-primary transition-all duration-700 animate-slide-up uppercase"
-                  style={{ animationDelay: `${i * 100}ms` }}
+                  className="text-4xl font-black text-white tracking-tighter uppercase"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
                 </Link>
               ))}
               <button 
-                className="text-6xl font-black text-primary tracking-tighter text-left hover:text-white transition-all duration-700 animate-slide-up [animation-delay:500ms] uppercase"
+                className="text-4xl font-black text-primary tracking-tighter text-left uppercase"
                 onClick={handleOpenChat}
               >
                 Análise IA
               </button>
             </div>
-
-            <div className="mt-auto pt-24 border-t border-white/10 flex flex-col gap-6 opacity-40">
-              <p className="text-[14px] font-black uppercase tracking-[0.5em] text-white">studiosapient. v2.5</p>
-              <p className="text-[12px] font-medium text-white/70 tracking-[0.3em]">Transformando negócios em autoridade.</p>
-            </div>
-            
             <button 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-12 right-12 h-24 w-24 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10 active:scale-90 transition-all"
+              className="absolute top-8 right-8 h-12 w-12 rounded-full bg-white/10 flex items-center justify-center text-white"
             >
-              <X size={36} />
+              <X size={24} />
             </button>
           </div>
         </div>
