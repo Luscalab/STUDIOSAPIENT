@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
@@ -23,12 +24,28 @@ const services = [
     badge: "Autoridade"
   },
   {
+    title: "Gestão de Redes",
+    slug: "gestao-social",
+    description: "Curadoria estratégica e conteúdo de alto impacto para construir autoridade inquestionável no digital.",
+    icon: <Share2 className="h-8 w-8 text-white" />,
+    features: ["Feed de Autoridade", "Copywriting Estratégico", "Growth Qualificado"],
+    badge: "Social"
+  },
+  {
     title: "Ecossistemas IA",
     slug: "chat-ia",
-    description: "Agentes inteligentes treinados na sua expertise para atender e qualificar leads 24/7.",
+    description: "Agentes inteligentes treinados na sua expertise para atender, qualificar e converter leads 24/7.",
     icon: <Bot className="h-8 w-8 text-white" />,
-    features: ["WhatsApp Inteligente", "Qualificação Automática", "Suporte 4.0"],
+    features: ["WhatsApp Inteligente", "Automação via API", "Atendimento 24/7"],
     badge: "Tecnologia"
+  },
+  {
+    title: "Narrativa Visual",
+    slug: "narrativa-visual",
+    description: "Transformamos processos complexos em narrativas visuais de alta compreensão e desejo imediato.",
+    icon: <FileText className="h-8 w-8 text-white" />,
+    features: ["Infográficos de Valor", "Apresentações de Elite", "Clareza Cognitiva"],
+    badge: "Estratégia"
   }
 ];
 
@@ -37,20 +54,20 @@ export function Services() {
     <section id="servicos" className="py-32 md:py-48 bg-white relative overflow-hidden section-flow-bottom">
       <div className="container mx-auto px-6 relative z-10">
         <div className="mb-24 text-center max-w-3xl mx-auto space-y-6">
-          <Badge className="bg-primary/10 text-primary px-8 py-2.5 text-[10px] font-black uppercase tracking-[0.4em] rounded-full border-none">Especialidades</Badge>
-          <h2 className="font-display text-4xl md:text-6xl font-black text-foreground tracking-tighter leading-none uppercase">
-            Protocolos de <span className="text-primary italic">Impacto.</span>
+          <Badge className="bg-primary/10 text-primary px-10 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-full border-none">Nossas Soluções</Badge>
+          <h2 className="font-display text-4xl md:text-7xl font-black text-foreground tracking-tighter leading-none uppercase">
+            SER<span className="text-primary italic">VIÇOS.</span>
           </h2>
           <p className="text-foreground/50 text-xl font-medium leading-relaxed tracking-tight">
-            Fundimos design de prestígio e estratégia digital para marcas que buscam clareza e autoridade.
+            Fundimos design de prestígio e estratégia digital para marcas que buscam clareza e autoridade absoluta.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, idx) => (
             <Card 
               key={idx} 
-              className="group relative border border-muted/30 bg-white rounded-[3rem] p-10 transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl flex flex-col justify-between min-h-[500px] shadow-sm"
+              className="group relative border border-muted/30 bg-white rounded-[3.5rem] p-10 transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl flex flex-col justify-between min-h-[500px] shadow-sm"
             >
               <div>
                 <div className="flex justify-between items-start mb-10">
@@ -83,7 +100,7 @@ export function Services() {
                 href={`/servicos/${service.slug}`} 
                 className="flex items-center justify-between p-8 rounded-2xl bg-secondary text-foreground hover:bg-primary hover:text-white transition-all text-[10px] font-black uppercase tracking-[0.4em] group/btn"
               >
-                Explorar <ArrowUpRight className="h-5 w-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                Explorar Solução <ArrowUpRight className="h-5 w-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
               </Link>
             </Card>
           ))}
