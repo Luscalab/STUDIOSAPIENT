@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from "react";
@@ -13,10 +12,10 @@ import {
   SunMoon,
   Hand,
   Volume2,
+  VolumeX,
   Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { generateAudioDescription } from "@/ai/flows/tts-flow";
 
 export function AccessibilityMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,9 +26,16 @@ export function AccessibilityMenu() {
   const [isLibrasActive, setIsLibrasActive] = useState(false);
   const [isReading, setIsReading] = useState(false);
   
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  // Referência para o sintetizador de voz nativo
+  const synthRef = useRef<SpeechSynthesis | null>(null);
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   useEffect(() => {
+    // Inicializar Speech Synthesis
+    if (typeof window !== 'undefined') {
+      synthRef.current = window.speechSynthesis;
+    }
+
     const savedFontSize = localStorage.getItem('access-font-size');
     const savedContrast = localStorage.getItem('access-contrast') === 'true';
     const savedGrayscale = localStorage.getItem('access-grayscale') === 'true';
@@ -39,6 +45,12 @@ export function AccessibilityMenu() {
     if (savedContrast) setHighContrast(savedContrast);
     if (savedGrayscale) setGrayscale(savedGrayscale);
     if (savedLinks) setHighlightLinks(savedLinks);
+
+    return () => {
+      if (synthRef.current) {
+        synthRef.current.cancel();
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -82,33 +94,31 @@ export function AccessibilityMenu() {
     }
   };
 
-  const handleAudioDescription = async () => {
+  const handleAudioDescription = () => {
+    if (!synthRef.current) return;
+
     if (isReading) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      synthRef.current.cancel();
       setIsReading(false);
       return;
     }
 
-    setIsReading(true);
-    try {
-      // Coletar textos principais da página para audiodescrição
-      const mainText = document.querySelector('h1')?.innerText || "Sapient Studio";
-      const subText = document.querySelector('p')?.innerText || "";
-      const fullText = `Você está no site da Sapient Studio. ${mainText}. ${subText}`;
+    // Coletar textos principais da página para audiodescrição
+    const mainText = document.querySelector('h1')?.innerText || "Sapient Studio";
+    const subText = document.querySelector('p')?.innerText || "";
+    const fullText = `Você está no site da Sapient Studio. ${mainText}. ${subText}`;
 
-      const { audioUri } = await generateAudioDescription({ text: fullText });
-      
-      const audio = new Audio(audioUri);
-      audioRef.current = audio;
-      audio.onended = () => setIsReading(false);
-      audio.play();
-    } catch (error) {
-      console.error("Erro na audiodescrição:", error);
-      setIsReading(false);
-    }
+    const utterance = new SpeechSynthesisUtterance(fullText);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    
+    utterance.onend = () => setIsReading(false);
+    utterance.onerror = () => setIsReading(false);
+    
+    utteranceRef.current = utterance;
+    setIsReading(true);
+    synthRef.current.speak(utterance);
   };
 
   const resetAll = () => {
@@ -117,9 +127,8 @@ export function AccessibilityMenu() {
     setGrayscale(false);
     setHighlightLinks(false);
     setIsLibrasActive(false);
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
+    if (synthRef.current) {
+      synthRef.current.cancel();
     }
     setIsReading(false);
   };
@@ -205,14 +214,13 @@ export function AccessibilityMenu() {
             </button>
             <button
               onClick={handleAudioDescription}
-              disabled={isReading && !audioRef.current}
               className={cn(
                 "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
                 isReading ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
               )}
             >
-              {isReading && !audioRef.current ? <Loader2 className="h-4 w-4 animate-spin" /> : <Volume2 className="h-4 w-4" />}
-              Voz IA
+              {isReading ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+              Voz Nativa
             </button>
           </div>
 
@@ -237,7 +245,7 @@ export function AccessibilityMenu() {
         </div>
 
         <p className="text-[8px] font-black text-center text-muted-foreground/40 uppercase tracking-[0.3em]">
-          Sapient Studio • Acessibilidade IA
+          Sapient Studio • Acessibilidade Nativa
         </p>
       </div>
     </>
