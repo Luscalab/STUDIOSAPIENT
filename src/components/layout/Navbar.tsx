@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -9,13 +9,6 @@ import { Menu, X, ArrowRight } from "lucide-react";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleOpenChat = () => {
     setIsMobileMenuOpen(false);
@@ -32,65 +25,47 @@ export function Navbar() {
 
   return (
     <>
-      <header className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 md:py-8",
-        scrolled ? "bg-white/80 backdrop-blur-md shadow-sm" : "bg-transparent"
-      )}>
-        <div className="container mx-auto px-6 flex items-center justify-between relative">
+      <header className="absolute top-0 left-0 right-0 z-50 py-8 md:py-12">
+        <div className="container mx-auto px-6 flex items-center justify-between">
           
-          {/* Logo container - Lowered by 30% from previous -top-10/-20 */}
-          <div className="flex-shrink-0 relative -top-7 md:-top-14 z-[70] animate-logo-reveal">
-            <Link href="/" className="relative block group transition-all duration-500 w-32 h-12 md:w-[260px] md:h-36 origin-top-left">
+          {/* Logo - Alinhado verticalmente com o menu */}
+          <div className="flex-shrink-0 animate-logo-reveal">
+            <Link href="/" className="relative block group w-32 h-8 md:w-52 md:h-12">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
                 fill
-                className={cn(
-                  "object-contain object-left transition-all duration-700 group-hover:scale-[1.01]",
-                  scrolled ? "drop-shadow-sm" : "drop-shadow-[0_15px_30px_rgba(0,0,0,0.2)]"
-                )}
+                className="object-contain object-left drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)]"
                 priority
               />
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className={cn(
-            "hidden md:flex items-center gap-10 h-14 px-10 rounded-full border transition-all duration-700",
-            scrolled ? "bg-primary/5 border-primary/10" : "bg-white/10 backdrop-blur-3xl border-white/20 shadow-2xl"
-          )}>
+          <nav className="hidden md:flex items-center gap-10 h-14 px-10 rounded-full border bg-white/10 backdrop-blur-3xl border-white/20 shadow-2xl">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className={cn(
-                  "text-[11px] uppercase tracking-[0.5em] font-black transition-all relative group",
-                  scrolled ? "text-foreground hover:text-primary" : "text-white hover:text-primary"
-                )}
+                className="text-[11px] uppercase tracking-[0.5em] font-black text-white hover:text-primary transition-all relative group"
               >
                 {link.name}
-                <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
+                <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full" />
               </Link>
             ))}
             
             <button 
               onClick={handleOpenChat}
-              className={cn(
-                "text-[11px] uppercase tracking-[0.5em] font-black transition-all relative group",
-                scrolled ? "text-foreground hover:text-primary" : "text-white hover:text-primary"
-              )}
+              className="text-[11px] uppercase tracking-[0.5em] font-black text-white hover:text-primary transition-all relative group"
             >
               Análise Estratégica
-              <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
+              <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full" />
             </button>
           </nav>
 
           {/* Mobile Menu Button */}
           <button 
-            className={cn(
-              "md:hidden p-3 rounded-2xl flex items-center gap-3 transition-all active:scale-95",
-              scrolled ? "bg-primary/10 text-primary" : "bg-white/10 backdrop-blur-md text-white border border-white/20"
-            )}
+            className="md:hidden p-3 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <span className="text-[10px] font-black uppercase tracking-[0.4em]">Menu</span>
@@ -98,7 +73,7 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Improved Mobile Menu Overlay */}
+        {/* Mobile Menu Overlay */}
         <div className={cn(
           "md:hidden fixed inset-0 z-[60] bg-white transition-all duration-500 ease-in-out transform",
           isMobileMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
@@ -135,7 +110,6 @@ export function Navbar() {
               </div>
             </div>
             
-            {/* Close Button Inside Menu */}
             <button 
               onClick={() => setIsMobileMenuOpen(false)}
               className="absolute top-8 right-8 h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-primary"
