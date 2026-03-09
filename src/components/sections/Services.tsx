@@ -1,8 +1,7 @@
-
 "use client";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
-import { Megaphone, Palette, Share2, ArrowUpRight, BarChart3, Bot, Shield } from "lucide-react";
+import { Megaphone, Palette, Share2, ArrowUpRight, BarChart3, Bot, Shield, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -11,146 +10,91 @@ const services = [
   {
     title: "Engenharia de Ads",
     slug: "performance-ads",
-    description: "Tráfego de alta precisão focado em capturar demanda qualificada no momento exato da necessidade.",
-    icon: <Megaphone className="h-8 w-8" />,
+    description: "Tráfego de alta precisão focado em capturar demanda qualificada no momento exato.",
+    icon: <Megaphone className="h-7 w-7" />,
     features: ["Otimização GMN", "Ads de Intenção", "ROI Estratégico"],
     badge: "Escala",
-    colorClass: "text-primary",
-    bgGradient: "from-primary/20 via-primary/5 to-transparent",
-    hoverBorder: "hover:border-primary/40",
-    iconBg: "bg-primary/10"
+    color: "text-primary",
+    glow: "group-hover:shadow-primary/20"
   },
   {
     title: "Identidade Técnica",
     slug: "design-estrategico",
-    description: "Design System de autoridade que elimina o amadorismo e eleva o valor percebido do seu ativo.",
-    icon: <Palette className="h-8 w-8" />,
+    description: "Design System de autoridade que elimina o amadorismo e eleva o valor percebido.",
+    icon: <Palette className="h-7 w-7" />,
     features: ["Branding de Prestígio", "Design System", "Ativos Premium"],
     badge: "Autoridade",
-    colorClass: "text-accent",
-    bgGradient: "from-accent/20 via-accent/5 to-transparent",
-    hoverBorder: "hover:border-accent/40",
-    iconBg: "bg-accent/10"
+    color: "text-accent",
+    glow: "group-hover:shadow-accent/20"
   },
   {
     title: "Ecossistemas Chat IA",
     slug: "chat-ia",
-    description: "Automação inteligente de atendimento e vendas para WhatsApp, Sites e Redes Sociais 24/7.",
-    icon: <Bot className="h-8 w-8" />,
-    features: ["WhatsApp Business IA", "Agentes de Venda", "Escalabilidade"],
+    description: "Automação inteligente de atendimento e vendas para WhatsApp e Redes Sociais.",
+    icon: <Bot className="h-7 w-7" />,
+    features: ["Agentes de Venda", "Escalabilidade", "WhatsApp IA"],
     badge: "Tecnologia",
-    colorClass: "text-cyan-500",
-    bgGradient: "from-cyan-500/20 via-cyan-500/5 to-transparent",
-    hoverBorder: "hover:border-cyan-500/40",
-    iconBg: "bg-cyan-500/10"
-  },
-  {
-    title: "Curadoria Social",
-    slug: "gestao-social",
-    description: "Gestão estratégica focada em transformar redes sociais em provas de competência técnica inquestionáveis.",
-    icon: <Share2 className="h-8 w-8" />,
-    features: ["Copywriting Técnico", "Growth Qualificado", "Prova Social"],
-    badge: "Presença",
-    colorClass: "text-purple-500",
-    bgGradient: "from-purple-500/20 via-purple-500/5 to-transparent",
-    hoverBorder: "hover:border-purple-500/40",
-    iconBg: "bg-purple-500/10"
-  },
-  {
-    title: "Narrativa Visual",
-    slug: "narrativa-visual",
-    description: "Simplificação de processos complexos em materiais de venda de alta cognição e impacto.",
-    icon: <BarChart3 className="h-8 w-8" />,
-    features: ["Dossiês de Venda", "Infográficos de Valor", "Data Viz"],
-    badge: "Clareza",
-    colorClass: "text-indigo-500",
-    bgGradient: "from-indigo-500/20 via-indigo-500/5 to-transparent",
-    hoverBorder: "hover:border-indigo-500/40",
-    iconBg: "bg-indigo-500/10"
+    color: "text-cyan-500",
+    glow: "group-hover:shadow-cyan-500/20"
   }
 ];
 
 export function Services() {
   return (
-    <section id="servicos" className="py-32 md:py-64 relative overflow-hidden bg-[#0c0a1a]">
-      {/* Background Deep Purple Mesh */}
-      <div className="absolute top-0 right-0 w-full h-full hero-purple-mesh opacity-30 pointer-events-none" />
-
+    <section id="servicos" className="py-32 md:py-48 bg-white relative overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="mb-32 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-16">
-          <div className="max-w-5xl">
-            <div className="flex items-center gap-4 mb-10">
-               <div className="h-px w-12 bg-primary/40" />
-               <Badge className="bg-primary/10 text-primary border-primary/20 px-8 py-3 text-[10px] font-black uppercase tracking-[0.5em] rounded-none">Dossiê de Intervenção</Badge>
-            </div>
-            <h2 className="font-display text-5xl md:text-[9.5rem] font-black text-white tracking-tighter leading-[0.8] mb-8">
-              Protocolos de <br />
-              <span className="text-primary italic">Impacto.</span>
+        <div className="mb-24 flex flex-col md:flex-row md:items-end md:justify-between gap-12">
+          <div className="max-w-3xl">
+            <Badge className="mb-6 bg-primary/10 text-primary border-none px-6 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full">Dossiê de Intervenção</Badge>
+            <h2 className="font-display text-5xl md:text-7xl font-black text-foreground tracking-tighter leading-none">
+              Protocolos de <span className="text-primary italic">Impacto.</span>
             </h2>
           </div>
-          <div className="max-w-sm space-y-8 lg:pb-12">
-            <p className="text-white/60 text-xl md:text-2xl font-medium leading-tight tracking-tight">
-              Fundimos design de prestígio e engenharia comercial para criar ecossistemas de alta performance.
-            </p>
-            <div className="flex items-center gap-3 text-primary text-[10px] font-black uppercase tracking-[0.4em]">
-              <Shield className="h-4 w-4" /> Soluções Customizadas
-            </div>
-          </div>
+          <p className="text-muted-foreground/60 text-xl md:text-2xl font-medium max-w-sm leading-tight tracking-tight">
+            Fundimos design de prestígio e engenharia comercial para criar ecossistemas de alta performance.
+          </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((service, idx) => (
             <Card 
               key={idx} 
               className={cn(
-                "group relative border-none bg-white/5 backdrop-blur-3xl rounded-[4rem] p-1 transition-all duration-1000 hover:-translate-y-8 shadow-[0_40px_100px_-20px_rgba(139,92,246,0.15)] overflow-hidden border border-white/10",
-                service.hoverBorder
+                "group relative border border-muted bg-white rounded-[3rem] p-10 transition-all duration-700 hover:-translate-y-4 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] overflow-hidden",
+                service.glow
               )}
             >
-              <div className={cn(
-                "absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-1000",
-                service.bgGradient
-              )} />
-              
-              <div className="relative z-10 p-12 md:p-16 flex flex-col h-full">
-                <div className="flex justify-between items-start mb-20">
-                  <div className={cn(
-                    "h-24 w-24 rounded-[2.5rem] flex items-center justify-center transition-all duration-1000 group-hover:scale-110 shadow-2xl border border-white/20",
-                    service.iconBg,
-                    service.colorClass
-                  )}>
-                    {service.icon}
-                  </div>
-                  <Badge variant="outline" className="border-white/10 text-white/40 font-black text-[8px] uppercase tracking-[0.4em] px-8 py-3 rounded-full bg-white/5 backdrop-blur-md">
-                    {service.badge}
-                  </Badge>
+              <div className="flex justify-between items-start mb-12">
+                <div className={cn("h-20 w-20 rounded-[2rem] flex items-center justify-center bg-secondary transition-all duration-700 group-hover:bg-primary group-hover:text-white shadow-xl", service.color)}>
+                  {service.icon}
                 </div>
-
-                <div className="flex-1">
-                  <CardTitle className="font-display text-4xl mb-8 tracking-tighter font-black text-white group-hover:text-primary transition-colors duration-700">
-                    {service.title}
-                  </CardTitle>
-                  <CardDescription className="text-white/50 text-xl leading-snug font-medium mb-16 max-w-xs">
-                    {service.description}
-                  </CardDescription>
-
-                  <ul className="space-y-6 mb-20">
-                    {service.features.map((feature, fIdx) => (
-                      <li key={fIdx} className="flex items-center gap-6 text-[10px] font-black uppercase tracking-[0.3em] text-white/20 group-hover:text-white transition-all duration-700">
-                        <div className={cn("h-1.5 w-1.5 rounded-full", service.iconBg)} />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <Link 
-                  href={`/servicos/${service.slug}`} 
-                  className="w-full flex items-center justify-between p-10 rounded-[3rem] bg-white text-black group-hover:bg-primary group-hover:text-white group-hover:shadow-[0_25px_50px_rgba(139,92,246,0.4)] transition-all duration-1000 text-[11px] font-black uppercase tracking-[0.5em]"
-                >
-                  Explorar Dossiê <ArrowUpRight className="h-6 w-6" />
-                </Link>
+                <Badge variant="secondary" className="font-black text-[8px] uppercase tracking-[0.3em] px-5 py-2 rounded-full">
+                  {service.badge}
+                </Badge>
               </div>
+
+              <CardTitle className="font-display text-3xl mb-6 tracking-tighter font-black text-foreground group-hover:text-primary transition-colors duration-500">
+                {service.title}
+              </CardTitle>
+              <CardDescription className="text-muted-foreground/60 text-lg leading-snug font-medium mb-10">
+                {service.description}
+              </CardDescription>
+
+              <ul className="space-y-4 mb-12">
+                {service.features.map((feature, fIdx) => (
+                  <li key={fIdx} className="flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 group-hover:text-foreground transition-colors">
+                    <div className="h-1.5 w-1.5 rounded-full bg-primary/20" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              
+              <Link 
+                href={`/servicos/${service.slug}`} 
+                className="flex items-center justify-between p-8 rounded-2xl bg-secondary text-foreground hover:bg-primary hover:text-white transition-all duration-500 text-[10px] font-black uppercase tracking-[0.4em]"
+              >
+                Explorar Dossiê <ArrowUpRight className="h-5 w-5" />
+              </Link>
             </Card>
           ))}
         </div>
