@@ -7,7 +7,7 @@ import { ChevronDown } from "lucide-react";
 /**
  * Hero Section - Versão Refinada
  * Foco em clareza, parceria e resultados reais sem linguagem pretensiosa.
- * Estética monumental inspirada na UrbeLudo.
+ * Estética monumental inspirada na UrbeLudo com cores Sapient.
  */
 export function Hero() {
   const scrollToSection = (id: string) => {
