@@ -35,12 +35,10 @@ export function Navbar() {
 
   return (
     <>
-      {/* Container Principal do Header - Absoluto para não acompanhar a rolagem */}
       <header className="absolute top-0 left-0 right-0 z-50 pointer-events-none p-4 md:p-8">
         <div className="container mx-auto flex items-start justify-between relative h-32 md:h-48">
           
-          {/* Logo - Ampliado 40% e elevado para evitar sobreposição */}
-          <div className="pointer-events-auto -mt-6 md:-mt-14">
+          <div className="pointer-events-auto -mt-6 md:-mt-14 animate-logo-reveal">
             <Link href="/" className="relative block group transition-all duration-500 w-48 h-20 md:w-[480px] md:h-48">
               <Image 
                 src={logoUrl}
@@ -52,7 +50,6 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* Navegação - Estilo Cápsula Refinado */}
           <div className={cn(
             "pointer-events-auto h-12 md:h-14 px-6 md:px-12 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-6",
             isScrolled 
@@ -79,7 +76,6 @@ export function Navbar() {
               </Button>
             </div>
 
-            {/* Mobile Menu Trigger */}
             <button 
               className="md:hidden text-white p-2 flex items-center gap-4 active:scale-90 transition-transform"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -90,7 +86,6 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Dropdown */}
         {isMobileMenuOpen && (
           <div className="md:hidden absolute top-32 left-4 right-4 glass-morphism rounded-[3rem] p-12 flex flex-col gap-10 shadow-[0_30px_70px_rgba(0,0,0,0.4)] animate-in fade-in zoom-in-95 duration-500 border-primary/30 pointer-events-auto">
             {navLinks.map((link) => (
