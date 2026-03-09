@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { 
   Accessibility, 
   X, 
@@ -10,9 +9,9 @@ import {
   Minus, 
   Plus, 
   RotateCcw,
-  Eye,
   Link as LinkIcon,
-  SunMoon
+  SunMoon,
+  Hand
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +21,7 @@ export function AccessibilityMenu() {
   const [highContrast, setHighContrast] = useState(false);
   const [grayscale, setGrayscale] = useState(false);
   const [highlightLinks, setHighlightLinks] = useState(false);
+  const [isLibrasActive, setIsLibrasActive] = useState(false);
 
   useEffect(() => {
     // Carregar preferências salvas
@@ -72,11 +72,22 @@ export function AccessibilityMenu() {
     localStorage.setItem('access-links', highlightLinks.toString());
   }, [highlightLinks]);
 
+  const toggleLibras = () => {
+    const librasWidget = document.querySelector('[vw-access-button]');
+    if (librasWidget) {
+      const button = librasWidget.querySelector('img') || librasWidget;
+      (button as HTMLElement).click();
+      setIsLibrasActive(!isLibrasActive);
+    }
+  };
+
   const resetAll = () => {
     setFontSize(100);
     setHighContrast(false);
     setGrayscale(false);
     setHighlightLinks(false);
+    setIsLibrasActive(false);
+    // Tentar fechar libras se estiver aberto (complexo sem API oficial, mas o click toggle ajuda)
   };
 
   return (
@@ -151,6 +162,16 @@ export function AccessibilityMenu() {
               Monocromo
             </button>
             <button
+              onClick={toggleLibras}
+              className={cn(
+                "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
+                isLibrasActive ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
+              )}
+            >
+              <Hand className="h-4 w-4" />
+              Libras
+            </button>
+            <button
               onClick={() => setHighlightLinks(!highlightLinks)}
               className={cn(
                 "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
@@ -160,14 +181,15 @@ export function AccessibilityMenu() {
               <LinkIcon className="h-4 w-4" />
               Links
             </button>
-            <button
-              onClick={resetAll}
-              className="flex flex-col items-center gap-2 p-3 rounded-2xl bg-secondary/30 border border-transparent hover:bg-secondary/50 transition-all text-[9px] font-black uppercase tracking-wider text-muted-foreground"
-            >
-              <RotateCcw className="h-4 w-4" />
-              Resetar
-            </button>
           </div>
+          
+          <button
+            onClick={resetAll}
+            className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-secondary/30 border border-transparent hover:bg-secondary/50 transition-all text-[9px] font-black uppercase tracking-wider text-muted-foreground"
+          >
+            <RotateCcw className="h-4 w-4" />
+            Resetar Tudo
+          </button>
         </div>
 
         <p className="text-[8px] font-black text-center text-muted-foreground/40 uppercase tracking-[0.3em]">

@@ -79,6 +79,11 @@
   }
 }
 
+/* Ocultar botão nativo do VLibras para usar o do menu customizado */
+[vw-access-button] {
+  display: none !important;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
