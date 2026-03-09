@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Megaphone, Palette, Share2, ArrowUpRight, CheckCircle2, BarChart3 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -7,36 +8,36 @@ const services = [
   {
     title: "Performance & Ads",
     slug: "performance-ads",
-    description: "Engenharia de tráfego focada em ROI exponencial e domínio das buscas locais.",
+    description: "Estratégias de tráfego focadas em retorno sobre investimento e presença local.",
     icon: <Megaphone className="h-10 w-10" />,
-    features: ["Google Maps Strategic", "Ads de Alta Conversão", "Funis de Escala", "Growth Hacking Local"],
+    features: ["Google Maps Otimizado", "Anúncios Segmentados", "Funis de Vendas", "Crescimento Local"],
     badge: "Escala",
     accentColor: "from-primary/20 via-primary/5 to-transparent"
   },
   {
     title: "Design Estratégico",
     slug: "design-estrategico",
-    description: "Identidade visual de prestígio que justifica seu ticket e elimina a concorrência genérica.",
+    description: "Identidade visual profissional que diferencia seu negócio no mercado digital.",
     icon: <Palette className="h-10 w-10" />,
-    features: ["Branding de Autoridade", "Design System Exclusivo", "Direção Criativa", "Interface de Conversão"],
-    badge: "Prestígio",
+    features: ["Branding Profissional", "Design System Coerente", "Direção de Arte", "Interfaces Funcionais"],
+    badge: "Identidade",
     accentColor: "from-accent/20 via-accent/5 to-transparent"
   },
   {
     title: "Gestão Social",
     slug: "gestao-social",
-    description: "Curadoria de conteúdo estratégico para construir uma comunidade de alto valor.",
+    description: "Conteúdo focado em autoridade e conexão real com seu público-alvo.",
     icon: <Share2 className="h-10 w-10" />,
-    features: ["Escrita Persuasiva", "Content Intelligence", "Gestão de Autoridade", "Growth Social"],
-    badge: "Desejo",
+    features: ["Escrita Estratégica", "Planejamento de Pautas", "Monitoramento", "Engajamento Real"],
+    badge: "Presença",
     accentColor: "from-purple-500/20 via-purple-500/5 to-transparent"
   },
   {
     title: "Narrativa Visual",
     slug: "narrativa-visual",
-    description: "Simplificamos o complexo através de inteligência visual cognitiva para acelerar vendas.",
+    description: "Simplificação de processos complexos através de design inteligente e informativo.",
     icon: <BarChart3 className="h-10 w-10" />,
-    features: ["Data Visualization", "Infográficos de Valor", "Storytelling Visual", "Assets de Decisão"],
+    features: ["Infográficos de Valor", "Apresentações Claras", "Storytelling de Marca", "Suporte de Vendas"],
     badge: "Clareza",
     accentColor: "from-indigo-500/20 via-indigo-500/5 to-transparent"
   }
@@ -48,18 +49,17 @@ export function Services() {
       <div className="container mx-auto px-6 relative z-10">
         <div className="mb-20 text-center lg:text-left flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
           <div className="max-w-4xl">
-            <Badge className="mb-6 bg-primary/10 text-primary px-8 py-2 text-[10px] font-bold uppercase tracking-[0.3em] rounded-full">Soluções Corporativas</Badge>
+            <Badge className="mb-6 bg-primary/10 text-primary px-8 py-2 text-[10px] font-bold uppercase tracking-[0.3em] rounded-full">Soluções para Negócios</Badge>
             <h2 className="font-headline text-4xl sm:text-6xl md:text-7xl font-bold text-foreground tracking-tighter leading-tight">Ecossistema de<br />Resultados</h2>
           </div>
           <p className="text-muted-foreground max-w-sm text-lg md:text-xl font-medium leading-relaxed tracking-tight lg:pb-4 mx-auto lg:mx-0">
-            Integramos design de elite com inteligência de dados para tracionar o crescimento do seu negócio.
+            Integramos design profissional com inteligência de mercado para impulsionar seu crescimento.
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 md:gap-6">
           {services.map((service, idx) => (
             <Card key={idx} className="card-premium-bg border-none group overflow-hidden shadow-xl rounded-[3rem] hover:-translate-y-3 transition-all duration-700 relative flex flex-col h-full">
-              {/* Decorative dynamic gradient background based on service */}
               <div className={`absolute inset-0 bg-gradient-to-br ${service.accentColor} opacity-0 group-hover:opacity-100 transition-opacity duration-1000`} />
               
               <CardHeader className="p-10 pb-6 relative z-10">
@@ -88,7 +88,7 @@ export function Services() {
                 </div>
                 
                 <Link href={`/servicos/${service.slug}`} className="w-full flex items-center justify-between p-6 rounded-[1.5rem] bg-white border border-primary/5 group-hover:bg-primary group-hover:text-white group-hover:shadow-2xl group-hover:shadow-primary/30 transition-all duration-700 text-[10px] font-black uppercase tracking-[0.2em]">
-                  Explorar Estratégia <ArrowUpRight className="h-4 w-4" />
+                  Saiba Mais <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </CardContent>
             </Card>

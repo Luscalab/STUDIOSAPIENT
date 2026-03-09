@@ -26,16 +26,16 @@ export function Navbar() {
 
   return (
     <>
-      <header className="absolute top-0 left-0 right-0 z-50 p-4 md:pt-4 md:pb-10 md:px-10 w-full max-w-full overflow-hidden">
-        <div className="container mx-auto flex items-start justify-between relative h-32 md:h-52 max-w-full px-4">
+      <header className="absolute top-0 left-0 right-0 z-50 p-4 md:pt-4 md:pb-12 md:px-10 w-full max-w-full overflow-hidden">
+        <div className="container mx-auto flex items-start justify-between relative h-32 md:h-44 max-w-full px-4">
           
-          <div className="animate-logo-reveal flex-shrink-0 md:-translate-y-8">
-            <Link href="/" className="relative block group transition-all duration-500 w-36 h-14 md:w-[320px] md:h-44 origin-top-left">
+          <div className="animate-logo-reveal flex-shrink-0 md:-translate-y-12">
+            <Link href="/" className="relative block group transition-all duration-500 w-36 h-14 md:w-[280px] md:h-40 origin-top-left">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
                 fill
-                className="object-contain object-left drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-transform duration-700 group-hover:scale-[1.02]"
+                className="object-contain object-left drop-shadow-[0_20px_50px_rgba(0,0,0,0.2)] transition-transform duration-700 group-hover:scale-[1.01]"
                 priority
               />
             </Link>
@@ -61,7 +61,7 @@ export function Navbar() {
                 size="lg" 
                 className="bg-gradient-to-r from-primary to-accent hover:scale-105 active:scale-95 text-white font-black rounded-full px-8 h-9 shadow-[0_10px_30px_rgba(139,92,246,0.4)] text-[9px] uppercase tracking-[0.2em] transition-all duration-500 border border-white/20"
               >
-                Iniciativa IA <span className="ml-2 opacity-50 group-hover:translate-x-1 transition-transform">→</span>
+                Análise Estratégica <span className="ml-2 opacity-50 group-hover:translate-x-1 transition-transform">→</span>
               </Button>
             </div>
 
@@ -91,7 +91,7 @@ export function Navbar() {
               className="w-full h-20 bg-primary font-black text-sm uppercase tracking-widest rounded-full shadow-2xl shadow-primary/30"
               onClick={handleOpenChat}
             >
-              Diagnóstico Especializado
+              Consultoria Estratégica
             </Button>
           </div>
         )}
