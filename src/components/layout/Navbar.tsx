@@ -25,13 +25,13 @@ export function Navbar() {
 
   return (
     <>
-      {/* Header estático (não acompanha o scroll) */}
-      <header className="absolute top-0 left-0 right-0 z-50 py-6 md:py-8">
+      {/* Header estático (não acompanha o scroll) - Elevado em 20% reduzindo o pt */}
+      <header className="absolute top-0 left-0 right-0 z-50 pt-2 pb-6 md:pt-4 md:pb-8">
         <div className="container mx-auto px-6 flex items-center justify-between">
           
-          {/* Logo - Ampliado na versão desktop */}
+          {/* Logo - Ampliado e Elevado */}
           <div className="flex-shrink-0 animate-logo-reveal">
-            <Link href="/" className="relative block group w-80 h-24 md:w-[780px] md:h-44">
+            <Link href="/" className="relative block group w-80 h-24 md:w-[1500px] md:h-80">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
