@@ -26,7 +26,8 @@ export function Navbar() {
   return (
     <>
       <header className="absolute top-0 left-0 right-0 z-50 p-4 md:p-12 w-full max-w-full overflow-hidden">
-        <div className="container mx-auto flex items-start justify-between relative h-32 md:h-48 max-w-full px-4">
+        {/* Aumentei a altura md:h-48 para md:h-72 para dar mais profundidade inferior */}
+        <div className="container mx-auto flex items-start justify-between relative h-40 md:h-72 max-w-full px-4">
           
           <div className="animate-logo-reveal flex-shrink-0">
             <Link href="/" className="relative block group transition-all duration-500 w-40 h-16 md:w-[420px] md:h-56 origin-top-left">
