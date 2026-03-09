@@ -25,7 +25,7 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-32 md:py-48 bg-abyssal relative overflow-hidden">
+    <section id="faq" className="py-32 md:py-48 hero-purple-mesh relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-4xl relative z-20">
         <div className="text-center mb-20 space-y-6">
           <h2 className="font-display text-4xl md:text-6xl font-black tracking-tighter leading-none text-white uppercase">
