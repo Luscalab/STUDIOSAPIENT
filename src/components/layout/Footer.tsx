@@ -13,7 +13,7 @@ export function Footer() {
           <div className="lg:col-span-5 space-y-8">
             <div>
               <p className="text-foreground text-4xl font-black tracking-tighter mb-4 uppercase">
-                studio<span className="text-primary italic">sapient</span>
+                studio<span className="text-primary italic">sapient.</span>
               </p>
               <p className="text-muted-foreground text-lg font-medium leading-relaxed tracking-tight max-w-sm">
                 Transformamos negócios em referências através de ecossistemas digitais de alta clareza e autoridade visual.
