@@ -25,7 +25,7 @@ export function Contact() {
     toast({
       title: "[ COPIADO ]",
       description: `${type === 'email' ? 'E-mail' : 'Telefone'} salvo na área de transferência.`,
-      className: "bg-black border-primary text-white font-black uppercase tracking-widest text-[10px]"
+      className: "bg-[#0c0a1a] border-primary text-white font-black uppercase tracking-widest text-[10px]"
     });
 
     if (type === 'email') {
@@ -38,8 +38,9 @@ export function Contact() {
   };
 
   return (
-    <section id="contato" className="py-32 md:py-64 bg-white relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 blur-[180px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+    <section id="contato" className="py-32 md:py-64 bg-background relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/20 blur-[200px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-accent/10 blur-[150px] rounded-full pointer-events-none" />
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
@@ -62,12 +63,12 @@ export function Contact() {
             {/* Email Card */}
             <a 
               href={`mailto:${email}`} 
-              className="flex flex-col items-center p-16 rounded-[4.5rem] bg-[#0a0a0c] text-white border border-white/5 shadow-2xl h-full group relative overflow-hidden transition-all duration-1000 hover:-translate-y-8"
+              className="flex flex-col items-center p-16 rounded-[4.5rem] bg-white/5 backdrop-blur-3xl text-white border border-white/10 shadow-2xl h-full group relative overflow-hidden transition-all duration-1000 hover:-translate-y-8"
             >
               <div className="absolute top-0 right-0 p-12 opacity-5">
-                <Mail className="h-48 w-48" />
+                <Mail className="h-48 w-48 text-primary" />
               </div>
-              <div className="h-24 w-24 rounded-[2.5rem] bg-white/5 flex items-center justify-center mb-12 border border-white/10 relative z-10 group-hover:bg-primary transition-colors duration-700">
+              <div className="h-24 w-24 rounded-[2.5rem] bg-primary/10 flex items-center justify-center mb-12 border border-white/10 relative z-10 group-hover:bg-primary transition-colors duration-700">
                 <Mail className="h-10 w-10 text-white" />
               </div>
               <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/30 mb-4 relative z-10">E-mail Profissional</p>
@@ -75,7 +76,7 @@ export function Contact() {
               
               <button 
                 onClick={(e) => handleCopy(e, email, 'email')}
-                className="mt-auto w-full flex items-center justify-center gap-4 px-8 py-5 rounded-2xl bg-white/5 hover:bg-white text-[10px] font-black uppercase tracking-[0.3em] transition-all text-white hover:text-black border border-white/10 relative z-10"
+                className="mt-auto w-full flex items-center justify-center gap-4 px-8 py-5 rounded-2xl bg-white/10 hover:bg-white text-[10px] font-black uppercase tracking-[0.3em] transition-all text-white hover:text-black border border-white/10 relative z-10"
               >
                 {copiedEmail ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 {copiedEmail ? "Identidade Copiada" : "Copiar E-mail"}
@@ -85,12 +86,12 @@ export function Contact() {
             {/* Phone Card */}
             <a 
               href={`tel:${phone.replace(/\D/g, '')}`} 
-              className="flex flex-col items-center p-16 rounded-[4.5rem] bg-[#0a0a0c] text-white border border-white/5 shadow-2xl h-full group relative overflow-hidden transition-all duration-1000 hover:-translate-y-8"
+              className="flex flex-col items-center p-16 rounded-[4.5rem] bg-white/5 backdrop-blur-3xl text-white border border-white/10 shadow-2xl h-full group relative overflow-hidden transition-all duration-1000 hover:-translate-y-8"
             >
               <div className="absolute top-0 right-0 p-12 opacity-5">
-                <Phone className="h-48 w-48" />
+                <Phone className="h-48 w-48 text-primary" />
               </div>
-              <div className="h-24 w-24 rounded-[2.5rem] bg-white/5 flex items-center justify-center mb-12 border border-white/10 relative z-10 group-hover:bg-primary transition-colors duration-700">
+              <div className="h-24 w-24 rounded-[2.5rem] bg-primary/10 flex items-center justify-center mb-12 border border-white/10 relative z-10 group-hover:bg-primary transition-colors duration-700">
                 <Phone className="h-10 w-10 text-white" />
               </div>
               <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/30 mb-4 relative z-10">Telefone / Sede</p>
@@ -98,7 +99,7 @@ export function Contact() {
               
               <button 
                 onClick={(e) => handleCopy(e, phone, 'phone')}
-                className="mt-auto w-full flex items-center justify-center gap-4 px-8 py-5 rounded-2xl bg-white/5 hover:bg-white text-[10px] font-black uppercase tracking-[0.3em] transition-all text-white hover:text-black border border-white/10 relative z-10"
+                className="mt-auto w-full flex items-center justify-center gap-4 px-8 py-5 rounded-2xl bg-white/10 hover:bg-white text-[10px] font-black uppercase tracking-[0.3em] transition-all text-white hover:text-black border border-white/10 relative z-10"
               >
                 {copiedPhone ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 {copiedPhone ? "Número Copiado" : "Copiar Telefone"}
@@ -110,9 +111,9 @@ export function Contact() {
               href={whatsappLink} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="flex flex-col items-center p-16 rounded-[4.5rem] bg-[#25D366] text-white border border-[#25D366] shadow-[0_40px_100px_rgba(37,211,102,0.3)] h-full group relative overflow-hidden transition-all duration-1000 hover:-translate-y-8"
+              className="flex flex-col items-center p-16 rounded-[4.5rem] bg-[#25D366] text-white border border-[#25D366] shadow-[0_40px_100px_rgba(37,211,102,0.4)] h-full group relative overflow-hidden transition-all duration-1000 hover:-translate-y-8"
             >
-              <div className="absolute top-0 right-0 p-12 opacity-10">
+              <div className="absolute top-0 right-0 p-12 opacity-20">
                 <MessageCircle className="h-48 w-48" />
               </div>
               <div className="h-24 w-24 rounded-[2.5rem] bg-white/20 flex items-center justify-center mb-12 border border-white/20 relative z-10">
