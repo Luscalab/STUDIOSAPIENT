@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sparkles } from "lucide-react";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,7 +17,7 @@ export function Navbar() {
 
   const navLinks = [
     { name: "Serviços", href: "/#servicos" },
-    { name: "Metodologia", href: "/#metodologia" },
+    { name: "UrbeLudo", href: "/urbeludo" },
     { name: "Portfólio", href: "/#portfolio" },
     { name: "Dúvidas", href: "/#faq" },
     { name: "Contato", href: "/#contato" },
@@ -51,21 +51,21 @@ export function Navbar() {
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all duration-700 relative group whitespace-nowrap"
+                className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all duration-1200 relative group whitespace-nowrap"
               >
                 {link.name}
-                <span className="absolute -bottom-2 left-0 w-0 h-[3px] bg-primary transition-all duration-1000 group-hover:w-full rounded-full" />
+                <span className="absolute -bottom-2 left-0 w-0 h-[3px] bg-primary transition-all duration-1200 group-hover:w-full rounded-full" />
               </Link>
             ))}
             
             <button 
               onClick={handleOpenChat}
               aria-label="Iniciar Análise com Inteligência Artificial"
-              className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all duration-700 relative group whitespace-nowrap flex items-center gap-2"
+              className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all duration-1200 relative group whitespace-nowrap flex items-center gap-2"
             >
               <div className="h-2 w-2 rounded-full bg-primary animate-pulse" aria-hidden="true" />
               Análise IA
-              <span className="absolute -bottom-2 left-0 w-0 h-[3px] bg-primary transition-all duration-1000 group-hover:w-full rounded-full" />
+              <span className="absolute -bottom-2 left-0 w-0 h-[3px] bg-primary transition-all duration-1200 group-hover:w-full rounded-full" />
             </button>
           </nav>
 
