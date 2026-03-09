@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,11 +32,22 @@
   * {
     @apply border-border;
   }
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+  @media (min-width: 1400px) {
+    html {
+      font-size: 18px;
+    }
+  }
   body {
     @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary overflow-x-hidden antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
     background-color: #fbfaff;
     -webkit-tap-highlight-color: transparent;
+    min-height: 100vh;
   }
 }
 

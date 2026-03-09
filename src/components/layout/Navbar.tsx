@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -34,11 +35,11 @@ export function Navbar() {
 
   return (
     <>
-      <header className="absolute top-0 left-0 right-0 z-50 pointer-events-none p-4 md:p-12">
+      <header className="absolute top-0 left-0 right-0 z-50 pointer-events-none p-4 md:p-12 w-full max-w-[100vw]">
         <div className="container mx-auto flex items-start justify-between relative h-40 md:h-64">
           
-          <div className="pointer-events-auto -mt-8 md:-mt-20 animate-logo-reveal">
-            <Link href="/" className="relative block group transition-all duration-500 w-64 h-24 md:w-[672px] md:h-64">
+          <div className="pointer-events-auto -mt-8 md:-mt-20 animate-logo-reveal flex-shrink-0">
+            <Link href="/" className="relative block group transition-all duration-500 w-64 h-24 md:w-[672px] md:h-64 scale-100 origin-top-left">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -50,7 +51,7 @@ export function Navbar() {
           </div>
 
           <div className={cn(
-            "pointer-events-auto h-12 md:h-16 px-6 md:px-14 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-4 md:-translate-x-[30px]",
+            "pointer-events-auto h-12 md:h-16 px-6 md:px-14 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-4 md:-translate-x-[30px] flex-shrink-0",
             isScrolled 
               ? "glass-morphism border-primary/30 shadow-[0_15px_50px_rgba(139,92,246,0.3)]" 
               : "bg-white/10 backdrop-blur-3xl border-white/20 shadow-2xl"
