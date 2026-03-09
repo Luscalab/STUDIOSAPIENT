@@ -13,7 +13,7 @@ export function Hero() {
 
   return (
     <section className="relative pt-32 pb-24 md:pt-48 md:pb-32 overflow-hidden">
-      {/* Background Refinado */}
+      {/* Background com Mesh de Luz Roxo Sapient */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.1),transparent_70%)]" />
         <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[150px] rounded-full" />
@@ -31,12 +31,12 @@ export function Hero() {
           <h1 className="font-headline text-5xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter leading-[0.95] mb-12 animate-fade-in-up py-4">
             Sapient Studio. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary italic font-medium block mt-4">
-              Design e Estratégia.
+              Criatividade e Parceria.
             </span>
           </h1>
           
           <p className="text-lg md:text-2xl text-white/50 font-medium max-w-4xl mx-auto leading-relaxed tracking-tight text-balance mb-20 animate-fade-in-up [animation-delay:200ms]">
-            Ajudamos o seu negócio a encontrar a melhor forma de se comunicar e crescer no digital. Soluções pensadas para gerar <span className="text-white font-bold tracking-tight">resultados reais e duradouros.</span>
+            Apoiamos o crescimento do seu negócio através de um design que faz sentido e estratégias que trazem resultados reais. <span className="text-white font-bold tracking-tight">Sem termos complexos, apenas parcerias verdadeiras.</span>
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-12 animate-fade-in-up [animation-delay:400ms]">
