@@ -25,25 +25,35 @@ export function Navbar() {
 
   return (
     <>
-      {/* Header estático (não acompanha o scroll) - Posicionado no topo absoluto */}
-      <header className="absolute top-0 left-0 right-0 z-50 pt-3 md:pt-5 pb-6">
+      {/* 
+        Header Estático: Posicionado no topo absoluto da página. 
+        Não acompanha o scroll (position: absolute).
+      */}
+      <header className="absolute top-0 left-0 right-0 z-50 py-6 md:py-8">
         <div className="container mx-auto px-6 flex items-center justify-between">
           
-          {/* Logo - Tamanho Ajustado para Autoridade sem quebrar o layout */}
-          <div className="flex-shrink-0 animate-logo-reveal">
-            <Link href="/" className="relative block group w-48 h-12 md:w-80 md:h-20">
+          {/* 
+            Container do Logotipo: 
+            Utiliza flexbox para garantir alinhamento vertical com o menu.
+            Tamanho controlado de forma robusta via classes de largura.
+          */}
+          <div className="flex-shrink-0 animate-logo-reveal flex items-center">
+            <Link href="/" className="relative block w-40 h-10 md:w-80 md:h-20 group">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
                 fill
-                className="object-contain object-left drop-shadow-[0_8px_16px_rgba(0,0,0,0.1)]"
+                className="object-contain object-left drop-shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
                 priority
               />
             </Link>
           </div>
 
-          {/* Desktop Navigation - Alinhado horizontalmente com o centro do logo */}
-          <nav className="hidden md:flex items-center gap-10 h-12 px-10 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl">
+          {/* 
+            Navegação Desktop: 
+            Alinhada perfeitamente ao centro vertical do logotipo.
+          */}
+          <nav className="hidden md:flex items-center gap-10 px-10 py-4 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
@@ -64,23 +74,23 @@ export function Navbar() {
             </button>
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* Botão do Menu Mobile */}
           <button 
-            className="md:hidden p-2.5 rounded-xl flex items-center gap-2.5 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95"
+            className="md:hidden p-3 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            <span className="text-[9px] font-black uppercase tracking-[0.3em]">Menu</span>
-            {isMobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
+            <span className="text-[10px] font-black uppercase tracking-[0.3em]">Menu</span>
+            {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
+        {/* Overlay do Menu Mobile */}
         <div className={cn(
           "md:hidden fixed inset-0 z-[60] bg-white transition-all duration-500 ease-in-out transform",
           isMobileMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
         )}>
           <div className="h-full flex flex-col p-10 pt-32">
-            <div className="flex flex-col gap-8 text-center">
+            <div className="flex flex-col gap-10 text-center">
               {navLinks.map((link, idx) => (
                 <Link 
                   key={link.name} 
