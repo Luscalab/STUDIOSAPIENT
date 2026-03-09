@@ -13,11 +13,10 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-80 pb-64 hero-purple-mesh section-flow-bottom">
-      {/* Luzes Dinâmicas Atmosféricas Multicromáticas */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      {/* Luzes Dinâmicas Atmosféricas */}
+      <div className="absolute inset-0 z-0 overflow-hidden opacity-50">
         <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-primary/20 blur-[180px] animate-pulse rounded-full" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-accent/15 blur-[180px] animate-pulse rounded-full" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-[20%] right-[10%] w-[40%] h-[40%] bg-indigo-500/10 blur-[150px] animate-pulse rounded-full" style={{ animationDelay: '4s' }} />
       </div>
 
       <div className="container relative z-10 mx-auto px-6">

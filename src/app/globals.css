@@ -70,7 +70,7 @@
   position: relative;
 }
 
-/* Transições Atmosféricas Suavizadas (Ultra-Longas) */
+/* Transições Atmosféricas Suavizadas */
 .section-flow-top {
   mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
 }
@@ -80,15 +80,11 @@
 }
 
 .section-spacing {
-  @apply py-48 md:py-64;
+  @apply py-32 md:py-48;
 }
 
 .glass-morphism {
   @apply bg-white/5 backdrop-blur-[40px] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)];
-}
-
-.glass-light {
-  @apply bg-white/80 backdrop-blur-3xl border border-white/40 shadow-2xl;
 }
 
 @keyframes float {
