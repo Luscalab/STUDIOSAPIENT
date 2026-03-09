@@ -85,11 +85,12 @@ export function AccessibilityMenu() {
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      const elements = readableElementsRef.current;
+      if (elements.length === 0) return;
+
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
         e.preventDefault();
-        const elements = readableElementsRef.current;
-        if (elements.length === 0) return;
-
+        
         if (e.key === 'ArrowDown') {
           currentIndexRef.current = (currentIndexRef.current + 1) % elements.length;
         } else {
@@ -108,6 +109,18 @@ export function AccessibilityMenu() {
 
         const text = currentElement.getAttribute('aria-label') || currentElement.getAttribute('alt') || currentElement.innerText || currentElement.textContent || "";
         speak(text);
+      }
+
+      // Ativação por ENTER
+      if (e.key === 'Enter' && currentIndexRef.current !== -1) {
+        const currentElement = elements[currentIndexRef.current];
+        const isClickable = ['A', 'BUTTON'].includes(currentElement.tagName) || currentElement.getAttribute('role') === 'button';
+        
+        if (isClickable) {
+          e.preventDefault();
+          currentElement.click();
+          speak("Item selecionado.");
+        }
       }
     };
 
@@ -136,10 +149,10 @@ export function AccessibilityMenu() {
       lastSpokenTextRef.current = "";
     } else {
       setIsReading(true);
-      // Instruções iniciais por voz
+      // Instruções iniciais por voz aprimoradas
       if (synthRef.current) {
         const welcome = new SpeechSynthesisUtterance(
-          "Modo de audiodescrição ativado. Passe o mouse sobre os elementos para ouvir, ou use as setas para cima e para baixo do seu teclado para navegar entre os textos do site."
+          "Modo de audiodescrição ativado. Explore com o mouse ou utilize as setas para cima e para baixo do seu teclado para navegar. Pressione a tecla Enter para selecionar links ou botões quando eles forem lidos."
         );
         welcome.lang = 'pt-BR';
         welcome.rate = 1;
