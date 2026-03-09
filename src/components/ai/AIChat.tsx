@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -85,75 +86,73 @@ export function AIChat() {
 
   return (
     <>
-      {/* Orbe de Inteligência IA - Escala Ajustada */}
+      {/* Orbe de Inteligência IA - Escala Ultra Compacta */}
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-label={isOpen ? "Fechar chat IA" : "Abrir diagnóstico de IA"}
+        aria-expanded={isOpen}
         className={cn(
-          "fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[100] h-16 w-16 md:h-20 md:w-20 rounded-full flex items-center justify-center transition-all duration-1000 hover:scale-110 active:scale-90 border-4 border-white/40 backdrop-blur-3xl group overflow-hidden shadow-[0_20px_60px_rgba(139,92,246,0.4)]",
+          "fixed bottom-6 right-6 z-[100] h-12 w-12 md:h-14 md:w-14 rounded-full flex items-center justify-center transition-all duration-1000 hover:scale-110 active:scale-95 border-2 border-white/40 backdrop-blur-3xl group overflow-hidden shadow-2xl shadow-primary/30",
           isOpen 
             ? "bg-foreground rotate-90" 
             : "bg-gradient-to-br from-primary via-primary to-accent animate-glow-pulse"
         )}
       >
-        <div className="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         
         {isOpen ? (
-          <X className="h-7 w-7 text-white relative z-10" />
+          <X className="h-5 w-5 text-white relative z-10" />
         ) : (
-          <div className="relative flex flex-col items-center justify-center gap-0.5 z-10">
-            <Sparkles className="h-6 w-6 md:h-8 md:w-8 text-white animate-pulse" />
-            <span className="hidden md:block text-[7px] font-black uppercase tracking-[0.3em] text-white/90">Estrategista</span>
+          <div className="relative flex flex-col items-center justify-center z-10">
+            <Sparkles className="h-5 w-5 md:h-6 md:w-6 text-white animate-pulse" />
           </div>
         )}
-        
-        <div className="absolute top-0 left-[-150%] w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:left-[150%] transition-all duration-1000" />
       </button>
 
-      {/* Janela de Chat - Escala Ajustada */}
+      {/* Janela de Chat - Escala Reduzida */}
       <div
+        role="dialog"
+        aria-label="Interface de Diagnóstico IA"
         className={cn(
-          "fixed bottom-24 md:bottom-36 right-4 md:right-10 z-[100] w-[calc(100vw-2rem)] md:w-[440px] h-[65vh] md:max-h-[75vh] glass-morphism rounded-[3rem] border-primary/20 shadow-[0_40px_100px_rgba(0,0,0,0.3)] transition-all duration-1000 origin-bottom-right flex flex-col overflow-hidden",
+          "fixed bottom-20 md:bottom-24 right-4 md:right-10 z-[100] w-[calc(100vw-2rem)] md:w-[380px] h-[55vh] md:max-h-[65vh] glass-morphism rounded-[2.5rem] border-primary/20 shadow-[0_30px_80px_rgba(0,0,0,0.2)] transition-all duration-1000 origin-bottom-right flex flex-col overflow-hidden",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-10 invisible pointer-events-none"
         )}
       >
-        <div className="p-8 bg-gradient-to-br from-primary to-accent text-white shrink-0 relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-6 opacity-10">
-            <Sparkles className="h-24 w-24" />
-          </div>
-          <div className="flex items-center gap-6 relative z-10">
-            <div className="h-12 w-12 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-2xl border border-white/20 shadow-xl">
-              <ClipboardCheck className="h-6 w-6" />
+        <div className="p-6 bg-gradient-to-br from-primary to-accent text-white shrink-0 relative">
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="h-10 w-10 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-md border border-white/20">
+              <ClipboardCheck className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-[8px] font-black uppercase tracking-[0.4em] opacity-80 mb-1">Dossiê de Diagnóstico</p>
-              <h3 className="font-headline font-black text-2xl tracking-tighter leading-tight">Estrategista Sapient</h3>
+              <p className="text-[7px] font-black uppercase tracking-[0.4em] opacity-80">Dossiê IA</p>
+              <h3 className="font-headline font-black text-xl tracking-tighter">Estrategista Sapient</h3>
             </div>
           </div>
         </div>
 
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 bg-white/80 custom-scrollbar">
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-white/90 custom-scrollbar">
           {chatHistory.length === 0 && (
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <p className="text-3xl font-black text-foreground tracking-tighter leading-[0.9]">
-                  Engenharia <br />Instantânea.
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <p className="text-2xl font-black text-foreground tracking-tighter leading-none">
+                  Diagnóstico <br />Instantâneo.
                 </p>
-                <p className="text-muted-foreground/70 font-medium leading-relaxed text-base">
-                  Descreva seu principal gargalo comercial para uma análise técnica agora.
+                <p className="text-muted-foreground/70 font-medium text-sm">
+                  Descreva seu desafio comercial agora.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-1 gap-2">
                 {QUICK_NICHES.map((niche, i) => (
                   <button
                     key={i}
                     onClick={() => handleQuickNiche(niche.prompt)}
-                    className="flex items-center gap-4 p-4 rounded-[1.5rem] bg-white border border-primary/5 hover:border-primary/20 hover:bg-primary/5 transition-all text-left group shadow-sm"
+                    className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-primary/5 hover:border-primary/20 hover:bg-primary/5 transition-all text-left group shadow-sm"
                   >
-                    <div className="h-10 w-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                    <div className="h-8 w-8 rounded-lg bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
                       {niche.icon}
                     </div>
-                    <span className="text-[11px] font-black uppercase tracking-[0.15em] text-muted-foreground group-hover:text-primary transition-colors">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground group-hover:text-primary">
                       {niche.label}
                     </span>
                   </button>
@@ -162,14 +161,14 @@ export function AIChat() {
             </div>
           )}
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             {chatHistory.map((msg, i) => (
               <div key={i} className={cn(
-                "flex flex-col gap-2 max-w-[95%]",
+                "flex flex-col gap-1 max-w-[90%]",
                 msg.role === 'user' ? "ml-auto items-end" : "items-start"
               )}>
                 <div className={cn(
-                  "p-5 rounded-[1.5rem] text-sm md:text-base font-medium leading-relaxed shadow-sm",
+                  "p-4 rounded-2xl text-xs md:text-sm font-medium leading-relaxed shadow-sm",
                   msg.role === 'user' 
                     ? "bg-primary text-white rounded-tr-none" 
                     : "bg-white border border-primary/10 text-muted-foreground/80 rounded-tl-none"
@@ -181,69 +180,56 @@ export function AIChat() {
           </div>
 
           {result?.isDataSufficient && (
-            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700 pb-8 pt-8 border-t border-primary/10">
-              <div className="space-y-4">
-                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-primary flex items-center gap-3">
-                  <Search className="h-4 w-4" /> Auditoria de Marca
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-4 pt-4 border-t border-primary/10">
+              <div className="space-y-2">
+                <p className="text-[8px] font-black uppercase tracking-[0.4em] text-primary flex items-center gap-2">
+                  <Search className="h-3 w-3" /> Auditoria
                 </p>
-                <div className="bg-white p-6 rounded-[1.5rem] border border-primary/10 shadow-sm text-sm text-muted-foreground/70 leading-relaxed font-medium italic">
+                <div className="bg-white p-4 rounded-xl border border-primary/10 text-[11px] text-muted-foreground/70 italic">
                   "{result.brandAudit}"
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-primary flex items-center gap-3">
-                  <Activity className="h-4 w-4" /> Gargalo Identificado
+              <div className="space-y-2">
+                <p className="text-[8px] font-black uppercase tracking-[0.4em] text-primary flex items-center gap-2">
+                  <Activity className="h-3 w-3" /> Gargalo
                 </p>
-                <div className="bg-secondary/50 p-6 rounded-[1.5rem] border border-primary/10 text-lg font-black text-foreground leading-tight tracking-tighter">
+                <div className="bg-secondary/50 p-4 rounded-xl border border-primary/10 text-base font-black text-foreground tracking-tighter">
                   {result.diagnosis}
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-primary flex items-center gap-3">
-                  <Zap className="h-4 w-4" /> Intervenção Técnica
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {result.recommendedServices.map((service, idx) => (
-                    <Badge key={idx} className="bg-primary text-white border-none px-4 py-2 text-[9px] font-black rounded-full uppercase tracking-[0.2em]">
-                      {service}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-
-              <div className="pt-6">
+              <div className="pt-4">
                 <Button 
-                  className="w-full h-16 bg-primary hover:bg-primary/90 text-white rounded-full font-black uppercase tracking-[0.2em] text-[11px] shadow-xl group"
+                  className="w-full h-12 bg-primary hover:bg-primary/90 text-white rounded-full font-black uppercase tracking-widest text-[9px] shadow-lg group"
                   onClick={() => {
                     setIsOpen(false);
                     document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
-                  Dossiê Completo <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform" />
+                  Dossiê Completo <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
             </div>
           )}
 
           {loading && (
-            <div className="flex items-center gap-4 bg-primary/5 p-4 rounded-full w-fit border border-primary/10">
-              <Loader2 className="h-4 w-4 text-primary animate-spin" />
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">Engenharia IA...</p>
+            <div className="flex items-center gap-3 bg-primary/5 p-3 rounded-full w-fit border border-primary/10">
+              <Loader2 className="h-3 w-3 text-primary animate-spin" />
+              <p className="text-[8px] font-black uppercase tracking-[0.3em] text-primary">Processando...</p>
             </div>
           )}
         </div>
 
         {(!result || !result.isDataSufficient) && (
-          <form onSubmit={handleSubmit} className="p-6 border-t border-muted bg-white shrink-0">
+          <form onSubmit={handleSubmit} className="p-4 border-t border-muted bg-white shrink-0">
             <div className="relative group">
               <Textarea
-                placeholder="Descreva seu desafio..."
+                placeholder="Qual seu desafio?"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={loading}
-                className="min-h-[80px] bg-secondary/30 border-transparent rounded-[1.5rem] p-5 pr-14 text-sm md:text-base focus:ring-primary/20 resize-none transition-all duration-500 hover:bg-secondary/50 placeholder:text-muted-foreground/40 leading-relaxed"
+                className="min-h-[60px] bg-secondary/30 border-transparent rounded-2xl p-4 pr-12 text-xs focus:ring-primary/10 resize-none transition-all placeholder:text-muted-foreground/40"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -254,9 +240,10 @@ export function AIChat() {
               <button
                 type="submit"
                 disabled={loading || !input.trim()}
-                className="absolute bottom-4 right-4 h-10 w-10 rounded-xl bg-primary text-white flex items-center justify-center disabled:opacity-20 transition-all hover:scale-110 shadow-lg"
+                aria-label="Enviar mensagem"
+                className="absolute bottom-3 right-3 h-8 w-8 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-20 transition-all hover:scale-105"
               >
-                <SendHorizontal className="h-5 w-5" />
+                <SendHorizontal className="h-4 w-4" />
               </button>
             </div>
           </form>

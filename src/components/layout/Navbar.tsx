@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -26,13 +27,15 @@ export function Navbar() {
 
   return (
     <>
-      {/* Header Estático Elevado */}
-      <header className="absolute top-2 left-0 right-0 z-50">
+      <header className="absolute top-2 left-0 right-0 z-50" role="banner">
         <div className="container mx-auto px-6 flex items-center justify-start gap-12 lg:gap-16">
           
-          {/* Lado Esquerdo: Logotipo Imponente */}
           <div className="flex items-center shrink-0">
-            <Link href="/" className="relative block w-48 h-12 md:w-[420px] md:h-32 group transition-transform hover:scale-[1.01]">
+            <Link 
+              href="/" 
+              aria-label="Sapient Studio Home"
+              className="relative block w-48 h-12 md:w-[420px] md:h-32 group transition-transform hover:scale-[1.01]"
+            >
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -43,8 +46,7 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* Menu Desktop: Posicionado à esquerda próximo ao logo */}
-          <nav className="hidden xl:flex items-center gap-10 px-12 py-6 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl">
+          <nav className="hidden xl:flex items-center gap-10 px-12 py-6 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl" aria-label="Navegação Principal">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
@@ -58,29 +60,30 @@ export function Navbar() {
             
             <button 
               onClick={handleOpenChat}
+              aria-label="Iniciar Análise com Inteligência Artificial"
               className="text-[10px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all relative group whitespace-nowrap flex items-center gap-2"
             >
-              <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true" />
               Análise IA
               <span className="absolute -bottom-2 left-0 w-0 h-[1.5px] bg-primary transition-all duration-500 group-hover:w-full" />
             </button>
           </nav>
 
-          {/* Menu Mobile Button */}
           <button 
             className="xl:hidden ml-auto p-4 rounded-2xl flex items-center gap-3 bg-white/10 backdrop-blur-md text-white border border-white/20 active:scale-95 shrink-0"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-expanded={isMobileMenuOpen}
+            aria-label="Abrir menu de navegação"
           >
             <span className="text-[10px] font-black uppercase tracking-[0.3em]">Menu</span>
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
-        {/* Overlay Menu Mobile */}
         <div className={cn(
           "xl:hidden fixed inset-0 z-[60] bg-white transition-all duration-700 ease-in-out transform",
           isMobileMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
-        )}>
+        )} role="dialog" aria-modal="true" aria-label="Menu Mobile">
           <div className="h-full flex flex-col p-12 pt-32 bg-[#fbfaff]">
              <div className="mb-12">
                <Image src={logoUrl} alt="Logo" width={240} height={60} className="object-contain filter invert" />
@@ -111,6 +114,7 @@ export function Navbar() {
             
             <button 
               onClick={() => setIsMobileMenuOpen(false)}
+              aria-label="Fechar menu"
               className="absolute top-10 right-10 h-16 w-16 rounded-full bg-secondary flex items-center justify-center text-primary shadow-xl"
             >
               <X size={32} />
