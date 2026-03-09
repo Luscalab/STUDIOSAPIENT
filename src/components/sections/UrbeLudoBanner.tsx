@@ -7,26 +7,26 @@ import { X, ArrowRight, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Banner de anúncio dinâmico Ultra-Chamativo para o projeto UrbeLudo.
- * Sincronizado com a paleta de cores Roxo Premium da Sapient Studio.
- * Estética Deep Tech com Glow Neon Roxo.
+ * Banner de anúncio dinâmico para o projeto UrbeLudo.
+ * Sincronizado com a paleta de cores Roxo Sapient.
+ * Versão Mobile otimizada para ser compacta e com tom de voz humanizado.
  */
 export function UrbeLudoBanner() {
   const [isVisible, setIsVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    // Timer para iniciar a animação de saída após 6 segundos (1s entrada + 5s exibição)
+    // Timer para iniciar a animação de saída após 8 segundos
     const timer = setTimeout(() => {
       handleClose();
-    }, 6000);
+    }, 8000);
 
     return () => clearTimeout(timer);
   }, []);
 
   const handleClose = () => {
     setIsExiting(true);
-    setTimeout(() => setIsVisible(false), 800); // Tempo da animação de saída
+    setTimeout(() => setIsVisible(false), 800); 
   };
 
   if (!isVisible) return null;
@@ -34,49 +34,48 @@ export function UrbeLudoBanner() {
   return (
     <div 
       className={cn(
-        "fixed top-6 left-4 right-4 z-[200] md:left-auto md:right-8 md:top-8 md:w-[450px] transition-all duration-1000 ease-in-out",
-        isExiting ? "translate-x-full opacity-0 scale-90 blur-lg" : "translate-x-0 opacity-100 scale-100 animate-in slide-in-from-right-24"
+        "fixed top-6 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] max-w-[340px] z-[200] md:left-auto md:translate-x-0 md:right-8 md:top-8 md:w-[420px] transition-all duration-1000 ease-in-out",
+        isExiting ? "translate-x-full opacity-0 scale-90 blur-lg" : "translate-x-0 md:translate-x-0 opacity-100 scale-100 animate-in slide-in-from-top-12 md:slide-in-from-right-24"
       )}
     >
       <div className="relative group">
-        {/* Glow de fundo ultra potente e pulsante - Agora em tons de Roxo */}
-        <div className="absolute -inset-2 bg-gradient-to-r from-primary via-accent to-purple-600 rounded-[2.5rem] blur-2xl opacity-40 group-hover:opacity-70 transition duration-1000 animate-pulse"></div>
+        {/* Glow de fundo sutil */}
+        <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-purple-600 rounded-[2rem] blur-xl opacity-30 group-hover:opacity-50 transition duration-1000 animate-pulse"></div>
         
-        <div className="relative flex items-center gap-5 bg-[#0c0a1a]/95 backdrop-blur-3xl border border-white/10 p-6 rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.5)] overflow-hidden">
+        <div className="relative flex items-center gap-4 bg-[#0c0a1a]/95 backdrop-blur-3xl border border-white/10 p-5 rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden">
           
-          {/* Barra de Progresso de Auto-Destruição (6s total) */}
-          <div className="absolute bottom-0 left-0 h-1.5 bg-gradient-to-r from-primary via-accent to-purple-500 animate-[progress_6s_linear_forwards]" />
+          {/* Barra de Progresso discreta */}
+          <div className="absolute bottom-0 left-0 h-1 bg-primary/40 animate-[progress_8s_linear_forwards]" />
 
-          <div className="h-16 w-16 rounded-3xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-primary shrink-0 border border-white/10 shadow-inner">
-            <Zap className="h-8 w-8 animate-bounce" />
+          <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0 border border-white/5">
+            <Zap className="h-6 w-6" />
           </div>
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <span className="bg-primary text-white text-[7px] font-black px-2 py-0.5 rounded-sm uppercase tracking-widest">
-                Novo Ecossistema
+              <span className="text-[7px] font-black text-primary uppercase tracking-[0.3em]">
+                Inovação com propósito
               </span>
-              <span className="text-[8px] font-black text-white/30 uppercase tracking-[0.3em]">HealthTech 2.0</span>
             </div>
             
-            <h4 className="text-white font-black text-lg tracking-tighter leading-tight">
-              UrbeLudo — A Ciência do Movimento.
+            <h4 className="text-white font-bold text-sm md:text-base tracking-tight leading-tight">
+              UrbeLudo: Tecnologia que ajuda pessoas a se movimentarem melhor.
             </h4>
             
             <Link 
               href="/urbeludo" 
-              className="group/link inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] text-accent hover:text-white transition-all mt-3"
+              className="group/link inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] text-accent hover:text-white transition-all mt-2"
             >
-              Explorar Tecnologia <ArrowRight className="h-3 w-3 group-hover/link:translate-x-2 transition-transform" />
+              Ver como funciona <ArrowRight className="h-3 w-3 group-hover/link:translate-x-1 transition-transform" />
             </Link>
           </div>
 
           <button 
             onClick={handleClose}
-            className="h-10 w-10 rounded-full bg-white/5 hover:bg-white/20 flex items-center justify-center text-white/40 hover:text-white transition-all border border-white/10"
-            aria-label="Fechar anúncio"
+            className="h-8 w-8 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center text-white/30 hover:text-white transition-all"
+            aria-label="Fechar"
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </button>
         </div>
       </div>
