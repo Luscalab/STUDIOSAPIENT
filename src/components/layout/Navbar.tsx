@@ -35,12 +35,12 @@ export function Navbar() {
 
   return (
     <>
-      {/* Container Principal do Header - Fixo */}
-      <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none p-4 md:p-8">
+      {/* Container Principal do Header - Absoluto para não acompanhar a rolagem */}
+      <header className="absolute top-0 left-0 right-0 z-50 pointer-events-none p-4 md:p-8">
         <div className="container mx-auto flex items-start justify-between relative h-32 md:h-48">
           
           {/* Logo - Ampliado 40% e elevado para evitar sobreposição */}
-          <div className="pointer-events-auto -mt-4 md:-mt-10">
+          <div className="pointer-events-auto -mt-6 md:-mt-14">
             <Link href="/" className="relative block group transition-all duration-500 w-48 h-20 md:w-[480px] md:h-48">
               <Image 
                 src={logoUrl}
@@ -52,7 +52,7 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* Navegação - Estilo Cápsula Refinado e Fixo à Direita */}
+          {/* Navegação - Estilo Cápsula Refinado */}
           <div className={cn(
             "pointer-events-auto h-12 md:h-14 px-6 md:px-12 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-6",
             isScrolled 
