@@ -10,7 +10,7 @@ import { UrbeLudoBanner } from "@/components/sections/UrbeLudoBanner";
 
 export default function Home() {
   return (
-    <main id="main-content" className="min-h-screen bg-[#08070b]">
+    <main id="main-content" className="min-h-screen bg-[#08070b] pb-24">
       <UrbeLudoBanner />
       
       <Navbar />
@@ -19,8 +19,8 @@ export default function Home() {
       <Process />
       <FAQ />
       <Contact />
-      <Footer />
       
+      <Footer />
       <AIChat />
     </main>
   );

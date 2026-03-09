@@ -13,7 +13,6 @@ import {
   Hand,
   Volume2,
   VolumeX,
-  Zap,
   ZapOff
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -31,9 +30,8 @@ export function AccessibilityMenu() {
   const [stopAnimations, setStopAnimations] = useState(false);
   
   const synthRef = useRef<SpeechSynthesis | null>(null);
-  const lastSpokenTextRef = useRef<string>("");
-  const readableElementsRef = useRef<HTMLElement[]>([]);
-  const currentIndexRef = useRef<number>(-1);
+  const lastInteractedElementRef = useRef<HTMLElement | null>(null);
+  const lastClickTimeRef = useRef<number>(0);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -65,96 +63,77 @@ export function AccessibilityMenu() {
     else document.body.classList.remove('accessibility-stop-animations');
   }, [stopAnimations]);
 
-  // Efeito para a Audiodescrição Dinâmica (Hover, Toque e Teclado)
   useEffect(() => {
     if (!isReading || !synthRef.current) return;
 
     const selector = 'h1, h2, h3, h4, h5, h6, p, a, button, li, [role="button"], img[alt]';
-    readableElementsRef.current = Array.from(document.querySelectorAll(selector)) as HTMLElement[];
-    currentIndexRef.current = -1;
 
-    const speak = (text: string) => {
+    const speak = (element: HTMLElement) => {
       if (!synthRef.current) return;
-      const cleanText = text.trim();
-      if (cleanText && cleanText.length > 1 && cleanText !== lastSpokenTextRef.current) {
+      
+      const text = element.getAttribute('aria-label') || element.getAttribute('alt') || element.innerText || element.textContent || "";
+      const isClickable = ['A', 'BUTTON'].includes(element.tagName) || element.getAttribute('role') === 'button';
+      
+      let finalSpeech = text.trim();
+      if (isClickable) {
+        finalSpeech += ". Item clicável. Clique duas vezes para ativar.";
+      }
+
+      if (finalSpeech.length > 1) {
         synthRef.current.cancel();
-        const utterance = new SpeechSynthesisUtterance(cleanText);
+        const utterance = new SpeechSynthesisUtterance(finalSpeech);
         utterance.lang = 'pt-BR';
         utterance.rate = 1.1;
-        lastSpokenTextRef.current = cleanText;
         synthRef.current.speak(utterance);
       }
+
+      // Realce Visual
+      const originalOutline = element.style.outline;
+      element.style.outline = '4px solid hsl(var(--primary))';
+      element.style.outlineOffset = '4px';
+      setTimeout(() => {
+        element.style.outline = originalOutline;
+      }, 1500);
     };
 
-    const handleInteraction = (e: MouseEvent | TouchEvent) => {
-      const target = e.target as HTMLElement;
+    const handleGlobalInteraction = (e: MouseEvent | TouchEvent) => {
+      // Ignora interações com o próprio menu de acessibilidade
+      if ((e.target as HTMLElement).closest('.accessibility-menu-container')) return;
+
+      const target = (e.target as HTMLElement).closest(selector) as HTMLElement;
       if (!target) return;
-      
-      // Encontra o elemento legível mais próximo (subindo na árvore se necessário)
-      const readable = target.closest(selector) as HTMLElement;
-      if (readable) {
-        const text = readable.getAttribute('aria-label') || readable.getAttribute('alt') || readable.innerText || readable.textContent || "";
-        speak(text);
 
-        // Feedback visual temporário no mobile
-        if (isMobile) {
-          const originalOutline = readable.style.outline;
-          readable.style.outline = '2px solid hsl(var(--primary))';
-          setTimeout(() => {
-            readable.style.outline = originalOutline;
-          }, 800);
-        }
-      }
-    };
+      const now = Date.now();
+      const isSameElement = target === lastInteractedElementRef.current;
+      const timeDiff = now - lastClickTimeRef.current;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const elements = readableElementsRef.current;
-      if (elements.length === 0) return;
-
-      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      // Protocolo de Duplo Clique/Toque
+      if (isSameElement && timeDiff < 600) {
+        // Segundo clique: Permite a ação natural do navegador
+        lastInteractedElementRef.current = null;
+        lastClickTimeRef.current = 0;
+        return; 
+      } else {
+        // Primeiro clique: Intercepta e descreve
         e.preventDefault();
-        
-        if (e.key === 'ArrowDown') {
-          currentIndexRef.current = (currentIndexRef.current + 1) % elements.length;
-        } else {
-          currentIndexRef.current = (currentIndexRef.current - 1 + elements.length) % elements.length;
-        }
-
-        const currentElement = elements[currentIndexRef.current];
-        currentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        const originalOutline = currentElement.style.outline;
-        currentElement.style.outline = '3px solid hsl(var(--primary))';
-        setTimeout(() => {
-          currentElement.style.outline = originalOutline;
-        }, 1000);
-
-        const text = currentElement.getAttribute('aria-label') || currentElement.getAttribute('alt') || currentElement.innerText || currentElement.textContent || "";
-        speak(text);
-      }
-
-      if (e.key === 'Enter' && currentIndexRef.current !== -1) {
-        const currentElement = elements[currentIndexRef.current];
-        const isClickable = ['A', 'BUTTON'].includes(currentElement.tagName) || currentElement.getAttribute('role') === 'button';
-        
-        if (isClickable) {
-          e.preventDefault();
-          currentElement.click();
-          speak("Item selecionado.");
-        }
+        e.stopPropagation();
+        lastInteractedElementRef.current = target;
+        lastClickTimeRef.current = now;
+        speak(target);
       }
     };
 
-    document.addEventListener('mouseover', handleInteraction as any);
+    // Usamos capture: true para garantir a interceptação antes dos listeners dos botões
+    document.addEventListener('click', handleGlobalInteraction as any, true);
     if (isMobile) {
-      document.addEventListener('touchstart', handleInteraction as any);
+      document.addEventListener('touchstart', handleGlobalInteraction as any, { passive: false, capture: true } as any);
     }
-    document.addEventListener('keydown', handleKeyDown);
-    
+
     return () => {
-      document.removeEventListener('mouseover', handleInteraction as any);
-      document.removeEventListener('touchstart', handleInteraction as any);
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('click', handleGlobalInteraction as any, true);
+      if (isMobile) {
+        document.removeEventListener('touchstart', handleGlobalInteraction as any, true);
+      }
       if (synthRef.current) synthRef.current.cancel();
     };
   }, [isReading, isMobile]);
@@ -171,15 +150,14 @@ export function AccessibilityMenu() {
     if (isReading) {
       if (synthRef.current) synthRef.current.cancel();
       setIsReading(false);
-      lastSpokenTextRef.current = "";
     } else {
       setIsReading(true);
       if (synthRef.current) {
-        const mobileInstruction = isMobile 
-          ? "Modo de audiodescrição ativado. Toque em qualquer texto ou botão da página para ouvir o conteúdo." 
-          : "Modo de audiodescrição ativado. Explore com o mouse ou utilize as setas do seu teclado para navegar.";
+        const instruction = isMobile 
+          ? "Modo de audiodescrição ativado. Toque uma vez para ouvir a descrição e duas vezes seguidas para ativar botões ou links." 
+          : "Modo de audiodescrição ativado. Clique uma vez para ouvir e duas vezes para selecionar.";
         
-        const welcome = new SpeechSynthesisUtterance(mobileInstruction);
+        const welcome = new SpeechSynthesisUtterance(instruction);
         welcome.lang = 'pt-BR';
         welcome.rate = 1;
         synthRef.current.cancel();
@@ -199,12 +177,12 @@ export function AccessibilityMenu() {
   };
 
   return (
-    <>
+    <div className="accessibility-menu-container">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Menu de Acessibilidade Inclusiva"
+        aria-label="Menu de Acessibilidade"
         className={cn(
-          "fixed bottom-24 right-6 z-[100] h-16 w-16 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-xl",
+          "fixed bottom-24 right-6 z-[200] h-16 w-16 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-xl",
           isOpen ? "bg-foreground text-white" : "bg-primary text-white"
         )}
       >
@@ -213,7 +191,7 @@ export function AccessibilityMenu() {
 
       <div
         className={cn(
-          "fixed bottom-44 right-6 z-[100] w-[300px] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-700 origin-bottom-right p-6 space-y-6",
+          "fixed bottom-44 right-6 z-[200] w-[300px] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-700 origin-bottom-right p-6 space-y-6",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-10 invisible pointer-events-none"
         )}
       >
@@ -226,7 +204,7 @@ export function AccessibilityMenu() {
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Escala Global</p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Tamanho do Texto</p>
             <div className="flex items-center justify-between bg-secondary/50 rounded-2xl p-3">
               <button onClick={() => setFontSize(prev => Math.max(prev - 10, 80))} className="h-8 w-8 rounded-lg hover:bg-white flex items-center justify-center" aria-label="Diminuir fonte"><Minus className="h-4 w-4" /></button>
               <span className="text-[12px] font-bold">{fontSize}%</span>
@@ -235,10 +213,10 @@ export function AccessibilityMenu() {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <button onClick={() => setHighContrast(!highContrast)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase", highContrast ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Contrast className="h-6 w-6" />Contraste</button>
-            <button onClick={() => setGrayscale(!grayscale)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase", grayscale ? "bg-primary text-white" : "bg-white text-muted-foreground")}><SunMoon className="h-6 w-6" />Monocromo</button>
-            <button onClick={toggleLibras} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase", isLibrasActive ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Hand className="h-6 w-6" />Libras</button>
-            <button onClick={toggleReadingMode} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase", isReading ? "bg-primary text-white" : "bg-white text-muted-foreground")}>{isReading ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}Voz Nativa</button>
+            <button onClick={() => setHighContrast(!highContrast)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", highContrast ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Contrast className="h-6 w-6" />Contraste</button>
+            <button onClick={() => setGrayscale(!grayscale)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", grayscale ? "bg-primary text-white" : "bg-white text-muted-foreground")}><SunMoon className="h-6 w-6" />Monocromo</button>
+            <button onClick={toggleLibras} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", isLibrasActive ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Hand className="h-6 w-6" />Libras</button>
+            <button onClick={toggleReadingMode} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", isReading ? "bg-primary text-white" : "bg-white text-muted-foreground")}>{isReading ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}Voz Nativa</button>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -249,6 +227,6 @@ export function AccessibilityMenu() {
           <button onClick={resetAll} className="w-full flex items-center justify-center gap-2 p-4 rounded-2xl bg-secondary/30 text-[10px] font-black uppercase text-muted-foreground"><RotateCcw className="h-4 w-4" />Resetar Preferências</button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
