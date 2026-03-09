@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { VLibras } from "@/components/accessibility/VLibras";
+import { AccessibilityMenu } from "@/components/accessibility/AccessibilityMenu";
 
 export const metadata: Metadata = {
   title: 'Sapient Studio | Estratégia e Resultados',
@@ -24,8 +25,9 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
-        {/* VLibras Accessibility Widget - Agora como Client Component para evitar erros de hidratação */}
+        {/* Componentes Globais de Acessibilidade */}
         <VLibras />
+        <AccessibilityMenu />
 
         {children}
         <Toaster />

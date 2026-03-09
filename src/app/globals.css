@@ -25,6 +25,30 @@
     --ring: 265 90% 60%;
     --radius: 2.5rem;
   }
+
+  .accessibility-high-contrast {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --primary: 60 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 80%;
+    --accent: 60 100% 50%;
+    --border: 0 0% 100%;
+  }
+
+  .accessibility-grayscale {
+    filter: grayscale(100%) !important;
+  }
+
+  .accessibility-highlight-links a {
+    text-decoration: underline !important;
+    color: hsl(var(--primary)) !important;
+    background-color: yellow !important;
+    padding: 2px !important;
+  }
 }
 
 @layer base {

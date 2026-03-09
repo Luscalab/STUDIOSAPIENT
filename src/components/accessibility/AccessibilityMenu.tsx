@@ -1,0 +1,181 @@
+'use client';
+
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { 
+  Accessibility, 
+  X, 
+  Type, 
+  Contrast, 
+  Minus, 
+  Plus, 
+  RotateCcw,
+  Eye,
+  Link as LinkIcon,
+  SunMoon
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+
+export function AccessibilityMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [fontSize, setFontSize] = useState(100);
+  const [highContrast, setHighContrast] = useState(false);
+  const [grayscale, setGrayscale] = useState(false);
+  const [highlightLinks, setHighlightLinks] = useState(false);
+
+  useEffect(() => {
+    // Load preferences
+    const savedFontSize = localStorage.getItem('access-font-size');
+    const savedContrast = localStorage.getItem('access-contrast') === 'true';
+    const savedGrayscale = localStorage.getItem('access-grayscale') === 'true';
+    const savedLinks = localStorage.getItem('access-links') === 'true';
+
+    if (savedFontSize) setFontSize(parseInt(savedFontSize));
+    if (savedContrast) setHighContrast(savedContrast);
+    if (savedGrayscale) setGrayscale(savedGrayscale);
+    if (savedLinks) setHighlightLinks(savedLinks);
+  }, []);
+
+  useEffect(() => {
+    // Apply Font Size
+    document.documentElement.style.fontSize = `${(fontSize / 100) * 16}px`;
+    localStorage.setItem('access-font-size', fontSize.toString());
+  }, [fontSize]);
+
+  useEffect(() => {
+    // Apply High Contrast
+    if (highContrast) {
+      document.body.classList.add('accessibility-high-contrast');
+    } else {
+      document.body.classList.remove('accessibility-high-contrast');
+    }
+    localStorage.setItem('access-contrast', highContrast.toString());
+  }, [highContrast]);
+
+  useEffect(() => {
+    // Apply Grayscale
+    if (grayscale) {
+      document.documentElement.classList.add('accessibility-grayscale');
+    } else {
+      document.documentElement.classList.remove('accessibility-grayscale');
+    }
+    localStorage.setItem('access-grayscale', grayscale.toString());
+  }, [grayscale]);
+
+  useEffect(() => {
+    // Apply Link Highlights
+    if (highlightLinks) {
+      document.body.classList.add('accessibility-highlight-links');
+    } else {
+      document.body.classList.remove('accessibility-highlight-links');
+    }
+    localStorage.setItem('access-links', highlightLinks.toString());
+  }, [highlightLinks]);
+
+  const resetAll = () => {
+    setFontSize(100);
+    setHighContrast(false);
+    setGrayscale(false);
+    setHighlightLinks(false);
+  };
+
+  return (
+    <>
+      {/* Botão Flutuante de Acessibilidade */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Menu de Acessibilidade"
+        className={cn(
+          "fixed bottom-6 left-6 z-[100] h-12 w-12 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-xl",
+          isOpen 
+            ? "bg-foreground text-white" 
+            : "bg-primary text-white animate-glow-pulse"
+        )}
+      >
+        {isOpen ? <X className="h-5 w-5" /> : <Accessibility className="h-5 w-5" />}
+      </button>
+
+      {/* Janela do Menu */}
+      <div
+        className={cn(
+          "fixed bottom-24 left-6 z-[100] w-[280px] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-500 origin-bottom-left p-6 space-y-6",
+          isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-10 invisible pointer-events-none"
+        )}
+      >
+        <div className="flex items-center gap-3 mb-2">
+          <div className="h-8 w-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+            <Accessibility className="h-4 w-4" />
+          </div>
+          <h3 className="font-headline font-black text-sm tracking-tighter uppercase">Acessibilidade</h3>
+        </div>
+
+        <div className="space-y-4">
+          {/* Controle de Fonte */}
+          <div className="space-y-2">
+            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Tamanho do Texto</p>
+            <div className="flex items-center justify-between bg-secondary/50 rounded-2xl p-2">
+              <button 
+                onClick={() => setFontSize(prev => Math.max(prev - 10, 80))}
+                className="h-8 w-8 rounded-lg hover:bg-white flex items-center justify-center transition-colors"
+              >
+                <Minus className="h-3 w-3" />
+              </button>
+              <span className="text-xs font-bold">{fontSize}%</span>
+              <button 
+                onClick={() => setFontSize(prev => Math.min(prev + 10, 150))}
+                className="h-8 w-8 rounded-lg hover:bg-white flex items-center justify-center transition-colors"
+              >
+                <Plus className="h-3 w-3" />
+              </button>
+            </div>
+          </div>
+
+          {/* Atalhos Rápidos */}
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => setHighContrast(!highContrast)}
+              className={cn(
+                "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
+                highContrast ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
+              )}
+            >
+              <Contrast className="h-4 w-4" />
+              Contraste
+            </button>
+            <button
+              onClick={() => setGrayscale(!grayscale)}
+              className={cn(
+                "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
+                grayscale ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
+              )}
+            >
+              <SunMoon className="h-4 w-4" />
+              Monocromo
+            </button>
+            <button
+              onClick={() => setHighlightLinks(!highlightLinks)}
+              className={cn(
+                "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
+                highlightLinks ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
+              )}
+            >
+              <LinkIcon className="h-4 w-4" />
+              Links
+            </button>
+            <button
+              onClick={resetAll}
+              className="flex flex-col items-center gap-2 p-3 rounded-2xl bg-secondary/30 border border-transparent hover:bg-secondary/50 transition-all text-[9px] font-black uppercase tracking-wider text-muted-foreground"
+            >
+              <RotateCcw className="h-4 w-4" />
+              Resetar
+            </button>
+          </div>
+        </div>
+
+        <p className="text-[8px] font-black text-center text-muted-foreground/40 uppercase tracking-[0.3em]">
+          Sapient Studio • Inclusão
+        </p>
+      </div>
+    </>
+  );
+}
