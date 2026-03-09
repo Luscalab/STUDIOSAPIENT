@@ -27,18 +27,18 @@ export function Navbar() {
     <>
       {/* 
         Header Estático: Posicionado no topo absoluto da página. 
-        Não acompanha o scroll (position: absolute).
+        Py reduzido para "elevar" o conjunto em relação ao topo.
       */}
-      <header className="absolute top-0 left-0 right-0 z-50 py-6 md:py-8">
+      <header className="absolute top-0 left-0 right-0 z-50 py-4 md:py-6">
         <div className="container mx-auto px-6 flex items-center justify-between">
           
           {/* 
             Container do Logotipo: 
-            Utiliza flexbox para garantir alinhamento vertical com o menu.
-            Tamanho controlado de forma robusta via classes de largura.
+            Tamanho ampliado significativamente (Desktop: 480px, Mobile: 240px).
+            Utiliza object-contain para garantir que a imagem não distorça.
           */}
           <div className="flex-shrink-0 animate-logo-reveal flex items-center">
-            <Link href="/" className="relative block w-40 h-10 md:w-80 md:h-20 group">
+            <Link href="/" className="relative block w-60 h-16 md:w-[480px] md:h-32 group">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -51,7 +51,7 @@ export function Navbar() {
 
           {/* 
             Navegação Desktop: 
-            Alinhada perfeitamente ao centro vertical do logotipo.
+            Mantém o alinhamento centralizado com o logo.
           */}
           <nav className="hidden md:flex items-center gap-10 px-10 py-4 rounded-full border bg-white/5 backdrop-blur-3xl border-white/10 shadow-2xl">
             {navLinks.map((link) => (
