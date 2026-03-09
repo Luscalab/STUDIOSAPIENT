@@ -53,11 +53,11 @@ export function Services() {
   return (
     <section id="servicos" className="py-32 md:py-48 bg-white relative overflow-hidden section-flow-bottom">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="mb-24 text-center max-w-3xl mx-auto space-y-6">
-          <h2 className="font-display text-4xl md:text-7xl font-black text-foreground tracking-tighter leading-none uppercase">
+        <div className="mb-24 text-center max-w-4xl mx-auto space-y-8">
+          <h2 className="font-display text-5xl md:text-8xl font-black text-foreground tracking-tighter leading-none uppercase text-balance">
             SER<span className="text-primary italic">VIÇOS.</span>
           </h2>
-          <p className="text-foreground/50 text-xl font-medium leading-relaxed tracking-tight">
+          <p className="text-foreground/50 text-xl md:text-2xl font-medium leading-relaxed tracking-tight max-w-2xl mx-auto">
             Fundimos design de prestígio e estratégia digital para marcas que buscam clareza e autoridade absoluta.
           </p>
         </div>
