@@ -12,8 +12,11 @@ export function VLibras() {
   useEffect(() => {
     setMounted(true);
     
-    // Injeção manual do script oficial
+    // Evita múltiplas injeções do script
+    if (document.getElementById('vlibras-script')) return;
+
     const script = document.createElement('script');
+    script.id = 'vlibras-script';
     script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
     script.async = true;
     script.onload = () => {
@@ -31,9 +34,7 @@ export function VLibras() {
     document.body.appendChild(script);
 
     return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
+      // O VLibras geralmente não precisa ser removido, mas limpamos o script se necessário
     };
   }, []);
 
