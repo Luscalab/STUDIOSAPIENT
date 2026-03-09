@@ -234,6 +234,8 @@ export function AccessibilityMenu() {
             <button onClick={toggleVoiceGuide} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", isVoiceGuideActive ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Mic className="h-6 w-6" />Guia de Voz</button>
             <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", highlightLinks ? "bg-primary text-white" : "bg-white text-muted-foreground")}><LinkIcon className="h-6 w-6" />Realçar Links</button>
           </div>
+
+          <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("w-full flex items-center justify-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", stopAnimations ? "bg-primary text-white" : "bg-white text-muted-foreground")}><ZapOff className="h-4 w-4" />{stopAnimations ? "Ativar Movimento" : "Parar Movimento"}</button>
           
           <button onClick={resetAll} className="w-full flex items-center justify-center gap-2 p-4 rounded-2xl bg-secondary/30 text-[10px] font-black uppercase text-muted-foreground"><RotateCcw className="h-4 w-4" />Resetar Preferências</button>
         </div>

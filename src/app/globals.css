@@ -44,6 +44,11 @@
   }
 }
 
+/* Foco de Alta Visibilidade para Acessibilidade */
+:focus-visible {
+  @apply outline-none ring-4 ring-primary ring-offset-2 ring-offset-white;
+}
+
 .hero-purple-mesh {
   background-color: #08070b;
   background-image: 
@@ -63,6 +68,39 @@
 @keyframes glow-pulse {
   0%, 100% { box-shadow: 0 0 40px -10px rgba(139, 92, 246, 0.3); }
   50% { box-shadow: 0 0 60px -5px rgba(139, 92, 246, 0.5); }
+}
+
+/* Modos de Acessibilidade */
+.accessibility-high-contrast {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --primary: 60 100% 50%; /* Amarelo Vibrante para Contraste */
+  --primary-foreground: 0 0% 0%;
+  --card: 0 0% 5%;
+  --border: 0 0% 100%;
+}
+
+.accessibility-grayscale {
+  filter: grayscale(100%);
+}
+
+.accessibility-highlight-links a {
+  text-decoration: underline !important;
+  font-weight: 800 !important;
+  color: hsl(var(--primary)) !important;
+  background-color: rgba(139, 92, 246, 0.1);
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.25rem;
+}
+
+/* Redução de Movimento */
+.accessibility-stop-animations *,
+.accessibility-stop-animations *::before,
+.accessibility-stop-animations *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
 
 .flow-fade-out {

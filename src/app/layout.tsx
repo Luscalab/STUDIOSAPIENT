@@ -25,6 +25,14 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased bg-background text-foreground overflow-x-hidden">
+        {/* Atalho de Acessibilidade - Pular para Conteúdo */}
+        <a 
+          href="#main-content" 
+          className="sr-only focus:not-sr-only fixed top-4 left-4 z-[999] bg-primary text-white px-8 py-4 rounded-full font-black uppercase tracking-widest text-[10px] shadow-2xl"
+        >
+          Pular para o conteúdo
+        </a>
+
         {/* Componentes de Acessibilidade */}
         <VLibras />
         <AccessibilityMenu />
