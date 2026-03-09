@@ -58,13 +58,13 @@
   }
 }
 
-/* Atmosfera de Fundo Sapient - Liquid Mesh */
+/* Atmosfera de Fundo Sapient - Liquid Mesh V2 */
 .hero-purple-mesh {
   background-color: #0c0a1a;
   background-image: 
-    radial-gradient(at 0% 0%, hsla(265, 95%, 60%, 0.15) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, hsla(285, 95%, 55%, 0.1) 0, transparent 50%), 
-    radial-gradient(at 50% 50%, hsla(270, 90%, 70%, 0.05) 0, transparent 80%);
+    radial-gradient(at 0% 0%, hsla(265, 95%, 60%, 0.12) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(285, 95%, 55%, 0.08) 0, transparent 50%), 
+    radial-gradient(at 50% 50%, hsla(270, 90%, 70%, 0.03) 0, transparent 80%);
   position: relative;
 }
 
