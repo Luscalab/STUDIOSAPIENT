@@ -1,14 +1,19 @@
 
 "use client";
 
-import { Mail, MessageCircle, Code2 } from "lucide-react";
-import { useState } from "react";
+import { Mail, MessageCircle, Phone, Copy, Send, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 export function Contact() {
   const { toast } = useToast();
   
-  const email = "sapientcontato@gmail.com";
+  const contactData = {
+    email: "sapientcontato@gmail.com",
+    phone: "+55 11 95963-1870",
+    phoneDigits: "5511959631870",
+    whatsappMsg: "Olá! Gostaria de saber mais sobre os serviços da studiosapient."
+  };
 
   const handleCopy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -18,6 +23,8 @@ export function Contact() {
       className: "bg-black border-primary text-white font-black uppercase tracking-widest text-[9px]"
     });
   };
+
+  const whatsappUrl = `https://wa.me/${contactData.phoneDigits}?text=${encodeURIComponent(contactData.whatsappMsg)}`;
 
   return (
     <section id="contato" className="py-24 md:py-48 bg-[#0c0a1a] text-white relative rounded-[4rem] md:rounded-[8rem] mx-4 mb-24 shadow-2xl overflow-hidden">
@@ -32,67 +39,77 @@ export function Contact() {
             VAMOS <br />
             <span className="text-primary italic font-medium">CONVERSAR?</span>
           </h3>
-          <p className="text-xl md:text-2xl text-white/40 font-medium tracking-tight">Estamos prontos para ouvir seus desafios e encontrar o melhor caminho.</p>
+          <p className="text-xl md:text-2xl text-white/40 font-medium tracking-tight">Escolha o canal que faz mais sentido para o seu momento.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {/* Card WhatsApp */}
-          <div className="p-12 rounded-[4rem] bg-white text-black flex flex-col h-full border-t-[8px] border-primary shadow-xl">
+          <div className="p-12 rounded-[4rem] bg-white text-black flex flex-col h-full border-t-[8px] border-primary shadow-xl group hover:-translate-y-2 transition-all duration-500">
             <div className="space-y-8 flex-1">
-              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                 <MessageCircle className="h-8 w-8" />
               </div>
-              <h4 className="font-headline text-3xl font-black tracking-tighter">Fale Conosco</h4>
-              <p className="text-black/40 font-medium text-base">Inicie uma conversa no WhatsApp para tirar suas dúvidas de forma rápida.</p>
+              <h4 className="font-headline text-3xl font-black tracking-tighter">WhatsApp</h4>
+              <p className="text-black/40 font-medium text-base">Inicie um diálogo imediato e tire suas dúvidas em tempo real.</p>
             </div>
-            <div className="mt-12 p-6 rounded-[2rem] bg-black text-white space-y-4">
-              <p className="text-xs font-black truncate">+55 11 95963-1870</p>
+            <div className="mt-12 space-y-3">
               <a 
-                href="https://wa.me/5511959631870" 
+                href={whatsappUrl} 
                 target="_blank"
-                className="block w-full py-4 text-center rounded-xl bg-white/10 hover:bg-white/20 text-[8px] font-black uppercase tracking-widest transition-all"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-3 w-full py-5 rounded-2xl bg-primary text-white hover:bg-primary/90 text-[10px] font-black uppercase tracking-[0.3em] transition-all shadow-lg"
               >
-                Iniciar Conversa
+                <ExternalLink className="h-3 w-3" /> Iniciar Conversa
               </a>
             </div>
           </div>
 
           {/* Card E-mail */}
-          <div className="p-12 rounded-[4rem] bg-[#121216] border border-white/5 text-white flex flex-col h-full border-t-[8px] border-primary shadow-xl">
+          <div className="p-12 rounded-[4rem] bg-[#121216] border border-white/5 text-white flex flex-col h-full border-t-[8px] border-primary shadow-xl group hover:-translate-y-2 transition-all duration-500">
             <div className="space-y-8 flex-1">
-              <div className="h-16 w-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary">
+              <div className="h-16 w-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                 <Mail className="h-8 w-8" />
               </div>
-              <h4 className="font-headline text-3xl font-black tracking-tighter">Solicite Proposta</h4>
-              <p className="text-white/40 font-medium text-base">Envie um e-mail para receber informações detalhadas sobre nossos serviços.</p>
+              <h4 className="font-headline text-3xl font-black tracking-tighter">E-mail</h4>
+              <p className="text-white/40 font-medium text-base">Para solicitações formais ou detalhes técnicos do seu projeto.</p>
             </div>
-            <div className="mt-12 p-6 rounded-[2rem] bg-white/5 border border-white/10 space-y-4">
-              <p className="text-xs font-black truncate">{email}</p>
-              <button 
-                onClick={() => handleCopy(email, "E-mail")} 
-                className="w-full py-4 rounded-xl bg-primary text-white hover:bg-primary/90 text-[8px] font-black uppercase tracking-widest transition-all"
+            <div className="mt-12 grid grid-cols-1 gap-3">
+              <a 
+                href={`mailto:${contactData.email}`}
+                className="flex items-center justify-center gap-3 w-full py-5 rounded-2xl bg-white text-black hover:bg-white/90 text-[10px] font-black uppercase tracking-[0.3em] transition-all"
               >
-                Copiar E-mail
+                <Send className="h-3 w-3" /> Enviar E-mail
+              </a>
+              <button 
+                onClick={() => handleCopy(contactData.email, "E-mail")} 
+                className="flex items-center justify-center gap-3 w-full py-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-[10px] font-black uppercase tracking-[0.3em] transition-all"
+              >
+                <Copy className="h-3 w-3" /> Copiar Endereço
               </button>
             </div>
           </div>
 
-          {/* Card Colaboração */}
-          <div className="p-12 rounded-[4rem] bg-white text-black flex flex-col h-full border-t-[8px] border-black shadow-xl">
+          {/* Card Telefone */}
+          <div className="p-12 rounded-[4rem] bg-white text-black flex flex-col h-full border-t-[8px] border-black shadow-xl group hover:-translate-y-2 transition-all duration-500">
             <div className="space-y-8 flex-1">
-              <div className="h-16 w-16 rounded-2xl bg-black/5 flex items-center justify-center text-black">
-                <Code2 className="h-8 w-8" />
+              <div className="h-16 w-16 rounded-2xl bg-black/5 flex items-center justify-center text-black group-hover:scale-110 transition-transform">
+                <Phone className="h-8 w-8" />
               </div>
-              <h4 className="font-headline text-3xl font-black tracking-tighter">Parcerias</h4>
-              <p className="text-black/40 font-medium text-base">Buscamos colaborar com outros profissionais e empresas de tecnologia.</p>
+              <h4 className="font-headline text-3xl font-black tracking-tighter">Telefone</h4>
+              <p className="text-black/40 font-medium text-base">Conexão direta para consultoria estratégica imediata.</p>
             </div>
-            <div className="mt-12 p-6 rounded-[2rem] bg-black text-white space-y-4">
-              <p className="text-xs font-black truncate">{email}</p>
-              <button 
-                onClick={() => handleCopy(email, "E-mail")} 
-                className="w-full py-4 rounded-xl bg-white/5 hover:bg-white/15 text-[8px] font-black uppercase tracking-widest transition-all border border-white/10"
+            <div className="mt-12 grid grid-cols-1 gap-3">
+              <a 
+                href={`tel:${contactData.phoneDigits}`}
+                className="flex items-center justify-center gap-3 w-full py-5 rounded-2xl bg-black text-white hover:bg-black/90 text-[10px] font-black uppercase tracking-[0.3em] transition-all"
               >
-                Copiar E-mail
+                <Phone className="h-3 w-3" /> Ligar Agora
+              </a>
+              <button 
+                onClick={() => handleCopy(contactData.phone, "Telefone")} 
+                className="flex items-center justify-center gap-3 w-full py-5 rounded-2xl bg-black/5 border border-black/10 hover:bg-black/10 text-[10px] font-black uppercase tracking-[0.3em] transition-all"
+              >
+                <Copy className="h-3 w-3" /> Copiar Número
               </button>
             </div>
           </div>
