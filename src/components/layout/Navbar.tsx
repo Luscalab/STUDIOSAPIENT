@@ -29,8 +29,8 @@ export function Navbar() {
       <header className="absolute top-0 left-0 right-0 z-50 p-4 md:pt-4 md:pb-12 md:px-10 w-full max-w-full overflow-hidden">
         <div className="container mx-auto flex items-start justify-between relative h-32 md:h-44 max-w-full px-4">
           
-          {/* Logo container with vertical adjustment */}
-          <div className="animate-logo-reveal flex-shrink-0 md:-translate-y-16">
+          {/* Logo container with vertical adjustment - Raised even more as requested */}
+          <div className="animate-logo-reveal flex-shrink-0 md:-translate-y-24">
             <Link href="/" className="relative block group transition-all duration-500 w-36 h-14 md:w-[280px] md:h-40 origin-top-left">
               <Image 
                 src={logoUrl}
@@ -57,13 +57,15 @@ export function Navbar() {
                   <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
                 </Link>
               ))}
-              <Button 
+              
+              {/* Strategic Analysis as a regular link appearance */}
+              <button 
                 onClick={handleOpenChat}
-                size="lg" 
-                className="bg-gradient-to-r from-primary to-accent hover:scale-105 active:scale-95 text-white font-black rounded-full px-8 h-9 shadow-[0_10px_30px_rgba(139,92,246,0.4)] text-[9px] uppercase tracking-[0.2em] transition-all duration-500 border border-white/20"
+                className="text-[11px] uppercase tracking-[0.5em] font-black text-white hover:text-primary transition-all relative group"
               >
-                Análise Estratégica <span className="ml-2 opacity-50 group-hover:translate-x-1 transition-transform">→</span>
-              </Button>
+                Análise Estratégica
+                <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
+              </button>
             </div>
 
             <button 
@@ -88,12 +90,12 @@ export function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <Button 
-              className="w-full h-20 bg-primary font-black text-sm uppercase tracking-widest rounded-full shadow-2xl shadow-primary/30"
+            <button 
+              className="text-3xl font-black border-b border-primary/10 pb-6 hover:text-primary transition-colors tracking-tighter text-foreground text-left"
               onClick={handleOpenChat}
             >
-              Consultoria Estratégica
-            </Button>
+              Análise Estratégica
+            </button>
           </div>
         )}
       </header>
