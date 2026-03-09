@@ -9,9 +9,9 @@
     },
     {
       "id": "hero-bg",
-      "description": "Fundo focado em design estratégico e profundidade visual",
-      "imageUrl": "https://picsum.photos/seed/sapient-design-studio/1920/1080",
-      "imageHint": "abstract design workspace"
+      "description": "Abstract premium purple waves",
+      "imageUrl": "https://picsum.photos/seed/sapient-hero-v2/1920/1080",
+      "imageHint": "abstract purple"
     },
     {
       "id": "team-lucas",
@@ -28,20 +28,20 @@
     {
       "id": "portfolio-1",
       "description": "Premium branding project",
-      "imageUrl": "https://picsum.photos/seed/sap-port-1/800/1000",
-      "imageHint": "premium brand"
+      "imageUrl": "https://picsum.photos/seed/sapient-premium-ui/800/1000",
+      "imageHint": "modern branding"
     },
     {
       "id": "portfolio-2",
       "description": "Modern marketing campaign",
-      "imageUrl": "https://picsum.photos/seed/sap-port-2/800/1000",
-      "imageHint": "marketing digital"
+      "imageUrl": "https://picsum.photos/seed/sapient-data-ads/800/1000",
+      "imageHint": "data visualization"
     },
     {
       "id": "portfolio-3",
       "description": "Strategic social media management",
-      "imageUrl": "https://picsum.photos/seed/sap-port-3/800/1000",
-      "imageHint": "social design"
+      "imageUrl": "https://picsum.photos/seed/sapient-social-growth/800/1000",
+      "imageHint": "professional minimalist"
     }
   ]
 }
