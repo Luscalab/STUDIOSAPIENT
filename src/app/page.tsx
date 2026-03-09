@@ -6,6 +6,7 @@ import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
+import { VoiceDiscussion } from "@/components/ai/VoiceDiscussion";
 import { UrbeLudoBanner } from "@/components/sections/UrbeLudoBanner";
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
       
       <Footer />
       <AIChat />
+      <VoiceDiscussion />
     </main>
   );
 }
