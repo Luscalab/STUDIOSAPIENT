@@ -44,30 +44,40 @@
   }
 }
 
-/* Atmosfera Sapient - Estética Abissal & Roxo Vibrante */
+/* Atmosfera Sapient - Estética Abissal & Roxo Vibrante com Gradient Easing */
 .hero-purple-mesh {
-  background: linear-gradient(180deg, #09080f 0%, #0c0a1a 100%);
+  background-color: #08070b;
+  background-image: 
+    radial-gradient(circle at 50% -20%, rgba(139, 92, 246, 0.25) 0%, transparent 70%),
+    radial-gradient(circle at 80% 40%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
   position: relative;
 }
 
-.hero-purple-mesh::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 50% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 60%),
-              radial-gradient(circle at 80% 40%, rgba(124, 58, 237, 0.15) 0%, transparent 50%);
-  pointer-events: none;
-}
-
+/* Transições Ultra-Suaves (Gradient Easing / Scrim) */
 .section-flow-bottom {
-  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 50%,
+    rgba(0, 0, 0, 0.95) 65%,
+    rgba(0, 0, 0, 0.8) 75%,
+    rgba(0, 0, 0, 0.5) 85%,
+    rgba(0, 0, 0, 0.2) 93%,
+    transparent 100%
+  );
 }
 
 .section-flow-top {
-  mask-image: linear-gradient(to top, black 70%, transparent 100%);
+  mask-image: linear-gradient(
+    to top,
+    black 0%,
+    black 50%,
+    rgba(0, 0, 0, 0.95) 65%,
+    rgba(0, 0, 0, 0.8) 75%,
+    rgba(0, 0, 0, 0.5) 85%,
+    rgba(0, 0, 0, 0.2) 93%,
+    transparent 100%
+  );
 }
 
 .glass-morphism {
@@ -85,10 +95,32 @@
 }
 
 @keyframes slide-up-reveal {
-  0% { opacity: 0; transform: translateY(20px); }
+  0% { opacity: 0; transform: translateY(15px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 
 .animate-slide-up {
-  animation: slide-up-reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slide-up-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Acessibilidade - Contraste e Redução de Movimento */
+.accessibility-high-contrast {
+  --primary: 265 100% 45%;
+  --foreground: 0 0% 0%;
+  --background: 0 0% 100%;
+}
+
+.accessibility-grayscale {
+  filter: grayscale(100%);
+}
+
+.accessibility-highlight-links a {
+  text-decoration: underline !important;
+  font-weight: 800 !important;
+  color: hsl(var(--primary)) !important;
+}
+
+.accessibility-stop-animations * {
+  animation: none !important;
+  transition: none !important;
 }
