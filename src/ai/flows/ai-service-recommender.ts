@@ -14,6 +14,8 @@ const SapientServices = [
   'Performance & Ads (incl. Google Meu Negócio)',
   'Design Estratégico & Identidade Visual',
   'Gestão de Redes & Autoridade Social',
+  'Ecossistemas de Chat IA (WhatsApp & Web)',
+  'Narrativa Visual & Dossiês de Venda',
 ] as const;
 
 const NICHE_STRATEGY_MATRIX = `
@@ -21,15 +23,15 @@ MATRIZ ESTRATÉGICA SAPIENT (PROTOCOLOS POR NICHO):
 
 1. SAÚDE (Dentistas, Clínicas, Médicos):
 - Gargalo: Falta de presença local e inconsistência visual.
-- Estratégia: Otimização de GMN + Identidade Visual Profissional.
+- Estratégia: Otimização de GMN + Identidade Visual Profissional + Chat IA para agendamentos.
 
 2. DIREITO (Advogados, Escritórios):
 - Gargalo: Imagem amadora que não transmite confiança técnica.
-- Estratégia: Autoridade Social + Branding de Prestígio.
+- Estratégia: Autoridade Social + Branding de Prestígio + Narrativa Visual.
 
 3. GASTRONOMIA (Restaurantes, Cafés, Bares):
 - Gargalo: Baixa atratividade visual nas redes e pouca visibilidade em buscas.
-- Estratégia: Gestão de Redes (Curadoria Visual) + GMN Estratégico.
+- Estratégia: Gestão de Redes + GMN Estratégico + Chat IA para pedidos/reservas.
 
 4. ESTÉTICA & BELEZA:
 - Gargalo: Dificuldade de diferenciação em um mercado saturado.
@@ -37,7 +39,7 @@ MATRIZ ESTRATÉGICA SAPIENT (PROTOCOLOS POR NICHO):
 
 5. VAREJO DE MODA / LOJAS:
 - Gargalo: Baixa conversão em anúncios e imagem de marca genérica.
-- Estratégia: Performance & Ads + Identidade Visual Estratégica.
+- Estratégia: Performance & Ads + Chat IA de Vendas + Identidade Visual Estratégica.
 
 6. MERCADOS & FARMÁCIAS:
 - Gargalo: Baixa visibilidade em buscas locais de urgência.
@@ -45,11 +47,7 @@ MATRIZ ESTRATÉGICA SAPIENT (PROTOCOLOS POR NICHO):
 
 7. IMOBILIÁRIA & CORRETAGEM:
 - Gargalo: Apresentação visual pobre e falta de anúncios segmentados.
-- Estratégia: Design Estratégico + Ads de Alta Conversão.
-
-8. SERVIÇOS DE URGÊNCIA (Eletricistas, Chaveiros, etc):
-- Gargalo: Não ser encontrado instantaneamente no Google no momento da necessidade.
-- Estratégia: Domínio do GMN + Ads de Resposta Direta.
+- Estratégia: Design Estratégico + Chat IA de Qualificação + Ads de Alta Conversão.
 `;
 
 const ServiceRecommenderInputSchema = z.object({
@@ -109,11 +107,11 @@ Ação: Peça os dados de forma profissional e direta.
 FASE 2: ANÁLISE (isDataSufficient = true)
 Se os dados estiverem presentes:
 - BRAND AUDIT: Analise como a marca é percebida no nicho.
-- DIAGNÓSTICO: Aponte a falha exata (GMN, Design ou Redes).
-- INTERVENÇÃO: Explique como a SAPIENT resolverá isso com execução profissional.
+- DIAGNÓSTICO: Aponte a falha exata (GMN, Design, Redes ou falta de Automação de Chat).
+- INTERVENÇÃO: Explique como a SAPIENT resolverá isso com execução profissional e tecnologia IA.
 
 TOM DE VOZ:
-Profissional, analítico, direto e focado em resultados. Evite termos como "luxo" ou "elite".`,
+Profissional, analítico, direto e focado em resultados.`,
 });
 
 const aiServiceRecommenderFlow = ai.defineFlow(

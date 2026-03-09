@@ -38,22 +38,27 @@ export function Footer() {
             <h4 className="font-headline font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-6">Serviços Estratégicos</h4>
             <ul className="space-y-4 text-muted-foreground/70 font-bold text-[10px] uppercase tracking-widest">
               <li>
-                <Link href="#servicos" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
+                <Link href="/servicos/performance-ads" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
                   Performance & Ads <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
                 </Link>
               </li>
               <li>
-                <Link href="#servicos" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
+                <Link href="/servicos/design-estrategico" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
                   Design Estratégico <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
                 </Link>
               </li>
               <li>
-                <Link href="#servicos" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
+                <Link href="/servicos/chat-ia" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
+                  Ecossistemas Chat IA <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/servicos/gestao-social" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
                   Gestão Social <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
                 </Link>
               </li>
               <li>
-                <Link href="#servicos" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
+                <Link href="/servicos/narrativa-visual" className="hover:text-primary transition-colors flex items-center gap-2 group w-fit">
                   Narrativa Visual <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
                 </Link>
               </li>

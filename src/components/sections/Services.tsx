@@ -1,7 +1,8 @@
+
 "use client";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
-import { Megaphone, Palette, Share2, ArrowUpRight, BarChart3, Zap } from "lucide-react";
+import { Megaphone, Palette, Share2, ArrowUpRight, BarChart3, Zap, Bot } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -30,6 +31,18 @@ const services = [
     bgGradient: "from-accent/15 via-accent/5 to-transparent",
     hoverBorder: "hover:border-accent/40",
     iconBg: "bg-accent/10"
+  },
+  {
+    title: "Ecossistemas Chat IA",
+    slug: "chat-ia",
+    description: "Automação inteligente de atendimento e vendas para WhatsApp, Sites e Redes Sociais.",
+    icon: <Bot className="h-8 w-8" />,
+    features: ["WhatsApp Business IA", "Agentes de Venda", "Escalabilidade"],
+    badge: "Tecnologia",
+    colorClass: "text-cyan-500",
+    bgGradient: "from-cyan-500/15 via-cyan-500/5 to-transparent",
+    hoverBorder: "hover:border-cyan-500/40",
+    iconBg: "bg-cyan-500/10"
   },
   {
     title: "Curadoria Social",
@@ -76,7 +89,7 @@ export function Services() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
           {services.map((service, idx) => (
             <Card 
               key={idx} 
