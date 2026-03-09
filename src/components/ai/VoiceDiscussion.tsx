@@ -6,10 +6,43 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
 /**
- * Interface de Discussão por Acessibilidade Avançada.
- * Agora com suporte a comandos de ação (WhatsApp/Ligar) e auto-ativação do mic.
- * Conhecimento expandido sobre UrbeLudo e Metodologia Sapient.
+ * Constantes de Conhecimento e Contato movidas para fora do componente 
+ * para otimização de memória e performance de compilação.
  */
+const CONTACT_INFO = {
+  whatsapp: "https://wa.me/5511959631870?text=Olá! Gostaria de falar com a Sapient sobre um projeto.",
+  phone: "tel:+5511959631870",
+  email: "sapientcontato@gmail.com"
+};
+
+const KNOWLEDGE_BASE = {
+  GREETING: "Olá! Sou o assistente de voz da Sapient Studio. Sou seu guia de acessibilidade. Posso te explicar sobre nossos serviços de Design e Ads, nossa metodologia estratégica, o projeto social UrbeLudo ou como entrar em contato. O que você gostaria de saber primeiro?",
+  
+  SERVICES: "Trabalhamos com três pilares de elite. Primeiro: Performance e Ads, focado em captar demanda real no Google e Maps. Segundo: Design Estratégico, para criar identidades de alto valor que removem barreiras de confiança. Terceiro: Ecossistemas de IA, com chats inteligentes que atendem e qualificam leads vinte e quatro horas. Qual desses pilares faz mais sentido para o seu momento atual?",
+  
+  DESIGN: "Nosso Design Estratégico não é apenas estética; é psicologia aplicada ao valor. Criamos sistemas de identidade de prestígio e dossiês de venda que posicionam seu negócio como a escolha óbvia do mercado, encurtando seu ciclo de fechamento. Quer saber como aplicamos isso ao seu nicho?",
+  
+  ADS: "Em Performance e Ads, dominamos as buscas locais. Otimizamos seu Google Meu Negócio e criamos campanhas de precisão para que, quando alguém buscar pelo seu serviço, sua marca apareça no topo com autoridade inquestionável. Isso gera um fluxo previsível de novos contratos.",
+  
+  PROCESS: "A Metodologia Sapient é um protocolo de quatro fases. Fase um: Entendimento profundo do seu negócio. Fase dois: Planejamento estratégico de canais. Fase três: Execução visual de alta fidelidade. E fase quatro: Acompanhamento de dados e otimização. Focamos em clareza absoluta para que seu cliente tome a decisão de compra naturalmente.",
+  
+  URBELUDO: "O UrbeLudo é nossa iniciativa de maior impacto. É uma plataforma de reabilitação neuro-motora que une jogos imersivos em Unity e inteligência artificial. Transformamos o movimento do paciente em dados clínicos, ajudando em tratamentos de fonoaudiologia e fisioterapia de forma lúdica e eficaz. O UrbeLudo é a ciência do movimento a favor da vida.",
+  
+  URBELUDO_TECH: "Tecnicamente, o UrbeLudo utiliza Edge AI para processar biomecânica em tempo real e Biofeedback Analítico para gerar relatórios de evolução para os médicos. É um ecossistema completo para clínicas e ONGs. Você gostaria de saber como pode apoiar este projeto?",
+  
+  URBELUDO_HELP: "Você pode impulsionar o UrbeLudo de três formas estratégicas. Um: Como Investidor, ajudando na escala global de hardware. Dois: Através de Doações via PIX, que mantêm a plataforma gratuita em instituições públicas. Três: Como Colaborador Especialista, se você for da área de saúde ou tecnologia. Qual dessas opções você quer que eu detalhe?",
+  
+  URBELUDO_DONATE: "As doações são fundamentais para mantermos o projeto em hospitais públicos. O PIX é o e-mail da agência: sapientcontato arroba gmail ponto com. Posso copiar essa chave para sua área de transferência ou você prefere que eu abra o nosso contato?",
+  
+  CONTACT: "Estou aqui para facilitar sua conexão. Você pode dizer 'mandar zap' para abrir o WhatsApp, 'ligar' para falar com um consultor agora, ou anotar nosso e-mail: sapientcontato arroba gmail ponto com. O que prefere fazer?",
+  
+  WHO_WE_ARE: "A Sapient Studio é uma agência que une design de prestígio e estratégia comercial. Nosso propósito é transformar negócios em referências inquestionáveis através de clareza visual e tecnologia. Somos parceiros do seu crescimento.",
+  
+  ACTION_WHATSAPP: "Perfeito. Iniciando o redirecionamento para o nosso WhatsApp estratégico agora.",
+  ACTION_CALL: "Com certeza. Iniciando a chamada telefônica para nosso consultor comercial agora.",
+  NOT_FOUND: "Desculpe, ainda estou aprendendo sobre esse assunto específico. Mas posso falar sobre Design, Ads, o projeto UrbeLudo ou abrir nosso contato via WhatsApp ou Telefone. Sobre o que vamos conversar?"
+};
+
 export function VoiceDiscussion() {
   const [mounted, setMounted] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -20,40 +53,6 @@ export function VoiceDiscussion() {
   const recognitionRef = useRef<any>(null);
   const synthRef = useRef<any>(null);
   const { toast } = useToast();
-
-  const CONTACT_INFO = {
-    whatsapp: "https://wa.me/5511959631870?text=Olá! Gostaria de falar com a Sapient sobre um projeto.",
-    phone: "tel:+5511959631870",
-    email: "sapientcontato@gmail.com"
-  };
-
-  const KNOWLEDGE_BASE = {
-    GREETING: "Olá! Sou o assistente de voz da Sapient Studio. Sou seu guia de acessibilidade. Posso te explicar sobre nossos serviços de Design e Ads, nossa metodologia estratégica, o projeto social UrbeLudo ou como entrar em contato. O que você gostaria de saber primeiro?",
-    
-    SERVICES: "Trabalhamos com três pilares de elite. Primeiro: Performance e Ads, focado em captar demanda real no Google e Maps. Segundo: Design Estratégico, para criar identidades de alto valor que removem barreiras de confiança. Terceiro: Ecossistemas de IA, com chats inteligentes que atendem e qualificam leads vinte e quatro horas. Qual desses pilares faz mais sentido para o seu momento atual?",
-    
-    DESIGN: "Nosso Design Estratégico não é apenas estética; é psicologia aplicada ao valor. Criamos sistemas de identidade de prestígio e dossiês de venda que posicionam seu negócio como a escolha óbvia do mercado, encurtando seu ciclo de fechamento. Quer saber como aplicamos isso ao seu nicho?",
-    
-    ADS: "Em Performance e Ads, dominamos as buscas locais. Otimizamos seu Google Meu Negócio e criamos campanhas de precisão para que, quando alguém buscar pelo seu serviço, sua marca apareça no topo com autoridade inquestionável. Isso gera um fluxo previsível de novos contratos.",
-    
-    PROCESS: "A Metodologia Sapient é um protocolo de quatro fases. Fase um: Entendimento profundo do seu negócio. Fase dois: Planejamento estratégico de canais. Fase três: Execução visual de alta fidelidade. E fase quatro: Acompanhamento de dados e otimização. Focamos em clareza absoluta para que seu cliente tome a decisão de compra naturalmente.",
-    
-    URBELUDO: "O UrbeLudo é nossa iniciativa de maior impacto. É uma plataforma de reabilitação neuro-motora que une jogos imersivos em Unity e inteligência artificial. Transformamos o movimento do paciente em dados clínicos, ajudando em tratamentos de fonoaudiologia e fisioterapia de forma lúdica e eficaz. O UrbeLudo é a ciência do movimento a favor da vida.",
-    
-    URBELUDO_TECH: "Tecnicamente, o UrbeLudo utiliza Edge AI para processar biomecânica em tempo real e Biofeedback Analítico para gerar relatórios de evolução para os médicos. É um ecossistema completo para clínicas e ONGs. Você gostaria de saber como pode apoiar este projeto?",
-    
-    URBELUDO_HELP: "Você pode impulsionar o UrbeLudo de três formas estratégicas. Um: Como Investidor, ajudando na escala global de hardware. Dois: Através de Doações via PIX, que mantêm a plataforma gratuita em instituições públicas. Três: Como Colaborador Especialista, se você for da área de saúde ou tecnologia. Qual dessas opções você quer que eu detalhe?",
-    
-    URBELUDO_DONATE: "As doações são fundamentais para mantermos o projeto em hospitais públicos. O PIX é o e-mail da agência: sapientcontato arroba gmail ponto com. Posso copiar essa chave para sua área de transferência ou você prefere que eu abra o nosso contato?",
-    
-    CONTACT: "Estou aqui para facilitar sua conexão. Você pode dizer 'mandar zap' para abrir o WhatsApp, 'ligar' para falar com um consultor agora, ou anotar nosso e-mail: sapientcontato arroba gmail ponto com. O que prefere fazer?",
-    
-    WHO_WE_ARE: "A Sapient Studio é uma agência que une design de prestígio e estratégia comercial. Nosso propósito é transformar negócios em referências inquestionáveis através de clareza visual e tecnologia. Somos parceiros do seu crescimento.",
-    
-    ACTION_WHATSAPP: "Perfeito. Iniciando o redirecionamento para o nosso WhatsApp estratégico agora.",
-    ACTION_CALL: "Com certeza. Iniciando a chamada telefônica para nosso consultor comercial agora.",
-    NOT_FOUND: "Desculpe, ainda estou aprendendo sobre esse assunto específico. Mas posso falar sobre Design, Ads, o projeto UrbeLudo ou abrir nosso contato via WhatsApp ou Telefone. Sobre o que vamos conversar?"
-  };
 
   useEffect(() => {
     setMounted(true);
@@ -94,7 +93,6 @@ export function VoiceDiscussion() {
     utterance.onend = () => {
       setIsSpeaking(false);
       if (onComplete) onComplete();
-      // Auto-listen ativado para manter a conversa fluida
       if (isActive) {
         setTimeout(startListening, 800);
       }
@@ -130,7 +128,6 @@ export function VoiceDiscussion() {
   };
 
   const handleProcessVoice = (text: string) => {
-    // Mapeamento de Intenções por Palavras-Chave
     const intents = [
       { 
         keywords: ["zap", "whatsapp", "mensagem", "mandar zap", "falar com alguém"], 

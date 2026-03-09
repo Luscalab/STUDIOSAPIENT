@@ -22,6 +22,9 @@ import {
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { cn } from "@/lib/utils";
 
+/**
+ * Atalhos estratégicos movidos para fora do componente para otimização de RAM.
+ */
 const QUICK_NICHES = [
   { label: "Moda / Varejo", icon: <Shirt className="h-4 w-4" />, prompt: "Minha loja de [Tipo] chama [Nome] e precisamos de um branding que atraia clientes qualificados." },
   { label: "Saúde / Clínicas", icon: <Stethoscope className="h-4 w-4" />, prompt: "Minha clínica de [Especialidade] chama [Nome] e nosso desafio é ser referência local no Google." },
