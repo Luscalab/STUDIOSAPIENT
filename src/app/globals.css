@@ -12,16 +12,16 @@
     --popover-foreground: 272 60% 10%;
     --primary: 265 90% 56%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 272 30% 96%;
+    --secondary: 272 30% 98%;
     --secondary-foreground: 272 60% 20%;
-    --muted: 272 10% 94%;
+    --muted: 272 10% 96%;
     --muted-foreground: 272 20% 45%;
     --accent: 285 95% 58%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 272 20% 90%;
-    --input: 272 20% 90%;
+    --border: 272 20% 92%;
+    --input: 272 20% 92%;
     --ring: 265 90% 60%;
     --radius: 2.5rem;
   }
@@ -58,29 +58,34 @@
   }
 }
 
+/* Atmosfera de Fundo Sapient */
 .hero-purple-mesh {
   background-color: #0c0a1a;
   background-image: 
-    radial-gradient(at 0% 0%, hsla(265, 95%, 60%, 0.4) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, hsla(285, 95%, 55%, 0.3) 0, transparent 50%), 
-    radial-gradient(at 50% 50%, hsla(270, 90%, 70%, 0.1) 0, transparent 80%);
+    radial-gradient(at 0% 0%, hsla(265, 95%, 60%, 0.15) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(285, 95%, 55%, 0.1) 0, transparent 50%), 
+    radial-gradient(at 50% 50%, hsla(270, 90%, 70%, 0.05) 0, transparent 80%);
 }
 
 .glass-morphism {
-  @apply bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_0_rgba(139,92,246,0.15)];
+  @apply bg-white/5 backdrop-blur-3xl border border-white/10 shadow-[0_8px_32px_0_rgba(139,92,246,0.1)];
 }
 
 .glass-light {
   @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-xl;
 }
 
-/* Transições suaves entre seções */
-.transition-mask-bottom {
-  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+/* Transições Atmosféricas (Suaves) */
+.section-flow-top {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%);
 }
 
-.transition-mask-top {
-  mask-image: linear-gradient(to top, black 85%, transparent 100%);
+.section-flow-bottom {
+  mask-image: linear-gradient(to top, transparent 0%, black 15%);
+}
+
+.section-spacing {
+  @apply py-48 md:py-64;
 }
 
 @keyframes float {
@@ -110,8 +115,4 @@
 
 .animate-slide-up {
   animation: slide-up-reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.section-spacing {
-  @apply py-32 md:py-48;
 }

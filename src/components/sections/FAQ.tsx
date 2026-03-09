@@ -34,19 +34,18 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-32 md:py-64 bg-[#0c0a1a] relative overflow-hidden">
-      {/* Background Sophistication */}
-      <div className="absolute top-0 left-0 w-full h-full hero-purple-mesh opacity-30 pointer-events-none" />
+    <section id="faq" className="py-48 md:py-64 bg-[#0c0a1a] relative overflow-hidden section-flow-top section-flow-bottom">
+      <div className="absolute top-0 left-0 w-full h-full hero-purple-mesh opacity-20 pointer-events-none" />
       
       <div className="container mx-auto px-6 max-w-6xl relative z-10">
-        <div className="text-center mb-40">
+        <div className="text-center mb-48">
           <Badge className="mb-12 bg-primary/10 text-primary border-primary/20 px-12 py-5 text-[10px] font-black uppercase tracking-[0.6em] rounded-full backdrop-blur-3xl">
             Esclarecimento Estratégico
           </Badge>
-          <h2 className="font-headline text-6xl md:text-[8.5rem] font-black tracking-tighter mb-12 leading-[0.85] text-white">
+          <h2 className="font-display text-6xl md:text-[8.5rem] font-black tracking-tighter mb-12 leading-[0.85] text-white">
             Dúvidas <br /><span className="text-primary italic opacity-90">Frequentes.</span>
           </h2>
-          <p className="text-white/40 text-2xl md:text-3xl font-medium max-w-3xl mx-auto leading-relaxed tracking-tight">
+          <p className="text-white/30 text-2xl md:text-3xl font-medium max-w-3xl mx-auto leading-relaxed tracking-tight">
             Transparência absoluta sobre nossa metodologia e processos de engenharia visual.
           </p>
         </div>
@@ -56,7 +55,7 @@ export function FAQ() {
             <AccordionItem 
               key={idx} 
               value={`item-${idx}`} 
-              className="border-none bg-white/5 backdrop-blur-3xl rounded-[3.5rem] px-10 md:px-20 py-6 shadow-2xl border border-white/5 hover:border-primary/20 data-[state=open]:bg-primary/5 data-[state=open]:border-primary/20 transition-all duration-1000 overflow-hidden"
+              className="border-none bg-white/5 backdrop-blur-3xl rounded-[3.5rem] px-10 md:px-20 py-8 shadow-2xl border border-white/5 hover:border-primary/20 data-[state=open]:bg-primary/5 data-[state=open]:border-primary/20 transition-all duration-1000 overflow-hidden"
             >
               <AccordionTrigger className="text-2xl md:text-4xl font-black tracking-tighter hover:no-underline text-left py-10 group text-white">
                 <div className="flex items-center gap-10">
@@ -66,9 +65,9 @@ export function FAQ() {
                   {faq.question}
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="text-xl md:text-2xl text-white/40 leading-relaxed pb-16 font-medium tracking-tight">
+              <AccordionContent className="text-xl md:text-2xl text-white/30 leading-relaxed pb-16 font-medium tracking-tight">
                 <div className="pl-24 relative">
-                  <div className="absolute left-10 top-0 bottom-0 w-px bg-primary/30" />
+                  <div className="absolute left-10 top-0 bottom-0 w-px bg-primary/20" />
                   {faq.answer}
                 </div>
               </AccordionContent>
@@ -76,8 +75,7 @@ export function FAQ() {
           ))}
         </Accordion>
 
-        {/* Floating Decoration */}
-        <div className="absolute -bottom-20 -right-20 p-32 opacity-[0.05] text-primary pointer-events-none">
+        <div className="absolute -bottom-20 -right-20 p-32 opacity-[0.03] text-primary pointer-events-none">
           <Sparkles className="h-[40rem] w-[40rem]" />
         </div>
       </div>

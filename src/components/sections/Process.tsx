@@ -28,13 +28,13 @@ const steps = [
 
 export function Process() {
   return (
-    <section id="metodologia" className="py-32 md:py-64 hero-purple-mesh relative overflow-hidden transition-mask-top transition-mask-bottom">
+    <section id="metodologia" className="py-48 md:py-64 hero-purple-mesh relative overflow-hidden section-flow-top section-flow-bottom">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-start justify-between mb-40 gap-20">
+        <div className="flex flex-col lg:flex-row items-start justify-between mb-48 gap-20">
           <div className="max-w-5xl">
             <div className="flex items-center gap-6 mb-12">
                <Dna className="text-primary h-8 w-8 animate-pulse" />
-               <Badge className="bg-white/5 text-white/70 border-white/10 px-10 py-4 text-[10px] font-black uppercase tracking-[0.6em] rounded-full backdrop-blur-3xl">
+               <Badge className="bg-white/5 text-white/50 border-white/10 px-10 py-4 text-[10px] font-black uppercase tracking-[0.6em] rounded-full backdrop-blur-3xl">
                  Protocolo studiosapient V.2
                </Badge>
             </div>
@@ -44,13 +44,13 @@ export function Process() {
             </h2>
           </div>
           <div className="lg:pt-32 max-w-sm">
-            <p className="text-white/70 text-2xl md:text-3xl font-medium leading-tight tracking-tight italic border-l-4 border-primary pl-12">
+            <p className="text-white/40 text-2xl md:text-3xl font-medium leading-tight tracking-tight italic border-l-4 border-primary pl-12">
               Um fluxo rigoroso para marcas que não aceitam a média do mercado.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {steps.map((step, idx) => (
             <div key={idx} className="group relative p-16 rounded-[4rem] bg-white/5 border border-white/10 transition-all duration-1000 hover:bg-white/10 hover:-translate-y-6 shadow-2xl">
               <div className="h-24 w-24 rounded-3xl bg-primary/10 flex items-center justify-center text-primary mb-16 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-all duration-700">
@@ -59,7 +59,7 @@ export function Process() {
               <h3 className="font-display text-3xl font-black text-white mb-6 tracking-tighter">
                 {step.title}
               </h3>
-              <p className="text-white/70 text-lg leading-relaxed font-medium mb-10">
+              <p className="text-white/40 text-lg leading-relaxed font-medium mb-10">
                 {step.desc}
               </p>
               <span className="text-[12rem] font-black text-white/5 absolute -bottom-10 -right-4 select-none group-hover:text-primary/10 transition-colors duration-1000">
