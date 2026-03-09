@@ -17,8 +17,10 @@ import {
   ZapOff
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function AccessibilityMenu() {
+  const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const [fontSize, setFontSize] = useState(100);
   const [highContrast, setHighContrast] = useState(false);
@@ -63,7 +65,7 @@ export function AccessibilityMenu() {
     else document.body.classList.remove('accessibility-stop-animations');
   }, [stopAnimations]);
 
-  // Efeito para a Audiodescrição Dinâmica (Hover e Teclado)
+  // Efeito para a Audiodescrição Dinâmica (Hover, Toque e Teclado)
   useEffect(() => {
     if (!isReading || !synthRef.current) return;
 
@@ -84,11 +86,25 @@ export function AccessibilityMenu() {
       }
     };
 
-    const handleMouseOver = (e: MouseEvent) => {
+    const handleInteraction = (e: MouseEvent | TouchEvent) => {
       const target = e.target as HTMLElement;
       if (!target) return;
-      const text = target.getAttribute('aria-label') || target.getAttribute('alt') || target.innerText || target.textContent || "";
-      speak(text);
+      
+      // Encontra o elemento legível mais próximo (subindo na árvore se necessário)
+      const readable = target.closest(selector) as HTMLElement;
+      if (readable) {
+        const text = readable.getAttribute('aria-label') || readable.getAttribute('alt') || readable.innerText || readable.textContent || "";
+        speak(text);
+
+        // Feedback visual temporário no mobile
+        if (isMobile) {
+          const originalOutline = readable.style.outline;
+          readable.style.outline = '2px solid hsl(var(--primary))';
+          setTimeout(() => {
+            readable.style.outline = originalOutline;
+          }, 800);
+        }
+      }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -129,15 +145,19 @@ export function AccessibilityMenu() {
       }
     };
 
-    document.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('mouseover', handleInteraction as any);
+    if (isMobile) {
+      document.addEventListener('touchstart', handleInteraction as any);
+    }
     document.addEventListener('keydown', handleKeyDown);
     
     return () => {
-      document.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mouseover', handleInteraction as any);
+      document.removeEventListener('touchstart', handleInteraction as any);
       document.removeEventListener('keydown', handleKeyDown);
       if (synthRef.current) synthRef.current.cancel();
     };
-  }, [isReading]);
+  }, [isReading, isMobile]);
 
   const toggleLibras = () => {
     const librasButton = document.querySelector('[vw-access-button]');
@@ -155,9 +175,11 @@ export function AccessibilityMenu() {
     } else {
       setIsReading(true);
       if (synthRef.current) {
-        const welcome = new SpeechSynthesisUtterance(
-          "Modo de audiodescrição ativado. Explore com o mouse ou utilize as setas para cima e para baixo do seu teclado para navegar. Pressione a tecla Enter para selecionar links ou botões quando eles forem lidos."
-        );
+        const mobileInstruction = isMobile 
+          ? "Modo de audiodescrição ativado. Toque em qualquer texto ou botão da página para ouvir o conteúdo." 
+          : "Modo de audiodescrição ativado. Explore com o mouse ou utilize as setas do seu teclado para navegar.";
+        
+        const welcome = new SpeechSynthesisUtterance(mobileInstruction);
         welcome.lang = 'pt-BR';
         welcome.rate = 1;
         synthRef.current.cancel();
@@ -221,7 +243,7 @@ export function AccessibilityMenu() {
 
           <div className="grid grid-cols-2 gap-3">
             <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", highlightLinks ? "bg-primary text-white" : "bg-white text-muted-foreground")}><LinkIcon className="h-6 w-6" />Realçar Links</button>
-            <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", stopAnimations ? "bg-primary text-white" : "bg-white text-muted-foreground")}>{stopAnimations ? <ZapOff className="h-6 w-6" /> : <Zap className="h-6 w-6" />}Animações</button>
+            <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", stopAnimations ? "bg-primary text-white" : "bg-white text-muted-foreground")}><ZapOff className="h-6 w-6" />Animações</button>
           </div>
           
           <button onClick={resetAll} className="w-full flex items-center justify-center gap-2 p-4 rounded-2xl bg-secondary/30 text-[10px] font-black uppercase text-muted-foreground"><RotateCcw className="h-4 w-4" />Resetar Preferências</button>
