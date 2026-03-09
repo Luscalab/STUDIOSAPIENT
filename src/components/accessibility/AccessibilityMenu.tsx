@@ -1,19 +1,22 @@
+
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { 
   Accessibility, 
   X, 
-  Type, 
   Contrast, 
   Minus, 
   Plus, 
   RotateCcw,
   Link as LinkIcon,
   SunMoon,
-  Hand
+  Hand,
+  Volume2,
+  Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { generateAudioDescription } from "@/ai/flows/tts-flow";
 
 export function AccessibilityMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,9 +25,11 @@ export function AccessibilityMenu() {
   const [grayscale, setGrayscale] = useState(false);
   const [highlightLinks, setHighlightLinks] = useState(false);
   const [isLibrasActive, setIsLibrasActive] = useState(false);
+  const [isReading, setIsReading] = useState(false);
+  
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Carregar preferências salvas
     const savedFontSize = localStorage.getItem('access-font-size');
     const savedContrast = localStorage.getItem('access-contrast') === 'true';
     const savedGrayscale = localStorage.getItem('access-grayscale') === 'true';
@@ -37,13 +42,11 @@ export function AccessibilityMenu() {
   }, []);
 
   useEffect(() => {
-    // Aplicar Tamanho de Fonte Global
     document.documentElement.style.fontSize = `${(fontSize / 100) * 16}px`;
     localStorage.setItem('access-font-size', fontSize.toString());
   }, [fontSize]);
 
   useEffect(() => {
-    // Aplicar Alto Contraste
     if (highContrast) {
       document.body.classList.add('accessibility-high-contrast');
     } else {
@@ -53,7 +56,6 @@ export function AccessibilityMenu() {
   }, [highContrast]);
 
   useEffect(() => {
-    // Aplicar Escala de Cinza
     if (grayscale) {
       document.documentElement.classList.add('accessibility-grayscale');
     } else {
@@ -63,7 +65,6 @@ export function AccessibilityMenu() {
   }, [grayscale]);
 
   useEffect(() => {
-    // Aplicar Realce de Links
     if (highlightLinks) {
       document.body.classList.add('accessibility-highlight-links');
     } else {
@@ -81,18 +82,50 @@ export function AccessibilityMenu() {
     }
   };
 
+  const handleAudioDescription = async () => {
+    if (isReading) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      setIsReading(false);
+      return;
+    }
+
+    setIsReading(true);
+    try {
+      // Coletar textos principais da página para audiodescrição
+      const mainText = document.querySelector('h1')?.innerText || "Sapient Studio";
+      const subText = document.querySelector('p')?.innerText || "";
+      const fullText = `Você está no site da Sapient Studio. ${mainText}. ${subText}`;
+
+      const { audioUri } = await generateAudioDescription({ text: fullText });
+      
+      const audio = new Audio(audioUri);
+      audioRef.current = audio;
+      audio.onended = () => setIsReading(false);
+      audio.play();
+    } catch (error) {
+      console.error("Erro na audiodescrição:", error);
+      setIsReading(false);
+    }
+  };
+
   const resetAll = () => {
     setFontSize(100);
     setHighContrast(false);
     setGrayscale(false);
     setHighlightLinks(false);
     setIsLibrasActive(false);
-    // Tentar fechar libras se estiver aberto (complexo sem API oficial, mas o click toggle ajuda)
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    setIsReading(false);
   };
 
   return (
     <>
-      {/* Botão Flutuante - Posicionado Acima do Chat IA no lado DIREITO */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Menu de Acessibilidade"
@@ -106,7 +139,6 @@ export function AccessibilityMenu() {
         {isOpen ? <X className="h-5 w-5" /> : <Accessibility className="h-5 w-5" />}
       </button>
 
-      {/* Painel do Menu de Acessibilidade */}
       <div
         className={cn(
           "fixed bottom-40 right-6 z-[100] w-[280px] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-700 origin-bottom-right p-6 space-y-6",
@@ -117,12 +149,12 @@ export function AccessibilityMenu() {
           <div className="h-8 w-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
             <Accessibility className="h-4 w-4" />
           </div>
-          <h3 className="font-headline font-black text-sm tracking-tighter uppercase">Acessibilidade</h3>
+          <h3 className="font-headline font-black text-sm tracking-tighter uppercase">Inclusão Digital</h3>
         </div>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Tamanho do Texto Site</p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Escala de Leitura</p>
             <div className="flex items-center justify-between bg-secondary/50 rounded-2xl p-2">
               <button 
                 onClick={() => setFontSize(prev => Math.max(prev - 10, 80))}
@@ -172,16 +204,28 @@ export function AccessibilityMenu() {
               Libras
             </button>
             <button
-              onClick={() => setHighlightLinks(!highlightLinks)}
+              onClick={handleAudioDescription}
+              disabled={isReading && !audioRef.current}
               className={cn(
                 "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
-                highlightLinks ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
+                isReading ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
               )}
             >
-              <LinkIcon className="h-4 w-4" />
-              Links
+              {isReading && !audioRef.current ? <Loader2 className="h-4 w-4 animate-spin" /> : <Volume2 className="h-4 w-4" />}
+              Voz IA
             </button>
           </div>
+
+          <button
+            onClick={() => setHighlightLinks(!highlightLinks)}
+            className={cn(
+              "w-full flex items-center justify-center gap-3 p-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-wider",
+              highlightLinks ? "bg-primary text-white border-primary" : "bg-white border-primary/5 text-muted-foreground hover:bg-primary/5"
+            )}
+          >
+            <LinkIcon className="h-3 w-3" />
+            Realçar Links
+          </button>
           
           <button
             onClick={resetAll}
@@ -193,7 +237,7 @@ export function AccessibilityMenu() {
         </div>
 
         <p className="text-[8px] font-black text-center text-muted-foreground/40 uppercase tracking-[0.3em]">
-          Sapient Studio • Inclusão Global
+          Sapient Studio • Acessibilidade IA
         </p>
       </div>
     </>

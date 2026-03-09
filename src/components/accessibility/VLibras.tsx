@@ -1,10 +1,11 @@
+
 'use client';
 
 import Script from 'next/script';
 
 /**
- * Componente de Acessibilidade VLibras oficial.
- * Tradução em tempo real para Libras em todo o site.
+ * Componente de Acessibilidade VLibras otimizado.
+ * Integrado silenciosamente para controle via Menu de Acessibilidade.
  */
 export function VLibras() {
   return (
@@ -18,7 +19,7 @@ export function VLibras() {
       <Script
         id="vlibras-script"
         src="https://vlibras.gov.br/app/vlibras-plugin.js"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         onLoad={() => {
           try {
             // @ts-ignore
