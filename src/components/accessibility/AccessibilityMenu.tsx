@@ -20,6 +20,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 export function AccessibilityMenu() {
   const isMobile = useIsMobile();
+  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [fontSize, setFontSize] = useState(100);
   const [highContrast, setHighContrast] = useState(false);
@@ -34,37 +35,43 @@ export function AccessibilityMenu() {
   const lastClickTimeRef = useRef<number>(0);
 
   useEffect(() => {
+    setMounted(true);
     if (typeof window !== 'undefined') {
       synthRef.current = window.speechSynthesis;
     }
   }, []);
 
   useEffect(() => {
+    if (!mounted) return;
     document.documentElement.style.fontSize = `${(fontSize / 100) * 16}px`;
-  }, [fontSize]);
+  }, [fontSize, mounted]);
 
   useEffect(() => {
+    if (!mounted) return;
     if (highContrast) document.body.classList.add('accessibility-high-contrast');
     else document.body.classList.remove('accessibility-high-contrast');
-  }, [highContrast]);
+  }, [highContrast, mounted]);
 
   useEffect(() => {
+    if (!mounted) return;
     if (grayscale) document.documentElement.classList.add('accessibility-grayscale');
     else document.documentElement.classList.remove('accessibility-grayscale');
-  }, [grayscale]);
+  }, [grayscale, mounted]);
 
   useEffect(() => {
+    if (!mounted) return;
     if (highlightLinks) document.body.classList.add('accessibility-highlight-links');
     else document.body.classList.remove('accessibility-highlight-links');
-  }, [highlightLinks]);
+  }, [highlightLinks, mounted]);
 
   useEffect(() => {
+    if (!mounted) return;
     if (stopAnimations) document.body.classList.add('accessibility-stop-animations');
     else document.body.classList.remove('accessibility-stop-animations');
-  }, [stopAnimations]);
+  }, [stopAnimations, mounted]);
 
   useEffect(() => {
-    if (!isReading || !synthRef.current) return;
+    if (!isReading || !synthRef.current || !mounted) return;
 
     const selector = 'h1, h2, h3, h4, h5, h6, p, a, button, li, [role="button"], img[alt]';
 
@@ -87,7 +94,6 @@ export function AccessibilityMenu() {
         synthRef.current.speak(utterance);
       }
 
-      // Realce Visual
       const originalOutline = element.style.outline;
       element.style.outline = '4px solid hsl(var(--primary))';
       element.style.outlineOffset = '4px';
@@ -97,7 +103,6 @@ export function AccessibilityMenu() {
     };
 
     const handleGlobalInteraction = (e: MouseEvent | TouchEvent) => {
-      // Ignora interações com o próprio menu de acessibilidade
       if ((e.target as HTMLElement).closest('.accessibility-menu-container')) return;
 
       const target = (e.target as HTMLElement).closest(selector) as HTMLElement;
@@ -107,14 +112,11 @@ export function AccessibilityMenu() {
       const isSameElement = target === lastInteractedElementRef.current;
       const timeDiff = now - lastClickTimeRef.current;
 
-      // Protocolo de Duplo Clique/Toque
       if (isSameElement && timeDiff < 600) {
-        // Segundo clique: Permite a ação natural do navegador
         lastInteractedElementRef.current = null;
         lastClickTimeRef.current = 0;
         return; 
       } else {
-        // Primeiro clique: Intercepta e descreve
         e.preventDefault();
         e.stopPropagation();
         lastInteractedElementRef.current = target;
@@ -123,7 +125,6 @@ export function AccessibilityMenu() {
       }
     };
 
-    // Usamos capture: true para garantir a interceptação antes dos listeners dos botões
     document.addEventListener('click', handleGlobalInteraction as any, true);
     if (isMobile) {
       document.addEventListener('touchstart', handleGlobalInteraction as any, { passive: false, capture: true } as any);
@@ -136,7 +137,7 @@ export function AccessibilityMenu() {
       }
       if (synthRef.current) synthRef.current.cancel();
     };
-  }, [isReading, isMobile]);
+  }, [isReading, isMobile, mounted]);
 
   const toggleLibras = () => {
     const librasButton = document.querySelector('[vw-access-button]');
@@ -175,6 +176,8 @@ export function AccessibilityMenu() {
     setStopAnimations(false);
     if (synthRef.current) synthRef.current.cancel();
   };
+
+  if (!mounted) return null;
 
   return (
     <div className="accessibility-menu-container">

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from "react";
@@ -9,14 +8,14 @@ import { cn } from "@/lib/utils";
 /**
  * Banner de anúncio dinâmico para o projeto UrbeLudo.
  * Sincronizado com a paleta de cores Roxo Sapient.
- * Versão Mobile otimizada para ser compacta e com tom de voz humanizado.
  */
 export function UrbeLudoBanner() {
+  const [mounted, setMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    // Timer para iniciar a animação de saída após 8 segundos
+    setMounted(true);
     const timer = setTimeout(() => {
       handleClose();
     }, 8000);
@@ -29,7 +28,7 @@ export function UrbeLudoBanner() {
     setTimeout(() => setIsVisible(false), 800); 
   };
 
-  if (!isVisible) return null;
+  if (!mounted || !isVisible) return null;
 
   return (
     <div 
@@ -39,12 +38,10 @@ export function UrbeLudoBanner() {
       )}
     >
       <div className="relative group">
-        {/* Glow de fundo sutil */}
         <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-purple-600 rounded-[2rem] blur-xl opacity-30 group-hover:opacity-50 transition duration-1000 animate-pulse"></div>
         
         <div className="relative flex items-center gap-4 bg-[#0c0a1a]/95 backdrop-blur-3xl border border-white/10 p-5 rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden">
           
-          {/* Barra de Progresso discreta */}
           <div className="absolute bottom-0 left-0 h-1 bg-primary/40 animate-[progress_8s_linear_forwards]" />
 
           <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0 border border-white/5">

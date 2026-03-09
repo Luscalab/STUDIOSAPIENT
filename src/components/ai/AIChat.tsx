@@ -30,6 +30,7 @@ const QUICK_NICHES = [
 ];
 
 export function AIChat() {
+  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -37,6 +38,10 @@ export function AIChat() {
   const [chatHistory, setChatHistory] = useState<{role: 'user' | 'assistant', text: string}[]>([]);
   const [textScale, setTextScale] = useState(0.85); 
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -77,6 +82,8 @@ export function AIChat() {
       setLoading(false);
     }
   };
+
+  if (!mounted) return null;
 
   return (
     <>
