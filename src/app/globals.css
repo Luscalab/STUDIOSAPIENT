@@ -44,13 +44,13 @@
   }
 }
 
-/* Atmosfera Sapient - Estética Abissal & Roxo Vibrante */
+/* Atmosfera Sapient - Roxo Vibrante de Elite */
 .hero-purple-mesh {
-  background-color: #08070b;
+  background-color: #7c3aed;
   background-image: 
-    radial-gradient(circle at 50% -20%, rgba(139, 92, 246, 0.2) 0%, transparent 70%),
-    radial-gradient(circle at 80% 40%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
+    radial-gradient(circle at 50% -20%, rgba(139, 92, 246, 0.8) 0%, transparent 70%),
+    radial-gradient(circle at 80% 40%, rgba(124, 58, 237, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 40%);
   position: relative;
 }
 
@@ -77,12 +77,12 @@
   animation: slide-up-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Gradient Easing Transitions */
-.section-flow-bottom {
+/* Gradient Easing Transitions - Transições Liquefeitas */
+.flow-fade-out {
   position: relative;
 }
 
-.section-flow-bottom::after {
+.flow-fade-out::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -94,35 +94,36 @@
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(255, 255, 255, 0.01) 8%,
-    rgba(255, 255, 255, 0.05) 16%,
-    rgba(255, 255, 255, 0.12) 24%,
-    rgba(255, 255, 255, 0.25) 32%,
-    rgba(255, 255, 255, 0.45) 45%,
-    rgba(255, 255, 255, 0.7) 60%,
-    rgba(255, 255, 255, 0.9) 80%,
-    #08070b 100%
+    rgba(255, 255, 255, 0.02) 10%,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.3) 45%,
+    rgba(255, 255, 255, 0.6) 65%,
+    rgba(255, 255, 255, 0.85) 85%,
+    #ffffff 100%
   );
 }
 
-/* Acessibilidade */
-.accessibility-high-contrast {
-  --primary: 265 100% 45%;
-  --foreground: 0 0% 0%;
-  --background: 0 0% 100%;
+.flow-fade-in {
+  position: relative;
 }
 
-.accessibility-grayscale {
-  filter: grayscale(100%);
-}
-
-.accessibility-highlight-links a {
-  text-decoration: underline !important;
-  font-weight: 800 !important;
-  color: hsl(var(--primary)) !important;
-}
-
-.accessibility-stop-animations * {
-  animation: none !important;
-  transition: none !important;
+.flow-fade-in::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 35rem;
+  pointer-events: none;
+  z-index: 10;
+  background: linear-gradient(
+    to top,
+    transparent 0%,
+    rgba(255, 255, 255, 0.02) 10%,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.3) 45%,
+    rgba(255, 255, 255, 0.6) 65%,
+    rgba(255, 255, 255, 0.85) 85%,
+    #ffffff 100%
+  );
 }
