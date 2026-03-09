@@ -84,7 +84,7 @@ export function Services() {
             </h2>
           </div>
           <div className="max-w-sm space-y-8">
-            <p className="text-muted-foreground/60 text-2xl md:text-3xl font-medium leading-tight tracking-tight">
+            <p className="text-muted-foreground text-2xl md:text-3xl font-medium leading-tight tracking-tight">
               Fundimos design de prestígio e estratégia digital para marcas de elite.
             </p>
             <div className="h-1.5 w-24 bg-primary rounded-full" />
@@ -115,14 +115,14 @@ export function Services() {
                 <CardTitle className="font-display text-4xl mb-6 tracking-tighter font-black text-foreground group-hover:text-primary transition-colors duration-500 leading-none">
                   {service.title}
                 </CardTitle>
-                <CardDescription className="text-muted-foreground/60 text-xl leading-relaxed font-medium mb-12">
+                <CardDescription className="text-muted-foreground text-xl leading-relaxed font-medium mb-12">
                   {service.description}
                 </CardDescription>
 
                 <div className="space-y-4 mb-16">
                   {service.features.map((feature, fIdx) => (
-                    <div key={fIdx} className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40 group-hover:text-foreground transition-all">
-                      <ShieldCheck className="h-4 w-4 text-primary/30 group-hover:text-primary transition-colors" />
+                    <div key={fIdx} className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground group-hover:text-foreground transition-all">
+                      <ShieldCheck className="h-4 w-4 text-primary/40 group-hover:text-primary transition-colors" />
                       {feature}
                     </div>
                   ))}
