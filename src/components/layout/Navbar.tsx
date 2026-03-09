@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -9,16 +8,7 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
 export function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleOpenChat = () => {
     setIsMobileMenuOpen(false);
@@ -35,11 +25,11 @@ export function Navbar() {
 
   return (
     <>
-      <header className="absolute top-0 left-0 right-0 z-50 pointer-events-none p-4 md:p-12 w-full max-w-full overflow-x-hidden">
-        <div className="container mx-auto flex items-start justify-between relative h-40 md:h-64 max-w-full">
+      <header className="absolute top-0 left-0 right-0 z-50 p-4 md:p-12 w-full max-w-full overflow-hidden">
+        <div className="container mx-auto flex items-start justify-between relative h-32 md:h-48 max-w-full px-4">
           
-          <div className="pointer-events-auto -mt-8 md:-mt-20 animate-logo-reveal flex-shrink-0">
-            <Link href="/" className="relative block group transition-all duration-500 w-48 h-20 md:w-[480px] md:h-64 md:max-w-[40vw] scale-100 origin-top-left">
+          <div className="animate-logo-reveal flex-shrink-0">
+            <Link href="/" className="relative block group transition-all duration-500 w-40 h-16 md:w-[420px] md:h-56 origin-top-left">
               <Image 
                 src={logoUrl}
                 alt="Sapient Studio Logo"
@@ -51,10 +41,8 @@ export function Navbar() {
           </div>
 
           <div className={cn(
-            "pointer-events-auto h-12 md:h-16 px-6 md:px-10 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-4 md:-translate-x-[30px] flex-shrink-0",
-            isScrolled 
-              ? "glass-morphism border-primary/30 shadow-[0_15px_50px_rgba(139,92,246,0.3)]" 
-              : "bg-white/10 backdrop-blur-3xl border-white/20 shadow-2xl"
+            "h-12 md:h-16 px-6 md:px-10 rounded-full flex items-center transition-all duration-700 border mt-2 md:mt-4 md:-translate-x-[30px] flex-shrink-0",
+            "bg-white/10 backdrop-blur-3xl border-white/20 shadow-2xl"
           )}>
             <div className="hidden md:flex items-center gap-10">
               {navLinks.map((link) => (
@@ -87,7 +75,7 @@ export function Navbar() {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-40 left-4 right-4 glass-morphism rounded-[3rem] p-12 flex flex-col gap-10 shadow-[0_30px_70px_rgba(0,0,0,0.4)] animate-in fade-in zoom-in-95 duration-500 border-primary/30 pointer-events-auto">
+          <div className="md:hidden fixed top-24 left-4 right-4 z-[60] glass-morphism rounded-[3rem] p-12 flex flex-col gap-10 shadow-[0_30px_70px_rgba(0,0,0,0.4)] animate-in fade-in zoom-in-95 duration-500 border-primary/30">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
