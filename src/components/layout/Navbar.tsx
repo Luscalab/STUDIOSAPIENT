@@ -26,21 +26,21 @@ export function Navbar() {
 
   return (
     <>
-      <header className="absolute top-8 left-0 right-0 z-[150] transition-all duration-1000" role="banner">
-        <div className="container mx-auto px-6 flex items-center justify-between gap-8">
+      <header className="absolute top-10 left-0 right-0 z-[150] transition-all duration-1000" role="banner">
+        <div className="container mx-auto px-6 flex items-center justify-between gap-12">
           
           {/* Logo Monumental */}
           <div className="flex items-center shrink-0">
             <Link 
               href="/" 
               aria-label="studiosapient Home"
-              className="relative block w-[200px] h-[60px] md:w-[400px] md:h-[100px] transition-all duration-1000 hover:scale-105 active:scale-95"
+              className="relative block w-[220px] h-[65px] md:w-[450px] md:h-[110px] transition-all duration-1000 hover:scale-105 active:scale-95"
             >
               <Image 
                 src={logoUrl}
                 alt="studiosapient Logo"
                 fill
-                className="object-contain object-left drop-shadow-[0_10px_30px_rgba(0,0,0,0.3)]"
+                className="object-contain object-left drop-shadow-[0_15px_35px_rgba(0,0,0,0.4)]"
                 priority
               />
             </Link>
@@ -48,7 +48,7 @@ export function Navbar() {
 
           {/* Navigation Dock - Desktop Premium */}
           <nav 
-            className="hidden lg:flex items-center gap-8 px-10 py-6 rounded-full border bg-white/5 backdrop-blur-[50px] border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:border-white/20 transition-all duration-700"
+            className="hidden lg:flex items-center gap-10 px-12 py-7 rounded-full border bg-white/5 backdrop-blur-[60px] border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.4)] hover:border-white/20 transition-all duration-700"
             aria-label="Navegação Principal"
           >
             {navLinks.map((link) => (
@@ -56,34 +56,34 @@ export function Navbar() {
                 key={link.name} 
                 href={link.href} 
                 target={link.external ? "_blank" : "_self"}
-                className="text-sm uppercase tracking-widest font-semibold text-white/70 hover:text-white transition-all duration-500 relative group whitespace-nowrap"
+                className="text-[12px] uppercase tracking-[0.2em] font-black text-white/70 hover:text-white transition-all duration-500 relative group whitespace-nowrap"
               >
                 {link.name}
-                <span className="absolute -bottom-2 left-1/2 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full group-hover:left-0 rounded-full" />
+                <span className="absolute -bottom-2 left-1/2 w-0 h-1 bg-primary transition-all duration-500 group-hover:w-full group-hover:left-0 rounded-full" />
               </Link>
             ))}
             
-            <div className="w-px h-5 bg-white/20 mx-2" />
+            <div className="w-px h-6 bg-white/20 mx-2" />
             
             <button 
               onClick={handleOpenChat}
               aria-label="Iniciar Análise com Inteligência Artificial"
-              className="text-sm uppercase tracking-widest font-bold text-white hover:text-primary transition-all duration-500 relative group whitespace-nowrap flex items-center gap-3"
+              className="text-[12px] uppercase tracking-[0.2em] font-black text-white hover:text-primary transition-all duration-500 relative group whitespace-nowrap flex items-center gap-3"
             >
               <div className="h-2 w-2 rounded-full bg-primary animate-glow-pulse" aria-hidden="true" />
               Análise IA
-              <span className="absolute -bottom-2 left-1/2 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full group-hover:left-0 rounded-full" />
+              <span className="absolute -bottom-2 left-1/2 w-0 h-1 bg-primary transition-all duration-500 group-hover:w-full group-hover:left-0 rounded-full" />
             </button>
           </nav>
 
           {/* Mobile Trigger */}
           <button 
-            className="lg:hidden p-4 rounded-3xl flex items-center gap-3 bg-white/5 backdrop-blur-3xl text-white border border-white/10 active:scale-90 transition-all shadow-2xl shrink-0"
+            className="lg:hidden p-5 rounded-[2rem] flex items-center gap-4 bg-white/5 backdrop-blur-3xl text-white border border-white/10 active:scale-90 transition-all shadow-2xl shrink-0"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-expanded={isMobileMenuOpen}
           >
-            <span className="text-xs font-bold uppercase tracking-widest">Menu</span>
-            <div className="relative h-5 w-5">
+            <span className="text-[10px] font-black uppercase tracking-widest">Menu</span>
+            <div className="relative h-6 w-6">
                <Menu className={cn("absolute inset-0 transition-all duration-500", isMobileMenuOpen ? "opacity-0 scale-50 rotate-90" : "opacity-100 scale-100 rotate-0")} />
                <X className={cn("absolute inset-0 transition-all duration-500", isMobileMenuOpen ? "opacity-100 scale-100 rotate-0" : "opacity-0 scale-50 -rotate-90")} />
             </div>
@@ -95,18 +95,18 @@ export function Navbar() {
           "lg:hidden fixed inset-0 z-[160] bg-[#0c0a1a] transition-all duration-1000 ease-in-out transform",
           isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}>
-          <div className="h-full flex flex-col p-10 pt-32 hero-purple-mesh overflow-y-auto">
-             <div className="mb-20 animate-logo-reveal">
-               <Image src={logoUrl} alt="Logo" width={300} height={80} className="object-contain" />
+          <div className="h-full flex flex-col p-12 pt-40 hero-purple-mesh overflow-y-auto">
+             <div className="mb-24 animate-logo-reveal">
+               <Image src={logoUrl} alt="Logo" width={350} height={90} className="object-contain" />
              </div>
             
-            <div className="flex flex-col gap-10">
+            <div className="flex flex-col gap-12">
               {navLinks.map((link, i) => (
                 <Link 
                   key={link.name} 
                   href={link.href} 
                   target={link.external ? "_blank" : "_self"}
-                  className="text-4xl font-black text-white tracking-tighter hover:text-primary transition-all duration-500 animate-slide-up uppercase"
+                  className="text-5xl font-black text-white tracking-tighter hover:text-primary transition-all duration-500 animate-slide-up uppercase"
                   style={{ animationDelay: `${i * 100}ms` }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -114,23 +114,23 @@ export function Navbar() {
                 </Link>
               ))}
               <button 
-                className="text-4xl font-black text-primary tracking-tighter text-left hover:text-white transition-all duration-500 animate-slide-up [animation-delay:500ms] uppercase"
+                className="text-5xl font-black text-primary tracking-tighter text-left hover:text-white transition-all duration-500 animate-slide-up [animation-delay:500ms] uppercase"
                 onClick={handleOpenChat}
               >
                 Análise IA
               </button>
             </div>
 
-            <div className="mt-auto pt-20 border-t border-white/10 flex flex-col gap-4 opacity-40">
-              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white">studiosapient. v2.1</p>
-              <p className="text-[8px] font-medium text-white/70 tracking-[0.2em]">Transformando negócios em autoridade.</p>
+            <div className="mt-auto pt-24 border-t border-white/10 flex flex-col gap-6 opacity-40">
+              <p className="text-[12px] font-black uppercase tracking-[0.5em] text-white">studiosapient. v2.5</p>
+              <p className="text-[10px] font-medium text-white/70 tracking-[0.3em]">Transformando negócios em autoridade.</p>
             </div>
             
             <button 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-10 right-10 h-16 w-16 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10 active:scale-90 transition-all"
+              className="absolute top-12 right-12 h-20 w-20 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10 active:scale-90 transition-all"
             >
-              <X size={28} />
+              <X size={32} />
             </button>
           </div>
         </div>

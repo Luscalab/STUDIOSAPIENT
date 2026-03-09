@@ -23,20 +23,7 @@
     --border: 220 10% 92%;
     --input: 220 10% 92%;
     --ring: 265 90% 60%;
-    --radius: 2.5rem;
-  }
-
-  .accessibility-high-contrast {
-    --background: 0 0% 0%;
-    --foreground: 60 100% 50%;
-    --primary: 60 100% 50%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 60 100% 50%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 90%;
-    --accent: 60 100% 50%;
-    --border: 60 100% 50%;
+    --radius: 3rem;
   }
 }
 
@@ -60,9 +47,9 @@
   }
 }
 
-/* Estilo Vibrant Original - Roxo Intenso */
+/* Estilo Vibrant Sapient - Roxo Intenso */
 .hero-purple-mesh {
-  background: linear-gradient(180deg, #0c0a1a 0%, #6d28d9 40%, #ffffff 100%);
+  background: linear-gradient(180deg, #0c0a1a 0%, #6d28d9 45%, #ffffff 100%);
   position: relative;
 }
 
@@ -78,8 +65,16 @@
   pointer-events: none;
 }
 
+.section-flow-bottom {
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
+.section-flow-top {
+  mask-image: linear-gradient(to top, black 85%, transparent 100%);
+}
+
 .glass-morphism {
-  @apply bg-white/5 backdrop-blur-[40px] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)];
+  @apply bg-white/5 backdrop-blur-[50px] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)];
 }
 
 @keyframes float {
@@ -109,4 +104,17 @@
 
 .animate-slide-up {
   animation: slide-up-reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.accessibility-grayscale {
+  filter: grayscale(100%);
+}
+
+.accessibility-highlight-links a {
+  @apply ring-2 ring-primary ring-offset-2 rounded-sm;
+}
+
+.accessibility-stop-animations * {
+  animation: none !important;
+  transition: none !important;
 }
