@@ -28,7 +28,7 @@ export function Navbar() {
       <header className="absolute top-10 left-0 right-0 z-[150]" role="banner">
         <div className="container mx-auto px-6 flex items-center justify-between gap-12">
           
-          <Link href="/" className="relative block w-[200px] h-[50px] lg:w-[495px] lg:h-[135px] transition-transform duration-700 hover:scale-105 active:scale-95">
+          <Link href="/" className="relative block w-[200px] h-[50px] lg:w-[600px] lg:h-[160px] transition-transform duration-700 hover:scale-105 active:scale-95">
             <Image 
               src={logoUrl}
               alt="studiosapient Logo"
