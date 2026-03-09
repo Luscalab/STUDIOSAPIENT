@@ -70,6 +70,15 @@
   50% { box-shadow: 0 0 60px -5px rgba(139, 92, 246, 0.5); }
 }
 
+/* VLibras Adjustments - Garantindo que apareça sobre tudo */
+[vw].enabled {
+  z-index: 9999 !important;
+}
+
+[vw-access-button].active {
+  z-index: 9999 !important;
+}
+
 /* Modos de Acessibilidade */
 .accessibility-high-contrast {
   --background: 0 0% 0%;

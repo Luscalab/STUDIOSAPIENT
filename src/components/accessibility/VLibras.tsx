@@ -1,14 +1,18 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
- * Componente de Acessibilidade VLibras com injeção manual.
- * Garante compatibilidade total com o ambiente Next.js e inicialização segura.
+ * Componente de Acessibilidade VLibras com injeção manual e montagem segura.
+ * Garante que o widget seja inicializado apenas no cliente para evitar erros de hidratação.
  */
 export function VLibras() {
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
-    // Injeção manual do script para garantir que ele rode no cliente após o DOM estar pronto
+    setMounted(true);
+    
+    // Injeção manual do script oficial
     const script = document.createElement('script');
     script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
     script.async = true;
@@ -23,15 +27,17 @@ export function VLibras() {
         console.error('Erro ao inicializar VLibras:', e);
       }
     };
+    
     document.body.appendChild(script);
 
     return () => {
-      // Limpeza ao desmontar
       if (document.body.contains(script)) {
         document.body.removeChild(script);
       }
     };
   }, []);
+
+  if (!mounted) return null;
 
   return (
     <div {...{ vw: 'true' }} className="enabled">
