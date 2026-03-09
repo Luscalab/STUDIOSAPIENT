@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Instagram, Linkedin, Palette, ArrowUpRight } from "lucide-react";
 
 export function Footer() {
+  const behanceUrl = "https://www.behance.net/sapient";
+
   return (
     <footer className="py-20 border-t border-muted bg-white overflow-hidden">
       <div className="container mx-auto px-6">
@@ -19,7 +21,7 @@ export function Footer() {
             <div className="flex gap-4">
               {[
                 { icon: <Instagram className="h-5 w-5" />, href: "https://instagram.com/studiosapient" },
-                { icon: <Palette className="h-5 w-5" />, href: "https://www.behance.net/sapient" },
+                { icon: <Palette className="h-5 w-5" />, href: behanceUrl },
                 { icon: <Linkedin className="h-5 w-5" />, href: "#" }
               ].map((social, i) => (
                 <Link 
@@ -63,8 +65,7 @@ export function Footer() {
           <div className="lg:col-span-4">
             <h4 className="font-headline font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-6">A Agência</h4>
             <ul className="space-y-4 text-muted-foreground/70 font-bold text-[10px] uppercase tracking-widest">
-              <li><Link href="https://www.behance.net/sapient" target="_blank" className="hover:text-primary transition-colors">Portfólio Behance</Link></li>
-              <li><Link href="#portfolio" className="hover:text-primary transition-colors">Projetos Recentes</Link></li>
+              <li><Link href={behanceUrl} target="_blank" className="hover:text-primary transition-colors">Portfólio Behance</Link></li>
               <li><Link href="#contato" className="hover:text-primary transition-colors">Falar com Consultor</Link></li>
               <li><Link href="#sobre" className="hover:text-primary transition-colors">Nossa Metodologia</Link></li>
             </ul>

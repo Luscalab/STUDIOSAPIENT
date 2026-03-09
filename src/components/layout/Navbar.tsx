@@ -18,7 +18,7 @@ export function Navbar() {
   const navLinks = [
     { name: "Serviços", href: "/#servicos" },
     { name: "UrbeLudo", href: "/urbeludo" },
-    { name: "Portfólio", href: "/#portfolio" },
+    { name: "Portfólio", href: "https://www.behance.net/sapient", external: true },
     { name: "Dúvidas", href: "/#faq" },
     { name: "Contato", href: "/#contato" },
   ];
@@ -34,7 +34,7 @@ export function Navbar() {
             <Link 
               href="/" 
               aria-label="Sapient Studio Home"
-              className="relative block w-80 h-24 md:w-[520px] md:h-40 transition-all duration-1000 hover:scale-105"
+              className="relative block w-[280px] h-[70px] md:w-[480px] md:h-[120px] transition-all duration-1000 hover:scale-105"
             >
               <Image 
                 src={logoUrl}
@@ -51,6 +51,7 @@ export function Navbar() {
               <Link 
                 key={link.name} 
                 href={link.href} 
+                target={link.external ? "_blank" : "_self"}
                 className="text-[11px] uppercase tracking-[0.4em] font-black text-white hover:text-primary transition-all duration-500 relative group whitespace-nowrap"
               >
                 {link.name}
@@ -92,6 +93,7 @@ export function Navbar() {
                 <Link 
                   key={link.name} 
                   href={link.href} 
+                  target={link.external ? "_blank" : "_self"}
                   className="text-5xl font-black text-white tracking-tighter hover:text-primary transition-colors duration-500"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
