@@ -11,15 +11,15 @@ import { HelpCircle } from "lucide-react";
 const faqs = [
   {
     question: "Quanto tempo leva para ver resultados?",
-    answer: "Tráfego pago pode gerar leads em dias. Reposicionamento de marca e autoridade visual consolida-se entre 3 a 6 meses de execução estratégica e consistente."
+    answer: "Os resultados variam conforme o serviço. Campanhas de anúncios podem gerar contatos em poucos dias, enquanto projetos de design e posicionamento de marca costumam amadurecer entre 3 a 6 meses de trabalho consistente."
   },
   {
     question: "A Sapient atende qualquer tipo de empresa?",
-    answer: "Atendemos negócios que buscam elevar seu patamar de profissionalismo, desde profissionais liberais na saúde e direito até empresas em expansão nacional."
+    answer: "Atendemos negócios de diversos tamanhos que buscam melhorar sua presença digital, desde profissionais liberais até empresas em expansão que valorizam um trabalho estratégico."
   },
   {
     question: "Como funciona a gestão de redes sociais?",
-    answer: "É uma curadoria de autoridade absoluta. Criamos narrativas e visuais desenhados para quebrar objeções e posicionar você como a primeira escolha óbvia."
+    answer: "Nosso foco é criar conteúdos que realmente conectem com o seu público, ajudando a transmitir credibilidade e a manter uma comunicação clara e constante com seus clientes."
   }
 ];
 
