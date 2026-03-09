@@ -75,20 +75,31 @@ export function AccessibilityMenu() {
   useEffect(() => {
     if (!isReading || !synthRef.current || !mounted) return;
 
-    const selector = 'h1, h2, h3, h4, h5, h6, p, a, button, li, [role="button"], img[alt]';
+    const selector = 'h1, h2, h3, h4, h5, h6, p, a, button, li, [role="button"], [role="link"], img[alt]';
 
     const speak = (element: HTMLElement) => {
       if (!synthRef.current) return;
       
-      const text = element.getAttribute('aria-label') || element.getAttribute('alt') || element.innerText || element.textContent || "";
-      const isClickable = ['A', 'BUTTON'].includes(element.tagName) || element.getAttribute('role') === 'button';
+      const tagName = element.tagName.toLowerCase();
+      const role = element.getAttribute('role');
+      const isClickable = ['a', 'button'].includes(tagName) || ['button', 'link'].includes(role || "");
       
+      const ariaLabel = element.getAttribute('aria-label');
+      const alt = element.getAttribute('alt');
+      const title = element.getAttribute('title');
+      const innerText = element.innerText;
+      
+      let text = ariaLabel || alt || title || innerText || "";
       let finalSpeech = text.trim();
+      
       if (isClickable) {
+        if (!finalSpeech) {
+          finalSpeech = tagName === 'a' || role === 'link' ? "Link" : "Botão";
+        }
         finalSpeech += ". Item clicável. Clique duas vezes para ativar.";
       }
 
-      if (finalSpeech.length > 1) {
+      if (finalSpeech.length > 0) {
         synthRef.current.cancel();
         const utterance = new SpeechSynthesisUtterance(finalSpeech);
         utterance.lang = 'pt-BR';
@@ -96,15 +107,20 @@ export function AccessibilityMenu() {
         synthRef.current.speak(utterance);
       }
 
+      // Visual Highlighting
       const originalOutline = element.style.outline;
+      const originalOffset = element.style.outlineOffset;
       element.style.outline = '4px solid hsl(var(--primary))';
       element.style.outlineOffset = '4px';
+      
       setTimeout(() => {
         element.style.outline = originalOutline;
+        element.style.outlineOffset = originalOffset;
       }, 1500);
     };
 
     const handleGlobalInteraction = (e: MouseEvent | TouchEvent) => {
+      // Don't interfere with the accessibility menu itself
       if ((e.target as HTMLElement).closest('.accessibility-menu-container')) return;
 
       const target = (e.target as HTMLElement).closest(selector) as HTMLElement;
@@ -114,9 +130,11 @@ export function AccessibilityMenu() {
       const isSameElement = target === lastInteractedElementRef.current;
       const timeDiff = now - lastClickTimeRef.current;
 
+      // Logic: First click describes, Second click (within 600ms) activates
       if (isSameElement && timeDiff < 600) {
         lastInteractedElementRef.current = null;
         lastClickTimeRef.current = 0;
+        // Proceed with normal action (don't preventDefault)
         return; 
       } else {
         e.preventDefault();
