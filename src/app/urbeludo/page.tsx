@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -62,7 +61,7 @@ export default function UrbeLudoPage() {
   const contactPhone = "+55 11 95963-1870";
 
   return (
-    <main className="min-h-screen bg-[#0a0a0c] text-white selection:bg-cyan-500/30 selection:text-white">
+    <main id="main-content" className="min-h-screen bg-[#0a0a0c] text-white selection:bg-cyan-500/30 selection:text-white">
       <Navbar />
       
       {/* 1. Hero Section */}
@@ -75,13 +74,19 @@ export default function UrbeLudoPage() {
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-5xl mx-auto text-center">
+            <div className="mb-8 animate-slide-up">
+              <Badge className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.5em] rounded-full backdrop-blur-md animate-pulse">
+                EM BREVE
+              </Badge>
+            </div>
+            
             <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[1.05] mb-8 animate-slide-up py-4">
               UrbeLudo <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-primary italic font-medium block">A Ciência do Jogo.</span>
             </h1>
             
             <p className="text-lg md:text-2xl text-white/50 font-medium max-w-3xl mx-auto leading-relaxed tracking-tight text-balance mb-16 animate-slide-up [animation-delay:200ms]">
-              Onde o movimento se torna dado e o dado se torna <span className="text-white font-bold">evolução.</span> Uma plataforma de biofeedback de elite para reabilitação cognitiva e motora.
+              Onde o movemento se torna dado e o dado se torna <span className="text-white font-bold">evolução.</span> Uma plataforma de biofeedback de elite para reabilitação cognitiva e motora.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-8 animate-slide-up [animation-delay:400ms]">
