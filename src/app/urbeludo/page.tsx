@@ -6,7 +6,24 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Activity, Brain, Cpu, Mic, Move, Zap, ArrowRight, Sparkles, Database, BarChart3, HeartPulse, Layers } from "lucide-react";
+import { 
+  Activity, 
+  Brain, 
+  Cpu, 
+  Mic, 
+  Zap, 
+  ArrowRight, 
+  Sparkles, 
+  Database, 
+  BarChart3, 
+  HeartPulse, 
+  Layers,
+  ShieldCheck,
+  TrendingUp,
+  Users2,
+  Globe2,
+  Target
+} from "lucide-react";
 
 export default function UrbeLudoPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
@@ -44,109 +61,174 @@ export default function UrbeLudoPage() {
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#fbfaff] to-transparent" />
       </section>
 
-      {/* Main Content Section */}
-      <section className="py-24 md:py-40">
+      {/* Sobre Section */}
+      <section id="sobre" className="py-24 md:py-40 bg-white overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-12">
               <div className="space-y-6">
-                <div className="h-1 w-20 bg-cyan-500 rounded-full" />
+                <Badge className="bg-primary/5 text-primary border-primary/10 px-6 py-2 text-[9px] font-black uppercase tracking-widest rounded-full">
+                  Nossa Gênese
+                </Badge>
                 <h3 className="font-headline text-4xl md:text-6xl font-black tracking-tighter leading-none">
-                  Ecossistema de <br />
-                  <span className="text-primary">Biofeedback.</span>
+                  A Ciência por Trás da <span className="text-primary italic">Lodicidade.</span>
                 </h3>
-                <p className="text-xl md:text-2xl text-muted-foreground font-medium leading-relaxed tracking-tight">
-                  O UrbeLudo não é apenas uma plataforma; é um ecossistema projetado para potencializar metodologias institucionais.
+                <p className="text-xl text-muted-foreground font-medium leading-relaxed tracking-tight">
+                  O UrbeLudo nasceu nos laboratórios da Sapient Studio como uma resposta ao desafio de tornar terapias clínicas mensuráveis e envolventes.
                 </p>
               </div>
 
-              <div className="prose prose-xl max-w-none text-muted-foreground/80 font-medium leading-relaxed">
+              <div className="prose prose-xl max-w-none text-muted-foreground/80 font-medium leading-relaxed space-y-6">
                 <p>
-                  Da psicomotricidade à fonoaudiologia, estamos transformando o movimento do corpo e a emissão vocal em dados interativos e resultados mensuráveis.
+                  Acreditamos que o movimento e a fala são os pilares da conexão humana. Ao aplicar algoritmos de Visão Computacional e Processamento de Linguagem Natural, criamos um espelho digital da evolução terapêutica.
+                </p>
+                <p>
+                  Nossa plataforma não substitui o terapeuta; ela o empodera com dados de biofeedback que antes eram invisíveis a olho nu.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-8">
-                {[
-                  { 
-                    icon: <Activity className="text-cyan-500" />, 
-                    title: "Psicomotricidade", 
-                    desc: "Análise de padrões de movimento em tempo real para reabilitação motora." 
-                  },
-                  { 
-                    icon: <Mic className="text-cyan-500" />, 
-                    title: "Fonoaudiologia", 
-                    desc: "Processamento de emissão vocal transformado em feedback visual interativo." 
-                  }
-                ].map((item, i) => (
-                  <div key={i} className="p-8 rounded-[3rem] bg-white border border-primary/5 shadow-sm hover:border-cyan-500/20 transition-all group">
-                    <div className="h-12 w-12 rounded-2xl bg-cyan-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                      {item.icon}
+              <div className="flex items-center gap-8 pt-6">
+                <div className="flex -space-x-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="h-12 w-12 rounded-full border-4 border-white bg-secondary flex items-center justify-center overflow-hidden">
+                      <img src={`https://picsum.photos/seed/expert-${i}/100/100`} alt="Expert" className="h-full w-full object-cover" />
                     </div>
-                    <h4 className="font-bold text-xl mb-2 tracking-tight">{item.title}</h4>
-                    <p className="text-sm text-muted-foreground leading-snug">{item.desc}</p>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                  Desenvolvido com <br /> Especialistas Clínicos
+                </p>
               </div>
             </div>
 
             <div className="relative">
-              <div className="aspect-square rounded-[4rem] bg-foreground p-12 md:p-24 flex flex-col justify-center items-center text-center space-y-12 overflow-hidden shadow-3xl">
-                <div className="absolute inset-0 opacity-10 bg-[url('https://picsum.photos/seed/urbeludo-grid/1000/1000')] bg-cover mix-blend-overlay" />
-                <div className="h-32 w-32 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 animate-pulse relative z-10">
-                  <Cpu className="h-16 w-16" />
-                </div>
-                <div className="space-y-6 relative z-10">
-                  <h4 className="font-headline text-3xl md:text-4xl font-black text-white tracking-tighter">
-                    Tecnologia Edge AI
-                  </h4>
-                  <p className="text-cyan-100/60 text-lg font-medium leading-relaxed italic">
-                    "A serviço da evolução humana."
-                  </p>
-                </div>
-                <div className="grid grid-cols-2 gap-4 w-full relative z-10">
-                  <div className="p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-md">
-                    <Database className="h-6 w-6 text-cyan-400 mb-2 mx-auto" />
-                    <p className="text-[10px] font-black uppercase text-white/40 mb-1">Processamento</p>
-                    <p className="text-xl font-black text-white">Local</p>
-                  </div>
-                  <div className="p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-md">
-                    <BarChart3 className="h-6 w-6 text-cyan-400 mb-2 mx-auto" />
-                    <p className="text-[10px] font-black uppercase text-white/40 mb-1">Precisão</p>
-                    <p className="text-xl font-black text-white">Milimétrica</p>
-                  </div>
+              <div className="aspect-[4/5] rounded-[4rem] bg-secondary/30 border border-primary/5 overflow-hidden flex items-center justify-center p-12 group">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                <div className="text-center space-y-8 relative z-10">
+                   <div className="h-24 w-24 bg-primary rounded-3xl mx-auto flex items-center justify-center text-white shadow-2xl animate-float">
+                     <Target className="h-12 w-12" />
+                   </div>
+                   <h4 className="font-headline text-3xl font-black tracking-tighter text-foreground">Visão 2025</h4>
+                   <p className="text-muted-foreground font-medium max-w-xs mx-auto">
+                     Democratizar o acesso ao biofeedback de alta precisão em cada clínica do país.
+                   </p>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Futuristic Features Grid */}
-          <div className="mt-40 grid grid-cols-1 md:grid-cols-3 gap-12">
+      {/* Como Ajudar / Colaboração Section */}
+      <section id="colaborar" className="py-24 md:py-40 bg-foreground text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mb-24">
+            <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">
+              Ecossistema Colaborativo
+            </Badge>
+            <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-tight">
+              Sua Expertise Molda <br />
+              <span className="text-cyan-400">nossa Inteligência.</span>
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
               {
-                icon: <Brain className="h-8 w-8" />,
-                title: "Neuroplasticidade",
-                desc: "Estímulos visuais e sonoros sincronizados para acelerar sinapses e aprendizado."
+                icon: <Users2 className="h-8 w-8 text-cyan-400" />,
+                title: "Clínicas Parceiras",
+                desc: "Seja um centro de validação precoce e tenha acesso exclusivo às ferramentas de biofeedback antes do lançamento global."
               },
               {
-                icon: <Layers className="h-8 w-8" />,
-                title: "Bio-Dados",
-                desc: "Captura de métricas fisiológicas para ajustes imediatos na terapia."
+                icon: <ShieldCheck className="h-8 w-8 text-cyan-400" />,
+                title: "Conselho Consultivo",
+                desc: "Buscamos fonoaudiólogos e psicomotricistas para refinar nossos algoritmos de análise de movimento e voz."
               },
               {
-                icon: <HeartPulse className="h-8 w-8" />,
-                title: "Foco no Paciente",
-                desc: "Experiência lúdica que aumenta o engajamento e reduz a barreira do esforço clínico."
+                icon: <Database className="h-8 w-8 text-cyan-400" />,
+                title: "Pesquisa Acadêmica",
+                desc: "Apoiamos teses e pesquisas que utilizam o UrbeLudo como base de dados para novos protocolos terapêuticos."
               }
-            ].map((feat, i) => (
-              <div key={i} className="text-center space-y-6 p-12 rounded-[4rem] bg-white border border-primary/5 hover:shadow-2xl transition-all">
-                <div className="h-20 w-20 rounded-3xl bg-primary/5 flex items-center justify-center text-primary mx-auto">
-                  {feat.icon}
+            ].map((item, idx) => (
+              <div key={idx} className="p-12 rounded-[3.5rem] bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-white/10 transition-all group">
+                <div className="h-16 w-16 rounded-2xl bg-cyan-500/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                  {item.icon}
                 </div>
-                <h4 className="font-bold text-2xl tracking-tighter">{feat.title}</h4>
-                <p className="text-muted-foreground font-medium leading-relaxed">{feat.desc}</p>
+                <h4 className="font-bold text-2xl mb-4 tracking-tight">{item.title}</h4>
+                <p className="text-white/50 leading-relaxed font-medium">{item.desc}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-20 p-12 bg-cyan-500/10 rounded-[3rem] border border-cyan-500/20 flex flex-col md:flex-row items-center justify-between gap-10">
+            <div className="space-y-2">
+              <p className="font-black text-xl tracking-tight uppercase">Interesse em colaborar?</p>
+              <p className="text-cyan-100/60 font-medium">Junte-se à revolução da reabilitação digital.</p>
+            </div>
+            <Button onClick={handleOpenChat} className="h-16 px-12 bg-cyan-500 hover:bg-cyan-400 text-foreground font-black uppercase tracking-widest rounded-full transition-all">
+              Entrar em Contato
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Investir Section */}
+      <section id="investir" className="py-24 md:py-40 bg-white overflow-hidden">
+        <div className="container mx-auto px-6">
+          <div className="max-w-6xl mx-auto rounded-[4rem] border border-primary/10 p-12 md:p-24 shadow-2xl relative overflow-hidden bg-gradient-to-br from-white to-secondary/20">
+            <div className="absolute top-0 right-0 p-12 opacity-5">
+              <TrendingUp className="h-64 w-64 text-primary" />
+            </div>
+            
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+              <div className="space-y-10">
+                <Badge className="bg-primary/5 text-primary border-primary/10 px-8 py-2 text-[9px] font-black uppercase tracking-widest rounded-full">
+                  Oportunidade Estratégica
+                </Badge>
+                <h3 className="font-headline text-4xl md:text-6xl font-black tracking-tighter leading-none">
+                  Investindo no <br />
+                  <span className="text-primary italic">Futuro da Saúde.</span>
+                </h3>
+                <p className="text-lg text-muted-foreground font-medium leading-relaxed">
+                  O mercado de Digital Health está em plena expansão. O UrbeLudo combina escalabilidade de SaaS com a precisão de Deep Tech.
+                </p>
+                <ul className="space-y-4">
+                  {[
+                    "Rodada Pre-Seed aberta para investidores estratégicos.",
+                    "Foco em expansão para o mercado LatAm e EUA.",
+                    "Desenvolvimento de hardware proprietário de biofeedback.",
+                    "Base de usuários em clínicas de alta autoridade."
+                  ].map((text, i) => (
+                    <li key={i} className="flex items-center gap-4 text-sm font-bold text-foreground">
+                      <Sparkles className="h-5 w-5 text-primary shrink-0" /> {text}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="space-y-8 p-12 bg-white rounded-[3rem] shadow-xl border border-primary/5">
+                <div className="space-y-2">
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Status do Projeto</p>
+                  <p className="text-3xl font-black tracking-tighter uppercase">MVP em Validação</p>
+                </div>
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="p-6 bg-secondary/50 rounded-2xl border border-primary/5">
+                    <Globe2 className="h-6 w-6 text-primary mb-2" />
+                    <p className="text-[8px] font-black uppercase text-muted-foreground mb-1">Mercado Total</p>
+                    <p className="text-xl font-black">US$ 12.4B</p>
+                  </div>
+                  <div className="p-6 bg-secondary/50 rounded-2xl border border-primary/5">
+                    <BarChart3 className="h-6 w-6 text-primary mb-2" />
+                    <p className="text-[8px] font-black uppercase text-muted-foreground mb-1">Crescimento Ano</p>
+                    <p className="text-xl font-black">+24%</p>
+                  </div>
+                </div>
+                <Button className="w-full h-20 bg-foreground text-white hover:bg-primary font-black uppercase tracking-widest rounded-full transition-all">
+                  Solicitar Pitch Deck
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
