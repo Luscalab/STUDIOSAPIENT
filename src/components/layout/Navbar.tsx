@@ -29,8 +29,8 @@ export function Navbar() {
       <header className="absolute top-0 left-0 right-0 z-50 p-4 md:pt-4 md:pb-12 md:px-10 w-full max-w-full">
         <div className="container mx-auto flex items-start justify-between relative h-32 md:h-44 max-w-full px-4">
           
-          {/* Logo container - Raised by another 10% on web (total md:-translate-y-44) and 20% on mobile (-translate-y-20) */}
-          <div className="animate-logo-reveal flex-shrink-0 -translate-y-20 md:-translate-y-44">
+          {/* Logo container - Elevated by another 20% as requested */}
+          <div className="animate-logo-reveal flex-shrink-0 -translate-y-32 md:-translate-y-64">
             <Link href="/" className="relative block group transition-all duration-500 w-36 h-14 md:w-[280px] md:h-40 origin-top-left">
               <Image 
                 src={logoUrl}
@@ -58,7 +58,7 @@ export function Navbar() {
                 </Link>
               ))}
               
-              {/* Strategic Analysis consistent with other links */}
+              {/* Strategic Analysis - Consistent with other links */}
               <button 
                 onClick={handleOpenChat}
                 className="text-[11px] uppercase tracking-[0.5em] font-black text-white hover:text-primary transition-all relative group"
