@@ -6,29 +6,29 @@ const steps = [
   {
     icon: <Search className="h-8 w-8" />,
     title: "Análise",
-    description: "Auditamos sua marca e presença digital para identificar oportunidades reais de melhoria."
+    description: "Auditamos sua marca e presença digital para identificar oportunidades reais de melhoria estratégica."
   },
   {
     icon: <Target className="h-8 w-8" />,
     title: "Estratégia",
-    description: "Desenvolvemos um plano visual e narrativo focado em profissionalismo e resultados."
+    description: "Desenvolvemos um plano visual e narrativo focado em profissionalismo e resultados práticos."
   },
   {
     icon: <PenTool className="h-8 w-8" />,
     title: "Execução",
-    description: "Implementamos melhorias em design, anúncios e conteúdo com precisão técnica."
+    description: "Implementamos melhorias em design, anúncios e conteúdo com precisão técnica e agilidade."
   },
   {
     icon: <Rocket className="h-8 w-8" />,
     title: "Crescimento",
-    description: "Consolidamos seu novo posicionamento e monitoramos a evolução do negócio."
+    description: "Consolidamos seu posicionamento e monitoramos a evolução constante do seu negócio."
   }
 ];
 
 export function Process() {
   return (
     <section className="section-spacing hero-purple-mesh relative overflow-hidden">
-      <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+      <div className="absolute inset-0 bg-black/20 pointer-events-none" />
       
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between mb-32 gap-12">
@@ -41,24 +41,20 @@ export function Process() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, idx) => (
-            <div key={idx} className="relative group p-10 rounded-[3rem] bg-white/10 backdrop-blur-2xl border border-white/10 transition-all duration-700 hover:bg-white/20 hover:-translate-y-2 shadow-[0_32px_64px_-15px_rgba(0,0,0,0.3)]">
-              {idx < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-3 z-20 translate-y-[-50%] text-white/20">
-                  <ChevronRight size={24} />
-                </div>
-              )}
-              
-              <div className="absolute top-8 right-8 text-5xl font-black text-white/5 group-hover:text-white/15 transition-colors select-none">
-                0{idx + 1}
-              </div>
-
-              <div className="relative">
-                <div className="h-16 w-16 rounded-2xl bg-white/10 shadow-sm flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-primary/30 transition-all duration-700 mb-8 border border-white/10">
+            <div key={idx} className="relative group p-10 rounded-[3rem] bg-white/5 backdrop-blur-3xl border border-white/10 transition-all duration-700 hover:bg-white/15 hover:-translate-y-2 shadow-2xl">
+              <div className="flex items-center justify-between mb-8">
+                <div className="h-16 w-16 rounded-2xl bg-white/10 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-primary/30 transition-all duration-700 border border-white/10">
                   {step.icon}
                 </div>
-                <h3 className="font-headline text-2xl font-black mb-4 tracking-tighter text-white">{step.title}</h3>
+                <span className="text-4xl font-black text-white/10 group-hover:text-white/20 transition-colors select-none">
+                  0{idx + 1}
+                </span>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="font-headline text-2xl font-black tracking-tighter text-white">{step.title}</h3>
                 <p className="text-white/70 leading-relaxed font-medium text-base md:text-lg tracking-tight">
                   {step.description}
                 </p>
