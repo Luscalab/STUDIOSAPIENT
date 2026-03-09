@@ -85,9 +85,9 @@ export default function UrbeLudoPage() {
               </Badge>
             </div>
             
-            <h1 className="font-headline text-5xl md:text-7xl lg:text-9xl font-black text-white tracking-tighter leading-[1.1] mb-12 animate-slide-up [animation-delay:200ms] py-4">
+            <h1 className="font-headline text-5xl md:text-7xl lg:text-[8.5rem] font-black text-white tracking-tighter leading-[1.05] mb-12 animate-slide-up [animation-delay:200ms] py-6 overflow-visible">
               UrbeLudo <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-primary italic font-medium">A Ciência do Jogo.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-primary italic font-medium block">A Ciência do Jogo.</span>
             </h1>
             
             <p className="text-xl md:text-3xl text-white/60 font-medium max-w-4xl mx-auto leading-tight tracking-tight text-balance mb-20 animate-slide-up [animation-delay:400ms]">
@@ -321,23 +321,38 @@ export default function UrbeLudoPage() {
                   <div className="space-y-6">
                     <h4 className="font-headline text-4xl font-black tracking-tighter">Colaboração <br />Multidisciplinar</h4>
                     <p className="text-black/40 font-medium text-lg leading-relaxed">
-                      Buscamos Devs (Unity/AI), Designers, Psicólogos e Fonoaudiólogos para validar nossa ciência.
+                      Buscamos Desenvolvedores, Designers, Psicólogos, Fonoaudiólogos, Fisioterapeutas e demais especialistas em reabilitação clínica.
                     </p>
                   </div>
                 </div>
                 
                 <div className="mt-16 space-y-4">
-                  <div className="p-8 rounded-[2.5rem] bg-black text-white space-y-4">
-                    <div className="flex items-center gap-3">
-                      <MessageCircle className="h-4 w-4 text-primary" />
-                      <p className="text-sm font-black">{contactPhone}</p>
+                  <div className="p-8 rounded-[2.5rem] bg-black text-white space-y-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <Mail className="h-4 w-4 text-primary" />
+                        <p className="text-xs font-black truncate">{contactEmail}</p>
+                      </div>
+                      <button 
+                        onClick={() => copyToClipboard(contactEmail, "E-mail")}
+                        className="w-full py-3 rounded-xl bg-white/5 hover:bg-white/15 text-[8px] font-black uppercase tracking-widest transition-all border border-white/10"
+                      >
+                        Copiar E-mail
+                      </button>
                     </div>
-                    <button 
-                      onClick={() => copyToClipboard(contactPhone, "WhatsApp")}
-                      className="w-full py-4 rounded-xl bg-white/10 hover:bg-white/20 text-[9px] font-black uppercase tracking-widest transition-all"
-                    >
-                      Copiar WhatsApp
-                    </button>
+
+                    <div className="space-y-4 pt-4 border-t border-white/10">
+                      <div className="flex items-center gap-3">
+                        <MessageCircle className="h-4 w-4 text-primary" />
+                        <p className="text-xs font-black">{contactPhone}</p>
+                      </div>
+                      <button 
+                        onClick={() => copyToClipboard(contactPhone, "WhatsApp")}
+                        className="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-[8px] font-black uppercase tracking-widest transition-all"
+                      >
+                        Copiar WhatsApp
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
