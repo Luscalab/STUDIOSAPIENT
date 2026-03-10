@@ -68,7 +68,7 @@ const serviceRecommenderPrompt = ai.definePrompt({
   },
   prompt: `Você é o Estrategista-Chefe da Sapient Studio. Sua missão é realizar um diagnóstico de posicionamento de alto nível.
 
-ENTRADA DO CLIENTE:
+ENTRADA DO CLIENTE (Incluindo histórico de conversas se houver):
 "{{{clientNeedsAndGoals}}}"
 
 PROTOCOLO DE ANÁLISE:

@@ -115,6 +115,7 @@ export function AIChat() {
     setResult(null);
     
     try {
+      // Treinamento contextual: Envia o histórico para a API aprender com a conversa atual
       const context = chatHistory.slice(-4).map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`).join('\n') + `\nCliente: ${messageToSend}`;
       const recommendation = await recommendServices({ clientNeedsAndGoals: context });
       
