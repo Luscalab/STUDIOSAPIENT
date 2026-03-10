@@ -3,10 +3,12 @@ import { genkit } from 'genkit';
 import { googleAI } from '@genkit-ai/google-genai';
 
 /**
- * Inicialização do Genkit com o plugin Google AI.
- * Utiliza o modelo Gemini 2.5 Flash para respostas rápidas e inteligentes.
+ * Inicialização do Genkit com a chave do Gemini fornecida.
+ * Configurado para o modelo Gemini 1.5 Flash para máxima agilidade e custo-benefício.
  */
 export const ai = genkit({
-  plugins: [googleAI()],
-  model: 'googleai/gemini-2.0-flash-exp', // Modelo de última geração para performance superior
+  plugins: [
+    googleAI({ apiKey: 'AIzaSyDI4In-0JQHu9amI1ixTAqTl1RPdzQzp2w' })
+  ],
+  model: 'googleai/gemini-1.5-flash',
 });

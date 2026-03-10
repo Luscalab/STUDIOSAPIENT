@@ -17,33 +17,28 @@ const ChatMessageSchema = z.object({
 });
 
 const RecommenderInputSchema = z.object({
-  history: z.array(ChatMessageSchema).describe('Histórico da conversa atual.'),
-  currentMessage: z.string().describe('A última mensagem enviada pelo usuário.'),
+  history: z.array(ChatMessageSchema).describe('Histórico completo da conversa.'),
+  currentMessage: z.string().describe('Última mensagem enviada pelo usuário.'),
 });
 
 const RecommenderOutputSchema = z.object({
-  reply: z.string().describe('A resposta consultiva da IA.'),
-  shouldRedirect: z.boolean().describe('Se é o momento de sugerir o WhatsApp.'),
-  detectedNiche: z.string().optional().describe('Nicho de mercado identificado.'),
+  reply: z.string().describe('Resposta consultiva da IA.'),
+  shouldRedirect: z.boolean().describe('Se deve sugerir o contato humano.'),
+  brandNiche: z.string().optional().describe('Nicho identificado.'),
 });
 
 export type RecommenderOutput = z.infer<typeof RecommenderOutputSchema>;
 
 const systemPrompt = `Você é o Estrategista-Chefe da Sapient Studio.
-Sua missão é ser o primeiro contato consultivo com potenciais clientes.
+Sua missão única é entender a MARCA e o NICHO do cliente através de uma conversa consultiva leve.
 
-OBJETIVO:
-1. Entender o NICHO do cliente (O que eles fazem).
-2. Identificar o DESAFIO atual (O que os impede de crescer).
-3. Manter um tom Profissional, Amigável e de Prestígio.
+REGRAS DE OURO:
+1. AUDITORIA DE HISTÓRICO: Antes de responder, leia todo o histórico. Se o cliente já informou o que faz, NÃO pergunte de novo.
+2. EVITE REPETIÇÃO: Nunca repita perguntas. Se você já tem informações básicas, aprofunde ou sugira o próximo passo.
+3. TOM DE VOZ: Profissional, minimalista e focado em prestígio.
+4. CONVERSÃO: Assim que você entender o nicho e o desafio básico, sua resposta deve incluir um convite para o WhatsApp oficial.
 
-DIRETRIZES:
-- Analise o HISTÓRICO para não repetir perguntas.
-- Se o cliente já informou o nicho, não pergunte novamente.
-- Assim que entender o cenário básico, sugira que a melhor forma de prosseguir é uma conversa técnica no WhatsApp.
-- Se o cliente perguntar o que fazemos: "Somos especialistas em Performance Ads, Design de Prestígio e Ecossistemas de IA".
-
-Sua meta é qualificar o lead e gerar o redirecionamento.`;
+META: Identificar o nicho -> Gerar desejo -> Sugerir WhatsApp.`;
 
 const recommenderPrompt = ai.definePrompt({
   name: 'recommenderPrompt',
@@ -57,19 +52,22 @@ const recommenderPrompt = ai.definePrompt({
     - {{role}}: {{{content}}}
     {{/each}}
 
-    Nova Mensagem do Usuário: {{{currentMessage}}}
+    Mensagem Atual do Usuário: {{{currentMessage}}}
     
-    Analise e responda de forma estratégica.
+    Analise o histórico, identifique se já sabemos o nicho do cliente, e responda de forma a evoluir a conversa sem repetir perguntas.
   `,
 });
 
 export async function recommendServices(input: z.infer<typeof RecommenderInputSchema>): Promise<RecommenderOutput> {
-  const { output } = await recommenderPrompt(input);
-  if (!output) {
+  try {
+    const { output } = await recommenderPrompt(input);
+    if (!output) throw new Error("API retornou vazio");
+    return output;
+  } catch (error) {
+    console.error("Erro na API Gemini:", error);
     return {
-      reply: "Entendo perfeitamente. Gostaria de aprofundar essa análise estratégica com um de nossos consultores via WhatsApp?",
+      reply: "Sua visão de negócio parece sólida. Para um diagnóstico técnico preciso sobre como escalar sua marca, recomendo uma conversa com nosso consultor sênior via WhatsApp.",
       shouldRedirect: true
     };
   }
-  return output;
 }
