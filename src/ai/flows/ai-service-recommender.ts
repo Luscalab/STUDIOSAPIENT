@@ -4,7 +4,7 @@
  * @fileOverview Inteligência de Prospecção Sapient Studio.
  * 
  * Este fluxo processa a conversa para entender o negócio do cliente
- * e decide o momento ideal de redirecionamento para o fechamento humano.
+ * e utiliza cards de ação rápida para acelerar o diagnóstico.
  */
 
 import { ai } from '@/ai/genkit';
@@ -23,20 +23,23 @@ const RecommenderInputSchema = z.object({
 const RecommenderOutputSchema = z.object({
   reply: z.string().describe('Resposta consultiva da IA.'),
   shouldRedirect: z.boolean().describe('Se deve sugerir o contato humano via WhatsApp.'),
+  suggestedActions: z.array(z.string()).optional().describe('Opções de resposta rápida (cards) para o usuário.'),
 });
 
 export type RecommenderOutput = z.infer<typeof RecommenderOutputSchema>;
 
 const systemPrompt = `Você é o Estrategista-Chefe da Sapient Studio.
-Sua missão única é entender a MARCA e o NICHO do cliente através de uma conversa consultiva leve e limpa.
+Sua missão é entender a MARCA e o NICHO do cliente através de uma conversa técnica e minimalista.
 
 REGRAS DE OURO:
-1. AUDITORIA DE HISTÓRICO: Antes de responder, leia TODO o histórico. Se o cliente já informou o nicho ou o que faz, NÃO pergunte de novo.
-2. EVITE REPETIÇÃO: Jamais repita perguntas. Se você já tem a base, aprofunde ou sugira o próximo passo.
-3. TOM DE VOZ: Profissional, minimalista e focado em prestígio.
-4. CONVERSÃO: Assim que você entender o nicho e o desafio básico, sua resposta deve ser conclusiva e o shouldRedirect deve ser true.
+1. AUDITORIA DE HISTÓRICO: Verifique se o nicho já foi informado. Se sim, NÃO pergunte de novo.
+2. CARDS DE INTERAÇÃO (suggestedActions): Use cards para facilitar a resposta do usuário.
+   - Se não souber o nicho, sugira: ["Saúde", "Advocacia", "Real Estate", "Tecnologia"].
+   - Se souber o nicho mas não o objetivo, sugira: ["Vender Mais", "Branding de Elite", "Automação com IA"].
+3. TOM DE VOZ: Profissional, focado em prestígio e autoridade.
+4. CONVERSÃO: Assim que entender o nicho e o desafio, defina shouldRedirect como true e sugira o WhatsApp.
 
-META: Entender a marca -> Validar o desafio -> Sugerir WhatsApp.`;
+META: Identificar Marca -> Validar Desafio -> Redirecionar para WhatsApp Oficial.`;
 
 const recommenderPrompt = ai.definePrompt({
   name: 'recommenderPrompt',
@@ -50,9 +53,9 @@ const recommenderPrompt = ai.definePrompt({
     - {{role}}: {{{content}}}
     {{/each}}
 
-    Mensagem Atual do Usuário: {{{currentMessage}}}
+    Última Mensagem do Usuário: {{{currentMessage}}}
     
-    Analise o histórico para não repetir perguntas. Responda de forma ágil e evolutiva.
+    Analise o contexto e responda de forma consultiva. Use o campo suggestedActions para oferecer opções que acelerem o entendimento do negócio.
   `,
 });
 
@@ -64,8 +67,9 @@ export async function recommendServices(input: z.infer<typeof RecommenderInputSc
   } catch (error) {
     console.error("Erro na API Gemini:", error);
     return {
-      reply: "Sua visão de negócio parece sólida. Para um diagnóstico técnico preciso sobre como escalar sua marca, recomendo uma conversa com nosso consultor sênior via WhatsApp.",
-      shouldRedirect: true
+      reply: "Sua visão estratégica parece promissora. Para um diagnóstico técnico de alta fidelidade, recomendo falarmos diretamente via WhatsApp.",
+      shouldRedirect: true,
+      suggestedActions: ["Falar no WhatsApp"]
     };
   }
 }
