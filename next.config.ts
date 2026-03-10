@@ -36,7 +36,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // SEGURANÇA: Headers de proteção contra ataques comuns
+  // SEGURANÇA: Headers otimizados para produção e compatibilidade com o Studio
   async headers() {
     return [
       {
@@ -48,7 +48,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY',
+            value: 'SAMEORIGIN', // Permite visualização no frame do Studio
           },
           {
             key: 'X-XSS-Protection',
