@@ -15,7 +15,8 @@ import {
   Target,
   Layers,
   Sparkles,
-  Zap
+  Zap,
+  Check
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { recommendServices, type RecommenderInput, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
@@ -26,6 +27,7 @@ interface Message {
   role: 'user' | 'model';
   content: string;
   actions?: string[];
+  isMultiSelect?: boolean;
 }
 
 const INITIAL_MESSAGE: Message = {
@@ -42,7 +44,8 @@ const INITIAL_MESSAGE: Message = {
     "Fotografia & Vídeo",
     "Moda & Acessórios",
     "Agro & Negócios Rurais"
-  ]
+  ],
+  isMultiSelect: false
 };
 
 export function AIChat() {
@@ -53,6 +56,7 @@ export function AIChat() {
   const [showRedirect, setShowRedirect] = useState(false);
   const [currentLayer, setCurrentLayer] = useState(1);
   const [extractedData, setExtractedData] = useState<RecommenderOutput['extractedData']>(undefined);
+  const [selectedChips, setSelectedChips] = useState<string[]>([]);
 
   const db = useFirestore();
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -78,7 +82,7 @@ export function AIChat() {
       addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Sapient Engine V11'
+        source: 'Sapient Engine V12'
       });
     } catch (e) {
       // Fail silently
@@ -93,13 +97,13 @@ export function AIChat() {
     setMessages(currentHistoryWithUser);
     setInput("");
     setIsLoading(true);
+    setSelectedChips([]);
 
     const historyForAi = currentHistoryWithUser.map(m => ({ 
       role: m.role, 
       content: m.content 
     }));
     
-    // Simulação de análise técnica profunda V11
     setTimeout(async () => {
       try {
         const result = await recommendServices({
@@ -111,7 +115,8 @@ export function AIChat() {
           setMessages(prev => [...prev, { 
             role: 'model', 
             content: result.reply,
-            actions: result.suggestedActions 
+            actions: result.suggestedActions,
+            isMultiSelect: result.isMultiSelect
           }]);
           
           setCurrentLayer(result.currentLayer || currentLayer);
@@ -119,22 +124,14 @@ export function AIChat() {
           if (result.extractedData) {
             setExtractedData(prev => ({ 
               ...prev, 
-              ...result.extractedData,
-              urgency: result.extractedData?.urgency || prev?.urgency,
-              platforms: result.extractedData?.platforms || prev?.platforms,
-              servicesNeeded: result.extractedData?.servicesNeeded || prev?.servicesNeeded,
-              mainPainPoints: result.extractedData?.mainPainPoints || prev?.mainPainPoints
+              ...result.extractedData
             }));
           }
 
           if (result.shouldRedirect) {
             setShowRedirect(true);
             saveLead({
-              niche: result.extractedData?.niche,
-              servicesNeeded: result.extractedData?.servicesNeeded,
-              urgency: result.extractedData?.urgency,
-              platforms: result.extractedData?.platforms,
-              mainPainPoints: result.extractedData?.mainPainPoints,
+              ...result.extractedData,
               fullConversation: historyForAi.map(h => `${h.role}: ${h.content}`).join('\n')
             });
           }
@@ -151,9 +148,20 @@ export function AIChat() {
     }, 1200);
   };
 
+  const toggleChip = (chip: string) => {
+    setSelectedChips(prev => 
+      prev.includes(chip) ? prev.filter(c => c !== chip) : [...prev, chip]
+    );
+  };
+
+  const handleConfirmSelection = () => {
+    if (selectedChips.length === 0) return;
+    handleSendMessage(selectedChips.join(", "));
+  };
+
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const summary = extractedData ? `[ Sumário V11 | Nicho: ${extractedData.niche} | Gargalos: ${extractedData.mainPainPoints?.join(', ')} | Pilares: ${extractedData.servicesNeeded?.join(' + ') || 'Ecossistema Digital'} ]` : '';
+    const summary = extractedData ? `[ Nicho: ${extractedData.niche} | Gargalos: ${extractedData.mainPainPoints?.join(', ')} | Plataformas: ${extractedData.platforms?.join(', ')} ]` : '';
     const text = `Olá! Concluí meu diagnóstico de ecossistema com a IA Sapient. ${summary} Quero discutir meu plano de ROI com um estrategista.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -173,10 +181,10 @@ export function AIChat() {
   return (
     <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[440px] md:h-[780px] bg-white rounded-none md:rounded-[3rem] shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
       
-      {/* Header V11 */}
+      {/* Header V12 */}
       <div className="p-8 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5 shrink-0">
         <div className="flex items-center gap-5">
-          <div className="h-12 w-12 rounded-2xl bg-primary flex items-center justify-center border border-white/10 shadow-lg relative overflow-hidden group">
+          <div className="h-12 w-12 rounded-2xl bg-primary flex items-center justify-center border border-white/10 shadow-lg relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary via-accent to-primary animate-spin duration-[10s] opacity-50" />
             <BrainCircuit className="h-6 w-6 text-white relative z-10" />
             <div className="absolute -top-1 -right-1 h-3 w-3 bg-green-500 rounded-full border-2 border-[#08070b]" />
@@ -184,7 +192,7 @@ export function AIChat() {
           <div>
             <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none text-white">Estrategista IA</h3>
             <div className="flex items-center gap-3 mt-2">
-               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">Estratégia V11</span>
+               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">Estratégia V12</span>
                <div className="flex gap-1">
                  {[1,2,3,4,5].map(layer => (
                    <div key={layer} className={cn("h-1 w-2 rounded-full transition-all duration-700", layer <= currentLayer ? "bg-primary w-4" : "bg-white/10")} />
@@ -216,12 +224,30 @@ export function AIChat() {
                 {msg.actions.map((action, idx) => (
                   <button
                     key={idx}
-                    onClick={() => handleSendMessage(action)}
-                    className="px-6 py-4 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-full text-[10px] font-black uppercase tracking-widest text-slate-950 transition-all shadow-md flex items-center gap-2 group active:scale-95"
+                    onClick={() => msg.isMultiSelect ? toggleChip(action) : handleSendMessage(action)}
+                    className={cn(
+                      "px-6 py-4 rounded-full text-[10px] font-black uppercase tracking-widest transition-all shadow-md flex items-center gap-2 group active:scale-95 border",
+                      msg.isMultiSelect 
+                        ? selectedChips.includes(action) 
+                          ? "bg-primary text-white border-primary" 
+                          : "bg-white text-slate-950 border-slate-200 hover:border-primary/50"
+                        : "bg-white text-slate-950 border-slate-200 hover:border-primary hover:text-primary"
+                    )}
                   >
-                    {action} <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
+                    {action} 
+                    {msg.isMultiSelect && selectedChips.includes(action) && <Check className="h-3 w-3" />}
+                    {!msg.isMultiSelect && <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />}
                   </button>
                 ))}
+                
+                {msg.isMultiSelect && selectedChips.length > 0 && (
+                  <button
+                    onClick={handleConfirmSelection}
+                    className="w-full mt-4 py-6 bg-primary text-white rounded-[1.5rem] font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 shadow-xl hover:bg-primary/90 transition-all"
+                  >
+                    Confirmar Seleção <Send className="h-4 w-4" />
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -230,7 +256,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-4 text-slate-400 p-4 animate-pulse">
             <Cpu className="h-5 w-5 animate-spin text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Analisando Ecossistema...</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Analizando Ecossistema...</span>
           </div>
         )}
 
@@ -241,10 +267,7 @@ export function AIChat() {
                  <Target className="h-16 w-16 text-primary" />
                </div>
                
-               <div className="flex items-center justify-between">
-                 <p className="text-[9px] font-black uppercase tracking-[0.5em] text-primary">Sumário de Autoridade</p>
-                 <BarChart3 className="h-5 w-5 text-primary" />
-               </div>
+               <p className="text-[9px] font-black uppercase tracking-[0.5em] text-primary">Sumário de Autoridade</p>
 
                <div className="space-y-4 relative z-10">
                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
@@ -279,7 +302,6 @@ export function AIChat() {
             >
               <MessageCircle className="h-6 w-6" /> ATIVAR CONSULTORIA HUMANA <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </button>
-            <p className="text-center text-[8px] font-bold text-slate-300 uppercase tracking-widest">Sincronização Segura via Protocolo V11</p>
           </div>
         )}
       </div>
@@ -303,9 +325,9 @@ export function AIChat() {
           </button>
         </form>
         <div className="mt-6 flex items-center justify-center gap-6 opacity-30">
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA ENGINE V11</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA ENGINE V12</p>
           <div className="h-1 w-1 rounded-full bg-slate-400" />
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">ESTRATÉGIA INTEGRADA</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">RESPOSTAS MÚLTIPLAS ATIVAS</p>
         </div>
       </div>
     </div>
