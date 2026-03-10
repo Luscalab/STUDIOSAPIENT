@@ -1,10 +1,11 @@
+
 'use server';
 
 /**
- * @fileOverview Fluxo de Inteligência Estratégica Sapient.
+ * @fileOverview Inteligência de Prospecção Sapient Studio.
  * 
- * Este fluxo atua como o primeiro contato consultivo, buscando entender
- * o negócio do cliente antes de direcioná-lo para o fechamento humano.
+ * Este fluxo processa a conversa para entender o negócio do cliente
+ * e decide o momento ideal de redirecionamento para o fechamento humano.
  */
 
 import { ai } from '@/ai/genkit';
@@ -21,45 +22,44 @@ const RecommenderInputSchema = z.object({
 });
 
 const RecommenderOutputSchema = z.object({
-  reply: z.string().describe('A resposta estratégica da IA.'),
-  shouldRedirect: z.boolean().describe('Se a IA julga que é o momento de falar no WhatsApp.'),
-  suggestedWhatsAppMessage: z.string().optional().describe('Mensagem pré-preenchida para o WhatsApp baseada no contexto.'),
+  reply: z.string().describe('A resposta consultiva da IA.'),
+  shouldRedirect: z.boolean().describe('Se é o momento de sugerir o WhatsApp.'),
+  detectedNiche: z.string().optional().describe('Nicho de mercado identificado.'),
 });
 
 export type RecommenderOutput = z.infer<typeof RecommenderOutputSchema>;
 
 const systemPrompt = `Você é o Estrategista-Chefe da Sapient Studio.
-Sua missão é ser a primeira porta de conversa com potenciais clientes.
+Sua missão é ser o primeiro contato consultivo com potenciais clientes.
 
 OBJETIVO:
-1. Ser profissional, técnico e amigável.
-2. Entender sobre a marca, nicho e o principal desafio atual do cliente.
-3. Mostrar autoridade em design, performance e IA.
-4. Quando entender minimamente o que o cliente busca, sugira que a melhor forma de prosseguir é uma conversa direta com um consultor humano via WhatsApp.
+1. Entender o NICHO do cliente (O que eles fazem).
+2. Identificar o DESAFIO atual (O que os impede de crescer).
+3. Manter um tom Profissional, Amigável e de Prestígio.
 
 DIRETRIZES:
 - Analise o HISTÓRICO para não repetir perguntas.
-- Se o cliente já disse o nicho, não pergunte novamente.
-- Use um tom de voz de prestígio e autoridade.
-- Se o cliente perguntar "o que vocês fazem", descreva brevemente: Performance Ads, Design Estratégico, IA e Narrativa Visual.
+- Se o cliente já informou o nicho, não pergunte novamente.
+- Assim que entender o cenário básico, sugira que a melhor forma de prosseguir é uma conversa técnica no WhatsApp.
+- Se o cliente perguntar o que fazemos: "Somos especialistas em Performance Ads, Design de Prestígio e Ecossistemas de IA".
 
-Mantenha a conversa focada em gerar valor e redirecionar para o WhatsApp oficial.`;
+Sua meta é qualificar o lead e gerar o redirecionamento.`;
 
 const recommenderPrompt = ai.definePrompt({
   name: 'recommenderPrompt',
   input: { schema: RecommenderInputSchema },
   output: { schema: RecommenderOutputSchema },
   prompt: `
-    System Instructions: ${systemPrompt}
+    Instruções de Sistema: ${systemPrompt}
 
     Histórico da Conversa:
     {{#each history}}
     - {{role}}: {{{content}}}
     {{/each}}
 
-    Mensagem Atual: {{{currentMessage}}}
+    Nova Mensagem do Usuário: {{{currentMessage}}}
     
-    Analise o contexto e responda de forma consultiva.
+    Analise e responda de forma estratégica.
   `,
 });
 
@@ -67,7 +67,7 @@ export async function recommendServices(input: z.infer<typeof RecommenderInputSc
   const { output } = await recommenderPrompt(input);
   if (!output) {
     return {
-      reply: "Desculpe, tive um breve lapso na minha análise estratégica. Poderia repetir ou gostaria de falar direto com um consultor?",
+      reply: "Entendo perfeitamente. Gostaria de aprofundar essa análise estratégica com um de nossos consultores via WhatsApp?",
       shouldRedirect: true
     };
   }

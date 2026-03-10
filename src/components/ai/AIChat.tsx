@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from "react";
@@ -5,18 +6,15 @@ import {
   Bot, 
   X, 
   Send, 
-  MessageCircle, 
   Sparkles, 
-  ArrowRight, 
   Loader2,
-  Phone
+  Phone,
+  MessageCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { recommendServices } from "@/ai/flows/ai-service-recommender";
-import { Badge } from "@/components/ui/badge";
 
 interface Message {
   role: 'user' | 'model';
@@ -33,25 +31,27 @@ export function AIChat() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Monitora o evento global de escala de acessibilidade
+  // Gestão de Acessibilidade: Sincronização de Escala de Fonte
   useEffect(() => {
-    const root = document.documentElement;
-    const observer = new MutationObserver(() => {
-      const fontSize = parseFloat(root.style.fontSize) || 16;
-      setTextScale(fontSize / 16);
-    });
-    observer.observe(root, { attributes: true, attributeFilter: ['style'] });
-    return () => observer.disconnect();
+    const updateScale = () => {
+      const rootSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+      setTextScale(rootSize / 16);
+    };
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
   }, []);
 
+  // Evento Global para abrir o chat de outros componentes
   useEffect(() => {
     const handleOpen = () => setIsOpen(true);
     window.addEventListener('open-ai-chat', handleOpen);
     return () => window.removeEventListener('open-ai-chat', handleOpen);
   }, []);
 
+  // Scroll Inteligente: Apenas após novas interações
   useEffect(() => {
-    if (scrollRef.current) {
+    if (scrollRef.current && messages.length > 0) {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
     }
   }, [messages, isLoading]);
@@ -60,16 +60,16 @@ export function AIChat() {
     e?.preventDefault();
     if (!input.trim() || isLoading) return;
 
-    const userMessage = input.trim();
+    const userMsg = input.trim();
     setInput("");
-    const newMessages: Message[] = [...messages, { role: 'user', content: userMessage }];
-    setMessages(newMessages);
+    const updatedHistory: Message[] = [...messages, { role: 'user', content: userMsg }];
+    setMessages(updatedHistory);
     setIsLoading(true);
 
     try {
       const result = await recommendServices({
         history: messages,
-        currentMessage: userMessage
+        currentMessage: userMsg
       });
 
       if (result) {
@@ -77,7 +77,7 @@ export function AIChat() {
         if (result.shouldRedirect) setShowRedirect(true);
       }
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'model', content: "Houve um erro no processamento. Que tal falarmos diretamente pelo WhatsApp?" }]);
+      setMessages(prev => [...prev, { role: 'model', content: "Houve um lapso na análise técnica. Gostaria de falar diretamente com nosso consultor sênior?" }]);
       setShowRedirect(true);
     } finally {
       setIsLoading(false);
@@ -86,7 +86,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = "Olá! Vim do chat da Sapient e gostaria de uma consultoria estratégica.";
+    const text = "Olá! Gostaria de um diagnóstico estratégico para minha marca baseado na conversa com a IA da Sapient.";
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -103,16 +103,16 @@ export function AIChat() {
   }
 
   return (
-    <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[450px] md:h-[700px] bg-white rounded-none md:rounded-[3rem] shadow-[0_40px_120px_rgba(0,0,0,0.4)] flex flex-col overflow-hidden border border-muted/20 animate-in slide-in-from-bottom-12 duration-500">
+    <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[450px] md:h-[650px] bg-white rounded-none md:rounded-[3rem] shadow-[0_40px_120px_rgba(0,0,0,0.4)] flex flex-col overflow-hidden border border-muted/20 animate-in slide-in-from-bottom-12 duration-500">
       
-      {/* Header */}
+      {/* Header Premium */}
       <div className="p-8 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5">
         <div className="flex items-center gap-4">
           <div className="h-12 w-12 rounded-2xl bg-primary flex items-center justify-center border border-white/10 shadow-xl">
             <Sparkles className="h-6 w-6" />
           </div>
           <div>
-            <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none">Consultoria IA</h3>
+            <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none">Estrategista IA</h3>
             <p className="text-[9px] font-black text-primary uppercase tracking-[0.4em] mt-1">SAPIENT STUDIO</p>
           </div>
         </div>
@@ -121,32 +121,22 @@ export function AIChat() {
         </button>
       </div>
 
-      {/* Messages */}
+      {/* Área de Diálogo */}
       <div 
         ref={scrollRef}
         className="flex-1 overflow-y-auto p-8 space-y-6 bg-slate-50/50"
         style={{ fontSize: `${textScale}rem` }}
       >
         {messages.length === 0 && (
-          <div className="space-y-8 animate-in fade-in slide-in-from-top-4 duration-700">
+          <div className="space-y-8 animate-in fade-in duration-1000">
             <div className="p-8 rounded-[2rem] bg-white border border-slate-200 shadow-sm space-y-4">
-              <p className="text-slate-900 font-bold text-lg leading-tight">Olá, sou o consultor estratégico da Sapient.</p>
-              <p className="text-slate-500 font-medium text-sm">Me conte um pouco sobre sua marca e qual o seu principal objetivo hoje. Como posso impulsionar seu negócio?</p>
+              <p className="text-slate-900 font-bold text-lg leading-tight">Seja bem-vindo à Sapient.</p>
+              <p className="text-slate-500 font-medium text-sm">Sou o consultor estratégico da casa. Me conte um pouco: o que sua marca faz e qual o seu maior desafio hoje?</p>
             </div>
-            
             <div className="grid grid-cols-1 gap-3">
-              {[
-                "Quero escalar minhas vendas com anúncios",
-                "Preciso de um design que transmita valor",
-                "Quero saber como a IA ajuda meu negócio",
-                "Quero falar com um consultor humano"
-              ].map((suggestion, idx) => (
-                <button 
-                  key={idx}
-                  onClick={() => { setInput(suggestion); }}
-                  className="p-5 rounded-2xl bg-white border border-slate-200 text-left text-xs font-black uppercase tracking-widest text-slate-400 hover:border-primary/50 hover:text-primary transition-all shadow-sm"
-                >
-                  {suggestion}
+              {["Anúncios de Performance", "Branding de Prestígio", "Automação com IA"].map((opt, i) => (
+                <button key={i} onClick={() => setInput(opt)} className="p-5 rounded-2xl bg-white border border-slate-200 text-left text-[10px] font-black uppercase tracking-widest text-slate-400 hover:border-primary/50 hover:text-primary transition-all shadow-sm">
+                  {opt}
                 </button>
               ))}
             </div>
@@ -169,40 +159,40 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-3 text-slate-400 animate-pulse">
             <Loader2 className="h-4 w-4 animate-spin" />
-            <span className="text-[10px] font-black uppercase tracking-widest">Analisando sua marca...</span>
+            <span className="text-[10px] font-black uppercase tracking-widest">Processando Inteligência...</span>
           </div>
         )}
 
         {showRedirect && (
-          <div className="pt-6 animate-in zoom-in duration-500">
+          <div className="pt-4 animate-in zoom-in duration-500">
             <Button 
               onClick={handleWhatsAppRedirect}
-              className="w-full h-16 bg-green-500 hover:bg-green-600 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] gap-3 shadow-xl shadow-green-500/20"
+              className="w-full h-16 bg-green-500 hover:bg-green-600 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] gap-3 shadow-xl"
             >
-              <Phone className="h-4 w-4" /> Falar no WhatsApp Oficial
+              <MessageCircle className="h-4 w-4" /> Falar com Especialista
             </Button>
           </div>
         )}
       </div>
 
-      {/* Input */}
+      {/* Input de Alta Visibilidade */}
       <div className="p-6 bg-white border-t border-slate-100">
         <form onSubmit={handleSendMessage} className="relative">
           <Input 
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Digite aqui..."
-            className="h-16 pl-6 pr-16 bg-slate-50 border-slate-200 rounded-2xl text-slate-900 font-medium placeholder:text-slate-300 focus:ring-primary/20"
+            placeholder="Descreva seu projeto..."
+            className="h-16 pl-6 pr-16 bg-slate-50 border-slate-200 rounded-2xl text-slate-900 font-bold placeholder:text-slate-300 focus:ring-primary/20"
           />
           <button 
             type="submit"
             disabled={!input.trim() || isLoading}
-            className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-xl bg-primary text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all disabled:opacity-50"
+            className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-xl bg-primary text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
           >
             <Send className="h-4 w-4" />
           </button>
         </form>
-        <p className="text-[8px] text-center text-slate-300 font-bold uppercase tracking-[0.3em] mt-4">Powered by Sapient Intelligence</p>
+        <p className="text-[8px] text-center text-slate-300 font-black uppercase tracking-[0.3em] mt-4 italic">Sapient Strategic Engine</p>
       </div>
     </div>
   );
