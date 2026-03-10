@@ -8,7 +8,6 @@ import {
   X, 
   SendHorizontal,
   ArrowRight,
-  Search,
   Activity,
   Target,
   Zap,
@@ -101,16 +100,16 @@ export function AIChat() {
     setResult(null);
     
     try {
-      // Constrói o contexto incluindo a mensagem que acaba de ser enviada
+      // Window de contexto aumentada para 12 turnos para evitar perda de dados iniciais
       const contextString = updatedHistory
-        .slice(-8)
+        .slice(-12)
         .map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`)
         .join('\n');
 
       const recommendation = await recommendServices({ clientNeedsAndGoals: contextString });
       
       if (!recommendation) {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: "Não foi possível processar o diagnóstico. Por favor, tente descrever seu nicho novamente." }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Entendido. Para avançarmos no seu diagnóstico, conte-me um pouco mais sobre o seu nicho e qual resultado busca alcançar agora." }]);
         setLoading(false);
         return;
       }
@@ -118,12 +117,12 @@ export function AIChat() {
       setResult(recommendation);
       
       if (!recommendation.isDataSufficient) {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Conte-me um pouco mais sobre o seu nicho para avançarmos." }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Conte-me um pouco mais para que eu possa aplicar nossa Matriz de Alavancagem." }]);
       } else {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: "Diagnóstico estratégico processado com sucesso. Analise seu dossiê abaixo:" }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Diagnóstico estratégico processado com sucesso. Analise seu dossiê técnico abaixo:" }]);
       }
     } catch (error) {
-      setChatHistory(prev => [...prev, { role: 'assistant', text: "Entendido. Para um diagnóstico de elite, descreva brevemente seu nicho e desafio." }]);
+      setChatHistory(prev => [...prev, { role: 'assistant', text: "Entendido. Para um diagnóstico de elite, descreva brevemente seu nicho e qual desafio enfrenta hoje." }]);
     } finally {
       setLoading(false);
     }
@@ -159,7 +158,7 @@ export function AIChat() {
               </div>
               <div>
                 <h3 className="font-headline font-black text-[10px] tracking-widest uppercase text-white leading-none">Estrategista IA</h3>
-                <p className="text-[7px] font-bold text-white/40 uppercase tracking-widest mt-1">SAPIENT ENGINE v7.0</p>
+                <p className="text-[7px] font-bold text-white/40 uppercase tracking-widest mt-1">SAPIENT ENGINE v8.0</p>
               </div>
             </div>
             

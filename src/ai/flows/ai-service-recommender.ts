@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview Motor de Consultoria Estratégica Sapient Studio v7.0.
+ * @fileOverview Motor de Consultoria Estratégica Sapient Studio v8.0.
  * 
  * Implementa auditoria determinística de histórico para eliminar repetições.
  * Focado em identificar Nicho e Desafio para disparar o Diagnóstico Técnico.
@@ -31,11 +31,11 @@ const STRATEGIC_MATRIX = `
 7. SERVIÇOS TÉCNICOS: Gargalo = Clareza. Alavanca: Infográficos + Search Ads.
 
 # PROTOCOLO DE INTELIGÊNCIA (SAPIENT VOICE):
-- AUDITORIA OBRIGATÓRIA: Antes de responder, você DEVE escanear todo o histórico em busca de:
+- AUDITORIA OBRIGATÓRIA: Antes de responder, você DEVE escanear TODO o histórico fornecido em busca de:
   1. NICHO: A área de atuação do cliente (Ex: "sou médico", "tenho uma loja").
   2. DESAFIO: A dor atual (Ex: "não vendo", "preciso de autoridade").
 - REGRA DE OURO: Se o NICHO e o DESAFIO constarem no histórico, defina isDataSufficient = true IMEDIATAMENTE.
-- PROIBIÇÃO DE REPETIÇÃO: Você está terminantemente proibido de perguntar o nicho ou o desafio se eles já foram informados anteriormente.
+- PROIBIÇÃO DE REPETIÇÃO: Você está terminantemente proibido de perguntar o nicho ou o desafio se eles já foram informados em qualquer parte da conversa.
 - TOM DE VOZ: Analítico, focado em ROI, minimalista e profissional.
 `;
 
@@ -66,7 +66,7 @@ const serviceRecommenderPrompt = ai.definePrompt({
       { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
     ],
   },
-  prompt: `Você é o Estrategista-Chefe da Sapient Studio. Sua missão é realizar um diagnóstico de posicionamento de alto nível baseado no histórico.
+  prompt: `Você é o Estrategista-Chefe da Sapient Studio. Sua missão é realizar um diagnóstico de posicionamento de alto nível baseado no histórico total.
 
 HISTÓRICO DA CONVERSA:
 "{{{clientNeedsAndGoals}}}"
