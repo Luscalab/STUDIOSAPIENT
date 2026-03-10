@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from "react";
@@ -105,7 +106,6 @@ export function AccessibilityMenu() {
         synthRef.current.speak(utterance);
       }
 
-      // Visual Highlighting
       const originalOutline = element.style.outline;
       const originalOffset = element.style.outlineOffset;
       element.style.outline = '4px solid hsl(var(--primary))';
@@ -162,8 +162,8 @@ export function AccessibilityMenu() {
       setIsReading(true);
       if (synthRef.current) {
         const instruction = isMobile 
-          ? "Modo de audiodescrição ativado. Toque uma vez para ouvir a descrição e duas vezes seguidas para ativar botões ou links." 
-          : "Modo de audiodescrição ativado. Clique uma vez para ouvir e duas vezes para selecionar.";
+          ? "Audiodescrição ativada. Toque uma vez para ouvir e duas para ativar." 
+          : "Audiodescrição ativada. Clique uma vez para ouvir e duas para selecionar.";
         
         const welcome = new SpeechSynthesisUtterance(instruction);
         welcome.lang = 'pt-BR';
@@ -198,8 +198,8 @@ export function AccessibilityMenu() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Menu de Acessibilidade"
         className={cn(
-          "fixed bottom-24 right-6 z-[200] h-16 w-16 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-xl",
-          isOpen ? "bg-foreground text-white" : "bg-primary text-white"
+          "fixed bottom-24 right-6 z-[200] h-16 w-16 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-2xl",
+          isOpen ? "bg-[#08070b] text-white" : "bg-primary text-white"
         )}
       >
         {isOpen ? <X className="h-6 w-6" /> : <Accessibility className="h-6 w-6" />}
@@ -207,43 +207,50 @@ export function AccessibilityMenu() {
 
       <div
         className={cn(
-          "fixed bottom-44 right-6 z-[200] w-[300px] glass-morphism rounded-[2.5rem] border-primary/20 shadow-2xl transition-all duration-700 origin-bottom-right p-6 space-y-6",
+          "fixed bottom-44 right-6 z-[200] w-[320px] bg-white rounded-[3rem] border border-primary/20 shadow-[0_40px_120px_rgba(0,0,0,0.3)] transition-all duration-700 origin-bottom-right p-7 space-y-7",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-10 invisible pointer-events-none"
         )}
       >
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-            <Accessibility className="h-6 w-6" />
+        <div className="flex items-center gap-4 pb-4 border-b border-slate-100">
+          <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+            <Accessibility className="h-7 w-7" />
           </div>
-          <h3 className="font-headline font-black text-sm tracking-tighter uppercase text-foreground">Inclusão Digital</h3>
+          <div>
+            <h3 className="font-headline font-black text-sm tracking-tight uppercase text-slate-900">Inclusão Digital</h3>
+            <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">PERSONALIZAÇÃO DE UI</p>
+          </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Tamanho do Texto</p>
-            <div className="flex items-center justify-between bg-secondary/50 rounded-2xl p-3">
-              <button onClick={() => setFontSize(prev => Math.max(prev - 10, 80))} className="h-8 w-8 rounded-lg hover:bg-white flex items-center justify-center" aria-label="Diminuir fonte"><Minus className="h-4 w-4" /></button>
-              <span className="text-[12px] font-bold">{fontSize}%</span>
-              <button onClick={() => setFontSize(prev => Math.min(prev + 10, 150))} className="h-8 w-8 rounded-lg hover:bg-white flex items-center justify-center" aria-label="Aumentar fonte"><Plus className="h-4 w-4" /></button>
+        <div className="space-y-5">
+          {/* Controle de Fonte */}
+          <div className="space-y-3">
+            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center justify-between">Tamanho do Texto <span>{fontSize}%</span></p>
+            <div className="flex items-center justify-between bg-slate-50 rounded-2xl p-2 border border-slate-100">
+              <button onClick={() => setFontSize(prev => Math.max(prev - 10, 80))} className="h-10 w-10 rounded-xl hover:bg-white hover:shadow-sm flex items-center justify-center transition-all text-slate-600" aria-label="Diminuir fonte"><Minus className="h-5 w-5" /></button>
+              <div className="h-1 w-24 bg-slate-200 rounded-full overflow-hidden">
+                <div className="h-full bg-primary transition-all" style={{ width: `${(fontSize - 80) / 70 * 100}%` }} />
+              </div>
+              <button onClick={() => setFontSize(prev => Math.min(prev + 10, 150))} className="h-10 w-10 rounded-xl hover:bg-white hover:shadow-sm flex items-center justify-center transition-all text-slate-600" aria-label="Aumentar fonte"><Plus className="h-5 w-5" /></button>
             </div>
           </div>
 
+          {/* Grid de Opções */}
           <div className="grid grid-cols-2 gap-3">
-            <button onClick={() => setHighContrast(!highContrast)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", highContrast ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Contrast className="h-6 w-6" />Contraste</button>
-            <button onClick={() => setGrayscale(!grayscale)} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", grayscale ? "bg-primary text-white" : "bg-white text-muted-foreground")}><SunMoon className="h-6 w-6" />Monocromo</button>
+            <button onClick={() => setHighContrast(!highContrast)} className={cn("flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all text-[10px] font-black uppercase text-center shadow-sm", highContrast ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><Contrast className="h-6 w-6" />Contraste</button>
+            <button onClick={() => setGrayscale(!grayscale)} className={cn("flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all text-[10px] font-black uppercase text-center shadow-sm", grayscale ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><SunMoon className="h-6 w-6" />Monocromo</button>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <button onClick={toggleReadingMode} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", isReading ? "bg-primary text-white" : "bg-white text-muted-foreground")}>{isReading ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}Voz Nativa</button>
-            <button onClick={toggleVoiceGuide} className={cn("flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", isVoiceGuideActive ? "bg-primary text-white" : "bg-white text-muted-foreground")}><Mic className="h-6 w-6" />Guia de Voz</button>
+            <button onClick={toggleReadingMode} className={cn("flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all text-[10px] font-black uppercase text-center shadow-sm", isReading ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}>{isReading ? <VolumeX className="h-6 w-6" /> : <Volume2 className="h-6 w-6" />}Voz Nativa</button>
+            <button onClick={toggleVoiceGuide} className={cn("flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all text-[10px] font-black uppercase text-center shadow-sm", isVoiceGuideActive ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><Mic className="h-6 w-6" />Guia de Voz</button>
           </div>
 
           <div className="space-y-3">
-            <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("w-full flex items-center justify-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", highlightLinks ? "bg-primary text-white" : "bg-white text-muted-foreground")}><LinkIcon className="h-4 w-4" />Realçar Links</button>
-            <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("w-full flex items-center justify-center gap-2 p-4 rounded-2xl border transition-all text-[10px] font-black uppercase text-center", stopAnimations ? "bg-primary text-white" : "bg-white text-muted-foreground")}><ZapOff className="h-4 w-4" />{stopAnimations ? "Ativar Movimento" : "Parar Movimento"}</button>
+            <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("w-full h-14 flex items-center justify-center gap-3 rounded-2xl border transition-all text-[10px] font-black uppercase tracking-widest shadow-sm", highlightLinks ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><LinkIcon className="h-4 w-4" />Realçar Links</button>
+            <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("w-full h-14 flex items-center justify-center gap-3 rounded-2xl border transition-all text-[10px] font-black uppercase tracking-widest shadow-sm", stopAnimations ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><ZapOff className="h-4 w-4" />{stopAnimations ? "Ativar Movimento" : "Parar Movimento"}</button>
           </div>
           
-          <button onClick={resetAll} className="w-full flex items-center justify-center gap-2 p-4 rounded-2xl bg-secondary/30 text-[10px] font-black uppercase text-muted-foreground"><RotateCcw className="h-4 w-4" />Resetar Preferências</button>
+          <button onClick={resetAll} className="w-full h-12 flex items-center justify-center gap-3 rounded-2xl bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-100 transition-colors border border-slate-100"><RotateCcw className="h-4 w-4" />Limpar Preferências</button>
         </div>
       </div>
     </div>
