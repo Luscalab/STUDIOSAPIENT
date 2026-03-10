@@ -121,9 +121,10 @@ export function Services() {
             ))}
           </CarouselContent>
           
-          <div className="hidden md:flex justify-end gap-4 mt-12">
-            <CarouselPrevious className="static translate-y-0 h-16 w-16 rounded-full border-2 border-primary text-primary bg-primary/5 hover:bg-primary hover:text-white transition-all shadow-xl" />
-            <CarouselNext className="static translate-y-0 h-16 w-16 rounded-full border-2 border-primary text-primary bg-primary/5 hover:bg-primary hover:text-white transition-all shadow-xl" />
+          {/* Controles de Navegação: Visibilidade Otimizada (Roxo Suave) */}
+          <div className="hidden md:flex justify-end gap-6 mt-16 px-4">
+            <CarouselPrevious className="static translate-y-0 h-16 w-16 rounded-2xl border-2 border-primary/20 text-primary bg-primary/5 hover:bg-primary hover:text-white transition-all shadow-xl shadow-primary/10" />
+            <CarouselNext className="static translate-y-0 h-16 w-16 rounded-2xl border-2 border-primary/20 text-primary bg-primary/5 hover:bg-primary hover:text-white transition-all shadow-xl shadow-primary/10" />
           </div>
         </Carousel>
       </div>
