@@ -2,9 +2,7 @@
 
 /**
  * @fileOverview Inteligência de Prospecção Sapient Studio.
- * 
- * Implementa o padrão Genkit 1.x de alta estabilidade.
- * Foca em qualificação estratégica antes da conversão para o WhatsApp.
+ * Implementa o padrão Genkit 1.x para análise estratégica de leads.
  */
 
 import { ai } from '@/ai/genkit';
@@ -38,7 +36,7 @@ DIRETRIZES:
 3. Tom de voz: Minimalista, sofisticado e técnico.
 4. REDIRECIONAMENTO: Apenas se 'shouldRedirect' for true se o nicho E desafio estiverem claros, ou se o usuário pedir explicitamente para falar com um humano.
 
-IMPORTANTE: Sua resposta DEVE ser um objeto JSON válido seguindo estritamente o esquema definido.`;
+IMPORTANTE: Responda SEMPRE em formato JSON válido seguindo estritamente o esquema.`;
 
 const recommenderPrompt = ai.definePrompt({
   name: 'recommenderPrompt',
@@ -46,9 +44,8 @@ const recommenderPrompt = ai.definePrompt({
   input: { schema: RecommenderInputSchema },
   output: { schema: RecommenderOutputSchema },
   config: {
-    temperature: 0.5,
-    topP: 0.9,
-    topK: 40,
+    temperature: 0.4,
+    topP: 0.8,
   },
   system: systemInstructions,
   prompt: `
@@ -65,7 +62,7 @@ const recommenderPrompt = ai.definePrompt({
 
 /**
  * Fluxo de recomendação de serviços.
- * Encapsula o prompt e garante a entrega da resposta para o cliente.
+ * Chama o prompt definido e retorna a análise estratégica.
  */
 export async function recommendServices(input: RecommenderInput): Promise<RecommenderOutput> {
   const { output } = await recommenderPrompt(input);

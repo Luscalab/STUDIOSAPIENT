@@ -10,7 +10,6 @@ import {
   ChevronRight,
   Zap
 } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { recommendServices, type RecommenderInput } from "@/ai/flows/ai-service-recommender";
 
@@ -75,10 +74,9 @@ export function AIChat() {
         }
       }
     } catch (error) {
-      console.error("Falha na comunicação com o Estrategista:", error);
       setMessages(prev => [...prev, { 
         role: 'model', 
-        content: "Identificamos uma breve instabilidade no processamento estratégico. Você pode tentar novamente ou, se for urgente, nosso time humano está pronto para ajudar." 
+        content: "Identificamos uma breve oscilação técnica. Como o seu tempo é valioso, se preferir, nosso time comercial pode assumir o atendimento agora mesmo via WhatsApp." 
       }]);
       setShowRedirect(true);
     } finally {
@@ -88,7 +86,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = "Olá! Tive uma experiência com o estrategista IA da Sapient Studio e gostaria de prosseguir com uma consultoria humana.";
+    const text = "Olá! Gostaria de prosseguir com uma consultoria estratégica com a Sapient Studio.";
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -126,7 +124,7 @@ export function AIChat() {
       {/* Messages Area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/50">
         {messages.length === 0 && (
-          <div className="p-6 rounded-[2rem] bg-white border border-slate-200 text-slate-900 font-bold text-sm leading-relaxed shadow-sm animate-in fade-in duration-700">
+          <div className="p-6 rounded-[2rem] bg-white border border-slate-200 text-slate-900 font-bold text-sm leading-relaxed shadow-sm">
             Iniciando Protocolo Estratégico. Para começarmos sua análise: qual o seu nicho de atuação ou qual o maior desafio comercial que você enfrenta hoje?
           </div>
         )}
@@ -161,7 +159,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-3 text-slate-500 p-2">
             <Loader2 className="h-4 w-4 animate-spin text-primary" />
-            <span className="text-[9px] font-black uppercase tracking-widest italic">Processando Dados...</span>
+            <span className="text-[9px] font-black uppercase tracking-widest italic">Analisando Dados...</span>
           </div>
         )}
 
@@ -169,9 +167,9 @@ export function AIChat() {
           <div className="pt-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <button 
               onClick={handleWhatsAppRedirect}
-              className="w-full py-6 bg-green-500 hover:bg-green-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 shadow-xl transition-all hover:scale-[1.02] border-b-4 border-green-700 active:translate-y-1 active:border-b-0"
+              className="w-full py-6 bg-green-500 hover:bg-green-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 shadow-xl transition-all border-b-4 border-green-700"
             >
-              <MessageCircle className="h-5 w-5" /> Falar com Especialista Humano
+              <MessageCircle className="h-5 w-5" /> Falar com Especialista
             </button>
           </div>
         )}
@@ -190,8 +188,8 @@ export function AIChat() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={isLoading}
-            placeholder="Descreva seu projeto ou dúvida..."
-            className="w-full h-16 pl-6 pr-16 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 font-bold placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-inner"
+            placeholder="Descreva seu projeto..."
+            className="w-full h-16 pl-6 pr-16 bg-slate-50 border border-slate-200 rounded-2xl text-slate-950 font-bold placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-inner"
           />
           <button 
             type="submit"
