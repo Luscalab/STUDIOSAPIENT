@@ -34,13 +34,13 @@ const INITIAL_MESSAGE: Message = {
   actions: [
     "Saúde & Bem-estar", 
     "Jurídico & Direito", 
-    "Imobiliário & Incorporação", 
-    "Mercado de Luxo", 
+    "Estética & Beleza", 
+    "Pet Shop & Veterinária", 
     "Tecnologia & SaaS", 
     "Varejo & E-commerce",
-    "Indústria & Logística",
-    "Educação & Mentorias",
     "Arquitetura & Design",
+    "Fotografia & Vídeo",
+    "Moda & Acessórios",
     "Agro & Negócios Rurais"
   ]
 };
@@ -78,7 +78,7 @@ export function AIChat() {
       addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Sapient Engine V10'
+        source: 'Sapient Engine V11'
       });
     } catch (e) {
       // Fail silently
@@ -99,7 +99,7 @@ export function AIChat() {
       content: m.content 
     }));
     
-    // Simulação de análise técnica profunda V10
+    // Simulação de análise técnica profunda V11
     setTimeout(async () => {
       try {
         const result = await recommendServices({
@@ -153,7 +153,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const summary = extractedData ? `[ Sumário V10 | Nicho: ${extractedData.niche} | Gargalos: ${extractedData.mainPainPoints?.join(', ')} | Pilares: ${extractedData.servicesNeeded?.join(' + ') || 'Ecossistema Digital'} ]` : '';
+    const summary = extractedData ? `[ Sumário V11 | Nicho: ${extractedData.niche} | Gargalos: ${extractedData.mainPainPoints?.join(', ')} | Pilares: ${extractedData.servicesNeeded?.join(' + ') || 'Ecossistema Digital'} ]` : '';
     const text = `Olá! Concluí meu diagnóstico de ecossistema com a IA Sapient. ${summary} Quero discutir meu plano de ROI com um estrategista.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -173,7 +173,7 @@ export function AIChat() {
   return (
     <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[440px] md:h-[780px] bg-white rounded-none md:rounded-[3rem] shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
       
-      {/* Header V10 */}
+      {/* Header V11 */}
       <div className="p-8 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5 shrink-0">
         <div className="flex items-center gap-5">
           <div className="h-12 w-12 rounded-2xl bg-primary flex items-center justify-center border border-white/10 shadow-lg relative overflow-hidden group">
@@ -184,7 +184,7 @@ export function AIChat() {
           <div>
             <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none text-white">Estrategista IA</h3>
             <div className="flex items-center gap-3 mt-2">
-               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">Estratégia V10</span>
+               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">Estratégia V11</span>
                <div className="flex gap-1">
                  {[1,2,3,4,5].map(layer => (
                    <div key={layer} className={cn("h-1 w-2 rounded-full transition-all duration-700", layer <= currentLayer ? "bg-primary w-4" : "bg-white/10")} />
@@ -238,7 +238,7 @@ export function AIChat() {
           <div className="pt-6 space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-1000">
             <div className="p-8 rounded-[2.5rem] bg-white border-2 border-primary/20 space-y-6 shadow-2xl relative overflow-hidden">
                <div className="absolute top-0 right-0 p-4 opacity-[0.05]">
-                 <Sparkles className="h-16 w-16 text-primary" />
+                 <Target className="h-16 w-16 text-primary" />
                </div>
                
                <div className="flex items-center justify-between">
@@ -279,7 +279,7 @@ export function AIChat() {
             >
               <MessageCircle className="h-6 w-6" /> ATIVAR CONSULTORIA HUMANA <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </button>
-            <p className="text-center text-[8px] font-bold text-slate-300 uppercase tracking-widest">Sincronização Segura via Protocolo V10</p>
+            <p className="text-center text-[8px] font-bold text-slate-300 uppercase tracking-widest">Sincronização Segura via Protocolo V11</p>
           </div>
         )}
       </div>
@@ -303,7 +303,7 @@ export function AIChat() {
           </button>
         </form>
         <div className="mt-6 flex items-center justify-center gap-6 opacity-30">
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA ENGINE V10</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA ENGINE V11</p>
           <div className="h-1 w-1 rounded-full bg-slate-400" />
           <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">ESTRATÉGIA INTEGRADA</p>
         </div>
