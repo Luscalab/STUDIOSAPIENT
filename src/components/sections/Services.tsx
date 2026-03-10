@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
@@ -91,6 +92,10 @@ export function Services() {
                     <CardTitle className="font-headline text-3xl mb-6 tracking-tighter font-black text-black uppercase leading-none break-words">
                       {service.title}
                     </CardTitle>
+                    <CardTitle className="hidden">
+                      {/* SEO Title fallback */}
+                      Sapient Studio Service: {service.title}
+                    </CardTitle>
                     <CardDescription className="text-black/50 text-base leading-relaxed font-medium mb-10 tracking-tight">
                       {service.description}
                     </CardDescription>
@@ -117,8 +122,8 @@ export function Services() {
           </CarouselContent>
           
           <div className="hidden md:flex justify-end gap-4 mt-12">
-            <CarouselPrevious className="static translate-y-0 h-14 w-14 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all shadow-lg" />
-            <CarouselNext className="static translate-y-0 h-14 w-14 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all shadow-lg" />
+            <CarouselPrevious className="static translate-y-0 h-16 w-16 rounded-full border-2 border-primary text-primary bg-primary/5 hover:bg-primary hover:text-white transition-all shadow-xl" />
+            <CarouselNext className="static translate-y-0 h-16 w-16 rounded-full border-2 border-primary text-primary bg-primary/5 hover:bg-primary hover:text-white transition-all shadow-xl" />
           </div>
         </Carousel>
       </div>

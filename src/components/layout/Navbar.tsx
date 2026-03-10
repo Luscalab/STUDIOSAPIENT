@@ -27,8 +27,8 @@ export function Navbar() {
   return (
     <header className="absolute top-8 left-0 right-0 z-[150]" role="banner">
       <div className="container mx-auto px-6 flex items-center justify-between gap-8">
-        {/* Logo aumentado: Mobile de 180px->240px | Desktop de 360px->480px */}
-        <Link href="/" className="relative block w-[240px] h-[75px] lg:w-[480px] lg:h-[120px] transition-transform duration-700 hover:scale-105 shrink-0">
+        {/* Logo aumentado: Mobile de 240px->280px | Desktop de 480px->560px */}
+        <Link href="/" className="relative block w-[280px] h-[85px] lg:w-[560px] lg:h-[140px] transition-transform duration-700 hover:scale-105 shrink-0">
           <Image src={logoUrl} alt="studiosapient Logo" fill className="object-contain object-left drop-shadow-2xl" priority />
         </Link>
 
