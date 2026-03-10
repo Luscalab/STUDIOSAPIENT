@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { recommendServices, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
+import { recommendServices } from "@/ai/flows/ai-service-recommender";
 
 interface Message {
   role: 'user' | 'model';
@@ -36,25 +36,28 @@ export function AIChat() {
   }, []);
 
   useEffect(() => {
-    if (scrollRef.current && messages.length > 0) {
-      scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages, isLoading]);
 
-  const handleSendMessage = async (userMsg: string) => {
-    if (!userMsg.trim() || isLoading) return;
+  const handleSendMessage = async (text: string) => {
+    const userMsg = text.trim();
+    if (!userMsg || isLoading) return;
 
-    // Atualiza mensagens localmente primeiro para resposta instantânea
-    const currentHistory = messages.map(({ role, content }) => ({ role, content }));
-    const newMessage: Message = { role: 'user', content: userMsg };
+    // 1. Preparar histórico atualizado para a API
+    const historyForApi = messages.map(m => ({ role: m.role, content: m.content }));
     
+    // 2. Atualizar UI localmente
+    const newMessage: Message = { role: 'user', content: userMsg };
     setMessages(prev => [...prev, newMessage]);
     setInput("");
     setIsLoading(true);
 
     try {
+      // 3. Solicitar resposta da IA com o contexto completo
       const result = await recommendServices({
-        history: currentHistory,
+        history: historyForApi,
         currentMessage: userMsg
       });
 
@@ -67,9 +70,10 @@ export function AIChat() {
         if (result.shouldRedirect) setShowRedirect(true);
       }
     } catch (error) {
+      console.error("Falha na comunicação com o Estrategista:", error);
       setMessages(prev => [...prev, { 
         role: 'model', 
-        content: "Para um diagnóstico preciso sobre como escalar sua marca, recomendo uma conversa com nosso consultor via WhatsApp." 
+        content: "Para um diagnóstico de alta fidelidade sobre seu negócio, recomendo falarmos diretamente via WhatsApp." 
       }]);
       setShowRedirect(true);
     } finally {
@@ -79,7 +83,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = "Olá! Gostaria de um diagnóstico estratégico para minha marca baseado na conversa com a IA da Sapient.";
+    const text = "Olá! Gostaria de um diagnóstico estratégico baseado na conversa com a IA da Sapient.";
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -88,7 +92,7 @@ export function AIChat() {
       <button 
         onClick={() => setIsOpen(true)}
         className="fixed bottom-6 right-6 z-[200] h-16 w-16 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-all border-2 border-white/20 animate-glow-pulse"
-        aria-label="Abrir Consultoria IA"
+        aria-label="Consultoria IA Sapient"
       >
         <Bot className="h-7 w-7" />
       </button>
@@ -101,7 +105,7 @@ export function AIChat() {
       {/* Header Premium */}
       <div className="p-6 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center border border-white/10">
+          <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center border border-white/10 shadow-lg">
             <Sparkles className="h-5 w-5" />
           </div>
           <div>
@@ -115,17 +119,17 @@ export function AIChat() {
       </div>
 
       {/* Chat Area */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/30">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/10">
         {messages.length === 0 && (
-          <div className="p-6 rounded-3xl bg-white border border-slate-200 text-slate-900 font-medium text-sm leading-relaxed shadow-sm">
-            Bem-vindo à Sapient Studio. Sou seu estrategista assistente. Para começarmos o diagnóstico: qual é o seu nicho de atuação ou o principal desafio da sua marca hoje?
+          <div className="p-6 rounded-3xl bg-white border border-slate-200 text-slate-900 font-bold text-sm leading-relaxed shadow-sm">
+            Bem-vindo. Sou o assistente estratégico da Sapient. Para começarmos: qual o nicho da sua marca ou seu desafio atual?
           </div>
         )}
 
         {messages.map((msg, i) => (
           <div key={i} className={cn("flex flex-col gap-3", msg.role === 'user' ? "items-end" : "items-start")}>
             <div className={cn(
-              "p-5 rounded-[2rem] text-sm font-medium leading-relaxed max-w-[85%] shadow-sm",
+              "p-5 rounded-[2rem] text-sm font-bold leading-relaxed max-w-[85%] shadow-sm",
               msg.role === 'user' 
                 ? "bg-primary text-white rounded-tr-none" 
                 : "bg-white text-slate-900 border border-slate-200 rounded-tl-none"
@@ -133,7 +137,7 @@ export function AIChat() {
               {msg.content}
             </div>
 
-            {/* Cards de Ação Rápida */}
+            {/* Cards de Resposta Rápida */}
             {msg.role === 'model' && msg.actions && msg.actions.length > 0 && i === messages.length - 1 && (
               <div className="flex flex-wrap gap-2 mt-2 max-w-full animate-in fade-in slide-in-from-left-4 duration-500">
                 {msg.actions.map((action, idx) => (
@@ -171,11 +175,17 @@ export function AIChat() {
 
       {/* Input Area */}
       <div className="p-4 bg-white border-t border-slate-100">
-        <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(input); }} className="relative">
+        <form 
+          onSubmit={(e) => { 
+            e.preventDefault(); 
+            handleSendMessage(input); 
+          }} 
+          className="relative"
+        >
           <Input 
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Digite aqui..."
+            placeholder="Qual o desafio do seu negócio?"
             className="h-16 pl-6 pr-16 bg-slate-50 border-slate-200 rounded-2xl text-slate-900 font-bold placeholder:text-slate-300 focus:ring-primary/20 shadow-inner"
           />
           <button 
@@ -187,7 +197,7 @@ export function AIChat() {
           </button>
         </form>
         <p className="text-[8px] text-center text-slate-300 font-black uppercase tracking-[0.3em] mt-3">
-          Tecnologia de Prospecção Sapient Studio
+          SAPIENT STUDIO | INTELIGÊNCIA ESTRATÉGICA
         </p>
       </div>
     </div>

@@ -3,8 +3,8 @@
 /**
  * @fileOverview Inteligência de Prospecção Sapient Studio.
  * 
- * Este fluxo processa a conversa para entender o negócio do cliente
- * e utiliza cards de ação rápida para acelerar o diagnóstico.
+ * Fluxo estratégico que entende o nicho do cliente e qualifica o lead
+ * através de uma conversa leve e cards interativos.
  */
 
 import { ai } from '@/ai/genkit';
@@ -16,61 +16,55 @@ const ChatMessageSchema = z.object({
 });
 
 const RecommenderInputSchema = z.object({
-  history: z.array(ChatMessageSchema).describe('Histórico completo da conversa.'),
-  currentMessage: z.string().describe('Última mensagem enviada pelo usuário.'),
+  history: z.array(ChatMessageSchema).describe('Histórico da conversa.'),
+  currentMessage: z.string().describe('Mensagem atual do usuário.'),
 });
 
 const RecommenderOutputSchema = z.object({
-  reply: z.string().describe('Resposta consultiva da IA.'),
-  shouldRedirect: z.boolean().describe('Se deve sugerir o contato humano via WhatsApp.'),
-  suggestedActions: z.array(z.string()).optional().describe('Opções de resposta rápida (cards) para o usuário.'),
+  reply: z.string().describe('Resposta estratégica da IA.'),
+  shouldRedirect: z.boolean().describe('Sugerir contato via WhatsApp.'),
+  suggestedActions: z.array(z.string()).optional().describe('Cards de resposta rápida.'),
 });
 
 export type RecommenderOutput = z.infer<typeof RecommenderOutputSchema>;
 
-const systemPrompt = `Você é o Estrategista-Chefe da Sapient Studio.
-Sua missão é entender a MARCA e o NICHO do cliente através de uma conversa técnica e minimalista.
+const systemInstructions = `Você é o Estrategista-Chefe da Sapient Studio.
+Sua missão é entender a MARCA e o NICHO do cliente para uma consultoria técnica de elite.
 
-REGRAS DE OURO:
-1. AUDITORIA DE HISTÓRICO: Antes de responder, verifique se o nicho ou o desafio já foram informados. Se sim, NÃO pergunte de novo.
-2. CARDS DE INTERAÇÃO (suggestedActions): Use cards para facilitar a resposta do usuário.
-   - Se não souber o nicho, sugira: ["Saúde/Medicina", "Advocacia/Direito", "Real Estate", "Tecnologia/SaaS"].
-   - Se souber o nicho mas não o objetivo, sugira: ["Escalar Vendas", "Branding de Elite", "Automação com IA"].
-3. TOM DE VOZ: Profissional, focado em prestígio e autoridade. Use frases curtas e impactantes.
-4. CONVERSÃO: Assim que entender o nicho e o desafio (ou se o usuário pedir contato), defina shouldRedirect como true e sugira o WhatsApp.
-
-META: Identificar Marca -> Validar Desafio -> Redirecionar para WhatsApp Oficial.`;
+REGRAS:
+1. AUDITORIA DE MEMÓRIA: Analise o histórico. Se o nicho ou desafio já foram ditos, NÃO pergunte de novo.
+2. CARDS INTERATIVOS: Use suggestedActions para sugerir nichos (Saúde, Direito, Real Estate, Tech) ou objetivos.
+3. TOM DE VOZ: Profissional, minimalista e focado em prestígio.
+4. CONVERSÃO: Assim que entender o nicho e o desafio, defina shouldRedirect como true e direcione para o WhatsApp.`;
 
 const recommenderPrompt = ai.definePrompt({
   name: 'recommenderPrompt',
   input: { schema: RecommenderInputSchema },
   output: { schema: RecommenderOutputSchema },
+  system: systemInstructions,
   prompt: `
-    Instruções de Sistema: ${systemPrompt}
-
-    Histórico da Conversa:
+    Histórico de Diálogo:
     {{#each history}}
     - {{role}}: {{{content}}}
     {{/each}}
 
-    Última Mensagem do Usuário: {{{currentMessage}}}
+    Última Mensagem do Cliente: {{{currentMessage}}}
     
-    Analise o contexto acima. Se o usuário já informou o nicho, foque no desafio. Se já informou ambos, valide a visão estratégica e sugira o contato humano.
-    Use o campo suggestedActions para oferecer opções que acelerem o entendimento do negócio.
+    Analise o contexto e prossiga com o diagnóstico estratégico. Não repita perguntas.
   `,
 });
 
 export async function recommendServices(input: z.infer<typeof RecommenderInputSchema>): Promise<RecommenderOutput> {
   try {
     const { output } = await recommenderPrompt(input);
-    if (!output) throw new Error("API retornou vazio");
+    if (!output) throw new Error("A IA não gerou uma resposta válida.");
     return output;
   } catch (error) {
-    console.error("Erro na API Gemini:", error);
+    console.error("Erro na API Sapient IA:", error);
     return {
-      reply: "Sua visão estratégica parece promissora. Para um diagnóstico técnico de alta fidelidade, recomendo falarmos diretamente via WhatsApp.",
+      reply: "Sua visão estratégica é promissora. Recomendo um diagnóstico técnico direto com nosso consultor via WhatsApp para avançarmos.",
       shouldRedirect: true,
-      suggestedActions: ["Falar no WhatsApp"]
+      suggestedActions: ["Falar com Consultor"]
     };
   }
 }
