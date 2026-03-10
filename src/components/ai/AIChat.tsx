@@ -28,8 +28,8 @@ interface Message {
 
 const INITIAL_MESSAGE: Message = {
   role: 'model',
-  content: "Protocolo Sapient iniciado. Para eu ser cirúrgico no seu diagnóstico estratégico: qual o seu nicho de atuação e qual o seu maior desafio comercial hoje (Vendas, Marca ou Automação)?",
-  actions: ["Saúde / Médicos", "Jurídico / Advogados", "Imobiliário / Imóveis", "Alimentício / Gastronomia", "Educação / Cursos", "Varejo / E-commerce"]
+  content: "Protocolo Sapient iniciado. Para um diagnóstico de autoridade e escala: qual o seu nicho de atuação e onde você sente que seu negócio mais 'vaza' resultados hoje: em Vendas, na Imagem de Marca ou na Eficiência de Atendimento?",
+  actions: ["Saúde / Médicos", "Jurídico / Advogados", "Imobiliário / Imóveis", "Varejo / E-commerce", "Tecnologia / SaaS", "Indústria / B2B"]
 };
 
 export function AIChat() {
@@ -64,7 +64,7 @@ export function AIChat() {
       addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Estrategista IA Sapient V6'
+        source: 'Estrategista IA Sapient V7'
       });
     } catch (e) {
       // Falha silenciosa
@@ -104,7 +104,7 @@ export function AIChat() {
             ...result.extractedData,
             urgency: result.extractedData?.urgency || prev?.urgency,
             platforms: result.extractedData?.platforms || prev?.platforms,
-            goal: result.extractedData?.goal || prev?.goal
+            goals: result.extractedData?.goals || prev?.goals
           }));
         }
 
@@ -112,7 +112,7 @@ export function AIChat() {
           setShowRedirect(true);
           saveLead({
             niche: result.extractedData?.niche,
-            goal: result.extractedData?.goal,
+            goals: result.extractedData?.goals,
             urgency: result.extractedData?.urgency,
             platforms: result.extractedData?.platforms,
             lastMessage: userMsg,
@@ -133,8 +133,8 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const summary = extractedData ? `[ Diagnóstico V6 | Nicho: ${extractedData.niche} | Objetivo: ${extractedData.goal} | Canais: ${extractedData.platforms?.join(', ') || 'Não mapeado'} | Urgência: ${extractedData.urgency?.toUpperCase()} ]` : '';
-    const text = `Olá! Finalizei o diagnóstico com o Estrategista IA Sapient. ${summary} Quero discutir meu plano estratégico.`;
+    const summary = extractedData ? `[ Diagnóstico V7 | Nicho: ${extractedData.niche} | Pilares: ${extractedData.goals?.join(' + ') || 'Múltiplos'} | Canais: ${extractedData.platforms?.join(', ') || 'Ecossistema Digital'} | Urgência: ${extractedData.urgency?.toUpperCase()} ]` : '';
+    const text = `Olá! Finalizei o diagnóstico holístico com o Estrategista IA Sapient. ${summary} Quero discutir meu plano de crescimento integrado.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -162,7 +162,7 @@ export function AIChat() {
           <div>
             <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none">Estrategista Digital</h3>
             <p className="text-[8px] font-black text-primary uppercase tracking-[0.4em] mt-2 italic flex items-center gap-2">
-              <span className="h-1 w-1 rounded-full bg-primary animate-ping" /> PROTOCOLO SAPIENT V6
+              <span className="h-1 w-1 rounded-full bg-primary animate-ping" /> PROTOCOLO INTEGRADO V7
             </p>
           </div>
         </div>
@@ -202,7 +202,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-4 text-slate-400 p-4">
             <Loader2 className="h-5 w-5 animate-spin text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Processando Dossiê...</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Mapeando Ecossistema...</span>
           </div>
         )}
 
@@ -210,15 +210,15 @@ export function AIChat() {
           <div className="pt-6 space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
             <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/10 space-y-4">
                <div className="flex items-center justify-between">
-                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">Diagnóstico Consolidado</p>
-                 <span className="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-[8px] font-black uppercase tracking-tighter">QUALIFICAÇÃO COMPLETA</span>
+                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">Dossiê de Ecossistema</p>
+                 <span className="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-[8px] font-black uppercase tracking-tighter">SINERGIA MAPEADA</span>
                </div>
                <div className="grid grid-cols-1 gap-3">
                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
                    <CheckCircle2 className="h-4 w-4 text-primary" /> Nicho: <span className="text-slate-900">{extractedData?.niche || 'Mapeado'}</span>
                  </div>
                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
-                   <Target className="h-4 w-4 text-primary" /> Pilar: <span className="text-slate-900">{extractedData?.goal || 'Mapeado'}</span>
+                   <Target className="h-4 w-4 text-primary" /> Pilares: <span className="text-slate-900">{extractedData?.goals?.join(' + ') || 'Múltiplos'}</span>
                  </div>
                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
                    <Globe className="h-4 w-4 text-primary" /> Canais: <span className="text-slate-900">{extractedData?.platforms?.join(', ') || 'Analisados'}</span>
@@ -259,9 +259,9 @@ export function AIChat() {
           </button>
         </form>
         <div className="mt-6 flex items-center justify-center gap-6 opacity-30">
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">QUALIFICAÇÃO PROFUNDA</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">ECONSISTEMA INTEGRADO</p>
           <div className="h-1 w-1 rounded-full bg-slate-400" />
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA V6</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA V7</p>
         </div>
       </div>
     </div>
