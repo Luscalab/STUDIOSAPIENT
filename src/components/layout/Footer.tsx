@@ -85,10 +85,10 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center pt-16 border-t border-muted text-[10px] font-black text-black/30 tracking-[0.5em] uppercase text-center md:text-left gap-8">
-          <p>© {new Date().getFullYear()} STUDIOSAPIENT. TODOS OS DIREITOS RESERVADOS.</p>
+          <p>© 2026 STUDIOSAPIENT. TODOS OS DIREITOS RESERVADOS.</p>
           <div className="flex gap-10">
-            <Link href="#" className="hover:text-primary transition-colors">PRIVACIDADE</Link>
-            <Link href="#" className="hover:text-primary transition-colors">TERMOS</Link>
+            <Link href="#" className="hover:text-primary transition-colors text-black/30">PRIVACIDADE</Link>
+            <Link href="#" className="hover:text-primary transition-colors text-black/30">TERMOS</Link>
           </div>
         </div>
       </div>
