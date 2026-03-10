@@ -24,7 +24,7 @@ export type RecommenderInput = {
 };
 
 /**
- * Fluxo de recomendação e qualificação profunda com extração de ecossistema digital.
+ * Fluxo de recomendação e qualificação profunda com extração de ecossistema digital e mapeamento de serviços Sapient.
  */
 export async function recommendServices(input: RecommenderInput): Promise<RecommenderOutput> {
   const msg = input.currentMessage.toLowerCase();
@@ -44,14 +44,15 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   else if (fullHistoryText.includes('indústria') || fullHistoryText.includes('fábrica') || fullHistoryText.includes('b2b')) niche = 'Indústria/B2B';
   else if (fullHistoryText.includes('consultoria') || fullHistoryText.includes('tecnologia') || fullHistoryText.includes('ti')) niche = 'Tecnologia/Serviços';
 
-  // 2. Extração de Objetivo
+  // 2. Extração de Objetivo (Mapeado aos Serviços Sapient)
   let goal = 'Crescimento Geral';
   if (fullHistoryText.includes('anúncio') || fullHistoryText.includes('tráfego') || fullHistoryText.includes('vendas') || fullHistoryText.includes('google') || fullHistoryText.includes('meta')) goal = 'Performance Ads';
   else if (fullHistoryText.includes('marca') || fullHistoryText.includes('design') || fullHistoryText.includes('logo') || fullHistoryText.includes('visual')) goal = 'Design Estratégico';
-  else if (fullHistoryText.includes('ia') || fullHistoryText.includes('bot') || fullHistoryText.includes('automação') || fullHistoryText.includes('atendimento')) goal = 'Ecossistemas de IA';
-  else if (fullHistoryText.includes('social') || fullHistoryText.includes('instagram') || fullHistoryText.includes('autoridade')) goal = 'Gestão de Autoridade';
+  else if (fullHistoryText.includes('ia') || fullHistoryText.includes('bot') || fullHistoryText.includes('automação') || fullHistoryText.includes('atendimento') || fullHistoryText.includes('chat')) goal = 'Ecossistemas de IA';
+  else if (fullHistoryText.includes('social') || fullHistoryText.includes('instagram') || fullHistoryText.includes('autoridade') || fullHistoryText.includes('feed')) goal = 'Gestão de Autoridade';
+  else if (fullHistoryText.includes('apresentação') || fullHistoryText.includes('dossiê') || fullHistoryText.includes('venda') || fullHistoryText.includes('infográfico') || fullHistoryText.includes('explicar')) goal = 'Narrativa Visual';
 
-  // 3. Extração de Plataformas
+  // 3. Extração de Plataformas Atuais
   const platforms: string[] = [];
   if (fullHistoryText.includes('instagram') || fullHistoryText.includes('insta') || fullHistoryText.includes('reels')) platforms.push('Instagram');
   if (fullHistoryText.includes('google') || fullHistoryText.includes('ads') || fullHistoryText.includes('busca')) platforms.push('Google Ads');
@@ -63,8 +64,8 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
 
   // 4. Detecção de Urgência
   let urgency: 'low' | 'medium' | 'high' = 'low';
-  if (fullHistoryText.includes('agora') || fullHistoryText.includes('urgente') || fullHistoryText.includes('rápido')) urgency = 'high';
-  else if (fullHistoryText.includes('preciso') || fullHistoryText.includes('buscando') || fullHistoryText.includes('querendo')) urgency = 'medium';
+  if (fullHistoryText.includes('agora') || fullHistoryText.includes('urgente') || fullHistoryText.includes('rápido') || fullHistoryText.includes('imediat')) urgency = 'high';
+  else if (fullHistoryText.includes('preciso') || fullHistoryText.includes('buscando') || fullHistoryText.includes('querendo') || fullHistoryText.includes('planejando')) urgency = 'medium';
 
   const isSpecificNiche = niche !== 'Não identificado';
   const isSpecificGoal = goal !== 'Crescimento Geral';
@@ -75,56 +76,73 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   // CAMADA 4: VALIDAÇÃO FINAL (MÍNIMO 4 TURNOS OU DADOS COMPLETOS)
   if (isSpecificNiche && isSpecificGoal && hasPlatforms && turnCount >= 4) {
     return {
-      reply: `Excelente. Mapeamos seu ecossistema no ${niche} atuando via ${platforms.join(', ')}. Sua necessidade de ${goal} exige um protocolo de alta fidelidade. Posso transferir seu dossiê para um estrategista humano agora para detalharmos o plano de ação e o ROI esperado?`,
+      reply: `Dossiê de diagnóstico consolidado. Mapeamos seu ecossistema no setor ${niche} com foco em ${goal}. Sua presença no ${platforms.join(', ')} será o pilar da nossa estratégia. Posso transferir sua análise agora para um estrategista humano detalhar o plano de ROI e cronograma?`,
       shouldRedirect: true,
-      suggestedActions: ["Sim, falar com estrategista", "Ver casos de sucesso", "Ainda tenho dúvidas"],
+      suggestedActions: ["Sim, falar com estrategista", "Ver casos de sucesso do setor", "Ainda tenho dúvidas técnicas"],
       extractedData: { niche, goal, urgency, platforms }
     };
   }
 
-  // CAMADA 3: ECOSSISTEMA E REDES (CASO TENHA NICHO MAS NÃO PLATAFORMAS)
-  if (isSpecificNiche && !hasPlatforms && turnCount >= 2) {
-    return {
-      reply: `Para o setor de ${niche}, a escolha dos canais é crítica. Hoje você já possui presença ativa no Instagram ou seu foco é ser encontrado por quem busca ativamente no Google?`,
-      shouldRedirect: false,
-      suggestedActions: ["Foco em Instagram", "Foco em Google Search", "LinkedIn (B2B)", "Não tenho presença ainda"],
-      extractedData: { niche, goal, urgency }
-    };
-  }
-
-  // CAMADA 2: DIAGNÓSTICO TÉCNICO (APÓS IDENTIFICAR NICHO)
-  if (isSpecificNiche && turnCount < 4) {
-    if (niche === 'Alimentício/Gastronomia') {
+  // CAMADA 3: DIAGNÓSTICO TÉCNICO (BASEADO NO SERVIÇO IDENTIFICADO)
+  if (isSpecificNiche && turnCount >= 3) {
+    if (goal === 'Performance Ads') {
       return {
-        reply: "No setor alimentício, o visual é o primeiro sabor. Você já trabalha com tráfego geolocalizado para delivery ou seu foco é atrair clientes para o salão físico?",
+        reply: `Para ${niche}, tráfego pago é sobre captura de intenção. Você busca dominar as buscas de urgência no Google ou quer gerar desejo via Meta Ads (Instagram/FB) para um público frio?`,
         shouldRedirect: false,
-        suggestedActions: ["Foco em Delivery", "Atrair para Salão", "Instagram Profissional"],
-        extractedData: { niche, urgency, platforms }
+        suggestedActions: ["Domínio Google Search", "Social Ads (Meta)", "Ambos os canais"],
+        extractedData: { niche, goal, urgency, platforms }
       };
     }
-    if (niche === 'Saúde/Médico') {
+    if (goal === 'Design Estratégico') {
       return {
-        reply: "Para clínicas e médicos, a barreira de confiança é o que define a conversão. Você busca um posicionamento de autoridade no Instagram ou quer dominar as buscas de urgência no Google agora?",
+        reply: `No setor de ${niche}, a imagem é sua primeira barreira de confiança. Você sente que sua identidade visual atual está subestimando a qualidade do seu serviço ou falta clareza na sua proposta de valor?`,
         shouldRedirect: false,
-        suggestedActions: ["Autoridade Instagram", "Domínio Google Ads", "Ambos"],
-        extractedData: { niche, urgency, platforms }
+        suggestedActions: ["Sinto que perco autoridade", "Falta clareza visual", "Quero um visual de luxo"],
+        extractedData: { niche, goal, urgency, platforms }
+      };
+    }
+    if (goal === 'Ecossistemas de IA') {
+      return {
+        reply: `Automação inteligente em ${niche} pode reduzir seu CAC drasticamente. Seu foco é no atendimento automático 24/7 via WhatsApp ou na qualificação automática de leads complexos?`,
+        shouldRedirect: false,
+        suggestedActions: ["WhatsApp API 24/7", "Qualificação de Leads", "Automação de Agendamento"],
+        extractedData: { niche, goal, urgency, platforms }
+      };
+    }
+    if (goal === 'Gestão de Autoridade') {
+      return {
+        reply: `Gerir redes para ${niche} exige curadoria técnica. Você busca aumentar sua base de seguidores ou quer transformar seu feed atual em uma prova de autoridade inquestionável para quem já te visita?`,
+        shouldRedirect: false,
+        suggestedActions: ["Transformar Feed", "Aumentar Seguidores", "Conteúdo Técnico"],
+        extractedData: { niche, goal, urgency, platforms }
       };
     }
     
-    // Fallback de Diagnóstico para outros nichos
+    // Fallback de Diagnóstico
     return {
-      reply: `Interessante. No setor de ${niche}, o maior erro é a dispersão de verba. Qual seu maior desafio hoje: Gerar leads qualificados ou melhorar a percepção de valor da sua marca?`,
+      reply: `Entendi o contexto de ${niche}. No seu cenário atual, qual o principal 'bloqueador' que impede seu próximo nível: falta de leads qualificados ou uma percepção de marca que não condiz com seu preço?`,
       shouldRedirect: false,
-      suggestedActions: ["Gerar Leads", "Percepção de Valor", "Automação de Vendas"],
-      extractedData: { niche, urgency, platforms }
+      suggestedActions: ["Falta de Leads", "Percepção de Valor", "Processo de Venda Lento"],
+      extractedData: { niche, goal, urgency, platforms }
+    };
+  }
+
+  // CAMADA 2: MAPEAMENTO DE ECOSSISTEMA
+  if (isSpecificNiche && turnCount >= 2) {
+    return {
+      reply: `Certo, para o setor de ${niche}, a escolha das plataformas define o custo por aquisição. Hoje você já possui presença ativa no Instagram ou seu foco é ser encontrado por quem busca ativamente no Google?`,
+      shouldRedirect: false,
+      suggestedActions: ["Foco em Instagram", "Foco em Google Search", "Ambos os canais", "Não tenho presença ainda"],
+      extractedData: { niche, goal, urgency }
     };
   }
 
   // CAMADA 1: IDENTIFICAÇÃO (INÍCIO)
   return {
-    reply: "Protocolo Sapient iniciado. Para eu ser cirúrgico no seu diagnóstico estratégico: qual o seu nicho de atuação e qual o seu maior desafio comercial hoje?",
+    reply: "Protocolo Sapient iniciado. Para um diagnóstico cirúrgico: qual o seu nicho de atuação e qual o seu maior desafio comercial hoje (Vendas, Marca ou Automação)?",
     shouldRedirect: false,
-    suggestedActions: ["Saúde / Clínica", "Jurídico", "Alimentício", "Varejo / E-commerce", "Indústria / B2B", "Consultoria / TI"],
+    suggestedActions: ["Saúde / Clínica", "Jurídico", "Alimentício / Gastronomia", "Varejo / E-commerce", "Indústria / B2B", "Tecnologia / TI"],
     extractedData: { urgency: 'low' }
   };
 }
+

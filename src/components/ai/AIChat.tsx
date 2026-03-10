@@ -27,7 +27,7 @@ interface Message {
 
 const INITIAL_MESSAGE: Message = {
   role: 'model',
-  content: "Protocolo Sapient iniciado. Para eu ser cirúrgico no seu diagnóstico estratégico: qual o seu nicho de atuação e qual o seu maior desafio comercial hoje?",
+  content: "Protocolo Sapient iniciado. Para eu ser cirúrgico no seu diagnóstico estratégico: qual o seu nicho de atuação e qual o seu maior desafio comercial hoje (Vendas, Marca ou Automação)?",
   actions: ["Saúde / Clínica", "Jurídico", "Alimentício / Gastronomia", "Varejo / E-commerce", "Indústria / B2B", "Imobiliário"]
 };
 
@@ -102,7 +102,8 @@ export function AIChat() {
             ...prev, 
             ...result.extractedData,
             urgency: result.extractedData?.urgency || prev?.urgency,
-            platforms: result.extractedData?.platforms || prev?.platforms
+            platforms: result.extractedData?.platforms || prev?.platforms,
+            goal: result.extractedData?.goal || prev?.goal
           }));
         }
 
@@ -131,7 +132,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const summary = extractedData ? `[ Diagnóstico IA | Nicho: ${extractedData.niche} | Objetivo: ${extractedData.goal} | Canais: ${extractedData.platforms?.join(', ') || 'Não especificado'} | Urgência: ${extractedData.urgency?.toUpperCase()} ]` : '';
+    const summary = extractedData ? `[ Diagnóstico IA | Nicho: ${extractedData.niche} | Objetivo: ${extractedData.goal} | Canais: ${extractedData.platforms?.join(', ') || 'Mapeados'} | Urgência: ${extractedData.urgency?.toUpperCase()} ]` : '';
     const text = `Olá! Concluí o diagnóstico com o Estrategista IA Sapient. ${summary} Gostaria de detalhar meu plano de ação agora.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -221,7 +222,7 @@ export function AIChat() {
                    <Target className="h-4 w-4 text-primary" /> Objetivo: <span className="text-slate-900">{extractedData?.goal || 'Confirmado'}</span>
                  </div>
                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
-                   <Globe className="h-4 w-4 text-primary" /> Canais: <span className="text-slate-900">{extractedData?.platforms?.join(', ') || 'Mapeados'}</span>
+                   <Globe className="h-4 w-4 text-primary" /> Ecossistema: <span className="text-slate-900">{extractedData?.platforms?.join(', ') || 'Mapeado'}</span>
                  </div>
                </div>
             </div>
@@ -268,3 +269,4 @@ export function AIChat() {
     </div>
   );
 }
+
