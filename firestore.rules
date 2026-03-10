@@ -1,0 +1,164 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * SAPIENT STUDIO BLOG - SECURITY RULES PHILOSOPHY
+     * 
+     * Core Philosophy: 
+     * This ruleset implements a robust, role-based access control system (RBAC) using 
+     * Document-Based Authorization (DBAC). Access is segregated by the content's 
+     * lifecycle and target audience (Public, Premium, or Internal Drafts).
+     * 
+     * Data Structure:
+     * - /blogPosts_public: Read-only for all; write-only for Admins.
+     * - /blogPosts_premium: Read-only for Premium users/Admins; write-only for Admins.
+     * - /admin_blogPosts_drafts: Read/Write restricted exclusively to Admins.
+     * - /roles_admin & /premium_users: Authorization lookups based on document existence.
+     * - /authors, /blogCategories, /blogTags: Supporting metadata for the blog.
+     * 
+     * Key Security Decisions:
+     * 1. DBAC over Claims: Roles are determined by the existence of a document in 
+     *    specific role collections. This allows for real-time role management without 
+     *    waiting for token refreshes.
+     * 2. Structural Segregation: Instead of complex logic to filter "published" vs 
+     *    "draft" posts in a single collection, we use separate collections. This 
+     *    ensures that a simple 'list' operation is inherently secure.
+     * 3. Admin Supremacy: Administrators bypass most restrictions on content 
+     *    collections to facilitate management.
+     */
+
+    // --- GLOBAL HELPER FUNCTIONS ---
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+    }
+
+    function isPremium() {
+      return isAdmin() || (isSignedIn() && exists(/databases/$(database)/documents/premium_users/$(request.auth.uid)));
+    }
+
+    // Helper for state-changing operations requiring existing data
+    function isExistingAdmin() {
+      return isAdmin() && resource != null;
+    }
+
+    // --- COLLECTION RULES ---
+
+    /**
+     * @description Publicly accessible blog posts.
+     * @path /blogPosts_public/{blogPostId}
+     * @allow (get, list) Anyone. (create, update, delete) Admins only.
+     * @deny (create) Unauthenticated users or non-admins.
+     * @principle Structural segregation for public content.
+     */
+    match /blogPosts_public/{blogPostId} {
+      allow get, list: if true;
+      allow create: if isAdmin() && request.resource.data.authorId != null;
+      allow update: if isExistingAdmin() && request.resource.data.authorId == resource.data.authorId;
+      allow delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Premium blog posts restricted to paying subscribers.
+     * @path /blogPosts_premium/{blogPostId}
+     * @allow (get, list) Premium users. (create, update, delete) Admins only.
+     * @deny (get) Regular authenticated users without premium status.
+     * @principle Subscription-based access control (DBAC).
+     */
+    match /blogPosts_premium/{blogPostId} {
+      allow get, list: if isPremium();
+      allow create: if isAdmin() && request.resource.data.authorId != null;
+      allow update: if isExistingAdmin() && request.resource.data.authorId == resource.data.authorId;
+      allow delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Internal drafts and unpublished content.
+     * @path /admin_blogPosts_drafts/{blogPostId}
+     * @allow (all) Admins only.
+     * @deny (all) Any user without an entry in /roles_admin.
+     * @principle Restricts access to internal data trees.
+     */
+    match /admin_blogPosts_drafts/{blogPostId} {
+      allow get, list, create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Categories for post organization.
+     * @path /blogCategories/{categoryId}
+     * @allow (get, list) Anyone. (write) Admins only.
+     * @deny (write) Users attempting to modify metadata without admin roles.
+     * @principle Public read with admin-only writes for taxonomies.
+     */
+    match /blogCategories/{categoryId} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Tags for granular post categorization.
+     * @path /blogTags/{tagId}
+     * @allow (get, list) Anyone. (write) Admins only.
+     * @deny (write) Non-admins.
+     * @principle Consistency in metadata management.
+     */
+    match /blogTags/{tagId} {
+      allow get, list: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Author profiles.
+     * @path /authors/{authorId}
+     * @allow (get, list) Anyone. (write) Admins or the author themselves.
+     * @deny (write) A user trying to edit another author's profile.
+     * @principle Multi-role write access (Admin OR Owner).
+     */
+    match /authors/{authorId} {
+      allow get, list: if true;
+      allow create: if isAdmin() || isOwner(authorId);
+      allow update: if (isAdmin() || isOwner(authorId)) && resource != null;
+      allow delete: if isAdmin() && resource != null;
+    }
+
+    /**
+     * @description Authorization source for Admin privileges.
+     * @path /roles_admin/{userId}
+     * @allow (get) The user themselves or an Admin. (list, write) Admins only.
+     * @deny (write) A user trying to grant themselves admin status.
+     * @principle Secure role management; write access strictly restricted.
+     */
+    match /roles_admin/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+
+    /**
+     * @description Authorization source for Premium access.
+     * @path /premium_users/{userId}
+     * @allow (get) The user themselves or an Admin. (list, write) Admins only.
+     * @deny (list) Regular users trying to see all subscribers.
+     * @principle Privacy for subscriber lists while allowing self-verification.
+     */
+    match /premium_users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isAdmin();
+      allow update, delete: if isExistingAdmin();
+    }
+  }
+}
