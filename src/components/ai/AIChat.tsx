@@ -30,17 +30,17 @@ interface Message {
 
 const INITIAL_MESSAGE: Message = {
   role: 'model',
-  content: "Protocolo Sapient iniciado. Para um diagnóstico exaustivo de autoridade e escala: qual o seu nicho de atuação e qual seu principal desafio hoje: Vendas, Imagem de Marca ou Eficiência de Processos?",
+  content: "Protocolo de Estratégia iniciado. Para um diagnóstico de autoridade e escala: qual o seu nicho de atuação e qual seu principal desafio hoje: Vendas, Imagem de Marca ou Eficiência de Processos?",
   actions: [
-    "Saúde & Wellness", 
+    "Saúde & Bem-estar", 
     "Jurídico & Direito", 
     "Imobiliário & Incorporação", 
-    "Arquitetura & Design", 
+    "Mercado de Luxo", 
     "Tecnologia & SaaS", 
-    "Varejo & Luxo",
-    "Indústria & Engenharia",
+    "Varejo & E-commerce",
+    "Indústria & Logística",
     "Educação & Mentorias",
-    "Franquias & Expansão",
+    "Arquitetura & Design",
     "Agro & Negócios Rurais"
   ]
 };
@@ -78,7 +78,7 @@ export function AIChat() {
       addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Sapient IA Strategist V9.2'
+        source: 'Sapient Engine V10'
       });
     } catch (e) {
       // Fail silently
@@ -99,7 +99,7 @@ export function AIChat() {
       content: m.content 
     }));
     
-    // Simulação de análise técnica profunda V9.2
+    // Simulação de análise técnica profunda V10
     setTimeout(async () => {
       try {
         const result = await recommendServices({
@@ -142,7 +142,7 @@ export function AIChat() {
       } catch (error) {
         setMessages(prev => [...prev, { 
           role: 'model', 
-          content: "Identificamos uma oscilação no protocolo técnico. Vamos prosseguir via WhatsApp para garantir sua análise personalizada?" 
+          content: "Identificamos uma oscilação na sincronização. Vamos prosseguir via WhatsApp para garantir sua análise personalizada?" 
         }]);
         setShowRedirect(true);
       } finally {
@@ -153,8 +153,8 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const summary = extractedData ? `[ Dossiê V9.2 | Nicho: ${extractedData.niche} | Gaps: ${extractedData.mainPainPoints?.join(', ')} | Pilares: ${extractedData.servicesNeeded?.join(' + ') || 'Ecossistema Digital'} ]` : '';
-    const text = `Olá! Concluí o diagnóstico exaustivo com a IA Sapient. ${summary} Quero discutir meu plano de ROI.`;
+    const summary = extractedData ? `[ Sumário V10 | Nicho: ${extractedData.niche} | Gargalos: ${extractedData.mainPainPoints?.join(', ')} | Pilares: ${extractedData.servicesNeeded?.join(' + ') || 'Ecossistema Digital'} ]` : '';
+    const text = `Olá! Concluí meu diagnóstico de ecossistema com a IA Sapient. ${summary} Quero discutir meu plano de ROI com um estrategista.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -163,7 +163,7 @@ export function AIChat() {
       <button 
         onClick={() => setIsOpen(true)}
         className="fixed bottom-6 right-6 z-[200] h-14 w-14 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-all border-2 border-white/20 animate-glow-pulse"
-        aria-label="Atendimento IA Sapient"
+        aria-label="Diagnóstico Estratégico IA"
       >
         <Bot className="h-6 w-6" />
       </button>
@@ -173,7 +173,7 @@ export function AIChat() {
   return (
     <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[440px] md:h-[780px] bg-white rounded-none md:rounded-[3rem] shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
       
-      {/* Header V9.2 */}
+      {/* Header V10 */}
       <div className="p-8 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5 shrink-0">
         <div className="flex items-center gap-5">
           <div className="h-12 w-12 rounded-2xl bg-primary flex items-center justify-center border border-white/10 shadow-lg relative overflow-hidden group">
@@ -184,7 +184,7 @@ export function AIChat() {
           <div>
             <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none text-white">Estrategista IA</h3>
             <div className="flex items-center gap-3 mt-2">
-               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">Protocolo V9.2</span>
+               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">Estratégia V10</span>
                <div className="flex gap-1">
                  {[1,2,3,4,5].map(layer => (
                    <div key={layer} className={cn("h-1 w-2 rounded-full transition-all duration-700", layer <= currentLayer ? "bg-primary w-4" : "bg-white/10")} />
@@ -230,7 +230,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-4 text-slate-400 p-4 animate-pulse">
             <Cpu className="h-5 w-5 animate-spin text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Análise de Ecossistema V9.2...</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Analisando Ecossistema...</span>
           </div>
         )}
 
@@ -242,7 +242,7 @@ export function AIChat() {
                </div>
                
                <div className="flex items-center justify-between">
-                 <p className="text-[9px] font-black uppercase tracking-[0.5em] text-primary">Dossiê Estratégico Sapient</p>
+                 <p className="text-[9px] font-black uppercase tracking-[0.5em] text-primary">Sumário de Autoridade</p>
                  <BarChart3 className="h-5 w-5 text-primary" />
                </div>
 
@@ -250,7 +250,7 @@ export function AIChat() {
                  <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
                    <Target className="h-4 w-4 text-primary" />
                    <div>
-                     <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Nicho Detectado</p>
+                     <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Setor Mapeado</p>
                      <p className="text-xs font-bold text-slate-950 uppercase">{extractedData?.niche || 'Mapeado'}</p>
                    </div>
                  </div>
@@ -279,7 +279,7 @@ export function AIChat() {
             >
               <MessageCircle className="h-6 w-6" /> ATIVAR CONSULTORIA HUMANA <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </button>
-            <p className="text-center text-[8px] font-bold text-slate-300 uppercase tracking-widest">Sincronização Segura via Protocolo V9.2</p>
+            <p className="text-center text-[8px] font-bold text-slate-300 uppercase tracking-widest">Sincronização Segura via Protocolo V10</p>
           </div>
         )}
       </div>
@@ -303,9 +303,9 @@ export function AIChat() {
           </button>
         </form>
         <div className="mt-6 flex items-center justify-center gap-6 opacity-30">
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA ENGINE V9.2</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA ENGINE V10</p>
           <div className="h-1 w-1 rounded-full bg-slate-400" />
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">CONSULTORIA EXAUSTIVA</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">ESTRATÉGIA INTEGRADA</p>
         </div>
       </div>
     </div>
