@@ -75,7 +75,7 @@ PROTOCOLO DE ANÁLISE:
 ${STRATEGIC_MATRIX}
 
 FASE 1: QUALIFICAÇÃO (isDataSufficient)
-Verifique se a entrada contém informações sobre o Nicho e o Desafio. Se for apenas uma saudação ou algo vago, peça contexto profissional de forma autoritária mas amigável. Defina isDataSufficient como false nesses casos.
+Verifique se a entrada contém informações sobre o Nicho e o Desafio. Se for apenas uma saudação ou algo vago, peça contexto profissional de forma autoritária mas amigável. Defina isDataSufficient as false nesses casos.
 
 FASE 2: DIAGNÓSTICO E ROI (Se isDataSufficient = true)
 - BRAND AUDIT: Analise como a percepção atual afeta a autoridade.
