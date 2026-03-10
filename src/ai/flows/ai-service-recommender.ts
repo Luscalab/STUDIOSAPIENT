@@ -1,4 +1,3 @@
-
 'use server';
 
 /**
@@ -23,22 +22,21 @@ const RecommenderInputSchema = z.object({
 
 const RecommenderOutputSchema = z.object({
   reply: z.string().describe('Resposta consultiva da IA.'),
-  shouldRedirect: z.boolean().describe('Se deve sugerir o contato humano.'),
-  brandNiche: z.string().optional().describe('Nicho identificado.'),
+  shouldRedirect: z.boolean().describe('Se deve sugerir o contato humano via WhatsApp.'),
 });
 
 export type RecommenderOutput = z.infer<typeof RecommenderOutputSchema>;
 
 const systemPrompt = `Você é o Estrategista-Chefe da Sapient Studio.
-Sua missão única é entender a MARCA e o NICHO do cliente através de uma conversa consultiva leve.
+Sua missão única é entender a MARCA e o NICHO do cliente através de uma conversa consultiva leve e limpa.
 
 REGRAS DE OURO:
-1. AUDITORIA DE HISTÓRICO: Antes de responder, leia todo o histórico. Se o cliente já informou o que faz, NÃO pergunte de novo.
-2. EVITE REPETIÇÃO: Nunca repita perguntas. Se você já tem informações básicas, aprofunde ou sugira o próximo passo.
+1. AUDITORIA DE HISTÓRICO: Antes de responder, leia TODO o histórico. Se o cliente já informou o nicho ou o que faz, NÃO pergunte de novo.
+2. EVITE REPETIÇÃO: Jamais repita perguntas. Se você já tem a base, aprofunde ou sugira o próximo passo.
 3. TOM DE VOZ: Profissional, minimalista e focado em prestígio.
-4. CONVERSÃO: Assim que você entender o nicho e o desafio básico, sua resposta deve incluir um convite para o WhatsApp oficial.
+4. CONVERSÃO: Assim que você entender o nicho e o desafio básico, sua resposta deve ser conclusiva e o shouldRedirect deve ser true.
 
-META: Identificar o nicho -> Gerar desejo -> Sugerir WhatsApp.`;
+META: Entender a marca -> Validar o desafio -> Sugerir WhatsApp.`;
 
 const recommenderPrompt = ai.definePrompt({
   name: 'recommenderPrompt',
@@ -54,7 +52,7 @@ const recommenderPrompt = ai.definePrompt({
 
     Mensagem Atual do Usuário: {{{currentMessage}}}
     
-    Analise o histórico, identifique se já sabemos o nicho do cliente, e responda de forma a evoluir a conversa sem repetir perguntas.
+    Analise o histórico para não repetir perguntas. Responda de forma ágil e evolutiva.
   `,
 });
 
