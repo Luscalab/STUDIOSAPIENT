@@ -6,92 +6,129 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Award, ShieldCheck, ArrowRight, Gem, Sparkles } from "lucide-react";
+import { Award, ShieldCheck, ArrowRight, Gem, Sparkles, ChevronDown, Palette, Layers } from "lucide-react";
 
 export default function DesignEstrategicoPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-[#0a0a0c] text-white selection:bg-primary/30">
       <Navbar />
       
-      <section className="relative pt-32 pb-16 md:pt-48 md:pb-20 hero-purple-mesh overflow-hidden">
+      {/* 1. Hero Section */}
+      <section className="relative pt-32 pb-24 md:pt-48 md:pb-32 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.1),transparent_70%)]" />
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+        </div>
+
         <div className="container mx-auto px-6 relative z-10 text-center">
-          <Badge className="mb-8 bg-white/10 text-white border-white/20 px-10 py-4 text-[10px] font-black uppercase tracking-[0.5em] rounded-full backdrop-blur-md">Psicologia de Valor</Badge>
-          <h1 className="font-headline text-5xl md:text-[7.5rem] font-black text-white tracking-tighter leading-[0.85] mb-8 text-balance">
-            Design que <span className="text-primary italic">Comunica Prestígio</span>
+          <Badge className="mb-8 bg-primary/10 text-primary border-primary/20 px-10 py-4 text-[10px] font-black uppercase tracking-[0.5em] rounded-full backdrop-blur-md animate-pulse">
+            Psicologia de Valor
+          </Badge>
+          <h1 className="font-headline text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-12 py-4">
+            Design que <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary italic font-medium block">Comunica Prestígio.</span>
           </h1>
-          <p className="text-xl md:text-2xl text-white/50 font-medium max-w-3xl mx-auto leading-tight tracking-tight text-balance">
+          <p className="text-lg md:text-2xl text-white/50 font-medium max-w-3xl mx-auto leading-relaxed tracking-tight text-balance mb-16">
             Projetamos universos visuais que removem barreiras de confiança e posicionam sua marca no topo da pirâmide de valor.
           </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
+            <Button onClick={handleOpenChat} className="h-20 px-12 bg-white text-black hover:bg-primary hover:text-white rounded-full font-black uppercase tracking-[0.4em] text-[11px] transition-all duration-500">
+              SOLICITAR DOSSIÊ VISUAL
+            </Button>
+            <button onClick={() => document.getElementById('manifesto')?.scrollIntoView({behavior:'smooth'})} className="text-white/30 hover:text-white transition-all text-[9px] font-black uppercase tracking-[0.6em] flex items-center gap-4 group">
+              Nossa Semiótica <ChevronDown className="h-4 w-4 animate-bounce group-hover:text-primary" />
+            </button>
+          </div>
         </div>
       </section>
 
-      <section className="py-24 bg-white relative overflow-hidden">
+      {/* 2. Manifesto Section - High Contrast White */}
+      <section id="manifesto" className="py-24 md:py-48 bg-white text-slate-950 relative overflow-hidden rounded-[4rem] md:rounded-[8rem] mx-4 my-8">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32 items-center mb-32">
-            <div className="space-y-12">
-              <h2 className="font-headline text-5xl md:text-7xl font-black tracking-tighter text-[#08070b] leading-[0.85]">O Impacto da <br/>Percepção de Luxo.</h2>
-              <p className="text-xl text-[#08070b]/70 font-medium leading-relaxed tracking-tight">
-                Em mercados de alto padrão, sua imagem é sua primeira barreira de venda. Um design estratégico remove atritos de percepção e gera confiança imediata.
-              </p>
-              
-              <div className="grid grid-cols-1 gap-10">
-                {[
-                  { icon: <Award className="h-8 w-8" />, title: "Identidade de Prestígio", desc: "Sistemas visuais arquitetados para transmitir solidez e expertise antes da primeira palavra." },
-                  { icon: <Gem className="h-8 w-8" />, title: "Branding Cognitivo", desc: "Aplicação de psicologia cromática e semiótica para encurtar o ciclo de confiança do cliente." },
-                  { icon: <ShieldCheck className="h-8 w-8" />, title: "Diferenciação Absoluta", desc: "Saia da guerra de preços através de um posicionamento visual inquestionável." }
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-10 items-start p-12 rounded-[4rem] bg-slate-50 border border-slate-200 group hover:bg-white hover:shadow-2xl transition-all duration-500">
-                    <div className="h-16 w-16 rounded-[2rem] bg-white flex items-center justify-center text-primary shrink-0 transition-all border border-slate-100 group-hover:bg-primary group-hover:text-white shadow-sm">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <h3 className="font-black text-3xl mb-3 tracking-tighter text-[#08070b] leading-none uppercase">{item.title}</h3>
-                      <p className="text-lg text-[#08070b]/60 font-medium leading-snug">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
+          <div className="max-w-5xl mx-auto space-y-16">
+            <h2 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-[0.9]">
+              O Impacto da <span className="text-primary italic">Percepção de Luxo.</span>
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+              <blockquote className="text-xl md:text-3xl text-slate-900 font-medium leading-tight tracking-tight italic border-l-[8px] border-primary pl-8">
+                "Em mercados de alto padrão, sua imagem é sua primeira barreira de venda. Um design estratégico remove atritos de percepção e gera confiança imediata."
+              </blockquote>
+              <div className="space-y-8">
+                <p className="text-lg text-slate-600 font-medium leading-relaxed">
+                  Sua marca não é apenas o que você entrega, mas o que o cliente sente ao interagir com ela. Utilizamos a psicologia cromática e a semiótica avançada para encurtar o ciclo de decisão do seu cliente ideal.
+                </p>
+                <div className="h-1.5 w-24 bg-primary rounded-full" />
               </div>
-              
-              <Button onClick={handleOpenChat} className="h-20 px-12 text-[11px] font-black bg-primary text-white rounded-full uppercase tracking-[0.5em] shadow-2xl hover:bg-primary/90 transition-all group">
-                Solicitar Dossiê Visual <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" />
-              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Pilares Técnicos - Dark Grid */}
+      <section className="py-24 md:py-48 relative">
+        <div className="container mx-auto px-6">
+          <div className="mb-24 text-center md:text-left max-w-3xl">
+            <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none text-white uppercase">Sistemas Visuais <br/>de Elite.</h3>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 max-w-6xl mx-auto">
+            <div className="md:col-span-8 p-12 rounded-[3.5rem] bg-white/5 border border-white/10 group hover:bg-white/10 transition-all duration-700 relative overflow-hidden">
+               <div className="relative z-10 space-y-8">
+                 <div className="h-16 w-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/30">
+                   <Palette className="h-8 w-8" />
+                 </div>
+                 <div className="space-y-4">
+                    <h4 className="font-headline text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none">Identidade de Prestígio</h4>
+                    <p className="text-lg text-white/50 font-medium max-w-lg">Arquitetura visual desenhada para transmitir solidez, expertise e exclusividade absoluta antes mesmo da primeira reunião.</p>
+                 </div>
+               </div>
             </div>
 
-            <div className="bg-[#0c0a1a] rounded-[5rem] p-12 md:p-24 text-white shadow-2xl relative overflow-hidden border border-white/5">
-                <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-primary/20 blur-[150px] rounded-full" />
-                <Sparkles className="h-20 w-20 text-primary mb-12 animate-pulse relative z-10" />
-                <h3 className="font-headline text-5xl font-black tracking-tighter leading-[0.9] mb-12 relative z-10">Nossa Matriz de Design System</h3>
-                
-                <div className="space-y-12 relative z-10">
-                   {[
-                     { label: "Equilíbrio Estético", value: 98 },
-                     { label: "Coerência de Marca", value: 100 },
-                     { label: "Impacto Sensorial", value: 92 }
-                   ].map((bar, i) => (
-                     <div key={i} className="space-y-4">
-                        <div className="flex justify-between text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
-                          <span>{bar.label}</span>
-                          <span>{bar.value}%</span>
-                        </div>
-                        <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                           <div className="h-full bg-primary" style={{ width: `${bar.value}%` }} />
-                        </div>
-                     </div>
-                   ))}
-                </div>
+            <div className="md:col-span-4 p-10 rounded-[3.5rem] bg-primary text-white space-y-8 transition-all duration-700">
+               <div className="h-16 w-16 rounded-2xl bg-white/20 flex items-center justify-center text-white">
+                 <Gem className="h-8 w-8" />
+               </div>
+               <div className="space-y-4">
+                  <h4 className="font-headline text-2xl md:text-3xl font-black tracking-tighter uppercase leading-none">Branding Cognitivo</h4>
+                  <p className="text-base text-white/80">Onde a estética encontra a ciência. Design focado em como o cérebro humano processa valor.</p>
+               </div>
+            </div>
 
-                <div className="grid grid-cols-2 gap-10 mt-24 pt-12 border-t border-white/10 relative z-10">
-                   <div className="text-center">
-                      <p className="text-5xl font-black text-primary tracking-tighter">1.2s</p>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-white/30 mt-2">Tempo p/ Julgamento Visual</p>
-                   </div>
-                   <div className="text-center">
-                      <p className="text-5xl font-black text-primary tracking-tighter">85%</p>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-white/30 mt-2">Influência na Decisão</p>
-                   </div>
+            <div className="md:col-span-6 p-10 rounded-[3rem] bg-[#121216] border border-white/5 space-y-6">
+                <div className="flex items-center gap-4">
+                  <ShieldCheck className="h-6 w-6 text-primary" />
+                  <h4 className="font-bold text-xl tracking-tighter uppercase">Barreira de Confiança</h4>
                 </div>
+                <p className="text-white/40 leading-relaxed text-sm">Removemos o atrito informacional através de uma interface limpa e hierarquia visual cirúrgica.</p>
+            </div>
+
+            <div className="md:col-span-6 p-10 rounded-[3rem] bg-[#121216] border border-white/5 space-y-6">
+                <div className="flex items-center gap-4">
+                  <Layers className="h-6 w-6 text-primary" />
+                  <h4 className="font-bold text-xl tracking-tighter uppercase">Omnicanalidade</h4>
+                </div>
+                <p className="text-white/40 leading-relaxed text-sm">Garantimos que sua marca seja sentida da mesma forma em todas as interfaces, digitais ou físicas.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. CTA Final */}
+      <section className="py-24 md:py-48 bg-white text-slate-950 relative rounded-[4rem] md:rounded-[8rem] mx-4 mb-24 shadow-2xl">
+        <div className="container mx-auto px-6">
+          <div className="text-center max-w-4xl mx-auto space-y-12">
+            <h3 className="font-headline text-4xl md:text-8xl font-black tracking-tighter leading-[0.9] text-slate-950">
+              Projete seu <span className="text-primary italic">Próximo Nível.</span>
+            </h3>
+            <p className="text-xl md:text-2xl text-slate-400 font-medium tracking-tight">
+              Pare de lutar por preço. Comece a ser percebido pelo valor que você realmente entrega.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 pt-8">
+              <Button onClick={handleOpenChat} className="h-24 px-16 bg-primary text-white hover:bg-primary/90 rounded-full font-black uppercase tracking-[0.4em] text-[12px] transition-all shadow-2xl shadow-primary/30">
+                TRANSFORMAR MINHA MARCA <ArrowRight className="ml-4" />
+              </Button>
             </div>
           </div>
         </div>
