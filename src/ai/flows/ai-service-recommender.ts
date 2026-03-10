@@ -1,9 +1,9 @@
 'use server';
 /**
- * @fileOverview Motor de Consultoria Estratégica Sapient Studio v4.6.
+ * @fileOverview Motor de Consultoria Estratégica Sapient Studio v5.0.
  * 
- * Implementa uma Matriz de Posicionamento de Mercado e protocolos de prospecção.
- * Focado em identificar o "Gargalo de Ouro" e alavancas de ROI com alta resiliência.
+ * Implementa uma Matriz de Posicionamento de Mercado com Memória Contextual.
+ * Focado em identificar o "Gargalo de Ouro" e eliminar repetições de perguntas.
  */
 
 import {ai} from '@/ai/genkit';
@@ -18,36 +18,36 @@ const SapientServices = [
 ] as const;
 
 /**
- * Protocolos específicos por nicho e tratamento de objeções.
+ * Matriz de alavancagem técnica por nicho.
  */
 const STRATEGIC_MATRIX = `
-# MATRIZ SAPIENT DE ALAVANCAGEM TÉCNICA:
-1. SAÚDE (Médicos/Clínicas): Gargalo = Confiança Local. Alavanca: Domínio de GMN + Branding de Prestígio. Foco em encurtar a jornada de busca-agendamento.
-2. DIREITO (Escritórios de Elite): Gargalo = Autoridade Técnica Percebida. Alavanca: Design de Identidade Sólida + Narrativa Visual de Resultados. Foco em justificar honorários premium.
-3. GASTRONOMIA: Gargalo = Desejo Visual + Frequência. Alavanca: Gestão de Redes (Visual Storytelling) + Tráfego Local de Urgência.
-4. ESTÉTICA: Gargalo = Diferenciação de Atendimento. Alavanca: Chat IA (Atendimento 24/7) + Social Growth focado em Prova Social.
-5. VAREJO/MODA: Gargalo = Conversão Imediata. Alavanca: Performance Ads + IA de Vendas para recuperação de leads.
-6. IMOBILIÁRIA: Gargalo = Qualificação de Lead. Alavanca: Dossiês de Venda (Narrativa Visual) + IA de Triagem Cognitiva.
-7. SERVIÇOS TÉCNICOS: Gargalo = Clareza da Solução. Alavanca: Infográficos de Valor + Google Search Ads de Intenção.
+# MATRIZ SAPIENT DE ALAVANCAGEM:
+1. SAÚDE: Gargalo = Confiança Local. Alavanca: Domínio de GMN + Branding de Prestígio.
+2. DIREITO: Gargalo = Autoridade Técnica. Alavanca: Design de Identidade Sólida + Narrativa Visual.
+3. GASTRONOMIA: Gargalo = Desejo + Frequência. Alavanca: Gestão de Redes + Tráfego de Urgência.
+4. ESTÉTICA: Gargalo = Diferenciação. Alavanca: Chat IA + Prova Social.
+5. VAREJO/MODA: Gargalo = Conversão Imediata. Alavanca: Performance Ads + IA de Vendas.
+6. IMOBILIÁRIA: Gargalo = Qualificação. Alavanca: Dossiês de Venda + IA de Triagem.
+7. SERVIÇOS TÉCNICOS: Gargalo = Clareza. Alavanca: Infográficos + Search Ads.
 
-# PROTOCOLO DE PROSPECÇÃO (SAPIENT VOICE):
-- Seja Analítico: Não tente "vender" um serviço; tente "diagnosticar" o problema.
-- Foco em ROI: Explique que design e performance são investimentos para aumentar a margem ou o volume de clientes qualificados.
-- Tom de Voz: Profissional, direto, minimalista e autoritário.
-- Memória Contextual: Se o cliente já informou o nicho ou desafio em mensagens anteriores do histórico, NÃO pergunte novamente.
+# PROTOCOLO DE INTELIGÊNCIA (SAPIENT VOICE):
+- ANALISE O HISTÓRICO: Antes de responder, verifique se o cliente já informou o NICHO (área de atuação) e o DESAFIO (dor principal).
+- SE AMBOS EXISTIREM NO HISTÓRICO: Defina isDataSufficient = true e forneça o diagnóstico. NUNCA pergunte novamente o que já foi dito.
+- SE FALTAR INFORMAÇÃO: Peça APENAS o que falta de forma autoritária e elegante.
+- TOM DE VOZ: Analítico, focado em ROI, minimalista e profissional.
 `;
 
 const ServiceRecommenderInputSchema = z.object({
-  clientNeedsAndGoals: z.string().describe("Contexto ou descrição do negócio do cliente, incluindo histórico."),
+  clientNeedsAndGoals: z.string().describe("Histórico completo da conversa para análise de contexto."),
 });
 
 const ServiceRecommenderOutputSchema = z.object({
   isDataSufficient: z.boolean().describe('Informa se os dados permitem um diagnóstico estratégico.'),
-  missingInfoMessage: z.string().optional().describe('Solicitação profissional dos dados faltantes se isDataSufficient for false.'),
-  brandAudit: z.string().optional().describe('Análise da percepção de marca no nicho atual.'),
-  diagnosis: z.string().optional().describe('O gargalo específico identificado no negócio.'),
+  missingInfoMessage: z.string().optional().describe('Solicitação profissional dos dados faltantes.'),
+  brandAudit: z.string().optional().describe('Análise da percepção de marca no nicho.'),
+  diagnosis: z.string().optional().describe('O gargalo específico identificado.'),
   recommendedServices: z.array(z.enum(SapientServices)).optional().describe('Mix de serviços recomendados.'),
-  strategicValue: z.string().optional().describe('O impacto financeiro/de marca da execução profissional.'),
+  strategicValue: z.string().optional().describe('O impacto financeiro da execução Sapient.'),
 });
 
 export type ServiceRecommenderOutput = z.infer<typeof ServiceRecommenderOutputSchema>;
@@ -66,22 +66,18 @@ const serviceRecommenderPrompt = ai.definePrompt({
   },
   prompt: `Você é o Estrategista-Chefe da Sapient Studio. Sua missão é realizar um diagnóstico de posicionamento de alto nível.
 
-HISTÓRICO E ENTRADA ATUAL:
+HISTÓRICO DA CONVERSA:
 "{{{clientNeedsAndGoals}}}"
 
-PROTOCOLO DE ANÁLISE:
+INSTRUÇÕES RÍGIDAS:
 ${STRATEGIC_MATRIX}
 
-FASE 1: QUALIFICAÇÃO (isDataSufficient)
-Verifique todo o histórico acima. Se em algum momento o cliente informou o Nicho e o Desafio, defina isDataSufficient as true. 
-Se for a primeira mensagem ou algo vago sem contexto de nicho/desafio, peça contexto de forma autoritária mas amigável. NÃO repita perguntas se a informação já foi dada no histórico.
+FASE 1: AUDITORIA DE MEMÓRIA (isDataSufficient)
+Verifique o histórico acima. Se o cliente já informou o Nicho e o Desafio em QUALQUER momento da conversa, defina isDataSufficient as true.
+Se faltar algum desses, peça de forma profissional. NUNCA peça informações que já constam no histórico.
 
-FASE 2: DIAGNÓSTICO E ROI (Se isDataSufficient = true)
-- BRAND AUDIT: Analise como a percepção atual afeta a autoridade.
-- DIAGNÓSTICO: Identifique o gargalo real de faturamento.
-- IMPACTO: Explique o valor estratégico da intervenção Sapient.
-
-MANTENHA O TOM SAPIENT: Analítico, focado em resultados e ROI. Nunca retorne um objeto vazio.`,
+FASE 2: DIAGNÓSTICO (Se isDataSufficient = true)
+Forneça uma análise técnica baseada na Matriz Sapient. Foque em como nossa intervenção resolve o gargalo identificado.`,
 });
 
 export async function recommendServices(input: {clientNeedsAndGoals: string}): Promise<ServiceRecommenderOutput> {
@@ -92,7 +88,6 @@ export async function recommendServices(input: {clientNeedsAndGoals: string}): P
       missingInfoMessage: "Para que eu possa aplicar nossa Matriz de Alavancagem, conte-me um pouco sobre seu negócio e qual seu maior desafio hoje." 
     };
   } catch (error) {
-    console.error("Erro no fluxo recommendServices:", error);
     return { 
       isDataSufficient: false, 
       missingInfoMessage: "Entendido. Para um diagnóstico técnico, descreva brevemente seu nicho e qual resultado busca alcançar agora." 

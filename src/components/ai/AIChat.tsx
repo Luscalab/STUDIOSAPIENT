@@ -23,10 +23,6 @@ import {
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { cn } from "@/lib/utils";
 
-/**
- * Caminhos Estratégicos Sapient.
- * Focado em converter a intenção do cliente em um diagnóstico técnico imediato.
- */
 const STRATEGIC_PATHS = [
   { 
     label: "Dominar Buscas Locais (Google Ads)", 
@@ -71,22 +67,15 @@ export function AIChat() {
     setMounted(true);
   }, []);
 
-  // Lógica de Scroll Inteligente: Mantém o menu inicial visível ao abrir
+  // Lógica de Scroll: Só atua quando novas mensagens chegam, não na abertura.
   useEffect(() => {
-    if (scrollRef.current && isOpen) {
-      if (chatHistory.length <= 1 && !loading && !result) {
-        // Se for apenas a mensagem inicial, garante que o topo esteja visível
-        scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        // Scroll para o fim apenas se houver interação real
-        const scrollHeight = scrollRef.current.scrollHeight;
-        scrollRef.current.scrollTo({
-          top: scrollHeight,
-          behavior: 'smooth'
-        });
-      }
+    if (scrollRef.current && isOpen && chatHistory.length > 1) {
+      scrollRef.current.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
     }
-  }, [result, loading, chatHistory, isOpen]);
+  }, [chatHistory, loading, isOpen]);
 
   useEffect(() => {
     const handleOpenChat = () => setIsOpen(true);
@@ -95,52 +84,48 @@ export function AIChat() {
   }, []);
 
   const handleQuickAction = (pathPrompt: string) => {
-    setInput(pathPrompt);
-    setTimeout(() => {
-      handleSubmit(undefined, pathPrompt);
-    }, 100);
+    handleSubmit(undefined, pathPrompt);
   };
 
-  const handleZoomIn = () => setTextScale(prev => Math.min(prev + 0.1, 1.6));
-  const handleZoomOut = () => setTextScale(prev => Math.max(prev - 0.1, 0.8));
+  const handleZoomIn = () => setTextScale(prev => Math.min(prev + 0.1, 1.5));
+  const handleZoomOut = () => setTextScale(prev => Math.max(prev - 0.1, 0.9));
 
   const handleSubmit = async (e?: React.FormEvent, directInput?: string) => {
     e?.preventDefault();
     const messageToSend = directInput || input;
     if (!messageToSend.trim() || loading) return;
     
-    // Adiciona a mensagem do usuário ao histórico local IMEDIATAMENTE para contexto
     const newUserMessage = { role: 'user' as const, text: messageToSend };
-    setChatHistory(prev => [...prev, newUserMessage]);
+    const updatedHistory = [...chatHistory, newUserMessage];
+    
+    setChatHistory(updatedHistory);
     setInput("");
     setLoading(true);
     setResult(null);
     
     try {
-      // Treinamento contextual: Envia o histórico COMPLETO (incluindo a última resposta) para a API
-      const context = [...chatHistory, newUserMessage]
-        .slice(-6) // Aumentamos a janela de memória para maior precisão
+      // Constrói o contexto em string para a API
+      const contextString = updatedHistory
+        .slice(-6)
         .map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`)
         .join('\n');
 
-      const recommendation = await recommendServices({ clientNeedsAndGoals: context });
+      const recommendation = await recommendServices({ clientNeedsAndGoals: contextString });
       
       if (!recommendation) {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: "Tive um problema ao processar seu diagnóstico. Por favor, tente novamente com mais detalhes sobre seu negócio." }]);
-        setLoading(false);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Ocorreu uma falha na análise técnica. Por favor, tente novamente." }]);
         return;
       }
 
       setResult(recommendation);
       
       if (!recommendation.isDataSufficient) {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Para um diagnóstico de elite, preciso entender melhor seu nicho e qual o principal desafio de faturamento que você enfrenta hoje." }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Para avançarmos, conte-me mais sobre seu nicho ou desafio atual." }]);
       } else {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: "Diagnóstico técnico concluído. Analisei sua situação com base em nossa Matriz de Posicionamento. Veja os detalhes do seu dossiê abaixo:" }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Diagnóstico estratégico processado com sucesso. Analise seu dossiê de autoridade abaixo:" }]);
       }
     } catch (error) {
-      console.error("Erro AI:", error);
-      setChatHistory(prev => [...prev, { role: 'assistant', text: "Ocorreu uma falha técnica na análise. Por favor, descreva seu desafio novamente." }]);
+      setChatHistory(prev => [...prev, { role: 'assistant', text: "Entendido. Me conte um pouco mais sobre o seu nicho para que eu possa aplicar nossa Matriz de Alavancagem." }]);
     } finally {
       setLoading(false);
     }
@@ -163,143 +148,123 @@ export function AIChat() {
 
       <div
         className={cn(
-          "fixed bottom-24 right-4 z-[100] w-[calc(100vw-2rem)] md:w-[480px] h-[85vh] md:max-h-[850px] bg-white rounded-[2.5rem] border border-primary/20 shadow-[0_40px_120px_rgba(0,0,0,0.5)] transition-all duration-700 origin-bottom-right flex flex-col overflow-hidden",
+          "fixed bottom-24 right-4 z-[100] w-[calc(100vw-2rem)] md:w-[480px] h-[80vh] md:max-h-[800px] bg-white rounded-[2.5rem] border border-primary/20 shadow-[0_40px_120px_rgba(0,0,0,0.5)] transition-all duration-700 origin-bottom-right flex flex-col overflow-hidden",
           isOpen ? "scale-100 opacity-100 visible" : "scale-0 opacity-0 invisible"
         )}
         role="dialog"
       >
-        {/* Header Estratégico */}
-        <div className="p-6 bg-gradient-to-r from-[#0c0a1a] to-[#1a163a] text-white shrink-0 shadow-lg border-b border-white/5">
+        {/* Header */}
+        <div className="p-6 bg-[#0c0a1a] text-white shrink-0 border-b border-white/5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-2xl bg-primary/20 flex items-center justify-center backdrop-blur-md border border-white/10">
-                <TrendingUp className="h-6 w-6 text-primary" />
+              <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center border border-white/10">
+                <TrendingUp className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <h3 className="font-headline font-black text-[10px] tracking-[0.2em] uppercase text-white leading-none">Consultoria IA</h3>
-                <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest mt-1">SAPIENT STRATEGY ENGINE v4.6</p>
+                <h3 className="font-headline font-black text-[10px] tracking-widest uppercase text-white leading-none">Estrategista IA</h3>
+                <p className="text-[7px] font-bold text-white/40 uppercase tracking-widest mt-1">SAPIENT ENGINE v5.0</p>
               </div>
             </div>
             
             <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
-              <button onClick={handleZoomOut} className="h-8 w-8 rounded-full hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition-all"><Minus className="h-3 w-3" /></button>
-              <button onClick={handleZoomIn} className="h-8 w-8 rounded-full hover:bg-white/10 flex items-center justify-center text-white/60 hover:text-white transition-all"><Plus className="h-3 w-3" /></button>
+              <button onClick={handleZoomOut} className="h-7 w-7 rounded-full hover:bg-white/10 flex items-center justify-center text-white/60"><Minus className="h-3 w-3" /></button>
+              <button onClick={handleZoomIn} className="h-7 w-7 rounded-full hover:bg-white/10 flex items-center justify-center text-white/60"><Plus className="h-3 w-3" /></button>
             </div>
           </div>
         </div>
 
-        {/* Área de Conversação */}
+        {/* Chat Area */}
         <div 
           ref={scrollRef} 
-          className="flex-1 overflow-y-auto p-6 space-y-8 bg-[#fdfdff] scroll-smooth"
+          className="flex-1 overflow-y-auto p-6 space-y-8 bg-[#fdfdff]"
           style={{ fontSize: `${textScale}rem` }}
         >
-          <div className="space-y-6">
-            {chatHistory.map((msg, i) => (
-              <div key={i} className="space-y-6 animate-in fade-in duration-500">
-                <div className={cn("flex flex-col gap-2 max-w-[90%]", msg.role === 'user' ? "ml-auto items-end" : "items-start")}>
-                  <div 
-                    className={cn(
-                      "p-5 rounded-[2rem] font-medium leading-relaxed shadow-sm transition-all duration-300", 
-                      msg.role === 'user' 
-                        ? "bg-primary text-white rounded-tr-none" 
-                        : "bg-white border border-slate-100 text-slate-900 rounded-tl-none shadow-md"
-                    )} 
-                    style={{ fontSize: '1em' }}
-                  >
-                    {msg.text}
-                  </div>
-                  <span className="text-[0.6em] font-black uppercase tracking-widest text-slate-400">
-                    {msg.role === 'user' ? 'SOLICITANTE' : 'ESTRATEGISTA SAPIENT'}
-                  </span>
-                </div>
-
-                {/* Caminhos Estratégicos logo após a saudação inicial */}
-                {i === 0 && chatHistory.length === 1 && !loading && (
-                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
-                    <div className="bg-primary/[0.03] p-6 rounded-[2.5rem] border border-primary/10">
-                      <p className="text-[0.6em] font-black text-primary uppercase tracking-[0.3em] mb-5 text-center px-4">Escolha seu objetivo estratégico:</p>
-                      <div className="grid grid-cols-1 gap-3">
-                        {STRATEGIC_PATHS.map((path, idx) => (
-                          <button 
-                            key={idx} 
-                            onClick={() => handleQuickAction(path.prompt)} 
-                            className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-100 hover:border-primary hover:shadow-md transition-all text-left group"
-                          >
-                            <div className="h-10 w-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
-                              {path.icon}
-                            </div>
-                            <span className="text-[0.65em] font-black uppercase tracking-wider text-slate-700 group-hover:text-primary leading-tight flex-1">
-                              {path.label}
-                            </span>
-                            <ArrowRight className="h-3 w-3 text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Dossiê de Diagnóstico Gerado */}
-          {result?.isDataSufficient && (
-            <div className="space-y-8 pt-8 border-t border-slate-100 animate-in zoom-in-95 duration-700">
-              {result.brandAudit && (
-                <div className="space-y-4">
-                  <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-4 w-4" /> Auditoria de Percepção</p>
-                  <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-slate-700 italic leading-relaxed text-[0.85em] shadow-inner">
-                    "{result.brandAudit}"
-                  </div>
-                </div>
-              )}
-              
-              {result.diagnosis && (
-                <div className="space-y-4">
-                  <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity className="h-4 w-4" /> Diagnóstico de Gargalo</p>
-                  <div className="bg-primary/5 p-6 rounded-[2rem] border border-primary/10 font-black text-slate-900 tracking-tight leading-snug text-[0.9em]">
-                    {result.diagnosis}
-                  </div>
-                </div>
-              )}
-
-              {result.strategicValue && (
-                <div className="space-y-4">
-                  <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><ClipboardCheck className="h-4 w-4" /> Valor da Intervenção</p>
-                  <p className="text-slate-600 font-medium leading-relaxed px-2 text-[0.85em]">{result.strategicValue}</p>
-                </div>
-              )}
-
-              <div className="pt-4">
-                <Button 
-                  className="w-full h-16 bg-[#0c0a1a] text-white hover:bg-primary rounded-2xl font-black uppercase tracking-[0.4em] text-[0.7em] shadow-2xl transition-all group" 
-                  onClick={() => { setIsOpen(false); document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' }); }}
+          {chatHistory.map((msg, i) => (
+            <div key={i} className="space-y-6 animate-in fade-in duration-500">
+              <div className={cn("flex flex-col gap-2 max-w-[85%]", msg.role === 'user' ? "ml-auto items-end" : "items-start")}>
+                <div 
+                  className={cn(
+                    "p-5 rounded-[2rem] font-medium leading-relaxed shadow-sm", 
+                    msg.role === 'user' 
+                      ? "bg-primary text-white rounded-tr-none" 
+                      : "bg-white border border-slate-100 text-slate-900 rounded-tl-none shadow-md"
+                  )} 
                 >
-                  Agendar Consultoria <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-2 transition-transform" />
-                </Button>
+                  {msg.text}
+                </div>
+                <span className="text-[0.6em] font-black uppercase tracking-widest text-slate-400">
+                  {msg.role === 'user' ? 'SOLICITANTE' : 'CONSULTOR SAPIENT'}
+                </span>
               </div>
+
+              {/* Menu Inicial */}
+              {i === 0 && chatHistory.length === 1 && !loading && (
+                <div className="bg-primary/[0.03] p-6 rounded-[2.5rem] border border-primary/10 animate-in zoom-in-95 duration-700 delay-300">
+                  <p className="text-[0.6em] font-black text-primary uppercase tracking-[0.3em] mb-5 text-center">Inicie seu diagnóstico técnico:</p>
+                  <div className="grid grid-cols-1 gap-3">
+                    {STRATEGIC_PATHS.map((path, idx) => (
+                      <button 
+                        key={idx} 
+                        onClick={() => handleQuickAction(path.prompt)} 
+                        className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-100 hover:border-primary hover:shadow-md transition-all text-left group"
+                      >
+                        <div className="h-9 w-9 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                          {path.icon}
+                        </div>
+                        <span className="text-[0.65em] font-black uppercase tracking-wider text-slate-700 group-hover:text-primary leading-tight flex-1">
+                          {path.label}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* Dossiê Final */}
+          {result?.isDataSufficient && (
+            <div className="space-y-8 pt-8 border-t border-slate-100 animate-in fade-in slide-in-from-bottom-6 duration-1000">
+              <div className="space-y-4">
+                <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-4 w-4" /> Análise de Marca</p>
+                <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-slate-700 italic text-[0.85em]">
+                  "{result.brandAudit}"
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity className="h-4 w-4" /> Diagnóstico Sapient</p>
+                <div className="bg-primary/5 p-6 rounded-[2rem] border border-primary/10 font-black text-slate-900 leading-snug text-[0.9em]">
+                  {result.diagnosis}
+                </div>
+              </div>
+
+              <Button 
+                className="w-full h-16 bg-[#0c0a1a] text-white hover:bg-primary rounded-2xl font-black uppercase tracking-widest text-[0.7em] transition-all group" 
+                onClick={() => { setIsOpen(false); document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' }); }}
+              >
+                Agendar Consultoria <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-2 transition-transform" />
+              </Button>
             </div>
           )}
 
           {loading && (
-            <div className="flex items-center gap-4 bg-white p-5 rounded-full w-fit shadow-md border border-slate-100 animate-pulse">
-              <Loader2 className="h-5 w-5 text-primary animate-spin" />
-              <p className="text-[0.65em] font-black uppercase tracking-[0.3em] text-primary">Auditorando Matriz...</p>
+            <div className="flex items-center gap-4 bg-white p-4 rounded-full w-fit shadow-md border border-slate-100 animate-pulse">
+              <Loader2 className="h-4 w-4 text-primary animate-spin" />
+              <p className="text-[0.6em] font-black uppercase tracking-widest text-primary">Auditoria Sapient em curso...</p>
             </div>
           )}
         </div>
 
-        {/* Input da Mensagem */}
+        {/* Input */}
         <form onSubmit={handleSubmit} className="p-6 border-t border-slate-100 bg-white">
-          <div className="relative group">
+          <div className="relative">
             <Textarea
               placeholder="Descreva seu desafio técnico..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}
               className="min-h-[100px] bg-slate-50 border-slate-200 focus:border-primary focus:ring-0 rounded-[2rem] p-6 pr-16 text-slate-900 font-medium resize-none transition-all placeholder:text-slate-400 text-base"
-              style={{ fontSize: '1em' }}
             />
             <button 
               type="submit" 
@@ -308,10 +273,6 @@ export function AIChat() {
             >
               <SendHorizontal className="h-6 w-6" />
             </button>
-          </div>
-          <div className="flex items-center justify-center gap-2 mt-4 opacity-40">
-            <MessageSquare className="h-3 w-3 text-slate-900" />
-            <p className="text-[8px] font-black uppercase tracking-widest text-slate-900">SAPIENT STRATEGY ENGINE v4.6</p>
           </div>
         </form>
       </div>
