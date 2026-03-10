@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -36,7 +37,12 @@ export function AIChat() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ServiceRecommenderOutput | null>(null);
-  const [chatHistory, setChatHistory] = useState<{role: 'user' | 'assistant', text: string}[]>([]);
+  const [chatHistory, setChatHistory] = useState<{role: 'user' | 'assistant', text: string}[]>([
+    { 
+      role: 'assistant', 
+      text: "Seja bem-vindo à Sapient Studio. Sou seu Estrategista IA. Para iniciarmos um diagnóstico de elite do seu negócio, como posso te ajudar hoje?" 
+    }
+  ]);
   const [textScale, setTextScale] = useState(1); 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -61,11 +67,10 @@ export function AIChat() {
 
   const handleQuickNiche = (nichePrompt: string) => {
     setInput(nichePrompt);
-    // Submit automático opcional ou deixar o usuário editar
   };
 
-  const handleZoomIn = () => setTextScale(prev => Math.min(prev + 0.1, 1.6));
-  const handleZoomOut = () => setTextScale(prev => Math.max(prev - 0.1, 0.8));
+  const handleZoomIn = () => setTextScale(prev => Math.min(prev + 0.2, 1.8));
+  const handleZoomOut = () => setTextScale(prev => Math.max(prev - 0.2, 0.8));
 
   const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -77,15 +82,14 @@ export function AIChat() {
     setLoading(true);
     
     try {
-      // Token saving: enviar apenas histórico relevante
       const context = chatHistory.slice(-4).map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`).join('\n') + `\nCliente: ${userText}`;
       const recommendation = await recommendServices({ clientNeedsAndGoals: context });
       setResult(recommendation);
       
       if (!recommendation.isDataSufficient) {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Preciso de mais detalhes sobre sua marca para um diagnóstico de elite." }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Para um diagnóstico preciso, preciso de mais detalhes sobre seu nicho e desafio atual." }]);
       } else {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: "Diagnóstico Estratégico concluído. Analise o seu Dossiê abaixo:" }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Diagnóstico concluído. Sua tese estratégica está pronta para análise abaixo:" }]);
       }
     } catch (error) {
       console.error("Erro AI:", error);
@@ -116,7 +120,7 @@ export function AIChat() {
         )}
         role="dialog"
       >
-        {/* Header de Elite */}
+        {/* Header Sapient Design */}
         <div className="p-6 bg-gradient-to-r from-primary to-accent text-white shrink-0 shadow-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -125,7 +129,7 @@ export function AIChat() {
               </div>
               <div>
                 <h3 className="font-headline font-black text-sm tracking-[0.2em] uppercase text-white leading-none">Estrategista IA</h3>
-                <p className="text-[9px] font-bold text-white/60 uppercase tracking-widest mt-1">Diagnóstico de Autoridade</p>
+                <p className="text-[9px] font-bold text-white/60 uppercase tracking-widest mt-1">Protocolo de Diagnóstico</p>
               </div>
             </div>
             
@@ -136,51 +140,56 @@ export function AIChat() {
           </div>
         </div>
 
-        {/* Corpo Dinâmico */}
+        {/* Chat Area */}
         <div 
           ref={scrollRef} 
           className="flex-1 overflow-y-auto p-6 space-y-8 bg-[#f8f9fc]"
           style={{ fontSize: `${textScale * 14}px` }}
         >
-          {chatHistory.length === 0 && (
-            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <div className="bg-primary/5 p-6 rounded-[2rem] border border-primary/10">
-                <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-4">Inicie um Diagnóstico Rápido:</p>
-                <div className="grid grid-cols-1 gap-3">
-                  {QUICK_NICHES.map((niche, i) => (
-                    <button 
-                      key={i} 
-                      onClick={() => handleQuickNiche(niche.prompt)} 
-                      className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-primary/10 hover:border-primary hover:shadow-lg transition-all text-left group"
-                    >
-                      <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-sm">{niche.icon}</div>
-                      <span className="text-[11px] font-black uppercase tracking-wider text-muted-foreground group-hover:text-primary">
-                        {niche.label}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <p className="text-[9px] text-center text-muted-foreground/40 font-bold uppercase tracking-widest">Ou descreva seu desafio técnico abaixo</p>
-            </div>
-          )}
-
           <div className="space-y-6">
             {chatHistory.map((msg, i) => (
-              <div key={i} className={cn("flex flex-col gap-2 max-w-[85%]", msg.role === 'user' ? "ml-auto items-end" : "items-start")}>
-                <div 
-                  className={cn(
-                    "p-5 rounded-[2rem] font-medium leading-relaxed shadow-sm transition-all duration-300", 
-                    msg.role === 'user' 
-                      ? "bg-primary text-white rounded-tr-none" 
-                      : "bg-white border border-slate-200 text-slate-700 rounded-tl-none"
-                  )} 
-                >
-                  {msg.text}
+              <div key={i} className="space-y-6">
+                <div className={cn("flex flex-col gap-2 max-w-[85%]", msg.role === 'user' ? "ml-auto items-end" : "items-start")}>
+                  <div 
+                    className={cn(
+                      "p-5 rounded-[2rem] font-medium leading-relaxed shadow-sm transition-all duration-300", 
+                      msg.role === 'user' 
+                        ? "bg-primary text-white rounded-tr-none" 
+                        : "bg-white border border-slate-200 text-slate-700 rounded-tl-none"
+                    )} 
+                  >
+                    {msg.text}
+                  </div>
+                  <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">
+                    {msg.role === 'user' ? 'Solicitante' : 'Estrategista Sapient'}
+                  </span>
                 </div>
-                <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">
-                  {msg.role === 'user' ? 'Você' : 'Sapient Consultant'}
-                </span>
+
+                {/* Show Quick Options after the FIRST greeting message only */}
+                {i === 0 && chatHistory.length === 1 && !loading && (
+                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    <div className="bg-primary/5 p-6 rounded-[2rem] border border-primary/10">
+                      <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-4">Selecione seu nicho para análise:</p>
+                      <div className="grid grid-cols-1 gap-3">
+                        {QUICK_NICHES.map((niche, idx) => (
+                          <button 
+                            key={idx} 
+                            onClick={() => handleQuickNiche(niche.prompt)} 
+                            className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-primary/10 hover:border-primary hover:shadow-lg transition-all text-left group"
+                          >
+                            <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
+                              {niche.icon}
+                            </div>
+                            <span className="text-[11px] font-black uppercase tracking-wider text-muted-foreground group-hover:text-primary">
+                              {niche.label}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-[9px] text-center text-muted-foreground/40 font-bold uppercase tracking-widest">Ou escreva seu desafio técnico abaixo</p>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -218,21 +227,21 @@ export function AIChat() {
           {loading && (
             <div className="flex items-center gap-4 bg-white p-5 rounded-full w-fit shadow-md border border-slate-100">
               <Loader2 className="h-5 w-5 text-primary animate-spin" />
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Analisando Mercado...</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Processando Matriz...</p>
             </div>
           )}
         </div>
 
-        {/* Input de Mensagem - Texto 100% Visível */}
+        {/* Message Input */}
         {(!result || !result.isDataSufficient) && (
           <form onSubmit={handleSubmit} className="p-6 border-t bg-white shadow-2xl">
             <div className="relative group">
               <Textarea
-                placeholder="Qual o nome do seu negócio e seu maior desafio?"
+                placeholder="Descreva seu desafio estratégico..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={loading}
-                className="min-h-[120px] bg-slate-50 border-slate-200 focus:border-primary focus:ring-primary/5 rounded-[2rem] p-6 pr-16 text-slate-900 font-medium resize-none transition-all placeholder:text-slate-400"
+                className="min-h-[100px] bg-slate-50 border-slate-200 focus:border-primary focus:ring-primary/5 rounded-[2rem] p-6 pr-16 text-slate-900 font-medium resize-none transition-all placeholder:text-slate-400"
               />
               <button 
                 type="submit" 
@@ -242,7 +251,7 @@ export function AIChat() {
                 <SendHorizontal className="h-6 w-6" />
               </button>
             </div>
-            <p className="text-[9px] text-center text-slate-400 font-bold uppercase tracking-widest mt-4">Protocolo de Diagnóstico Estratégico v3.0</p>
+            <p className="text-[9px] text-center text-slate-400 font-bold uppercase tracking-widest mt-4">Motor de Prospecção Sapient v4.0</p>
           </form>
         )}
       </div>
