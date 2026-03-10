@@ -29,6 +29,12 @@ export function GoogleLoginButton() {
         className: "bg-black border-primary text-white font-black uppercase tracking-widest text-[10px]"
       });
     } catch (error: any) {
+      // Tratar cancelamento do usuário de forma silenciosa
+      if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
+        setIsLoading(false);
+        return;
+      }
+
       console.error("Erro de Autenticação:", error.code);
       
       if (error.code === 'auth/operation-not-allowed') {
