@@ -34,13 +34,11 @@ const STRATEGIC_MATRIX = `
 - Seja Analítico: Não tente "vender" um serviço; tente "diagnosticar" o problema.
 - Foco em ROI: Explique que design e performance são investimentos para aumentar a margem ou o volume de clientes qualificados.
 - Tom de Voz: Profissional, direto, minimalista e autoritário.
-- Objeções Comuns: 
-  * "É caro?": Responda focando na percepção de valor e posicionamento de luxo.
-  * "Demora?": Foque em "Early Wins" (vitórias rápidas) com Ads enquanto o Branding matura.
+- Memória Contextual: Se o cliente já informou o nicho ou desafio em mensagens anteriores do histórico, NÃO pergunte novamente.
 `;
 
 const ServiceRecommenderInputSchema = z.object({
-  clientNeedsAndGoals: z.string().describe("Contexto ou descrição do negócio do cliente."),
+  clientNeedsAndGoals: z.string().describe("Contexto ou descrição do negócio do cliente, incluindo histórico."),
 });
 
 const ServiceRecommenderOutputSchema = z.object({
@@ -60,22 +58,23 @@ const serviceRecommenderPrompt = ai.definePrompt({
   output: {schema: ServiceRecommenderOutputSchema},
   config: {
     safetySettings: [
-      { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_ONLY_HIGH' },
-      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
-      { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
-      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
     ],
   },
   prompt: `Você é o Estrategista-Chefe da Sapient Studio. Sua missão é realizar um diagnóstico de posicionamento de alto nível.
 
-ENTRADA DO CLIENTE (Incluindo histórico de conversas se houver):
+HISTÓRICO E ENTRADA ATUAL:
 "{{{clientNeedsAndGoals}}}"
 
 PROTOCOLO DE ANÁLISE:
 ${STRATEGIC_MATRIX}
 
 FASE 1: QUALIFICAÇÃO (isDataSufficient)
-Verifique se a entrada contém informações sobre o Nicho e o Desafio. Se for apenas uma saudação ou algo vago, peça contexto profissional de forma autoritária mas amigável. Defina isDataSufficient as false nesses casos.
+Verifique todo o histórico acima. Se em algum momento o cliente informou o Nicho e o Desafio, defina isDataSufficient as true. 
+Se for a primeira mensagem ou algo vago sem contexto de nicho/desafio, peça contexto de forma autoritária mas amigável. NÃO repita perguntas se a informação já foi dada no histórico.
 
 FASE 2: DIAGNÓSTICO E ROI (Se isDataSufficient = true)
 - BRAND AUDIT: Analise como a percepção atual afeta a autoridade.
@@ -90,13 +89,13 @@ export async function recommendServices(input: {clientNeedsAndGoals: string}): P
     const {output} = await aiServiceRecommenderFlow(input);
     return output || { 
       isDataSufficient: false, 
-      missingInfoMessage: "Para um diagnóstico de elite, poderia me contar um pouco mais sobre o seu nicho e qual o seu maior desafio de crescimento hoje?" 
+      missingInfoMessage: "Para que eu possa aplicar nossa Matriz de Alavancagem, conte-me um pouco sobre seu negócio e qual seu maior desafio hoje." 
     };
   } catch (error) {
     console.error("Erro no fluxo recommendServices:", error);
     return { 
       isDataSufficient: false, 
-      missingInfoMessage: "Entendido. Para que eu possa aplicar nossa Matriz de Alavancagem, descreva brevemente o seu negócio e qual resultado você busca alcançar." 
+      missingInfoMessage: "Entendido. Para um diagnóstico técnico, descreva brevemente seu nicho e qual resultado busca alcançar agora." 
     };
   }
 }

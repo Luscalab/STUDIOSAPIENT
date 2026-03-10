@@ -109,14 +109,20 @@ export function AIChat() {
     const messageToSend = directInput || input;
     if (!messageToSend.trim() || loading) return;
     
-    setChatHistory(prev => [...prev, { role: 'user', text: messageToSend }]);
+    // Adiciona a mensagem do usuário ao histórico local IMEDIATAMENTE para contexto
+    const newUserMessage = { role: 'user' as const, text: messageToSend };
+    setChatHistory(prev => [...prev, newUserMessage]);
     setInput("");
     setLoading(true);
     setResult(null);
     
     try {
-      // Treinamento contextual: Envia o histórico para a API aprender com a conversa atual
-      const context = chatHistory.slice(-4).map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`).join('\n') + `\nCliente: ${messageToSend}`;
+      // Treinamento contextual: Envia o histórico COMPLETO (incluindo a última resposta) para a API
+      const context = [...chatHistory, newUserMessage]
+        .slice(-6) // Aumentamos a janela de memória para maior precisão
+        .map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`)
+        .join('\n');
+
       const recommendation = await recommendServices({ clientNeedsAndGoals: context });
       
       if (!recommendation) {
@@ -157,7 +163,7 @@ export function AIChat() {
 
       <div
         className={cn(
-          "fixed bottom-24 right-4 z-[100] w-[calc(100vw-2rem)] md:w-[460px] h-[80vh] md:max-h-[800px] bg-white rounded-[2.5rem] border border-primary/20 shadow-[0_40px_120px_rgba(0,0,0,0.5)] transition-all duration-700 origin-bottom-right flex flex-col overflow-hidden",
+          "fixed bottom-24 right-4 z-[100] w-[calc(100vw-2rem)] md:w-[480px] h-[85vh] md:max-h-[850px] bg-white rounded-[2.5rem] border border-primary/20 shadow-[0_40px_120px_rgba(0,0,0,0.5)] transition-all duration-700 origin-bottom-right flex flex-col overflow-hidden",
           isOpen ? "scale-100 opacity-100 visible" : "scale-0 opacity-0 invisible"
         )}
         role="dialog"
@@ -171,7 +177,7 @@ export function AIChat() {
               </div>
               <div>
                 <h3 className="font-headline font-black text-[10px] tracking-[0.2em] uppercase text-white leading-none">Consultoria IA</h3>
-                <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest mt-1">SAPIENT STRATEGY ENGINE</p>
+                <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest mt-1">SAPIENT STRATEGY ENGINE v4.6</p>
               </div>
             </div>
             
@@ -186,12 +192,12 @@ export function AIChat() {
         <div 
           ref={scrollRef} 
           className="flex-1 overflow-y-auto p-6 space-y-8 bg-[#fdfdff] scroll-smooth"
-          style={{ fontSize: `${textScale * 14}px` }}
+          style={{ fontSize: `${textScale}rem` }}
         >
           <div className="space-y-6">
             {chatHistory.map((msg, i) => (
               <div key={i} className="space-y-6 animate-in fade-in duration-500">
-                <div className={cn("flex flex-col gap-2 max-w-[88%]", msg.role === 'user' ? "ml-auto items-end" : "items-start")}>
+                <div className={cn("flex flex-col gap-2 max-w-[90%]", msg.role === 'user' ? "ml-auto items-end" : "items-start")}>
                   <div 
                     className={cn(
                       "p-5 rounded-[2rem] font-medium leading-relaxed shadow-sm transition-all duration-300", 
@@ -212,7 +218,7 @@ export function AIChat() {
                 {i === 0 && chatHistory.length === 1 && !loading && (
                   <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
                     <div className="bg-primary/[0.03] p-6 rounded-[2.5rem] border border-primary/10">
-                      <p className="text-[0.65em] font-black text-primary uppercase tracking-[0.3em] mb-5 text-center px-4">Escolha seu objetivo estratégico prioritário:</p>
+                      <p className="text-[0.6em] font-black text-primary uppercase tracking-[0.3em] mb-5 text-center px-4">Escolha seu objetivo estratégico:</p>
                       <div className="grid grid-cols-1 gap-3">
                         {STRATEGIC_PATHS.map((path, idx) => (
                           <button 
@@ -223,7 +229,7 @@ export function AIChat() {
                             <div className="h-10 w-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
                               {path.icon}
                             </div>
-                            <span className="text-[0.7em] font-black uppercase tracking-wider text-slate-700 group-hover:text-primary leading-tight flex-1">
+                            <span className="text-[0.65em] font-black uppercase tracking-wider text-slate-700 group-hover:text-primary leading-tight flex-1">
                               {path.label}
                             </span>
                             <ArrowRight className="h-3 w-3 text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
@@ -243,7 +249,7 @@ export function AIChat() {
               {result.brandAudit && (
                 <div className="space-y-4">
                   <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-4 w-4" /> Auditoria de Percepção</p>
-                  <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-slate-700 italic leading-relaxed text-[0.9em] shadow-inner">
+                  <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-slate-700 italic leading-relaxed text-[0.85em] shadow-inner">
                     "{result.brandAudit}"
                   </div>
                 </div>
@@ -261,7 +267,7 @@ export function AIChat() {
               {result.strategicValue && (
                 <div className="space-y-4">
                   <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><ClipboardCheck className="h-4 w-4" /> Valor da Intervenção</p>
-                  <p className="text-slate-600 font-medium leading-relaxed px-2 text-[0.9em]">{result.strategicValue}</p>
+                  <p className="text-slate-600 font-medium leading-relaxed px-2 text-[0.85em]">{result.strategicValue}</p>
                 </div>
               )}
 
@@ -304,8 +310,8 @@ export function AIChat() {
             </button>
           </div>
           <div className="flex items-center justify-center gap-2 mt-4 opacity-40">
-            <MessageSquare className="h-3 w-3" />
-            <p className="text-[8px] font-black uppercase tracking-widest">SAPIENT PROSPECTION ENGINE v4.5</p>
+            <MessageSquare className="h-3 w-3 text-slate-900" />
+            <p className="text-[8px] font-black uppercase tracking-widest text-slate-900">SAPIENT STRATEGY ENGINE v4.6</p>
           </div>
         </form>
       </div>
