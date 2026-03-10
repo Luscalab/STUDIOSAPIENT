@@ -1,9 +1,9 @@
 'use server';
 
 /**
- * @fileOverview Inteligência de Prospecção Sapient Studio - Protocolo de Ecossistema Integrado V8.2.
- * Implementa uma jornada holística de 4 camadas para qualificação de leads de alto padrão.
- * Mapeia sinergias entre: Performance Ads, Design Estratégico, Ecossistemas de IA, Autoridade Social e Narrativa Visual.
+ * @fileOverview Inteligência de Consultoria Exaustiva Sapient Studio - Protocolo V9.0.
+ * Implementa uma jornada de 5 camadas para mapeamento total de ecossistemas digitais.
+ * Foca em identificar problemas complexos de ROI, Sinergia e Autoridade antes do handoff humano.
  */
 
 export type RecommenderOutput = {
@@ -18,6 +18,7 @@ export type RecommenderOutput = {
     platforms?: string[];
     details?: string;
     servicesNeeded?: string[];
+    mainPainPoints?: string[];
   };
 };
 
@@ -26,48 +27,42 @@ export type RecommenderInput = {
   currentMessage: string;
 };
 
-/**
- * Fluxo de recomendação e qualificação estratégica com suporte a ecossistemas multi-serviço (V8.2).
- */
 export async function recommendServices(input: RecommenderInput): Promise<RecommenderOutput> {
   const msg = input.currentMessage.toLowerCase();
   const historyText = input.history.map(h => h.content.toLowerCase()).join(' ');
   const fullHistoryText = historyText + ' ' + msg;
   const turnCount = input.history.filter(h => h.role === 'user').length + 1;
 
-  // --- 0. INTERCEPTAÇÃO DE DÚVIDAS E FAQ ESTRATÉGICO ---
+  // --- 0. INTERCEPTAÇÃO DE FAQ ESTRATÉGICO ---
   if (msg.includes('como funciona') || msg.includes('preço') || msg.includes('valor') || msg.includes('custo') || msg.includes('tempo')) {
     return {
-      reply: "Nossa metodologia Sapient é baseada em Ecossistemas de Crescimento. Não entregamos apenas 'posts' ou 'anúncios', mas construímos o motor de autoridade do seu negócio. O investimento é personalizado conforme a complexidade do ecossistema necessário (Performance + Marca + IA). Quer terminar de mapear seu cenário para eu desenhar o plano de ROI?",
+      reply: "Nossa metodologia Sapient é baseada em Ecossistemas de Crescimento. Não entregamos apenas 'serviços isolados', mas construímos o motor de autoridade do seu negócio. O investimento é proporcional à complexidade do ecossistema necessário para atingir seu ROI. Quer terminar de mapear seu cenário para eu desenhar o plano de viabilidade?",
       shouldRedirect: false,
       currentLayer: 0,
-      suggestedActions: ["Sim, terminar mapeamento", "Ver cases de sucesso", "Falar com estrategista"]
+      suggestedActions: ["Sim, terminar mapeamento", "Falar com estrategista"]
     };
   }
 
-  // --- 1. EXTRAÇÃO DE NICHO (V8.2 - EXPANDIDO) ---
+  // --- 1. EXTRAÇÃO DE NICHO (V9 - ALTA PRECISÃO) ---
   let niche = 'Não identificado';
-  if (fullHistoryText.match(/(médico|saúde|clínica|hospital|dentista|psicólogo|nutri|fisio|terapeuta|fisioterapeuta|odontolog|estética|harmonização)/)) niche = 'Saúde & Wellness';
-  else if (fullHistoryText.match(/(advogado|jurídico|direito|escritório|lei|causa|legal|processo judicial|juridico)/)) niche = 'Jurídico & Direito';
-  else if (fullHistoryText.match(/(imobiliário|corretor|imóveis|casa|apartamento|venda de imóvel|loteadora|incorporadora|condomínio|imobiliaria)/)) niche = 'Imobiliário & Incorporação';
-  else if (fullHistoryText.match(/(loja|varejo|e-commerce|venda online|produto|comércio|shop|venda direta|ecommerce)/)) niche = 'Varejo & E-commerce';
-  else if (fullHistoryText.match(/(educação|curso|escola|mentor|infoproduto|aula|professor|faculdade|ead|treinamento|infoprodutor)/)) niche = 'Educação & Infoprodutos';
-  else if (fullHistoryText.match(/(restaurante|gastronomia|comida|alimentício|delivery|café|hamburgueria|pizzaria|buffet|alimenticio)/)) niche = 'Alimentício & Gastronomia';
-  else if (fullHistoryText.match(/(beleza|academia|fitness|moda|boutique|joalheria|luxo|personal trainer|relogios|carros de luxo)/)) niche = 'Estética, Moda & Luxo';
-  else if (fullHistoryText.match(/(indústria|fábrica|b2b|produção|usinagem|logística|transporte|distribuidora|industria)/)) niche = 'Indústria & B2B';
-  else if (fullHistoryText.match(/(consultoria|tecnologia|ti|software|saas|startup|agência|marketing|engenharia|ti)/)) niche = 'Tecnologia & Serviços';
-  else if (fullHistoryText.match(/(arquiteto|arquitetura|interiores|decoração|obra|reforma|paisagismo|arquiteta)/)) niche = 'Arquitetura & Interiores';
-  else if (fullHistoryText.match(/(carro|automóvel|veículo|concessionária|oficina|revenda|blindagem|automotivo)/)) niche = 'Setor Automotivo';
-  else if (fullHistoryText.match(/(pet|veterinário|vet|clínica pet|banho e tosa|petshop|animal|cachorro|gato)/)) niche = 'Setor Pet & Vet';
-  else if (fullHistoryText.match(/(contador|contabilidade|financeiro|fiscal|tributário|investimento|banco|contabil)/)) niche = 'Finanças & Contabilidade';
+  if (fullHistoryText.match(/(médico|saúde|clínica|hospital|dentista|psicólogo|nutri|fisio|terapeuta|estética|harmonização)/)) niche = 'Saúde & Wellness';
+  else if (fullHistoryText.match(/(advogado|jurídico|direito|escritório|lei|legal|processo|juridico)/)) niche = 'Jurídico & Direito';
+  else if (fullHistoryText.match(/(imobiliário|corretor|imóveis|casa|apartamento|loteadora|incorporadora|imobiliaria)/)) niche = 'Imobiliário & Incorporação';
+  else if (fullHistoryText.match(/(loja|varejo|e-commerce|venda online|produto|comércio|ecommerce)/)) niche = 'Varejo & E-commerce';
+  else if (fullHistoryText.match(/(educação|curso|escola|mentor|infoproduto|ead|treinamento)/)) niche = 'Educação & Infoprodutos';
+  else if (fullHistoryText.match(/(restaurante|gastronomia|comida|alimentício|delivery|pizzaria|alimenticio)/)) niche = 'Alimentício & Gastronomia';
+  else if (fullHistoryText.match(/(indústria|fábrica|b2b|produção|logística|transporte|industria)/)) niche = 'Indústria & B2B';
+  else if (fullHistoryText.match(/(tecnologia|ti|software|saas|startup|engenharia)/)) niche = 'Tecnologia & SaaS';
+  else if (fullHistoryText.match(/(carro|automóvel|veículo|concessionária|oficina|automotivo)/)) niche = 'Setor Automotivo';
+  else if (fullHistoryText.match(/(contador|contabilidade|financeiro|fiscal|investimento|contabil)/)) niche = 'Finanças & Contabilidade';
 
-  // --- 2. MAPEAMENTO MULTI-SERVIÇO ---
+  // --- 2. MAPEAMENTO DE SERVIÇOS ---
   const servicesNeeded: string[] = [];
-  if (fullHistoryText.match(/(anúncio|tráfego|vendas|google|meta|ads|leads|vender|clientes|google ads|meta ads|facebook ads)/)) servicesNeeded.push('Performance Ads');
-  if (fullHistoryText.match(/(marca|design|logo|visual|identidade|bonito|premium|percepção|luxo|branding|rebranding)/)) servicesNeeded.push('Design Estratégico');
-  if (fullHistoryText.match(/(ia|bot|automação|atendimento|chat|inteligência|agilidade|chatbot|ia generativa)/)) servicesNeeded.push('Ecossistemas de IA');
-  if (fullHistoryText.match(/(social|instagram|autoridade|feed|redes|seguidores|engajamento|tiktok|linkedin|presença)/)) servicesNeeded.push('Gestão de Autoridade');
-  if (fullHistoryText.match(/(apresentação|dossiê|venda|explicar|narrativa|clareza|processo|infográfico|proposta)/)) servicesNeeded.push('Narrativa Visual');
+  if (fullHistoryText.match(/(anúncio|tráfego|google|meta|ads|leads|vender|clientes)/)) servicesNeeded.push('Performance Ads');
+  if (fullHistoryText.match(/(marca|design|logo|visual|premium|luxo|branding|rebranding)/)) servicesNeeded.push('Design Estratégico');
+  if (fullHistoryText.match(/(ia|bot|automação|atendimento|chat|inteligência|agilidade)/)) servicesNeeded.push('Ecossistemas de IA');
+  if (fullHistoryText.match(/(social|instagram|autoridade|feed|seguidores|engajamento)/)) servicesNeeded.push('Gestão de Autoridade');
+  if (fullHistoryText.match(/(apresentação|dossiê|venda|narrativa|clareza|proposta)/)) servicesNeeded.push('Narrativa Visual');
 
   // --- 3. MAPEAMENTO DE PLATAFORMAS ---
   const platforms: string[] = [];
@@ -75,69 +70,74 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   if (fullHistoryText.includes('google')) platforms.push('Google Ads');
   if (fullHistoryText.includes('facebook') || fullHistoryText.includes('meta')) platforms.push('Meta Ads');
   if (fullHistoryText.includes('linkedin')) platforms.push('LinkedIn');
-  if (fullHistoryText.includes('tiktok')) platforms.push('TikTok');
   if (fullHistoryText.includes('whatsapp')) platforms.push('WhatsApp');
-  if (fullHistoryText.includes('site') || fullHistoryText.includes('página') || fullHistoryText.includes('landing')) platforms.push('Site Próprio');
+  if (fullHistoryText.includes('site') || fullHistoryText.includes('página') || fullHistoryText.includes('landing')) platforms.push('Site/LP');
 
-  // --- 4. DETECÇÃO DE URGÊNCIA ---
-  let urgency: 'low' | 'medium' | 'high' = 'low';
-  if (fullHistoryText.match(/(agora|urgente|rápido|imediat|ontem|parado|faturar)/)) urgency = 'high';
-  else if (fullHistoryText.match(/(preciso|buscando|querendo|planejando|olhando|pensando)/)) urgency = 'medium';
+  // --- 4. DETECÇÃO DE GARGALOS (PAIN POINTS V9) ---
+  const mainPainPoints: string[] = [];
+  if (fullHistoryText.match(/(leads ruins|curiosos|preço|barato|baixo)/)) mainPainPoints.push('Leads Desqualificados');
+  if (fullHistoryText.match(/(demora|lento|esquecer|atraso|atender)/)) mainPainPoints.push('Atendimento Lento');
+  if (fullHistoryText.match(/(antigo|velho|feio|amador|imagem)/)) mainPainPoints.push('Imagem Datada');
+  if (fullHistoryText.match(/(difícil|complicado|entender|explicar)/)) mainPainPoints.push('Falta de Clareza');
+  if (fullHistoryText.match(/(parado|não vende|estagnado|crescer)/)) mainPainPoints.push('Estagnação de Vendas');
 
+  // --- LÓGICA DE JORNADA EXAUSTIVA V9 ---
   const isSpecificNiche = niche !== 'Não identificado';
+  const hasPlatforms = platforms.length > 0;
+  const hasPainPoint = mainPainPoints.length > 0;
+  const hasServices = servicesNeeded.length > 0;
 
-  // --- CAMADAS DE JORNADA V8.2 ---
-
-  // CAMADA 4: FINALIZAÇÃO E TRANSFERÊNCIA (HANDOFF)
-  if (isSpecificNiche && turnCount >= 4) {
-    const servicesSummary = servicesNeeded.length > 0 ? servicesNeeded.join(' + ') : 'Ecossistema Completo';
+  // CONDIÇÃO DE FECHAMENTO: Só redireciona se tiver um dossiê sólido
+  if (isSpecificNiche && hasPlatforms && hasPainPoint && hasServices && turnCount >= 5) {
     return {
-      reply: `Dossiê Consolidado: Mapeamos uma necessidade de ecossistema para o setor de ${niche} focando em ${servicesSummary}. Sua presença no ${platforms.length > 0 ? platforms.join(', ') : 'canais digitais'} será o pilar da nossa estratégia de escala. Posso transferir seu diagnóstico agora para um estrategista humano finalizar o plano de ROI e viabilidade?`,
+      reply: `Dossiê Consolidado: Mapeamos um ecossistema para ${niche} focado em resolver ${mainPainPoints.join(', ')} através de ${servicesNeeded.join(' + ')}. Seu posicionamento no ${platforms.join(', ')} será o pilar da nossa escala. Posso transferir este diagnóstico agora para um estrategista humano finalizar seu plano de ROI?`,
       shouldRedirect: true,
-      currentLayer: 4,
-      suggestedActions: ["Sim, falar com estrategista", "Ver cases multi-serviço"],
-      extractedData: { niche, servicesNeeded, urgency, platforms }
+      currentLayer: 5,
+      suggestedActions: ["Sim, falar com estrategista", "Ver cases similares"],
+      extractedData: { niche, servicesNeeded, platforms, mainPainPoints }
     };
   }
 
-  // CAMADA 3: DIAGNÓSTICO DE SINERGIA (PROVOCAÇÃO TÉCNICA)
-  if (isSpecificNiche && turnCount >= 3) {
-    let provocation = "";
-    if (niche === 'Saúde & Wellness') provocation = "No setor de saúde, tráfego sem autoridade visual gera 'leads de preço'. Hoje você sente que as pessoas chegam valorizando seu trabalho ou apenas comparando valores?";
-    else if (niche === 'Jurídico & Direito') provocation = "Para advogados, o design de autoridade é o que separa um 'custo' de um 'investimento'. Como está a percepção de prestígio do seu escritório hoje?";
-    else if (niche === 'Imobiliário & Incorporação') provocation = "No imobiliário, a demora no atendimento mata a venda. Você já pensou em usar IA para qualificar o lead no exato segundo que ele clica no anúncio?";
-    else if (niche === 'Tecnologia & Serviços') provocation = "SaaS e Tecnologia precisam de clareza absoluta. Sua narrativa visual hoje consegue explicar o valor do seu software em menos de 10 segundos?";
-    else if (niche === 'Finanças & Contabilidade') provocation = "Contabilidade e Finanças lidam com confiança extrema. Sua imagem digital hoje transmite a segurança de um grande banco ou de um escritório pequeno?";
-    else if (niche === 'Setor Pet & Vet') provocation = "Clínicas pet competem por amor e confiança. Como está o 'encantamento' visual do seu perfil para que o tutor escolha você e não o vizinho mais barato?";
-    else if (niche === 'Setor Automotivo') provocation = "No setor automotivo premium, a foto é o primeiro test-drive. Seu design visual hoje faz o cliente sentir o 'cheiro de carro novo' ou parece amador?";
-    else provocation = `Para o setor de ${niche}, a sinergia entre ${servicesNeeded[0] || 'Branding'} e ${servicesNeeded[1] || 'Performance'} é o que traz o ROI real. Hoje, onde está seu maior 'vazamento' de resultados?`;
+  // CAMADA 4: VALIDAÇÃO DE ROI E METAS
+  if (isSpecificNiche && hasPlatforms && hasPainPoint && turnCount >= 4) {
+    return {
+      reply: `Compreendido. Para o setor de ${niche}, resolver o problema de ${mainPainPoints[0]} é prioridade. Qual o seu objetivo de faturamento ou escala para os próximos 6 meses com esse novo ecossistema?`,
+      shouldRedirect: false,
+      currentLayer: 4,
+      suggestedActions: ["Dobrar Faturamento", "Escalar 20-30%", "Consolidar Autoridade", "Lançar Novo Produto"],
+      extractedData: { niche, platforms, mainPainPoints }
+    };
+  }
 
+  // CAMADA 3: DESCOBERTA DE GARGALO (O "TESTE ÁCIDO")
+  if (isSpecificNiche && hasPlatforms && turnCount >= 3) {
+    let provocation = `Para ${niche} atuando no ${platforms[0]}, onde você sente que o dinheiro mais 'vaza' hoje: leads que só perguntam preço, demora no atendimento ou sua imagem atual não transmite o valor real do seu serviço?`;
     return {
       reply: provocation,
       shouldRedirect: false,
       currentLayer: 3,
-      suggestedActions: ["Leads Desqualificados", "Baixa Percepção de Valor", "Atendimento Lento", "Falta de Clareza Técnica"],
-      extractedData: { niche, servicesNeeded, urgency, platforms }
+      suggestedActions: ["Leads Desqualificados", "Atendimento Lento", "Imagem/Design Amador", "Não sou encontrado no Google"],
+      extractedData: { niche, platforms }
     };
   }
 
   // CAMADA 2: MAPEAMENTO DE ECOSSISTEMA ATUAL
   if (isSpecificNiche && turnCount >= 2) {
     return {
-      reply: `Cenário claro para ${niche}. Para desenharmos sua estratégia integrada: em quais canais você concentra seus esforços hoje e qual canal você sente que está subutilizado (Instagram, Google, LinkedIn ou seu próprio Site)?`,
+      reply: `Cenário claro para ${niche}. Para desenharmos sua estratégia integrada: em quais canais você concentra seus esforços hoje (Instagram, Google, LinkedIn ou Site)?`,
       shouldRedirect: false,
       currentLayer: 2,
-      suggestedActions: ["Instagram / Social", "Google / Buscas", "LinkedIn / B2B", "Não tenho presença clara", "Meu Site não converte"],
-      extractedData: { niche, servicesNeeded, urgency }
+      suggestedActions: ["Instagram", "Google Ads", "LinkedIn B2B", "Não tenho presença clara", "Meu Site/Landing Page"],
+      extractedData: { niche }
     };
   }
 
   // CAMADA 1: IDENTIFICAÇÃO HOLÍSTICA (INÍCIO)
   return {
-    reply: "Protocolo Sapient iniciado. Para um diagnóstico de autoridade e escala: qual o seu nicho de atuação e onde você sente que seu negócio mais 'vaza' resultados hoje: em Vendas, na Imagem de Marca ou na Eficiência de Atendimento?",
+    reply: "Protocolo Sapient iniciado. Para um diagnóstico exaustivo de autoridade e escala: qual o seu nicho de atuação e qual seu principal desafio hoje: Vendas, Imagem de Marca ou Eficiência de Processos?",
     shouldRedirect: false,
     currentLayer: 1,
-    suggestedActions: ["Saúde & Wellness", "Jurídico & Advogados", "Imobiliário & Imóveis", "Varejo & E-commerce", "Tecnologia & SaaS", "Indústria & B2B", "Arquitetura & Interiores", "Setor Automotivo", "Setor Pet & Vet", "Finanças & Contabilidade"],
-    extractedData: { urgency: 'low' }
+    suggestedActions: ["Saúde & Wellness", "Jurídico & Direito", "Imobiliário & Incorporação", "Varejo & E-commerce", "Educação & Infoprodutos", "Tecnologia & SaaS", "Indústria & B2B", "Setor Automotivo", "Finanças & Contabilidade"],
+    extractedData: { urgency: 'medium' }
   };
 }
