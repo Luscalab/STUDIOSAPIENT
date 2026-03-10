@@ -85,50 +85,53 @@ export function AIChat() {
       content: m.content 
     }));
     
-    try {
-      const result = await recommendServices({
-        history: historyForAi,
-        currentMessage: userMsg
-      });
+    // Simulação de delay estratégico para percepção de análise técnica
+    setTimeout(async () => {
+      try {
+        const result = await recommendServices({
+          history: historyForAi,
+          currentMessage: userMsg
+        });
 
-      if (result) {
+        if (result) {
+          setMessages(prev => [...prev, { 
+            role: 'model', 
+            content: result.reply,
+            actions: result.suggestedActions 
+          }]);
+          
+          if (result.extractedData) {
+            setExtractedData(prev => ({ 
+              ...prev, 
+              ...result.extractedData,
+              urgency: result.extractedData?.urgency || prev?.urgency,
+              platforms: result.extractedData?.platforms || prev?.platforms,
+              goals: result.extractedData?.goals || prev?.goals
+            }));
+          }
+
+          if (result.shouldRedirect) {
+            setShowRedirect(true);
+            saveLead({
+              niche: result.extractedData?.niche,
+              goals: result.extractedData?.goals,
+              urgency: result.extractedData?.urgency,
+              platforms: result.extractedData?.platforms,
+              lastMessage: userMsg,
+              fullConversation: historyForAi.map(h => `${h.role}: ${h.content}`).join('\n')
+            });
+          }
+        }
+      } catch (error) {
         setMessages(prev => [...prev, { 
           role: 'model', 
-          content: result.reply,
-          actions: result.suggestedActions 
+          content: "Identificamos uma oscilação técnica. Vamos prosseguir via WhatsApp para garantir sua análise personalizada?" 
         }]);
-        
-        if (result.extractedData) {
-          setExtractedData(prev => ({ 
-            ...prev, 
-            ...result.extractedData,
-            urgency: result.extractedData?.urgency || prev?.urgency,
-            platforms: result.extractedData?.platforms || prev?.platforms,
-            goals: result.extractedData?.goals || prev?.goals
-          }));
-        }
-
-        if (result.shouldRedirect) {
-          setShowRedirect(true);
-          saveLead({
-            niche: result.extractedData?.niche,
-            goals: result.extractedData?.goals,
-            urgency: result.extractedData?.urgency,
-            platforms: result.extractedData?.platforms,
-            lastMessage: userMsg,
-            fullConversation: historyForAi.map(h => `${h.role}: ${h.content}`).join('\n')
-          });
-        }
+        setShowRedirect(true);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      setMessages(prev => [...prev, { 
-        role: 'model', 
-        content: "Identificamos uma oscilação técnica. Vamos prosseguir via WhatsApp para garantir sua análise personalizada?" 
-      }]);
-      setShowRedirect(true);
-    } finally {
-      setIsLoading(false);
-    }
+    }, 1200);
   };
 
   const handleWhatsAppRedirect = () => {
@@ -175,7 +178,7 @@ export function AIChat() {
         {messages.map((msg, i) => (
           <div key={i} className={cn("flex flex-col gap-4", msg.role === 'user' ? "items-end" : "items-start")}>
             <div className={cn(
-              "p-6 rounded-[2.2rem] text-sm md:text-base font-medium leading-relaxed max-w-[90%] shadow-sm animate-in fade-in slide-in-from-bottom-2",
+              "p-6 rounded-[2.2rem] text-sm md:text-base font-bold leading-relaxed max-w-[90%] shadow-sm animate-in fade-in slide-in-from-bottom-2",
               msg.role === 'user' 
                 ? "bg-primary text-white rounded-tr-none" 
                 : "bg-white text-slate-950 border border-slate-200 rounded-tl-none shadow-md"
@@ -202,7 +205,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-4 text-slate-400 p-4">
             <Loader2 className="h-5 w-5 animate-spin text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Mapeando Ecossistema...</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Análise Técnica...</span>
           </div>
         )}
 
@@ -248,7 +251,7 @@ export function AIChat() {
             onChange={(e) => setInput(e.target.value)}
             disabled={isLoading}
             placeholder="Responda ao diagnóstico..."
-            className="w-full h-20 pl-8 pr-20 bg-slate-50 border border-slate-200 rounded-[1.8rem] text-slate-900 font-bold placeholder:text-slate-300 focus:outline-none focus:ring-4 focus:ring-primary/10 shadow-inner transition-all"
+            className="w-full h-20 pl-8 pr-20 bg-slate-50 border border-slate-200 rounded-[1.8rem] text-slate-950 font-bold placeholder:text-slate-300 focus:outline-none focus:ring-4 focus:ring-primary/10 shadow-inner transition-all"
           />
           <button 
             type="submit"

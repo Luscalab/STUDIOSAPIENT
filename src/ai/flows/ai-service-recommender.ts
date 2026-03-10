@@ -38,7 +38,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     return {
       reply: "Nossa metodologia é integrada. Não vendemos 'serviços isolados', mas construímos o motor de crescimento do seu negócio. O investimento é definido após mapearmos seu ecossistema (Performance + Marca + IA). Quer continuar o diagnóstico para eu desenhar sua estratégia completa?",
       shouldRedirect: false,
-      suggestedActions: ["Sim, desenhar estratégia", "Ver ecossistemas de sucesso", "Falar com estrategista agora"]
+      suggestedActions: ["Sim, desenhar estratégia", "Ver cases de sucesso", "Falar com estrategista agora"]
     };
   }
 
@@ -98,17 +98,16 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   if (isSpecificNiche && turnCount >= 3) {
     if (hasMultipleGoals) {
       return {
-        reply: `Para o setor de ${niche}, a união de ${goals[0]} com ${goals[1]} é o que separa amadores de líderes. Hoje, você sente que sua maior perda de ROI está na falta de atração de novos clientes ou na baixa percepção de valor quando eles chegam até você?`,
+        reply: `Para o setor de ${niche}, a união de ${goals[0]} com ${goals[1]} é o que separa líderes de mercado. Hoje, você sente que sua maior perda de faturamento está na falta de novos contatos qualificados ou na baixa percepção de valor quando o cliente chega até você?`,
         shouldRedirect: false,
-        suggestedActions: ["Falta de Atração (Vendas)", "Baixa Percepção (Marca)", "Ambos os problemas"],
+        suggestedActions: ["Falta de Contatos (Vendas)", "Baixa Percepção (Marca)", "Ambos os problemas"],
         extractedData: { niche, goals, urgency, platforms }
       };
     }
     
-    // Fallback se tiver apenas um interesse claro
     const currentGoal = goals[0] || "Crescimento Geral";
     return {
-      reply: `Entendi seu foco em ${currentGoal} para o setor de ${niche}. Além disso, você acredita que um design mais premium ou uma automação de atendimento potencializariam seus resultados atuais?`,
+      reply: `Entendi seu foco em ${currentGoal} para o setor de ${niche}. Além disso, você acredita que um design mais premium ou uma automação de atendimento potencializariam seus resultados atuais retirando carga do seu time?`,
       shouldRedirect: false,
       suggestedActions: ["Sim, Design Premium", "Sim, Automação IA", "Apenas Tráfego por enquanto"],
       extractedData: { niche, goals, urgency, platforms }
