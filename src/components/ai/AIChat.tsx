@@ -78,7 +78,7 @@ export function AIChat() {
     setInput("");
     setIsLoading(true);
 
-    const historyForAi = messages.map(m => ({ 
+    const historyForAi = currentHistoryWithUser.map(m => ({ 
       role: m.role, 
       content: m.content 
     }));
@@ -110,7 +110,8 @@ export function AIChat() {
             niche: result.extractedData?.niche,
             goal: result.extractedData?.goal,
             urgency: result.extractedData?.urgency,
-            lastMessage: userMsg
+            lastMessage: userMsg,
+            fullConversation: historyForAi.map(h => `${h.role}: ${h.content}`).join('\n')
           });
         }
       }
@@ -128,7 +129,7 @@ export function AIChat() {
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
     const summary = extractedData ? `[ Diagnóstico IA | Nicho: ${extractedData.niche} | Objetivo: ${extractedData.goal} | Urgência: ${extractedData.urgency?.toUpperCase()} ]` : '';
-    const text = `Olá! Iniciei uma consulta com o Estrategista IA Sapient. ${summary} Gostaria de uma análise humana aprofundada dos meus desafios.`;
+    const text = `Olá! Concluí o diagnóstico com o Estrategista IA Sapient. ${summary} Gostaria de detalhar meu plano de ação agora.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -157,7 +158,7 @@ export function AIChat() {
           <div>
             <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none">Estrategista Digital</h3>
             <p className="text-[8px] font-black text-primary uppercase tracking-[0.4em] mt-2 italic flex items-center gap-2">
-              <span className="h-1 w-1 rounded-full bg-primary animate-ping" /> EXTRAÇÃO ATIVA V3
+              <span className="h-1 w-1 rounded-full bg-primary animate-ping" /> QUALIFICAÇÃO PROFUNDA V4
             </p>
           </div>
         </div>
@@ -198,7 +199,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-4 text-slate-400 p-4">
             <Loader2 className="h-5 w-5 animate-spin text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Analisando Dossiê...</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Extraindo Dados Estratégicos...</span>
           </div>
         )}
 
@@ -206,17 +207,15 @@ export function AIChat() {
           <div className="pt-6 space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
             <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/10 space-y-4">
                <div className="flex items-center justify-between">
-                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">Diagnóstico Estratégico</p>
-                 {extractedData?.urgency === 'high' && (
-                   <span className="px-3 py-1 bg-red-500/10 text-red-500 rounded-full text-[8px] font-black uppercase tracking-tighter">ALTA URGÊNCIA</span>
-                 )}
+                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">Dossiê de Qualificação</p>
+                 <span className="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-[8px] font-black uppercase tracking-tighter">PROTOCOLO LIBERADO</span>
                </div>
                <div className="grid grid-cols-1 gap-3">
                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
-                   <CheckCircle2 className="h-4 w-4 text-primary" /> Setor: <span className="text-slate-900">{extractedData?.niche || 'Analisando...'}</span>
+                   <CheckCircle2 className="h-4 w-4 text-primary" /> Nicho: <span className="text-slate-900">{extractedData?.niche || 'Confirmado'}</span>
                  </div>
                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
-                   <Target className="h-4 w-4 text-primary" /> Foco: <span className="text-slate-900">{extractedData?.goal || 'Analisando...'}</span>
+                   <Target className="h-4 w-4 text-primary" /> Foco: <span className="text-slate-900">{extractedData?.goal || 'Confirmado'}</span>
                  </div>
                </div>
             </div>
@@ -224,7 +223,7 @@ export function AIChat() {
               onClick={handleWhatsAppRedirect}
               className="w-full py-8 bg-green-500 hover:bg-green-600 text-white rounded-[2rem] font-black uppercase tracking-widest text-[11px] flex items-center justify-center gap-4 shadow-2xl transition-all group active:scale-95"
             >
-              <MessageCircle className="h-6 w-6" /> AGENDAR CONSULTORIA HUMANA <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              <MessageCircle className="h-6 w-6" /> TRANSFERIR PARA ESTRATEGISTA <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         )}
@@ -243,7 +242,7 @@ export function AIChat() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={isLoading}
-            placeholder="Digite sua resposta..."
+            placeholder="Responda ao diagnóstico..."
             className="w-full h-20 pl-8 pr-20 bg-slate-50 border border-slate-200 rounded-[1.8rem] text-slate-900 font-bold placeholder:text-slate-300 focus:outline-none focus:ring-4 focus:ring-primary/10 shadow-inner transition-all"
           />
           <button 
@@ -255,9 +254,9 @@ export function AIChat() {
           </button>
         </form>
         <div className="mt-6 flex items-center justify-center gap-6 opacity-30">
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAPIENT STUDIO</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">QUALIFICAÇÃO PROFUNDA</p>
           <div className="h-1 w-1 rounded-full bg-slate-400" />
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">AI CORE V3</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA V4</p>
         </div>
       </div>
     </div>
