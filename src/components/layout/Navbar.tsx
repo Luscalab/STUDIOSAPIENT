@@ -26,16 +26,16 @@ export function Navbar() {
   return (
     <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
       <div className="container mx-auto px-6 flex items-center justify-between gap-6">
-        {/* Logo com deslocamento de 40% à direita no Desktop e escala refinada */}
+        {/* Logo com escala ampliada no Desktop e deslocamento de 40% à direita */}
         <Link 
           href="/" 
-          className="relative block w-[160px] h-[48px] md:w-[220px] md:h-[66px] lg:w-[320px] lg:h-[96px] lg:translate-x-[40%] transition-transform duration-700 hover:scale-105 shrink-0"
+          className="relative block w-[140px] h-[42px] md:w-[180px] md:h-[54px] lg:w-[480px] lg:h-[144px] lg:translate-x-[40%] transition-transform duration-700 hover:scale-105 shrink-0"
         >
           <Image 
             src={logoUrl} 
             alt="studiosapient Logo" 
             fill 
-            className="object-contain object-left drop-shadow-xl" 
+            className="object-contain object-left drop-shadow-2xl" 
             priority 
           />
         </Link>
