@@ -252,7 +252,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-3 text-slate-400 p-2 animate-pulse">
             <Cpu className="h-4 w-4 animate-spin text-primary" />
-            <span className="text-[8px] font-black uppercase tracking-[0.4em] italic">Analizando...</span>
+            <span className="text-[8px] font-black uppercase tracking-[0.4em] italic">Analisando...</span>
           </div>
         )}
 
@@ -306,7 +306,7 @@ export function AIChat() {
             <Send className="h-4 w-4" />
           </button>
         </form>
-        <p className="mt-4 text-[7px] font-black uppercase tracking-[0.6em] text-slate-300 text-center">SAP-IA PROTOCOL V12</p>
+        <p className="mt-4 text-[7px] font-black uppercase tracking-[0.6em] text-slate-300 text-center">SAP-IA PROTOCOL V12.1</p>
       </div>
     </div>
   );

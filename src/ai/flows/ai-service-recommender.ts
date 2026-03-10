@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Inteligência de Estratégia de Autoridade Sapient Studio - Protocolo V12.
+ * @fileOverview Inteligência de Estratégia de Autoridade Sapient Studio - Protocolo V12.1.
  * Implementa uma jornada de 5 camadas para mapeamento total de ecossistemas digitais.
  * Suporta agora multi-seleção de dados e classificação de nichos de micro a macro escala.
  */
