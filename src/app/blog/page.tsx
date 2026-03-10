@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -7,7 +8,7 @@ import { useCollection, useFirestore, useMemoFirebase, useUser, useDoc } from "@
 import { collection, query, orderBy, doc } from "firebase/firestore";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Lock } from "lucide-react";
+import { ArrowRight, Lock, Settings } from "lucide-react";
 
 const ADMIN_EMAIL = "sapientcontato@gmail.com";
 
@@ -15,13 +16,11 @@ export default function BlogPage() {
   const { user } = useUser();
   const db = useFirestore();
 
-  // Consulta pública: visível para todos
   const publicPostsQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'blogPosts_public'), orderBy('publishedDate', 'desc'));
   }, [db]);
 
-  // Verificação de permissões para posts premium
   const premiumCheckRef = useMemoFirebase(() => {
     if (!db || !user) return null;
     return doc(db, 'premium_users', user.uid);
@@ -32,7 +31,6 @@ export default function BlogPage() {
   const isAdmin = user?.email === ADMIN_EMAIL;
   const isPremiumOrAdmin = !!premiumData || isAdmin;
 
-  // Consulta premium: Só dispara se o usuário for premium ou o administrador autorizado
   const premiumPostsQuery = useMemoFirebase(() => {
     if (!db || !isPremiumOrAdmin) return null;
     return query(collection(db, 'blogPosts_premium'), orderBy('publishedDate', 'desc'));
@@ -56,15 +54,22 @@ export default function BlogPage() {
           <h1 className="font-headline text-6xl md:text-[8rem] font-black text-white tracking-tighter leading-[0.85] mb-12">
             Insights <span className="text-primary italic">Estratégicos</span>
           </h1>
-          <p className="text-2xl text-white/50 font-medium max-w-3xl mx-auto leading-tight tracking-tight">
+          <p className="text-2xl text-white/50 font-medium max-w-3xl mx-auto leading-tight tracking-tight mb-16">
             Análises técnicas sobre performance, design e o futuro da IA nos negócios.
           </p>
+
+          {isAdmin && (
+            <Link href="/admin" className="inline-flex items-center gap-4 bg-primary text-white px-12 py-6 rounded-full font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-2xl shadow-primary/30">
+              <Settings className="h-4 w-4" /> Gerenciar Dossiês
+            </Link>
+          )}
         </div>
       </section>
 
       <section className="py-32 container mx-auto px-6">
         {(loadingPublic || (isPremiumOrAdmin && loadingPremium)) && (
-          <div className="text-center text-white/20 font-black uppercase tracking-widest animate-pulse mb-12">
+          <div className="text-center text-white/20 font-black uppercase tracking-widest animate-pulse mb-12 flex flex-col items-center gap-4">
+            <div className="h-8 w-8 border-t-2 border-primary rounded-full animate-spin" />
             Sincronizando Dossiês...
           </div>
         )}
@@ -95,7 +100,8 @@ export default function BlogPage() {
         </div>
 
         {!loadingPublic && allPosts.length === 0 && (
-          <div className="text-center py-24">
+          <div className="text-center py-24 space-y-8">
+            <Settings className="h-16 w-16 text-white/5 mx-auto" />
             <p className="text-white/20 font-black uppercase tracking-widest">Nenhum dossiê publicado no momento.</p>
           </div>
         )}
