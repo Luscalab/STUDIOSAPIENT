@@ -11,7 +11,8 @@ import {
   Zap,
   CheckCircle2,
   Target,
-  ArrowRight
+  ArrowRight,
+  Globe
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { recommendServices, type RecommenderInput, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
@@ -62,7 +63,7 @@ export function AIChat() {
       addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Estrategista IA Sapient'
+        source: 'Estrategista IA Sapient V5'
       });
     } catch (e) {
       // Falha silenciosa em produção
@@ -100,7 +101,8 @@ export function AIChat() {
           setExtractedData(prev => ({ 
             ...prev, 
             ...result.extractedData,
-            urgency: result.extractedData?.urgency || prev?.urgency 
+            urgency: result.extractedData?.urgency || prev?.urgency,
+            platforms: result.extractedData?.platforms || prev?.platforms
           }));
         }
 
@@ -110,6 +112,7 @@ export function AIChat() {
             niche: result.extractedData?.niche,
             goal: result.extractedData?.goal,
             urgency: result.extractedData?.urgency,
+            platforms: result.extractedData?.platforms,
             lastMessage: userMsg,
             fullConversation: historyForAi.map(h => `${h.role}: ${h.content}`).join('\n')
           });
@@ -118,7 +121,7 @@ export function AIChat() {
     } catch (error) {
       setMessages(prev => [...prev, { 
         role: 'model', 
-        content: "Identificamos uma breve oscilação no processamento. Vamos prosseguir via WhatsApp para garantir sua análise estratégica?" 
+        content: "Identificamos uma breve oscilação no processamento estratégico. Vamos prosseguir via WhatsApp para garantir sua análise personalizada?" 
       }]);
       setShowRedirect(true);
     } finally {
@@ -128,7 +131,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const summary = extractedData ? `[ Diagnóstico IA | Nicho: ${extractedData.niche} | Objetivo: ${extractedData.goal} | Urgência: ${extractedData.urgency?.toUpperCase()} ]` : '';
+    const summary = extractedData ? `[ Diagnóstico IA | Nicho: ${extractedData.niche} | Objetivo: ${extractedData.goal} | Canais: ${extractedData.platforms?.join(', ') || 'Não especificado'} | Urgência: ${extractedData.urgency?.toUpperCase()} ]` : '';
     const text = `Olá! Concluí o diagnóstico com o Estrategista IA Sapient. ${summary} Gostaria de detalhar meu plano de ação agora.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -158,7 +161,7 @@ export function AIChat() {
           <div>
             <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none">Estrategista Digital</h3>
             <p className="text-[8px] font-black text-primary uppercase tracking-[0.4em] mt-2 italic flex items-center gap-2">
-              <span className="h-1 w-1 rounded-full bg-primary animate-ping" /> QUALIFICAÇÃO PROFUNDA V4
+              <span className="h-1 w-1 rounded-full bg-primary animate-ping" /> QUALIFICAÇÃO PROFUNDA V5
             </p>
           </div>
         </div>
@@ -199,7 +202,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-4 text-slate-400 p-4">
             <Loader2 className="h-5 w-5 animate-spin text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Extraindo Dados Estratégicos...</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Mapeando Ecossistema...</span>
           </div>
         )}
 
@@ -207,15 +210,18 @@ export function AIChat() {
           <div className="pt-6 space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
             <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/10 space-y-4">
                <div className="flex items-center justify-between">
-                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">Dossiê de Qualificação</p>
-                 <span className="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-[8px] font-black uppercase tracking-tighter">PROTOCOLO LIBERADO</span>
+                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">Dossiê de Diagnóstico</p>
+                 <span className="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-[8px] font-black uppercase tracking-tighter">QUALIFICAÇÃO COMPLETA</span>
                </div>
                <div className="grid grid-cols-1 gap-3">
                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
                    <CheckCircle2 className="h-4 w-4 text-primary" /> Nicho: <span className="text-slate-900">{extractedData?.niche || 'Confirmado'}</span>
                  </div>
                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
-                   <Target className="h-4 w-4 text-primary" /> Foco: <span className="text-slate-900">{extractedData?.goal || 'Confirmado'}</span>
+                   <Target className="h-4 w-4 text-primary" /> Objetivo: <span className="text-slate-900">{extractedData?.goal || 'Confirmado'}</span>
+                 </div>
+                 <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
+                   <Globe className="h-4 w-4 text-primary" /> Canais: <span className="text-slate-900">{extractedData?.platforms?.join(', ') || 'Mapeados'}</span>
                  </div>
                </div>
             </div>
@@ -223,7 +229,7 @@ export function AIChat() {
               onClick={handleWhatsAppRedirect}
               className="w-full py-8 bg-green-500 hover:bg-green-600 text-white rounded-[2rem] font-black uppercase tracking-widest text-[11px] flex items-center justify-center gap-4 shadow-2xl transition-all group active:scale-95"
             >
-              <MessageCircle className="h-6 w-6" /> TRANSFERIR PARA ESTRATEGISTA <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              <MessageCircle className="h-6 w-6" /> FALAR COM ESTRATEGISTA AGORA <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         )}
@@ -256,7 +262,7 @@ export function AIChat() {
         <div className="mt-6 flex items-center justify-center gap-6 opacity-30">
           <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">QUALIFICAÇÃO PROFUNDA</p>
           <div className="h-1 w-1 rounded-full bg-slate-400" />
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA V4</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA V5</p>
         </div>
       </div>
     </div>
