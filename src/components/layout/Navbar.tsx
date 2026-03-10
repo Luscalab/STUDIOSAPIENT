@@ -5,16 +5,10 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Menu, X, Settings, ShieldCheck } from "lucide-react";
-import { useUser } from "@/firebase";
-
-const AUTHORIZED_ADMIN_EMAIL = "sapientcontato@gmail.com";
+import { Menu, X } from "lucide-react";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user } = useUser();
-
-  const isAdmin = user?.email === AUTHORIZED_ADMIN_EMAIL;
 
   const handleOpenChat = () => {
     setIsMobileMenuOpen(false);
@@ -23,8 +17,8 @@ export function Navbar() {
 
   const navLinks = [
     { name: "Serviços", href: "/#servicos" },
-    { name: "Blog", href: "/blog" },
     { name: "UrbeLudo", href: "/urbeludo" },
+    { name: "Metodologia", href: "/#metodologia" },
     { name: "Contato", href: "/#contato" },
   ];
 
@@ -45,12 +39,6 @@ export function Navbar() {
             </Link>
           ))}
           
-          {isAdmin && (
-            <Link href="/admin" className="text-[11px] uppercase tracking-[0.4em] font-black text-accent hover:text-white transition-all flex items-center gap-2 group">
-              <ShieldCheck className="h-3 w-3 text-accent group-hover:animate-pulse" /> Painel
-            </Link>
-          )}
-
           <button onClick={handleOpenChat} className="text-[11px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all">Análise IA</button>
         </nav>
 
@@ -64,7 +52,6 @@ export function Navbar() {
           {navLinks.map((link) => (
             <Link key={link.name} href={link.href} className="text-3xl font-black text-white tracking-tighter uppercase" onClick={() => setIsMobileMenuOpen(false)}>{link.name}</Link>
           ))}
-          {isAdmin && <Link href="/admin" className="text-3xl font-black text-accent tracking-tighter uppercase" onClick={() => setIsMobileMenuOpen(false)}>Painel</Link>}
           <button onClick={() => setIsMobileMenuOpen(false)} className="absolute top-10 right-10 h-16 w-16 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10"><X size={32} /></button>
         </div>
       )}

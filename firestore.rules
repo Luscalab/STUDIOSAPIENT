@@ -1,87 +1,13 @@
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    /**
-     * SAPIENT STUDIO BLOG - SECURITY RULES
-     * 
-     * Restrição Estrita: Apenas sapientcontato@gmail.com tem poderes de Admin.
-     */
-
-    // --- GLOBAL HELPER FUNCTIONS ---
-
-    function isSignedIn() {
-      return request.auth != null;
+    match /{document=**} {
+      allow read, write: if false;
     }
-
-    function isOwner(userId) {
-      return isSignedIn() && request.auth.uid == userId;
-    }
-
-    function isAdmin() {
-      return isSignedIn() && request.auth.token.email == "sapientcontato@gmail.com";
-    }
-
-    function isPremium() {
-      return isAdmin() || (isSignedIn() && exists(/databases/$(database)/documents/premium_users/$(request.auth.uid)));
-    }
-
-    function isExistingAdmin() {
-      return isAdmin() && resource != null;
-    }
-
-    // --- COLLECTION RULES ---
-
-    match /blogPosts_public/{blogPostId} {
-      allow get, list: if true;
-      allow create: if isAdmin() && request.resource.data.authorId != null;
-      allow update: if isExistingAdmin() && request.resource.data.authorId == resource.data.authorId;
-      allow delete: if isExistingAdmin();
-    }
-
-    match /blogPosts_premium/{blogPostId} {
-      allow get, list: if isPremium();
-      allow create: if isAdmin() && request.resource.data.authorId != null;
-      allow update: if isExistingAdmin() && request.resource.data.authorId == resource.data.authorId;
-      allow delete: if isExistingAdmin();
-    }
-
-    match /admin_blogPosts_drafts/{blogPostId} {
-      allow get, list, create: if isAdmin();
-      allow update, delete: if isExistingAdmin();
-    }
-
-    match /blogCategories/{categoryId} {
-      allow get, list: if true;
-      allow create: if isAdmin();
-      allow update, delete: if isExistingAdmin();
-    }
-
-    match /blogTags/{tagId} {
-      allow get, list: if true;
-      allow create: if isAdmin();
-      allow update, delete: if isExistingAdmin();
-    }
-
-    match /authors/{authorId} {
-      allow get, list: if true;
-      allow create: if isAdmin() || isOwner(authorId);
-      allow update: if (isAdmin() || isOwner(authorId)) && resource != null;
-      allow delete: if isAdmin() && resource != null;
-    }
-
-    match /roles_admin/{userId} {
-      allow get: if isOwner(userId) || isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update, delete: if isExistingAdmin();
-    }
-
-    match /premium_users/{userId} {
-      allow get: if isOwner(userId) || isAdmin();
-      allow list: if isAdmin();
-      allow create: if isAdmin();
-      allow update, delete: if isExistingAdmin();
+    
+    match /leads/{leadId} {
+      allow create: if true;
     }
   }
 }

@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { Instagram, Linkedin, Palette, ArrowUpRight } from "lucide-react";
 
@@ -42,11 +43,6 @@ export function Footer() {
             <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-8">Navegação</h4>
             <ul className="space-y-4">
               <li>
-                <Link href="/blog" className="group flex items-center gap-2 w-fit text-black/50 hover:text-primary transition-all">
-                  <span className="text-sm font-black uppercase tracking-widest">Blog Sapient</span>
-                </Link>
-              </li>
-              <li>
                 <Link href="/urbeludo" className="group flex items-center gap-2 w-fit text-cyan-600 hover:text-cyan-500 transition-all">
                   <span className="text-sm font-black uppercase tracking-widest">UrbeLudo Tech</span>
                   <ArrowUpRight className="h-4 w-4" />
@@ -71,8 +67,8 @@ export function Footer() {
             <ul className="space-y-4">
               {[
                 { name: "Portfólio", href: behanceUrl, external: true },
-                { name: "Metodologia", href: "#metodologia" },
-                { name: "Falar com Consultor", href: "#contato" }
+                { name: "Metodologia", href: "/#metodologia" },
+                { name: "Falar com Consultor", href: "/#contato" }
               ].map((item) => (
                 <li key={item.name}>
                   <Link 
