@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from "react";
@@ -46,7 +45,11 @@ export function AIChat() {
     const userMsg = text.trim();
     if (!userMsg || isLoading) return;
 
-    const currentHistory = messages.map(m => ({ role: m.role, content: m.content }));
+    // Captura histórico ANTES de adicionar a nova mensagem
+    const currentHistory = messages.map(m => ({ 
+      role: m.role, 
+      content: m.content 
+    }));
     
     setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
     setInput("");
@@ -64,13 +67,15 @@ export function AIChat() {
           content: result.reply,
           actions: result.suggestedActions 
         }]);
-        if (result.shouldRedirect) setShowRedirect(true);
+        if (result.shouldRedirect) {
+          setShowRedirect(true);
+        }
       }
     } catch (error) {
       console.error("Erro no chat IA:", error);
       setMessages(prev => [...prev, { 
         role: 'model', 
-        content: "Para um diagnóstico estratégico de alta fidelidade, recomendo iniciarmos sua consultoria via WhatsApp agora." 
+        content: "Identificamos uma alta demanda em nossos servidores. Para garantir seu diagnóstico imediato, recomendo falarmos diretamente via WhatsApp." 
       }]);
       setShowRedirect(true);
     } finally {
@@ -117,7 +122,7 @@ export function AIChat() {
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-5 bg-slate-50/30">
         {messages.length === 0 && (
           <div className="p-5 rounded-2xl bg-white border border-slate-200 text-slate-900 font-bold text-xs leading-relaxed shadow-sm animate-in fade-in duration-700">
-            Bem-vindo à Sapient Studio. Para iniciarmos seu diagnóstico: qual o nicho do seu negócio ou seu desafio atual?
+            Bem-vindo à Sapient Studio. Para iniciarmos seu diagnóstico estratégico: qual o nicho do seu negócio ou seu maior desafio hoje?
           </div>
         )}
 
@@ -179,7 +184,7 @@ export function AIChat() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={isLoading}
-            placeholder="Qual o desafio da sua marca?"
+            placeholder="Descreva seu desafio..."
             className="h-14 pl-5 pr-14 bg-slate-50 border-slate-200 rounded-xl text-slate-900 font-bold placeholder:text-slate-300 focus:ring-primary/20 shadow-inner"
           />
           <button 
