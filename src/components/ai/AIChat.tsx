@@ -13,7 +13,9 @@ import {
   Target,
   Layers,
   Zap,
-  Check
+  Check,
+  Maximize2,
+  Minimize2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { recommendServices, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
@@ -47,6 +49,7 @@ const INITIAL_MESSAGE: Message = {
 
 export function AIChat() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -176,7 +179,13 @@ export function AIChat() {
   }
 
   return (
-    <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[400px] md:h-[650px] bg-white rounded-none md:rounded-[2.5rem] shadow-[0_40px_100px_-15px_rgba(0,0,0,0.4)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
+    <div className={cn(
+      "fixed z-[300] bg-white flex flex-col overflow-hidden border border-slate-200 transition-all duration-500 ease-in-out shadow-[0_40px_100px_-15px_rgba(0,0,0,0.4)]",
+      isExpanded 
+        ? "inset-4 md:inset-auto md:bottom-6 md:right-6 md:w-[800px] md:h-[calc(100vh-120px)] rounded-[2.5rem]" 
+        : "inset-0 md:inset-auto md:bottom-24 md:right-6 w-full md:w-[400px] md:h-[650px] rounded-none md:rounded-[2.5rem]",
+      isOpen ? "animate-in slide-in-from-bottom-8" : "hidden"
+    )}>
       
       {/* Header Compacto */}
       <div className="px-6 py-5 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5 shrink-0">
@@ -198,9 +207,21 @@ export function AIChat() {
             </div>
           </div>
         </div>
-        <button onClick={() => setIsOpen(false)} className="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors text-white">
-          <X className="h-4 w-4" />
-        </button>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => setIsExpanded(!isExpanded)} 
+            className="hidden md:flex h-10 w-10 rounded-full bg-white/5 items-center justify-center hover:bg-white/10 transition-colors text-white"
+            title={isExpanded ? "Minimizar" : "Zoom"}
+          >
+            {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+          </button>
+          <button 
+            onClick={() => { setIsOpen(false); setIsExpanded(false); }} 
+            className="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors text-white"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
       </div>
 
       {/* Mensagens Reduzidas */}
