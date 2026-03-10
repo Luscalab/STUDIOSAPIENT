@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Send, FileText, LayoutDashboard, Globe, Lock } from "lucide-react";
+import { Plus, Send, FileText, LayoutDashboard, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function AdminPage() {
@@ -36,10 +36,11 @@ export default function AdminPage() {
 
   const { data: adminData, isLoading: authLoading } = useDoc(adminRef);
 
+  // Só consulta rascunhos se o usuário for confirmado como admin
   const draftsQuery = useMemoFirebase(() => {
-    if (!db) return null;
+    if (!db || !adminData) return null;
     return collection(db, 'admin_blogPosts_drafts');
-  }, [db]);
+  }, [db, adminData]);
 
   const { data: drafts } = useCollection(draftsQuery);
 
@@ -48,7 +49,12 @@ export default function AdminPage() {
   if (!adminData) {
     return (
       <div className="min-h-screen bg-[#08070b] flex items-center justify-center text-white text-center p-12">
-        <h1 className="text-4xl font-black">Acesso Restrito.<br/><span className="text-white/20 text-lg">Área exclusiva para administradores Sapient Studio.</span></h1>
+        <div className="space-y-6">
+          <Lock className="h-16 w-16 text-primary mx-auto mb-8" />
+          <h1 className="text-4xl font-black uppercase tracking-tighter">Acesso Restrito.</h1>
+          <p className="text-white/20 text-lg font-medium">Área exclusiva para administradores Sapient Studio.</p>
+          <Button onClick={() => window.location.href = '/'} variant="outline" className="mt-8 border-white/10 rounded-full px-12">Voltar ao Início</Button>
+        </div>
       </div>
     );
   }

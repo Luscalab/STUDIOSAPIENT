@@ -4,24 +4,42 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
-import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
-import { collection, query, where, orderBy } from "firebase/firestore";
+import { useCollection, useFirestore, useMemoFirebase, useUser, useDoc } from "@/firebase";
+import { collection, query, orderBy, doc } from "firebase/firestore";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Lock, Sparkles } from "lucide-react";
+import { ArrowRight, Lock } from "lucide-react";
 
 export default function BlogPage() {
+  const { user } = useUser();
   const db = useFirestore();
 
+  // Consulta pública: visível para todos
   const publicPostsQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'blogPosts_public'), orderBy('publishedDate', 'desc'));
   }, [db]);
 
+  // Verificação de permissões para posts premium
+  const premiumCheckRef = useMemoFirebase(() => {
+    if (!db || !user) return null;
+    return doc(db, 'premium_users', user.uid);
+  }, [db, user]);
+
+  const adminCheckRef = useMemoFirebase(() => {
+    if (!db || !user) return null;
+    return doc(db, 'roles_admin', user.uid);
+  }, [db, user]);
+
+  const { data: premiumData } = useDoc(premiumCheckRef);
+  const { data: adminData } = useDoc(adminCheckRef);
+  const isPremiumOrAdmin = !!premiumData || !!adminData;
+
+  // Consulta premium: Só dispara se o usuário for premium ou admin
   const premiumPostsQuery = useMemoFirebase(() => {
-    if (!db) return null;
+    if (!db || !isPremiumOrAdmin) return null;
     return query(collection(db, 'blogPosts_premium'), orderBy('publishedDate', 'desc'));
-  }, [db]);
+  }, [db, isPremiumOrAdmin]);
 
   const { data: publicPosts, isLoading: loadingPublic } = useCollection(publicPostsQuery);
   const { data: premiumPosts, isLoading: loadingPremium } = useCollection(premiumPostsQuery);
@@ -48,6 +66,12 @@ export default function BlogPage() {
       </section>
 
       <section className="py-32 container mx-auto px-6">
+        {(loadingPublic || (isPremiumOrAdmin && loadingPremium)) && (
+          <div className="text-center text-white/20 font-black uppercase tracking-widest animate-pulse mb-12">
+            Sincronizando Dossiês...
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {allPosts.map((post) => (
             <Link key={post.id} href={`/blog/${post.slug}`} className="group relative bg-white/5 rounded-[3rem] overflow-hidden border border-white/10 hover:border-primary/50 transition-all shadow-2xl flex flex-col h-full">
@@ -72,6 +96,12 @@ export default function BlogPage() {
             </Link>
           ))}
         </div>
+
+        {!loadingPublic && allPosts.length === 0 && (
+          <div className="text-center py-24">
+            <p className="text-white/20 font-black uppercase tracking-widest">Nenhum dossiê publicado no momento.</p>
+          </div>
+        )}
       </section>
 
       <Footer />
