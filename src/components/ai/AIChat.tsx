@@ -54,7 +54,7 @@ export function AIChat() {
   const [chatHistory, setChatHistory] = useState<{role: 'user' | 'assistant', text: string}[]>([
     { 
       role: 'assistant', 
-      text: "Bem-vindo à Sapient Studio. Sou seu Estrategista IA. Minha missão é auditar o seu posicionamento e identificar o 'Gargalo de Ouro' que impede sua escala hoje. Como posso iniciar seu diagnóstico estratégico?" 
+      text: "Bem-vindo à Sapient Studio. Sou seu Estrategista IA. Minha missão é identificar o 'Gargalo de Ouro' que impede sua escala hoje. Como posso iniciar seu diagnóstico estratégico?" 
     }
   ]);
   
@@ -65,7 +65,6 @@ export function AIChat() {
     setMounted(true);
   }, []);
 
-  // Lógica de Scroll: Só atua quando novas mensagens chegam, não na abertura.
   useEffect(() => {
     if (scrollRef.current && isOpen && chatHistory.length > 1) {
       scrollRef.current.scrollTo({
@@ -102,16 +101,16 @@ export function AIChat() {
     setResult(null);
     
     try {
-      // Constrói o contexto em string para a API incluindo a mensagem atual
+      // Constrói o contexto incluindo a mensagem que acaba de ser enviada
       const contextString = updatedHistory
-        .slice(-6)
+        .slice(-8)
         .map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`)
         .join('\n');
 
       const recommendation = await recommendServices({ clientNeedsAndGoals: contextString });
       
       if (!recommendation) {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: "Ocorreu uma falha técnica na análise. Por favor, tente novamente." }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Não foi possível processar o diagnóstico. Por favor, tente descrever seu nicho novamente." }]);
         setLoading(false);
         return;
       }
@@ -119,12 +118,12 @@ export function AIChat() {
       setResult(recommendation);
       
       if (!recommendation.isDataSufficient) {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Entendido. Para avançarmos, conte-me mais sobre seu nicho ou desafio atual." }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Conte-me um pouco mais sobre o seu nicho para avançarmos." }]);
       } else {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: "Diagnóstico estratégico processado com sucesso. Analise seu dossiê de autoridade abaixo:" }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Diagnóstico estratégico processado com sucesso. Analise seu dossiê abaixo:" }]);
       }
     } catch (error) {
-      setChatHistory(prev => [...prev, { role: 'assistant', text: "Entendido. Me conte um pouco mais sobre o seu nicho para que eu possa aplicar nossa Matriz de Alavancagem." }]);
+      setChatHistory(prev => [...prev, { role: 'assistant', text: "Entendido. Para um diagnóstico de elite, descreva brevemente seu nicho e desafio." }]);
     } finally {
       setLoading(false);
     }
@@ -152,7 +151,6 @@ export function AIChat() {
         )}
         role="dialog"
       >
-        {/* Header */}
         <div className="p-6 bg-[#0c0a1a] text-white shrink-0 border-b border-white/5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -161,7 +159,7 @@ export function AIChat() {
               </div>
               <div>
                 <h3 className="font-headline font-black text-[10px] tracking-widest uppercase text-white leading-none">Estrategista IA</h3>
-                <p className="text-[7px] font-bold text-white/40 uppercase tracking-widest mt-1">SAPIENT ENGINE v6.0</p>
+                <p className="text-[7px] font-bold text-white/40 uppercase tracking-widest mt-1">SAPIENT ENGINE v7.0</p>
               </div>
             </div>
             
@@ -172,7 +170,6 @@ export function AIChat() {
           </div>
         </div>
 
-        {/* Chat Area */}
         <div 
           ref={scrollRef} 
           className="flex-1 overflow-y-auto p-6 space-y-8 bg-[#fdfdff]"
@@ -196,7 +193,6 @@ export function AIChat() {
                 </span>
               </div>
 
-              {/* Menu Inicial */}
               {i === 0 && chatHistory.length === 1 && !loading && (
                 <div className="bg-primary/[0.03] p-6 rounded-[2.5rem] border border-primary/10 animate-in zoom-in-95 duration-700 delay-300">
                   <p className="text-[0.6em] font-black text-primary uppercase tracking-[0.3em] mb-5 text-center">Inicie seu diagnóstico técnico:</p>
@@ -221,18 +217,8 @@ export function AIChat() {
             </div>
           ))}
 
-          {/* Dossiê Final */}
           {result?.isDataSufficient && (
             <div className="space-y-8 pt-8 border-t border-slate-100 animate-in fade-in slide-in-from-bottom-6 duration-1000">
-              {result.brandAudit && (
-                <div className="space-y-4">
-                  <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-4 w-4" /> Análise de Marca</p>
-                  <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-slate-700 italic text-[0.85em]">
-                    "{result.brandAudit}"
-                  </div>
-                </div>
-              )}
-              
               {result.diagnosis && (
                 <div className="space-y-4">
                   <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity className="h-4 w-4" /> Diagnóstico Sapient</p>
@@ -241,12 +227,11 @@ export function AIChat() {
                   </div>
                 </div>
               )}
-
               <Button 
-                className="w-full h-16 bg-[#0c0a1a] text-white hover:bg-primary rounded-2xl font-black uppercase tracking-widest text-[0.7em] transition-all group" 
+                className="w-full h-16 bg-[#0c0a1a] text-white hover:bg-primary rounded-2xl font-black uppercase tracking-widest text-[0.7em] transition-all" 
                 onClick={() => { setIsOpen(false); document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' }); }}
               >
-                Agendar Consultoria <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-2 transition-transform" />
+                Agendar Consultoria <ArrowRight className="ml-3 h-4 w-4" />
               </Button>
             </div>
           )}
@@ -259,11 +244,10 @@ export function AIChat() {
           )}
         </div>
 
-        {/* Input */}
         <form onSubmit={handleSubmit} className="p-6 border-t border-slate-100 bg-white">
           <div className="relative">
             <Textarea
-              placeholder="Descreva seu desafio técnico..."
+              placeholder="Descreva seu nicho ou desafio..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}

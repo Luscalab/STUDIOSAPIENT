@@ -1,9 +1,9 @@
 'use server';
 /**
- * @fileOverview Motor de Consultoria Estratégica Sapient Studio v6.0.
+ * @fileOverview Motor de Consultoria Estratégica Sapient Studio v7.0.
  * 
- * Implementa uma Matriz de Posicionamento com Memória Contextual Determinística.
- * Focado em identificar o "Gargalo de Ouro" e eliminar repetições de perguntas através de auditoria de histórico.
+ * Implementa auditoria determinística de histórico para eliminar repetições.
+ * Focado em identificar Nicho e Desafio para disparar o Diagnóstico Técnico.
  */
 
 import {ai} from '@/ai/genkit';
@@ -31,9 +31,11 @@ const STRATEGIC_MATRIX = `
 7. SERVIÇOS TÉCNICOS: Gargalo = Clareza. Alavanca: Infográficos + Search Ads.
 
 # PROTOCOLO DE INTELIGÊNCIA (SAPIENT VOICE):
-- AUDITORIA DE MEMÓRIA: Antes de responder, você DEVE escanear o histórico para encontrar o NICHO (área de atuação) e o DESAFIO (dor principal).
-- SE AMBOS CONSTAREM NO HISTÓRICO: Defina isDataSufficient = true e forneça o diagnóstico técnico baseado na matriz.
-- NUNCA PERGUNTE NOVAMENTE: Se o cliente já informou o nicho ou desafio, você está proibido de perguntar isso de novo.
+- AUDITORIA OBRIGATÓRIA: Antes de responder, você DEVE escanear todo o histórico em busca de:
+  1. NICHO: A área de atuação do cliente (Ex: "sou médico", "tenho uma loja").
+  2. DESAFIO: A dor atual (Ex: "não vendo", "preciso de autoridade").
+- REGRA DE OURO: Se o NICHO e o DESAFIO constarem no histórico, defina isDataSufficient = true IMEDIATAMENTE.
+- PROIBIÇÃO DE REPETIÇÃO: Você está terminantemente proibido de perguntar o nicho ou o desafio se eles já foram informados anteriormente.
 - TOM DE VOZ: Analítico, focado em ROI, minimalista e profissional.
 `;
 
@@ -64,21 +66,18 @@ const serviceRecommenderPrompt = ai.definePrompt({
       { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
     ],
   },
-  prompt: `Você é o Estrategista-Chefe da Sapient Studio. Sua missão é realizar um diagnóstico de posicionamento de alto nível.
+  prompt: `Você é o Estrategista-Chefe da Sapient Studio. Sua missão é realizar um diagnóstico de posicionamento de alto nível baseado no histórico.
 
 HISTÓRICO DA CONVERSA:
 "{{{clientNeedsAndGoals}}}"
 
-INSTRUÇÕES RÍGIDAS:
+INSTRUÇÕES DE DIRECIONAMENTO:
 ${STRATEGIC_MATRIX}
 
-FASE 1: AUDITORIA DE HISTÓRICO
-Verifique se o cliente já informou o Nicho e o Desafio em QUALQUER momento do histórico acima. 
-Se sim, defina isDataSufficient as true.
-Se não, peça APENAS o que falta de forma profissional. NUNCA peça o que já foi dito.
-
-FASE 2: DIAGNÓSTICO (Se isDataSufficient = true)
-Forneça uma análise técnica baseada na Matriz Sapient. Foque em como nossa intervenção resolve o gargalo identificado e gera ROI.`,
+FASE 1: VARREDURA DE ENTIDADES
+Analise se o cliente já forneceu o Nicho (Área) e o Desafio (Gargalo) em qualquer parte do histórico acima.
+- Se SIM para ambos: isDataSufficient = true. Forneça o diagnóstico técnico completo baseado na Matriz.
+- Se NÃO: isDataSufficient = false. Peça educadamente APENAS a informação que falta. NUNCA peça o que já foi dito.`,
 });
 
 export async function recommendServices(input: {clientNeedsAndGoals: string}): Promise<ServiceRecommenderOutput> {
@@ -86,12 +85,12 @@ export async function recommendServices(input: {clientNeedsAndGoals: string}): P
     const {output} = await aiServiceRecommenderFlow(input);
     return output || { 
       isDataSufficient: false, 
-      missingInfoMessage: "Para que eu possa aplicar nossa Matriz de Alavancagem, conte-me um pouco sobre seu negócio e qual seu maior desafio hoje." 
+      missingInfoMessage: "Entendido. Para que eu possa aplicar nossa Matriz de Alavancagem, conte-me um pouco sobre seu nicho e qual seu maior desafio hoje." 
     };
   } catch (error) {
     return { 
       isDataSufficient: false, 
-      missingInfoMessage: "Entendido. Para um diagnóstico técnico, descreva brevemente seu nicho e qual resultado busca alcançar agora." 
+      missingInfoMessage: "Para um diagnóstico técnico, descreva brevemente seu nicho e qual resultado busca alcançar agora." 
     };
   }
 }
