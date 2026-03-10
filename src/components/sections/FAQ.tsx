@@ -38,30 +38,30 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-16 md:py-32 bg-white text-black relative overflow-hidden rounded-[3rem] md:rounded-[6rem] mx-4 my-6 shadow-xl">
-      <div className="container mx-auto px-6 max-w-[1200px] relative z-20">
-        <div className="text-center mb-16">
-          <h2 className="font-headline text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-none text-black uppercase">
+    <section id="faq" className="py-12 md:py-24 bg-white text-black relative overflow-hidden rounded-[2.5rem] md:rounded-[5rem] mx-4 my-6 shadow-lg">
+      <div className="container mx-auto px-6 max-w-[1000px] relative z-20">
+        <div className="text-center mb-12">
+          <h2 className="font-headline text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter leading-none text-black uppercase">
             DÚVIDAS <span className="text-primary italic font-medium">FREQUENTES.</span>
           </h2>
         </div>
 
-        <Accordion type="single" collapsible className="w-full space-y-4">
+        <Accordion type="single" collapsible className="w-full space-y-3">
           {faqs.map((faq, idx) => (
             <AccordionItem 
               key={idx} 
               value={`item-${idx}`} 
-              className="border-none bg-secondary/30 rounded-[2.5rem] px-8 py-4 shadow-md border border-muted/5 transition-all duration-500 overflow-hidden"
+              className="border-none bg-secondary/30 rounded-[2rem] px-6 py-3 shadow-sm border border-muted/5 transition-all duration-500 overflow-hidden"
             >
-              <AccordionTrigger className="text-lg md:text-2xl font-black tracking-tighter hover:no-underline text-left py-6 group text-black uppercase leading-tight border-none">
-                <div className="flex items-center gap-6">
-                  <div className="h-14 w-14 rounded-2xl bg-white flex items-center justify-center text-primary border border-muted shadow-sm group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-700 shrink-0">
-                    <HelpCircle className="h-6 w-6" />
+              <AccordionTrigger className="text-base md:text-xl font-black tracking-tighter hover:no-underline text-left py-4 group text-black uppercase leading-tight border-none">
+                <div className="flex items-center gap-5">
+                  <div className="h-12 w-12 rounded-xl bg-white flex items-center justify-center text-primary border border-muted shadow-sm group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all duration-700 shrink-0">
+                    <HelpCircle className="h-5 w-5" />
                   </div>
                   <span className="flex-1">{faq.question}</span>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="text-base md:text-lg text-black/50 leading-relaxed pb-8 font-medium tracking-tight px-6 border-l-4 border-primary/10 ml-7 mt-2">
+              <AccordionContent className="text-sm md:text-base text-black/50 leading-relaxed pb-6 font-medium tracking-tight px-6 border-l-4 border-primary/10 ml-6 mt-1">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>

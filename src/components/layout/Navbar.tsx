@@ -25,35 +25,35 @@ export function Navbar() {
   const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoxOTMwNjE0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM";
 
   return (
-    <header className="absolute top-8 left-0 right-0 z-[150]" role="banner">
-      <div className="container mx-auto px-6 flex items-center justify-between gap-8">
-        {/* Logo imponente: Expansão estratégica para autoridade visual */}
-        <Link href="/" className="relative block w-[280px] h-[85px] md:w-[480px] md:h-[120px] lg:w-[640px] lg:h-[160px] transition-transform duration-700 hover:scale-105 shrink-0">
-          <Image src={logoUrl} alt="studiosapient Logo" fill className="object-contain object-left drop-shadow-2xl" priority />
+    <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
+      <div className="container mx-auto px-6 flex items-center justify-between gap-6">
+        {/* Logo mais equilibrada para estética minimalista */}
+        <Link href="/" className="relative block w-[200px] h-[60px] md:w-[320px] md:h-[90px] lg:w-[400px] lg:h-[110px] transition-transform duration-700 hover:scale-105 shrink-0">
+          <Image src={logoUrl} alt="studiosapient Logo" fill className="object-contain object-left drop-shadow-xl" priority />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-8 px-10 py-5 rounded-full glass-morphism border-white/5 shadow-2xl">
+        <nav className="hidden lg:flex items-center gap-6 px-8 py-4 rounded-full glass-morphism border-white/5 shadow-xl">
           {navLinks.map((link) => (
-            <Link key={link.name} href={link.href} className="text-[11px] uppercase tracking-[0.4em] font-black text-white/50 hover:text-white transition-all relative group">
+            <Link key={link.name} href={link.href} className="text-[10px] uppercase tracking-[0.4em] font-black text-white/50 hover:text-white transition-all relative group">
               {link.name}
-              <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full" />
+              <span className="absolute -bottom-1.5 left-0 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full" />
             </Link>
           ))}
           
-          <button onClick={handleOpenChat} className="text-[11px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all">Análise IA</button>
+          <button onClick={handleOpenChat} className="text-[10px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all">Análise IA</button>
         </nav>
 
-        <button className="lg:hidden p-4 rounded-2xl bg-white/5 text-white border border-white/10" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        <button className="lg:hidden p-3 rounded-xl bg-white/5 text-white border border-white/10" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-12 pt-48 hero-purple-mesh flex flex-col gap-10">
+        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-12 pt-40 hero-purple-mesh flex flex-col gap-8">
           {navLinks.map((link) => (
-            <Link key={link.name} href={link.href} className="text-3xl font-black text-white tracking-tighter uppercase" onClick={() => setIsMobileMenuOpen(false)}>{link.name}</Link>
+            <Link key={link.name} href={link.href} className="text-2xl font-black text-white tracking-tighter uppercase" onClick={() => setIsMobileMenuOpen(false)}>{link.name}</Link>
           ))}
-          <button onClick={() => setIsMobileMenuOpen(false)} className="absolute top-10 right-10 h-16 w-16 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10"><X size={32} /></button>
+          <button onClick={() => setIsMobileMenuOpen(false)} className="absolute top-10 right-10 h-14 w-14 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10"><X size={28} /></button>
         </div>
       )}
     </header>
