@@ -74,15 +74,17 @@ export function AIChat() {
 
   // Lógica de Scroll Inteligente: Garante visibilidade mas evita saltos bruscos no início
   useEffect(() => {
-    if (scrollRef.current) {
-      // Se for apenas a mensagem inicial, não forçamos o scroll para o fim (para ver o topo da saudação)
+    if (scrollRef.current && isOpen) {
+      // Se for apenas a mensagem inicial, mantemos no topo para ver a saudação e o menu
       if (chatHistory.length <= 1 && !loading && !result) {
         scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        scrollRef.current.scrollTo({
+        // Rola para baixo apenas quando há novas mensagens ou carregamento
+        const scrollOptions: ScrollToOptions = {
           top: scrollRef.current.scrollHeight,
           behavior: 'smooth'
-        });
+        };
+        scrollRef.current.scrollTo(scrollOptions);
       }
     }
   }, [result, loading, chatHistory, isOpen]);
@@ -97,8 +99,7 @@ export function AIChat() {
     setInput(pathPrompt);
     // Submit automático para agilizar a experiência
     setTimeout(() => {
-      const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
-      handleSubmit(fakeEvent, pathPrompt);
+      handleSubmit(undefined, pathPrompt);
     }, 100);
   };
 
@@ -119,6 +120,10 @@ export function AIChat() {
       const context = chatHistory.slice(-4).map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`).join('\n') + `\nCliente: ${messageToSend}`;
       const recommendation = await recommendServices({ clientNeedsAndGoals: context });
       
+      if (!recommendation) {
+        throw new Error("Não foi possível gerar um diagnóstico no momento.");
+      }
+
       setResult(recommendation);
       
       if (!recommendation.isDataSufficient) {
@@ -128,6 +133,7 @@ export function AIChat() {
       }
     } catch (error) {
       console.error("Erro AI:", error);
+      setChatHistory(prev => [...prev, { role: 'assistant', text: "Ocorreu uma falha técnica na análise. Por favor, tente descrever seu desafio novamente." }]);
     } finally {
       setLoading(false);
     }
