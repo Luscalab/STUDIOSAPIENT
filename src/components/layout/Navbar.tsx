@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -6,23 +5,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Menu, X, Settings } from "lucide-react";
-import { useUser, useDoc, useFirestore } from "@/firebase";
+import { useUser, useFirestore } from "@/firebase";
 import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
-import { useMemoFirebase } from "@/firebase/provider";
-import { doc } from "firebase/firestore";
+
+const AUTHORIZED_ADMIN_EMAIL = "sapientcontato@gmail.com";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useUser();
-  const db = useFirestore();
 
-  const adminRef = useMemoFirebase(() => {
-    if (!db || !user) return null;
-    return doc(db, 'roles_admin', user.uid);
-  }, [db, user]);
-
-  const { data: adminData } = useDoc(adminRef);
-  const isAdmin = !!adminData;
+  const isAdmin = user?.email === AUTHORIZED_ADMIN_EMAIL;
 
   const handleOpenChat = () => {
     setIsMobileMenuOpen(false);
@@ -41,11 +33,11 @@ export function Navbar() {
   return (
     <header className="absolute top-8 left-0 right-0 z-[150]" role="banner">
       <div className="container mx-auto px-6 flex items-center justify-between gap-8">
-        <Link href="/" className="relative block w-[160px] h-[45px] lg:w-[320px] lg:h-[80px] transition-transform duration-700 hover:scale-105 shrink-0">
+        <Link href="/" className="relative block w-[180px] h-[55px] lg:w-[360px] lg:h-[90px] transition-transform duration-700 hover:scale-105 shrink-0">
           <Image src={logoUrl} alt="studiosapient Logo" fill className="object-contain object-left drop-shadow-2xl" priority />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-8 px-8 py-4 rounded-full glass-morphism border-white/5">
+        <nav className="hidden lg:flex items-center gap-8 px-10 py-5 rounded-full glass-morphism border-white/5 shadow-2xl">
           {navLinks.map((link) => (
             <Link key={link.name} href={link.href} className="text-[11px] uppercase tracking-[0.4em] font-black text-white/50 hover:text-white transition-all relative group">
               {link.name}
@@ -76,7 +68,9 @@ export function Navbar() {
             <Link key={link.name} href={link.href} className="text-3xl font-black text-white tracking-tighter uppercase" onClick={() => setIsMobileMenuOpen(false)}>{link.name}</Link>
           ))}
           {isAdmin && <Link href="/admin" className="text-3xl font-black text-accent tracking-tighter uppercase" onClick={() => setIsMobileMenuOpen(false)}>Painel</Link>}
-          <GoogleLoginButton />
+          <div className="pt-8 border-t border-white/10">
+            <GoogleLoginButton />
+          </div>
           <button onClick={() => setIsMobileMenuOpen(false)} className="absolute top-10 right-10 h-16 w-16 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10"><X size={32} /></button>
         </div>
       )}

@@ -1,9 +1,8 @@
-
 'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { useUser, useDoc, useFirestore, useCollection } from "@/firebase";
+import { useUser, useFirestore, useCollection } from "@/firebase";
 import { doc, collection, setDoc, serverTimestamp } from "firebase/firestore";
 import { useMemoFirebase } from "@/firebase/provider";
 import { useState } from "react";
@@ -15,8 +14,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Send, FileText, LayoutDashboard, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+const AUTHORIZED_EMAIL = "sapientcontato@gmail.com";
+
 export default function AdminPage() {
-  const { user } = useUser();
+  const { user, isUserLoading } = useUser();
   const db = useFirestore();
   const { toast } = useToast();
   
@@ -29,30 +30,25 @@ export default function AdminPage() {
     isPremium: false
   });
 
-  const adminRef = useMemoFirebase(() => {
-    if (!db || !user) return null;
-    return doc(db, 'roles_admin', user.uid);
-  }, [db, user]);
+  const isAdmin = user?.email === AUTHORIZED_EMAIL;
 
-  const { data: adminData, isLoading: authLoading } = useDoc(adminRef);
-
-  // Só consulta rascunhos se o usuário for confirmado como admin
+  // Só consulta rascunhos se o usuário for o administrador autorizado
   const draftsQuery = useMemoFirebase(() => {
-    if (!db || !adminData) return null;
+    if (!db || !isAdmin) return null;
     return collection(db, 'admin_blogPosts_drafts');
-  }, [db, adminData]);
+  }, [db, isAdmin]);
 
   const { data: drafts } = useCollection(draftsQuery);
 
-  if (authLoading) return <div className="min-h-screen bg-[#08070b] flex items-center justify-center text-white">Verificando Credenciais...</div>;
+  if (isUserLoading) return <div className="min-h-screen bg-[#08070b] flex items-center justify-center text-white">Verificando Credenciais...</div>;
   
-  if (!adminData) {
+  if (!isAdmin) {
     return (
       <div className="min-h-screen bg-[#08070b] flex items-center justify-center text-white text-center p-12">
         <div className="space-y-6">
           <Lock className="h-16 w-16 text-primary mx-auto mb-8" />
           <h1 className="text-4xl font-black uppercase tracking-tighter">Acesso Restrito.</h1>
-          <p className="text-white/20 text-lg font-medium">Área exclusiva para administradores Sapient Studio.</p>
+          <p className="text-white/20 text-lg font-medium">Área exclusiva para o administrador mestre Sapient Studio.</p>
           <Button onClick={() => window.location.href = '/'} variant="outline" className="mt-8 border-white/10 rounded-full px-12">Voltar ao Início</Button>
         </div>
       </div>
@@ -84,7 +80,7 @@ export default function AdminPage() {
       toast({ title: "Sucesso!", description: `Post ${status === 'DRAFT' ? 'salvo' : 'publicado'} com sucesso.` });
       setFormData({ title: "", slug: "", excerpt: "", content: "", image: "", isPremium: false });
     } catch (e) {
-      toast({ variant: "destructive", title: "Erro", description: "Falha ao processar postagem." });
+      toast({ variant: "destructive", title: "Erro", description: "Falha ao processar postagem. Verifique suas permissões." });
     }
   };
 
@@ -148,14 +144,14 @@ export default function AdminPage() {
                 </div>
 
                 <div className="grid grid-cols-1 gap-4">
-                  <Button onClick={() => handlePublish('PUBLISHED')} className="h-16 bg-primary font-black uppercase tracking-widest rounded-2xl gap-3"><Send className="h-4 w-4" /> Publicar Dossiê</Button>
-                  <Button onClick={() => handlePublish('DRAFT')} variant="outline" className="h-16 border-white/10 font-black uppercase tracking-widest rounded-2xl">Salvar Rascunho</Button>
+                  <Button onClick={() => handlePublish('PUBLISHED')} className="h-16 bg-primary text-white font-black uppercase tracking-widest rounded-2xl gap-3 hover:bg-primary/90 transition-all shadow-xl"><Send className="h-4 w-4" /> Publicar Dossiê</Button>
+                  <Button onClick={() => handlePublish('DRAFT')} variant="outline" className="h-16 border-white/10 font-black uppercase tracking-widest rounded-2xl hover:bg-white/5 transition-all text-white">Salvar Rascunho</Button>
                 </div>
               </div>
 
               <div className="bg-primary/10 p-8 rounded-[2.5rem] border border-primary/20">
                 <p className="text-[10px] font-black uppercase tracking-widest text-primary mb-4">Protocolo de Segurança</p>
-                <p className="text-xs text-white/40 leading-relaxed">Cada publicação é auditada pelo sistema de roles do Firebase. Certifique-se de que os metadados estão corretos antes da publicação em larga escala.</p>
+                <p className="text-xs text-white/40 leading-relaxed">Você está autenticado como administrador mestre. Cada publicação é auditada pelo sistema de e-mail exclusivo da Sapient Studio.</p>
               </div>
             </div>
           </TabsContent>
@@ -172,6 +168,7 @@ export default function AdminPage() {
                     </div>
                  </div>
                ))}
+               {drafts?.length === 0 && <p className="text-white/20 font-black uppercase tracking-widest col-span-full py-12 text-center">Nenhum rascunho encontrado.</p>}
              </div>
           </TabsContent>
         </Tabs>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -9,6 +8,8 @@ import { collection, query, orderBy, doc } from "firebase/firestore";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Lock } from "lucide-react";
+
+const ADMIN_EMAIL = "sapientcontato@gmail.com";
 
 export default function BlogPage() {
   const { user } = useUser();
@@ -26,16 +27,12 @@ export default function BlogPage() {
     return doc(db, 'premium_users', user.uid);
   }, [db, user]);
 
-  const adminCheckRef = useMemoFirebase(() => {
-    if (!db || !user) return null;
-    return doc(db, 'roles_admin', user.uid);
-  }, [db, user]);
-
   const { data: premiumData } = useDoc(premiumCheckRef);
-  const { data: adminData } = useDoc(adminCheckRef);
-  const isPremiumOrAdmin = !!premiumData || !!adminData;
+  
+  const isAdmin = user?.email === ADMIN_EMAIL;
+  const isPremiumOrAdmin = !!premiumData || isAdmin;
 
-  // Consulta premium: Só dispara se o usuário for premium ou admin
+  // Consulta premium: Só dispara se o usuário for premium ou o administrador autorizado
   const premiumPostsQuery = useMemoFirebase(() => {
     if (!db || !isPremiumOrAdmin) return null;
     return query(collection(db, 'blogPosts_premium'), orderBy('publishedDate', 'desc'));
