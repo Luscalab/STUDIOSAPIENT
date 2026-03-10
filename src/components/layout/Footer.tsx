@@ -1,5 +1,7 @@
+
 import Link from "next/link";
 import { Instagram, Linkedin, Palette, ArrowUpRight } from "lucide-react";
+import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
 
 export function Footer() {
   const behanceUrl = "https://www.behance.net/sapient";
@@ -41,6 +43,11 @@ export function Footer() {
           <div className="lg:col-span-3">
             <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-8">Navegação</h4>
             <ul className="space-y-4">
+              <li>
+                <Link href="/blog" className="group flex items-center gap-2 w-fit text-black/50 hover:text-primary transition-all">
+                  <span className="text-sm font-black uppercase tracking-widest">Blog Sapient</span>
+                </Link>
+              </li>
               <li>
                 <Link href="/urbeludo" className="group flex items-center gap-2 w-fit text-cyan-600 hover:text-cyan-500 transition-all">
                   <span className="text-sm font-black uppercase tracking-widest">UrbeLudo Tech</span>
@@ -84,8 +91,9 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center pt-16 border-t border-muted text-[10px] font-black tracking-[0.5em] uppercase text-center md:text-left gap-8">
-          <p className="text-primary">© 2026 STUDIOSAPIENT. TODOS OS DIREITOS RESERVADOS.</p>
-          <div className="flex gap-10">
+          <p className="text-primary animate-pulse">© 2026 STUDIOSAPIENT. TODOS OS DIREITOS RESERVADOS.</p>
+          <div className="flex items-center gap-10">
+            <GoogleLoginButton />
             <Link href="#" className="hover:text-primary transition-colors text-black/30">PRIVACIDADE</Link>
             <Link href="#" className="hover:text-primary transition-colors text-black/30">TERMOS</Link>
           </div>

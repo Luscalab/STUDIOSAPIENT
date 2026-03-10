@@ -1,310 +1,54 @@
+
 {
   "entities": {
     "BlogPost": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "BlogPost",
+      "description": "Representa um post do blog da Sapient Studio.",
       "type": "object",
-      "description": "Represents an individual blog post published by Sapient Studio.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the BlogPost entity."
-        },
-        "title": {
-          "type": "string",
-          "description": "The title of the blog post."
-        },
-        "slug": {
-          "type": "string",
-          "description": "A URL-friendly version of the blog post title."
-        },
-        "content": {
-          "type": "string",
-          "description": "The full content of the blog post, supporting rich text."
-        },
-        "excerpt": {
-          "type": "string",
-          "description": "A short summary or teaser of the blog post content."
-        },
-        "featuredImageUri": {
-          "type": "string",
-          "description": "URI to the main image associated with the blog post.",
-          "format": "uri"
-        },
-        "publishedDate": {
-          "type": "string",
-          "description": "The date and time when the blog post was published.",
-          "format": "date-time"
-        },
-        "lastUpdatedDate": {
-          "type": "string",
-          "description": "The date and time when the blog post was last updated.",
-          "format": "date-time"
-        },
-        "status": {
-          "type": "string",
-          "description": "The current status of the blog post (e.g., 'draft', 'published', 'archived')."
-        },
-        "authorId": {
-          "type": "string",
-          "description": "Reference to the Author of the blog post. (Relationship: Author 1:N BlogPost)"
-        },
-        "categoryIds": {
-          "type": "array",
-          "description": "References to BlogCategories that the post belongs to. (Relationship: BlogCategory N:N BlogPost)",
-          "items": {
-            "type": "string"
-          }
-        },
-        "tagIds": {
-          "type": "array",
-          "description": "References to BlogTags associated with the post. (Relationship: BlogTag N:N BlogPost)",
-          "items": {
-            "type": "string"
-          }
-        }
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "content": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "featuredImageUri": { "type": "string", "format": "uri" },
+        "publishedDate": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["DRAFT", "PUBLISHED"] },
+        "isPremium": { "type": "boolean" },
+        "authorId": { "type": "string" }
       },
-      "required": [
-        "id",
-        "title",
-        "slug",
-        "content",
-        "featuredImageUri",
-        "publishedDate",
-        "status",
-        "authorId"
-      ]
-    },
-    "BlogCategory": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "BlogCategory",
-      "type": "object",
-      "description": "Represents a category for organizing blog posts.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the BlogCategory entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the blog category."
-        },
-        "slug": {
-          "type": "string",
-          "description": "A URL-friendly version of the category name."
-        },
-        "description": {
-          "type": "string",
-          "description": "A brief description of the category."
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "slug"
-      ]
-    },
-    "BlogTag": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "BlogTag",
-      "type": "object",
-      "description": "Represents a tag for categorizing blog posts more granularly.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the BlogTag entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the blog tag."
-        },
-        "slug": {
-          "type": "string",
-          "description": "A URL-friendly version of the tag name."
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "slug"
-      ]
+      "required": ["title", "slug", "content", "status", "authorId"]
     },
     "Author": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Author",
+      "description": "Autor de posts do blog.",
       "type": "object",
-      "description": "Represents an author of blog posts, likely a member of the Sapient team.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Author entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "The full name of the author."
-        },
-        "bio": {
-          "type": "string",
-          "description": "A short biography of the author."
-        },
-        "profilePictureUri": {
-          "type": "string",
-          "description": "URI to the author's profile picture.",
-          "format": "uri"
-        },
-        "socialMediaLinks": {
-          "type": "array",
-          "description": "An array of URIs to the author's social media profiles.",
-          "items": {
-            "type": "string"
-          }
-        }
+        "name": { "type": "string" },
+        "bio": { "type": "string" },
+        "profilePictureUri": { "type": "string", "format": "uri" }
       },
-      "required": [
-        "id",
-        "name",
-        "bio",
-        "profilePictureUri"
-      ]
+      "required": ["name", "profilePictureUri"]
     }
   },
   "auth": {
-    "providers": [
-      "password",
-      "anonymous"
-    ]
+    "providers": ["google.com", "anonymous"]
   },
   "firestore": {
-    "structure": [
-      {
-        "path": "/blogPosts_public/{blogPostId}",
-        "definition": {
-          "entityName": "BlogPost",
-          "schema": {
-            "$ref": "#/backend/entities/BlogPost"
-          },
-          "description": "Published blog posts accessible to all users. Documents in this collection must have a 'status' of 'PUBLISHED'. Includes denormalized 'authorId' for efficient queries.",
-          "params": [
-            {
-              "name": "blogPostId",
-              "description": "The unique identifier for a public blog post."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/blogPosts_premium/{blogPostId}",
-        "definition": {
-          "entityName": "BlogPost",
-          "schema": {
-            "$ref": "#/backend/entities/BlogPost"
-          },
-          "description": "Published blog posts accessible to authenticated premium users. Documents in this collection must have a 'status' of 'PUBLISHED'. Includes denormalized 'authorId' for efficient queries.",
-          "params": [
-            {
-              "name": "blogPostId",
-              "description": "The unique identifier for a premium blog post."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/admin_blogPosts_drafts/{blogPostId}",
-        "definition": {
-          "entityName": "BlogPost",
-          "schema": {
-            "$ref": "#/backend/entities/BlogPost"
-          },
-          "description": "Blog posts in draft or unpublished status, exclusively accessible to administrators for editing. Documents in this collection must have a 'status' of 'DRAFT'. Includes denormalized 'authorId'.",
-          "params": [
-            {
-              "name": "blogPostId",
-              "description": "The unique identifier for a draft blog post."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/blogCategories/{categoryId}",
-        "definition": {
-          "entityName": "BlogCategory",
-          "schema": {
-            "$ref": "#/backend/entities/BlogCategory"
-          },
-          "description": "Defines categories for organizing blog posts. Accessible to all users for reading, editable by administrators.",
-          "params": [
-            {
-              "name": "categoryId",
-              "description": "The unique identifier for a blog category."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/blogTags/{tagId}",
-        "definition": {
-          "entityName": "BlogTag",
-          "schema": {
-            "$ref": "#/backend/entities/BlogTag"
-          },
-          "description": "Defines tags for granular categorization of blog posts. Accessible to all users for reading, editable by administrators.",
-          "params": [
-            {
-              "name": "tagId",
-              "description": "The unique identifier for a blog tag."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/authors/{authorId}",
-        "definition": {
-          "entityName": "Author",
-          "schema": {
-            "$ref": "#/backend/entities/Author"
-          },
-          "description": "Profiles of blog post authors, viewable publicly. Editable by administrators or potentially the author themselves (if 'authorId' matches 'request.auth.uid').",
-          "params": [
-            {
-              "name": "authorId",
-              "description": "The unique identifier for an author."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/roles_admin/{userId}",
-        "definition": {
-          "entityName": "User",
-          "schema": {
-            "$ref": "#/backend/entities/Author"
-          },
-          "description": "Identifies users with administrative privileges. The existence of a document at this path for a given userId grants admin access (DBAC).",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user who holds the admin role."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/premium_users/{userId}",
-        "definition": {
-          "entityName": "User",
-          "schema": {
-            "$ref": "#/backend/entities/Author"
-          },
-          "description": "Identifies users with premium content access. The existence of a document at this path for a given userId grants premium access (DBAC).",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user who holds the premium role."
-            }
-          ]
-        }
-      }
-    ],
-    "reasoning": "The Firestore structure is designed to be secure, scalable, and debuggable by strictly adhering to the core design principles. Authorization Independence is achieved primarily through structural segregation and the use of dedicated, top-level role collections. For administrator access, the existence of a document in `/roles_admin/{userId}` directly confers administrative privileges, eliminating the need for complex hierarchical lookups (`get()`) in security rules. Similarly, premium content access is granted by the existence of a document in `/premium_users/{userId}`. This denormalization of authorization context ensures that security rules are atomic and simple to evaluate.\n\nStructural Segregation is applied to blog posts based on their intended audience and lifecycle stage: `/blogPosts_public` for publicly viewable content, `/blogPosts_premium` for content exclusive to premium subscribers, and `/admin_blogPosts_drafts` for posts in development (drafts or pending review) accessible only by administrators. This strategy guarantees a Homogeneous Security Posture within each collection. For example, all documents in `/blogPosts_public` share the same public read access, while all documents in `/admin_blogPosts_drafts` share the same admin read/write access.\n\nThis segregation directly supports Queryable Authorization Policies (QAPs). A public user's query for blog posts will target `/blogPosts_public`, securely returning only content intended for them without requiring server-side filtering by rules. Premium users query `/blogPosts_premium`, and administrators manage content in `/admin_blogPosts_drafts`. This ensures that `list` operations are inherently secure and efficient, as the data structure itself enforces the access boundaries rather than relying on complex rule logic to filter results.\n\nAll entities like BlogCategories, BlogTags, and Authors are placed in top-level collections with read access for all and write access restricted to administrators, following the principle of consistent Access Modeling. The `status` field in `BlogPost` is used for Explicit State Modeling (e.g., 'DRAFT', 'PUBLISHED') but the collection path (e.g., `_public`, `_premium`) is the primary determinant of content accessibility. Wildcards like `{blogPostId}` are descriptive, enhancing Data Clarity and Predictability."
+    "/blogPosts_public/{blogPostId}": {
+      "schema": "BlogPost",
+      "description": "Posts públicos visíveis a todos."
+    },
+    "/blogPosts_premium/{blogPostId}": {
+      "schema": "BlogPost",
+      "description": "Posts exclusivos para usuários premium."
+    },
+    "/admin_blogPosts_drafts/{blogPostId}": {
+      "schema": "BlogPost",
+      "description": "Rascunhos visíveis apenas para admins."
+    },
+    "/roles_admin/{userId}": {
+      "schema": "object",
+      "description": "Identificação de administradores."
+    }
   }
 }
