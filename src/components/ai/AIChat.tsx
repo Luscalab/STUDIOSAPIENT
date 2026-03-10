@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from "react";
@@ -67,6 +66,7 @@ export function AIChat() {
         if (result.shouldRedirect) setShowRedirect(true);
       }
     } catch (error) {
+      console.error("Erro no chat IA:", error);
       setMessages(prev => [...prev, { 
         role: 'model', 
         content: "Para um diagnóstico estratégico de alta fidelidade, recomendo iniciarmos sua consultoria via WhatsApp agora." 

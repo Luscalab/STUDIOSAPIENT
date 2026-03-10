@@ -1,4 +1,3 @@
-
 'use server';
 
 /**
@@ -39,7 +38,7 @@ SCRIPT DE ATENDIMENTO:
 4. CARDS (suggestedActions): Sempre sugira cards de nichos ou objetivos (ex: "Saúde", "Advocacia", "Vender Mais", "Novo Design").
 5. CONVERSÃO: Assim que entender a marca e o desafio, defina shouldRedirect como true e convide-o para o WhatsApp para um diagnóstico técnico.
 
-TOM DE VOZ: Minimalista, autoritário, técnico e sofisticado. Evite textos longos.`;
+TOM DE VOZ: Minimalista, autoritário, técnico e sofisticado. Evite textos longos. Utilize linguagem de negócios de alto padrão.`;
 
 const recommenderPrompt = ai.definePrompt({
   name: 'recommenderPrompt',
