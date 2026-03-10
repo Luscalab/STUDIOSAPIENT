@@ -31,9 +31,11 @@ export function Footer() {
                   href={social.href} 
                   target="_blank"
                   aria-label={social.label}
-                  className="h-12 w-12 rounded-2xl bg-secondary flex items-center justify-center text-primary/60 hover:bg-primary hover:text-white hover:scale-105 transition-all shadow-sm"
+                  className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 hover:bg-primary hover:text-white hover:scale-110 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(139,92,246,0.4)] group"
                 >
-                  {social.icon}
+                  <div className="group-hover:rotate-12 transition-transform duration-500">
+                    {social.icon}
+                  </div>
                 </Link>
               ))}
             </div>
