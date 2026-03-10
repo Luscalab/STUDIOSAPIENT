@@ -9,9 +9,7 @@ import {
   Bot, 
   CheckCircle2, 
   Users, 
-  FileText,
-  ChevronLeft,
-  ChevronRight
+  FileText
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -120,8 +118,8 @@ export function Services() {
           </CarouselContent>
           
           <div className="hidden md:flex justify-end gap-4 mt-12">
-            <CarouselPrevious className="static translate-y-0 h-14 w-14 rounded-full border-2 border-primary/20 hover:bg-primary hover:text-white transition-all" />
-            <CarouselNext className="static translate-y-0 h-14 w-14 rounded-full border-2 border-primary/20 hover:bg-primary hover:text-white transition-all" />
+            <CarouselPrevious className="static translate-y-0 h-14 w-14 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all" />
+            <CarouselNext className="static translate-y-0 h-14 w-14 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all" />
           </div>
         </Carousel>
       </div>

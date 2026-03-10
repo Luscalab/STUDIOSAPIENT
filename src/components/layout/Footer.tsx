@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { Instagram, Linkedin, Palette, ArrowUpRight } from "lucide-react";
 
@@ -11,10 +12,10 @@ export function Footer() {
           
           <div className="lg:col-span-6 space-y-10">
             <div>
-              <p className="text-foreground text-4xl font-black tracking-tighter mb-6 uppercase">
+              <p className="text-black text-4xl font-black tracking-tighter mb-6 uppercase">
                 studiosapient.
               </p>
-              <p className="text-foreground/50 text-lg font-medium leading-relaxed max-w-md">
+              <p className="text-black/50 text-lg font-medium leading-relaxed max-w-md">
                 Transformamos negócios em referências através de ecossistemas digitais de alta clareza e autoridade visual.
               </p>
             </div>
@@ -53,7 +54,7 @@ export function Footer() {
                 { name: "IA Chat", href: "/servicos/chat-ia" }
               ].map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-foreground/50 hover:text-primary text-sm font-bold uppercase tracking-widest transition-colors">
+                  <Link href={item.href} className="text-black/50 hover:text-primary text-sm font-bold uppercase tracking-widest transition-colors">
                     {item.name}
                   </Link>
                 </li>
@@ -73,7 +74,7 @@ export function Footer() {
                   <Link 
                     href={item.href} 
                     target={item.external ? "_blank" : "_self"}
-                    className="text-foreground/50 hover:text-primary text-sm font-bold uppercase tracking-widest transition-colors"
+                    className="text-black/50 hover:text-primary text-sm font-bold uppercase tracking-widest transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -83,7 +84,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center pt-16 border-t border-muted text-[10px] font-black text-foreground/30 tracking-[0.5em] uppercase text-center md:text-left gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-center pt-16 border-t border-muted text-[10px] font-black text-black/30 tracking-[0.5em] uppercase text-center md:text-left gap-8">
           <p>© {new Date().getFullYear()} STUDIOSAPIENT. TODOS OS DIREITOS RESERVADOS.</p>
           <div className="flex gap-10">
             <Link href="#" className="hover:text-primary transition-colors">PRIVACIDADE</Link>
