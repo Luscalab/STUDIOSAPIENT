@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
@@ -118,8 +117,8 @@ export function Services() {
           </CarouselContent>
           
           <div className="hidden md:flex justify-end gap-4 mt-12">
-            <CarouselPrevious className="static translate-y-0 h-14 w-14 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all" />
-            <CarouselNext className="static translate-y-0 h-14 w-14 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all" />
+            <CarouselPrevious className="static translate-y-0 h-14 w-14 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all shadow-lg" />
+            <CarouselNext className="static translate-y-0 h-14 w-14 rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all shadow-lg" />
           </div>
         </Carousel>
       </div>

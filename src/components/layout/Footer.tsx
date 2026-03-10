@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { Instagram, Linkedin, Palette, ArrowUpRight } from "lucide-react";
 
@@ -84,8 +83,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center pt-16 border-t border-muted text-[10px] font-black text-black/30 tracking-[0.5em] uppercase text-center md:text-left gap-8">
-          <p>© 2026 STUDIOSAPIENT. TODOS OS DIREITOS RESERVADOS.</p>
+        <div className="flex flex-col md:flex-row justify-between items-center pt-16 border-t border-muted text-[10px] font-black tracking-[0.5em] uppercase text-center md:text-left gap-8">
+          <p className="text-primary">© 2026 STUDIOSAPIENT. TODOS OS DIREITOS RESERVADOS.</p>
           <div className="flex gap-10">
             <Link href="#" className="hover:text-primary transition-colors text-black/30">PRIVACIDADE</Link>
             <Link href="#" className="hover:text-primary transition-colors text-black/30">TERMOS</Link>
