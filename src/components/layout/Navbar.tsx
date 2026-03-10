@@ -53,7 +53,7 @@ export function Navbar() {
             onClick={handleOpenChat} 
             className="text-[9px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all"
           >
-            Análise IA
+            Consultoria
           </button>
         </nav>
 
