@@ -1,7 +1,5 @@
-
 import Link from "next/link";
 import { Instagram, Linkedin, Palette, ArrowUpRight } from "lucide-react";
-import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
 
 export function Footer() {
   const behanceUrl = "https://www.behance.net/sapient";
@@ -93,7 +91,6 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center pt-16 border-t border-muted text-[10px] font-black tracking-[0.5em] uppercase text-center md:text-left gap-8">
           <p className="text-primary animate-pulse">© 2026 STUDIOSAPIENT. TODOS OS DIREITOS RESERVADOS.</p>
           <div className="flex items-center gap-10">
-            <GoogleLoginButton />
             <Link href="#" className="hover:text-primary transition-colors text-black/30">PRIVACIDADE</Link>
             <Link href="#" className="hover:text-primary transition-colors text-black/30">TERMOS</Link>
           </div>

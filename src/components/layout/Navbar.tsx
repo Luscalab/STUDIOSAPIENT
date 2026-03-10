@@ -5,8 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Menu, X, Settings } from "lucide-react";
-import { useUser, useFirestore } from "@/firebase";
-import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
+import { useUser } from "@/firebase";
 
 const AUTHORIZED_ADMIN_EMAIL = "sapientcontato@gmail.com";
 
@@ -52,9 +51,6 @@ export function Navbar() {
           )}
 
           <button onClick={handleOpenChat} className="text-[11px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all">Análise IA</button>
-          
-          <div className="w-px h-4 bg-white/10 mx-2" />
-          <GoogleLoginButton />
         </nav>
 
         <button className="lg:hidden p-4 rounded-2xl bg-white/5 text-white border border-white/10" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -68,9 +64,6 @@ export function Navbar() {
             <Link key={link.name} href={link.href} className="text-3xl font-black text-white tracking-tighter uppercase" onClick={() => setIsMobileMenuOpen(false)}>{link.name}</Link>
           ))}
           {isAdmin && <Link href="/admin" className="text-3xl font-black text-accent tracking-tighter uppercase" onClick={() => setIsMobileMenuOpen(false)}>Painel</Link>}
-          <div className="pt-8 border-t border-white/10">
-            <GoogleLoginButton />
-          </div>
           <button onClick={() => setIsMobileMenuOpen(false)} className="absolute top-10 right-10 h-16 w-16 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10"><X size={32} /></button>
         </div>
       )}

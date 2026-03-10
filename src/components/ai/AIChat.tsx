@@ -17,14 +17,13 @@ import {
   ClipboardCheck,
   Sparkles,
   Plus,
-  Minus
+  Minus,
+  LockKeyhole
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { cn } from "@/lib/utils";
+import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
 
-/**
- * Atalhos estratégicos movidos para fora do componente para otimização de RAM.
- */
 const QUICK_NICHES = [
   { label: "Moda / Varejo", icon: <Shirt className="h-4 w-4" />, prompt: "Minha loja de [Tipo] chama [Nome] e precisamos de um branding que atraia clientes qualificados." },
   { label: "Saúde / Clínicas", icon: <Stethoscope className="h-4 w-4" />, prompt: "Minha clínica de [Especialidade] chama [Nome] e nosso desafio é ser referência local no Google." },
@@ -40,6 +39,7 @@ export function AIChat() {
   const [result, setResult] = useState<ServiceRecommenderOutput | null>(null);
   const [chatHistory, setChatHistory] = useState<{role: 'user' | 'assistant', text: string}[]>([]);
   const [textScale, setTextScale] = useState(0.85); 
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -59,6 +59,17 @@ export function AIChat() {
   const handleQuickNiche = (nichePrompt: string) => setInput(nichePrompt);
   const handleZoomIn = () => setTextScale(prev => Math.min(prev + 0.1, 1.2));
   const handleZoomOut = () => setTextScale(prev => Math.max(prev - 0.1, 0.7));
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value;
+    setInput(val);
+    
+    // Gatilho secreto para mostrar login de admin
+    if (val.toLowerCase().includes("admadmadm")) {
+      setShowAdminLogin(true);
+      setInput(val.replace(/admadmadm/gi, ""));
+    }
+  };
 
   const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -115,21 +126,30 @@ export function AIChat() {
               <ClipboardCheck className="h-5 w-5" />
               <h3 className="font-headline font-black text-sm tracking-tighter uppercase text-white">Estrategista IA</h3>
             </div>
-            <div className="flex items-center gap-1 bg-black/10 rounded-full p-1">
-              <button 
-                onClick={handleZoomOut} 
-                className="h-6 w-6 rounded-full hover:bg-white/20 flex items-center justify-center"
-                aria-label="Diminuir texto do chat"
-              >
-                <Minus className="h-3 w-3" />
-              </button>
-              <button 
-                onClick={handleZoomIn} 
-                className="h-6 w-6 rounded-full hover:bg-white/20 flex items-center justify-center"
-                aria-label="Aumentar texto do chat"
-              >
-                <Plus className="h-3 w-3" />
-              </button>
+            
+            <div className="flex items-center gap-2">
+              {showAdminLogin && (
+                <div className="animate-in fade-in zoom-in duration-500 bg-black/20 rounded-full px-2 py-1 flex items-center gap-2 border border-white/10">
+                  <LockKeyhole className="h-3 w-3 text-accent" />
+                  <GoogleLoginButton />
+                </div>
+              )}
+              <div className="flex items-center gap-1 bg-black/10 rounded-full p-1">
+                <button 
+                  onClick={handleZoomOut} 
+                  className="h-6 w-6 rounded-full hover:bg-white/20 flex items-center justify-center"
+                  aria-label="Diminuir texto do chat"
+                >
+                  <Minus className="h-3 w-3" />
+                </button>
+                <button 
+                  onClick={handleZoomIn} 
+                  className="h-6 w-6 rounded-full hover:bg-white/20 flex items-center justify-center"
+                  aria-label="Aumentar texto do chat"
+                >
+                  <Plus className="h-3 w-3" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -184,7 +204,7 @@ export function AIChat() {
               <Textarea
                 placeholder="Qual o seu nicho?"
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={handleInputChange}
                 disabled={loading}
                 className="min-h-[60px] bg-secondary/30 border-transparent rounded-xl p-4 pr-12 text-[12px] resize-none"
                 style={{ fontSize: `${textScale * 13}px` }}
