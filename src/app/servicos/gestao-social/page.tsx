@@ -16,7 +16,7 @@ export default function GestaoSocialPage() {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative pt-64 pb-24 md:pt-80 md:pb-48 hero-purple-mesh overflow-hidden text-center">
+      <section className="relative pt-48 pb-16 md:pt-64 md:pb-24 hero-purple-mesh overflow-hidden text-center">
         <div className="container mx-auto px-6 relative z-10">
           <Badge className="mb-8 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Gestão de Autoridade</Badge>
           <h1 className="font-headline text-5xl md:text-[8.5rem] font-black text-white tracking-tighter leading-[0.85] mb-8 text-balance">
@@ -29,9 +29,9 @@ export default function GestaoSocialPage() {
       </section>
 
       {/* Main Content */}
-      <section className="py-24 md:py-48 bg-white relative">
+      <section className="py-16 md:py-32 bg-white relative">
         <div className="container mx-auto px-6 relative z-10 text-foreground">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-48">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-20 items-center mb-32 md:mb-48">
             <div className="space-y-12">
               <h2 className="font-headline text-5xl md:text-8xl font-black tracking-tighter mb-8 text-foreground leading-[0.85]">Curadoria Estratégica</h2>
               <p className="text-xl md:text-2xl text-foreground/80 font-medium leading-relaxed tracking-tight">
@@ -60,7 +60,7 @@ export default function GestaoSocialPage() {
               </Button>
             </div>
 
-            <div className="bg-[#0c0a1a] rounded-[5rem] p-16 text-white space-y-10 shadow-2xl relative overflow-hidden text-center">
+            <div className="bg-[#0c0a1a] rounded-[5rem] p-12 md:p-16 text-white space-y-10 shadow-2xl relative overflow-hidden text-center">
                <div className="absolute top-0 right-0 w-80 h-80 bg-primary/20 blur-[120px] rounded-full" />
                <Sparkles className="h-20 w-20 text-primary mx-auto animate-pulse" />
                <h3 className="font-headline text-5xl font-black tracking-tighter">Narrativas que Vendem</h3>
