@@ -26,8 +26,8 @@ interface Message {
 
 const INITIAL_MESSAGE: Message = {
   role: 'model',
-  content: "Protocolo Sapient iniciado. Para eu ser cirúrgico no seu diagnóstico: qual o seu nicho de atuação e qual o seu maior desafio comercial hoje?",
-  actions: ["Saúde / Clínica", "Escritório Jurídico", "Imobiliário", "Educação / Cursos", "Tecnologia"]
+  content: "Protocolo Sapient iniciado. Para eu ser cirúrgico no seu diagnóstico estratégico: qual o seu nicho de atuação e qual o seu maior desafio comercial hoje?",
+  actions: ["Saúde / Clínica", "Jurídico", "Alimentício / Gastronomia", "Varejo / E-commerce", "Indústria / B2B", "Imobiliário"]
 };
 
 export function AIChat() {
@@ -117,7 +117,7 @@ export function AIChat() {
     } catch (error) {
       setMessages(prev => [...prev, { 
         role: 'model', 
-        content: "Identificamos uma breve oscilação técnica. Vamos prosseguir via WhatsApp para garantir sua análise estratégica?" 
+        content: "Identificamos uma breve oscilação no processamento. Vamos prosseguir via WhatsApp para garantir sua análise estratégica?" 
       }]);
       setShowRedirect(true);
     } finally {
@@ -128,7 +128,7 @@ export function AIChat() {
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
     const summary = extractedData ? `[ Diagnóstico IA | Nicho: ${extractedData.niche} | Objetivo: ${extractedData.goal} | Urgência: ${extractedData.urgency?.toUpperCase()} ]` : '';
-    const text = `Olá! Iniciei uma consulta com o Estrategista IA Sapient. ${summary} Gostaria de uma análise humana aprofundada.`;
+    const text = `Olá! Iniciei uma consulta com o Estrategista IA Sapient. ${summary} Gostaria de uma análise humana aprofundada dos meus desafios.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -157,7 +157,7 @@ export function AIChat() {
           <div>
             <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none">Estrategista Digital</h3>
             <p className="text-[8px] font-black text-primary uppercase tracking-[0.4em] mt-2 italic flex items-center gap-2">
-              <span className="h-1 w-1 rounded-full bg-primary animate-ping" /> EXTRAÇÃO ATIVA V2
+              <span className="h-1 w-1 rounded-full bg-primary animate-ping" /> EXTRAÇÃO ATIVA V3
             </p>
           </div>
         </div>
@@ -174,7 +174,7 @@ export function AIChat() {
               "p-6 rounded-[2.2rem] text-sm md:text-base font-medium leading-relaxed max-w-[90%] shadow-sm animate-in fade-in slide-in-from-bottom-2",
               msg.role === 'user' 
                 ? "bg-primary text-white rounded-tr-none" 
-                : "bg-white text-slate-950 border border-slate-200 rounded-tl-none"
+                : "bg-white text-slate-950 border border-slate-200 rounded-tl-none shadow-md"
             )}>
               {msg.content}
             </div>
@@ -198,7 +198,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-4 text-slate-400 p-4">
             <Loader2 className="h-5 w-5 animate-spin text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Processando Inteligência...</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Analisando Dossiê...</span>
           </div>
         )}
 
@@ -257,7 +257,7 @@ export function AIChat() {
         <div className="mt-6 flex items-center justify-center gap-6 opacity-30">
           <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAPIENT STUDIO</p>
           <div className="h-1 w-1 rounded-full bg-slate-400" />
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">AI CORE V2</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">AI CORE V3</p>
         </div>
       </div>
     </div>
