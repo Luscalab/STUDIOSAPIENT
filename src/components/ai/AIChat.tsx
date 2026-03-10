@@ -15,7 +15,8 @@ import {
   Globe,
   BrainCircuit,
   ShieldCheck,
-  Cpu
+  Cpu,
+  BarChart3
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { recommendServices, type RecommenderInput, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
@@ -67,7 +68,7 @@ export function AIChat() {
       addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Sapient AI Strategist V8'
+        source: 'Sapient IA Strategist V8.1'
       });
     } catch (e) {
       // Fail silently
@@ -88,7 +89,7 @@ export function AIChat() {
       content: m.content 
     }));
     
-    // Simulação de tempo de análise técnica estratégica
+    // Simulação de tempo de análise técnica estratégica profunda
     setTimeout(async () => {
       try {
         const result = await recommendServices({
@@ -130,18 +131,18 @@ export function AIChat() {
       } catch (error) {
         setMessages(prev => [...prev, { 
           role: 'model', 
-          content: "Identificamos uma oscilação no protocolo técnico. Vamos prosseguir via WhatsApp para garantir sua análise personalizada?" 
+          content: "Identificamos uma oscilação no protocolo técnico. Vamos prosseguir via WhatsApp para garantir sua análise personalizada agora?" 
         }]);
         setShowRedirect(true);
       } finally {
         setIsLoading(false);
       }
-    }, 1200);
+    }, 1400);
   };
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const summary = extractedData ? `[ Diagnóstico V8 | Nicho: ${extractedData.niche} | Pilares: ${extractedData.servicesNeeded?.join(' + ') || 'Ecossistema Digital'} | Urgência: ${extractedData.urgency?.toUpperCase()} ]` : '';
+    const summary = extractedData ? `[ Diagnóstico V8.1 | Nicho: ${extractedData.niche} | Pilares: ${extractedData.servicesNeeded?.join(' + ') || 'Ecossistema Digital'} | Urgência: ${extractedData.urgency?.toUpperCase()} ]` : '';
     const text = `Olá! Finalizei o diagnóstico estratégico com a IA Sapient. ${summary} Quero discutir meu plano de crescimento integrado.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -161,7 +162,7 @@ export function AIChat() {
   return (
     <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[420px] md:h-[760px] bg-white rounded-none md:rounded-[3rem] shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
       
-      {/* Header Profissional */}
+      {/* Header Profissional V8.1 */}
       <div className="p-8 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5 shrink-0">
         <div className="flex items-center gap-5">
           <div className="h-12 w-12 rounded-2xl bg-primary flex items-center justify-center border border-white/10 shadow-lg relative">
@@ -169,9 +170,9 @@ export function AIChat() {
             <div className="absolute -top-1 -right-1 h-3 w-3 bg-green-500 rounded-full border-2 border-[#08070b]" />
           </div>
           <div>
-            <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none">Estrategista Digital</h3>
+            <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none">Estrategista IA</h3>
             <div className="flex items-center gap-3 mt-2">
-               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">V8 Sapient Engine</span>
+               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">Protocolo V8.1</span>
                <div className="flex gap-1">
                  {[1,2,3,4].map(layer => (
                    <div key={layer} className={cn("h-1 w-3 rounded-full transition-all", layer <= currentLayer ? "bg-primary" : "bg-white/10")} />
@@ -185,7 +186,7 @@ export function AIChat() {
         </button>
       </div>
 
-      {/* Área de Mensagens com Contraste Total */}
+      {/* Área de Mensagens */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 bg-slate-50/50">
         {messages.map((msg, i) => (
           <div key={i} className={cn("flex flex-col gap-4", msg.role === 'user' ? "items-end" : "items-start")}>
@@ -217,26 +218,26 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-4 text-slate-400 p-4">
             <Cpu className="h-5 w-5 animate-spin text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Analisando Protocolo V8...</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Processando Diagnóstico V8.1...</span>
           </div>
         )}
 
         {showRedirect && (
           <div className="pt-6 space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
-            <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/10 space-y-4">
+            <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/10 space-y-5">
                <div className="flex items-center justify-between">
-                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">Dossiê de Diagnóstico</p>
-                 <ShieldCheck className="h-4 w-4 text-primary" />
+                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">Dossiê Consolidado</p>
+                 <BarChart3 className="h-4 w-4 text-primary" />
                </div>
-               <div className="grid grid-cols-1 gap-3">
+               <div className="grid grid-cols-1 gap-4">
                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
                    <div className="h-1.5 w-1.5 rounded-full bg-primary" /> Nicho: <span className="text-slate-950">{extractedData?.niche || 'Mapeado'}</span>
                  </div>
                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
-                   <div className="h-1.5 w-1.5 rounded-full bg-primary" /> Pilares: <span className="text-slate-950">{extractedData?.servicesNeeded?.join(' + ') || 'Ecossistema'}</span>
+                   <div className="h-1.5 w-1.5 rounded-full bg-primary" /> Ecossistema: <span className="text-slate-950">{extractedData?.servicesNeeded?.join(' + ') || 'Completo'}</span>
                  </div>
                  <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
-                   <div className="h-1.5 w-1.5 rounded-full bg-primary" /> Canais: <span className="text-slate-950">{extractedData?.platforms?.join(', ') || 'Analíticos'}</span>
+                   <div className="h-1.5 w-1.5 rounded-full bg-primary" /> Urgência: <span className="text-slate-950 uppercase">{extractedData?.urgency || 'Normal'}</span>
                  </div>
                </div>
             </div>
@@ -275,9 +276,9 @@ export function AIChat() {
           </button>
         </form>
         <div className="mt-6 flex items-center justify-center gap-6 opacity-30">
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">QUALIFICAÇÃO PROFUNDA</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA ENGINE V8.1</p>
           <div className="h-1 w-1 rounded-full bg-slate-400" />
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA V8</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">ESTRATÉGIA INTEGRADA</p>
         </div>
       </div>
     </div>
