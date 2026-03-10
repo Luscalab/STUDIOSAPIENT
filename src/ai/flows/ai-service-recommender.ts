@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Inteligência de Prospecção Sapient Studio - Protocolo de Ecossistema Integrado V8.1.
+ * @fileOverview Inteligência de Prospecção Sapient Studio - Protocolo de Ecossistema Integrado V8.2.
  * Implementa uma jornada holística de 4 camadas para qualificação de leads de alto padrão.
  * Mapeia sinergias entre: Performance Ads, Design Estratégico, Ecossistemas de IA, Autoridade Social e Narrativa Visual.
  */
@@ -27,7 +27,7 @@ export type RecommenderInput = {
 };
 
 /**
- * Fluxo de recomendação e qualificação estratégica com suporte a ecossistemas multi-serviço (V8.1).
+ * Fluxo de recomendação e qualificação estratégica com suporte a ecossistemas multi-serviço (V8.2).
  */
 export async function recommendServices(input: RecommenderInput): Promise<RecommenderOutput> {
   const msg = input.currentMessage.toLowerCase();
@@ -45,21 +45,21 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // --- 1. EXTRAÇÃO DE NICHO (V8.1 - EXPANDIDO) ---
+  // --- 1. EXTRAÇÃO DE NICHO (V8.2 - EXPANDIDO) ---
   let niche = 'Não identificado';
-  if (fullHistoryText.match(/(médico|saúde|clínica|hospital|dentista|psicólogo|nutri|fisio|terapeuta|fisioterapeuta|odontolog)/)) niche = 'Saúde & Wellness';
-  else if (fullHistoryText.match(/(advogado|jurídico|direito|escritório|lei|causa|legal|processo judicial)/)) niche = 'Jurídico & Direito';
-  else if (fullHistoryText.match(/(imobiliário|corretor|imóveis|casa|apartamento|venda de imóvel|loteadora|incorporadora|condomínio)/)) niche = 'Imobiliário & Incorporação';
-  else if (fullHistoryText.match(/(loja|varejo|e-commerce|venda online|produto|comércio|shop|venda direta)/)) niche = 'Varejo & E-commerce';
-  else if (fullHistoryText.match(/(educação|curso|escola|mentor|infoproduto|aula|professor|faculdade|ead|treinamento)/)) niche = 'Educação & Infoprodutos';
-  else if (fullHistoryText.match(/(restaurante|gastronomia|comida|alimentício|delivery|café|hamburgueria|pizzaria|buffet)/)) niche = 'Alimentício & Gastronomia';
-  else if (fullHistoryText.match(/(estética|beleza|academia|fitness|moda|boutique|joalheria|luxo|personal trainer)/)) niche = 'Estética, Moda & Luxo';
-  else if (fullHistoryText.match(/(indústria|fábrica|b2b|produção|usinagem|logística|transporte|distribuidora)/)) niche = 'Indústria & B2B';
-  else if (fullHistoryText.match(/(consultoria|tecnologia|ti|software|saas|startup|agência|marketing|engenharia)/)) niche = 'Tecnologia & Serviços';
-  else if (fullHistoryText.match(/(arquiteto|arquitetura|interiores|decoração|obra|reforma|paisagismo)/)) niche = 'Arquitetura & Interiores';
-  else if (fullHistoryText.match(/(carro|automóvel|veículo|concessionária|oficina|revenda|blindagem)/)) niche = 'Setor Automotivo';
-  else if (fullHistoryText.match(/(pet|veterinário|vet|clínica pet|banho e tosa|petshop)/)) niche = 'Setor Pet & Vet';
-  else if (fullHistoryText.match(/(contador|contabilidade|financeiro|fiscal|tributário|investimento|banco)/)) niche = 'Finanças & Contabilidade';
+  if (fullHistoryText.match(/(médico|saúde|clínica|hospital|dentista|psicólogo|nutri|fisio|terapeuta|fisioterapeuta|odontolog|estética|harmonização)/)) niche = 'Saúde & Wellness';
+  else if (fullHistoryText.match(/(advogado|jurídico|direito|escritório|lei|causa|legal|processo judicial|juridico)/)) niche = 'Jurídico & Direito';
+  else if (fullHistoryText.match(/(imobiliário|corretor|imóveis|casa|apartamento|venda de imóvel|loteadora|incorporadora|condomínio|imobiliaria)/)) niche = 'Imobiliário & Incorporação';
+  else if (fullHistoryText.match(/(loja|varejo|e-commerce|venda online|produto|comércio|shop|venda direta|ecommerce)/)) niche = 'Varejo & E-commerce';
+  else if (fullHistoryText.match(/(educação|curso|escola|mentor|infoproduto|aula|professor|faculdade|ead|treinamento|infoprodutor)/)) niche = 'Educação & Infoprodutos';
+  else if (fullHistoryText.match(/(restaurante|gastronomia|comida|alimentício|delivery|café|hamburgueria|pizzaria|buffet|alimenticio)/)) niche = 'Alimentício & Gastronomia';
+  else if (fullHistoryText.match(/(beleza|academia|fitness|moda|boutique|joalheria|luxo|personal trainer|relogios|carros de luxo)/)) niche = 'Estética, Moda & Luxo';
+  else if (fullHistoryText.match(/(indústria|fábrica|b2b|produção|usinagem|logística|transporte|distribuidora|industria)/)) niche = 'Indústria & B2B';
+  else if (fullHistoryText.match(/(consultoria|tecnologia|ti|software|saas|startup|agência|marketing|engenharia|ti)/)) niche = 'Tecnologia & Serviços';
+  else if (fullHistoryText.match(/(arquiteto|arquitetura|interiores|decoração|obra|reforma|paisagismo|arquiteta)/)) niche = 'Arquitetura & Interiores';
+  else if (fullHistoryText.match(/(carro|automóvel|veículo|concessionária|oficina|revenda|blindagem|automotivo)/)) niche = 'Setor Automotivo';
+  else if (fullHistoryText.match(/(pet|veterinário|vet|clínica pet|banho e tosa|petshop|animal|cachorro|gato)/)) niche = 'Setor Pet & Vet';
+  else if (fullHistoryText.match(/(contador|contabilidade|financeiro|fiscal|tributário|investimento|banco|contabil)/)) niche = 'Finanças & Contabilidade';
 
   // --- 2. MAPEAMENTO MULTI-SERVIÇO ---
   const servicesNeeded: string[] = [];
@@ -85,9 +85,8 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   else if (fullHistoryText.match(/(preciso|buscando|querendo|planejando|olhando|pensando)/)) urgency = 'medium';
 
   const isSpecificNiche = niche !== 'Não identificado';
-  const hasMultipleServices = servicesNeeded.length > 1;
 
-  // --- CAMADAS DE JORNADA V8.1 ---
+  // --- CAMADAS DE JORNADA V8.2 ---
 
   // CAMADA 4: FINALIZAÇÃO E TRANSFERÊNCIA (HANDOFF)
   if (isSpecificNiche && turnCount >= 4) {
@@ -103,12 +102,14 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
 
   // CAMADA 3: DIAGNÓSTICO DE SINERGIA (PROVOCAÇÃO TÉCNICA)
   if (isSpecificNiche && turnCount >= 3) {
-    // Provocações Específicas por Nicho
     let provocation = "";
     if (niche === 'Saúde & Wellness') provocation = "No setor de saúde, tráfego sem autoridade visual gera 'leads de preço'. Hoje você sente que as pessoas chegam valorizando seu trabalho ou apenas comparando valores?";
     else if (niche === 'Jurídico & Direito') provocation = "Para advogados, o design de autoridade é o que separa um 'custo' de um 'investimento'. Como está a percepção de prestígio do seu escritório hoje?";
     else if (niche === 'Imobiliário & Incorporação') provocation = "No imobiliário, a demora no atendimento mata a venda. Você já pensou em usar IA para qualificar o lead no exato segundo que ele clica no anúncio?";
     else if (niche === 'Tecnologia & Serviços') provocation = "SaaS e Tecnologia precisam de clareza absoluta. Sua narrativa visual hoje consegue explicar o valor do seu software em menos de 10 segundos?";
+    else if (niche === 'Finanças & Contabilidade') provocation = "Contabilidade e Finanças lidam com confiança extrema. Sua imagem digital hoje transmite a segurança de um grande banco ou de um escritório pequeno?";
+    else if (niche === 'Setor Pet & Vet') provocation = "Clínicas pet competem por amor e confiança. Como está o 'encantamento' visual do seu perfil para que o tutor escolha você e não o vizinho mais barato?";
+    else if (niche === 'Setor Automotivo') provocation = "No setor automotivo premium, a foto é o primeiro test-drive. Seu design visual hoje faz o cliente sentir o 'cheiro de carro novo' ou parece amador?";
     else provocation = `Para o setor de ${niche}, a sinergia entre ${servicesNeeded[0] || 'Branding'} e ${servicesNeeded[1] || 'Performance'} é o que traz o ROI real. Hoje, onde está seu maior 'vazamento' de resultados?`;
 
     return {
@@ -136,7 +137,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     reply: "Protocolo Sapient iniciado. Para um diagnóstico de autoridade e escala: qual o seu nicho de atuação e onde você sente que seu negócio mais 'vaza' resultados hoje: em Vendas, na Imagem de Marca ou na Eficiência de Atendimento?",
     shouldRedirect: false,
     currentLayer: 1,
-    suggestedActions: ["Saúde & Wellness", "Jurídico & Advogados", "Imobiliário & Imóveis", "Varejo & E-commerce", "Tecnologia & SaaS", "Indústria & B2B", "Arquitetura & Interiores", "Infoprodutos & Mentorias", "Consultoria & Finanças"],
+    suggestedActions: ["Saúde & Wellness", "Jurídico & Advogados", "Imobiliário & Imóveis", "Varejo & E-commerce", "Tecnologia & SaaS", "Indústria & B2B", "Arquitetura & Interiores", "Setor Automotivo", "Setor Pet & Vet", "Finanças & Contabilidade"],
     extractedData: { urgency: 'low' }
   };
 }
