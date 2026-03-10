@@ -24,9 +24,15 @@ interface Message {
   actions?: string[];
 }
 
+const INITIAL_MESSAGE: Message = {
+  role: 'model',
+  content: "Protocolo Sapient iniciado. Para eu ser cirúrgico no seu diagnóstico: qual o seu nicho de atuação e qual o seu maior desafio comercial hoje?",
+  actions: ["Saúde / Clínica", "Escritório Jurídico", "Imobiliário", "Educação / Cursos", "Tecnologia"]
+};
+
 export function AIChat() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showRedirect, setShowRedirect] = useState(false);
@@ -53,13 +59,13 @@ export function AIChat() {
   const saveLead = async (data: any) => {
     if (!db) return;
     try {
-      await addDoc(collection(db, 'leads'), {
+      addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
         source: 'Estrategista IA Sapient'
       });
     } catch (e) {
-      // Falha silenciosa em produção, erro merkeziado em desenvolvimento
+      // Falha silenciosa em produção
     }
   };
 
@@ -67,8 +73,8 @@ export function AIChat() {
     const userMsg = text.trim();
     if (!userMsg || isLoading) return;
 
-    const currentHistory = [...messages, { role: 'user', content: userMsg } as Message];
-    setMessages(currentHistory);
+    const currentHistoryWithUser = [...messages, { role: 'user', content: userMsg } as Message];
+    setMessages(currentHistoryWithUser);
     setInput("");
     setIsLoading(true);
 
@@ -111,7 +117,7 @@ export function AIChat() {
     } catch (error) {
       setMessages(prev => [...prev, { 
         role: 'model', 
-        content: "Identificamos uma breve oscilação técnica em nosso cérebro digital. Vamos prosseguir via WhatsApp para garantir sua análise estratégica?" 
+        content: "Identificamos uma breve oscilação técnica. Vamos prosseguir via WhatsApp para garantir sua análise estratégica?" 
       }]);
       setShowRedirect(true);
     } finally {
@@ -160,18 +166,12 @@ export function AIChat() {
         </button>
       </div>
 
-      {/* Messages Area - High Contrast */}
+      {/* Messages Area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 bg-slate-50/50">
-        {messages.length === 0 && (
-          <div className="p-8 rounded-[2.5rem] bg-white border border-slate-200 text-slate-950 font-bold text-base leading-tight shadow-sm animate-in fade-in slide-in-from-top-4">
-            Iniciando Protocolo de Qualificação Sapient. Para começarmos sua análise estratégica: qual o seu nicho de atuação e seu maior desafio hoje?
-          </div>
-        )}
-
         {messages.map((msg, i) => (
           <div key={i} className={cn("flex flex-col gap-4", msg.role === 'user' ? "items-end" : "items-start")}>
             <div className={cn(
-              "p-6 rounded-[2.2rem] text-sm md:text-base font-medium leading-relaxed max-w-[90%] shadow-sm",
+              "p-6 rounded-[2.2rem] text-sm md:text-base font-medium leading-relaxed max-w-[90%] shadow-sm animate-in fade-in slide-in-from-bottom-2",
               msg.role === 'user' 
                 ? "bg-primary text-white rounded-tr-none" 
                 : "bg-white text-slate-950 border border-slate-200 rounded-tl-none"
@@ -243,7 +243,7 @@ export function AIChat() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={isLoading}
-            placeholder="Qual o seu nicho e objetivo hoje?"
+            placeholder="Digite sua resposta..."
             className="w-full h-20 pl-8 pr-20 bg-slate-50 border border-slate-200 rounded-[1.8rem] text-slate-900 font-bold placeholder:text-slate-300 focus:outline-none focus:ring-4 focus:ring-primary/10 shadow-inner transition-all"
           />
           <button 
