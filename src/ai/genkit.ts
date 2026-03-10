@@ -3,7 +3,7 @@ import { googleAI } from '@genkit-ai/google-genai';
 
 /**
  * @fileOverview Inicialização do motor de IA Sapient Studio.
- * Configurado com a chave de API fornecida e modelo 1.5 Flash.
+ * Configurado com a chave de API fornecida e modelo 1.5 Flash para máxima agilidade.
  */
 export const ai = genkit({
   plugins: [

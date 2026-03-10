@@ -8,7 +8,8 @@ import {
   Sparkles, 
   Loader2,
   MessageCircle,
-  ChevronRight
+  ChevronRight,
+  Zap
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -45,19 +46,17 @@ export function AIChat() {
     const userMsg = text.trim();
     if (!userMsg || isLoading) return;
 
-    // 1. Preparar histórico atualizado para a API
-    const historyForApi = messages.map(m => ({ role: m.role, content: m.content }));
+    // Captura o histórico ANTES da nova mensagem para enviar à API
+    const currentHistory = messages.map(m => ({ role: m.role, content: m.content }));
     
-    // 2. Atualizar UI localmente
-    const newMessage: Message = { role: 'user', content: userMsg };
-    setMessages(prev => [...prev, newMessage]);
+    // Atualiza a UI imediatamente
+    setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
     setInput("");
     setIsLoading(true);
 
     try {
-      // 3. Solicitar resposta da IA com o contexto completo
       const result = await recommendServices({
-        history: historyForApi,
+        history: currentHistory,
         currentMessage: userMsg
       });
 
@@ -70,10 +69,9 @@ export function AIChat() {
         if (result.shouldRedirect) setShowRedirect(true);
       }
     } catch (error) {
-      console.error("Falha na comunicação com o Estrategista:", error);
       setMessages(prev => [...prev, { 
         role: 'model', 
-        content: "Para um diagnóstico de alta fidelidade sobre seu negócio, recomendo falarmos diretamente via WhatsApp." 
+        content: "Para um diagnóstico estratégico de alta fidelidade, recomendo iniciarmos sua consultoria via WhatsApp agora." 
       }]);
       setShowRedirect(true);
     } finally {
@@ -83,7 +81,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = "Olá! Gostaria de um diagnóstico estratégico baseado na conversa com a IA da Sapient.";
+    const text = "Olá! Gostaria de um diagnóstico estratégico baseado na conversa com a IA da Sapient Studio.";
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -92,7 +90,7 @@ export function AIChat() {
       <button 
         onClick={() => setIsOpen(true)}
         className="fixed bottom-6 right-6 z-[200] h-16 w-16 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-all border-2 border-white/20 animate-glow-pulse"
-        aria-label="Consultoria IA Sapient"
+        aria-label="Atendimento IA Sapient"
       >
         <Bot className="h-7 w-7" />
       </button>
@@ -100,29 +98,29 @@ export function AIChat() {
   }
 
   return (
-    <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[420px] md:h-[650px] bg-white rounded-none md:rounded-[2.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-muted/20 animate-in slide-in-from-bottom-8 duration-500">
+    <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[420px] md:h-[680px] bg-white rounded-none md:rounded-[2.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
       
       {/* Header Premium */}
       <div className="p-6 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center border border-white/10 shadow-lg">
-            <Sparkles className="h-5 w-5" />
+            <Zap className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h3 className="font-headline font-black text-xs tracking-tight uppercase leading-none">Estrategista IA</h3>
-            <p className="text-[8px] font-black text-primary uppercase tracking-[0.3em] mt-1 italic">SAPIENT STUDIO</p>
+            <h3 className="font-headline font-black text-xs tracking-tight uppercase leading-none">Estrategista Sapient</h3>
+            <p className="text-[7px] font-black text-primary uppercase tracking-[0.4em] mt-1 italic">INTELIGÊNCIA DE MARCA</p>
           </div>
         </div>
-        <button onClick={() => setIsOpen(false)} className="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-          <X className="h-4 w-4" />
+        <button onClick={() => setIsOpen(false)} className="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors text-white">
+          <X className="h-5 w-5" />
         </button>
       </div>
 
       {/* Chat Area */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/10">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/30">
         {messages.length === 0 && (
-          <div className="p-6 rounded-3xl bg-white border border-slate-200 text-slate-900 font-bold text-sm leading-relaxed shadow-sm">
-            Bem-vindo. Sou o assistente estratégico da Sapient. Para começarmos: qual o nicho da sua marca ou seu desafio atual?
+          <div className="p-6 rounded-3xl bg-white border border-slate-200 text-slate-900 font-bold text-sm leading-relaxed shadow-sm animate-in fade-in duration-700">
+            Bem-vindo à Sapient Studio. Para iniciarmos seu diagnóstico: qual o nicho do seu negócio ou seu desafio atual?
           </div>
         )}
 
@@ -144,7 +142,7 @@ export function AIChat() {
                   <button
                     key={idx}
                     onClick={() => handleSendMessage(action)}
-                    className="px-4 py-2 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-full text-[10px] font-black uppercase tracking-widest text-slate-900 transition-all shadow-sm flex items-center gap-2 group"
+                    className="px-5 py-3 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900 transition-all shadow-sm flex items-center gap-2 group active:scale-95"
                   >
                     {action} <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
                   </button>
@@ -156,8 +154,8 @@ export function AIChat() {
 
         {isLoading && (
           <div className="flex items-center gap-3 text-slate-400 p-2">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            <span className="text-[10px] font-black uppercase tracking-widest italic">Processando Estratégia...</span>
+            <Loader2 className="h-4 w-4 animate-spin text-primary" />
+            <span className="text-[9px] font-black uppercase tracking-widest italic">Analisando Marca...</span>
           </div>
         )}
 
@@ -167,7 +165,7 @@ export function AIChat() {
               onClick={handleWhatsAppRedirect}
               className="w-full py-6 bg-green-500 hover:bg-green-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 shadow-xl transition-all hover:scale-[1.02] border-b-4 border-green-700"
             >
-              <MessageCircle className="h-5 w-5" /> Iniciar Consultoria Humana
+              <MessageCircle className="h-5 w-5" /> Falar com Consultor Humano
             </button>
           </div>
         )}
@@ -185,7 +183,8 @@ export function AIChat() {
           <Input 
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Qual o desafio do seu negócio?"
+            disabled={isLoading}
+            placeholder="Qual o desafio da sua marca?"
             className="h-16 pl-6 pr-16 bg-slate-50 border-slate-200 rounded-2xl text-slate-900 font-bold placeholder:text-slate-300 focus:ring-primary/20 shadow-inner"
           />
           <button 
@@ -196,8 +195,8 @@ export function AIChat() {
             <Send className="h-4 w-4" />
           </button>
         </form>
-        <p className="text-[8px] text-center text-slate-300 font-black uppercase tracking-[0.3em] mt-3">
-          SAPIENT STUDIO | INTELIGÊNCIA ESTRATÉGICA
+        <p className="text-[7px] text-center text-slate-300 font-black uppercase tracking-[0.4em] mt-3">
+          SAPIENT STUDIO | ESTRATÉGIA COGNITIVA
         </p>
       </div>
     </div>

@@ -3,8 +3,8 @@
 /**
  * @fileOverview Inteligência de Prospecção Sapient Studio.
  * 
- * Fluxo estratégico que entende o nicho do cliente e qualifica o lead
- * através de uma conversa leve e cards interativos.
+ * Fluxo estratégico que atua como porta de entrada, entende a marca do cliente
+ * e gera cards interativos para uma conversação fluida antes do WhatsApp.
  */
 
 import { ai } from '@/ai/genkit';
@@ -29,13 +29,16 @@ const RecommenderOutputSchema = z.object({
 export type RecommenderOutput = z.infer<typeof RecommenderOutputSchema>;
 
 const systemInstructions = `Você é o Estrategista-Chefe da Sapient Studio.
-Sua missão é entender a MARCA e o NICHO do cliente para uma consultoria técnica de elite.
+Sua missão é atuar como a PRIMEIRA PORTA de entrada da agência, realizando uma internação estratégica do lead.
 
-REGRAS:
-1. AUDITORIA DE MEMÓRIA: Analise o histórico. Se o nicho ou desafio já foram ditos, NÃO pergunte de novo.
-2. CARDS INTERATIVOS: Use suggestedActions para sugerir nichos (Saúde, Direito, Real Estate, Tech) ou objetivos.
-3. TOM DE VOZ: Profissional, minimalista e focado em prestígio.
-4. CONVERSÃO: Assim que entender o nicho e o desafio, defina shouldRedirect como true e direcione para o WhatsApp.`;
+SCRIPT DE ATENDIMENTO:
+1. BOAS-VINDAS: Seja breve, profissional e focado em prestígio.
+2. ENTENDIMENTO: Descubra o NICHO (ex: Saúde, Direito, Tecnologia) e o DESAFIO ATUAL (ex: falta de autoridade, poucos leads).
+3. QUALIFICAÇÃO: Use o histórico. Se o cliente já disse o nicho, NÃO pergunte de novo. Avance para o desafio.
+4. CARDS (suggestedActions): Sempre sugira cards de nichos ou objetivos para facilitar a resposta do cliente.
+5. CONVERSÃO: Assim que entender a marca e o desafio, defina shouldRedirect como true e convide-o para o WhatsApp oficial para um diagnóstico técnico detalhado.
+
+TOM DE VOZ: Minimalista, autoritário, mas acessível. Evite textos longos.`;
 
 const recommenderPrompt = ai.definePrompt({
   name: 'recommenderPrompt',
@@ -43,28 +46,28 @@ const recommenderPrompt = ai.definePrompt({
   output: { schema: RecommenderOutputSchema },
   system: systemInstructions,
   prompt: `
-    Histórico de Diálogo:
+    Histórico:
     {{#each history}}
     - {{role}}: {{{content}}}
     {{/each}}
 
-    Última Mensagem do Cliente: {{{currentMessage}}}
+    Cliente diz: {{{currentMessage}}}
     
-    Analise o contexto e prossiga com o diagnóstico estratégico. Não repita perguntas.
+    Analise o contexto. Se você já tem informações suficientes sobre a marca, direcione para o WhatsApp. Caso contrário, use cards para guiar o entendimento.
   `,
 });
 
 export async function recommendServices(input: z.infer<typeof RecommenderInputSchema>): Promise<RecommenderOutput> {
   try {
     const { output } = await recommenderPrompt(input);
-    if (!output) throw new Error("A IA não gerou uma resposta válida.");
+    if (!output) throw new Error("Falha na geração da resposta.");
     return output;
   } catch (error) {
-    console.error("Erro na API Sapient IA:", error);
+    console.error("Erro Crítico Sapient IA:", error);
     return {
-      reply: "Sua visão estratégica é promissora. Recomendo um diagnóstico técnico direto com nosso consultor via WhatsApp para avançarmos.",
+      reply: "Sua visão estratégica é promissora. Recomendo um diagnóstico técnico direto com nosso estrategista via WhatsApp para avançarmos com precisão.",
       shouldRedirect: true,
-      suggestedActions: ["Falar com Consultor"]
+      suggestedActions: ["Falar com Estrategista"]
     };
   }
 }
