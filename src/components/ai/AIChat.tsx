@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -25,8 +24,8 @@ import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-
 import { cn } from "@/lib/utils";
 
 /**
- * Opções Estratégicas - Substituem os nichos genéricos por objetivos claros.
- * Focado em converter a intenção do cliente em um diagnóstico técnico.
+ * Caminhos Estratégicos Sapient.
+ * Focado em converter a intenção do cliente em um diagnóstico técnico imediato.
  */
 const STRATEGIC_PATHS = [
   { 
@@ -58,11 +57,11 @@ export function AIChat() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ServiceRecommenderOutput | null>(null);
   
-  // Histórico inicial com saudação proativa de consultoria
+  // Histórico inicial com saudação estratégica
   const [chatHistory, setChatHistory] = useState<{role: 'user' | 'assistant', text: string}[]>([
     { 
       role: 'assistant', 
-      text: "Bem-vindo à Sapient Studio. Sou seu Estrategista IA. Minha função é auditar o seu posicionamento atual e identificar o 'Gargalo de Ouro' que impede sua escala hoje. Como podemos iniciar seu diagnóstico estratégico?" 
+      text: "Bem-vindo à Sapient Studio. Sou seu Estrategista IA. Minha missão é auditar o seu posicionamento e identificar o 'Gargalo de Ouro' que impede sua escala hoje. Como posso iniciar seu diagnóstico estratégico?" 
     }
   ]);
   
@@ -73,12 +72,18 @@ export function AIChat() {
     setMounted(true);
   }, []);
 
+  // Lógica de Scroll Inteligente: Garante visibilidade mas evita saltos bruscos no início
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: 'smooth'
-      });
+      // Se for apenas a mensagem inicial, não forçamos o scroll para o fim (para ver o topo da saudação)
+      if (chatHistory.length <= 1 && !loading && !result) {
+        scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        scrollRef.current.scrollTo({
+          top: scrollRef.current.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
     }
   }, [result, loading, chatHistory, isOpen]);
 
@@ -90,24 +95,30 @@ export function AIChat() {
 
   const handleQuickAction = (pathPrompt: string) => {
     setInput(pathPrompt);
+    // Submit automático para agilizar a experiência
+    setTimeout(() => {
+      const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
+      handleSubmit(fakeEvent, pathPrompt);
+    }, 100);
   };
 
   const handleZoomIn = () => setTextScale(prev => Math.min(prev + 0.2, 1.6));
   const handleZoomOut = () => setTextScale(prev => Math.max(prev - 0.2, 0.8));
 
-  const handleSubmit = async (e?: React.FormEvent) => {
+  const handleSubmit = async (e?: React.FormEvent, directInput?: string) => {
     e?.preventDefault();
-    if (!input.trim() || loading) return;
+    const messageToSend = directInput || input;
+    if (!messageToSend.trim() || loading) return;
     
-    const userText = input;
-    setChatHistory(prev => [...prev, { role: 'user', text: userText }]);
+    setChatHistory(prev => [...prev, { role: 'user', text: messageToSend }]);
     setInput("");
     setLoading(true);
+    setResult(null); // Limpa resultado anterior para novo diagnóstico
     
     try {
-      // Enviamos o histórico recente para contexto
-      const context = chatHistory.slice(-4).map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`).join('\n') + `\nCliente: ${userText}`;
+      const context = chatHistory.slice(-4).map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`).join('\n') + `\nCliente: ${messageToSend}`;
       const recommendation = await recommendServices({ clientNeedsAndGoals: context });
+      
       setResult(recommendation);
       
       if (!recommendation.isDataSufficient) {
@@ -144,7 +155,7 @@ export function AIChat() {
         )}
         role="dialog"
       >
-        {/* Header Profissional */}
+        {/* Header Estratégico */}
         <div className="p-6 bg-gradient-to-r from-[#0c0a1a] to-[#1a163a] text-white shrink-0 shadow-lg border-b border-white/5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -164,10 +175,10 @@ export function AIChat() {
           </div>
         </div>
 
-        {/* Chat Area */}
+        {/* Área de Conversação */}
         <div 
           ref={scrollRef} 
-          className="flex-1 overflow-y-auto p-6 space-y-8 bg-[#fdfdff]"
+          className="flex-1 overflow-y-auto p-6 space-y-8 bg-[#fdfdff] scroll-smooth"
           style={{ fontSize: `${textScale * 14}px` }}
         >
           <div className="space-y-6">
@@ -189,11 +200,11 @@ export function AIChat() {
                   </span>
                 </div>
 
-                {/* Apresentação de Opções logo após a PRIMEIRA mensagem */}
+                {/* Caminhos Estratégicos logo após a saudação inicial */}
                 {i === 0 && chatHistory.length === 1 && !loading && (
                   <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
                     <div className="bg-primary/[0.03] p-6 rounded-[2.5rem] border border-primary/10">
-                      <p className="text-[9px] font-black text-primary uppercase tracking-[0.3em] mb-5 text-center px-4">Qual é o seu objetivo estratégico prioritário hoje?</p>
+                      <p className="text-[9px] font-black text-primary uppercase tracking-[0.3em] mb-5 text-center px-4">Escolha seu objetivo estratégico prioritário:</p>
                       <div className="grid grid-cols-1 gap-3">
                         {STRATEGIC_PATHS.map((path, idx) => (
                           <button 
@@ -260,30 +271,28 @@ export function AIChat() {
         </div>
 
         {/* Input da Mensagem */}
-        {(!result || !result.isDataSufficient) && (
-          <form onSubmit={handleSubmit} className="p-6 border-t border-slate-100 bg-white">
-            <div className="relative group">
-              <Textarea
-                placeholder="Descreva seu desafio técnico..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                disabled={loading}
-                className="min-h-[100px] bg-slate-50 border-slate-200 focus:border-primary focus:ring-0 rounded-[2rem] p-6 pr-16 text-slate-900 font-medium resize-none transition-all placeholder:text-slate-400 text-base"
-              />
-              <button 
-                type="submit" 
-                disabled={loading || !input.trim()} 
-                className="absolute bottom-5 right-5 h-12 w-12 rounded-2xl bg-primary text-white flex items-center justify-center disabled:opacity-20 shadow-lg hover:scale-105 active:scale-95 transition-all"
-              >
-                <SendHorizontal className="h-6 w-6" />
-              </button>
-            </div>
-            <div className="flex items-center justify-center gap-2 mt-4 opacity-40">
-              <MessageSquare className="h-3 w-3" />
-              <p className="text-[8px] font-black uppercase tracking-widest">SAPIENT PROSPECTION ENGINE v4.2</p>
-            </div>
-          </form>
-        )}
+        <form onSubmit={handleSubmit} className="p-6 border-t border-slate-100 bg-white">
+          <div className="relative group">
+            <Textarea
+              placeholder="Descreva seu desafio técnico..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              disabled={loading}
+              className="min-h-[100px] bg-slate-50 border-slate-200 focus:border-primary focus:ring-0 rounded-[2rem] p-6 pr-16 text-slate-900 font-medium resize-none transition-all placeholder:text-slate-400 text-base"
+            />
+            <button 
+              type="submit" 
+              disabled={loading || !input.trim()} 
+              className="absolute bottom-5 right-5 h-12 w-12 rounded-2xl bg-primary text-white flex items-center justify-center disabled:opacity-20 shadow-lg hover:scale-105 active:scale-95 transition-all"
+            >
+              <SendHorizontal className="h-6 w-6" />
+            </button>
+          </div>
+          <div className="flex items-center justify-center gap-2 mt-4 opacity-40">
+            <MessageSquare className="h-3 w-3" />
+            <p className="text-[8px] font-black uppercase tracking-widest">SAPIENT PROSPECTION ENGINE v4.5</p>
+          </div>
+        </form>
       </div>
     </>
   );
