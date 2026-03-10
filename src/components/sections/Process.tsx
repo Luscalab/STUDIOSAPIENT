@@ -44,7 +44,8 @@ export function Process() {
                 <div className="h-20 w-20 rounded-[1.5rem] bg-white flex items-center justify-center text-primary mb-10 border border-muted shadow-lg transition-all duration-700 group-hover:bg-primary group-hover:text-white">
                   {step.icon}
                 </div>
-                <h3 className="font-headline text-3xl font-black text-black mb-6 tracking-tighter uppercase leading-none">
+                {/* Ajuste de fonte responsiva e quebra de palavra para evitar transbordamento */}
+                <h3 className="font-headline text-xl md:text-2xl lg:text-[1.75rem] font-black text-black mb-6 tracking-tighter uppercase leading-[0.9] break-words hyphens-auto">
                   {step.title}
                 </h3>
                 <p className="text-black/50 text-base md:text-lg leading-relaxed font-medium tracking-tight mb-12">
@@ -53,7 +54,7 @@ export function Process() {
               </div>
               
               <div className="relative z-10">
-                <div className="h-1 w-16 bg-primary/20 group-hover:w-full group-hover:bg-primary transition-all duration-700 rounded-full" />
+                <div className="h-1.5 w-16 bg-primary/20 group-hover:w-full group-hover:bg-primary transition-all duration-700 rounded-full" />
               </div>
               
               <span className="text-[10rem] md:text-[12rem] font-black text-black/[0.03] absolute -bottom-8 -right-4 select-none group-hover:text-primary/[0.05] transition-all duration-700 leading-none pointer-events-none">

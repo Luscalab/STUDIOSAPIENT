@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -25,10 +26,10 @@ export function Navbar() {
 
   return (
     <>
-      <header className="absolute top-10 left-0 right-0 z-[150]" role="banner">
+      <header className="absolute top-8 left-0 right-0 z-[150]" role="banner">
         <div className="container mx-auto px-6 flex items-center justify-between gap-12">
           
-          <Link href="/" className="relative block w-[200px] h-[55px] lg:w-[450px] lg:h-[120px] transition-transform duration-700 hover:scale-105 active:scale-95">
+          <Link href="/" className="relative block w-[160px] h-[45px] lg:w-[380px] lg:h-[100px] transition-transform duration-700 hover:scale-105 active:scale-95 shrink-0">
             <Image 
               src={logoUrl}
               alt="studiosapient Logo"
@@ -38,35 +39,35 @@ export function Navbar() {
             />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-10 px-10 py-5 rounded-full glass-morphism border-white/5">
+          <nav className="hidden lg:flex items-center gap-8 px-8 py-4 rounded-full glass-morphism border-white/5">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
                 target={link.external ? "_blank" : "_self"}
-                className="text-[9px] uppercase tracking-[0.4em] font-black text-white/50 hover:text-white transition-all relative group"
+                className="text-[8px] uppercase tracking-[0.4em] font-black text-white/50 hover:text-white transition-all relative group"
               >
                 {link.name}
                 <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full" />
               </Link>
             ))}
             
-            <div className="w-px h-4 bg-white/10 mx-2" />
+            <div className="w-px h-3 bg-white/10 mx-1" />
             
             <button 
               onClick={handleOpenChat}
-              className="text-[9px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all flex items-center gap-3"
+              className="text-[8px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all flex items-center gap-2"
             >
-              <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+              <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
               Análise IA
             </button>
           </nav>
 
           <button 
-            className="lg:hidden p-5 rounded-2xl bg-white/5 backdrop-blur-3xl text-white border border-white/10"
+            className="lg:hidden p-4 rounded-2xl bg-white/5 backdrop-blur-3xl text-white border border-white/10"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
