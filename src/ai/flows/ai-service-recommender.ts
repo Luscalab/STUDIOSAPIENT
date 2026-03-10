@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview Motor de Consultoria Estratégica Sapient Studio v4.
+ * @fileOverview Motor de Consultoria Estratégica Sapient Studio v4.5.
  * 
  * Implementa uma Matriz de Posicionamento de Mercado e protocolos de prospecção.
  * Focado em identificar o "Gargalo de Ouro" e alavancas de ROI.
@@ -46,10 +46,10 @@ const ServiceRecommenderInputSchema = z.object({
 const ServiceRecommenderOutputSchema = z.object({
   isDataSufficient: z.boolean().describe('Informa se os dados permitem um diagnóstico estratégico.'),
   missingInfoMessage: z.string().optional().describe('Solicitação profissional dos dados faltantes se isDataSufficient for false.'),
-  brandAudit: z.string().optional().describe('Análise da percepção de marca no nicho atual. Preencher se isDataSufficient for true.'),
-  diagnosis: z.string().optional().describe('O gargalo específico identificado no negócio. Preencher se isDataSufficient for true.'),
-  recommendedServices: z.array(z.enum(SapientServices)).optional().describe('Mix de serviços recomendados. Preencher se isDataSufficient for true.'),
-  strategicValue: z.string().optional().describe('O impacto financeiro/de marca da execução profissional. Preencher se isDataSufficient for true.'),
+  brandAudit: z.string().optional().describe('Análise da percepção de marca no nicho atual.'),
+  diagnosis: z.string().optional().describe('O gargalo específico identificado no negócio.'),
+  recommendedServices: z.array(z.enum(SapientServices)).optional().describe('Mix de serviços recomendados.'),
+  strategicValue: z.string().optional().describe('O impacto financeiro/de marca da execução profissional.'),
 });
 
 export type ServiceRecommenderOutput = z.infer<typeof ServiceRecommenderOutputSchema>;
@@ -67,19 +67,24 @@ PROTOCOLO DE ANÁLISE:
 ${STRATEGIC_MATRIX}
 
 FASE 1: QUALIFICAÇÃO (isDataSufficient)
-Verifique se a entrada contém informações sobre o Nicho e o Desafio. Se for apenas um "Oi" ou algo muito vago, defina isDataSufficient como false e use o missingInfoMessage para pedir contexto profissional.
+Verifique se a entrada contém informações sobre o Nicho e o Desafio. Se for apenas uma saudação ou algo vago, peça contexto profissional de forma autoritária mas amigável.
 
 FASE 2: DIAGNÓSTICO E ROI (Se isDataSufficient = true)
-- BRAND AUDIT: Analise como a falta de clareza visual ou performance afeta a autoridade do cliente no nicho dele.
-- DIAGNÓSTICO: Identifique o gargalo (ex: falta de confiança local, lead desqualificado, demora no atendimento).
-- IMPACTO: Explique o valor estratégico da intervenção Sapient (ex: "Sua marca passará a atrair clientes de ticket 3x maior").
+- BRAND AUDIT: Analise como a percepção atual afeta a autoridade.
+- DIAGNÓSTICO: Identifique o gargalo real de faturamento.
+- IMPACTO: Explique o valor estratégico da intervenção Sapient.
 
 MANTENHA O TOM SAPIENT: Analítico, focado em resultados e ROI.`,
 });
 
 export async function recommendServices(input: {clientNeedsAndGoals: string}): Promise<ServiceRecommenderOutput> {
-  const {output} = await aiServiceRecommenderFlow(input);
-  return output!;
+  try {
+    const {output} = await aiServiceRecommenderFlow(input);
+    return output || { isDataSufficient: false, missingInfoMessage: "Não consegui processar os dados. Poderia descrever seu negócio novamente?" };
+  } catch (error) {
+    console.error("Erro no fluxo recommendServices:", error);
+    return { isDataSufficient: false, missingInfoMessage: "Desculpe, tive uma falha técnica na análise. Poderia repetir seu desafio?" };
+  }
 }
 
 const aiServiceRecommenderFlow = ai.defineFlow(

@@ -79,11 +79,11 @@ export function AIChat() {
         scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         // Scroll para o fim apenas se houver interação real
-        const scrollOptions: ScrollToOptions = {
-          top: scrollRef.current.scrollHeight,
+        const scrollHeight = scrollRef.current.scrollHeight;
+        scrollRef.current.scrollTo({
+          top: scrollHeight,
           behavior: 'smooth'
-        };
-        scrollRef.current.scrollTo(scrollOptions);
+        });
       }
     }
   }, [result, loading, chatHistory, isOpen]);
@@ -101,8 +101,8 @@ export function AIChat() {
     }, 100);
   };
 
-  const handleZoomIn = () => setTextScale(prev => Math.min(prev + 0.2, 1.6));
-  const handleZoomOut = () => setTextScale(prev => Math.max(prev - 0.2, 0.8));
+  const handleZoomIn = () => setTextScale(prev => Math.min(prev + 0.1, 1.6));
+  const handleZoomOut = () => setTextScale(prev => Math.max(prev - 0.1, 0.8));
 
   const handleSubmit = async (e?: React.FormEvent, directInput?: string) => {
     e?.preventDefault();
@@ -119,7 +119,9 @@ export function AIChat() {
       const recommendation = await recommendServices({ clientNeedsAndGoals: context });
       
       if (!recommendation) {
-        throw new Error("Não foi possível gerar um diagnóstico no momento.");
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Tive um problema ao processar seu diagnóstico. Por favor, tente novamente com mais detalhes sobre seu negócio." }]);
+        setLoading(false);
+        return;
       }
 
       setResult(recommendation);
@@ -131,7 +133,7 @@ export function AIChat() {
       }
     } catch (error) {
       console.error("Erro AI:", error);
-      setChatHistory(prev => [...prev, { role: 'assistant', text: "Ocorreu uma falha técnica na análise. Por favor, tente descrever seu desafio novamente." }]);
+      setChatHistory(prev => [...prev, { role: 'assistant', text: "Ocorreu uma falha técnica na análise. Por favor, descreva seu desafio novamente." }]);
     } finally {
       setLoading(false);
     }
@@ -167,7 +169,7 @@ export function AIChat() {
                 <TrendingUp className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h3 className="font-headline font-black text-xs tracking-[0.2em] uppercase text-white leading-none">Consultoria IA</h3>
+                <h3 className="font-headline font-black text-[10px] tracking-[0.2em] uppercase text-white leading-none">Consultoria IA</h3>
                 <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest mt-1">SAPIENT STRATEGY ENGINE</p>
               </div>
             </div>
@@ -196,10 +198,11 @@ export function AIChat() {
                         ? "bg-primary text-white rounded-tr-none" 
                         : "bg-white border border-slate-100 text-slate-900 rounded-tl-none shadow-md"
                     )} 
+                    style={{ fontSize: '1em' }}
                   >
                     {msg.text}
                   </div>
-                  <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">
+                  <span className="text-[0.6em] font-black uppercase tracking-widest text-slate-400">
                     {msg.role === 'user' ? 'SOLICITANTE' : 'ESTRATEGISTA SAPIENT'}
                   </span>
                 </div>
@@ -208,7 +211,7 @@ export function AIChat() {
                 {i === 0 && chatHistory.length === 1 && !loading && (
                   <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
                     <div className="bg-primary/[0.03] p-6 rounded-[2.5rem] border border-primary/10">
-                      <p className="text-[9px] font-black text-primary uppercase tracking-[0.3em] mb-5 text-center px-4">Escolha seu objetivo estratégico prioritário:</p>
+                      <p className="text-[0.65em] font-black text-primary uppercase tracking-[0.3em] mb-5 text-center px-4">Escolha seu objetivo estratégico prioritário:</p>
                       <div className="grid grid-cols-1 gap-3">
                         {STRATEGIC_PATHS.map((path, idx) => (
                           <button 
@@ -219,7 +222,7 @@ export function AIChat() {
                             <div className="h-10 w-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
                               {path.icon}
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-700 group-hover:text-primary leading-tight flex-1">
+                            <span className="text-[0.7em] font-black uppercase tracking-wider text-slate-700 group-hover:text-primary leading-tight flex-1">
                               {path.label}
                             </span>
                             <ArrowRight className="h-3 w-3 text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
@@ -238,8 +241,8 @@ export function AIChat() {
             <div className="space-y-8 pt-8 border-t border-slate-100 animate-in zoom-in-95 duration-700">
               {result.brandAudit && (
                 <div className="space-y-4">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-4 w-4" /> Auditoria de Percepção</p>
-                  <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-slate-700 italic leading-relaxed text-sm shadow-inner">
+                  <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-4 w-4" /> Auditoria de Percepção</p>
+                  <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-slate-700 italic leading-relaxed text-[0.9em] shadow-inner">
                     "{result.brandAudit}"
                   </div>
                 </div>
@@ -247,8 +250,8 @@ export function AIChat() {
               
               {result.diagnosis && (
                 <div className="space-y-4">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity className="h-4 w-4" /> Diagnóstico de Gargalo</p>
-                  <div className="bg-primary/5 p-6 rounded-[2rem] border border-primary/10 font-black text-slate-900 tracking-tight leading-snug">
+                  <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity className="h-4 w-4" /> Diagnóstico de Gargalo</p>
+                  <div className="bg-primary/5 p-6 rounded-[2rem] border border-primary/10 font-black text-slate-900 tracking-tight leading-snug text-[0.9em]">
                     {result.diagnosis}
                   </div>
                 </div>
@@ -256,14 +259,14 @@ export function AIChat() {
 
               {result.strategicValue && (
                 <div className="space-y-4">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><ClipboardCheck className="h-4 w-4" /> Valor da Intervenção</p>
-                  <p className="text-slate-600 font-medium leading-relaxed px-2 text-sm">{result.strategicValue}</p>
+                  <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><ClipboardCheck className="h-4 w-4" /> Valor da Intervenção</p>
+                  <p className="text-slate-600 font-medium leading-relaxed px-2 text-[0.9em]">{result.strategicValue}</p>
                 </div>
               )}
 
               <div className="pt-4">
                 <Button 
-                  className="w-full h-16 bg-[#0c0a1a] text-white hover:bg-primary rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] shadow-2xl transition-all group" 
+                  className="w-full h-16 bg-[#0c0a1a] text-white hover:bg-primary rounded-2xl font-black uppercase tracking-[0.4em] text-[0.7em] shadow-2xl transition-all group" 
                   onClick={() => { setIsOpen(false); document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' }); }}
                 >
                   Agendar Consultoria <ArrowRight className="ml-3 h-4 w-4 group-hover:translate-x-2 transition-transform" />
@@ -275,7 +278,7 @@ export function AIChat() {
           {loading && (
             <div className="flex items-center gap-4 bg-white p-5 rounded-full w-fit shadow-md border border-slate-100 animate-pulse">
               <Loader2 className="h-5 w-5 text-primary animate-spin" />
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">Auditorando Matriz...</p>
+              <p className="text-[0.65em] font-black uppercase tracking-[0.3em] text-primary">Auditorando Matriz...</p>
             </div>
           )}
         </div>
@@ -289,6 +292,7 @@ export function AIChat() {
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}
               className="min-h-[100px] bg-slate-50 border-slate-200 focus:border-primary focus:ring-0 rounded-[2rem] p-6 pr-16 text-slate-900 font-medium resize-none transition-all placeholder:text-slate-400 text-base"
+              style={{ fontSize: '1em' }}
             />
             <button 
               type="submit" 
