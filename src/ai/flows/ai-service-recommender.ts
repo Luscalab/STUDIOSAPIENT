@@ -1,9 +1,9 @@
 'use server';
 /**
- * @fileOverview Motor de Consultoria Estratégica Sapient Studio v2.
+ * @fileOverview Motor de Consultoria Estratégica Sapient Studio v3.
  * 
  * Implementa uma Matriz de Posicionamento de Mercado e protocolos de prospecção.
- * Focado em identificar o "Gargalo de Ouro" de cada nicho de atuação.
+ * Focado em identificar o "Gargalo de Ouro" e alavancas de ROI.
  */
 
 import {ai} from '@/ai/genkit';
@@ -18,18 +18,25 @@ const SapientServices = [
 ] as const;
 
 /**
- * Protocolos específicos por nicho para treinamento da IA.
- * Estruturado para máxima economia de tokens e precisão.
+ * Protocolos específicos por nicho e tratamento de objeções.
  */
 const STRATEGIC_MATRIX = `
-# MATRIZ SAPIENT DE POSICIONAMENTO:
-1. SAÚDE: Gargalo = Confiança Local. Foco: GMN + Identidade Visual + Chat IA.
-2. DIREITO: Gargalo = Autoridade Técnica. Foco: Branding de Prestígio + Narrativa Visual.
-3. GASTRONOMIA: Gargalo = Desejo Visual. Foco: Gestão de Redes + Tráfego Local.
-4. ESTÉTICA: Gargalo = Diferenciação. Foco: Design System Exclusivo + Social Growth.
-5. VAREJO/MODA: Gargalo = Conversão. Foco: Performance Ads + IA de Vendas.
-6. IMOBILIÁRIA: Gargalo = Qualificação de Lead. Foco: Design + IA de Triagem + Ads.
-7. SERVIÇOS TÉCNICOS: Gargalo = Clareza. Foco: Narrativa Visual + Google Search.
+# MATRIZ SAPIENT DE ALAVANCAGEM TÉCNICA:
+1. SAÚDE (Médicos/Clínicas): Gargalo = Confiança Local. Alavanca: Domínio de GMN + Branding de Prestígio. Foco em encurtar a jornada de busca-agendamento.
+2. DIREITO (Escritórios de Elite): Gargalo = Autoridade Técnica Percebida. Alavanca: Design de Identidade Sólida + Narrativa Visual de Resultados. Foco em justificar honorários premium.
+3. GASTRONOMIA: Gargalo = Desejo Visual + Frequência. Alavanca: Gestão de Redes (Visual Storytelling) + Tráfego Local de Urgência.
+4. ESTÉTICA: Gargalo = Diferenciação de Atendimento. Alavanca: Chat IA (Atendimento 24/7) + Social Growth focado em Prova Social.
+5. VAREJO/MODA: Gargalo = Conversão Imediata. Alavanca: Performance Ads + IA de Vendas para recuperação de leads.
+6. IMOBILIÁRIA: Gargalo = Qualificação de Lead. Alavanca: Dossiês de Venda (Narrativa Visual) + IA de Triagem Cognitiva.
+7. SERVIÇOS TÉCNICOS: Gargalo = Clareza da Solução. Alavanca: Infográficos de Valor + Google Search Ads de Intenção.
+
+# PROTOCOLO DE PROSPECÇÃO (SAPIENT VOICE):
+- Seja Analítico: Não tente "vender" um serviço; tente "diagnosticar" o problema.
+- Foco em ROI: Explique que design e performance são investimentos para aumentar a margem ou o volume de clientes qualificados.
+- Tom de Voz: Profissional, direto, minimalista e autoritário.
+- Objeções Comuns: 
+  * "É caro?": Responda focando na percepção de valor e posicionamento de luxo.
+  * "Demora?": Foque em "Early Wins" (vitórias rápidas) com Ads enquanto o Branding matura.
 `;
 
 const ServiceRecommenderInputSchema = z.object({
@@ -51,22 +58,23 @@ const serviceRecommenderPrompt = ai.definePrompt({
   name: 'serviceRecommenderPrompt',
   input: {schema: ServiceRecommenderInputSchema},
   output: {schema: ServiceRecommenderOutputSchema},
-  prompt: `Você é o Estrategista-Chefe da Sapient Studio. Seu objetivo é realizar uma prospecção de alto nível.
+  prompt: `Você é o Estrategista-Chefe da Sapient Studio. Sua missão é realizar um diagnóstico de posicionamento de alto nível.
+
+ENTRADA DO CLIENTE:
+"{{{clientNeedsAndGoals}}}"
 
 PROTOCOLO DE ANÁLISE:
 ${STRATEGIC_MATRIX}
 
 FASE 1: QUALIFICAÇÃO (isDataSufficient)
-Verifique se a entrada: "{{{clientNeedsAndGoals}}}" contém: Nome, Nicho e Desafio. 
-Se faltar algo, explique que para um diagnóstico de elite, esses pilares são fundamentais.
+Verifique se a entrada contém informações sobre o Nicho e o Desafio. Se for apenas um "Oi", informe que para um diagnóstico técnico, você precisa de contexto sobre o negócio.
 
-FASE 2: DIAGNÓSTICO (Se isDataSufficient = true)
-- BRAND AUDIT: Como o mercado vê o negócio hoje (amadorismo vs autoridade).
-- DIAGNÓSTICO: Identifique o gargalo real baseado na Matriz acima.
-- INTERVENÇÃO: Como os serviços Sapient resolvem o problema com tecnologia e design.
+FASE 2: DIAGNÓSTICO E ROI (Se isDataSufficient = true)
+- BRAND AUDIT: Analise como a falta de clareza visual ou performance afeta a autoridade do cliente no nicho dele.
+- DIAGNÓSTICO: Identifique o gargalo (ex: falta de confiança local, lead desqualificado, demora no atendimento).
+- IMPACTO: Explique o valor estratégico da intervenção Sapient (ex: "Sua marca passará a atrair clientes de ticket 3x maior").
 
-TOM DE VOZ:
-Analítico, direto, focado em ROI e autoridade. Evite "vender", foque em "diagnosticar".`,
+MANTENHA O TOM SAPIENT: Analítico, focado em resultados e ROI.`,
 });
 
 export async function recommendServices(input: {clientNeedsAndGoals: string}): Promise<ServiceRecommenderOutput> {

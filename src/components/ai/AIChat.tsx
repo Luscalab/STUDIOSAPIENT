@@ -75,11 +75,9 @@ export function AIChat() {
   // Lógica de Scroll Inteligente: Garante visibilidade mas evita saltos bruscos no início
   useEffect(() => {
     if (scrollRef.current && isOpen) {
-      // Se for apenas a mensagem inicial, mantemos no topo para ver a saudação e o menu
       if (chatHistory.length <= 1 && !loading && !result) {
         scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        // Rola para baixo apenas quando há novas mensagens ou carregamento
         const scrollOptions: ScrollToOptions = {
           top: scrollRef.current.scrollHeight,
           behavior: 'smooth'
@@ -97,7 +95,6 @@ export function AIChat() {
 
   const handleQuickAction = (pathPrompt: string) => {
     setInput(pathPrompt);
-    // Submit automático para agilizar a experiência
     setTimeout(() => {
       handleSubmit(undefined, pathPrompt);
     }, 100);
@@ -114,7 +111,7 @@ export function AIChat() {
     setChatHistory(prev => [...prev, { role: 'user', text: messageToSend }]);
     setInput("");
     setLoading(true);
-    setResult(null); // Limpa resultado anterior para novo diagnóstico
+    setResult(null);
     
     try {
       const context = chatHistory.slice(-4).map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`).join('\n') + `\nCliente: ${messageToSend}`;
