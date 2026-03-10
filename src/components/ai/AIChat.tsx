@@ -13,12 +13,10 @@ import {
   Target,
   Zap,
   ShieldCheck,
-  ClipboardCheck,
   Sparkles,
   Plus,
   Minus,
-  TrendingUp,
-  MessageSquare
+  TrendingUp
 } from "lucide-react";
 import { recommendServices, type ServiceRecommenderOutput } from "@/ai/flows/ai-service-recommender";
 import { cn } from "@/lib/utils";
@@ -104,7 +102,7 @@ export function AIChat() {
     setResult(null);
     
     try {
-      // Constrói o contexto em string para a API
+      // Constrói o contexto em string para a API incluindo a mensagem atual
       const contextString = updatedHistory
         .slice(-6)
         .map(m => `${m.role === 'user' ? 'Cliente' : 'Sapient'}: ${m.text}`)
@@ -113,14 +111,15 @@ export function AIChat() {
       const recommendation = await recommendServices({ clientNeedsAndGoals: contextString });
       
       if (!recommendation) {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: "Ocorreu uma falha na análise técnica. Por favor, tente novamente." }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: "Ocorreu uma falha técnica na análise. Por favor, tente novamente." }]);
+        setLoading(false);
         return;
       }
 
       setResult(recommendation);
       
       if (!recommendation.isDataSufficient) {
-        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Para avançarmos, conte-me mais sobre seu nicho ou desafio atual." }]);
+        setChatHistory(prev => [...prev, { role: 'assistant', text: recommendation.missingInfoMessage || "Entendido. Para avançarmos, conte-me mais sobre seu nicho ou desafio atual." }]);
       } else {
         setChatHistory(prev => [...prev, { role: 'assistant', text: "Diagnóstico estratégico processado com sucesso. Analise seu dossiê de autoridade abaixo:" }]);
       }
@@ -162,7 +161,7 @@ export function AIChat() {
               </div>
               <div>
                 <h3 className="font-headline font-black text-[10px] tracking-widest uppercase text-white leading-none">Estrategista IA</h3>
-                <p className="text-[7px] font-bold text-white/40 uppercase tracking-widest mt-1">SAPIENT ENGINE v5.0</p>
+                <p className="text-[7px] font-bold text-white/40 uppercase tracking-widest mt-1">SAPIENT ENGINE v6.0</p>
               </div>
             </div>
             
@@ -225,19 +224,23 @@ export function AIChat() {
           {/* Dossiê Final */}
           {result?.isDataSufficient && (
             <div className="space-y-8 pt-8 border-t border-slate-100 animate-in fade-in slide-in-from-bottom-6 duration-1000">
-              <div className="space-y-4">
-                <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-4 w-4" /> Análise de Marca</p>
-                <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-slate-700 italic text-[0.85em]">
-                  "{result.brandAudit}"
+              {result.brandAudit && (
+                <div className="space-y-4">
+                  <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-4 w-4" /> Análise de Marca</p>
+                  <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-slate-700 italic text-[0.85em]">
+                    "{result.brandAudit}"
+                  </div>
                 </div>
-              </div>
+              )}
               
-              <div className="space-y-4">
-                <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity className="h-4 w-4" /> Diagnóstico Sapient</p>
-                <div className="bg-primary/5 p-6 rounded-[2rem] border border-primary/10 font-black text-slate-900 leading-snug text-[0.9em]">
-                  {result.diagnosis}
+              {result.diagnosis && (
+                <div className="space-y-4">
+                  <p className="text-[0.65em] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity className="h-4 w-4" /> Diagnóstico Sapient</p>
+                  <div className="bg-primary/5 p-6 rounded-[2rem] border border-primary/10 font-black text-slate-900 leading-snug text-[0.9em]">
+                    {result.diagnosis}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <Button 
                 className="w-full h-16 bg-[#0c0a1a] text-white hover:bg-primary rounded-2xl font-black uppercase tracking-widest text-[0.7em] transition-all group" 

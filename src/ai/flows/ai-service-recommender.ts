@@ -1,9 +1,9 @@
 'use server';
 /**
- * @fileOverview Motor de Consultoria Estratégica Sapient Studio v5.0.
+ * @fileOverview Motor de Consultoria Estratégica Sapient Studio v6.0.
  * 
- * Implementa uma Matriz de Posicionamento de Mercado com Memória Contextual.
- * Focado em identificar o "Gargalo de Ouro" e eliminar repetições de perguntas.
+ * Implementa uma Matriz de Posicionamento com Memória Contextual Determinística.
+ * Focado em identificar o "Gargalo de Ouro" e eliminar repetições de perguntas através de auditoria de histórico.
  */
 
 import {ai} from '@/ai/genkit';
@@ -31,9 +31,9 @@ const STRATEGIC_MATRIX = `
 7. SERVIÇOS TÉCNICOS: Gargalo = Clareza. Alavanca: Infográficos + Search Ads.
 
 # PROTOCOLO DE INTELIGÊNCIA (SAPIENT VOICE):
-- ANALISE O HISTÓRICO: Antes de responder, verifique se o cliente já informou o NICHO (área de atuação) e o DESAFIO (dor principal).
-- SE AMBOS EXISTIREM NO HISTÓRICO: Defina isDataSufficient = true e forneça o diagnóstico. NUNCA pergunte novamente o que já foi dito.
-- SE FALTAR INFORMAÇÃO: Peça APENAS o que falta de forma autoritária e elegante.
+- AUDITORIA DE MEMÓRIA: Antes de responder, você DEVE escanear o histórico para encontrar o NICHO (área de atuação) e o DESAFIO (dor principal).
+- SE AMBOS CONSTAREM NO HISTÓRICO: Defina isDataSufficient = true e forneça o diagnóstico técnico baseado na matriz.
+- NUNCA PERGUNTE NOVAMENTE: Se o cliente já informou o nicho ou desafio, você está proibido de perguntar isso de novo.
 - TOM DE VOZ: Analítico, focado em ROI, minimalista e profissional.
 `;
 
@@ -72,12 +72,13 @@ HISTÓRICO DA CONVERSA:
 INSTRUÇÕES RÍGIDAS:
 ${STRATEGIC_MATRIX}
 
-FASE 1: AUDITORIA DE MEMÓRIA (isDataSufficient)
-Verifique o histórico acima. Se o cliente já informou o Nicho e o Desafio em QUALQUER momento da conversa, defina isDataSufficient as true.
-Se faltar algum desses, peça de forma profissional. NUNCA peça informações que já constam no histórico.
+FASE 1: AUDITORIA DE HISTÓRICO
+Verifique se o cliente já informou o Nicho e o Desafio em QUALQUER momento do histórico acima. 
+Se sim, defina isDataSufficient as true.
+Se não, peça APENAS o que falta de forma profissional. NUNCA peça o que já foi dito.
 
 FASE 2: DIAGNÓSTICO (Se isDataSufficient = true)
-Forneça uma análise técnica baseada na Matriz Sapient. Foque em como nossa intervenção resolve o gargalo identificado.`,
+Forneça uma análise técnica baseada na Matriz Sapient. Foque em como nossa intervenção resolve o gargalo identificado e gera ROI.`,
 });
 
 export async function recommendServices(input: {clientNeedsAndGoals: string}): Promise<ServiceRecommenderOutput> {
