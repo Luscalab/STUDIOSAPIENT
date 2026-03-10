@@ -13,7 +13,9 @@ import {
   BarChart3,
   CheckCircle2,
   Target,
-  Layers
+  Layers,
+  Sparkles,
+  Zap
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { recommendServices, type RecommenderInput, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
@@ -34,12 +36,12 @@ const INITIAL_MESSAGE: Message = {
     "Jurídico & Direito", 
     "Imobiliário & Incorporação", 
     "Arquitetura & Design", 
-    "Educação & Mentorias", 
     "Tecnologia & SaaS", 
-    "Indústria & Logística", 
-    "Varejo & E-commerce", 
-    "Setor Automotivo", 
-    "Finanças & Contabilidade"
+    "Varejo & Luxo",
+    "Indústria & Engenharia",
+    "Educação & Mentorias",
+    "Franquias & Expansão",
+    "Agro & Negócios Rurais"
   ]
 };
 
@@ -76,7 +78,7 @@ export function AIChat() {
       addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Sapient IA Strategist V9.1'
+        source: 'Sapient IA Strategist V9.2'
       });
     } catch (e) {
       // Fail silently
@@ -97,7 +99,7 @@ export function AIChat() {
       content: m.content 
     }));
     
-    // Simulação de análise técnica profunda V9.1
+    // Simulação de análise técnica profunda V9.2
     setTimeout(async () => {
       try {
         const result = await recommendServices({
@@ -151,7 +153,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const summary = extractedData ? `[ Dossiê V9.1 | Nicho: ${extractedData.niche} | Gaps: ${extractedData.mainPainPoints?.join(', ')} | Pilares: ${extractedData.servicesNeeded?.join(' + ') || 'Ecossistema Digital'} ]` : '';
+    const summary = extractedData ? `[ Dossiê V9.2 | Nicho: ${extractedData.niche} | Gaps: ${extractedData.mainPainPoints?.join(', ')} | Pilares: ${extractedData.servicesNeeded?.join(' + ') || 'Ecossistema Digital'} ]` : '';
     const text = `Olá! Concluí o diagnóstico exaustivo com a IA Sapient. ${summary} Quero discutir meu plano de ROI.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -169,22 +171,23 @@ export function AIChat() {
   }
 
   return (
-    <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[420px] md:h-[760px] bg-white rounded-none md:rounded-[3rem] shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
+    <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[440px] md:h-[780px] bg-white rounded-none md:rounded-[3rem] shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
       
-      {/* Header V9.1 */}
+      {/* Header V9.2 */}
       <div className="p-8 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5 shrink-0">
         <div className="flex items-center gap-5">
-          <div className="h-12 w-12 rounded-2xl bg-primary flex items-center justify-center border border-white/10 shadow-lg relative">
-            <BrainCircuit className="h-6 w-6 text-white" />
+          <div className="h-12 w-12 rounded-2xl bg-primary flex items-center justify-center border border-white/10 shadow-lg relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary via-accent to-primary animate-spin duration-[10s] opacity-50" />
+            <BrainCircuit className="h-6 w-6 text-white relative z-10" />
             <div className="absolute -top-1 -right-1 h-3 w-3 bg-green-500 rounded-full border-2 border-[#08070b]" />
           </div>
           <div>
             <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none text-white">Estrategista IA</h3>
             <div className="flex items-center gap-3 mt-2">
-               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">Protocolo V9.1</span>
+               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">Protocolo V9.2</span>
                <div className="flex gap-1">
                  {[1,2,3,4,5].map(layer => (
-                   <div key={layer} className={cn("h-1 w-2 rounded-full transition-all", layer <= currentLayer ? "bg-primary" : "bg-white/10")} />
+                   <div key={layer} className={cn("h-1 w-2 rounded-full transition-all duration-700", layer <= currentLayer ? "bg-primary w-4" : "bg-white/10")} />
                  ))}
                </div>
             </div>
@@ -196,9 +199,9 @@ export function AIChat() {
       </div>
 
       {/* Mensagens */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 bg-slate-50/50">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 bg-slate-50/50 scrollbar-thin scrollbar-thumb-slate-200">
         {messages.map((msg, i) => (
-          <div key={i} className={cn("flex flex-col gap-4", msg.role === 'user' ? "items-end" : "items-start")}>
+          <div key={i} className={cn("flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500", msg.role === 'user' ? "items-end" : "items-start")}>
             <div className={cn(
               "p-6 rounded-[2.2rem] text-sm md:text-base font-bold leading-relaxed max-w-[90%] shadow-sm",
               msg.role === 'user' 
@@ -225,37 +228,58 @@ export function AIChat() {
         ))}
 
         {isLoading && (
-          <div className="flex items-center gap-4 text-slate-400 p-4">
+          <div className="flex items-center gap-4 text-slate-400 p-4 animate-pulse">
             <Cpu className="h-5 w-5 animate-spin text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Consultoria Exaustiva V9.1...</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Análise de Ecossistema V9.2...</span>
           </div>
         )}
 
         {showRedirect && (
-          <div className="pt-6 space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
-            <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/10 space-y-5">
-               <div className="flex items-center justify-between">
-                 <p className="text-[9px] font-black uppercase tracking-widest text-primary">Plano de Ecossistema</p>
-                 <BarChart3 className="h-4 w-4 text-primary" />
+          <div className="pt-6 space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-1000">
+            <div className="p-8 rounded-[2.5rem] bg-white border-2 border-primary/20 space-y-6 shadow-2xl relative overflow-hidden">
+               <div className="absolute top-0 right-0 p-4 opacity-[0.05]">
+                 <Sparkles className="h-16 w-16 text-primary" />
                </div>
-               <div className="grid grid-cols-1 gap-4">
-                 <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
-                   <Target className="h-3 w-3 text-primary" /> Nicho: <span className="text-slate-950">{extractedData?.niche || 'Mapeado'}</span>
+               
+               <div className="flex items-center justify-between">
+                 <p className="text-[9px] font-black uppercase tracking-[0.5em] text-primary">Dossiê Estratégico Sapient</p>
+                 <BarChart3 className="h-5 w-5 text-primary" />
+               </div>
+
+               <div className="space-y-4 relative z-10">
+                 <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                   <Target className="h-4 w-4 text-primary" />
+                   <div>
+                     <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Nicho Detectado</p>
+                     <p className="text-xs font-bold text-slate-950 uppercase">{extractedData?.niche || 'Mapeado'}</p>
+                   </div>
                  </div>
-                 <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
-                   <CheckCircle2 className="h-3 w-3 text-primary" /> Ecossistema: <span className="text-slate-950">{extractedData?.servicesNeeded?.join(' + ') || 'Integrado'}</span>
+                 
+                 <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                   <Layers className="h-4 w-4 text-primary" />
+                   <div>
+                     <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Ecossistema Sugerido</p>
+                     <p className="text-xs font-bold text-slate-950 uppercase">{extractedData?.servicesNeeded?.join(' + ') || 'Solução Integrada'}</p>
+                   </div>
                  </div>
-                 <div className="flex items-center gap-3 text-xs font-bold text-slate-700">
-                   <Layers className="h-3 w-3 text-primary" /> Gaps: <span className="text-slate-950">{extractedData?.mainPainPoints?.join(', ') || 'Identificados'}</span>
+
+                 <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                   <Zap className="h-4 w-4 text-primary" />
+                   <div>
+                     <p className="text-[8px] font-black uppercase tracking-widest text-slate-400">Gargalos de ROI</p>
+                     <p className="text-xs font-bold text-slate-950 uppercase">{extractedData?.mainPainPoints?.join(', ') || 'Identificados'}</p>
+                   </div>
                  </div>
                </div>
             </div>
+
             <button 
               onClick={handleWhatsAppRedirect}
-              className="w-full py-8 bg-green-500 hover:bg-green-600 text-white rounded-[2rem] font-black uppercase tracking-widest text-[11px] flex items-center justify-center gap-4 shadow-2xl transition-all group active:scale-95"
+              className="w-full py-8 bg-green-500 hover:bg-green-600 text-white rounded-[2.5rem] font-black uppercase tracking-[0.3em] text-[11px] flex items-center justify-center gap-4 shadow-[0_20px_50px_rgba(34,197,94,0.3)] transition-all group active:scale-95"
             >
               <MessageCircle className="h-6 w-6" /> ATIVAR CONSULTORIA HUMANA <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </button>
+            <p className="text-center text-[8px] font-bold text-slate-300 uppercase tracking-widest">Sincronização Segura via Protocolo V9.2</p>
           </div>
         )}
       </div>
@@ -279,9 +303,9 @@ export function AIChat() {
           </button>
         </form>
         <div className="mt-6 flex items-center justify-center gap-6 opacity-30">
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA ENGINE V9.1</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA ENGINE V9.2</p>
           <div className="h-1 w-1 rounded-full bg-slate-400" />
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">MAPEAMENTO EXAUSTIVO</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">CONSULTORIA EXAUSTIVA</p>
         </div>
       </div>
     </div>
