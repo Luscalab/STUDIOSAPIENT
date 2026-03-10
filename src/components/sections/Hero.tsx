@@ -27,14 +27,14 @@ export function Hero() {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-[1400px] mx-auto text-center">
-          <h1 className="font-headline text-5xl md:text-8xl lg:text-[9.5rem] font-black text-white tracking-tighter leading-[0.9] mb-12 py-4">
+          <h1 className="font-headline text-4xl md:text-7xl lg:text-[7.5rem] font-black text-white tracking-tighter leading-[0.9] mb-12 py-4">
             Design e Estratégia <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary italic font-medium block mt-4">
               para o seu Negócio.
             </span>
           </h1>
           
-          <p className="text-lg md:text-2xl text-white/50 font-medium max-w-4xl mx-auto leading-relaxed tracking-tight text-balance mb-20">
+          <p className="text-lg md:text-xl text-white/50 font-medium max-w-4xl mx-auto leading-relaxed tracking-tight text-balance mb-20">
             Apoiamos o crescimento da sua marca através de uma comunicação visual clara e estratégias focadas em resultados. <span className="text-white font-bold">Uma parceria verdadeira para o sucesso do seu projeto.</span>
           </p>
           

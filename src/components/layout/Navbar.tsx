@@ -28,7 +28,7 @@ export function Navbar() {
       <header className="absolute top-10 left-0 right-0 z-[150]" role="banner">
         <div className="container mx-auto px-6 flex items-center justify-between gap-12">
           
-          <Link href="/" className="relative block w-[280px] h-[75px] lg:w-[600px] lg:h-[160px] transition-transform duration-700 hover:scale-105 active:scale-95">
+          <Link href="/" className="relative block w-[200px] h-[55px] lg:w-[450px] lg:h-[120px] transition-transform duration-700 hover:scale-105 active:scale-95">
             <Image 
               src={logoUrl}
               alt="studiosapient Logo"
@@ -38,13 +38,13 @@ export function Navbar() {
             />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-12 px-12 py-6 rounded-full glass-morphism border-white/5">
+          <nav className="hidden lg:flex items-center gap-10 px-10 py-5 rounded-full glass-morphism border-white/5">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
                 target={link.external ? "_blank" : "_self"}
-                className="text-[10px] uppercase tracking-[0.4em] font-black text-white/50 hover:text-white transition-all relative group"
+                className="text-[9px] uppercase tracking-[0.4em] font-black text-white/50 hover:text-white transition-all relative group"
               >
                 {link.name}
                 <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full" />
@@ -55,7 +55,7 @@ export function Navbar() {
             
             <button 
               onClick={handleOpenChat}
-              className="text-[10px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all flex items-center gap-3"
+              className="text-[9px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all flex items-center gap-3"
             >
               <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
               Análise IA
