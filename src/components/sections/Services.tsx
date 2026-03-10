@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
@@ -59,10 +60,10 @@ const services = [
 
 export function Services() {
   return (
-    <section id="servicos" className="py-12 md:py-20 bg-white text-black relative overflow-hidden rounded-[2.5rem] md:rounded-[5rem] mx-4 my-6 shadow-xl">
+    <section id="servicos" className="py-10 md:py-16 bg-white text-black relative overflow-hidden rounded-[2rem] md:rounded-[4rem] mx-4 my-4 shadow-xl">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="mb-10 lg:mb-16 text-center md:text-left max-w-2xl">
-          <h2 className="font-headline text-2xl md:text-4xl lg:text-5xl font-black text-black tracking-tighter leading-none uppercase">
+        <div className="mb-8 lg:mb-12 text-center md:text-left max-w-2xl">
+          <h2 className="font-headline text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tighter leading-none uppercase">
             COMO PODEMOS <br />
             <span className="text-primary italic font-medium">AJUDAR.</span>
           </h2>
@@ -79,26 +80,26 @@ export function Services() {
             {services.map((service, idx) => (
               <CarouselItem key={idx} className="pl-4 md:basis-1/2 lg:basis-1/3">
                 <Card 
-                  className="group relative border-none bg-secondary/20 rounded-[2rem] p-7 transition-all duration-700 hover:bg-white hover:shadow-2xl flex flex-col justify-between min-h-[400px] lg:min-h-[460px] h-full overflow-hidden border border-muted/5"
+                  className="group relative border-none bg-secondary/20 rounded-[1.5rem] p-6 transition-all duration-700 hover:bg-white hover:shadow-2xl flex flex-col justify-between min-h-[360px] lg:min-h-[400px] h-full overflow-hidden border border-muted/5"
                 >
                   <div className="relative z-10">
-                    <div className="mb-6">
-                      <div className="h-12 w-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary transition-all duration-700 group-hover:bg-primary group-hover:text-white border border-primary/10">
+                    <div className="mb-4">
+                      <div className="h-10 w-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary transition-all duration-700 group-hover:bg-primary group-hover:text-white border border-primary/10">
                         {service.icon}
                       </div>
                     </div>
 
-                    <CardTitle className="font-headline text-xl mb-3 tracking-tighter font-black text-black uppercase leading-none break-words">
+                    <CardTitle className="font-headline text-lg mb-2 tracking-tighter font-black text-black uppercase leading-none break-words">
                       {service.title}
                     </CardTitle>
-                    <CardDescription className="text-black/50 text-xs md:text-sm leading-relaxed font-medium mb-6 tracking-tight">
+                    <CardDescription className="text-black/50 text-[10px] md:text-xs leading-relaxed font-medium mb-4 tracking-tight">
                       {service.description}
                     </CardDescription>
 
-                    <div className="space-y-2 mb-8">
+                    <div className="space-y-1.5 mb-6">
                       {service.features.map((feature, fIdx) => (
-                        <div key={fIdx} className="flex items-center gap-2 text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-black/40 group-hover:text-black/70 transition-colors">
-                          <CheckCircle2 className="h-3 w-3 text-primary shrink-0" />
+                        <div key={fIdx} className="flex items-center gap-2 text-[7px] md:text-[8px] font-bold uppercase tracking-[0.2em] text-black/40 group-hover:text-black/70 transition-colors">
+                          <CheckCircle2 className="h-2.5 w-2.5 text-primary shrink-0" />
                           {feature}
                         </div>
                       ))}
@@ -107,7 +108,7 @@ export function Services() {
                   
                   <Link 
                     href={`/servicos/${service.slug}`} 
-                    className="flex items-center justify-between p-5 rounded-xl bg-white text-black hover:bg-black hover:text-white transition-all duration-500 text-[8px] font-black uppercase tracking-[0.4em] border border-muted shadow-sm"
+                    className="flex items-center justify-between p-4 rounded-xl bg-white text-black hover:bg-black hover:text-white transition-all duration-500 text-[8px] font-black uppercase tracking-[0.4em] border border-muted shadow-sm"
                   >
                     Saber Mais <ArrowUpRight className="h-4 w-4" />
                   </Link>
@@ -116,9 +117,9 @@ export function Services() {
             ))}
           </CarouselContent>
           
-          <div className="hidden md:flex justify-end gap-3 mt-10 px-4">
-            <CarouselPrevious className="static translate-y-0 h-12 w-12 rounded-xl border-2 border-primary/20 text-primary bg-primary/5 hover:bg-primary hover:text-white transition-all shadow-lg" />
-            <CarouselNext className="static translate-y-0 h-12 w-12 rounded-xl border-2 border-primary/20 text-primary bg-primary/5 hover:bg-primary hover:text-white transition-all shadow-lg" />
+          <div className="hidden md:flex justify-end gap-3 mt-8 px-4">
+            <CarouselPrevious className="static translate-y-0 h-10 w-10 rounded-xl border-2 border-primary/20 text-primary bg-primary/10 hover:bg-primary hover:text-white transition-all shadow-lg" />
+            <CarouselNext className="static translate-y-0 h-10 w-10 rounded-xl border-2 border-primary/20 text-primary bg-primary/10 hover:bg-primary hover:text-white transition-all shadow-lg" />
           </div>
         </Carousel>
       </div>

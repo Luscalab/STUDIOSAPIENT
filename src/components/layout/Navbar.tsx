@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -26,10 +27,10 @@ export function Navbar() {
   return (
     <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
       <div className="container mx-auto px-6 flex items-center justify-between gap-6">
-        {/* Logo com escala ampliada no Desktop e deslocamento de 40% à direita */}
+        {/* Logo imponente no Desktop com deslocamento lateral de 40% */}
         <Link 
           href="/" 
-          className="relative block w-[140px] h-[42px] md:w-[180px] md:h-[54px] lg:w-[480px] lg:h-[144px] lg:translate-x-[40%] transition-transform duration-700 hover:scale-105 shrink-0"
+          className="relative block w-[120px] h-[36px] md:w-[160px] md:h-[48px] lg:w-[520px] lg:h-[156px] lg:translate-x-[40%] transition-transform duration-700 hover:scale-105 shrink-0"
         >
           <Image 
             src={logoUrl} 
