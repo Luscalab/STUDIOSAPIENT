@@ -44,10 +44,11 @@ export function AIChat() {
   const handleSendMessage = async (userMsg: string) => {
     if (!userMsg.trim() || isLoading) return;
 
-    // Constrói o histórico para a API antes de atualizar o estado local para garantir sincronia
+    // Atualiza mensagens localmente primeiro para resposta instantânea
     const currentHistory = messages.map(({ role, content }) => ({ role, content }));
+    const newMessage: Message = { role: 'user', content: userMsg };
     
-    setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
+    setMessages(prev => [...prev, newMessage]);
     setInput("");
     setIsLoading(true);
 
@@ -132,7 +133,7 @@ export function AIChat() {
               {msg.content}
             </div>
 
-            {/* Cards de Ação Rápida - Rendereizados apenas na última mensagem do modelo */}
+            {/* Cards de Ação Rápida */}
             {msg.role === 'model' && msg.actions && msg.actions.length > 0 && i === messages.length - 1 && (
               <div className="flex flex-wrap gap-2 mt-2 max-w-full animate-in fade-in slide-in-from-left-4 duration-500">
                 {msg.actions.map((action, idx) => (
