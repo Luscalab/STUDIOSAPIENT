@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview Motor de Consultoria Estratégica Sapient Studio v3.
+ * @fileOverview Motor de Consultoria Estratégica Sapient Studio v4.
  * 
  * Implementa uma Matriz de Posicionamento de Mercado e protocolos de prospecção.
  * Focado em identificar o "Gargalo de Ouro" e alavancas de ROI.
@@ -45,11 +45,11 @@ const ServiceRecommenderInputSchema = z.object({
 
 const ServiceRecommenderOutputSchema = z.object({
   isDataSufficient: z.boolean().describe('Informa se os dados permitem um diagnóstico estratégico.'),
-  missingInfoMessage: z.string().optional().describe('Solicitação profissional dos dados faltantes.'),
-  brandAudit: z.string().describe('Análise da percepção de marca no nicho atual.'),
-  diagnosis: z.string().describe('O gargalo específico identificado no negócio.'),
-  recommendedServices: z.array(z.enum(SapientServices)).describe('Mix de serviços recomendados.'),
-  strategicValue: z.string().describe('O impacto financeiro/de marca da execução profissional.'),
+  missingInfoMessage: z.string().optional().describe('Solicitação profissional dos dados faltantes se isDataSufficient for false.'),
+  brandAudit: z.string().optional().describe('Análise da percepção de marca no nicho atual. Preencher se isDataSufficient for true.'),
+  diagnosis: z.string().optional().describe('O gargalo específico identificado no negócio. Preencher se isDataSufficient for true.'),
+  recommendedServices: z.array(z.enum(SapientServices)).optional().describe('Mix de serviços recomendados. Preencher se isDataSufficient for true.'),
+  strategicValue: z.string().optional().describe('O impacto financeiro/de marca da execução profissional. Preencher se isDataSufficient for true.'),
 });
 
 export type ServiceRecommenderOutput = z.infer<typeof ServiceRecommenderOutputSchema>;
@@ -67,7 +67,7 @@ PROTOCOLO DE ANÁLISE:
 ${STRATEGIC_MATRIX}
 
 FASE 1: QUALIFICAÇÃO (isDataSufficient)
-Verifique se a entrada contém informações sobre o Nicho e o Desafio. Se for apenas um "Oi", informe que para um diagnóstico técnico, você precisa de contexto sobre o negócio.
+Verifique se a entrada contém informações sobre o Nicho e o Desafio. Se for apenas um "Oi" ou algo muito vago, defina isDataSufficient como false e use o missingInfoMessage para pedir contexto profissional.
 
 FASE 2: DIAGNÓSTICO E ROI (Se isDataSufficient = true)
 - BRAND AUDIT: Analise como a falta de clareza visual ou performance afeta a autoridade do cliente no nicho dele.

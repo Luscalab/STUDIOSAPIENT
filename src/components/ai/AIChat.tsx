@@ -57,7 +57,6 @@ export function AIChat() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ServiceRecommenderOutput | null>(null);
   
-  // Histórico inicial com saudação estratégica
   const [chatHistory, setChatHistory] = useState<{role: 'user' | 'assistant', text: string}[]>([
     { 
       role: 'assistant', 
@@ -72,12 +71,14 @@ export function AIChat() {
     setMounted(true);
   }, []);
 
-  // Lógica de Scroll Inteligente: Garante visibilidade mas evita saltos bruscos no início
+  // Lógica de Scroll Inteligente: Mantém o menu inicial visível ao abrir
   useEffect(() => {
     if (scrollRef.current && isOpen) {
       if (chatHistory.length <= 1 && !loading && !result) {
+        // Se for apenas a mensagem inicial, garante que o topo esteja visível
         scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
+        // Scroll para o fim apenas se houver interação real
         const scrollOptions: ScrollToOptions = {
           top: scrollRef.current.scrollHeight,
           behavior: 'smooth'
@@ -193,12 +194,12 @@ export function AIChat() {
                       "p-5 rounded-[2rem] font-medium leading-relaxed shadow-sm transition-all duration-300", 
                       msg.role === 'user' 
                         ? "bg-primary text-white rounded-tr-none" 
-                        : "bg-white border border-slate-100 text-slate-700 rounded-tl-none"
+                        : "bg-white border border-slate-100 text-slate-900 rounded-tl-none shadow-md"
                     )} 
                   >
                     {msg.text}
                   </div>
-                  <span className="text-[8px] font-black uppercase tracking-widest text-slate-300">
+                  <span className="text-[8px] font-black uppercase tracking-widest text-slate-400">
                     {msg.role === 'user' ? 'SOLICITANTE' : 'ESTRATEGISTA SAPIENT'}
                   </span>
                 </div>
@@ -218,10 +219,10 @@ export function AIChat() {
                             <div className="h-10 w-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
                               {path.icon}
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 group-hover:text-primary leading-tight flex-1">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-700 group-hover:text-primary leading-tight flex-1">
                               {path.label}
                             </span>
-                            <ArrowRight className="h-3 w-3 text-slate-200 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                            <ArrowRight className="h-3 w-3 text-slate-300 group-hover:text-primary group-hover:translate-x-1 transition-all" />
                           </button>
                         ))}
                       </div>
@@ -235,24 +236,30 @@ export function AIChat() {
           {/* Dossiê de Diagnóstico Gerado */}
           {result?.isDataSufficient && (
             <div className="space-y-8 pt-8 border-t border-slate-100 animate-in zoom-in-95 duration-700">
-              <div className="space-y-4">
-                <p className="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-4 w-4" /> Auditoria de Percepção</p>
-                <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-slate-600 italic leading-relaxed text-sm shadow-inner">
-                  "{result.brandAudit}"
+              {result.brandAudit && (
+                <div className="space-y-4">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Search className="h-4 w-4" /> Auditoria de Percepção</p>
+                  <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-slate-700 italic leading-relaxed text-sm shadow-inner">
+                    "{result.brandAudit}"
+                  </div>
                 </div>
-              </div>
+              )}
               
-              <div className="space-y-4">
-                <p className="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity className="h-4 w-4" /> Diagnóstico de Gargalo</p>
-                <div className="bg-primary/5 p-6 rounded-[2rem] border border-primary/10 font-black text-slate-900 tracking-tight leading-snug">
-                  {result.diagnosis}
+              {result.diagnosis && (
+                <div className="space-y-4">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity className="h-4 w-4" /> Diagnóstico de Gargalo</p>
+                  <div className="bg-primary/5 p-6 rounded-[2rem] border border-primary/10 font-black text-slate-900 tracking-tight leading-snug">
+                    {result.diagnosis}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              <div className="space-y-4">
-                <p className="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><ClipboardCheck className="h-4 w-4" /> Valor da Intervenção</p>
-                <p className="text-slate-500 font-medium leading-relaxed px-2 text-sm">{result.strategicValue}</p>
-              </div>
+              {result.strategicValue && (
+                <div className="space-y-4">
+                  <p className="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-2"><ClipboardCheck className="h-4 w-4" /> Valor da Intervenção</p>
+                  <p className="text-slate-600 font-medium leading-relaxed px-2 text-sm">{result.strategicValue}</p>
+                </div>
+              )}
 
               <div className="pt-4">
                 <Button 
