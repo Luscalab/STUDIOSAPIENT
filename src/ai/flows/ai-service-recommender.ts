@@ -62,7 +62,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   else if (fullHistoryText.match(/(carro|automóvel|veículo|concessionária|oficina|automotivo|blindagem)/)) niche = 'Setor Automotivo';
   else if (fullHistoryText.match(/(contador|contabilidade|financeiro|fiscal|investimento|seguros|banco)/)) niche = 'Finanças & Contabilidade';
   else if (fullHistoryText.match(/(arquiteto|arquitetura|interiores|decoração|obra|reforma)/)) niche = 'Arquitetura & Design';
-  else if (fullHistoryText.match(/(estética|estetica|harmonização|harmonizacao|beleza|salao|salão|biomedicina|unha|cabelo)/)) niche = 'Estética & Beleza';
+  else if (fullHistoryText.match(/(estética|estetica|beleza|salao|salão|biomedicina|unha|cabelo)/)) niche = 'Estética & Beleza';
   else if (fullHistoryText.match(/(pet|veterinária|veterinaria|banho e tosa|dog|cachorro|gato|petshop)/)) niche = 'Pet Shop & Veterinária';
   else if (fullHistoryText.match(/(fotógrafo|fotografo|fotografia|filme|video|vídeo|eventos|casamento|ensaio)/)) niche = 'Fotografia & Vídeo';
   else if (fullHistoryText.match(/(moda|roupa|acessório|acessorio|calçado|calcado|estilo|grife|loja de roupa)/)) niche = 'Moda & Acessórios';
