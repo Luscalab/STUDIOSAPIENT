@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview Motor de Consultoria Estratégica Sapient Studio v8.0.
+ * @fileOverview Motor de Consultoria Estratégica Sapient Studio v9.0.
  * 
  * Implementa auditoria determinística de histórico para eliminar repetições.
  * Focado em identificar Nicho e Desafio para disparar o Diagnóstico Técnico.
