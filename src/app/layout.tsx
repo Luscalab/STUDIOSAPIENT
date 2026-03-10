@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { VLibras } from "@/components/accessibility/VLibras";
 import { AccessibilityMenu } from "@/components/accessibility/AccessibilityMenu";
 import { FirebaseClientProvider } from "@/firebase";
+import { SecurityHardening } from "@/components/security/SecurityHardening";
 
 export const metadata: Metadata = {
   title: 'studiosapient. | Estratégia e Resultados',
@@ -27,6 +28,9 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased bg-background text-foreground overflow-x-hidden">
         <FirebaseClientProvider>
+          {/* Blindagem de Segurança */}
+          <SecurityHardening />
+
           {/* Atalho de Acessibilidade - Pular para Conteúdo */}
           <a 
             href="#main-content" 

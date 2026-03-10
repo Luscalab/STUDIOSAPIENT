@@ -41,6 +41,27 @@
     @apply bg-[#08070b] text-foreground selection:bg-primary/20 selection:text-primary antialiased font-body;
     text-rendering: optimizeLegibility;
     min-height: 100vh;
+    
+    /* SEGURANÇA: Impede seleção de texto em todo o corpo do site */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* SEGURANÇA: Permite seleção apenas em campos de entrada */
+  input, textarea, [contenteditable="true"] {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+
+  /* SEGURANÇA: Impede arrastar imagens */
+  img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-drag: none;
   }
 }
 
