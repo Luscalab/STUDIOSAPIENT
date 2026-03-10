@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { recommendServices } from "@/ai/flows/ai-service-recommender";
+import { recommendServices, type RecommenderInput } from "@/ai/flows/ai-service-recommender";
 
 interface Message {
   role: 'user' | 'model';
@@ -48,8 +48,7 @@ export function AIChat() {
     const userMsg = text.trim();
     if (!userMsg || isLoading) return;
 
-    // Captura histórico ANTES de adicionar a nova mensagem
-    const currentHistory = messages.map(m => ({ 
+    const historyForAi = messages.map(m => ({ 
       role: m.role, 
       content: m.content 
     }));
@@ -60,7 +59,7 @@ export function AIChat() {
 
     try {
       const result = await recommendServices({
-        history: currentHistory,
+        history: historyForAi,
         currentMessage: userMsg
       });
 
@@ -74,14 +73,12 @@ export function AIChat() {
         if (result.shouldRedirect) {
           setShowRedirect(true);
         }
-      } else {
-        throw new Error("Resposta vazia da IA");
       }
     } catch (error) {
-      console.error("Erro no chat IA:", error);
+      console.error("Falha na comunicação com o Estrategista:", error);
       setMessages(prev => [...prev, { 
         role: 'model', 
-        content: "Houve uma pequena oscilação na conexão com nosso estrategista. Poderia repetir ou, se preferir, podemos seguir pelo WhatsApp agora mesmo." 
+        content: "Identificamos uma breve instabilidade no processamento estratégico. Você pode tentar novamente ou, se for urgente, nosso time humano está pronto para ajudar." 
       }]);
       setShowRedirect(true);
     } finally {
@@ -91,7 +88,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = "Olá! Vim através do diagnóstico da IA no site da Sapient Studio e gostaria de falar com um estrategista.";
+    const text = "Olá! Tive uma experiência com o estrategista IA da Sapient Studio e gostaria de prosseguir com uma consultoria humana.";
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -108,7 +105,7 @@ export function AIChat() {
   }
 
   return (
-    <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[400px] md:h-[650px] bg-white rounded-none md:rounded-[2.5rem] shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
+    <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[420px] md:h-[680px] bg-white rounded-none md:rounded-[2.5rem] shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
       
       {/* Header */}
       <div className="p-6 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5 shrink-0">
@@ -118,7 +115,7 @@ export function AIChat() {
           </div>
           <div>
             <h3 className="font-headline font-black text-xs tracking-tight uppercase leading-none">Estrategista Sapient</h3>
-            <p className="text-[7px] font-black text-primary uppercase tracking-[0.4em] mt-1 italic">INTELIGÊNCIA DE MARCA</p>
+            <p className="text-[7px] font-black text-primary uppercase tracking-[0.4em] mt-1 italic">MÓDULO DE INTELIGÊNCIA</p>
           </div>
         </div>
         <button onClick={() => setIsOpen(false)} className="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors text-white">
@@ -129,8 +126,8 @@ export function AIChat() {
       {/* Messages Area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/50">
         {messages.length === 0 && (
-          <div className="p-6 rounded-[2rem] bg-white border border-slate-200 text-slate-950 font-bold text-sm leading-relaxed shadow-sm animate-in fade-in duration-700">
-            Bem-vindo à Sapient Studio. Para iniciarmos sua análise: qual o seu nicho de atuação ou qual desafio você enfrenta hoje?
+          <div className="p-6 rounded-[2rem] bg-white border border-slate-200 text-slate-900 font-bold text-sm leading-relaxed shadow-sm animate-in fade-in duration-700">
+            Iniciando Protocolo Estratégico. Para começarmos sua análise: qual o seu nicho de atuação ou qual o maior desafio comercial que você enfrenta hoje?
           </div>
         )}
 
@@ -151,7 +148,7 @@ export function AIChat() {
                   <button
                     key={idx}
                     onClick={() => handleSendMessage(action)}
-                    className="px-5 py-3 bg-white border border-slate-300 hover:border-primary hover:text-primary rounded-full text-[9px] font-black uppercase tracking-widest text-slate-950 transition-all shadow-md flex items-center gap-2 group active:scale-95"
+                    className="px-5 py-3 bg-white border border-slate-300 hover:border-primary hover:text-primary rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900 transition-all shadow-md flex items-center gap-2 group active:scale-95"
                   >
                     {action} <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
                   </button>
@@ -164,7 +161,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-3 text-slate-500 p-2">
             <Loader2 className="h-4 w-4 animate-spin text-primary" />
-            <span className="text-[9px] font-black uppercase tracking-widest italic">Analisando Marca...</span>
+            <span className="text-[9px] font-black uppercase tracking-widest italic">Processando Dados...</span>
           </div>
         )}
 
@@ -189,12 +186,12 @@ export function AIChat() {
           }} 
           className="relative"
         >
-          <Input 
+          <input 
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={isLoading}
-            placeholder="Descreva seu desafio aqui..."
-            className="h-16 pl-6 pr-16 bg-slate-50 border-slate-200 rounded-2xl text-slate-950 font-bold placeholder:text-slate-300 focus:ring-primary/20 shadow-inner"
+            placeholder="Descreva seu projeto ou dúvida..."
+            className="w-full h-16 pl-6 pr-16 bg-slate-50 border border-slate-200 rounded-2xl text-slate-900 font-bold placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-inner"
           />
           <button 
             type="submit"
@@ -205,7 +202,7 @@ export function AIChat() {
           </button>
         </form>
         <p className="text-[7px] text-center text-slate-400 font-black uppercase tracking-[0.5em] mt-4">
-          SAPIENT STUDIO | INTELIGÊNCIA ESTRATÉGICA
+          SAPIENT STUDIO | INTELIGÊNCIA COGNITIVA
         </p>
       </div>
     </div>

@@ -3,7 +3,7 @@
 /**
  * @fileOverview Inteligência de Prospecção Sapient Studio.
  * 
- * Implementa o padrão Genkit 1.x onde uma Flow encapsula um Prompt Definido.
+ * Implementa o padrão Genkit 1.x de alta estabilidade.
  * Foca em qualificação estratégica antes da conversão para o WhatsApp.
  */
 
@@ -30,17 +30,15 @@ export type RecommenderOutput = z.infer<typeof RecommenderOutputSchema>;
 export type RecommenderInput = z.infer<typeof RecommenderInputSchema>;
 
 const systemInstructions = `Você é o Estrategista-Chefe da Sapient Studio.
-Sua missão é atuar como a PRIMEIRA PORTA de entrada da agência, realizando uma "internação estratégica" do lead.
+Sua missão é atuar como a PRIMEIRA PORTA de entrada da agência, realizando uma análise estratégica do lead.
 
-DIRETRIZES DE COMPORTAMENTO:
-1. CONVERSA PRIMEIRO: Nunca redirecione para o WhatsApp na primeira mensagem. Você deve ser curioso e autoritário.
-2. DESCOBERTA: Seu objetivo é identificar o NICHO (ex: médico, advogado, e-commerce) e o DESAFIO (ex: falta de leads, design amador).
-3. TOM DE VOZ: Minimalista, sofisticado e técnico. Use um português de negócios impecável.
-4. REDIRECIONAMENTO: Apenas defina 'shouldRedirect' como true se você já tiver identificado claramente o nicho E o desafio, OU se o usuário pedir explicitamente para falar com um humano.
+DIRETRIZES:
+1. NUNCA redirecione para o WhatsApp na primeira mensagem.
+2. Identifique o NICHO (ex: médico, jurídico, e-commerce) e o DESAFIO (ex: falta de leads, design amador).
+3. Tom de voz: Minimalista, sofisticado e técnico.
+4. REDIRECIONAMENTO: Apenas se 'shouldRedirect' for true se o nicho E desafio estiverem claros, ou se o usuário pedir explicitamente para falar com um humano.
 
-FORMATO DE RESPOSTA:
-- 'reply': Sua resposta em texto.
-- 'suggestedActions': Máximo de 3 opções curtas que ajudem o usuário a responder (ex: "Sou Advogado", "Falta de Clientes").`;
+IMPORTANTE: Sua resposta DEVE ser um objeto JSON válido seguindo estritamente o esquema definido.`;
 
 const recommenderPrompt = ai.definePrompt({
   name: 'recommenderPrompt',
@@ -48,45 +46,31 @@ const recommenderPrompt = ai.definePrompt({
   input: { schema: RecommenderInputSchema },
   output: { schema: RecommenderOutputSchema },
   config: {
-    safetySettings: [
-      { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
-      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
-      { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
-      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
-    ],
-    temperature: 0.7,
+    temperature: 0.5,
+    topP: 0.9,
+    topK: 40,
   },
   system: systemInstructions,
   prompt: `
-    HISTÓRICO DA CONVERSA:
+    HISTÓRICO:
     {{#each history}}
     - {{role}}: {{{content}}}
     {{/each}}
 
-    MENSAGEM ATUAL DO USUÁRIO: {{{currentMessage}}}
+    MENSAGEM DO USUÁRIO: {{{currentMessage}}}
     
-    INSTRUÇÃO: Analise a mensagem. Se for o início, dê boas-vindas e pergunte sobre o negócio. Se for uma resposta, valide e aprofunde. Se o cenário estiver pronto para venda, sugira o WhatsApp.
+    Analise e responda em formato JSON.
   `,
 });
 
-const serviceFlow = ai.defineFlow(
-  {
-    name: 'recommendServicesFlow',
-    inputSchema: RecommenderInputSchema,
-    outputSchema: RecommenderOutputSchema,
-  },
-  async (input) => {
-    const { output } = await recommenderPrompt(input);
-    if (!output) {
-      throw new Error("Falha na geração de resposta pela IA.");
-    }
-    return output;
-  }
-);
-
 /**
- * Função exportada para uso em Client Components.
+ * Fluxo de recomendação de serviços.
+ * Encapsula o prompt e garante a entrega da resposta para o cliente.
  */
 export async function recommendServices(input: RecommenderInput): Promise<RecommenderOutput> {
-  return serviceFlow(input);
+  const { output } = await recommenderPrompt(input);
+  if (!output) {
+    throw new Error("O modelo de IA não retornou uma resposta válida.");
+  }
+  return output;
 }
