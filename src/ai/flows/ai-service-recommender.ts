@@ -1,14 +1,19 @@
 'use server';
 
 /**
- * @fileOverview Inteligência de Prospecção Sapient Studio - Módulo Local.
- * Implementa um motor de diálogo determinístico baseado em roteiros de alta conversão.
+ * @fileOverview Inteligência de Prospecção Sapient Studio - Módulo Local Avançado.
+ * Implementa extração de atributos e roteiro de qualificação estratégica.
  */
 
 export type RecommenderOutput = {
   reply: string;
   shouldRedirect: boolean;
   suggestedActions?: string[];
+  extractedData?: {
+    niche?: string;
+    goal?: string;
+    urgency?: 'low' | 'medium' | 'high';
+  };
 };
 
 export type RecommenderInput = {
@@ -17,71 +22,75 @@ export type RecommenderInput = {
 };
 
 /**
- * Fluxo de recomendação de serviços (Versão Local/Resiliente).
- * Analisa a mensagem do usuário e retorna respostas baseadas em roteiros estratégicos.
+ * Fluxo de recomendação e qualificação (Versão Local com Extração).
  */
 export async function recommendServices(input: RecommenderInput): Promise<RecommenderOutput> {
   const msg = input.currentMessage.toLowerCase();
+  const fullHistoryText = input.history.map(h => h.content.toLowerCase()).join(' ') + ' ' + msg;
+
+  // 1. Extração de Nicho
+  let niche = 'Não identificado';
+  if (fullHistoryText.includes('médico') || fullHistoryText.includes('saúde') || fullHistoryText.includes('hospital')) niche = 'Saúde/Médico';
+  else if (fullHistoryText.includes('advogado') || fullHistoryText.includes('jurídico') || fullHistoryText.includes('direito')) niche = 'Jurídico';
+  else if (fullHistoryText.includes('loja') || fullHistoryText.includes('venda') || fullHistoryText.includes('e-commerce')) niche = 'Varejo/E-commerce';
+  else if (fullHistoryText.includes('consultoria') || fullHistoryText.includes('serviços')) niche = 'Serviços/Consultoria';
+
+  // 2. Extração de Objetivo
+  let goal = 'Crescimento Geral';
+  if (fullHistoryText.includes('anúncio') || fullHistoryText.includes('tráfego') || fullHistoryText.includes('vendas')) goal = 'Performance Ads';
+  else if (fullHistoryText.includes('marca') || fullHistoryText.includes('design') || fullHistoryText.includes('logo')) goal = 'Design Estratégico';
+  else if (fullHistoryText.includes('ia') || fullHistoryText.includes('bot') || fullHistoryText.includes('automação')) goal = 'Ecossistemas de IA';
+
   const historyCount = input.history.length;
+  const isSpecific = niche !== 'Não identificado' || goal !== 'Crescimento Geral';
 
-  // 1. SETOR DE SAÚDE / MÉDICO
-  if (msg.includes('médico') || msg.includes('clínica') || msg.includes('saúde') || msg.includes('hospital') || msg.includes('doctor')) {
+  // ROTEIRO DE RESPOSTAS
+  
+  // Se já temos informações suficientes (Nicho e Objetivo) ou a conversa avançou
+  if ((isSpecific && historyCount >= 2) || fullHistoryText.includes('contato') || fullHistoryText.includes('falar')) {
     return {
-      reply: "Entendo perfeitamente. No setor de SAÚDE, a autoridade visual é o que separa um 'custo' de um 'investimento' na mente do paciente. Na Sapient, focamos em design que comunica confiança absoluta. Como está sua presença digital hoje em termos de captação?",
-      shouldRedirect: false,
-      suggestedActions: ["Preciso de mais pacientes", "Meu design está datado", "Quero automatizar o WhatsApp"]
-    };
-  }
-
-  // 2. SETOR JURÍDICO / ADVOCACIA
-  if (msg.includes('advogado') || msg.includes('jurídico') || msg.includes('direito') || msg.includes('escritório') || msg.includes('lei')) {
-    return {
-      reply: "Excelente. Para o setor JURÍDICO, trabalhamos com a 'psicologia do prestígio'. Um design sóbrio e uma narrativa visual clara encurtam o caminho da contratação. Qual é o seu principal desafio comercial hoje?",
-      shouldRedirect: false,
-      suggestedActions: ["Performance Ads / Google", "Nova Identidade Visual", "Dossiês de Venda"]
-    };
-  }
-
-  // 3. PERFORMANCE / TRÁFEGO PAGO
-  if (msg.includes('vendas') || msg.includes('leads') || msg.includes('performance') || msg.includes('anúncios') || msg.includes('google') || msg.includes('trafego') || msg.includes('tráfego')) {
-    return {
-      reply: "Performance Ads é o nosso motor principal. Capturamos a 'demanda de urgência' no Google para gerar contratos reais. Você já investe em tráfego pago ou está buscando iniciar uma operação do zero?",
-      shouldRedirect: false,
-      suggestedActions: ["Já invisto (Sem ROI)", "Quero começar agora", "Escalar faturamento"]
-    };
-  }
-
-  // 4. DESIGN / BRANDING
-  if (msg.includes('design') || msg.includes('marca') || msg.includes('logo') || msg.includes('identidade') || msg.includes('visual')) {
-    return {
-      reply: "O Design Estratégico na Sapient não é sobre estética, é sobre 'Barreira de Valor'. Criamos identidades que justificam tickets mais altos. Você sente que sua marca atual comunica o seu real valor de mercado?",
-      shouldRedirect: false,
-      suggestedActions: ["Não, pareço pequeno", "Quero um visual de luxo", "Preciso de um site novo"]
-    };
-  }
-
-  // 5. INTELIGÊNCIA ARTIFICIAL
-  if (msg.includes('ia') || msg.includes('ai') || msg.includes('chat') || msg.includes('atendimento') || msg.includes('bot')) {
-    return {
-      reply: "Ecossistemas autônomos são o futuro da escala. Implementamos IAs treinadas na sua expertise para qualificar leads 24/7. Você busca automação para WhatsApp ou para o seu site?",
-      shouldRedirect: false,
-      suggestedActions: ["IA para WhatsApp", "IA para Site", "Agente de Vendas 24h"]
-    };
-  }
-
-  // FLUXO DE FECHAMENTO (Após interação mínima ou pedido explícito)
-  if (historyCount >= 2 || msg.includes('contato') || msg.includes('whatsapp') || msg.includes('falar') || msg.includes('preço') || msg.includes('valor')) {
-    return {
-      reply: "Sua visão estratégica está alinhada com nossa metodologia. Para estruturarmos um Dossiê de Diagnóstico personalizado, o ideal é seguirmos para uma breve conversa técnica com um de nossos consultores seniores.",
+      reply: `Sua visão para o setor de ${niche} está muito clara. O foco em ${goal} é exatamente onde a Sapient Studio entrega o maior ROI. Já estruturei um dossiê preliminar para você. Vamos prosseguir para um Diagnóstico Técnico via WhatsApp?`,
       shouldRedirect: true,
-      suggestedActions: ["Falar no WhatsApp agora", "Agendar Reunião", "Ver Casos de Sucesso"]
+      suggestedActions: ["Sim, falar com consultor", "Ver casos de sucesso", "Ainda tenho dúvidas"],
+      extractedData: { niche, goal, urgency: 'high' }
     };
   }
 
-  // RESPOSTA PADRÃO (FALLBACK / INÍCIO)
+  // Se identificou nicho de saúde
+  if (niche === 'Saúde/Médico') {
+    return {
+      reply: "Entendo a complexidade do setor de saúde. A barreira de confiança é o maior desafio. Na Sapient, focamos em design que comunica autoridade clínica imediata. Qual o seu principal objetivo: captar novos pacientes ou elevar o ticket médio dos atuais?",
+      shouldRedirect: false,
+      suggestedActions: ["Captar pacientes", "Elevar autoridade visual", "Automação de agenda"],
+      extractedData: { niche, urgency: 'medium' }
+    };
+  }
+
+  // Se identificou nicho jurídico
+  if (niche === 'Jurídico') {
+    return {
+      reply: "O setor jurídico exige o que chamamos de 'Psicologia do Prestígio'. Um design sóbrio e uma narrativa de solidez são cruciais. Você já investe em Google Ads ou está buscando uma nova identidade visual para o escritório?",
+      shouldRedirect: false,
+      suggestedActions: ["Google Ads Jurídico", "Identidade Premium", "Dossiês de Venda"],
+      extractedData: { niche, urgency: 'medium' }
+    };
+  }
+
+  // Se identificou foco em IA
+  if (goal === 'Ecossistemas de IA') {
+    return {
+      reply: "Inteligência Autônoma é o nosso motor de escala. Implementamos IAs que falam a língua do seu negócio 24/7. Você busca automação para o seu site ou para qualificar leads no WhatsApp?",
+      shouldRedirect: false,
+      suggestedActions: ["IA para Site", "IA para WhatsApp", "Consultoria Técnica"],
+      extractedData: { goal, urgency: 'medium' }
+    };
+  }
+
+  // Fallback / Início
   return {
-    reply: "Protocolo Estratégico iniciado. Na Sapient Studio, transformamos desafios comerciais em ecossistemas de alta clareza e autoridade. Para eu ser mais preciso: em qual nicho você atua e qual o seu maior objetivo hoje?",
+    reply: "Protocolo Estratégico Sapient iniciado. Para eu ser preciso no seu diagnóstico: qual o seu nicho de atuação e qual o seu maior desafio comercial hoje?",
     shouldRedirect: false,
-    suggestedActions: ["Saúde / Bem-estar", "Advocacia / Jurídico", "Serviços / Consultoria", "E-commerce / Varejo"]
+    suggestedActions: ["Saúde / Clínica", "Escritório de Advocacia", "Consultoria / Serviços", "E-commerce"],
+    extractedData: { urgency: 'low' }
   };
 }

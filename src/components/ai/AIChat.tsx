@@ -8,10 +8,13 @@ import {
   Loader2,
   MessageCircle,
   ChevronRight,
-  Zap
+  Zap,
+  CheckCircle2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { recommendServices, type RecommenderInput } from "@/ai/flows/ai-service-recommender";
+import { recommendServices, type RecommenderInput, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
+import { useFirestore } from "@/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 interface Message {
   role: 'user' | 'model';
@@ -25,7 +28,9 @@ export function AIChat() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showRedirect, setShowRedirect] = useState(false);
+  const [extractedData, setExtractedData] = useState<RecommenderOutput['extractedData']>(undefined);
 
+  const db = useFirestore();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -42,6 +47,19 @@ export function AIChat() {
       });
     }
   }, [messages, isLoading]);
+
+  const saveLead = async (data: any) => {
+    if (!db) return;
+    try {
+      await addDoc(collection(db, 'leads'), {
+        ...data,
+        timestamp: serverTimestamp(),
+        source: 'AI Chat Qualificação'
+      });
+    } catch (e) {
+      console.error("Erro ao salvar lead:", e);
+    }
+  };
 
   const handleSendMessage = async (text: string) => {
     const userMsg = text.trim();
@@ -62,15 +80,25 @@ export function AIChat() {
         currentMessage: userMsg
       });
 
-      if (result && result.reply) {
+      if (result) {
         setMessages(prev => [...prev, { 
           role: 'model', 
           content: result.reply,
           actions: result.suggestedActions 
         }]);
         
+        if (result.extractedData) {
+          setExtractedData(prev => ({ ...prev, ...result.extractedData }));
+        }
+
         if (result.shouldRedirect) {
           setShowRedirect(true);
+          // Salva o lead no Firestore quando atinge a qualificação
+          saveLead({
+            niche: result.extractedData?.niche,
+            goal: result.extractedData?.goal,
+            lastMessage: userMsg
+          });
         }
       }
     } catch (error) {
@@ -86,7 +114,8 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = "Olá! Gostaria de prosseguir com uma consultoria estratégica com a Sapient Studio.";
+    const summary = extractedData ? `[ Diagnóstico IA: Nicho ${extractedData.niche} | Objetivo ${extractedData.goal} ]` : '';
+    const text = `Olá! Realizei uma consultoria estratégica com a IA Sapient. ${summary} Gostaria de prosseguir para o atendimento humano.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -113,7 +142,7 @@ export function AIChat() {
           </div>
           <div>
             <h3 className="font-headline font-black text-xs tracking-tight uppercase leading-none">Estrategista Sapient</h3>
-            <p className="text-[7px] font-black text-primary uppercase tracking-[0.4em] mt-1 italic">MÓDULO DE INTELIGÊNCIA</p>
+            <p className="text-[7px] font-black text-primary uppercase tracking-[0.4em] mt-1 italic">EXTRAÇÃO DE DADOS ATIVA</p>
           </div>
         </div>
         <button onClick={() => setIsOpen(false)} className="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors text-white">
@@ -124,8 +153,8 @@ export function AIChat() {
       {/* Messages Area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/50">
         {messages.length === 0 && (
-          <div className="p-6 rounded-[2rem] bg-white border border-slate-200 text-slate-900 font-bold text-sm leading-relaxed shadow-sm">
-            Iniciando Protocolo Estratégico. Para começarmos sua análise: qual o seu nicho de atuação ou qual o maior desafio comercial que você enfrenta hoje?
+          <div className="p-6 rounded-[2rem] bg-white border border-slate-200 text-slate-950 font-bold text-sm leading-relaxed shadow-sm">
+            Iniciando Protocolo de Qualificação. Para começarmos sua análise estratégica: qual o seu nicho de atuação ou o maior desafio comercial que você enfrenta hoje?
           </div>
         )}
 
@@ -146,7 +175,7 @@ export function AIChat() {
                   <button
                     key={idx}
                     onClick={() => handleSendMessage(action)}
-                    className="px-5 py-3 bg-white border border-slate-300 hover:border-primary hover:text-primary rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900 transition-all shadow-md flex items-center gap-2 group active:scale-95"
+                    className="px-5 py-3 bg-white border border-slate-300 hover:border-primary hover:text-primary rounded-full text-[9px] font-black uppercase tracking-widest text-slate-950 transition-all shadow-md flex items-center gap-2 group active:scale-95"
                   >
                     {action} <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
                   </button>
@@ -159,17 +188,28 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-3 text-slate-500 p-2">
             <Loader2 className="h-4 w-4 animate-spin text-primary" />
-            <span className="text-[9px] font-black uppercase tracking-widest italic">Analisando Dados...</span>
+            <span className="text-[9px] font-black uppercase tracking-widest italic">Processando Inteligência...</span>
           </div>
         )}
 
         {showRedirect && (
-          <div className="pt-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="pt-4 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="p-6 rounded-3xl bg-primary/5 border border-primary/10 space-y-3">
+               <p className="text-[8px] font-black uppercase tracking-widest text-primary">Dossiê de Qualificação</p>
+               <div className="space-y-2">
+                 <div className="flex items-center gap-2 text-[10px] font-bold text-slate-600">
+                   <CheckCircle2 className="h-3 w-3 text-primary" /> Nicho: {extractedData?.niche || 'Analisando...'}
+                 </div>
+                 <div className="flex items-center gap-2 text-[10px] font-bold text-slate-600">
+                   <CheckCircle2 className="h-3 w-3 text-primary" /> Foco: {extractedData?.goal || 'Analisando...'}
+                 </div>
+               </div>
+            </div>
             <button 
               onClick={handleWhatsAppRedirect}
               className="w-full py-6 bg-green-500 hover:bg-green-600 text-white rounded-[1.5rem] font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 shadow-xl transition-all border-b-4 border-green-700"
             >
-              <MessageCircle className="h-5 w-5" /> Falar com Especialista
+              <MessageCircle className="h-5 w-5" /> Enviar para o WhatsApp
             </button>
           </div>
         )}
@@ -200,7 +240,7 @@ export function AIChat() {
           </button>
         </form>
         <p className="text-[7px] text-center text-slate-400 font-black uppercase tracking-[0.5em] mt-4">
-          SAPIENT STUDIO | INTELIGÊNCIA COGNITIVA
+          SAPIENT STUDIO | QUALIFICAÇÃO DE LEADS V2
         </p>
       </div>
     </div>
