@@ -71,7 +71,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   else if (fullHistoryText.match(/(luxo|premium|exclusivo|joalheria|relojoaria|mansão|grife)/)) niche = 'Mercado de Luxo';
   else if (fullHistoryText.match(/(fazenda|agro|rural|pecuária|agronegócio|campo|produtor)/)) niche = 'Agro & Negócios Rurais';
 
-  // --- 2. MAPEAMENTO DE SERVIÇOS (PILORES SAPIENT) ---
+  // --- 2. MAPEAMENTO DE SERVIÇOS (PILARES SAPIENT) ---
   const servicesNeeded: string[] = [];
   if (fullHistoryText.match(/(anúncio|tráfego|google|meta|ads|leads|vender|clientes|prospecção|prospeccao|clique)/)) servicesNeeded.push('Performance Ads');
   if (fullHistoryText.match(/(marca|design|logo|visual|premium|luxo|branding|rebranding|identidade|bonito|profissional|prestígio|estética)/)) servicesNeeded.push('Design Estratégico');

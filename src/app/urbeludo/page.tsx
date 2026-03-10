@@ -86,7 +86,7 @@ export default function UrbeLudoPage() {
             </h1>
             
             <p className="text-lg md:text-2xl text-white/50 font-medium max-w-3xl mx-auto leading-relaxed tracking-tight text-balance mb-16 animate-slide-up [animation-delay:200ms]">
-              Onde o movemento se torna dado e o dado se torna <span className="text-white font-bold">evolução.</span> Uma plataforma de biofeedback de elite para reabilitação cognitiva e motora.
+              Onde o movimento se torna dado e o dado se torna <span className="text-white font-bold">evolução.</span> Uma plataforma de biofeedback de elite para reabilitação cognitiva e motora.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-8 animate-slide-up [animation-delay:400ms]">
