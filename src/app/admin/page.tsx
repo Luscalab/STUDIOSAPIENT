@@ -14,6 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Send, FileText, LayoutDashboard, Lock, Globe, Clock, Image as ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
 
 const AUTHORIZED_EMAIL = "sapientcontato@gmail.com";
 
@@ -38,7 +40,7 @@ export default function AdminPage() {
     return collection(db, 'admin_blogPosts_drafts');
   }, [db, isAdmin]);
 
-  const { data: drafts } = useCollection(draftsQuery);
+  const { data: drafts, isLoading: loadingDrafts } = useCollection(draftsQuery);
 
   if (isUserLoading) return (
     <div className="min-h-screen bg-[#08070b] flex flex-col items-center justify-center text-white gap-4">
@@ -62,7 +64,7 @@ export default function AdminPage() {
     );
   }
 
-  const handlePublish = async (status: 'DRAFT' | 'PUBLISHED') => {
+  const handlePublish = (status: 'DRAFT' | 'PUBLISHED') => {
     if (!formData.title || !formData.slug) {
       toast({ variant: "destructive", title: "Campos Obrigatórios", description: "O título e o slug são fundamentais para o SEO." });
       return;
@@ -73,29 +75,36 @@ export default function AdminPage() {
       : (formData.isPremium ? 'blogPosts_premium' : 'blogPosts_public');
       
     const postRef = doc(collection(db!, collectionName));
+    const postData = {
+      ...formData,
+      status,
+      authorId: user!.uid,
+      publishedDate: new Date().toISOString(),
+      lastUpdatedDate: serverTimestamp(),
+      featuredImageUri: formData.image || "https://picsum.photos/seed/sapient-blog/1200/800"
+    };
 
-    try {
-      await setDoc(postRef, {
-        ...formData,
-        status,
-        authorId: user!.uid,
-        publishedDate: new Date().toISOString(),
-        lastUpdatedDate: serverTimestamp(),
-        featuredImageUri: formData.image || "https://picsum.photos/seed/sapient-blog/1200/800"
+    // Padrão não bloqueante conforme orientações
+    setDoc(postRef, postData)
+      .then(() => {
+        toast({ 
+          title: "[ OPERAÇÃO CONCLUÍDA ]", 
+          description: `Dossiê ${status === 'DRAFT' ? 'salvo nos rascunhos' : 'publicado na rede'}.`,
+          className: "bg-primary text-white font-black uppercase tracking-widest text-[10px] border-none"
+        });
+        
+        if (status === 'PUBLISHED') {
+          setFormData({ title: "", slug: "", excerpt: "", content: "", image: "", isPremium: false });
+        }
+      })
+      .catch(async (error) => {
+        const permissionError = new FirestorePermissionError({
+          path: postRef.path,
+          operation: 'create',
+          requestResourceData: postData,
+        } satisfies SecurityRuleContext);
+        errorEmitter.emit('permission-error', permissionError);
       });
-      
-      toast({ 
-        title: "[ OPERAÇÃO CONCLUÍDA ]", 
-        description: `Dossiê ${status === 'DRAFT' ? 'salvo nos rascunhos' : 'publicado na rede'}.`,
-        className: "bg-primary text-white font-black uppercase tracking-widest text-[10px] border-none"
-      });
-      
-      if (status === 'PUBLISHED') {
-        setFormData({ title: "", slug: "", excerpt: "", content: "", image: "", isPremium: false });
-      }
-    } catch (e) {
-      toast({ variant: "destructive", title: "Falha na Intervenção", description: "Verifique sua conexão ou permissões de rede." });
-    }
   };
 
   return (
@@ -252,10 +261,15 @@ export default function AdminPage() {
                     </div>
                  </div>
                ))}
-               {drafts?.length === 0 && (
+               {!loadingDrafts && drafts?.length === 0 && (
                  <div className="col-span-full py-32 text-center space-y-6">
                     <FileText className="h-16 w-16 text-white/5 mx-auto" />
                     <p className="text-white/20 font-black uppercase tracking-[0.5em] text-sm">Nenhum rascunho pendente no sistema.</p>
+                 </div>
+               )}
+               {loadingDrafts && (
+                 <div className="col-span-full py-32 text-center animate-pulse">
+                    <p className="text-white/20 font-black uppercase tracking-[0.5em] text-sm">Carregando Dossiês...</p>
                  </div>
                )}
              </div>

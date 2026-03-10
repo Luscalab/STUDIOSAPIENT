@@ -1,10 +1,11 @@
+
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Menu, X, Settings } from "lucide-react";
+import { Menu, X, Settings, ShieldCheck } from "lucide-react";
 import { useUser } from "@/firebase";
 
 const AUTHORIZED_ADMIN_EMAIL = "sapientcontato@gmail.com";
@@ -45,8 +46,8 @@ export function Navbar() {
           ))}
           
           {isAdmin && (
-            <Link href="/admin" className="text-[11px] uppercase tracking-[0.4em] font-black text-accent hover:text-white transition-all flex items-center gap-2">
-              <Settings className="h-3 w-3" /> Painel
+            <Link href="/admin" className="text-[11px] uppercase tracking-[0.4em] font-black text-accent hover:text-white transition-all flex items-center gap-2 group">
+              <ShieldCheck className="h-3 w-3 text-accent group-hover:animate-pulse" /> Painel
             </Link>
           )}
 

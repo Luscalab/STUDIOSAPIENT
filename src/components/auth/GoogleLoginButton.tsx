@@ -33,14 +33,15 @@ export function GoogleLoginButton() {
           description: "Bem-vindo ao Painel de Autoridade Sapient.",
           className: "bg-black border-primary text-white font-black uppercase tracking-widest text-[10px]"
         });
-        router.push('/admin');
+        // Garantindo o redirecionamento imediato
+        setTimeout(() => router.push('/admin'), 100);
       } else {
         toast({
           title: "[ ACESSO CLIENTE ]",
           description: "Redirecionando para o Blog.",
           className: "bg-black border-white/20 text-white font-black uppercase tracking-widest text-[10px]"
         });
-        router.push('/blog');
+        setTimeout(() => router.push('/blog'), 100);
       }
     } catch (error: any) {
       if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
@@ -51,7 +52,9 @@ export function GoogleLoginButton() {
       toast({
         variant: "destructive",
         title: "[ FALHA NO LOGIN ]",
-        description: "Não foi possível completar a autenticação.",
+        description: error.code === 'auth/operation-not-allowed' 
+          ? "O provedor Google precisa ser ativado no Firebase Console."
+          : "Não foi possível completar a autenticação.",
         className: "font-black uppercase tracking-widest text-[10px]"
       });
     } finally {
@@ -71,7 +74,7 @@ export function GoogleLoginButton() {
 
   if (user) {
     return (
-      <Button variant="ghost" onClick={handleLogout} className="text-[10px] font-black uppercase tracking-widest gap-2 hover:text-primary transition-colors">
+      <Button variant="ghost" onClick={handleLogout} className="text-[10px] font-black uppercase tracking-widest gap-2 hover:text-primary transition-colors text-white">
         <LogOut className="h-3 w-3" /> Encerrar Gestão
       </Button>
     );
@@ -82,7 +85,7 @@ export function GoogleLoginButton() {
       variant="outline" 
       onClick={handleLogin} 
       disabled={isLoading}
-      className="text-[10px] font-black uppercase tracking-widest gap-2 bg-white/5 border-white/10 hover:bg-primary hover:text-white transition-all min-w-[140px]"
+      className="text-[10px] font-black uppercase tracking-widest gap-2 bg-white/5 border-white/10 hover:bg-primary hover:text-white transition-all min-w-[140px] text-white"
     >
       {isLoading ? (
         <>
