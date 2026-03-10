@@ -44,6 +44,7 @@ export function AIChat() {
   const handleSendMessage = async (userMsg: string) => {
     if (!userMsg.trim() || isLoading) return;
 
+    // Constrói o histórico para a API antes de atualizar o estado local para garantir sincronia
     const currentHistory = messages.map(({ role, content }) => ({ role, content }));
     
     setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
@@ -116,29 +117,29 @@ export function AIChat() {
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/30">
         {messages.length === 0 && (
           <div className="p-6 rounded-3xl bg-white border border-slate-200 text-slate-900 font-medium text-sm leading-relaxed shadow-sm">
-            Bem-vindo à Sapient. Para começarmos, me conte: qual é o seu nicho de atuação ou o principal desafio da sua marca hoje?
+            Bem-vindo à Sapient Studio. Sou seu estrategista assistente. Para começarmos o diagnóstico: qual é o seu nicho de atuação ou o principal desafio da sua marca hoje?
           </div>
         )}
 
         {messages.map((msg, i) => (
           <div key={i} className={cn("flex flex-col gap-3", msg.role === 'user' ? "items-end" : "items-start")}>
             <div className={cn(
-              "p-5 rounded-[2rem] text-sm font-medium leading-relaxed max-w-[85%]",
+              "p-5 rounded-[2rem] text-sm font-medium leading-relaxed max-w-[85%] shadow-sm",
               msg.role === 'user' 
-                ? "bg-primary text-white rounded-tr-none shadow-lg" 
-                : "bg-white text-slate-900 border border-slate-200 rounded-tl-none shadow-sm"
+                ? "bg-primary text-white rounded-tr-none" 
+                : "bg-white text-slate-900 border border-slate-200 rounded-tl-none"
             )}>
               {msg.content}
             </div>
 
-            {/* Cards de Ação Rápida */}
-            {msg.role === 'model' && msg.actions && msg.actions.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-2 max-w-full">
+            {/* Cards de Ação Rápida - Rendereizados apenas na última mensagem do modelo */}
+            {msg.role === 'model' && msg.actions && msg.actions.length > 0 && i === messages.length - 1 && (
+              <div className="flex flex-wrap gap-2 mt-2 max-w-full animate-in fade-in slide-in-from-left-4 duration-500">
                 {msg.actions.map((action, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleSendMessage(action)}
-                    className="px-4 py-2 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-full text-[10px] font-black uppercase tracking-widest text-slate-600 transition-all shadow-sm flex items-center gap-2 group"
+                    className="px-4 py-2 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-full text-[10px] font-black uppercase tracking-widest text-slate-900 transition-all shadow-sm flex items-center gap-2 group"
                   >
                     {action} <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
                   </button>
