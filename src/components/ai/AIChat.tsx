@@ -29,7 +29,18 @@ interface Message {
 const INITIAL_MESSAGE: Message = {
   role: 'model',
   content: "Protocolo Sapient iniciado. Para um diagnóstico exaustivo de autoridade e escala: qual o seu nicho de atuação e qual seu principal desafio hoje: Vendas, Imagem de Marca ou Eficiência de Processos?",
-  actions: ["Saúde & Wellness", "Jurídico & Direito", "Imobiliário & Incorporação", "Varejo & E-commerce", "Educação & Infoprodutos", "Tecnologia & SaaS", "Indústria & B2B", "Setor Automotivo", "Finanças & Contabilidade"]
+  actions: [
+    "Saúde & Wellness", 
+    "Jurídico & Direito", 
+    "Imobiliário & Incorporação", 
+    "Arquitetura & Design", 
+    "Educação & Mentorias", 
+    "Tecnologia & SaaS", 
+    "Indústria & Logística", 
+    "Varejo & E-commerce", 
+    "Setor Automotivo", 
+    "Finanças & Contabilidade"
+  ]
 };
 
 export function AIChat() {
@@ -65,7 +76,7 @@ export function AIChat() {
       addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Sapient IA Strategist V9.0'
+        source: 'Sapient IA Strategist V9.1'
       });
     } catch (e) {
       // Fail silently
@@ -86,7 +97,7 @@ export function AIChat() {
       content: m.content 
     }));
     
-    // Simulação de tempo de análise técnica profunda V9
+    // Simulação de análise técnica profunda V9.1
     setTimeout(async () => {
       try {
         const result = await recommendServices({
@@ -140,7 +151,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const summary = extractedData ? `[ Dossiê V9.0 | Nicho: ${extractedData.niche} | Gaps: ${extractedData.mainPainPoints?.join(', ')} | Pilares: ${extractedData.servicesNeeded?.join(' + ') || 'Ecossistema Digital'} ]` : '';
+    const summary = extractedData ? `[ Dossiê V9.1 | Nicho: ${extractedData.niche} | Gaps: ${extractedData.mainPainPoints?.join(', ')} | Pilares: ${extractedData.servicesNeeded?.join(' + ') || 'Ecossistema Digital'} ]` : '';
     const text = `Olá! Concluí o diagnóstico exaustivo com a IA Sapient. ${summary} Quero discutir meu plano de ROI.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -160,7 +171,7 @@ export function AIChat() {
   return (
     <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[420px] md:h-[760px] bg-white rounded-none md:rounded-[3rem] shadow-[0_50px_120px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
       
-      {/* Header V9.0 */}
+      {/* Header V9.1 */}
       <div className="p-8 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5 shrink-0">
         <div className="flex items-center gap-5">
           <div className="h-12 w-12 rounded-2xl bg-primary flex items-center justify-center border border-white/10 shadow-lg relative">
@@ -170,7 +181,7 @@ export function AIChat() {
           <div>
             <h3 className="font-headline font-black text-sm tracking-tight uppercase leading-none text-white">Estrategista IA</h3>
             <div className="flex items-center gap-3 mt-2">
-               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">Protocolo V9.0</span>
+               <span className="text-[8px] font-black text-primary uppercase tracking-[0.4em] italic">Protocolo V9.1</span>
                <div className="flex gap-1">
                  {[1,2,3,4,5].map(layer => (
                    <div key={layer} className={cn("h-1 w-2 rounded-full transition-all", layer <= currentLayer ? "bg-primary" : "bg-white/10")} />
@@ -216,7 +227,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-4 text-slate-400 p-4">
             <Cpu className="h-5 w-5 animate-spin text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Consultoria Exaustiva V9.0...</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] italic">Consultoria Exaustiva V9.1...</span>
           </div>
         )}
 
@@ -268,7 +279,7 @@ export function AIChat() {
           </button>
         </form>
         <div className="mt-6 flex items-center justify-center gap-6 opacity-30">
-          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA ENGINE V9.0</p>
+          <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">SAP-IA ENGINE V9.1</p>
           <div className="h-1 w-1 rounded-full bg-slate-400" />
           <p className="text-[8px] font-black uppercase tracking-[0.6em] text-slate-500">MAPEAMENTO EXAUSTIVO</p>
         </div>
