@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -27,8 +26,7 @@ export function Navbar() {
   return (
     <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
       <div className="container mx-auto px-6 flex items-center justify-between gap-6">
-        {/* Logo mais equilibrada para estética minimalista */}
-        <Link href="/" className="relative block w-[200px] h-[60px] md:w-[320px] md:h-[90px] lg:w-[400px] lg:h-[110px] transition-transform duration-700 hover:scale-105 shrink-0">
+        <Link href="/" className="relative block w-[180px] h-[54px] md:w-[280px] md:h-[84px] lg:w-[400px] lg:h-[120px] transition-transform duration-700 hover:scale-105 shrink-0">
           <Image src={logoUrl} alt="studiosapient Logo" fill className="object-contain object-left drop-shadow-xl" priority />
         </Link>
 
