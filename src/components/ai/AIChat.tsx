@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from "react";
@@ -5,7 +6,6 @@ import {
   Bot, 
   X, 
   Send, 
-  Sparkles, 
   Loader2,
   MessageCircle,
   ChevronRight,
@@ -46,10 +46,8 @@ export function AIChat() {
     const userMsg = text.trim();
     if (!userMsg || isLoading) return;
 
-    // Captura o histórico ANTES da nova mensagem para enviar à API
     const currentHistory = messages.map(m => ({ role: m.role, content: m.content }));
     
-    // Atualiza a UI imediatamente
     setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
     setInput("");
     setIsLoading(true);
@@ -100,7 +98,6 @@ export function AIChat() {
   return (
     <div className="fixed inset-0 md:inset-auto md:bottom-24 md:right-6 z-[300] w-full md:w-[420px] md:h-[680px] bg-white rounded-none md:rounded-[2.5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden border border-slate-200 animate-in slide-in-from-bottom-8 duration-500">
       
-      {/* Header Premium */}
       <div className="p-6 bg-[#08070b] text-white flex items-center justify-between border-b border-white/5">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center border border-white/10 shadow-lg">
@@ -116,7 +113,6 @@ export function AIChat() {
         </button>
       </div>
 
-      {/* Chat Area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/30">
         {messages.length === 0 && (
           <div className="p-6 rounded-3xl bg-white border border-slate-200 text-slate-900 font-bold text-sm leading-relaxed shadow-sm animate-in fade-in duration-700">
@@ -135,14 +131,13 @@ export function AIChat() {
               {msg.content}
             </div>
 
-            {/* Cards de Resposta Rápida */}
             {msg.role === 'model' && msg.actions && msg.actions.length > 0 && i === messages.length - 1 && (
               <div className="flex flex-wrap gap-2 mt-2 max-w-full animate-in fade-in slide-in-from-left-4 duration-500">
                 {msg.actions.map((action, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleSendMessage(action)}
-                    className="px-5 py-3 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900 transition-all shadow-sm flex items-center gap-2 group active:scale-95"
+                    className="px-5 py-3 bg-white border border-slate-300 hover:border-primary hover:text-primary rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900 transition-all shadow-md flex items-center gap-2 group active:scale-95"
                   >
                     {action} <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-all" />
                   </button>
@@ -153,7 +148,7 @@ export function AIChat() {
         ))}
 
         {isLoading && (
-          <div className="flex items-center gap-3 text-slate-400 p-2">
+          <div className="flex items-center gap-3 text-slate-500 p-2">
             <Loader2 className="h-4 w-4 animate-spin text-primary" />
             <span className="text-[9px] font-black uppercase tracking-widest italic">Analisando Marca...</span>
           </div>
@@ -171,7 +166,6 @@ export function AIChat() {
         )}
       </div>
 
-      {/* Input Area */}
       <div className="p-4 bg-white border-t border-slate-100">
         <form 
           onSubmit={(e) => { 
@@ -195,7 +189,7 @@ export function AIChat() {
             <Send className="h-4 w-4" />
           </button>
         </form>
-        <p className="text-[7px] text-center text-slate-300 font-black uppercase tracking-[0.4em] mt-3">
+        <p className="text-[7px] text-center text-slate-400 font-black uppercase tracking-[0.4em] mt-3">
           SAPIENT STUDIO | ESTRATÉGIA COGNITIVA
         </p>
       </div>

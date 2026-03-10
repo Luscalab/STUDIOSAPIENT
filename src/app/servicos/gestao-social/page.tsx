@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, Target, BarChart3, Palette, Share2, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Sparkles, Target, BarChart3, Palette, Share2 } from "lucide-react";
 
 export default function GestaoSocialPage() {
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
@@ -15,42 +15,40 @@ export default function GestaoSocialPage() {
     <main className="min-h-screen bg-white">
       <Navbar />
       
-      {/* Hero Section - Consistência de Intervalo */}
-      <section className="relative pt-32 pb-16 md:pt-48 md:pb-24 hero-purple-mesh overflow-hidden text-center">
+      <section className="relative pt-32 pb-16 md:pt-48 md:pb-20 hero-purple-mesh overflow-hidden text-center">
         <div className="container mx-auto px-6 relative z-10">
           <Badge className="mb-6 bg-white/10 text-white border-white/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">Gestão de Autoridade</Badge>
           <h1 className="font-headline text-5xl md:text-[8rem] font-black text-white tracking-tighter leading-[0.85] mb-8 text-balance">
             Redes como <span className="text-primary italic">Prova de Valor</span>
           </h1>
           <p className="text-xl md:text-2xl text-white/60 font-medium max-w-3xl mx-auto leading-relaxed tracking-tight text-balance">
-            Construímos autoridade inquestionável através de curadoria estratégica e conteúdo desenhado para atrair e educar o cliente ideal.
+            Construímos autoridade inquestionável através de curadoria estratégica e conteúdo desenhado para atrair o cliente ideal.
           </p>
         </div>
       </section>
 
-      {/* Strategy Content - Fundo Branco com Contraste */}
       <section className="py-24 bg-white relative">
-        <div className="container mx-auto px-6 relative z-10 text-foreground">
+        <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
             <div className="space-y-12">
-              <h2 className="font-headline text-5xl md:text-7xl font-black tracking-tighter text-foreground leading-[0.85]">Curadoria de <br/>Alto Impacto.</h2>
-              <p className="text-xl text-foreground/80 font-medium leading-relaxed tracking-tight">
-                Esqueça postagens genéricas. Cada publicação em nossa gestão tem uma função clara: educar o cliente, eliminar objeções de preço e posicionar sua marca como a escolha óbvia do mercado.
+              <h2 className="font-headline text-5xl md:text-7xl font-black tracking-tighter text-[#08070b] leading-[0.85]">Curadoria de <br/>Alto Impacto.</h2>
+              <p className="text-xl text-[#08070b]/70 font-medium leading-relaxed tracking-tight">
+                Esqueça postagens genéricas. Cada publicação em nossa gestão tem uma função clara: educar o cliente e posicionar sua marca como a escolha óbvia.
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                 {[
                   { icon: <Palette className="h-8 w-8" />, title: "Estética Premium", desc: "Um feed que comunica profissionalismo absoluto no primeiro segundo." },
-                  { icon: <Target className="h-8 w-8" />, title: "Copywriting de Elite", desc: "Textos desenhados para conectar com as dores reais do seu público de luxo." },
+                  { icon: <Target className="h-8 w-8" />, title: "Copywriting de Elite", desc: "Textos desenhados para conectar com as dores reais do seu público." },
                   { icon: <BarChart3 className="h-8 w-8" />, title: "Growth Qualificado", desc: "Foco em atrair audiência com real potencial de fechamento." },
                   { icon: <Share2 className="h-8 w-8" />, title: "Viralidade Técnica", desc: "Conteúdo compartilhável que reforça sua liderança e autoridade." }
                 ].map((item, i) => (
-                  <div key={i} className="p-12 rounded-[4rem] bg-secondary/20 border border-muted/10 hover:bg-white hover:shadow-2xl transition-all group duration-500">
-                    <div className="mb-8 p-5 rounded-2xl bg-white w-fit text-primary border border-muted/10 group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
+                  <div key={i} className="p-12 rounded-[4rem] bg-slate-50 border border-slate-200 hover:bg-white hover:shadow-2xl transition-all group duration-500">
+                    <div className="mb-8 p-5 rounded-2xl bg-white w-fit text-primary border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
                       {item.icon}
                     </div>
-                    <h3 className="font-black text-2xl mb-3 tracking-tight text-foreground uppercase leading-none">{item.title}</h3>
-                    <p className="text-lg text-foreground/60 font-medium leading-snug">{item.desc}</p>
+                    <h3 className="font-black text-2xl mb-3 tracking-tight text-[#08070b] uppercase leading-none">{item.title}</h3>
+                    <p className="text-lg text-[#08070b]/60 font-medium leading-snug">{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -62,10 +60,10 @@ export default function GestaoSocialPage() {
 
             <div className="bg-[#0c0a1a] rounded-[5rem] p-12 md:p-24 text-white space-y-16 shadow-2xl relative overflow-hidden border border-white/5 text-center">
                <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-primary/20 blur-[150px] rounded-full" />
-               <Sparkles className="h-20 w-20 text-primary mx-auto animate-pulse" />
-               <h3 className="font-headline text-5xl font-black tracking-tighter">Narrativas que Vendem</h3>
-               <p className="text-white/40 text-xl font-medium leading-relaxed">
-                 Sua marca não precisa de mais seguidores, ela precisa de autoridade reconhecida pelos decisores certos.
+               <Sparkles className="h-20 w-20 text-primary mx-auto animate-pulse relative z-10" />
+               <h3 className="font-headline text-5xl font-black tracking-tighter relative z-10">Narrativas que Vendem</h3>
+               <p className="text-white/40 text-xl font-medium leading-relaxed relative z-10">
+                 Sua marca não precisa de mais seguidores, ela precisa de autoridade reconhecida pelos decisores.
                </p>
                
                <div className="space-y-12 pt-12 border-t border-white/10 text-left relative z-10">
@@ -95,4 +93,3 @@ export default function GestaoSocialPage() {
     </main>
   );
 }
-
