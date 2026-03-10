@@ -1,9 +1,9 @@
 'use server';
 /**
- * @fileOverview Motor de Consultoria Estratégica Sapient Studio v4.5.
+ * @fileOverview Motor de Consultoria Estratégica Sapient Studio v4.6.
  * 
  * Implementa uma Matriz de Posicionamento de Mercado e protocolos de prospecção.
- * Focado em identificar o "Gargalo de Ouro" e alavancas de ROI.
+ * Focado em identificar o "Gargalo de Ouro" e alavancas de ROI com alta resiliência.
  */
 
 import {ai} from '@/ai/genkit';
@@ -58,6 +58,14 @@ const serviceRecommenderPrompt = ai.definePrompt({
   name: 'serviceRecommenderPrompt',
   input: {schema: ServiceRecommenderInputSchema},
   output: {schema: ServiceRecommenderOutputSchema},
+  config: {
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_ONLY_HIGH' },
+    ],
+  },
   prompt: `Você é o Estrategista-Chefe da Sapient Studio. Sua missão é realizar um diagnóstico de posicionamento de alto nível.
 
 ENTRADA DO CLIENTE:
@@ -67,23 +75,29 @@ PROTOCOLO DE ANÁLISE:
 ${STRATEGIC_MATRIX}
 
 FASE 1: QUALIFICAÇÃO (isDataSufficient)
-Verifique se a entrada contém informações sobre o Nicho e o Desafio. Se for apenas uma saudação ou algo vago, peça contexto profissional de forma autoritária mas amigável.
+Verifique se a entrada contém informações sobre o Nicho e o Desafio. Se for apenas uma saudação ou algo vago, peça contexto profissional de forma autoritária mas amigável. Defina isDataSufficient como false nesses casos.
 
 FASE 2: DIAGNÓSTICO E ROI (Se isDataSufficient = true)
 - BRAND AUDIT: Analise como a percepção atual afeta a autoridade.
 - DIAGNÓSTICO: Identifique o gargalo real de faturamento.
 - IMPACTO: Explique o valor estratégico da intervenção Sapient.
 
-MANTENHA O TOM SAPIENT: Analítico, focado em resultados e ROI.`,
+MANTENHA O TOM SAPIENT: Analítico, focado em resultados e ROI. Nunca retorne um objeto vazio.`,
 });
 
 export async function recommendServices(input: {clientNeedsAndGoals: string}): Promise<ServiceRecommenderOutput> {
   try {
     const {output} = await aiServiceRecommenderFlow(input);
-    return output || { isDataSufficient: false, missingInfoMessage: "Não consegui processar os dados. Poderia descrever seu negócio novamente?" };
+    return output || { 
+      isDataSufficient: false, 
+      missingInfoMessage: "Para um diagnóstico de elite, poderia me contar um pouco mais sobre o seu nicho e qual o seu maior desafio de crescimento hoje?" 
+    };
   } catch (error) {
     console.error("Erro no fluxo recommendServices:", error);
-    return { isDataSufficient: false, missingInfoMessage: "Desculpe, tive uma falha técnica na análise. Poderia repetir seu desafio?" };
+    return { 
+      isDataSufficient: false, 
+      missingInfoMessage: "Entendido. Para que eu possa aplicar nossa Matriz de Alavancagem, descreva brevemente o seu negócio e qual resultado você busca alcançar." 
+    };
   }
 }
 
