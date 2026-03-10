@@ -3,9 +3,8 @@
 /**
  * @fileOverview Inteligência de Prospecção Sapient Studio.
  * 
- * Fluxo estratégico que atua como porta de entrada, entende a marca do cliente
- * e gera cards interativos para uma conversação fluida antes do WhatsApp.
- * Implementa um script de "internação" de elite.
+ * Implementa o padrão Genkit 1.x onde uma Flow encapsula um Prompt Definido.
+ * Foca em qualificação estratégica antes da conversão para o WhatsApp.
  */
 
 import { ai } from '@/ai/genkit';
@@ -28,43 +27,66 @@ const RecommenderOutputSchema = z.object({
 });
 
 export type RecommenderOutput = z.infer<typeof RecommenderOutputSchema>;
+export type RecommenderInput = z.infer<typeof RecommenderInputSchema>;
 
 const systemInstructions = `Você é o Estrategista-Chefe da Sapient Studio.
-Sua missão é atuar como a PRIMEIRA PORTA de entrada da agência, realizando uma internação estratégica do lead.
+Sua missão é atuar como a PRIMEIRA PORTA de entrada da agência, realizando uma "internação estratégica" do lead.
 
-OBJETIVO: Você deve conversar com o lead. NÃO redirecione para o WhatsApp na primeira mensagem.
+DIRETRIZES DE COMPORTAMENTO:
+1. CONVERSA PRIMEIRO: Nunca redirecione para o WhatsApp na primeira mensagem. Você deve ser curioso e autoritário.
+2. DESCOBERTA: Seu objetivo é identificar o NICHO (ex: médico, advogado, e-commerce) e o DESAFIO (ex: falta de leads, design amador).
+3. TOM DE VOZ: Minimalista, sofisticado e técnico. Use um português de negócios impecável.
+4. REDIRECIONAMENTO: Apenas defina 'shouldRedirect' como true se você já tiver identificado claramente o nicho E o desafio, OU se o usuário pedir explicitamente para falar com um humano.
 
-DIRETRIZES:
-1. AUDITORIA: Analise o histórico e o que o cliente disse agora.
-2. QUALIFICAÇÃO: Você precisa descobrir o NICHO e o DESAFIO do cliente.
-3. INTERAÇÃO: Use o campo 'reply' para ser persuasivo e o campo 'suggestedActions' para dar opções (ex: "Tenho um Consultório", "Sou Advogado", "Quero Vender Mais").
-4. REDIRECIONAMENTO: Apenas defina 'shouldRedirect' como true se o cliente explicitamente pedir para falar com alguém ou se você já tiver identificado o nicho e o desafio claramente.
-
-TOM DE VOZ: Minimalista, autoritário, técnico e sofisticado. Use um português impecável de negócios.`;
+FORMATO DE RESPOSTA:
+- 'reply': Sua resposta em texto.
+- 'suggestedActions': Máximo de 3 opções curtas que ajudem o usuário a responder (ex: "Sou Advogado", "Falta de Clientes").`;
 
 const recommenderPrompt = ai.definePrompt({
   name: 'recommenderPrompt',
   model: 'googleai/gemini-1.5-flash',
   input: { schema: RecommenderInputSchema },
   output: { schema: RecommenderOutputSchema },
+  config: {
+    safetySettings: [
+      { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
+      { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
+    ],
+    temperature: 0.7,
+  },
   system: systemInstructions,
   prompt: `
-    HISTÓRICO:
+    HISTÓRICO DA CONVERSA:
     {{#each history}}
     - {{role}}: {{{content}}}
     {{/each}}
 
-    MENSAGEM ATUAL DO CLIENTE: {{{currentMessage}}}
+    MENSAGEM ATUAL DO USUÁRIO: {{{currentMessage}}}
     
-    INSTRUÇÃO: Analise se já sabemos o nicho e o desafio. Se não, pergunte. Se sim, valide e ofereça o WhatsApp.
+    INSTRUÇÃO: Analise a mensagem. Se for o início, dê boas-vindas e pergunte sobre o negócio. Se for uma resposta, valide e aprofunde. Se o cenário estiver pronto para venda, sugira o WhatsApp.
   `,
 });
 
-export async function recommendServices(input: z.infer<typeof RecommenderInputSchema>): Promise<RecommenderOutput> {
-  // Chamada direta do prompt conforme Genkit 1.x
-  const { output } = await recommenderPrompt(input);
-  if (!output) {
-    throw new Error("O motor de IA não gerou uma saída válida.");
+const serviceFlow = ai.defineFlow(
+  {
+    name: 'recommendServicesFlow',
+    inputSchema: RecommenderInputSchema,
+    outputSchema: RecommenderOutputSchema,
+  },
+  async (input) => {
+    const { output } = await recommenderPrompt(input);
+    if (!output) {
+      throw new Error("Falha na geração de resposta pela IA.");
+    }
+    return output;
   }
-  return output;
+);
+
+/**
+ * Função exportada para uso em Client Components.
+ */
+export async function recommendServices(input: RecommenderInput): Promise<RecommenderOutput> {
+  return serviceFlow(input);
 }
