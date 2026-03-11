@@ -30,7 +30,7 @@ export function Navbar() {
         
         <Link 
           href="/" 
-          className="relative block w-[120px] h-[35px] md:w-[220px] md:h-[60px] lg:w-[320px] lg:h-[96px] transition-transform duration-700 hover:scale-[1.02] shrink-0"
+          className="relative block w-[100px] h-[30px] md:w-[220px] md:h-[60px] lg:w-[320px] lg:h-[96px] transition-transform duration-700 hover:scale-[1.02] shrink-0"
         >
           <Image 
             src={logoUrl} 
@@ -63,22 +63,22 @@ export function Navbar() {
         </nav>
 
         <button 
-          className="lg:hidden p-3 rounded-xl bg-white/5 text-white border border-white/10 active:scale-95 transition-transform" 
+          className="lg:hidden p-2.5 rounded-xl bg-white/5 text-white border border-white/10 active:scale-95 transition-transform" 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Menu"
         >
-          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>
 
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-8 pt-32 hero-purple-mesh flex flex-col gap-8 animate-in fade-in slide-in-from-right duration-500">
-          <div className="space-y-6">
+        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-6 pt-24 hero-purple-mesh flex flex-col gap-6 animate-in fade-in slide-in-from-right duration-500">
+          <div className="space-y-4">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="block text-3xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-4" 
+                className="block text-xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-3" 
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
@@ -86,7 +86,7 @@ export function Navbar() {
             ))}
             <button 
               onClick={handleOpenChat}
-              className="block text-3xl font-black text-primary tracking-tighter uppercase text-left w-full"
+              className="block text-xl font-black text-primary tracking-tighter uppercase text-left w-full"
             >
               Consultoria
             </button>
@@ -94,7 +94,7 @@ export function Navbar() {
           
           <button 
             onClick={() => setIsMobileMenuOpen(false)} 
-            className="mt-auto h-16 w-full rounded-2xl bg-white/5 flex items-center justify-center text-white/30 font-black uppercase tracking-widest text-[9px] border border-white/10"
+            className="mt-auto h-14 w-full rounded-2xl bg-white/5 flex items-center justify-center text-white/30 font-black uppercase tracking-widest text-[8px] border border-white/10"
           >
             Fechar Menu
           </button>
