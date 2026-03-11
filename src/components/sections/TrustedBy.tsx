@@ -34,11 +34,11 @@ export function TrustedBy() {
   }, [partners.length]);
 
   return (
-    <div className="flex items-center gap-4 bg-white/5 p-2 md:p-3 rounded-[1.5rem] border border-white/5 backdrop-blur-3xl transition-all duration-700 hover:border-primary/20 group w-fit">
+    <div className="flex items-center gap-3 md:gap-4 bg-white/5 p-2 md:p-3 rounded-[1.2rem] md:rounded-[1.5rem] border border-white/5 backdrop-blur-3xl transition-all duration-700 hover:border-primary/20 group w-fit">
       
       {/* Box do Logotipo - Suavizado e Compacto */}
-      <div className="relative h-12 w-12 md:h-14 md:w-14 rounded-[1rem] bg-white flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-1000 group-hover:scale-[1.02]">
-        <div className="relative w-full h-full p-2">
+      <div className="relative h-10 w-10 md:h-14 md:w-14 rounded-[0.8rem] md:rounded-[1rem] bg-white flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-1000 group-hover:scale-[1.02]">
+        <div className="relative w-full h-full p-1.5 md:p-2">
           <Image 
             src={partners[currentPartner].url} 
             alt={partners[currentPartner].name}
@@ -51,13 +51,13 @@ export function TrustedBy() {
       </div>
 
       {/* Identidade do Cliente */}
-      <div className="min-w-[120px] md:min-w-[160px] pr-2">
-        <p className="text-[6px] md:text-[7px] font-black uppercase tracking-[0.4em] text-white/20 mb-0.5">
+      <div className="min-w-[100px] md:min-w-[160px] pr-1 md:pr-2">
+        <p className="text-[5px] md:text-[7px] font-black uppercase tracking-[0.4em] text-white/20 mb-0.5">
           CONFIADO POR
         </p>
-        <div className="h-[20px] flex items-center">
+        <div className="h-[14px] md:h-[20px] flex items-center">
           <p 
-            className="text-xs md:text-lg font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-2 duration-700" 
+            className="text-[10px] md:text-lg font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-2 duration-700" 
             key={`name-${currentPartner}`}
           >
             {partners[currentPartner].name}

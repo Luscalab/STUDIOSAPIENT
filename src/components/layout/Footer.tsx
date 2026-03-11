@@ -15,8 +15,8 @@ export function Footer() {
     <footer className="pt-16 pb-12 border-t border-white/5 bg-[#08070b] overflow-hidden text-white">
       <div className="container mx-auto px-6">
         
-        {/* Prova Social Integrada - Espaçamento Otimizado */}
-        <div className="mb-12 pb-12 border-b border-white/5 flex justify-center md:justify-start">
+        {/* Prova Social Integrada - Espaçamento Otimizado para Mobile */}
+        <div className="mb-8 pb-8 md:mb-12 md:pb-12 border-b border-white/5 flex justify-center md:justify-start">
           <TrustedBy />
         </div>
 
