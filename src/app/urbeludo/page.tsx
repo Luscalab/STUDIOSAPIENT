@@ -95,7 +95,7 @@ export default function UrbeLudoPage() {
     <main className="min-h-screen bg-[#08070b] text-white selection:bg-cyan-500/30 selection:text-white pb-32 overflow-x-hidden">
       <Navbar />
       
-      {/* Ultra Compact Mobile Dock */}
+      {/* Ultra Compact Mobile Dock - Ergonomia de Elite */}
       <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[400] w-fit">
         <div className="flex items-center gap-1 p-1 bg-[#08070b]/80 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl">
           {navItems.map((item) => (
@@ -117,11 +117,11 @@ export default function UrbeLudoPage() {
 
       <section className="relative pt-32 pb-16 md:pt-48 md:pb-32 px-6 text-center">
         <Badge className="mb-6 bg-cyan-500/10 text-cyan-400 px-6 py-2 text-[8px] font-black uppercase tracking-[0.4em] rounded-full">HealthTech Vanguarda</Badge>
-        <h1 className="font-headline text-3xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] mb-6">
+        <h1 className="font-headline text-3xl md:text-8xl font-black text-white tracking-tighter leading-[0.95] mb-6 text-balance">
           UrbeLudo <br className="hidden md:block" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-primary italic block">Movimento & Inteligência.</span>
         </h1>
-        <p className="text-base md:text-2xl text-white/40 font-medium max-w-2xl mx-auto leading-tight mb-10">
+        <p className="text-base md:text-2xl text-white/40 font-medium max-w-2xl mx-auto leading-tight mb-10 text-balance">
           Escalando a eficácia clínica através de tecnologia preditiva para o desenvolvimento infantil.
         </p>
         <ChevronDown className="h-5 w-5 text-cyan-400 mx-auto animate-bounce opacity-20" />
@@ -142,7 +142,7 @@ export default function UrbeLudoPage() {
       <section id="semiotica" className="py-16 md:py-32 px-6">
         <div className="container mx-auto max-w-5xl text-center">
           <h3 className="font-headline text-2xl md:text-6xl font-black text-white uppercase mb-10">Urbanismo do <span className="text-primary italic">Movimento.</span></h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 text-balance">
             <div className="p-8 md:p-12 rounded-[2.5rem] bg-white/5 border border-white/10 text-left space-y-4 md:space-y-6">
               <Box className="h-8 w-8 text-cyan-400" />
               <h4 className="text-xl md:text-2xl font-black uppercase">URBE</h4>

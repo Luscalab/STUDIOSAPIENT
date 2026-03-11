@@ -197,7 +197,7 @@ export function AccessibilityMenu() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Menu de Acessibilidade"
         className={cn(
-          "fixed bottom-24 right-4 md:right-6 z-[200] h-11 w-11 md:h-16 md:w-16 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-2xl",
+          "fixed bottom-20 right-4 md:right-6 z-[200] h-10 w-10 md:h-16 md:w-16 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-2xl",
           isOpen ? "bg-[#08070b] text-white" : "bg-primary text-white"
         )}
       >
@@ -206,7 +206,7 @@ export function AccessibilityMenu() {
 
       <div
         className={cn(
-          "fixed bottom-40 md:bottom-44 right-4 md:right-6 z-[200] w-[240px] md:w-[320px] bg-white rounded-[2rem] md:rounded-[3rem] border border-primary/20 shadow-[0_40px_120px_rgba(0,0,0,0.3)] transition-all duration-700 origin-bottom-right p-5 md:p-7 space-y-4 md:space-y-7",
+          "fixed bottom-36 md:bottom-44 right-4 md:right-6 z-[200] w-[240px] md:w-[320px] bg-white rounded-[2rem] md:rounded-[3rem] border border-primary/20 shadow-[0_40px_120px_rgba(0,0,0,0.3)] transition-all duration-700 origin-bottom-right p-5 md:p-7 space-y-4 md:space-y-7",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-10 invisible pointer-events-none"
         )}
       >
@@ -216,7 +216,7 @@ export function AccessibilityMenu() {
           </div>
           <div>
             <h3 className="font-headline font-black text-xs md:text-sm tracking-tight uppercase text-slate-900">Inclusão Digital</h3>
-            <p className="text-[7px] md:text-[8px] font-bold text-slate-400 uppercase tracking-widest">PERSONALIZAÇÃO DE UI</p>
+            <p className="text-[7px] md:text-[8px] font-bold text-slate-400 uppercase tracking-widest">UI SCALE</p>
           </div>
         </div>
 
@@ -233,21 +233,16 @@ export function AccessibilityMenu() {
           </div>
 
           <div className="grid grid-cols-2 gap-2 md:gap-3">
-            <button onClick={() => setHighContrast(!highContrast)} className={cn("flex flex-col items-center gap-2 p-3 md:p-5 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase text-center shadow-sm", highContrast ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><Contrast className="h-5 w-5 md:h-6 md:w-6" />Contraste</button>
-            <button onClick={() => setGrayscale(!grayscale)} className={cn("flex flex-col items-center gap-2 p-3 md:p-5 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase text-center shadow-sm", grayscale ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><SunMoon className="h-5 w-5 md:h-6 md:w-6" />Monocromo</button>
+            <button onClick={() => setHighContrast(!highContrast)} className={cn("flex flex-col items-center gap-2 p-3 md:p-5 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase text-center shadow-sm", highContrast ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30 shadow-inner")}><Contrast className="h-5 w-5 md:h-6 md:w-6" />Contraste</button>
+            <button onClick={() => setGrayscale(!grayscale)} className={cn("flex flex-col items-center gap-2 p-3 md:p-5 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase text-center shadow-sm", grayscale ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30 shadow-inner")}><SunMoon className="h-5 w-5 md:h-6 md:w-6" />Monocromo</button>
           </div>
 
           <div className="grid grid-cols-2 gap-2 md:gap-3">
-            <button onClick={toggleReadingMode} className={cn("flex flex-col items-center gap-2 p-3 md:p-5 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase text-center shadow-sm", isReading ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}>{isReading ? <VolumeX className="h-5 w-5 md:h-6 md:w-6" /> : <Volume2 className="h-5 w-5 md:h-6 md:w-6" />}Voz Nativa</button>
-            <button onClick={toggleVoiceGuide} className={cn("flex flex-col items-center gap-2 p-3 md:p-5 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase text-center shadow-sm", isVoiceGuideActive ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><Mic className="h-5 w-5 md:h-6 md:w-6" />Guia de Voz</button>
+            <button onClick={toggleReadingMode} className={cn("flex flex-col items-center gap-2 p-3 md:p-5 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase text-center shadow-sm", isReading ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30 shadow-inner")}>{isReading ? <VolumeX className="h-5 w-5 md:h-6 md:w-6" /> : <Volume2 className="h-5 w-5 md:h-6 md:w-6" />}Leitor</button>
+            <button onClick={toggleVoiceGuide} className={cn("flex flex-col items-center gap-2 p-3 md:p-5 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase text-center shadow-sm", isVoiceGuideActive ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30 shadow-inner")}><Mic className="h-5 w-5 md:h-6 md:w-6" />Guia</button>
           </div>
 
-          <div className="space-y-2 md:space-y-3">
-            <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("w-full h-10 md:h-14 flex items-center justify-center gap-2 md:gap-3 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase tracking-widest shadow-sm", highlightLinks ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><LinkIcon className="h-3 w-3 md:h-4 md:w-4" />Realçar Links</button>
-            <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("w-full h-10 md:h-14 flex items-center justify-center gap-2 md:gap-3 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase tracking-widest shadow-sm", stopAnimations ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><ZapOff className="h-3 w-3 md:h-4 md:w-4" />{stopAnimations ? "Ativar" : "Parar"} Animação</button>
-          </div>
-          
-          <button onClick={resetAll} className="w-full h-9 flex items-center justify-center gap-2 rounded-xl bg-slate-50 text-[8px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-100 transition-colors border border-slate-100"><RotateCcw className="h-3 w-3 md:h-4 md:w-4" />Limpar</button>
+          <button onClick={resetAll} className="w-full h-10 flex items-center justify-center gap-2 rounded-xl bg-slate-50 text-[8px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-100 transition-colors border border-slate-100"><RotateCcw className="h-3 w-3 md:h-4 md:w-4" />Redefinir</button>
         </div>
       </div>
     </div>

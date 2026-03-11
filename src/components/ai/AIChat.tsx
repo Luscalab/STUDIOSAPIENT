@@ -162,7 +162,7 @@ export function AIChat() {
     return (
       <button 
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-16 md:right-6 z-[200] h-9 w-9 md:h-12 md:w-12 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-all border-2 border-white/20 animate-glow-pulse"
+        className="fixed bottom-32 right-4 md:bottom-6 md:right-6 z-[200] h-10 w-10 md:h-12 md:w-12 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-all border-2 border-white/20 animate-glow-pulse"
       >
         <Bot className="h-4 w-4 md:h-5 md:w-5" />
       </button>
@@ -174,7 +174,7 @@ export function AIChat() {
       "fixed z-[300] bg-white flex flex-col overflow-hidden border border-slate-200 transition-all duration-500 ease-in-out shadow-[0_40px_100px_-15px_rgba(0,0,0,0.4)]",
       isExpanded 
         ? "inset-4 md:inset-auto md:bottom-6 md:right-6 md:w-[800px] md:h-[calc(100vh-120px)] rounded-[1.5rem] md:rounded-[2rem]" 
-        : "bottom-16 right-4 left-4 h-[440px] md:inset-auto md:bottom-24 md:right-6 md:w-[320px] md:h-[580px] rounded-[1.5rem] md:rounded-[2rem]",
+        : "bottom-20 right-4 left-4 h-[420px] md:inset-auto md:bottom-24 md:right-6 md:w-[320px] md:h-[580px] rounded-[1.5rem] md:rounded-[2rem] scale-90 md:scale-100 origin-bottom-right",
       isOpen ? "animate-in slide-in-from-bottom-8" : "hidden"
     )}>
       

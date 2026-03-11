@@ -29,7 +29,7 @@ export function Navbar() {
         
         <Link 
           href="/" 
-          className="relative block w-[120px] h-[36px] md:w-[220px] md:h-[60px] lg:w-[320px] lg:h-[96px] transition-transform duration-700 hover:scale-[1.02] shrink-0"
+          className="relative block w-[140px] h-[40px] md:w-[220px] md:h-[60px] lg:w-[320px] lg:h-[96px] transition-transform duration-700 hover:scale-[1.02] shrink-0"
         >
           <Image 
             src={logoUrl} 
@@ -71,13 +71,13 @@ export function Navbar() {
       </div>
 
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-8 pt-32 hero-purple-mesh flex flex-col gap-8 animate-in fade-in slide-in-from-right duration-500">
+        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f]/95 backdrop-blur-3xl p-8 pt-32 flex flex-col gap-8 animate-in fade-in slide-in-from-right duration-500">
           <div className="space-y-6">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="block text-2xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-4" 
+                className="block text-2xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-4 active:text-primary transition-colors" 
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
@@ -85,7 +85,7 @@ export function Navbar() {
             ))}
             <button 
               onClick={handleOpenChat}
-              className="block text-2xl font-black text-primary tracking-tighter uppercase text-left w-full"
+              className="block text-2xl font-black text-primary tracking-tighter uppercase text-left w-full active:scale-95 transition-transform"
             >
               Consultoria
             </button>
@@ -93,7 +93,7 @@ export function Navbar() {
           
           <button 
             onClick={() => setIsMobileMenuOpen(false)} 
-            className="mt-auto h-16 w-full rounded-2xl bg-white/5 flex items-center justify-center text-white/30 font-black uppercase tracking-widest text-[9px] border border-white/10"
+            className="mt-auto h-14 w-full rounded-2xl bg-white/5 flex items-center justify-center text-white/30 font-black uppercase tracking-widest text-[8px] border border-white/10"
           >
             Fechar Menu
           </button>
