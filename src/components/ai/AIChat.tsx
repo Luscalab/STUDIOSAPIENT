@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from "react";
@@ -37,7 +38,8 @@ const INITIAL_MESSAGE: Message = {
     "Estética & Beleza", 
     "Tecnologia & SaaS", 
     "Varejo & E-commerce",
-    "Arquitetura & Design"
+    "Arquitetura & Design",
+    "Outros"
   ],
   isMultiSelect: false
 };

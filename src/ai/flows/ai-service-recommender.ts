@@ -57,6 +57,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   else if (fullHistoryText.match(/(tecnologia|ti|software|saas)/)) niche = 'Tecnologia & SaaS';
   else if (fullHistoryText.match(/(imobiliário|corretor|imóveis)/)) niche = 'Imobiliário & Incorporação';
   else if (fullHistoryText.match(/(estética|estetica|beleza)/)) niche = 'Estética & Beleza';
+  else if (fullHistoryText.includes('outros')) niche = 'Nichos Diversos';
 
   // --- 2. MAPEAMENTO DE PLATAFORMAS E GARGALOS ---
   const platforms: string[] = [];
@@ -147,7 +148,8 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
       "Estética & Beleza", 
       "Tecnologia & SaaS", 
       "Varejo & E-commerce",
-      "Arquitetura & Design"
+      "Arquitetura & Design",
+      "Outros"
     ]
   };
 }
