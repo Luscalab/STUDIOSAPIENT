@@ -38,7 +38,9 @@ import {
   Globe,
   Activity,
   Building2,
-  LayoutDashboard
+  LayoutDashboard,
+  Box,
+  Smile
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -114,7 +116,7 @@ export default function UrbeLudoPage() {
     },
     {
       icon: <LayoutDashboard className="h-5 w-5" />,
-      question: "Como as clínicas e terapeutas podem adotar o sistema?",
+      question: "Como as clínicas e terapeutas podem adotar o sistema? ",
       answer: "O Urbeludo opera em um modelo de assinatura (SaaS). As clínicas podem contratar licenças para seus terapeutas, que por sua vez vinculam seus pacientes à plataforma, criando uma rede de monitoramento em tempo real que valoriza o serviço prestado e fideliza as famílias."
     }
   ];
@@ -156,10 +158,10 @@ export default function UrbeLudoPage() {
                 CONHECER A CAUSA
               </Button>
               <button 
-                onClick={() => scrollToSection('expertise')}
+                onClick={() => scrollToSection('semiotica')}
                 className="flex items-center gap-6 text-white/30 hover:text-white transition-all duration-500 text-[10px] font-black uppercase tracking-[0.6em] group"
               >
-                Cérebro do Projeto <ChevronDown className="h-5 w-5 animate-bounce group-hover:text-cyan-400" />
+                A Alma do Nome <ChevronDown className="h-5 w-5 animate-bounce group-hover:text-cyan-400" />
               </button>
             </div>
           </div>
@@ -202,7 +204,88 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 3. A Solução & SPSP - Tech Focus */}
+      {/* 3. A Semiótica do Nome - Storytelling Section */}
+      <section id="semiotica" className="py-24 md:py-64 relative overflow-hidden bg-[#0a0a0c]">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
+          <div className="absolute top-0 left-1/2 w-[1px] h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
+        </div>
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="text-center mb-32 max-w-4xl mx-auto space-y-10">
+            <Badge className="bg-cyan-500/10 text-cyan-400 border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Storytelling & Semiótica</Badge>
+            <h3 className="font-headline text-5xl md:text-8xl font-black tracking-tighter leading-none text-white uppercase">A Alma do <br/><span className="text-primary italic">Nome.</span></h3>
+            <p className="text-2xl text-white/50 font-medium leading-tight tracking-tight">
+              A fusão entre a estrutura da ciência e a fluidez do afeto.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+            {/* URBE - A Estrutura */}
+            <div className="lg:col-span-6 p-12 rounded-[4rem] bg-white/5 border border-white/10 space-y-12 relative overflow-hidden group">
+               <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-[0.1] transition-all duration-1000">
+                 <Building2 className="h-64 w-64 text-cyan-400" />
+               </div>
+               <div className="space-y-8 relative z-10">
+                 <div className="flex items-center gap-6">
+                    <div className="h-16 w-16 rounded-2xl bg-cyan-400/20 flex items-center justify-center text-cyan-400 border border-cyan-400/20 shadow-lg">
+                      <Box className="h-8 w-8" />
+                    </div>
+                    <h4 className="text-4xl font-black tracking-tighter uppercase text-white">URBE</h4>
+                 </div>
+                 <p className="text-xl text-white/40 font-medium leading-relaxed">
+                   Do latim <span className="text-cyan-400 font-bold italic">Urbs</span> (Cidade). Representa o ambiente, a estrutura e o corpo humano como um espaço habitado. Reabilitar é dar condições para que a criança navegue com autonomia sua própria "urbe interna".
+                 </p>
+                 <div className="p-6 rounded-3xl bg-cyan-400/5 border border-cyan-400/10 italic text-cyan-400/60 text-sm">
+                   "O planejamento urbano do movimento humano."
+                 </div>
+               </div>
+            </div>
+
+            {/* LUDO - O Jogo */}
+            <div className="lg:col-span-6 p-12 rounded-[4rem] bg-primary/10 border border-primary/20 space-y-12 relative overflow-hidden group">
+               <div className="absolute top-0 right-0 p-12 opacity-[0.05] group-hover:opacity-[0.15] transition-all duration-1000">
+                 <Gamepad2 className="h-64 w-64 text-primary" />
+               </div>
+               <div className="space-y-8 relative z-10">
+                 <div className="flex items-center gap-6">
+                    <div className="h-16 w-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-lg">
+                      <Smile className="h-8 w-8" />
+                    </div>
+                    <h4 className="text-4xl font-black tracking-tighter uppercase text-white">LUDO</h4>
+                 </div>
+                 <p className="text-xl text-white/40 font-medium leading-relaxed">
+                   Do latim <span className="text-primary font-bold italic">Ludus</span> (Jogo/Brincar). O motor da aprendizagem. É através da ludicidade que removemos a resistência e entregamos o resultado terapêutico com alegria.
+                 </p>
+                 <div className="p-6 rounded-3xl bg-primary/5 border border-primary/10 italic text-primary text-sm">
+                   "O braço direito do afeto e da ciência."
+                 </div>
+               </div>
+            </div>
+
+            {/* O Fator Urso Peludo */}
+            <div className="lg:col-span-12 p-12 md:p-20 rounded-[5rem] bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex flex-col md:flex-row gap-16 items-center shadow-2xl relative overflow-hidden">
+               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.05),transparent_70%)]" />
+               <div className="md:w-1/3 text-center md:text-left space-y-6">
+                 <div className="h-24 w-24 rounded-[2.5rem] bg-white text-black flex items-center justify-center shadow-2xl mx-auto md:mx-0">
+                   <Heart className="h-12 w-12 text-primary animate-pulse" />
+                 </div>
+                 <h5 className="text-3xl font-black tracking-tighter uppercase text-white leading-none">Ponte <br/>Fonética</h5>
+               </div>
+               <div className="md:w-2/3 space-y-8">
+                  <p className="text-2xl md:text-3xl text-white/80 font-medium tracking-tight leading-tight">
+                    Foneticamente, o nome remete a <span className="text-primary font-black italic">"Urso Peludo"</span>.
+                  </p>
+                  <p className="text-lg text-white/40 font-medium leading-relaxed">
+                    Essa escolha retira a carga pesada da palavra "reabilitação" e a substitui por algo familiar e acolhedor. O UrbeLudo é seguro, macio e amigável – um ativo de branding desenhado para ser o companheiro fiel da criança.
+                  </p>
+               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. A Solução & SPSP - Tech Focus */}
       <section id="spsp" className="py-24 md:py-64 relative overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
@@ -253,7 +336,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 4. Pilares de Atuação */}
+      {/* 5. Pilares de Atuação */}
       <section className="py-24 md:py-64 bg-white text-slate-950 relative rounded-[5rem] md:rounded-[10rem] mx-4 my-8 shadow-2xl">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-4xl mx-auto mb-32">
@@ -293,7 +376,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 5. Inteligência Multidisciplinar - The Team */}
+      {/* 6. Inteligência Multidisciplinar - The Team */}
       <section id="expertise" className="py-24 md:py-64 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(6,182,212,0.1),transparent_50%)]" />
         <div className="container mx-auto px-6 relative z-10">
@@ -324,7 +407,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 6. FAQ Estratégico - Ecossistema UrbeLudo */}
+      {/* 7. FAQ Estratégico - Ecossistema UrbeLudo */}
       <section id="faq" className="py-24 md:py-64 bg-white text-slate-950 relative rounded-[5rem] md:rounded-[10rem] mx-4 my-8 shadow-2xl">
         <div className="container mx-auto px-6 max-w-4xl">
           <div className="text-center mb-24 space-y-6">
@@ -352,7 +435,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 7. Investimento & Apoio - Convidativo */}
+      {/* 8. Investimento & Apoio - Convidativo */}
       <section id="investidores" className="py-24 md:py-64 relative overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
