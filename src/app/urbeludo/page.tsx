@@ -201,7 +201,7 @@ export default function UrbeLudoPage() {
         </div>
       </nav>
 
-      {/* 1. Hero Section - HealthTech Prestige (Scaled Down) */}
+      {/* 1. Hero Section - HealthTech Prestige */}
       <section className="relative pt-24 pb-16 md:pt-48 md:pb-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-10%,rgba(6,182,212,0.12),transparent_60%)]" />
@@ -234,7 +234,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 2. O Desafio - Manifesto Narrative (Scaled Down) */}
+      {/* 2. O Desafio - Manifesto Narrative */}
       <section id="desafio" className="py-20 md:py-32 bg-white text-slate-950 relative overflow-hidden rounded-[3rem] md:rounded-[6rem] mx-4 my-6 shadow-2xl">
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto">
@@ -260,7 +260,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 3. A Semiótica do Nome (Scaled Down) */}
+      {/* 3. A Semiótica: Urbanismo do Movimento */}
       <section id="semiotica" className="py-20 md:py-32 relative overflow-hidden bg-[#0a0a0c]">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent" />
@@ -272,7 +272,7 @@ export default function UrbeLudoPage() {
             <Badge className="bg-cyan-500/10 text-cyan-400 border-none px-5 py-2 text-[9px] font-black uppercase tracking-widest">Storytelling & Semiótica</Badge>
             <h3 className="font-headline text-4xl md:text-6xl font-black tracking-tighter leading-none text-white uppercase">A Alma do <br/><span className="text-primary italic">Nome.</span></h3>
             <p className="text-lg text-white/50 font-medium leading-tight tracking-tight">
-              A fusão entre a estrutura da ciência e a fluidez do afeto.
+              A fusão estratégica entre a estrutura da ciência e a fluidez do afeto.
             </p>
           </div>
 
@@ -317,26 +317,26 @@ export default function UrbeLudoPage() {
                  <div className="h-20 w-20 rounded-[2rem] bg-cyan-400 text-black flex items-center justify-center shadow-2xl mx-auto lg:mx-0">
                    <Zap className="h-10 w-10" />
                  </div>
-                 <h5 className="text-2xl font-black tracking-tighter uppercase text-white leading-none">A Fusão <br/>Estratégica</h5>
+                 <h5 className="text-2xl font-black tracking-tighter uppercase text-white leading-none">Urbanismo do <br/>Movimento</h5>
                </div>
                <div className="lg:w-2/3 space-y-6 relative z-10">
                   <p className="text-2xl md:text-4xl text-white font-black tracking-tighter leading-tight">
                     A Fusão: Urbeludo (Espaço em Movimento)
                   </p>
-                  <p className="text-lg text-white/40 font-medium italic">Ao unir os dois, criamos um conceito de "Urbanismo do Movimento":</p>
+                  <p className="text-lg text-white/40 font-medium italic">Fugindo do óbvio clínico e focando na organização lúdica:</p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-3">
                       <div className="h-1 w-10 bg-cyan-400 rounded-full" />
-                      <p className="text-base text-white font-bold uppercase tracking-widest">Organização Lúdica</p>
+                      <p className="text-base text-white font-bold uppercase tracking-widest">Organização das Funções</p>
                       <p className="text-sm text-white/50 font-medium leading-relaxed">
                         O nome sugere a organização lúdica das funções psicomotoras. É o planejamento estratégico da evolução física através do jogo.
                       </p>
                     </div>
                     <div className="space-y-3">
                       <div className="h-1 w-10 bg-primary rounded-full" />
-                      <p className="text-base text-white font-bold uppercase tracking-widest">Sonoridade Robustas</p>
+                      <p className="text-base text-white font-bold uppercase tracking-widest">Sonoridade Robusta</p>
                       <p className="text-sm text-white/50 font-medium leading-relaxed">
-                        A sonoridade termina de forma robusta e marcante, fugindo do óbvio de nomes de saúde que costumam ser muito frios ou clínicos (terminados em "med", "fisio").
+                        A sonoridade termina de forma robusta e marcante, fugindo dos nomes frios terminados em "med" ou "fisio".
                       </p>
                     </div>
                   </div>
@@ -346,7 +346,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 4. A Solução & SPSP (Scaled Down) */}
+      {/* 4. A Solução & SPSP */}
       <section id="spsp" className="py-20 md:py-32 relative overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
@@ -397,7 +397,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 5. Pilares de Atuação (Scaled Down) */}
+      {/* 5. Pilares de Atuação */}
       <section className="py-20 md:py-32 bg-white text-slate-950 relative rounded-[3rem] md:rounded-[6rem] mx-4 my-6 shadow-2xl">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
@@ -437,7 +437,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 6. Inteligência Multidisciplinar (Scaled Down) */}
+      {/* 6. Inteligência Multidisciplinar */}
       <section id="expertise" className="py-20 md:py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(6,182,212,0.08),transparent_50%)]" />
         <div className="container mx-auto px-6 relative z-10">
@@ -468,7 +468,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 7. FAQ Estratégico (Scaled Down) */}
+      {/* 7. FAQ Estratégico */}
       <section id="faq" className="py-20 md:py-32 bg-white text-slate-950 relative rounded-[3rem] md:rounded-[6rem] mx-4 my-6 shadow-2xl">
         <div className="container mx-auto px-6 max-w-3xl">
           <div className="text-center mb-16 space-y-5">
@@ -496,7 +496,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 8. Investimento & Apoio (Scaled Down) */}
+      {/* 8. Investimento & Apoio */}
       <section id="investidores" className="py-20 md:py-32 relative overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
@@ -572,7 +572,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 9. CTA Final Call (Scaled Down) */}
+      {/* 9. CTA Final Call */}
       <section className="py-20 md:py-32 bg-white text-slate-950 mx-4 mb-20 rounded-[4rem] md:rounded-[6rem] shadow-2xl overflow-hidden relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.06),transparent_60%)]" />
         <div className="container mx-auto px-6 relative z-10 text-center space-y-12">
