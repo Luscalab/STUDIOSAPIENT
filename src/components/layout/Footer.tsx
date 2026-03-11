@@ -27,8 +27,8 @@ export function Footer() {
               </p>
             </div>
             
-            {/* Bloco de Ação e Autoridade Integrado */}
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-4 md:mb-6">
+            {/* Bloco de Ação e Autoridade Integrado Lado a Lado */}
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-4">
               <div className="flex gap-2">
                 {[
                   { icon: <Instagram size={18} />, href: "https://instagram.com/studiosapient", label: "Instagram" },
@@ -48,7 +48,7 @@ export function Footer() {
                 ))}
               </div>
 
-              {/* Prova Social de Elite Lado a Lado */}
+              {/* Prova Social de Elite Lateral */}
               <div className="animate-in fade-in slide-in-from-left-4 duration-1000">
                 <TrustedBy />
               </div>
@@ -131,4 +131,3 @@ export function Footer() {
     </footer>
   );
 }
-
