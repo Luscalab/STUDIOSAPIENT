@@ -5,8 +5,8 @@ import * as React from "react";
 import Image from "next/image";
 
 /**
- * Componente de Prova Social de Elite - Versão Compacta e Suave para Rodapé.
- * Logotipos em formato quadrado minimalista.
+ * Componente de Prova Social de Elite - Versão Ultra-Compacta.
+ * Design minimalista quadrado com bordas arredondadas e suavização de distorção.
  */
 export function TrustedBy() {
   const [currentPartner, setCurrentPartner] = React.useState(0);
@@ -34,16 +34,16 @@ export function TrustedBy() {
   }, [partners.length]);
 
   return (
-    <div className="flex items-center gap-6 bg-white/5 p-4 rounded-[2rem] border border-white/5 backdrop-blur-3xl transition-all duration-700 hover:border-primary/20 group w-fit">
+    <div className="flex items-center gap-4 bg-white/5 p-2 md:p-3 rounded-[1.5rem] border border-white/5 backdrop-blur-3xl transition-all duration-700 hover:border-primary/20 group w-fit">
       
-      {/* Box do Logotipo - Compacto e Suave */}
-      <div className="relative h-14 w-14 md:h-16 md:w-16 rounded-[1.2rem] bg-white flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-1000 group-hover:scale-[1.02]">
+      {/* Box do Logotipo - Suavizado e Compacto */}
+      <div className="relative h-12 w-12 md:h-14 md:w-14 rounded-[1rem] bg-white flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-1000 group-hover:scale-[1.02]">
         <div className="relative w-full h-full p-2">
           <Image 
             src={partners[currentPartner].url} 
             alt={partners[currentPartner].name}
             fill
-            className="object-contain transition-all duration-1000 scale-90 group-hover:scale-95"
+            className="object-contain transition-all duration-1000 scale-95 group-hover:scale-100"
             key={partners[currentPartner].url}
             priority
           />
@@ -51,13 +51,13 @@ export function TrustedBy() {
       </div>
 
       {/* Identidade do Cliente */}
-      <div className="min-w-[140px] md:min-w-[180px] pr-4">
-        <p className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] text-white/20 mb-1">
+      <div className="min-w-[120px] md:min-w-[160px] pr-2">
+        <p className="text-[6px] md:text-[7px] font-black uppercase tracking-[0.4em] text-white/20 mb-0.5">
           CONFIADO POR
         </p>
-        <div className="h-[25px] flex items-center">
+        <div className="h-[20px] flex items-center">
           <p 
-            className="text-sm md:text-xl font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-2 duration-700" 
+            className="text-xs md:text-lg font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-2 duration-700" 
             key={`name-${currentPartner}`}
           >
             {partners[currentPartner].name}
