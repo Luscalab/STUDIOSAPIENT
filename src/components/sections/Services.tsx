@@ -109,7 +109,6 @@ export function Services() {
     <section id="servicos" className="py-12 md:py-32 bg-white text-black relative overflow-hidden rounded-[2rem] md:rounded-[4rem] mx-4 my-4 shadow-xl">
       <div className="container mx-auto px-6 relative z-10">
         
-        {/* Header da Seção com Parceiros em Marquee Lateral */}
         <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-12 mb-16 md:mb-24">
           <div className="max-w-2xl text-center lg:text-left">
             <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60 mb-2">Soluções para crescer</p>
@@ -119,11 +118,10 @@ export function Services() {
             </h2>
           </div>
 
-          {/* Parceiros de Elite Integrados - Design Minimalista Refinado */}
-          <div className="flex items-center gap-6 md:gap-8 bg-[#08070b] p-4 md:p-6 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden group">
+          <div className="flex items-center gap-6 md:gap-8 bg-[#08070b] p-4 md:p-6 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50" />
             
-            <div className="relative h-20 w-20 md:h-28 md:w-28 rounded-[1.8rem] bg-white border border-white/10 flex items-center justify-center p-4 md:p-6 overflow-hidden shadow-2xl transition-all duration-700">
+            <div className="relative h-20 w-20 md:h-28 md:w-28 rounded-[2.5rem] bg-white border border-white/10 flex items-center justify-center p-4 md:p-6 overflow-hidden shadow-2xl transition-all duration-1000">
               <div className="relative w-full h-full">
                 <Image 
                   src={partners[currentPartner].url} 
@@ -142,13 +140,13 @@ export function Services() {
               </p>
               <div className="h-[40px] flex items-center">
                 <p 
-                  className="text-sm md:text-2xl font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-4 duration-700" 
+                  className="text-sm md:text-2xl font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-4 duration-1000" 
                   key={`name-${currentPartner}`}
                 >
                   {partners[currentPartner].name}
                 </p>
               </div>
-              <div className="h-1 w-12 bg-primary mt-4 rounded-full shadow-[0_0_10px_rgba(139,92,246,0.5)]" />
+              <div className="h-1 w-12 bg-primary mt-4 rounded-full shadow-[0_0_15px_rgba(139,92,246,0.6)]" />
             </div>
           </div>
         </div>

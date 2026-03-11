@@ -29,16 +29,16 @@ export function Navbar() {
     <header className="absolute top-4 md:top-8 left-0 right-0 z-[150]" role="banner">
       <div className="container mx-auto px-6 flex items-center justify-between gap-12">
         
-        {/* Logo Principal Sapient - Escala Imponente */}
+        {/* Logo Principal Sapient - Escala Imponente e Suave */}
         <Link 
           href="/" 
-          className="relative block w-[200px] h-[70px] md:w-[600px] md:h-[180px] transition-all duration-700 hover:scale-[1.02] shrink-0"
+          className="relative block w-[200px] h-[70px] md:w-[600px] md:h-[180px] transition-all duration-1000 hover:scale-[1.01] shrink-0"
         >
           <Image 
             src={logoUrl} 
             alt="studiosapient Logo" 
             fill 
-            className="object-contain object-left drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]" 
+            className="object-contain object-left drop-shadow-[0_15px_30px_rgba(0,0,0,0.3)]" 
             priority 
           />
         </Link>
