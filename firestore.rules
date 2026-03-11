@@ -2,12 +2,42 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Bloqueio padrão para segurança máxima
     match /{document=**} {
       allow read, write: if false;
     }
     
+    // Auxiliar para verificar se o usuário é o administrador mestre
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == "contato@studiosapient.com.br";
+    }
+
+    // Leads: qualquer um pode enviar interesse
     match /leads/{leadId} {
       allow create: if true;
+    }
+
+    // Posts Públicos: leitura aberta para todos, escrita apenas para admin
+    match /blogPosts_public/{postId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Posts Premium: leitura para usuários autenticados (ou lógica de assinatura), escrita apenas para admin
+    match /blogPosts_premium/{postId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    // Status de Usuário Premium: o próprio usuário pode ler seu status
+    match /premium_users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if isAdmin();
+    }
+
+    // Rascunhos do Blog: acesso exclusivo do administrador
+    match /admin_blogPosts_drafts/{draftId} {
+      allow read, write: if isAdmin();
     }
   }
 }

@@ -11,15 +11,43 @@
         "niche": { "type": "string" },
         "timestamp": { "type": "string", "format": "date-time" }
       }
+    },
+    "BlogPost": {
+      "title": "Blog Post",
+      "description": "Dossiê técnico ou artigo estratégico para a rede Sapient.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "content": { "type": "string" },
+        "featuredImageUri": { "type": "string" },
+        "isPremium": { "type": "boolean" },
+        "publishedDate": { "type": "string", "format": "date-time" },
+        "authorId": { "type": "string" }
+      },
+      "required": ["title", "slug", "content"]
     }
   },
   "auth": {
-    "providers": ["anonymous"]
+    "providers": ["google", "anonymous"]
   },
   "firestore": {
     "/leads/{leadId}": {
       "schema": "Lead",
       "description": "Leads de consultoria capturados."
+    },
+    "/blogPosts_public/{postId}": {
+      "schema": "BlogPost",
+      "description": "Artigos estratégicos abertos ao público."
+    },
+    "/blogPosts_premium/{postId}": {
+      "schema": "BlogPost",
+      "description": "Dossiês exclusivos para clientes de elite."
+    },
+    "/admin_blogPosts_drafts/{draftId}": {
+      "schema": "BlogPost",
+      "description": "Rascunhos em processo de curadoria."
     }
   }
 }
