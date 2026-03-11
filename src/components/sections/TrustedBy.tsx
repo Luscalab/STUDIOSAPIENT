@@ -5,7 +5,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Image from "next/image";
 
 export function TrustedBy() {
-  // Busca especificamente o logotipo do parceiro configurado nos placeholders
+  // Busca especificamente o logotipo do parceiro configurado nos placeholders do Supabase
   const partnerLogo = PlaceHolderImages.find(img => img.id === "partner-logo-1")?.imageUrl;
 
   // Filtra parceiros garantindo que apenas URLs válidas e não vazias sejam processadas

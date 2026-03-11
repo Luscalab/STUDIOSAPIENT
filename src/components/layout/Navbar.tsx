@@ -22,7 +22,7 @@ export function Navbar() {
     { name: "Contato", href: "/#contato" },
   ];
 
-  // URL Direta do Logotipo Principal do Supabase atualizada pelo usuário
+  // URL Direta do Logotipo Principal do Supabase fornecida pelo usuário
   const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MzI1ODkzNSwiZXhwIjoyMDg4NjE4OTM1fQ.IzwEMRrb4fKfxxJqcobcRaK14UuTZxUJCtCbG141MJo";
 
   return (
