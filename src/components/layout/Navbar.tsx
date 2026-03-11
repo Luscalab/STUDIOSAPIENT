@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -27,10 +28,9 @@ export function Navbar() {
     <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
       <div className="container mx-auto px-6 flex items-center justify-between gap-4">
         
-        {/* Logo imponente e ajustado para a direita */}
         <Link 
           href="/" 
-          className="relative block w-[140px] h-[40px] md:w-[220px] md:h-[60px] lg:w-[320px] lg:h-[96px] transition-transform duration-700 hover:scale-[1.02] shrink-0"
+          className="relative block w-[120px] h-[35px] md:w-[220px] md:h-[60px] lg:w-[320px] lg:h-[96px] transition-transform duration-700 hover:scale-[1.02] shrink-0"
         >
           <Image 
             src={logoUrl} 
@@ -41,7 +41,6 @@ export function Navbar() {
           />
         </Link>
 
-        {/* Menu de Navegação Desktop */}
         <nav className="hidden lg:flex items-center gap-8 px-10 py-5 rounded-full glass-morphism border-white/5 shadow-2xl relative z-20">
           {navLinks.map((link) => (
             <Link 
@@ -63,25 +62,23 @@ export function Navbar() {
           </button>
         </nav>
 
-        {/* Gatilho Mobile - Melhorado para Mobile */}
         <button 
-          className="lg:hidden p-4 rounded-2xl bg-white/5 text-white border border-white/10 active:scale-95 transition-transform" 
+          className="lg:hidden p-3 rounded-xl bg-white/5 text-white border border-white/10 active:scale-95 transition-transform" 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Menu"
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
-      {/* Menu Mobile Fullscreen */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-10 pt-40 hero-purple-mesh flex flex-col gap-10 animate-in fade-in slide-in-from-right duration-500">
-          <div className="space-y-8">
+        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-8 pt-32 hero-purple-mesh flex flex-col gap-8 animate-in fade-in slide-in-from-right duration-500">
+          <div className="space-y-6">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="block text-4xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-4" 
+                className="block text-3xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-4" 
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
@@ -89,7 +86,7 @@ export function Navbar() {
             ))}
             <button 
               onClick={handleOpenChat}
-              className="block text-4xl font-black text-primary tracking-tighter uppercase text-left w-full"
+              className="block text-3xl font-black text-primary tracking-tighter uppercase text-left w-full"
             >
               Consultoria
             </button>
@@ -97,7 +94,7 @@ export function Navbar() {
           
           <button 
             onClick={() => setIsMobileMenuOpen(false)} 
-            className="mt-auto h-20 w-full rounded-3xl bg-white/5 flex items-center justify-center text-white/40 font-black uppercase tracking-widest text-[10px] border border-white/10"
+            className="mt-auto h-16 w-full rounded-2xl bg-white/5 flex items-center justify-center text-white/30 font-black uppercase tracking-widest text-[9px] border border-white/10"
           >
             Fechar Menu
           </button>
