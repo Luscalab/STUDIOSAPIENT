@@ -40,12 +40,18 @@ import {
   Building2,
   LayoutDashboard,
   Box,
-  Smile
+  Smile,
+  Navigation,
+  Layers,
+  Info
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import { useState, useEffect } from "react";
 
 export default function UrbeLudoPage() {
   const { toast } = useToast();
+  const [activeSection, setActiveSection] = useState("");
   
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
 
@@ -61,12 +67,56 @@ export default function UrbeLudoPage() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const offset = 100; // Offset for sticky headers
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      setActiveSection(id);
     }
   };
 
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const sections = ['desafio', 'semiotica', 'spsp', 'expertise', 'faq', 'investidores'];
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   const contactEmail = "sapientcontato@gmail.com";
   const pixKey = "sapientcontato@gmail.com";
+
+  const navItems = [
+    { id: 'desafio', label: 'Desafio', icon: <Target className="h-4 w-4" /> },
+    { id: 'semiotica', label: 'Semiótica', icon: <Info className="h-4 w-4" /> },
+    { id: 'spsp', label: 'SPSP Tech', icon: <Cpu className="h-4 w-4" /> },
+    { id: 'expertise', label: 'Equipe', icon: <Users2 className="h-4 w-4" /> },
+    { id: 'faq', label: 'Dúvidas', icon: <Zap className="h-4 w-4" /> },
+    { id: 'investidores', label: 'Apoiar', icon: <Heart className="h-4 w-4" /> },
+  ];
 
   const faqs = [
     {
@@ -122,9 +172,35 @@ export default function UrbeLudoPage() {
   ];
 
   return (
-    <main id="main-content" className="min-h-screen bg-[#08070b] text-white selection:bg-cyan-500/30 selection:text-white">
+    <main id="main-content" className="min-h-screen bg-[#08070b] text-white selection:bg-cyan-500/30 selection:text-white pb-32">
       <Navbar />
       
+      {/* Floating Premium Dock Navigation */}
+      <nav className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[400] hidden lg:block">
+        <div className="flex items-center gap-2 p-3 bg-[#08070b]/40 backdrop-blur-[40px] border border-white/10 rounded-full shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)]">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => scrollToSection(item.id)}
+              className={cn(
+                "flex items-center gap-3 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 group",
+                activeSection === item.id 
+                  ? "bg-primary text-white shadow-[0_0_20px_rgba(139,92,246,0.5)]" 
+                  : "text-white/40 hover:text-white hover:bg-white/5"
+              )}
+            >
+              <span className={cn(
+                "transition-transform duration-500",
+                activeSection === item.id ? "scale-110" : "group-hover:scale-110"
+              )}>
+                {item.icon}
+              </span>
+              <span className="hidden xl:inline">{item.label}</span>
+            </button>
+          ))}
+        </div>
+      </nav>
+
       {/* 1. Hero Section - HealthTech Prestige */}
       <section className="relative pt-32 pb-24 md:pt-64 md:pb-48 overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -264,7 +340,7 @@ export default function UrbeLudoPage() {
             </div>
 
             {/* O Fator Urso Peludo */}
-            <div className="lg:col-span-12 p-12 md:p-20 rounded-[5rem] bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex flex-col md:flex-row gap-16 items-center shadow-2xl relative overflow-hidden">
+            <div className="lg:col-span-12 p-12 md:p-20 rounded-[5rem] bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex flex-col md:row gap-16 items-center shadow-2xl relative overflow-hidden">
                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.05),transparent_70%)]" />
                <div className="md:w-1/3 text-center md:text-left space-y-6">
                  <div className="h-24 w-24 rounded-[2.5rem] bg-white text-black flex items-center justify-center shadow-2xl mx-auto md:mx-0">
