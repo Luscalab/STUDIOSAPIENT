@@ -15,7 +15,7 @@ export function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-8 mb-24 items-start">
           
-          <div className="lg:col-span-5 space-y-10">
+          <div className="lg:col-span-4 space-y-10">
             <div>
               <p className="text-black text-4xl font-black tracking-tighter mb-6 uppercase">
                 studiosapient.
@@ -89,17 +89,17 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-3">
-            <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-8">Contatos</h4>
+          <div className="lg:col-span-4">
+            <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-8">Contatos Oficiais</h4>
             <ul className="space-y-6">
               <li>
                 <a href={`mailto:${email}`} className="group flex items-center gap-4 text-black/50 hover:text-primary transition-all">
                   <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all">
                     <Mail size={16} />
                   </div>
-                  <div>
-                    <p className="text-[8px] font-black uppercase tracking-widest text-slate-300">E-mail</p>
-                    <p className="text-[10px] font-bold uppercase tracking-wider truncate max-w-[140px]">{email}</p>
+                  <div className="min-w-0">
+                    <p className="text-[8px] font-black uppercase tracking-widest text-slate-300">E-mail Corporativo</p>
+                    <p className="text-[11px] font-bold uppercase tracking-tight text-black">{email}</p>
                   </div>
                 </a>
               </li>
@@ -108,9 +108,9 @@ export function Footer() {
                   <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all">
                     <MessageCircle size={16} />
                   </div>
-                  <div>
-                    <p className="text-[8px] font-black uppercase tracking-widest text-slate-300">WhatsApp</p>
-                    <p className="text-[10px] font-bold uppercase tracking-wider">{phone}</p>
+                  <div className="min-w-0">
+                    <p className="text-[8px] font-black uppercase tracking-widest text-slate-300">WhatsApp Business</p>
+                    <p className="text-[11px] font-bold uppercase tracking-tight text-black">{phone}</p>
                   </div>
                 </a>
               </li>
