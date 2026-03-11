@@ -166,7 +166,7 @@ export function AIChat() {
         onClick={() => setIsOpen(true)}
         className="fixed bottom-32 right-4 md:bottom-6 md:right-6 z-[200] h-10 w-10 md:h-12 md:w-12 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-all border-2 border-white/20 animate-glow-pulse"
       >
-        <Bot className="h-4 w-4 md:h-5 md:w-5" />
+        <Bot className="h-4 w-4 md:h-5 w-5" />
       </button>
     );
   }
@@ -176,7 +176,7 @@ export function AIChat() {
       "fixed z-[300] bg-white flex flex-col overflow-hidden border border-slate-200 transition-all duration-500 ease-in-out shadow-[0_40px_100px_-15px_rgba(0,0,0,0.4)]",
       isExpanded 
         ? "inset-4 md:inset-auto md:bottom-6 md:right-6 md:w-[800px] md:h-[calc(100vh-120px)] rounded-[1.5rem] md:rounded-[2rem]" 
-        : "bottom-20 right-4 left-4 h-[420px] md:inset-auto md:bottom-24 md:right-6 md:w-[320px] md:h-[580px] rounded-[1.5rem] md:rounded-[2rem] scale-90 md:scale-100 origin-bottom-right",
+        : "bottom-20 right-4 left-4 h-[420px] md:inset-auto md:bottom-24 md:right-6 md:w-[320px] md:h-[580px] rounded-[1.5rem] md:rounded-[2rem] scale-[0.9] md:scale-100 origin-bottom-right",
       isOpen ? "animate-in slide-in-from-bottom-8" : "hidden"
     )}>
       
@@ -208,7 +208,7 @@ export function AIChat() {
         {messages.map((msg, i) => (
           <div key={i} className={cn("flex flex-col gap-1.5", msg.role === 'user' ? "items-end" : "items-start")}>
             <div className={cn(
-              "p-3.5 rounded-[1.2rem] text-[10px] md:text-xs font-bold leading-relaxed max-w-[85%]",
+              "p-3.5 rounded-[1.2rem] text-[9px] md:text-xs font-bold leading-relaxed max-w-[85%]",
               msg.role === 'user' ? "bg-primary text-white" : "bg-white text-slate-950 border border-slate-200"
             )}>
               {msg.content}
@@ -221,7 +221,7 @@ export function AIChat() {
                     key={idx}
                     onClick={() => msg.isMultiSelect ? toggleChip(action) : handleSendMessage(action)}
                     className={cn(
-                      "px-3 py-2 rounded-full text-[8px] md:text-[9px] font-black uppercase tracking-widest transition-all border",
+                      "px-3 py-2 rounded-full text-[7.5px] md:text-[9px] font-black uppercase tracking-widest transition-all border",
                       msg.isMultiSelect 
                         ? selectedChips.includes(action) ? "bg-primary text-white border-primary" : "bg-white text-slate-950 border-slate-200"
                         : "bg-white text-slate-950 border-slate-200 hover:border-primary hover:text-primary"
@@ -232,7 +232,7 @@ export function AIChat() {
                 ))}
                 
                 {msg.isMultiSelect && selectedChips.length > 0 && (
-                  <button onClick={handleConfirmSelection} className="w-full mt-1.5 py-3 bg-primary text-white rounded-xl font-black uppercase tracking-widest text-[8px] shadow-lg">
+                  <button onClick={handleConfirmSelection} className="w-full mt-1.5 py-2.5 bg-primary text-white rounded-xl font-black uppercase tracking-widest text-[7.5px] shadow-lg">
                     Confirmar Seleção
                   </button>
                 )}
@@ -249,15 +249,15 @@ export function AIChat() {
         )}
 
         {showRedirect && (
-          <div className="pt-2 space-y-3">
-            <button onClick={handleWhatsAppRedirect} className="w-full py-4 bg-green-500 hover:bg-green-600 text-white rounded-xl font-black uppercase tracking-widest text-[8px] flex items-center justify-center gap-2 transition-all">
-              <MessageCircle className="h-4 w-4" /> CONSULTORIA ESTRATÉGICA <ArrowRight className="h-3 w-3" />
+          <div className="pt-2 space-y-2">
+            <button onClick={handleWhatsAppRedirect} className="w-full py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl font-black uppercase tracking-widest text-[7.5px] flex items-center justify-center gap-2 transition-all">
+              <MessageCircle className="h-3.5 w-3.5" /> CONSULTORIA ESTRATÉGICA <ArrowRight className="h-2.5 w-2.5" />
             </button>
           </div>
         )}
       </div>
 
-      <div className="p-4 bg-white border-t border-slate-100 shrink-0">
+      <div className="p-3 bg-white border-t border-slate-100 shrink-0">
         <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(input); }} className="relative">
           <input 
             value={input}
@@ -265,19 +265,21 @@ export function AIChat() {
             disabled={!isTextInputEnabled || isLoading}
             placeholder={isTextInputEnabled ? "Nome da sua empresa..." : "Selecione uma opção"}
             className={cn(
-              "w-full h-11 pl-5 pr-14 border rounded-xl text-[10px] md:text-xs font-bold transition-all",
+              "w-full h-10 pl-5 pr-14 border rounded-xl text-[9px] md:text-xs font-bold transition-all",
               isTextInputEnabled ? "bg-white border-slate-200 text-slate-950 focus:ring-4 focus:ring-primary/10" : "bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed"
             )}
           />
-          <button 
-            type="submit"
-            disabled={!input.trim() || !isTextInputEnabled || isLoading}
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 h-8 w-8 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-30 transition-all"
-          >
-            {isTextInputEnabled ? <Send className="h-3.5 w-3.5" /> : <Lock className="h-3 w-3" />}
-          </button>
+          <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-1">
+             <button 
+              type="submit"
+              disabled={!input.trim() || !isTextInputEnabled || isLoading}
+              className="h-8 w-8 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-30 transition-all"
+            >
+              {isTextInputEnabled ? <Send className="h-3.5 w-3.5" /> : <Lock className="h-3 w-3" />}
+            </button>
+          </div>
         </form>
-        <p className="mt-2 text-[6px] font-black uppercase tracking-[0.3em] text-slate-300 text-center">SAP-IA ENGINE V12.2</p>
+        <p className="mt-1.5 text-[5.5px] font-black uppercase tracking-[0.3em] text-slate-300 text-center">SAP-IA ENGINE V12.2</p>
       </div>
     </div>
   );

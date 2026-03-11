@@ -25,45 +25,45 @@ const services = [
     title: "Performance & Ads",
     slug: "performance-ads",
     description: "Atraia o público certo para o seu negócio com campanhas otimizadas e focadas em conversão imediata.",
-    icon: <TrendingUp className="h-6 w-6 md:h-7 md:w-7" />,
+    icon: <TrendingUp className="h-5 w-5 md:h-7 md:w-7" />,
     features: ["Visibilidade no Google", "Anúncios Segmentados", "Otimização de GMN"]
   },
   {
     title: "Design Estratégico",
     slug: "design-estrategico",
     description: "Crie uma identidade visual de prestígio que transmita confiança e reflita a verdadeira qualidade do seu trabalho.",
-    icon: <Palette className="h-6 w-6 md:h-7 md:w-7" />,
+    icon: <Palette className="h-5 w-5 md:h-7 md:w-7" />,
     features: ["Identidade de Marca", "Design de Prestígio", "Psicologia Visual"]
   },
   {
     title: "Atendimento com IA",
     slug: "chat-ia",
     description: "Agilize o atendimento aos seus clientes com assistentes inteligentes treinados na sua expertise 24/7.",
-    icon: <Bot className="h-6 w-6 md:h-7 md:w-7" />,
+    icon: <Bot className="h-5 w-5 md:h-7 md:w-7" />,
     features: ["WhatsApp Business IA", "Qualificação de Leads", "Respostas Imediatas"]
   },
   {
     title: "Gestão Social",
     slug: "gestao-social",
     description: "Construímos autoridade inquestionável através de curadoria estratégica e conteúdo de alto impacto visual.",
-    icon: <Users className="h-6 w-6 md:h-7 md:w-7" />,
+    icon: <Users className="h-5 w-5 md:h-7 md:w-7" />,
     features: ["Curadoria de Conteúdo", "Autoridade Digital", "Growth Qualificado"]
   },
   {
     title: "Narrativa Visual",
     slug: "narrativa-visual",
     description: "Transformamos processos complexos em dossiês de venda e infográficos de alta compreensão e desejo.",
-    icon: <FileText className="h-6 w-6 md:h-7 md:w-7" />,
+    icon: <FileText className="h-5 w-5 md:h-7 md:w-7" />,
     features: ["Dossiês de Venda", "Infográficos Técnicos", "Clareza de Valor"]
   }
 ];
 
 export function Services() {
   return (
-    <section id="servicos" className="py-10 md:py-16 bg-white text-black relative overflow-hidden rounded-[2rem] md:rounded-[4rem] mx-4 my-4 shadow-xl">
+    <section id="servicos" className="py-8 md:py-16 bg-white text-black relative overflow-hidden rounded-[2rem] md:rounded-[4rem] mx-4 my-4 shadow-xl">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="mb-6 lg:mb-12 text-center md:text-left max-w-2xl">
-          <h2 className="font-headline text-xl md:text-3xl lg:text-4xl font-black text-black tracking-tighter leading-none uppercase">
+        <div className="mb-8 lg:mb-12 text-center md:text-left max-w-2xl">
+          <h2 className="font-headline text-lg md:text-3xl lg:text-4xl font-black text-black tracking-tighter leading-none uppercase">
             COMO PODEMOS <br />
             <span className="text-primary italic font-medium">AJUDAR.</span>
           </h2>
@@ -78,28 +78,28 @@ export function Services() {
         >
           <CarouselContent className="-ml-4">
             {services.map((service, idx) => (
-              <CarouselItem key={idx} className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={idx} className="pl-4 basis-[85%] md:basis-1/2 lg:basis-1/3">
                 <Card 
-                  className="group relative border-none bg-secondary/20 rounded-[1.5rem] p-5 md:p-8 transition-all duration-700 hover:bg-white hover:shadow-2xl flex flex-col justify-between min-h-[300px] md:min-h-[400px] h-full overflow-hidden border border-muted/5"
+                  className="group relative border-none bg-secondary/20 rounded-[1.5rem] p-5 md:p-8 transition-all duration-700 hover:bg-white hover:shadow-2xl flex flex-col justify-between min-h-[260px] md:min-h-[400px] h-full overflow-hidden border border-muted/5"
                 >
                   <div className="relative z-10">
-                    <div className="mb-4 md:mb-6">
-                      <div className="h-10 w-10 md:h-12 md:w-12 rounded-xl bg-primary/5 flex items-center justify-center text-primary transition-all duration-700 group-hover:bg-primary group-hover:text-white border border-primary/10">
+                    <div className="mb-3 md:mb-6">
+                      <div className="h-8 w-8 md:h-12 md:w-12 rounded-lg md:rounded-xl bg-primary/5 flex items-center justify-center text-primary transition-all duration-700 group-hover:bg-primary group-hover:text-white border border-primary/10">
                         {service.icon}
                       </div>
                     </div>
 
-                    <CardTitle className="font-headline text-lg md:text-xl mb-2 md:mb-3 tracking-tighter font-black text-black uppercase leading-none break-words">
+                    <CardTitle className="font-headline text-base md:text-xl mb-1.5 md:mb-3 tracking-tighter font-black text-black uppercase leading-none break-words">
                       {service.title}
                     </CardTitle>
                     <CardDescription className="text-black/60 text-[10px] md:text-sm leading-relaxed font-medium mb-4 md:mb-6 tracking-tight">
                       {service.description}
                     </CardDescription>
 
-                    <div className="space-y-1.5 md:space-y-2 mb-6 md:mb-8">
+                    <div className="space-y-1 md:space-y-2 mb-4 md:mb-8">
                       {service.features.map((feature, fIdx) => (
-                        <div key={fIdx} className="flex items-center gap-2 text-[7.5px] md:text-[9px] font-black uppercase tracking-[0.2em] text-black/40 group-hover:text-black/70 transition-colors">
-                          <CheckCircle2 className="h-2.5 w-2.5 md:h-3 md:w-3 text-primary shrink-0" />
+                        <div key={fIdx} className="flex items-center gap-1.5 text-[7px] md:text-[9px] font-black uppercase tracking-[0.2em] text-black/40 group-hover:text-black/70 transition-colors">
+                          <CheckCircle2 className="h-2 w-2 md:h-3 md:w-3 text-primary shrink-0" />
                           {feature}
                         </div>
                       ))}
@@ -108,9 +108,9 @@ export function Services() {
                   
                   <Link 
                     href={`/servicos/${service.slug}`} 
-                    className="flex items-center justify-between p-4 md:p-5 rounded-xl bg-white text-black hover:bg-black hover:text-white transition-all duration-500 text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em] border border-muted shadow-sm mt-auto"
+                    className="flex items-center justify-between p-3 md:p-5 rounded-lg md:rounded-xl bg-white text-black hover:bg-black hover:text-white transition-all duration-500 text-[7px] md:text-[9px] font-black uppercase tracking-[0.4em] border border-muted shadow-sm mt-auto"
                   >
-                    Saber Mais <ArrowUpRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                    Saber Mais <ArrowUpRight className="h-3 w-3 md:h-4 md:w-4" />
                   </Link>
                 </Card>
               </CarouselItem>
