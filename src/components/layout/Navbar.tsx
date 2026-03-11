@@ -41,12 +41,13 @@ export function Navbar() {
 
   return (
     <header className="absolute top-4 md:top-8 left-0 right-0 z-[150]" role="banner">
-      <div className="container mx-auto px-6 flex items-center justify-between gap-4 md:gap-8">
+      <div className="container mx-auto px-6 flex items-center justify-between gap-4 md:gap-12">
         
-        <div className="flex items-center gap-4 md:gap-8 flex-1">
+        <div className="flex items-center gap-6 md:gap-12 flex-1">
+          {/* Logo Principal Sapient - Ampliado */}
           <Link 
             href="/" 
-            className="relative block w-[160px] h-[50px] md:w-[450px] md:h-[130px] transition-all duration-700 hover:scale-[1.02] shrink-0"
+            className="relative block w-[180px] h-[60px] md:w-[500px] md:h-[150px] transition-all duration-700 hover:scale-[1.02] shrink-0"
           >
             <Image 
               src={logoUrl} 
@@ -57,24 +58,24 @@ export function Navbar() {
             />
           </Link>
 
-          {/* Marquee de Parceiros Quadrado e Minimalista */}
-          <div className="hidden sm:flex items-center gap-4 pl-4 md:pl-8 border-l border-white/10">
-            <div className="relative h-10 w-10 md:h-16 md:w-16 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 overflow-hidden glass-morphism group">
-              <div className="absolute inset-0 flex items-center justify-center p-2 transition-all duration-1000">
+          {/* Marquee de Parceiros Quadrado - Embutido e Ampliado */}
+          <div className="hidden sm:flex items-center gap-6 pl-6 md:pl-12 border-l border-white/10">
+            <div className="relative h-14 w-14 md:h-28 md:w-28 rounded-2xl md:rounded-[2rem] bg-white/5 border border-white/10 overflow-hidden glass-morphism group shadow-2xl">
+              <div className="absolute inset-0 flex items-center justify-center p-3 md:p-5 transition-all duration-1000">
                 <Image 
                   src={partners[currentPartner].url} 
                   alt={partners[currentPartner].name}
                   fill
-                  className="object-contain p-1.5 md:p-2.5 opacity-40 group-hover:opacity-100 transition-opacity grayscale group-hover:grayscale-0"
-                  sizes="64px"
+                  className="object-contain p-2 md:p-4 opacity-50 group-hover:opacity-100 transition-opacity grayscale group-hover:grayscale-0"
+                  sizes="(max-width: 768px) 56px, 112px"
                 />
               </div>
             </div>
             <div className="hidden lg:block">
-              <p className="text-[6px] md:text-[8px] font-black uppercase tracking-[0.4em] text-white/20 whitespace-nowrap">
+              <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-white/20 whitespace-nowrap mb-1">
                 Trusted By
               </p>
-              <p className="text-[7px] md:text-[9px] font-bold text-primary uppercase tracking-widest animate-pulse">
+              <p className="text-[9px] md:text-[11px] font-bold text-primary uppercase tracking-widest animate-pulse">
                 Elite Network
               </p>
             </div>
