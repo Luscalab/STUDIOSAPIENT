@@ -22,7 +22,6 @@ export function Navbar() {
     { name: "Contato", href: "/#contato" },
   ];
 
-  // URL Direta do Logotipo Principal do Supabase fornecida pelo usuário
   const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MzI1ODkzNSwiZXhwIjoyMDg4NjE4OTM1fQ.IzwEMRrb4fKfxxJqcobcRaK14UuTZxUJCtCbG141MJo";
 
   return (
@@ -31,13 +30,13 @@ export function Navbar() {
         
         <Link 
           href="/" 
-          className="relative block w-[280px] h-[80px] md:w-[600px] md:h-[150px] transition-all duration-700 hover:scale-[1.02] shrink-0"
+          className="relative block w-[220px] h-[70px] md:w-[450px] md:h-[130px] transition-all duration-700 hover:scale-[1.02] shrink-0"
         >
           <Image 
             src={logoUrl} 
             alt="studiosapient Logo" 
             fill 
-            className="object-contain object-left drop-shadow-[0_15px_35px_rgba(0,0,0,0.6)]" 
+            className="object-contain object-left drop-shadow-[0_15px_35px_rgba(0,0,0,0.4)]" 
             priority 
           />
         </Link>
