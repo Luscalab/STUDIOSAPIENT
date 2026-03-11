@@ -29,13 +29,13 @@ export function Navbar() {
         
         <Link 
           href="/" 
-          className="relative block w-[150px] h-[44px] md:w-[240px] md:h-[64px] transition-all duration-700 hover:scale-[1.02] shrink-0"
+          className="relative block w-[180px] h-[52px] md:w-[320px] md:h-[84px] transition-all duration-700 hover:scale-[1.02] shrink-0"
         >
           <Image 
             src={logoUrl} 
             alt="studiosapient Logo" 
             fill 
-            className="object-contain object-left drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]" 
+            className="object-contain object-left drop-shadow-[0_15px_35px_rgba(0,0,0,0.6)]" 
             priority 
           />
         </Link>
