@@ -118,35 +118,36 @@ export function Services() {
             </h2>
           </div>
 
-          <div className="flex items-center gap-6 md:gap-8 bg-[#08070b] p-4 md:p-6 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50" />
+          {/* Parceiros em Destaque - Design de Alta Fidelidade Ampliado */}
+          <div className="flex items-center gap-6 md:gap-10 bg-[#08070b] p-5 md:p-8 rounded-[4rem] border border-white/5 shadow-2xl relative overflow-hidden group transition-all duration-700 hover:shadow-primary/20">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-40" />
             
-            <div className="relative h-20 w-20 md:h-28 md:w-28 rounded-[2.5rem] bg-white border border-white/10 flex items-center justify-center p-4 md:p-6 overflow-hidden shadow-2xl transition-all duration-1000">
+            <div className="relative h-28 w-28 md:h-44 md:w-44 rounded-[3rem] bg-white border border-white/10 flex items-center justify-center p-2 md:p-3 overflow-hidden shadow-2xl transition-all duration-1000 group-hover:scale-[1.02]">
               <div className="relative w-full h-full">
                 <Image 
                   src={partners[currentPartner].url} 
                   alt={partners[currentPartner].name}
                   fill
-                  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-1000"
+                  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-105"
                   key={partners[currentPartner].url}
                   priority
                 />
               </div>
             </div>
 
-            <div className="min-w-[120px] md:min-w-[200px] relative z-10">
-              <p className="text-[7px] md:text-[9px] font-black uppercase tracking-[0.4em] text-white/30 mb-2">
-                Confiado Por
+            <div className="min-w-[140px] md:min-w-[240px] relative z-10">
+              <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.5em] text-white/20 mb-3 md:mb-4">
+                Rede de Elite
               </p>
-              <div className="h-[40px] flex items-center">
+              <div className="h-[50px] md:h-[60px] flex items-center">
                 <p 
-                  className="text-sm md:text-2xl font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-4 duration-1000" 
+                  className="text-lg md:text-3xl font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-6 duration-1000" 
                   key={`name-${currentPartner}`}
                 >
                   {partners[currentPartner].name}
                 </p>
               </div>
-              <div className="h-1 w-12 bg-primary mt-4 rounded-full shadow-[0_0_15px_rgba(139,92,246,0.6)]" />
+              <div className="h-1.5 w-16 bg-primary mt-6 rounded-full shadow-[0_0_20px_rgba(139,92,246,0.8)]" />
             </div>
           </div>
         </div>
