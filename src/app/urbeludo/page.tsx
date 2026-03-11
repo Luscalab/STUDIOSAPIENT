@@ -11,7 +11,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@/accordion";
 import { 
   Brain, 
   Cpu, 
@@ -175,9 +175,9 @@ export default function UrbeLudoPage() {
     <main id="main-content" className="min-h-screen bg-[#08070b] text-white selection:bg-cyan-500/30 selection:text-white pb-32">
       <Navbar />
       
-      {/* Floating Premium Dock Navigation */}
-      <nav className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[400] hidden lg:block">
-        <div className="flex items-center gap-2 p-3 bg-[#08070b]/40 backdrop-blur-[40px] border border-white/10 rounded-full shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)]">
+      {/* Premium Dock Navigation - Now the Primary Interface */}
+      <nav className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[400]">
+        <div className="flex items-center gap-2 p-3 bg-[#08070b]/60 backdrop-blur-[40px] border border-white/10 rounded-full shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)] animate-in slide-in-from-bottom-20 duration-1000">
           {navItems.map((item) => (
             <button
               key={item.id}
@@ -195,14 +195,14 @@ export default function UrbeLudoPage() {
               )}>
                 {item.icon}
               </span>
-              <span className="hidden xl:inline">{item.label}</span>
+              <span className="hidden md:inline">{item.label}</span>
             </button>
           ))}
         </div>
       </nav>
 
       {/* 1. Hero Section - HealthTech Prestige */}
-      <section className="relative pt-32 pb-24 md:pt-64 md:pb-48 overflow-hidden">
+      <section className="relative pt-32 pb-24 md:pt-64 md:pb-64 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,rgba(6,182,212,0.15),transparent_70%)]" />
           <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[160px] rounded-full animate-pulse" />
@@ -212,7 +212,7 @@ export default function UrbeLudoPage() {
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-6xl mx-auto text-center">
             <div className="mb-12">
-              <Badge className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 px-10 py-3 text-[10px] font-black uppercase tracking-[0.6em] rounded-full backdrop-blur-xl animate-bounce">
+              <Badge className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 px-10 py-3 text-[10px] font-black uppercase tracking-[0.6em] rounded-full backdrop-blur-xl animate-pulse">
                 HealthTech Vanguarda
               </Badge>
             </div>
@@ -226,19 +226,9 @@ export default function UrbeLudoPage() {
               Escalando a eficácia clínica através de tecnologia multiplataforma e suporte preditivo em tempo real para o desenvolvimento infantil.
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-10">
-              <Button 
-                onClick={() => scrollToSection('desafio')}
-                className="h-24 px-16 bg-white text-black hover:bg-cyan-400 hover:text-white rounded-full font-black uppercase tracking-[0.5em] text-[12px] transition-all duration-700 shadow-[0_20px_60px_rgba(255,255,255,0.1)] hover:scale-105"
-              >
-                CONHECER A CAUSA
-              </Button>
-              <button 
-                onClick={() => scrollToSection('semiotica')}
-                className="flex items-center gap-6 text-white/30 hover:text-white transition-all duration-500 text-[10px] font-black uppercase tracking-[0.6em] group"
-              >
-                A Alma do Nome <ChevronDown className="h-5 w-5 animate-bounce group-hover:text-cyan-400" />
-              </button>
+            <div className="flex flex-col items-center justify-center gap-6 opacity-30 animate-bounce">
+              <p className="text-[10px] font-black uppercase tracking-[0.8em]">Explore o Ecossistema</p>
+              <ChevronDown className="h-6 w-6 text-cyan-400" />
             </div>
           </div>
         </div>
@@ -264,23 +254,13 @@ export default function UrbeLudoPage() {
                 <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed">
                   Sem ferramentas que garantam a continuidade lúdica e a coleta de dados precisos em casa, o progresso de crianças com atrasos no desenvolvimento torna-se lento, caro e, muitas vezes, desmotivador. O UrbeLudo nasceu para digitalizar essa jornada e devolver o que há de mais precioso: <span className="text-slate-950 font-bold underline decoration-primary decoration-4">a autonomia humana.</span>
                 </p>
-                <div className="flex gap-12 pt-8">
-                   <div className="space-y-2">
-                      <p className="text-5xl font-black text-primary tracking-tighter">0.1s</p>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Latência de Resposta</p>
-                   </div>
-                   <div className="space-y-2">
-                      <p className="text-5xl font-black text-primary tracking-tighter">100%</p>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Foco em Propósito</p>
-                   </div>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. A Semiótica do Nome - Storytelling Section */}
+      {/* 3. A Semiótica do Nome - Urbanismo do Movimento */}
       <section id="semiotica" className="py-24 md:py-64 relative overflow-hidden bg-[#0a0a0c]">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
@@ -312,9 +292,6 @@ export default function UrbeLudoPage() {
                  <p className="text-xl text-white/40 font-medium leading-relaxed">
                    Do latim <span className="text-cyan-400 font-bold italic">Urbs</span> (Cidade). Representa o ambiente, a estrutura e o corpo humano como um espaço habitado. Reabilitar é dar condições para que a criança navegue com autonomia sua própria "urbe interna".
                  </p>
-                 <div className="p-6 rounded-3xl bg-cyan-400/5 border border-cyan-400/10 italic text-cyan-400/60 text-sm">
-                   "O planejamento urbano do movimento humano."
-                 </div>
                </div>
             </div>
 
@@ -333,9 +310,6 @@ export default function UrbeLudoPage() {
                  <p className="text-xl text-white/40 font-medium leading-relaxed">
                    Do latim <span className="text-primary font-bold italic">Ludus</span> (Jogo/Brincar). O motor da aprendizagem. É através da ludicidade que removemos a resistência e entregamos o resultado terapêutico com alegria.
                  </p>
-                 <div className="p-6 rounded-3xl bg-primary/5 border border-primary/10 italic text-primary text-sm">
-                   "O braço direito do afeto e da ciência."
-                 </div>
                </div>
             </div>
 
@@ -352,19 +326,20 @@ export default function UrbeLudoPage() {
                   <p className="text-3xl md:text-5xl text-white font-black tracking-tighter leading-none">
                     Urbeludo: <span className="text-cyan-400 italic">Espaço em Movimento.</span>
                   </p>
+                  <p className="text-xl text-white/40 font-medium italic">Ao unir os dois, criamos um conceito de "Urbanismo do Movimento":</p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                     <div className="space-y-4">
                       <div className="h-1 w-12 bg-cyan-400 rounded-full" />
-                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400">Urbanismo do Movimento</p>
-                      <p className="text-lg text-white/50 font-medium leading-relaxed">
+                      <p className="text-lg text-white font-bold uppercase tracking-widest">Organização Lúdica</p>
+                      <p className="text-base text-white/50 font-medium leading-relaxed">
                         O nome sugere a organização lúdica das funções psicomotoras. É o planejamento estratégico da evolução física através do jogo.
                       </p>
                     </div>
                     <div className="space-y-4">
                       <div className="h-1 w-12 bg-primary rounded-full" />
-                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Identidade Robusta</p>
-                      <p className="text-lg text-white/50 font-medium leading-relaxed">
-                        Uma sonoridade marcante que foge do óbvio clínico de nomes frios terminados em "med" ou "fisio", transmitindo inovação absoluta.
+                      <p className="text-lg text-white font-bold uppercase tracking-widest">Sonoridade Robustas</p>
+                      <p className="text-base text-white/50 font-medium leading-relaxed">
+                        Uma sonoridade robusta e marcante, fugindo do óbvio de nomes de saúde que costumam ser muito frios ou clínicos (terminados em "med", "fisio").
                       </p>
                     </div>
                   </div>
@@ -602,7 +577,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 8. CTA Final Call */}
+      {/* 9. CTA Final Call */}
       <section className="py-24 md:py-64 bg-white text-slate-950 mx-4 mb-24 rounded-[6rem] md:rounded-[10rem] shadow-2xl overflow-hidden relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.1),transparent_70%)]" />
         <div className="container mx-auto px-6 relative z-10 text-center space-y-16">
