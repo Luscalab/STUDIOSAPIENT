@@ -75,9 +75,18 @@ export function Services() {
   const [currentPartner, setCurrentPartner] = React.useState(0);
 
   const partners = [
-    { name: "ChargerBed", url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/chargerbed.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvY2hhcmdlcmJlZC5wbmciLCJpYXQiOjE3NzMyNTk2OTEsImV4cCI6MTc3NDEyMzY5MX0.Vjw_0CI-92YGGgxQil9racQzBQSMVoinTbZ8P_ZYymQ" },
-    { name: "Finallogo", url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/FINALLOGO.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvRklOQUxMT0dPLnBuZyIsImlhdCI6MTc3MzI1ODk2MSwiZXhwIjoyMDg4NjE4OTYxfQ.YCn2mnUAXxdeCIDDY43MZpB1jEf94V0pcajlqRuXkA8" },
-    { name: "Unnamed Client", url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/unnamed%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvdW5uYW1lZCAoMSkuanBnIiwiaWF0IjoxNzczMjU5MzAyLCJleHAiOjE4MDQ3OTUzMDJ9.Ey6aHahoSnfrOlVxBsHpOnYXUGfDDEZFj_rLrwbbOro" }
+    { 
+      name: "ChargerBed", 
+      url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/chargerbed.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvY2hhcmdlcmJlZC5wbmciLCJpYXQiOjE3NzMyNTk2OTEsImV4cCI6MTc3NDEyMzY5MX0.Vjw_0CI-92YGGgxQil9racQzBQSMVoinTbZ8P_ZYymQ" 
+    },
+    { 
+      name: "Quitute Certa", 
+      url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/FINALLOGO.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvRklOQUxMT0dPLnBuZyIsImlhdCI6MTc3MzI1ODk2MSwiZXhwIjoyMDg4NjE4OTYxfQ.YCn2mnUAXxdeCIDDY43MZpB1jEf94V0pcajlqRuXkA8" 
+    },
+    { 
+      name: "3DGOPRINT", 
+      url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/unnamed%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvdW5uYW1lZCAoMSkuanBnIiwiaWF0IjoxNzczMjU5MzAyLCJleHAiOjE4MDQ3OTUzMDJ9.Ey6aHahoSnfrOlVxBsHpOnYXUGfDDEZFj_rLrwbbOro" 
+    }
   ];
 
   React.useEffect(() => {
@@ -110,27 +119,36 @@ export function Services() {
             </h2>
           </div>
 
-          {/* Parceiros de Elite Integrados */}
-          <div className="flex items-center gap-6 md:gap-8 bg-slate-50 p-4 md:p-6 rounded-[2.5rem] border border-slate-100 shadow-sm">
-            <div className="relative h-20 w-20 md:h-32 md:w-32 rounded-[2rem] bg-white border border-slate-100 flex items-center justify-center p-4 md:p-6 overflow-hidden shadow-inner group">
-              <div className="relative w-full h-full transition-all duration-1000">
+          {/* Parceiros de Elite Integrados - Design Minimalista Refinado */}
+          <div className="flex items-center gap-6 md:gap-8 bg-[#08070b] p-4 md:p-6 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50" />
+            
+            <div className="relative h-20 w-20 md:h-28 md:w-28 rounded-[1.8rem] bg-white border border-white/10 flex items-center justify-center p-4 md:p-6 overflow-hidden shadow-2xl transition-all duration-700">
+              <div className="relative w-full h-full">
                 <Image 
                   src={partners[currentPartner].url} 
                   alt={partners[currentPartner].name}
                   fill
-                  className="object-contain grayscale hover:grayscale-0 transition-all opacity-60 group-hover:opacity-100"
+                  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-1000"
                   key={partners[currentPartner].url}
+                  priority
                 />
               </div>
             </div>
-            <div className="min-w-[120px] md:min-w-[180px]">
-              <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-slate-300 mb-1">
+
+            <div className="min-w-[120px] md:min-w-[200px] relative z-10">
+              <p className="text-[7px] md:text-[9px] font-black uppercase tracking-[0.4em] text-white/30 mb-2">
                 Confiado Por
               </p>
-              <p className="text-xs md:text-xl font-black text-primary uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-4 duration-500" key={`name-${currentPartner}`}>
-                {partners[currentPartner].name}
-              </p>
-              <div className="h-0.5 w-8 bg-primary/20 mt-3 rounded-full" />
+              <div className="h-[40px] flex items-center">
+                <p 
+                  className="text-sm md:text-2xl font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-4 duration-700" 
+                  key={`name-${currentPartner}`}
+                >
+                  {partners[currentPartner].name}
+                </p>
+              </div>
+              <div className="h-1 w-12 bg-primary mt-4 rounded-full shadow-[0_0_10px_rgba(139,92,246,0.5)]" />
             </div>
           </div>
         </div>
