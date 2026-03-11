@@ -11,7 +11,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/accordion";
+} from "@/components/ui/accordion";
 import { 
   Brain, 
   Cpu, 
@@ -67,7 +67,7 @@ export default function UrbeLudoPage() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 100; // Offset for sticky headers
+      const offset = 100;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;
@@ -175,17 +175,17 @@ export default function UrbeLudoPage() {
     <main id="main-content" className="min-h-screen bg-[#08070b] text-white selection:bg-cyan-500/30 selection:text-white pb-32">
       <Navbar />
       
-      {/* Premium Dock Navigation - Now the Primary Interface */}
+      {/* Premium Dock Navigation */}
       <nav className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[400]">
-        <div className="flex items-center gap-2 p-3 bg-[#08070b]/60 backdrop-blur-[40px] border border-white/10 rounded-full shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)] animate-in slide-in-from-bottom-20 duration-1000">
+        <div className="flex items-center gap-1.5 p-2.5 bg-[#08070b]/60 backdrop-blur-[40px] border border-white/10 rounded-full shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)] animate-in slide-in-from-bottom-20 duration-1000">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
               className={cn(
-                "flex items-center gap-3 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 group",
+                "flex items-center gap-2 px-4 py-2.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] transition-all duration-500 group",
                 activeSection === item.id 
-                  ? "bg-primary text-white shadow-[0_0_20px_rgba(139,92,246,0.5)]" 
+                  ? "bg-primary text-white shadow-[0_0_15px_rgba(139,92,246,0.4)]" 
                   : "text-white/40 hover:text-white hover:bg-white/5"
               )}
             >
@@ -201,57 +201,57 @@ export default function UrbeLudoPage() {
         </div>
       </nav>
 
-      {/* 1. Hero Section - HealthTech Prestige */}
-      <section className="relative pt-32 pb-24 md:pt-64 md:pb-64 overflow-hidden">
+      {/* 1. Hero Section - HealthTech Prestige (Scaled Down) */}
+      <section className="relative pt-24 pb-16 md:pt-48 md:pb-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,rgba(6,182,212,0.15),transparent_70%)]" />
-          <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[160px] rounded-full animate-pulse" />
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-10%,rgba(6,182,212,0.12),transparent_60%)]" />
+          <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 blur-[120px] rounded-full animate-pulse" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-6xl mx-auto text-center">
-            <div className="mb-12">
-              <Badge className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 px-10 py-3 text-[10px] font-black uppercase tracking-[0.6em] rounded-full backdrop-blur-xl animate-pulse">
+          <div className="max-w-5xl mx-auto text-center">
+            <div className="mb-8">
+              <Badge className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 px-8 py-2.5 text-[9px] font-black uppercase tracking-[0.5em] rounded-full backdrop-blur-xl animate-pulse">
                 HealthTech Vanguarda
               </Badge>
             </div>
             
-            <h1 className="font-headline text-5xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter leading-[0.85] mb-12">
+            <h1 className="font-headline text-4xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-8">
               UrbeLudo <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-primary italic font-medium block">Movimento & Inteligência.</span>
             </h1>
             
-            <p className="text-lg md:text-3xl text-white/50 font-medium max-w-4xl mx-auto leading-tight tracking-tight text-balance mb-20">
+            <p className="text-base md:text-2xl text-white/50 font-medium max-w-3xl mx-auto leading-tight tracking-tight text-balance mb-16">
               Escalando a eficácia clínica através de tecnologia multiplataforma e suporte preditivo em tempo real para o desenvolvimento infantil.
             </p>
             
-            <div className="flex flex-col items-center justify-center gap-6 opacity-30 animate-bounce">
-              <p className="text-[10px] font-black uppercase tracking-[0.8em]">Explore o Ecossistema</p>
-              <ChevronDown className="h-6 w-6 text-cyan-400" />
+            <div className="flex flex-col items-center justify-center gap-4 opacity-30 animate-bounce">
+              <p className="text-[8px] font-black uppercase tracking-[0.6em]">Explore o Ecossistema</p>
+              <ChevronDown className="h-5 w-5 text-cyan-400" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. O Desafio - Manifesto Narrative */}
-      <section id="desafio" className="py-24 md:py-64 bg-white text-slate-950 relative overflow-hidden rounded-[5rem] md:rounded-[10rem] mx-4 my-8 shadow-2xl">
+      {/* 2. O Desafio - Manifesto Narrative (Scaled Down) */}
+      <section id="desafio" className="py-20 md:py-32 bg-white text-slate-950 relative overflow-hidden rounded-[3rem] md:rounded-[6rem] mx-4 my-6 shadow-2xl">
         <div className="container mx-auto px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start">
-              <div className="lg:col-span-5 space-y-12">
-                <Badge className="bg-primary/10 text-primary border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">O Grande Desafio</Badge>
-                <h2 className="font-headline text-5xl md:text-8xl font-black tracking-tighter leading-[0.9]">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+              <div className="lg:col-span-5 space-y-8">
+                <Badge className="bg-primary/10 text-primary border-none px-5 py-2 text-[9px] font-black uppercase tracking-widest">O Grande Desafio</Badge>
+                <h2 className="font-headline text-4xl md:text-6xl font-black tracking-tighter leading-[0.95]">
                   O Abismo da <br/><span className="text-primary italic">Reabilitação.</span>
                 </h2>
-                <div className="h-2 w-32 bg-primary rounded-full" />
+                <div className="h-1.5 w-24 bg-primary rounded-full" />
               </div>
               
-              <div className="lg:col-span-7 space-y-12">
-                <p className="text-2xl md:text-4xl text-slate-900 font-medium leading-tight tracking-tight italic">
+              <div className="lg:col-span-7 space-y-8">
+                <p className="text-xl md:text-3xl text-slate-900 font-medium leading-tight tracking-tight italic">
                   "A jornada neuropsicomotora enfrenta um obstáculo silencioso: o abismo entre o consultório e a vida real."
                 </p>
-                <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed">
+                <p className="text-base md:text-lg text-slate-500 font-medium leading-relaxed">
                   Sem ferramentas que garantam a continuidade lúdica e a coleta de dados precisos em casa, o progresso de crianças com atrasos no desenvolvimento torna-se lento, caro e, muitas vezes, desmotivador. O UrbeLudo nasceu para digitalizar essa jornada e devolver o que há de mais precioso: <span className="text-slate-950 font-bold underline decoration-primary decoration-4">a autonomia humana.</span>
                 </p>
               </div>
@@ -260,86 +260,83 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 3. A Semiótica do Nome - Urbanismo do Movimento */}
-      <section id="semiotica" className="py-24 md:py-64 relative overflow-hidden bg-[#0a0a0c]">
+      {/* 3. A Semiótica do Nome (Scaled Down) */}
+      <section id="semiotica" className="py-20 md:py-32 relative overflow-hidden bg-[#0a0a0c]">
         <div className="absolute inset-0 z-0">
-          <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
-          <div className="absolute top-0 left-1/2 w-[1px] h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent" />
+          <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent" />
+          <div className="absolute top-0 left-1/2 w-[1px] h-full bg-gradient-to-b from-transparent via-primary/10 to-transparent" />
         </div>
         
         <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center mb-32 max-w-4xl mx-auto space-y-10">
-            <Badge className="bg-cyan-500/10 text-cyan-400 border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Storytelling & Semiótica</Badge>
-            <h3 className="font-headline text-5xl md:text-8xl font-black tracking-tighter leading-none text-white uppercase">A Alma do <br/><span className="text-primary italic">Nome.</span></h3>
-            <p className="text-2xl text-white/50 font-medium leading-tight tracking-tight">
+          <div className="text-center mb-24 max-w-3xl mx-auto space-y-8">
+            <Badge className="bg-cyan-500/10 text-cyan-400 border-none px-5 py-2 text-[9px] font-black uppercase tracking-widest">Storytelling & Semiótica</Badge>
+            <h3 className="font-headline text-4xl md:text-6xl font-black tracking-tighter leading-none text-white uppercase">A Alma do <br/><span className="text-primary italic">Nome.</span></h3>
+            <p className="text-lg text-white/50 font-medium leading-tight tracking-tight">
               A fusão entre a estrutura da ciência e a fluidez do afeto.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
-            {/* URBE - A Estrutura */}
-            <div className="lg:col-span-6 p-12 rounded-[4rem] bg-white/5 border border-white/10 space-y-12 relative overflow-hidden group">
-               <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-[0.1] transition-all duration-1000">
-                 <Building2 className="h-64 w-64 text-cyan-400" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            <div className="lg:col-span-6 p-10 rounded-[3rem] bg-white/5 border border-white/10 space-y-8 relative overflow-hidden group">
+               <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-1000">
+                 <Building2 className="h-48 w-48 text-cyan-400" />
                </div>
-               <div className="space-y-8 relative z-10">
-                 <div className="flex items-center gap-6">
-                    <div className="h-16 w-16 rounded-2xl bg-cyan-400/20 flex items-center justify-center text-cyan-400 border border-cyan-400/20 shadow-lg">
-                      <Box className="h-8 w-8" />
+               <div className="space-y-6 relative z-10">
+                 <div className="flex items-center gap-5">
+                    <div className="h-14 w-14 rounded-2xl bg-cyan-400/20 flex items-center justify-center text-cyan-400 border border-cyan-400/20 shadow-lg">
+                      <Box className="h-7 w-7" />
                     </div>
-                    <h4 className="text-4xl font-black tracking-tighter uppercase text-white">URBE</h4>
+                    <h4 className="text-3xl font-black tracking-tighter uppercase text-white">URBE</h4>
                  </div>
-                 <p className="text-xl text-white/40 font-medium leading-relaxed">
+                 <p className="text-lg text-white/40 font-medium leading-relaxed">
                    Do latim <span className="text-cyan-400 font-bold italic">Urbs</span> (Cidade). Representa o ambiente, a estrutura e o corpo humano como um espaço habitado. Reabilitar é dar condições para que a criança navegue com autonomia sua própria "urbe interna".
                  </p>
                </div>
             </div>
 
-            {/* LUDO - O Jogo */}
-            <div className="lg:col-span-6 p-12 rounded-[4rem] bg-primary/10 border border-primary/20 space-y-12 relative overflow-hidden group">
-               <div className="absolute top-0 right-0 p-12 opacity-[0.05] group-hover:opacity-[0.15] transition-all duration-1000">
-                 <Gamepad2 className="h-64 w-64 text-primary" />
+            <div className="lg:col-span-6 p-10 rounded-[3rem] bg-primary/10 border border-primary/20 space-y-8 relative overflow-hidden group">
+               <div className="absolute top-0 right-0 p-8 opacity-[0.04] group-hover:opacity-[0.1] transition-all duration-1000">
+                 <Gamepad2 className="h-48 w-48 text-primary" />
                </div>
-               <div className="space-y-8 relative z-10">
-                 <div className="flex items-center gap-6">
-                    <div className="h-16 w-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-lg">
-                      <Smile className="h-8 w-8" />
+               <div className="space-y-6 relative z-10">
+                 <div className="flex items-center gap-5">
+                    <div className="h-14 w-14 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shadow-lg">
+                      <Smile className="h-7 w-7" />
                     </div>
-                    <h4 className="text-4xl font-black tracking-tighter uppercase text-white">LUDO</h4>
+                    <h4 className="text-3xl font-black tracking-tighter uppercase text-white">LUDO</h4>
                  </div>
-                 <p className="text-xl text-white/40 font-medium leading-relaxed">
+                 <p className="text-lg text-white/40 font-medium leading-relaxed">
                    Do latim <span className="text-primary font-bold italic">Ludus</span> (Jogo/Brincar). O motor da aprendizagem. É através da ludicidade que removemos a resistência e entregamos o resultado terapêutico com alegria.
                  </p>
                </div>
             </div>
 
-            {/* A Fusão: Urbeludo (Espaço em Movimento) */}
-            <div className="lg:col-span-12 p-12 md:p-20 rounded-[5rem] bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex flex-col lg:flex-row gap-16 items-center shadow-2xl relative overflow-hidden">
-               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.05),transparent_70%)]" />
-               <div className="lg:w-1/3 text-center lg:text-left space-y-6 shrink-0">
-                 <div className="h-24 w-24 rounded-[2.5rem] bg-cyan-400 text-black flex items-center justify-center shadow-2xl mx-auto lg:mx-0">
-                   <Zap className="h-12 w-12" />
+            <div className="lg:col-span-12 p-10 md:p-14 rounded-[4rem] bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex flex-col lg:flex-row gap-12 items-center shadow-2xl relative overflow-hidden">
+               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.04),transparent_60%)]" />
+               <div className="lg:w-1/3 text-center lg:text-left space-y-5 shrink-0">
+                 <div className="h-20 w-20 rounded-[2rem] bg-cyan-400 text-black flex items-center justify-center shadow-2xl mx-auto lg:mx-0">
+                   <Zap className="h-10 w-10" />
                  </div>
-                 <h5 className="text-3xl font-black tracking-tighter uppercase text-white leading-none">A Fusão <br/>Estratégica</h5>
+                 <h5 className="text-2xl font-black tracking-tighter uppercase text-white leading-none">A Fusão <br/>Estratégica</h5>
                </div>
-               <div className="lg:w-2/3 space-y-8 relative z-10">
-                  <p className="text-3xl md:text-5xl text-white font-black tracking-tighter leading-none">
-                    Urbeludo: <span className="text-cyan-400 italic">Espaço em Movimento.</span>
+               <div className="lg:w-2/3 space-y-6 relative z-10">
+                  <p className="text-2xl md:text-4xl text-white font-black tracking-tighter leading-tight">
+                    A Fusão: Urbeludo (Espaço em Movimento)
                   </p>
-                  <p className="text-xl text-white/40 font-medium italic">Ao unir os dois, criamos um conceito de "Urbanismo do Movimento":</p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div className="space-y-4">
-                      <div className="h-1 w-12 bg-cyan-400 rounded-full" />
-                      <p className="text-lg text-white font-bold uppercase tracking-widest">Organização Lúdica</p>
-                      <p className="text-base text-white/50 font-medium leading-relaxed">
+                  <p className="text-lg text-white/40 font-medium italic">Ao unir os dois, criamos um conceito de "Urbanismo do Movimento":</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-3">
+                      <div className="h-1 w-10 bg-cyan-400 rounded-full" />
+                      <p className="text-base text-white font-bold uppercase tracking-widest">Organização Lúdica</p>
+                      <p className="text-sm text-white/50 font-medium leading-relaxed">
                         O nome sugere a organização lúdica das funções psicomotoras. É o planejamento estratégico da evolução física através do jogo.
                       </p>
                     </div>
-                    <div className="space-y-4">
-                      <div className="h-1 w-12 bg-primary rounded-full" />
-                      <p className="text-lg text-white font-bold uppercase tracking-widest">Sonoridade Robustas</p>
-                      <p className="text-base text-white/50 font-medium leading-relaxed">
-                        Uma sonoridade robusta e marcante, fugindo do óbvio de nomes de saúde que costumam ser muito frios ou clínicos (terminados em "med", "fisio").
+                    <div className="space-y-3">
+                      <div className="h-1 w-10 bg-primary rounded-full" />
+                      <p className="text-base text-white font-bold uppercase tracking-widest">Sonoridade Robustas</p>
+                      <p className="text-sm text-white/50 font-medium leading-relaxed">
+                        A sonoridade termina de forma robusta e marcante, fugindo do óbvio de nomes de saúde que costumam ser muito frios ou clínicos (terminados em "med", "fisio").
                       </p>
                     </div>
                   </div>
@@ -349,50 +346,50 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 4. A Solução & SPSP - Tech Focus */}
-      <section id="spsp" className="py-24 md:py-64 relative overflow-hidden">
+      {/* 4. A Solução & SPSP (Scaled Down) */}
+      <section id="spsp" className="py-20 md:py-32 relative overflow-hidden">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
-            <div className="lg:col-span-6 space-y-12">
-              <div className="space-y-8">
-                <Badge className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.5em]">Multiplataforma Full-Stack</Badge>
-                <h3 className="font-headline text-5xl md:text-8xl font-black tracking-tighter leading-[0.85] text-white">Ecossistema <br/><span className="text-cyan-400 italic">Integrado.</span></h3>
-                <p className="text-xl text-white/50 font-medium max-w-2xl leading-relaxed">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            <div className="lg:col-span-6 space-y-10">
+              <div className="space-y-6">
+                <Badge className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 px-7 py-2 text-[9px] font-black uppercase tracking-[0.4em]">Multiplataforma Full-Stack</Badge>
+                <h3 className="font-headline text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] text-white">Ecossistema <br/><span className="text-cyan-400 italic">Integrado.</span></h3>
+                <p className="text-lg text-white/50 font-medium max-w-xl leading-relaxed">
                   Transformamos protocolos de saúde em experiências de engajamento profundo através de uma solução disponível para iOS, Android e Web.
                 </p>
               </div>
 
-              <div className="p-12 rounded-[4rem] bg-gradient-to-br from-white/5 to-transparent border border-white/10 relative overflow-hidden group hover:border-cyan-400/30 transition-all duration-1000 shadow-2xl">
-                <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity">
-                  <Brain className="h-56 w-56 text-cyan-400" />
+              <div className="p-10 rounded-[3rem] bg-gradient-to-br from-white/5 to-transparent border border-white/10 relative overflow-hidden group hover:border-cyan-400/30 transition-all duration-1000 shadow-2xl">
+                <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-10 transition-opacity">
+                  <Brain className="h-40 w-40 text-cyan-400" />
                 </div>
-                <div className="space-y-8 relative z-10">
-                  <div className="flex items-center gap-6">
-                    <div className="h-16 w-16 rounded-2xl bg-cyan-400/20 flex items-center justify-center text-cyan-400 border border-cyan-400/20 shadow-lg">
-                      <Cpu className="h-8 w-8" />
+                <div className="space-y-6 relative z-10">
+                  <div className="flex items-center gap-5">
+                    <div className="h-14 w-14 rounded-2xl bg-cyan-400/20 flex items-center justify-center text-cyan-400 border border-cyan-400/20 shadow-lg">
+                      <Cpu className="h-7 w-7" />
                     </div>
-                    <h4 className="text-3xl font-black tracking-tighter uppercase text-cyan-400">Cérebro SPSP</h4>
+                    <h4 className="text-2xl font-black tracking-tighter uppercase text-cyan-400">Cérebro SPSP</h4>
                   </div>
-                  <p className="text-xl text-white/80 font-medium leading-relaxed">
+                  <p className="text-lg text-white/80 font-medium leading-relaxed">
                     O <span className="text-white font-bold underline decoration-cyan-400">Sistema Preditivo de Suporte Psicomotor</span> monitora o desempenho clínico e oferece suporte preditivo para o ajuste de terapias em tempo real.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="lg:col-span-6 grid grid-cols-1 md:grid-cols-2 gap-6">
                {[
                  { icon: <Smartphone />, title: "iOS & Android", desc: "Adesão total em dispositivos móveis." },
                  { icon: <Globe />, title: "Web Platform", desc: "Gestão completa para o terapeuta." },
                  { icon: <ShieldCheck />, title: "Rigor Científico", desc: "Protocolos validados por especialistas." },
                  { icon: <BarChart3 />, title: "Relatórios de Dados", desc: "Dados estruturados para evolução clínica." }
                ].map((item, idx) => (
-                 <div key={idx} className="p-10 rounded-[3rem] bg-white/5 border border-white/10 group hover:bg-white/10 transition-all duration-500 shadow-xl">
-                    <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                 <div key={idx} className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 group hover:bg-white/10 transition-all duration-500 shadow-xl">
+                    <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-5 group-hover:scale-110 transition-transform">
                       {item.icon}
                     </div>
-                    <h5 className="font-black text-xl uppercase tracking-tight mb-3">{item.title}</h5>
-                    <p className="text-white/40 text-sm leading-relaxed">{item.desc}</p>
+                    <h5 className="font-black text-lg uppercase tracking-tight mb-2">{item.title}</h5>
+                    <p className="text-white/40 text-xs leading-relaxed">{item.desc}</p>
                  </div>
                ))}
             </div>
@@ -400,15 +397,15 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 5. Pilares de Atuação */}
-      <section className="py-24 md:py-64 bg-white text-slate-950 relative rounded-[5rem] md:rounded-[10rem] mx-4 my-8 shadow-2xl">
+      {/* 5. Pilares de Atuação (Scaled Down) */}
+      <section className="py-20 md:py-32 bg-white text-slate-950 relative rounded-[3rem] md:rounded-[6rem] mx-4 my-6 shadow-2xl">
         <div className="container mx-auto px-6">
-          <div className="text-center max-w-4xl mx-auto mb-32">
-            <Badge className="mb-10 bg-primary/10 text-primary border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Especialidades Clínicas</Badge>
-            <h3 className="font-headline text-5xl md:text-[8rem] font-black tracking-tighter leading-[0.85] mb-8">Pilares do <br/><span className="text-primary italic">Cuidado.</span></h3>
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <Badge className="mb-8 bg-primary/10 text-primary border-none px-5 py-2 text-[9px] font-black uppercase tracking-widest">Especialidades Clínicas</Badge>
+            <h3 className="font-headline text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] mb-6">Pilares do <br/><span className="text-primary italic">Cuidado.</span></h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-[1440px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
               { 
                 icon: <Mic2 />, 
@@ -426,13 +423,13 @@ export default function UrbeLudoPage() {
                 desc: "Guia de movimentos funcionais com foco na coordenação e no equilíbrio sob rigor científico." 
               }
             ].map((pilar, idx) => (
-              <div key={idx} className="p-12 rounded-[4rem] bg-slate-50 border border-slate-100 space-y-10 group hover:bg-white hover:shadow-[0_60px_100px_-20px_rgba(0,0,0,0.1)] transition-all duration-1000">
-                 <div className="h-20 w-20 rounded-[2rem] bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+              <div key={idx} className="p-10 rounded-[3rem] bg-slate-50 border border-slate-100 space-y-8 group hover:bg-white hover:shadow-xl transition-all duration-700">
+                 <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                    {pilar.icon}
                  </div>
-                 <div className="space-y-6">
-                    <h4 className="font-headline text-3xl font-black tracking-tighter uppercase leading-none">{pilar.title}</h4>
-                    <p className="text-slate-500 text-lg font-medium leading-relaxed">{pilar.desc}</p>
+                 <div className="space-y-4">
+                    <h4 className="font-headline text-2xl font-black tracking-tighter uppercase leading-none">{pilar.title}</h4>
+                    <p className="text-slate-500 text-base font-medium leading-relaxed">{pilar.desc}</p>
                  </div>
               </div>
             ))}
@@ -440,57 +437,57 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 6. Inteligência Multidisciplinar - The Team */}
-      <section id="expertise" className="py-24 md:py-64 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(6,182,212,0.1),transparent_50%)]" />
+      {/* 6. Inteligência Multidisciplinar (Scaled Down) */}
+      <section id="expertise" className="py-20 md:py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(6,182,212,0.08),transparent_50%)]" />
         <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-5xl mx-auto text-center mb-32 space-y-10">
-            <Badge className="bg-white/5 text-white/40 border-white/10 px-8 py-2 text-[10px] font-black uppercase tracking-[0.5em]">Expertise Transversal Pro Bono</Badge>
-            <h3 className="font-headline text-5xl md:text-9xl font-black tracking-tighter leading-[0.85] text-white uppercase">Cérebro <br/><span className="text-cyan-400 italic">Multidisciplinar.</span></h3>
-            <p className="text-2xl text-white/50 font-medium leading-relaxed max-w-3xl mx-auto">
-              O UrbeLudo é a fusão entre rigor clínico e engenharia de software de elite, operado por especialistas que contribuem de forma <span className="text-white font-bold">pro bono (sem custos)</span> pelo impacto social.
+          <div className="max-w-4xl mx-auto text-center mb-24 space-y-8">
+            <Badge className="bg-white/5 text-white/40 border-white/10 px-7 py-2 text-[9px] font-black uppercase tracking-[0.4em]">Expertise Transversal Pro Bono</Badge>
+            <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-[0.9] text-white uppercase">Cérebro <br/><span className="text-cyan-400 italic">Multidisciplinar.</span></h3>
+            <p className="text-xl text-white/50 font-medium leading-relaxed max-w-2xl mx-auto">
+              O UrbeLudo é a fusão entre rigor clínico e engenharia de software de elite, operado por especialistas que contribuem de forma <span className="text-white font-bold">pro bono</span> pelo impacto social.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { icon: <Users2 />, role: "Designers & UX", desc: "Interfaces que removem a resistência informacional." },
               { icon: <Stethoscope />, role: "Psicólogos & Fonos", desc: "Validação clínica de cada estímulo lúdico." },
               { icon: <Gamepad2 />, role: "Game Designers", desc: "Mecânicas de engajamento profundo e diversão." },
               { icon: <Code2 />, role: "Full-Stack Devs", desc: "Arquitetura robusta para escala global do SPSP." }
             ].map((member, idx) => (
-              <div key={idx} className="p-12 rounded-[3.5rem] bg-white/5 border border-white/10 group hover:bg-white/10 hover:border-cyan-400/30 transition-all duration-700 shadow-2xl">
-                <div className="h-16 w-16 rounded-2xl bg-cyan-400/20 flex items-center justify-center text-cyan-400 mb-8 group-hover:scale-110 transition-transform">
+              <div key={idx} className="p-10 rounded-[2.5rem] bg-white/5 border border-white/10 group hover:bg-white/10 hover:border-cyan-400/30 transition-all duration-700 shadow-2xl">
+                <div className="h-14 w-14 rounded-xl bg-cyan-400/20 flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 transition-transform">
                   {member.icon}
                 </div>
-                <h5 className="font-black text-2xl uppercase tracking-tight mb-4">{member.role}</h5>
-                <p className="text-white/40 text-base leading-relaxed">{member.desc}</p>
+                <h5 className="font-black text-xl uppercase tracking-tight mb-3">{member.role}</h5>
+                <p className="text-white/40 text-sm leading-relaxed">{member.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 7. FAQ Estratégico - Ecossistema UrbeLudo */}
-      <section id="faq" className="py-24 md:py-64 bg-white text-slate-950 relative rounded-[5rem] md:rounded-[10rem] mx-4 my-8 shadow-2xl">
-        <div className="container mx-auto px-6 max-w-4xl">
-          <div className="text-center mb-24 space-y-6">
-            <Badge className="bg-primary/10 text-primary border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Base de Conhecimento</Badge>
-            <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none text-slate-950 uppercase">Dúvidas do <br/><span className="text-primary italic">Ecossistema.</span></h3>
+      {/* 7. FAQ Estratégico (Scaled Down) */}
+      <section id="faq" className="py-20 md:py-32 bg-white text-slate-950 relative rounded-[3rem] md:rounded-[6rem] mx-4 my-6 shadow-2xl">
+        <div className="container mx-auto px-6 max-w-3xl">
+          <div className="text-center mb-16 space-y-5">
+            <Badge className="bg-primary/10 text-primary border-none px-5 py-2 text-[9px] font-black uppercase tracking-widest">Base de Conhecimento</Badge>
+            <h3 className="font-headline text-3xl md:text-5xl font-black tracking-tighter leading-none text-slate-950 uppercase">Dúvidas do <br/><span className="text-primary italic">Ecossistema.</span></h3>
           </div>
 
-          <Accordion type="single" collapsible className="w-full space-y-4">
+          <Accordion type="single" collapsible className="w-full space-y-3">
             {faqs.map((faq, idx) => (
-              <AccordionItem key={idx} value={`item-${idx}`} className="border-none bg-slate-50 rounded-[2.5rem] px-8 py-2 shadow-sm hover:shadow-md transition-all">
-                <AccordionTrigger className="hover:no-underline py-6 group">
-                  <div className="flex items-center gap-6 text-left">
-                    <div className="h-12 w-12 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all">
+              <AccordionItem key={idx} value={`item-${idx}`} className="border-none bg-slate-50 rounded-[2rem] px-7 py-1 shadow-sm hover:shadow-md transition-all">
+                <AccordionTrigger className="hover:no-underline py-5 group">
+                  <div className="flex items-center gap-5 text-left">
+                    <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all">
                       {faq.icon}
                     </div>
-                    <span className="font-black text-sm md:text-lg tracking-tight uppercase leading-tight text-slate-900">{faq.question}</span>
+                    <span className="font-black text-sm md:text-base tracking-tight uppercase leading-tight text-slate-900">{faq.question}</span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent className="text-slate-500 font-medium text-base md:text-lg leading-relaxed pb-8 px-4 md:px-20 border-l-2 border-primary/20 ml-6">
+                <AccordionContent className="text-slate-500 font-medium text-sm md:text-base leading-relaxed pb-6 px-4 md:px-16 border-l-2 border-primary/20 ml-5">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -499,76 +496,74 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 8. Investimento & Apoio - Convidativo */}
-      <section id="investidores" className="py-24 md:py-64 relative overflow-hidden">
+      {/* 8. Investimento & Apoio (Scaled Down) */}
+      <section id="investidores" className="py-20 md:py-32 relative overflow-hidden">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
-            <div className="lg:col-span-6 space-y-16">
-              <h3 className="font-headline text-5xl md:text-[7rem] font-black tracking-tighter leading-[0.85] text-white">Pronto para <br/><span className="text-primary italic">Mover o Futuro?</span></h3>
-              <p className="text-2xl text-white/40 font-medium max-w-xl leading-relaxed">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            <div className="lg:col-span-6 space-y-12">
+              <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-[0.9] text-white">Pronto para <br/><span className="text-primary italic">Mover o Futuro?</span></h3>
+              <p className="text-xl text-white/40 font-medium max-w-md leading-relaxed">
                 Buscamos parceiros estratégicos e especialistas dispostos a colaborar pro bono para democratizar a saúde digital.
               </p>
-              <div className="space-y-8">
+              <div className="space-y-6">
                 {[
                   "Escalabilidade Full-Stack Garantida",
                   "Inteligência de Dados Proprietária SPSP",
                   "Impacto Social Medido em Autonomia"
                 ].map((point, i) => (
-                  <div key={i} className="flex items-center gap-6 text-white/80 font-black text-xs md:text-xl uppercase tracking-widest">
-                    <CheckCircle2 className="text-cyan-400 h-8 w-8 shrink-0" /> {point}
+                  <div key={i} className="flex items-center gap-5 text-white/80 font-black text-[10px] md:text-lg uppercase tracking-widest">
+                    <CheckCircle2 className="text-cyan-400 h-6 w-6 shrink-0" /> {point}
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="lg:col-span-6 grid grid-cols-1 gap-12">
-              {/* Card Parceria Pro Bono */}
-              <div className="p-12 rounded-[4.5rem] bg-white text-slate-950 space-y-10 shadow-[0_60px_120px_-20px_rgba(0,0,0,0.4)] relative overflow-hidden group hover:scale-[1.02] transition-all duration-700 border border-slate-100">
-                 <div className="absolute top-0 right-0 p-16 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity pointer-events-none">
-                   <HandHeart className="h-64 w-64 text-primary" />
+            <div className="lg:col-span-6 grid grid-cols-1 gap-8">
+              <div className="p-10 rounded-[3.5rem] bg-white text-slate-950 space-y-8 shadow-2xl relative overflow-hidden group hover:scale-[1.01] transition-all duration-700 border border-slate-100">
+                 <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity pointer-events-none">
+                   <HandHeart className="h-48 w-48 text-primary" />
                  </div>
-                 <div className="space-y-8 relative z-10">
-                   <div className="flex gap-4">
-                     <Badge className="bg-primary/10 text-primary border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Colaboração Pro Bono</Badge>
-                     <Badge className="bg-cyan-500/10 text-cyan-600 border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Sem Custos</Badge>
+                 <div className="space-y-6 relative z-10">
+                   <div className="flex gap-3">
+                     <Badge className="bg-primary/10 text-primary border-none px-5 py-2 text-[8px] font-black uppercase tracking-widest">Colaboração Pro Bono</Badge>
+                     <Badge className="bg-cyan-500/10 text-cyan-600 border-none px-5 py-2 text-[8px] font-black uppercase tracking-widest">Sem Custos</Badge>
                    </div>
-                   <h4 className="font-headline text-4xl font-black tracking-tighter uppercase leading-none">Seja um <br/>Co-Autor.</h4>
-                   <p className="text-slate-500 font-medium text-xl leading-relaxed">
-                     Buscamos designers, clínicos e desenvolvedores que queiram atuar <span className="text-primary font-bold">pro bono</span> para acelerar este impacto social sem cobrança de honorários.
+                   <h4 className="font-headline text-3xl font-black tracking-tighter uppercase leading-none">Seja um <br/>Co-Autor.</h4>
+                   <p className="text-slate-500 font-medium text-lg leading-relaxed">
+                     Buscamos especialistas que queiram atuar <span className="text-primary font-bold">pro bono</span> para acelerar este impacto social sem cobrança de honorários.
                    </p>
                    <button 
                      onClick={() => copyToClipboard(contactEmail, "E-mail")} 
-                     className="flex items-center justify-between w-full p-8 rounded-3xl bg-slate-50 border border-slate-200 group/btn hover:border-primary hover:bg-white transition-all shadow-sm"
+                     className="flex items-center justify-between w-full p-6 rounded-2xl bg-slate-50 border border-slate-200 group/btn hover:border-primary hover:bg-white transition-all shadow-sm"
                    >
-                     <div className="flex items-center gap-6">
-                       <Mail className="h-6 w-6 text-primary" />
-                       <span className="font-black text-xs md:text-sm uppercase tracking-[0.3em]">{contactEmail}</span>
+                     <div className="flex items-center gap-5">
+                       <Mail className="h-5 w-5 text-primary" />
+                       <span className="font-black text-[10px] uppercase tracking-[0.2em]">{contactEmail}</span>
                      </div>
-                     <Copy className="h-5 w-5 text-slate-300 group-hover/btn:text-primary transition-colors" />
+                     <Copy className="h-4 w-4 text-slate-300 group-hover/btn:text-primary transition-colors" />
                    </button>
                  </div>
               </div>
 
-              {/* Card PIX Social Impact */}
-              <div className="p-12 rounded-[4.5rem] bg-[#121216] border border-white/10 space-y-10 shadow-2xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-700">
-                 <div className="absolute top-0 right-0 p-16 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
-                   <Heart className="h-64 w-64 text-primary" />
+              <div className="p-10 rounded-[3.5rem] bg-[#121216] border border-white/10 space-y-8 shadow-2xl relative overflow-hidden group hover:scale-[1.01] transition-all duration-700">
+                 <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
+                   <Heart className="h-48 w-48 text-primary" />
                  </div>
-                 <div className="space-y-8 relative z-10">
-                   <Badge className="bg-cyan-500/10 text-cyan-400 border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Apoio de Desenvolvimento</Badge>
-                   <h4 className="font-headline text-4xl font-black tracking-tighter uppercase leading-none text-white">Custear o <br/>Projeto.</h4>
-                   <p className="text-white/40 font-medium text-xl leading-relaxed">
+                 <div className="space-y-6 relative z-10">
+                   <Badge className="bg-cyan-500/10 text-cyan-400 border-none px-5 py-2 text-[8px] font-black uppercase tracking-widest">Apoio de Desenvolvimento</Badge>
+                   <h4 className="font-headline text-3xl font-black tracking-tighter uppercase leading-none text-white">Custear o <br/>Projeto.</h4>
+                   <p className="text-white/40 font-medium text-lg leading-relaxed">
                      Sua doação via PIX ajuda a <span className="text-white font-bold">custear o desenvolvimento</span> e garante que esta tecnologia chegue a ONGs e famílias de baixa renda.
                    </p>
                    <button 
                      onClick={() => copyToClipboard(pixKey, "Chave PIX")} 
-                     className="flex items-center justify-between w-full p-8 rounded-3xl bg-white/5 border border-white/10 group/pix hover:border-cyan-400 hover:bg-white/10 transition-all shadow-inner"
+                     className="flex items-center justify-between w-full p-6 rounded-2xl bg-white/5 border border-white/10 group/pix hover:border-cyan-400 hover:bg-white/10 transition-all shadow-inner"
                    >
-                     <div className="flex items-center gap-6">
-                       <Zap className="h-6 w-6 text-cyan-400" />
-                       <span className="font-black text-xs md:text-sm uppercase tracking-[0.3em] text-white">Copiar Chave PIX</span>
+                     <div className="flex items-center gap-5">
+                       <Zap className="h-5 w-5 text-cyan-400" />
+                       <span className="font-black text-[10px] uppercase tracking-[0.2em] text-white">Copiar Chave PIX</span>
                      </div>
-                     <ArrowRight className="h-5 w-5 text-white/20 group-hover/pix:text-cyan-400 group-hover/pix:translate-x-2 transition-all" />
+                     <ArrowRight className="h-4 w-4 text-white/20 group-hover/pix:text-cyan-400 group-hover/pix:translate-x-2 transition-all" />
                    </button>
                  </div>
               </div>
@@ -577,19 +572,19 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 9. CTA Final Call */}
-      <section className="py-24 md:py-64 bg-white text-slate-950 mx-4 mb-24 rounded-[6rem] md:rounded-[10rem] shadow-2xl overflow-hidden relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.1),transparent_70%)]" />
-        <div className="container mx-auto px-6 relative z-10 text-center space-y-16">
-           <h3 className="font-headline text-5xl md:text-[10rem] font-black tracking-tighter leading-[0.85] text-slate-950 uppercase">
+      {/* 9. CTA Final Call (Scaled Down) */}
+      <section className="py-20 md:py-32 bg-white text-slate-950 mx-4 mb-20 rounded-[4rem] md:rounded-[6rem] shadow-2xl overflow-hidden relative">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.06),transparent_60%)]" />
+        <div className="container mx-auto px-6 relative z-10 text-center space-y-12">
+           <h3 className="font-headline text-4xl md:text-8xl font-black tracking-tighter leading-[0.9] text-slate-950 uppercase">
              O Futuro é <span className="text-primary italic">Humano.</span>
            </h3>
-           <p className="text-2xl md:text-4xl text-slate-500 font-medium max-w-5xl mx-auto tracking-tight leading-tight">
+           <p className="text-xl md:text-3xl text-slate-500 font-medium max-w-4xl mx-auto tracking-tight leading-tight">
              O UrbeLudo prova que a tecnologia, guiada pelo afeto e pela ciência, é a maior ferramenta de liberdade que existe.
            </p>
-           <div className="pt-10">
-              <Button onClick={handleOpenChat} className="h-32 px-24 bg-primary text-white hover:bg-primary/90 rounded-full font-black uppercase tracking-[0.5em] text-[14px] transition-all shadow-[0_30px_70px_rgba(139,92,246,0.4)] hover:scale-110 active:scale-95">
-                FALAR COM ESTRATEGISTA <ExternalLink className="ml-6 h-6 w-6" />
+           <div className="pt-6">
+              <Button onClick={handleOpenChat} className="h-24 px-16 bg-primary text-white hover:bg-primary/90 rounded-full font-black uppercase tracking-[0.4em] text-[12px] transition-all shadow-xl hover:scale-105 active:scale-95">
+                FALAR COM ESTRATEGISTA <ExternalLink className="ml-5 h-5 w-5" />
               </Button>
            </div>
         </div>
