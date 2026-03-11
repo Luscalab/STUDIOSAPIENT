@@ -9,7 +9,6 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { VoiceDiscussion } from "@/components/ai/VoiceDiscussion";
 import { UrbeLudoBanner } from "@/components/sections/UrbeLudoBanner";
-import { TrustedBy } from "@/components/sections/TrustedBy";
 
 export default function Home() {
   return (
@@ -20,11 +19,6 @@ export default function Home() {
       
       <Hero />
       
-      {/* Prova Social Estratégica: Antes do título "Como podemos ajudar" */}
-      <div className="py-8 md:py-16">
-        <TrustedBy />
-      </div>
-
       <Services />
       <Process />
       <FAQ />
