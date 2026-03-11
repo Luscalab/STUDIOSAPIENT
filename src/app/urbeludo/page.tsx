@@ -1,7 +1,6 @@
 
 'use client';
 
-import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
@@ -27,19 +26,20 @@ import {
   Heart,
   Sparkles,
   ShieldCheck,
-  Stethoscope,
   Users
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function UrbeLudoPage() {
   const { toast } = useToast();
   const [activeSection, setActiveSection] = useState("");
   const [mounted, setMounted] = useState(false);
   
-  const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
+  const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoxOTMwNjE0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM";
 
   useEffect(() => {
     setMounted(true);
@@ -57,7 +57,7 @@ export default function UrbeLudoPage() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80;
+      const offset = 100;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;
@@ -147,26 +147,56 @@ export default function UrbeLudoPage() {
 
   return (
     <main className="min-h-screen bg-white text-slate-900 selection:bg-primary/20 selection:text-primary pb-32 overflow-x-hidden">
-      <Navbar />
       
-      {/* Mobile Dock - Ultra Compact Glass */}
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[400] w-fit">
-        <div className="flex items-center gap-1 p-1 bg-white/70 backdrop-blur-3xl border border-slate-200 rounded-full shadow-2xl">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => scrollToSection(item.id)}
-              className={cn(
-                "flex items-center gap-1.5 px-3 py-2 md:px-5 md:py-3 rounded-full text-[7px] md:text-[9px] font-black uppercase tracking-[0.2em] transition-all duration-500",
-                activeSection === item.id ? "bg-primary text-white shadow-lg" : "text-slate-400 hover:text-primary",
-              )}
-            >
-              <div className="scale-90 md:scale-100">{item.icon}</div>
-              <span className="hidden sm:inline">{item.label}</span>
-            </button>
-          ))}
+      {/* Specialized Fixed Header for UrbeLudo */}
+      <header className="fixed top-0 left-0 right-0 z-[500] bg-white/80 backdrop-blur-3xl border-b border-slate-100 transition-all duration-500">
+        <div className="container mx-auto px-6 h-16 md:h-24 flex items-center justify-between gap-4">
+          <Link href="/" className="relative block w-[120px] h-[36px] md:w-[200px] md:h-[50px] transition-all hover:scale-105 shrink-0">
+            <Image 
+              src={logoUrl} 
+              alt="studiosapient Logo" 
+              fill 
+              className="object-contain object-left" 
+              priority 
+            />
+          </Link>
+          
+          <nav className="hidden lg:flex items-center gap-10">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={cn(
+                  "text-[9px] font-black uppercase tracking-[0.4em] transition-all relative group py-2",
+                  activeSection === item.id ? "text-primary" : "text-slate-400 hover:text-slate-950"
+                )}
+              >
+                {item.label}
+                <span className={cn(
+                  "absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-500",
+                  activeSection === item.id ? "w-full" : "w-0 group-hover:w-full"
+                )} />
+              </button>
+            ))}
+          </nav>
+          
+          <div className="lg:hidden flex items-center gap-1 overflow-x-auto no-scrollbar max-w-[200px]">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={cn(
+                  "p-2 rounded-lg transition-all",
+                  activeSection === item.id ? "text-primary bg-primary/5" : "text-slate-400"
+                )}
+                aria-label={item.label}
+              >
+                {item.icon}
+              </button>
+            ))}
+          </div>
         </div>
-      </nav>
+      </header>
 
       {/* Hero Section - Dark & Purple Premium Mesh */}
       <section id="inicio" className="relative pt-32 pb-16 md:pt-64 md:pb-48 px-6 text-center space-y-4 overflow-hidden hero-purple-mesh bg-[#08070b]">
@@ -296,8 +326,7 @@ export default function UrbeLudoPage() {
               <h4 className="text-lg md:text-4xl font-black uppercase leading-none tracking-tighter">Seja Co-Autor</h4>
               <p className="text-slate-500 text-[10px] md:text-lg leading-relaxed font-medium">Buscamos especialistas em saúde e tech para colaborar no refinamento do método SPSP sem custos operacionais.</p>
               <Button 
-                variant="outline" 
-                className="w-full h-12 md:h-20 rounded-2xl text-[8px] md:text-[10px] font-black uppercase tracking-widest border-slate-200 text-slate-950 hover:bg-white transition-all active:scale-95" 
+                className="w-full h-12 md:h-20 rounded-2xl bg-slate-950 text-white hover:bg-slate-800 font-black text-[8px] md:text-[10px] uppercase tracking-widest transition-all active:scale-95 border-none shadow-xl" 
                 onClick={() => copyToClipboard(contactEmail, "Email")}
               >
                 Copiar Email de Contato
