@@ -1,5 +1,7 @@
+
 import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/sections/Hero";
+import { TrustedBy } from "@/components/sections/TrustedBy";
 import { Services } from "@/components/sections/Services";
 import { Process } from "@/components/sections/Process";
 import { FAQ } from "@/components/sections/FAQ";
@@ -16,6 +18,7 @@ export default function Home() {
       
       <Navbar />
       <Hero />
+      <TrustedBy />
       <Services />
       <Process />
       <FAQ />

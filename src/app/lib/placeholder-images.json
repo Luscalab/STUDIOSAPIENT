@@ -4,7 +4,7 @@
     {
       "id": "main-logo",
       "description": "Sapient Studio Main Logo",
-      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoxOTMwNjE0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoyMDY2Nzc0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM",
       "imageHint": "company logo"
     },
     {
@@ -28,20 +28,26 @@
     {
       "id": "portfolio-1",
       "description": "Premium branding project",
-      "imageUrl": "https://picsum.photos/seed/sapient-premium-ui/800/1000",
-      "imageHint": "modern branding"
+      "imageUrl": "https://picsum.photos/seed/sap-port-1/800/1000",
+      "imageHint": "premium brand"
     },
     {
       "id": "portfolio-2",
       "description": "Modern marketing campaign",
-      "imageUrl": "https://picsum.photos/seed/sapient-data-ads/800/1000",
-      "imageHint": "data visualization"
+      "imageUrl": "https://picsum.photos/seed/sap-port-2/800/1000",
+      "imageHint": "marketing digital"
     },
     {
       "id": "portfolio-3",
       "description": "Strategic social media management",
-      "imageUrl": "https://picsum.photos/seed/sapient-social-growth/800/1000",
-      "imageHint": "professional minimalist"
+      "imageUrl": "https://picsum.photos/seed/sap-port-3/800/1000",
+      "imageHint": "social design"
+    },
+    {
+      "id": "partner-logo-1",
+      "description": "Empresa atendida pela Sapient",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/FINALLOGO.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvRklOQUxMT0dPLnBuZyIsImlhdCI6MTc3MzI1ODI4OCwiZXhwIjoxODA0Nzk0Mjg4fQ.Dz5zwyX8JWp6IRK_nU-3dQX-cGaEF7HWzvKpSLGCQOA",
+      "imageHint": "partner logo"
     }
   ]
 }
