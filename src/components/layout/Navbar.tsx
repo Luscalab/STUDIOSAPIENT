@@ -23,15 +23,17 @@ export function Navbar() {
     { name: "Contato", href: "/#contato" },
   ];
 
-  // URLs oficiais do Supabase
+  // URL Oficial do Logotipo Sapient Studio
   const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MzI1ODkzNSwiZXhwIjoyMDg4NjE4OTM1fQ.IzwEMRrb4fKfxxJqcobcRaK14UuTZxUJCtCbG141MJo";
   
+  // Rede de Clientes de Elite (Parceiros)
   const partners = [
-    { name: "Parceiro 1", url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/FINALLOGO.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvRklOQUxMT0dPLnBuZyIsImlhdCI6MTc3MzI1ODk2MSwiZXhwIjoyMDg4NjE4OTYxfQ.YCn2mnUAXxdeCIDDY43MZpB1jEf94V0pcajlqRuXkA8" },
-    { name: "Parceiro 2", url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/unnamed%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvdW5uYW1lZCAoMSkuanBnIiwiaWF0IjoxNzczMjU5MzAyLCJleHAiOjE4MDQ3OTUzMDJ9.Ey6aHahoSnfrOlVxBsHpOnYXUGfDDEZFj_rLrwbbOro" }
+    { name: "ChargerBed", url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/chargerbed.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvY2hhcmdlcmJlZC5wbmciLCJpYXQiOjE3NzMyNTk2OTEsImV4cCI6MTc3NDEyMzY5MX0.Vjw_0CI-92YGGgxQil9racQzBQSMVoinTbZ8P_ZYymQ" },
+    { name: "Finallogo", url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/FINALLOGO.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvRklOQUxMT0dPLnBuZyIsImlhdCI6MTc3MzI1ODk2MSwiZXhwIjoyMDg4NjE4OTYxfQ.YCn2mnUAXxdeCIDDY43MZpB1jEf94V0pcajlqRuXkA8" },
+    { name: "Unnamed Client", url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/unnamed%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvdW5uYW1lZCAoMSkuanBnIiwiaWF0IjoxNzczMjU5MzAyLCJleHAiOjE4MDQ3OTUzMDJ9.Ey6aHahoSnfrOlVxBsHpOnYXUGfDDEZFj_rLrwbbOro" }
   ];
 
-  // Efeito de transição suave entre parceiros
+  // Efeito de transição suave entre parceiros (4 segundos)
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentPartner((prev) => (prev + 1) % partners.length);
@@ -44,7 +46,7 @@ export function Navbar() {
       <div className="container mx-auto px-6 flex items-center justify-between gap-4 md:gap-12">
         
         <div className="flex items-center gap-6 md:gap-12 flex-1">
-          {/* Logo Principal Sapient - Ampliado */}
+          {/* Logo Principal Sapient - Escala Imponente */}
           <Link 
             href="/" 
             className="relative block w-[180px] h-[60px] md:w-[500px] md:h-[150px] transition-all duration-700 hover:scale-[1.02] shrink-0"
@@ -58,7 +60,7 @@ export function Navbar() {
             />
           </Link>
 
-          {/* Marquee de Parceiros Quadrado - Embutido e Ampliado */}
+          {/* Marquee de Parceiros em Formato Quadrado Minimalista */}
           <div className="hidden sm:flex items-center gap-6 pl-6 md:pl-12 border-l border-white/10">
             <div className="relative h-14 w-14 md:h-28 md:w-28 rounded-2xl md:rounded-[2rem] bg-white/5 border border-white/10 overflow-hidden glass-morphism group shadow-2xl">
               <div className="absolute inset-0 flex items-center justify-center p-3 md:p-5 transition-all duration-1000">
@@ -68,6 +70,7 @@ export function Navbar() {
                   fill
                   className="object-contain p-2 md:p-4 opacity-50 group-hover:opacity-100 transition-opacity grayscale group-hover:grayscale-0"
                   sizes="(max-width: 768px) 56px, 112px"
+                  key={partners[currentPartner].url}
                 />
               </div>
             </div>
