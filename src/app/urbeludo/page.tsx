@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -102,16 +103,16 @@ export default function UrbeLudoPage() {
     <main className="min-h-screen bg-white text-slate-900 selection:bg-primary/20 selection:text-primary pb-32 overflow-x-hidden">
       <Navbar />
       
-      {/* Mobile Dock - Compact Premium */}
+      {/* Mobile Dock - Ultra Compact Glass */}
       <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[400] w-fit">
-        <div className="flex items-center gap-1 p-1 bg-white/80 backdrop-blur-2xl border border-slate-200 rounded-full shadow-2xl">
+        <div className="flex items-center gap-1 p-1 bg-white/70 backdrop-blur-3xl border border-slate-200 rounded-full shadow-2xl">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
               className={cn(
                 "flex items-center gap-1.5 px-3 py-2 md:px-5 md:py-3 rounded-full text-[7px] md:text-[9px] font-black uppercase tracking-[0.2em] transition-all duration-500",
-                activeSection === item.id ? "bg-primary text-white" : "text-slate-400 hover:text-primary",
+                activeSection === item.id ? "bg-primary text-white shadow-lg" : "text-slate-400 hover:text-primary",
               )}
             >
               <div className="scale-90 md:scale-100">{item.icon}</div>
@@ -121,7 +122,7 @@ export default function UrbeLudoPage() {
         </div>
       </nav>
 
-      {/* Hero Section - Dark & Purple Impact */}
+      {/* Hero Section - Dark & Purple Premium Mesh */}
       <section id="inicio" className="relative pt-32 pb-16 md:pt-64 md:pb-48 px-6 text-center space-y-4 overflow-hidden hero-purple-mesh bg-[#08070b]">
         <div className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
         
@@ -131,7 +132,7 @@ export default function UrbeLudoPage() {
             UrbeLudo <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary italic block lowercase font-medium">movimento & inteligência.</span>
           </h1>
-          <p className="text-sm md:text-2xl text-white/40 font-medium max-w-3xl mx-auto leading-tight mb-12 text-balance px-4 pt-4">
+          <p className="text-xs md:text-2xl text-white/40 font-medium max-w-3xl mx-auto leading-tight mb-12 text-balance px-4 pt-4">
             Escalando a eficácia clínica através de tecnologia preditiva para o desenvolvimento neuropsicomotor infantil.
           </p>
           <div className="flex justify-center pt-8">
@@ -142,7 +143,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* Seção Desafio - High Contrast Light */}
+      {/* Seção Desafio - High Contrast White Editorial */}
       <section id="desafio" className="py-20 md:py-48 bg-white text-slate-950 rounded-[2.5rem] md:rounded-[6rem] mx-4 -mt-8 relative z-20 shadow-2xl px-6 overflow-hidden border border-slate-100">
         <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-32 items-center">
           <div className="space-y-6">
@@ -150,7 +151,7 @@ export default function UrbeLudoPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Gap de Saúde Pública</p>
               <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">O Abismo da <br/><span className="text-primary italic font-medium">Reabilitação.</span></h2>
             </div>
-            <p className="text-sm md:text-lg text-slate-500 leading-relaxed max-w-md">O atraso no diagnóstico e a falta de continuidade no tratamento domiciliar geram perdas irreversíveis na autonomia infantil. O UrbeLudo digitaliza esse processo para democratizar resultados.</p>
+            <p className="text-sm md:text-lg text-slate-500 leading-relaxed max-w-md font-medium">O atraso no diagnóstico e a falta de continuidade no tratamento domiciliar geram perdas irreversíveis na autonomia infantil. O UrbeLudo digitaliza esse processo para democratizar resultados.</p>
           </div>
           <blockquote className="text-lg md:text-4xl text-slate-300 font-medium leading-tight italic border-l-4 md:border-l-8 border-primary/10 pl-6 md:pl-8 text-balance">
             "Digitalizamos a jornada psicomotora para devolver o que há de mais precioso: a autonomia humana."
@@ -158,7 +159,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* Seção Semiótica - Light Gray Technical */}
+      {/* Seção Semiótica - Light Gray Technical Minimalist */}
       <section id="semiotica" className="py-20 md:py-48 px-6 bg-slate-50">
         <div className="container mx-auto max-w-6xl text-center space-y-4">
           <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Arquitetura de Marca</p>
@@ -170,7 +171,7 @@ export default function UrbeLudoPage() {
               </div>
               <div className="space-y-3">
                 <h4 className="text-lg md:text-3xl font-black uppercase tracking-tighter text-slate-950">URBE (Cidade)</h4>
-                <p className="text-slate-500 leading-relaxed text-xs md:text-lg">A organização lúdica das funções psicomotoras. O corpo como espaço estruturado, onde cada movimento tem sua coordenada e função lógica.</p>
+                <p className="text-slate-500 leading-relaxed text-xs md:text-lg font-medium">A organização lúdica das funções psicomotoras. O corpo como espaço estruturado, onde cada movimento tem sua coordenada e função lógica.</p>
               </div>
             </div>
             <div className="p-8 md:p-16 rounded-[2rem] md:rounded-[3rem] bg-white border border-slate-200 text-left space-y-4 md:space-y-6 shadow-sm group hover:border-primary/20 transition-all duration-700">
@@ -179,14 +180,14 @@ export default function UrbeLudoPage() {
               </div>
               <div className="space-y-3">
                 <h4 className="text-lg md:text-3xl font-black uppercase tracking-tighter text-slate-950">LUDO (Brincar)</h4>
-                <p className="text-slate-500 leading-relaxed text-xs md:text-lg">A fluidez do brincar. O motor de engajamento que remove a barreira clínica fria e datada, transformando o esforço terapêutico em diversão imersiva.</p>
+                <p className="text-slate-500 leading-relaxed text-xs md:text-lg font-medium">A fluidez do brincar. O motor de engajamento que remove a barreira clínica fria e datada, transformando o esforço terapêutico em diversão imersiva.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Seção Marcos - White Pipeline */}
+      {/* Seção Marcos - White Pipeline Compact */}
       <section id="marcos" className="py-20 md:py-48 bg-white px-6 rounded-[2.5rem] md:rounded-[6rem] mx-4 mb-12 border border-slate-100">
         <div className="container mx-auto max-w-7xl space-y-4">
           <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Pipeline de Inovação</p>
@@ -201,7 +202,7 @@ export default function UrbeLudoPage() {
                 <div className="space-y-2 md:space-y-4">
                   <h5 className="text-base md:text-xl font-black uppercase leading-tight tracking-tighter text-slate-950">{m.title}</h5>
                   <Badge className="bg-white text-slate-400 border-none px-3 py-0.5 text-[7px] font-black uppercase tracking-widest">{m.status}</Badge>
-                  <p className="text-slate-500 text-[10px] md:text-base leading-relaxed">{m.desc}</p>
+                  <p className="text-slate-500 text-[10px] md:text-base leading-relaxed font-medium">{m.desc}</p>
                 </div>
               </div>
             ))}
@@ -209,27 +210,33 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* Seção FAQ - Light Gray Minimalist */}
+      {/* Seção FAQ - Light Gray Minimalist Restoration */}
       <section id="faq" className="py-20 md:py-48 bg-slate-50 text-slate-950 rounded-[2.5rem] md:rounded-[4rem] mx-4 my-12 px-6">
         <div className="container mx-auto max-w-4xl space-y-4">
           <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Base de Conhecimento</p>
           <h3 className="font-headline text-xl md:text-6xl font-black text-center uppercase mb-12 tracking-tighter leading-[0.85]">Dúvidas <br /><span className="text-primary italic font-medium">Técnicas.</span></h3>
           <Accordion type="single" collapsible className="space-y-2 pt-4">
-            <AccordionItem value="q1" className="border-none bg-white rounded-xl md:rounded-[2.5rem] px-5 md:px-10 shadow-sm border border-slate-200">
-              <AccordionTrigger className="text-left font-black uppercase text-[9px] md:text-sm py-5 md:py-8 text-slate-950 hover:no-underline">O que é exatamente o UrbeLudo?</AccordionTrigger>
-              <AccordionContent className="text-slate-500 text-[10px] md:text-lg pb-6 md:pb-10 leading-relaxed border-l-2 md:border-l-4 border-primary/10 pl-4 md:pl-6">
+            <AccordionItem value="q1" className="border-none bg-white rounded-xl md:rounded-[2.5rem] px-5 md:px-10 shadow-sm border border-slate-200 overflow-hidden">
+              <AccordionTrigger className="text-left font-black uppercase text-[9px] md:text-sm py-5 md:py-8 text-slate-950 hover:no-underline group">
+                O que é exatamente o UrbeLudo?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-500 text-[10px] md:text-lg pb-6 md:pb-10 leading-relaxed border-l-2 md:border-l-4 border-primary/10 pl-4 md:pl-6 font-medium">
                 É uma plataforma gamificada de suporte à reabilitação neuropsicomotora. Ela utiliza o protocolo SPSP para monitorar a evolução do paciente através de biofeedback e inteligência de dados, transformando a terapia em uma jornada de exploração urbana lúdica.
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="q2" className="border-none bg-white rounded-xl md:rounded-[2.5rem] px-5 md:px-10 shadow-sm border border-slate-200">
-              <AccordionTrigger className="text-left font-black uppercase text-[9px] md:text-sm py-5 md:py-8 text-slate-950 hover:no-underline">O que significa SPSP?</AccordionTrigger>
-              <AccordionContent className="text-slate-500 text-[10px] md:text-lg pb-6 md:pb-10 leading-relaxed border-l-2 md:border-l-4 border-primary/10 pl-4 md:pl-6">
+            <AccordionItem value="q2" className="border-none bg-white rounded-xl md:rounded-[2.5rem] px-5 md:px-10 shadow-sm border border-slate-200 overflow-hidden">
+              <AccordionTrigger className="text-left font-black uppercase text-[9px] md:text-sm py-5 md:py-8 text-slate-950 hover:no-underline group">
+                O que significa SPSP?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-500 text-[10px] md:text-lg pb-6 md:pb-10 leading-relaxed border-l-2 md:border-l-4 border-primary/10 pl-4 md:pl-6 font-medium">
                 Sistema Preditivo de Suporte Psicomotor. É o coração de IA do UrbeLudo que processa dados de interação em tempo real para prever lacunas no desenvolvimento e sugerir ajustes imediatos no plano terapêutico.
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="q3" className="border-none bg-white rounded-xl md:rounded-[2.5rem] px-5 md:px-10 shadow-sm border border-slate-200">
-              <AccordionTrigger className="text-left font-black uppercase text-[9px] md:text-sm py-5 md:py-8 text-slate-950 hover:no-underline">Como o projeto é financiado?</AccordionTrigger>
-              <AccordionContent className="text-slate-500 text-[10px] md:text-lg pb-6 md:pb-10 leading-relaxed border-l-2 md:border-l-4 border-primary/10 pl-4 md:pl-6">
+            <AccordionItem value="q3" className="border-none bg-white rounded-xl md:rounded-[2.5rem] px-5 md:px-10 shadow-sm border border-slate-200 overflow-hidden">
+              <AccordionTrigger className="text-left font-black uppercase text-[9px] md:text-sm py-5 md:py-8 text-slate-950 hover:no-underline group">
+                Como o projeto é financiado?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-500 text-[10px] md:text-lg pb-6 md:pb-10 leading-relaxed border-l-2 md:border-l-4 border-primary/10 pl-4 md:pl-6 font-medium">
                 Através de um modelo híbrido: investimento de anjos estratégicos para desenvolvimento da tecnologia base e parcerias/doações para custear a implementação pro-bono em ONGs de baixa renda.
               </AccordionContent>
             </AccordionItem>
@@ -237,7 +244,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* Seção Investidores - Mixed Impact */}
+      {/* Seção Investidores - Mixed Impact Hybrid Contrast */}
       <section id="investidores" className="py-20 md:py-48 px-6 bg-white">
         <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-32">
           <div className="space-y-6 md:space-y-8">
@@ -245,7 +252,7 @@ export default function UrbeLudoPage() {
               <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Ecossistema Social</p>
               <h3 className="font-headline text-2xl md:text-8xl font-black text-slate-950 leading-[0.85] uppercase tracking-tighter">Mova o <br/><span className="text-primary italic font-medium">Futuro.</span></h3>
             </div>
-            <p className="text-sm md:text-xl text-slate-500 leading-relaxed text-balance">Buscamos parcerias estratégicas para democratizar a saúde infantil. Cada apoio acelera a chegada do UrbeLudo a quem mais precisa.</p>
+            <p className="text-sm md:text-xl text-slate-500 leading-relaxed text-balance font-medium">Buscamos parcerias estratégicas para democratizar a saúde infantil. Cada apoio acelera a chegada do UrbeLudo a quem mais precisa.</p>
             <div className="flex items-center gap-3 p-4 md:p-6 rounded-2xl bg-primary/5 border border-primary/10">
                <Sparkles className="h-4 w-4 md:h-6 md:w-6 text-primary" />
                <p className="text-[8px] md:text-sm font-bold text-primary/80 uppercase tracking-widest italic">100% dos apoios sociais são revertidos para ONGs.</p>
@@ -255,14 +262,25 @@ export default function UrbeLudoPage() {
             <div className="p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] bg-slate-50 text-slate-950 space-y-6 md:space-y-8 border-t-4 md:border-t-[8px] border-primary shadow-sm hover:shadow-lg transition-all">
               <Badge className="bg-primary/10 text-primary px-4 py-1.5 text-[8px] uppercase font-black tracking-widest border-none">Pro Bono</Badge>
               <h4 className="text-lg md:text-4xl font-black uppercase leading-none tracking-tighter">Seja Co-Autor</h4>
-              <p className="text-slate-500 text-[10px] md:text-lg leading-relaxed">Buscamos especialistas em saúde e tech para colaborar no refinamento do método SPSP sem custos operacionais.</p>
-              <Button variant="outline" className="w-full h-12 md:h-20 rounded-2xl text-[8px] md:text-[10px] font-black uppercase tracking-widest border-slate-200 hover:bg-white" onClick={() => copyToClipboard(contactEmail, "Email")}>Copiar Email de Contato</Button>
+              <p className="text-slate-500 text-[10px] md:text-lg leading-relaxed font-medium">Buscamos especialistas em saúde e tech para colaborar no refinamento do método SPSP sem custos operacionais.</p>
+              <Button 
+                variant="outline" 
+                className="w-full h-12 md:h-20 rounded-2xl text-[8px] md:text-[10px] font-black uppercase tracking-widest border-slate-200 text-slate-950 hover:bg-white transition-all active:scale-95" 
+                onClick={() => copyToClipboard(contactEmail, "Email")}
+              >
+                Copiar Email de Contato
+              </Button>
             </div>
             <div className="p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] bg-[#08070b] border border-white/5 text-white space-y-6 md:space-y-8 shadow-2xl hover:shadow-primary/20 transition-all border-t-4 md:border-t-[8px] border-primary">
               <Badge className="bg-primary/20 text-primary px-4 py-1.5 text-[8px] uppercase font-black tracking-widest border-none">Impacto Direto</Badge>
               <h4 className="text-lg md:text-4xl font-black uppercase leading-none tracking-tighter text-white">Custear Projeto</h4>
-              <p className="text-white/40 text-[10px] md:text-lg leading-relaxed">Contribua com a manutenção do servidor e expansão de licenças para instituições carentes.</p>
-              <Button className="w-full h-12 md:h-20 rounded-2xl bg-primary hover:bg-primary/90 text-white font-black text-[8px] md:text-[10px] uppercase tracking-widest shadow-lg shadow-primary/20 border-none" onClick={() => copyToClipboard(pixKey, "PIX")}>Apoiar via PIX <ArrowRight className="ml-3 h-3 w-3" /></Button>
+              <p className="text-white/40 text-[10px] md:text-lg leading-relaxed font-medium">Contribua com a manutenção do servidor e expansão de licenças para instituições carentes.</p>
+              <Button 
+                className="w-full h-12 md:h-20 rounded-2xl bg-primary hover:bg-primary/90 text-white font-black text-[8px] md:text-[10px] uppercase tracking-widest shadow-lg shadow-primary/20 border-none transition-all active:scale-95" 
+                onClick={() => copyToClipboard(pixKey, "PIX")}
+              >
+                Apoiar via PIX <ArrowRight className="ml-3 h-3 w-3" />
+              </Button>
             </div>
           </div>
         </div>
@@ -273,3 +291,4 @@ export default function UrbeLudoPage() {
     </main>
   );
 }
+
