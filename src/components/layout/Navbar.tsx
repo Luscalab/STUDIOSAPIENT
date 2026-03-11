@@ -26,11 +26,11 @@ export function Navbar() {
 
   return (
     <header className="absolute top-4 md:top-8 left-0 right-0 z-[150]" role="banner">
-      <div className="container mx-auto px-6 flex items-center justify-between gap-4">
+      <div className="container mx-auto px-6 flex items-center justify-between gap-8">
         
         <Link 
           href="/" 
-          className="relative block w-[220px] h-[64px] md:w-[480px] md:h-[120px] transition-all duration-700 hover:scale-[1.02] shrink-0"
+          className="relative block w-[280px] h-[80px] md:w-[600px] md:h-[150px] transition-all duration-700 hover:scale-[1.02] shrink-0"
         >
           <Image 
             src={logoUrl} 
