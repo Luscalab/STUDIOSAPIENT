@@ -25,7 +25,10 @@ import {
   Box,
   Smile,
   Heart,
-  Sparkles
+  Sparkles,
+  ShieldCheck,
+  Stethoscope,
+  Users
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -95,6 +98,49 @@ export default function UrbeLudoPage() {
     { id: "f-02", title: "Fase 02: MVP Tech", status: "Planejado", desc: "Versão multiplataforma integrada iOS, Android e Web.", icon: <Smartphone className="h-5 w-5 md:h-6 md:w-6" />, color: "from-blue-500 to-indigo-600" },
     { id: "f-03", title: "Fase 03: Validação", status: "Planejado", desc: "Implementação em clínicas para calibração de dados reais.", icon: <Activity className="h-5 w-5 md:h-6 md:w-6" />, color: "from-indigo-600 to-primary" },
     { id: "f-04", title: "Fase 04: Escala", status: "Planejado", desc: "Expansão global e democratização para ONGs.", icon: <Globe className="h-5 w-5 md:h-6 md:w-6" />, color: "from-primary to-pink-500" }
+  ];
+
+  const faqs = [
+    {
+      q: "1. O que é exatamente o Urbeludo?",
+      a: "O Urbeludo é uma plataforma digital de suporte à reabilitação neuropsicomotora. Através de um aplicativo gamificado, ele transforma exercícios terapêuticos de Fonoaudiologia, Terapia Ocupacional e Reabilitação Motora em missões lúdicas, utilizando o sistema SPSP para monitorar e prever a evolução do paciente."
+    },
+    {
+      q: "2. O Urbeludo substitui o terapeuta?",
+      a: "Não. O Urbeludo é uma ferramenta de auxílio e potencialização. Ele funciona como o braço direito do profissional, garantindo que o paciente continue se exercitando em casa com a mesma diretriz clínica do consultório, além de fornecer dados precisos para que o terapeuta tome decisões melhores e mais rápidas."
+    },
+    {
+      q: "3. O que significa a sigla SPSP e qual sua função?",
+      a: "SPSP significa Sistema Preditivo de Suporte Psicomotor. É a inteligência analítica do app que processa os dados de interação da criança (tempo de resposta, precisão de movimento, clareza fonológica) e gera relatórios que apontam tendências de melhora ou estagnação, permitindo um ajuste preventivo no plano de tratamento."
+    },
+    {
+      q: "4. Como um jogo digital pode ajudar na reabilitação física?",
+      a: "O jogo utiliza a Ludicidade Progressiva para gerar engajamento. Ao transformar um exercício repetitivo em um desafio gamificado, estimulamos a neuroplasticidade e a liberação de dopamina, o que aumenta a aderência da criança ao tratamento e torna o ganho de consciência corporal e motora muito mais fluido."
+    },
+    {
+      q: "5. Em quais dispositivos o Urbeludo funciona?",
+      a: "Focamos na acessibilidade total. O Urbeludo é uma solução multiplataforma, rodando nativamente em sistemas iOS (iPhones e iPads), Android e também em qualquer navegador via Web. Isso permite que o terapeuta gerencie os dados no computador enquanto a criança joga no tablet ou celular."
+    },
+    {
+      q: "6. Como o aplicativo auxilia especificamente na Fonoaudiologia?",
+      a: "O app utiliza o reconhecimento de voz e captação de áudio para incentivar a emissão sonora. Em missões de fala, a criança precisa atingir determinadas frequências ou clareza fonética para desbloquear recompensas no jogo, tornando o treino orofacial divertido e constante."
+    },
+    {
+      q: "7. O Urbeludo pode ser usado por crianças com qualquer diagnóstico?",
+      a: "Sim, o foco é o suporte psicomotor amplo. Ele é especialmente eficaz para crianças com atrasos no desenvolvimento, TEA (Transtorno do Espectro Autista), TDAH, Síndrome de Down e paralisia cerebral, pois as atividades são adaptáveis ao nível de desafio que cada paciente suporta."
+    },
+    {
+      q: "8. Os dados do meu paciente/filho estão seguros?",
+      a: "Segurança é prioridade. O Urbeludo é desenvolvido seguindo as normas da LGPD (Lei Geral de Proteção de Dados). Todas as informações clínicas e de desempenho são criptografadas e o acesso é restrito ao profissional responsável e aos tutores legais."
+    },
+    {
+      q: "9. Qual o diferencial do Urbeludo para outros apps de jogos infantis?",
+      a: "Diferente de jogos comuns, o Urbeludo é fundamentado em conceitos científicos de Psicomotricidade e Ludicidade. Cada mecânica de jogo tem um propósito terapêutico validado. Enquanto outros apps focam apenas em entretenimento, nós focamos em resultado clínico mensurável."
+    },
+    {
+      q: "10. Como as clínicas e terapeutas podem adotar o sistema?",
+      a: "O Urbeludo opera em um modelo de assinatura (SaaS). As clínicas podem contratar licenças para seus terapeutas, que por sua vez vinculam seus pacientes à plataforma, criando uma rede de monitoramento em tempo real que valoriza o serviço prestado e fideliza as famílias."
+    }
   ];
 
   if (!mounted) return null;
@@ -216,30 +262,16 @@ export default function UrbeLudoPage() {
           <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Base de Conhecimento</p>
           <h3 className="font-headline text-xl md:text-6xl font-black text-center uppercase mb-12 tracking-tighter leading-[0.85]">Dúvidas <br /><span className="text-primary italic font-medium">Técnicas.</span></h3>
           <Accordion type="single" collapsible className="space-y-2 pt-4">
-            <AccordionItem value="q1" className="border-none bg-white rounded-xl md:rounded-[2.5rem] px-5 md:px-10 shadow-sm border border-slate-200 overflow-hidden">
-              <AccordionTrigger className="text-left font-black uppercase text-[9px] md:text-sm py-5 md:py-8 text-slate-950 hover:no-underline group">
-                O que é exatamente o UrbeLudo?
-              </AccordionTrigger>
-              <AccordionContent className="text-slate-500 text-[10px] md:text-lg pb-6 md:pb-10 leading-relaxed border-l-2 md:border-l-4 border-primary/10 pl-4 md:pl-6 font-medium">
-                É uma plataforma gamificada de suporte à reabilitação neuropsicomotora. Ela utiliza o protocolo SPSP para monitorar a evolução do paciente através de biofeedback e inteligência de dados, transformando a terapia em uma jornada de exploração urbana lúdica.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="q2" className="border-none bg-white rounded-xl md:rounded-[2.5rem] px-5 md:px-10 shadow-sm border border-slate-200 overflow-hidden">
-              <AccordionTrigger className="text-left font-black uppercase text-[9px] md:text-sm py-5 md:py-8 text-slate-950 hover:no-underline group">
-                O que significa SPSP?
-              </AccordionTrigger>
-              <AccordionContent className="text-slate-500 text-[10px] md:text-lg pb-6 md:pb-10 leading-relaxed border-l-2 md:border-l-4 border-primary/10 pl-4 md:pl-6 font-medium">
-                Sistema Preditivo de Suporte Psicomotor. É o coração de IA do UrbeLudo que processa dados de interação em tempo real para prever lacunas no desenvolvimento e sugerir ajustes imediatos no plano terapêutico.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="q3" className="border-none bg-white rounded-xl md:rounded-[2.5rem] px-5 md:px-10 shadow-sm border border-slate-200 overflow-hidden">
-              <AccordionTrigger className="text-left font-black uppercase text-[9px] md:text-sm py-5 md:py-8 text-slate-950 hover:no-underline group">
-                Como o projeto é financiado?
-              </AccordionTrigger>
-              <AccordionContent className="text-slate-500 text-[10px] md:text-lg pb-6 md:pb-10 leading-relaxed border-l-2 md:border-l-4 border-primary/10 pl-4 md:pl-6 font-medium">
-                Através de um modelo híbrido: investimento de anjos estratégicos para desenvolvimento da tecnologia base e parcerias/doações para custear a implementação pro-bono em ONGs de baixa renda.
-              </AccordionContent>
-            </AccordionItem>
+            {faqs.map((faq, i) => (
+              <AccordionItem key={i} value={`q${i}`} className="border-none bg-white rounded-xl md:rounded-[2rem] px-5 md:px-10 shadow-sm border border-slate-200 overflow-hidden">
+                <AccordionTrigger className="text-left font-black uppercase text-[9px] md:text-sm py-5 md:py-8 text-slate-950 hover:no-underline group">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-500 text-[10px] md:text-lg pb-6 md:pb-10 leading-relaxed border-l-2 md:border-l-4 border-primary/10 pl-4 md:pl-6 font-medium">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
         </div>
       </section>
