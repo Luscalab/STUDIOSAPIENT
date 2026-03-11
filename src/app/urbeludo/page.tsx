@@ -176,17 +176,17 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      <section id="faq" className="py-16 md:py-32 bg-white text-slate-950 rounded-[2.5rem] md:rounded-[4rem] mx-4 my-8 px-6">
+      <section id="faq" className="py-12 md:py-32 bg-white text-slate-950 rounded-[2rem] md:rounded-[4rem] mx-4 my-8 px-6">
         <div className="container mx-auto max-w-4xl">
-          <h3 className="font-headline text-3xl md:text-5xl font-black text-center uppercase mb-12">Dúvidas <span className="text-primary italic">Técnicas.</span></h3>
-          <Accordion type="single" collapsible className="space-y-3">
-            <AccordionItem value="q1" className="border-none bg-slate-50 rounded-2xl px-6">
-              <AccordionTrigger className="text-left font-black uppercase text-xs md:text-sm py-6">O que é exatamente o Urbeludo?</AccordionTrigger>
-              <AccordionContent className="text-slate-500 text-sm md:text-base pb-6 leading-relaxed">Plataforma gamificada de suporte à reabilitação neuropsicomotora que utiliza o SPSP para monitorar a evolução do paciente.</AccordionContent>
+          <h3 className="font-headline text-xl md:text-5xl font-black text-center uppercase mb-8 md:mb-12">Dúvidas <span className="text-primary italic">Técnicas.</span></h3>
+          <Accordion type="single" collapsible className="space-y-2 md:space-y-3">
+            <AccordionItem value="q1" className="border-none bg-slate-50 rounded-xl md:rounded-2xl px-4 md:px-6">
+              <AccordionTrigger className="text-left font-black uppercase text-[10px] md:text-sm py-4 md:py-6">O que é exatamente o Urbeludo?</AccordionTrigger>
+              <AccordionContent className="text-slate-500 text-[10px] md:text-base pb-4 md:pb-6 leading-relaxed">Plataforma gamificada de suporte à reabilitação neuropsicomotora que utiliza o SPSP para monitorar a evolução do paciente.</AccordionContent>
             </AccordionItem>
-            <AccordionItem value="q2" className="border-none bg-slate-50 rounded-2xl px-6">
-              <AccordionTrigger className="text-left font-black uppercase text-xs md:text-sm py-6">O que significa SPSP?</AccordionTrigger>
-              <AccordionContent className="text-slate-500 text-sm md:text-base pb-6 leading-relaxed">Sistema Preditivo de Suporte Psicomotor. A inteligência que processa dados de interação e gera relatórios clínicos precisos.</AccordionContent>
+            <AccordionItem value="q2" className="border-none bg-slate-50 rounded-xl md:rounded-2xl px-4 md:px-6">
+              <AccordionTrigger className="text-left font-black uppercase text-[10px] md:text-sm py-4 md:py-6">O que significa SPSP?</AccordionTrigger>
+              <AccordionContent className="text-slate-500 text-[10px] md:text-base pb-4 md:pb-6 leading-relaxed">Sistema Preditivo de Suporte Psicomotor. A inteligência que processa dados de interação e gera relatórios clínicos precisos.</AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
