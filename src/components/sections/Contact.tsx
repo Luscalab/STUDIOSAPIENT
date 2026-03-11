@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Mail, MessageCircle, Phone, Copy, Send, ExternalLink } from "lucide-react";
@@ -37,18 +38,18 @@ export function Contact() {
             VAMOS <br />
             <span className="text-primary italic font-medium">CONVERSAR?</span>
           </h3>
-          <p className="text-lg md:text-xl text-white/40 font-medium tracking-tight">Escolha o canal que faz mais sentido para o seu momento.</p>
+          <p className="text-lg md:text-xl text-white/40 font-medium tracking-tight px-4 text-balance">Escolha o canal que faz mais sentido para o seu momento.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-[1200px] mx-auto">
           {/* Card WhatsApp */}
-          <div className="p-10 lg:p-12 rounded-[3rem] bg-white text-black flex flex-col h-full border-t-[6px] border-primary shadow-xl group hover:-translate-y-2 transition-all duration-500">
+          <div className="p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] bg-white text-black flex flex-col h-full border-t-[6px] border-primary shadow-xl group hover:-translate-y-2 transition-all duration-500">
             <div className="space-y-6 flex-1">
               <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                 <MessageCircle className="h-6 w-6" />
               </div>
-              <h4 className="font-headline text-2xl lg:text-3xl font-black tracking-tighter">WhatsApp</h4>
-              <p className="text-black/40 font-medium text-sm md:text-base">Inicie um diálogo imediato e tire suas dúvidas em tempo real.</p>
+              <h4 className="font-headline text-2xl lg:text-3xl font-black tracking-tighter uppercase">WhatsApp</h4>
+              <p className="text-black/50 font-medium text-sm md:text-base leading-relaxed">Inicie um diálogo imediato e tire suas dúvidas em tempo real.</p>
             </div>
             <div className="mt-10 space-y-2">
               <a 
@@ -63,13 +64,13 @@ export function Contact() {
           </div>
 
           {/* Card E-mail */}
-          <div className="p-10 lg:p-12 rounded-[3rem] bg-[#121216] border border-white/5 text-white flex flex-col h-full border-t-[6px] border-primary shadow-xl group hover:-translate-y-2 transition-all duration-500">
+          <div className="p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] bg-[#121216] border border-white/5 text-white flex flex-col h-full border-t-[6px] border-primary shadow-xl group hover:-translate-y-2 transition-all duration-500">
             <div className="space-y-6 flex-1">
               <div className="h-14 w-14 rounded-xl bg-primary/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                 <Mail className="h-6 w-6" />
               </div>
-              <h4 className="font-headline text-2xl lg:text-3xl font-black tracking-tighter">E-mail</h4>
-              <p className="text-white/40 font-medium text-sm md:text-base">Para solicitações formais ou detalhes técnicos do seu projeto.</p>
+              <h4 className="font-headline text-2xl lg:text-3xl font-black tracking-tighter uppercase">E-mail</h4>
+              <p className="text-white/40 font-medium text-sm md:text-base leading-relaxed">Para solicitações formais ou detalhes técnicos do seu projeto.</p>
             </div>
             <div className="mt-10 grid grid-cols-1 gap-2">
               <a 
@@ -88,13 +89,13 @@ export function Contact() {
           </div>
 
           {/* Card Telefone */}
-          <div className="p-10 lg:p-12 rounded-[3rem] bg-white text-black flex flex-col h-full border-t-[6px] border-black shadow-xl group hover:-translate-y-2 transition-all duration-500">
+          <div className="p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] bg-white text-black flex flex-col h-full border-t-[6px] border-black shadow-xl group hover:-translate-y-2 transition-all duration-500">
             <div className="space-y-6 flex-1">
               <div className="h-14 w-14 rounded-xl bg-black/5 flex items-center justify-center text-black group-hover:scale-110 transition-transform">
                 <Phone className="h-6 w-6" />
               </div>
-              <h4 className="font-headline text-2xl lg:text-3xl font-black tracking-tighter">Telefone</h4>
-              <p className="text-black/40 font-medium text-sm md:text-base">Conexão direta para consultoria estratégica imediata.</p>
+              <h4 className="font-headline text-2xl lg:text-3xl font-black tracking-tighter uppercase">Telefone</h4>
+              <p className="text-black/50 font-medium text-sm md:text-base leading-relaxed">Conexão direta para consultoria estratégica imediata.</p>
             </div>
             <div className="mt-10 grid grid-cols-1 gap-2">
               <a 
