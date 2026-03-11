@@ -2,7 +2,6 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
 import { 
   TrendingUp, 
@@ -72,29 +71,6 @@ export function Services() {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
-  const [currentPartner, setCurrentPartner] = React.useState(0);
-
-  const partners = [
-    { 
-      name: "ChargerBed", 
-      url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/chargerbed.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvY2hhcmdlcmJlZC5wbmciLCJpYXQiOjE3NzMyNTk2OTEsImV4cCI6MTc3NDEyMzY5MX0.Vjw_0CI-92YGGgxQil9racQzBQSMVoinTbZ8P_ZYymQ" 
-    },
-    { 
-      name: "Quitute Certa", 
-      url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/FINALLOGO.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvRklOQUxMT0dPLnBuZyIsImlhdCI6MTc3MzI1ODk2MSwiZXhwIjoyMDg4NjE4OTYxfQ.YCn2mnUAXxdeCIDDY43MZpB1jEf94V0pcajlqRuXkA8" 
-    },
-    { 
-      name: "3DGOPRINT", 
-      url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/unnamed%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvdW5uYW1lZCAoMSkuanBnIiwiaWF0IjoxNzczMjU5MzAyLCJleHAiOjE4MDQ3OTUzMDJ9.Ey6aHahoSnfrOlVxBsHpOnYXUGfDDEZFj_rLrwbbOro" 
-    }
-  ];
-
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentPartner((prev) => (prev + 1) % partners.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [partners.length]);
 
   React.useEffect(() => {
     if (!api) return;
@@ -116,39 +92,6 @@ export function Services() {
               Como podemos <br />
               <span className="text-primary italic font-medium">Ajudar.</span>
             </h2>
-          </div>
-
-          {/* Parceiros em Destaque - Design de Alta Fidelidade Ampliado */}
-          <div className="flex items-center gap-6 md:gap-10 bg-[#08070b] p-5 md:p-8 rounded-[4rem] border border-white/5 shadow-2xl relative overflow-hidden group transition-all duration-700 hover:shadow-primary/20">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-40" />
-            
-            <div className="relative h-28 w-28 md:h-44 md:w-44 rounded-[3rem] bg-white border border-white/10 flex items-center justify-center p-2 md:p-3 overflow-hidden shadow-2xl transition-all duration-1000 group-hover:scale-[1.02]">
-              <div className="relative w-full h-full">
-                <Image 
-                  src={partners[currentPartner].url} 
-                  alt={partners[currentPartner].name}
-                  fill
-                  className="object-contain grayscale group-hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-105"
-                  key={partners[currentPartner].url}
-                  priority
-                />
-              </div>
-            </div>
-
-            <div className="min-w-[140px] md:min-w-[240px] relative z-10">
-              <p className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.5em] text-white/20 mb-3 md:mb-4">
-                Rede de Elite
-              </p>
-              <div className="h-[50px] md:h-[60px] flex items-center">
-                <p 
-                  className="text-lg md:text-3xl font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-6 duration-1000" 
-                  key={`name-${currentPartner}`}
-                >
-                  {partners[currentPartner].name}
-                </p>
-              </div>
-              <div className="h-1.5 w-16 bg-primary mt-6 rounded-full shadow-[0_0_20px_rgba(139,92,246,0.8)]" />
-            </div>
           </div>
         </div>
         

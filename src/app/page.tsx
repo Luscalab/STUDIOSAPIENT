@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { VoiceDiscussion } from "@/components/ai/VoiceDiscussion";
 import { UrbeLudoBanner } from "@/components/sections/UrbeLudoBanner";
+import { TrustedBy } from "@/components/sections/TrustedBy";
 
 export default function Home() {
   return (
@@ -16,9 +17,13 @@ export default function Home() {
       <UrbeLudoBanner />
       
       <Navbar />
-      <Hero />
       
-      {/* Seção TrustedBy removida da home e integrada na Navbar conforme solicitado */}
+      {/* Prova Social entre Header e Primeira Seção (Hero) */}
+      <div className="pt-32 md:pt-48">
+        <TrustedBy />
+      </div>
+
+      <Hero />
       
       <Services />
       <Process />
