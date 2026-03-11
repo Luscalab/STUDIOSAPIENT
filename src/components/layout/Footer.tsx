@@ -1,6 +1,6 @@
 
 import Link from "next/link";
-import { Instagram, Linkedin, Palette, ArrowUpRight } from "lucide-react";
+import { Instagram, Palette, ArrowUpRight } from "lucide-react";
 
 export function Footer() {
   const behanceUrl = "https://www.behance.net/sapient";
@@ -23,8 +23,7 @@ export function Footer() {
             <div className="flex gap-4">
               {[
                 { icon: <Instagram size={20} />, href: "https://instagram.com/studiosapient", label: "Instagram" },
-                { icon: <Palette size={20} />, href: behanceUrl, label: "Behance" },
-                { icon: <Linkedin size={20} />, href: "#", label: "LinkedIn" }
+                { icon: <Palette size={20} />, href: behanceUrl, label: "Behance" }
               ].map((social, i) => (
                 <Link 
                   key={i} 

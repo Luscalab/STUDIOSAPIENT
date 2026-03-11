@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Badge } from "@/components/ui/badge";
-import { Linkedin, Instagram, ArrowRight } from "lucide-react";
+import { Instagram, ArrowRight } from "lucide-react";
 
 const team = [
   {
@@ -47,9 +47,6 @@ export function Team() {
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
                 
                 <div className="absolute bottom-12 left-0 w-full flex justify-center gap-8 translate-y-24 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-1000 delay-100">
-                  <a href="#" className="h-16 w-16 rounded-full bg-white text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-500 shadow-xl">
-                    <Linkedin size={24} />
-                  </a>
                   <a href="https://instagram.com/studiosapient" target="_blank" className="h-16 w-16 rounded-full bg-white text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-500 shadow-xl">
                     <Instagram size={24} />
                   </a>
