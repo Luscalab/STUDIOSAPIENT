@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -30,7 +29,7 @@ export function Navbar() {
         
         <Link 
           href="/" 
-          className="relative block w-[160px] h-[48px] md:w-[240px] md:h-[64px] lg:w-[320px] lg:h-[96px] transition-all duration-700 hover:scale-[1.02] active:scale-95 shrink-0"
+          className="relative block w-[150px] h-[44px] md:w-[240px] md:h-[64px] transition-all duration-700 hover:scale-[1.02] shrink-0"
         >
           <Image 
             src={logoUrl} 
@@ -65,26 +64,23 @@ export function Navbar() {
 
         {/* Mobile Menu Trigger */}
         <button 
-          className="lg:hidden p-4 rounded-2xl bg-white/5 text-white border border-white/10 active:scale-90 transition-all backdrop-blur-md shadow-xl" 
+          className="lg:hidden h-10 w-10 md:h-12 md:w-12 rounded-xl bg-white/5 text-white border border-white/10 active:scale-90 transition-all backdrop-blur-md flex items-center justify-center" 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Menu"
         >
-          {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
       {/* Mobile Navigation Overlay */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f]/98 backdrop-blur-[40px] p-8 pt-32 flex flex-col gap-10 animate-in fade-in slide-in-from-right-full duration-700 ease-out">
-          <div className="space-y-8">
+        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f]/98 backdrop-blur-[40px] p-8 pt-32 flex flex-col gap-10">
+          <div className="space-y-6">
             {navLinks.map((link, idx) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className={cn(
-                  "block text-3xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-6 active:text-primary transition-colors animate-in slide-in-from-right-8 duration-500",
-                  `delay-[${idx * 100}ms]`
-                )}
+                className="block text-2xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-5"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
@@ -92,7 +88,7 @@ export function Navbar() {
             ))}
             <button 
               onClick={handleOpenChat}
-              className="block text-3xl font-black text-primary tracking-tighter uppercase text-left w-full active:scale-95 transition-transform animate-in slide-in-from-right-8 duration-500 delay-500"
+              className="block text-2xl font-black text-primary tracking-tighter uppercase text-left w-full"
             >
               Consultoria
             </button>
@@ -100,7 +96,7 @@ export function Navbar() {
           
           <button 
             onClick={() => setIsMobileMenuOpen(false)} 
-            className="mt-auto h-16 w-full rounded-[2rem] bg-white/5 flex items-center justify-center text-white/30 font-black uppercase tracking-[0.5em] text-[9px] border border-white/10 active:bg-primary active:text-white transition-all"
+            className="mt-auto h-14 w-full rounded-2xl bg-white/5 flex items-center justify-center text-white/30 font-black uppercase tracking-[0.5em] text-[8px] border border-white/10"
           >
             Fechar Menu
           </button>

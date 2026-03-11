@@ -81,6 +81,10 @@
   @apply bg-white/5 backdrop-blur-3xl border border-white/10 shadow-2xl;
 }
 
+.premium-card-shadow {
+  box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
 .animate-glow-pulse {
   animation: glow-pulse 4s infinite;
 }
