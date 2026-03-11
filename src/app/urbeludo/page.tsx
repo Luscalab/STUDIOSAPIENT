@@ -6,6 +6,12 @@ import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { 
   Brain, 
   Cpu, 
@@ -29,7 +35,10 @@ import {
   Users2,
   Stethoscope,
   HandHeart,
-  Globe
+  Globe,
+  Activity,
+  Building2,
+  LayoutDashboard
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -57,6 +66,59 @@ export default function UrbeLudoPage() {
   const contactEmail = "sapientcontato@gmail.com";
   const pixKey = "sapientcontato@gmail.com";
 
+  const faqs = [
+    {
+      icon: <Zap className="h-5 w-5" />,
+      question: "O que é exatamente o Urbeludo?",
+      answer: "O Urbeludo é uma plataforma digital de suporte à reabilitação neuropsicomotora. Através de um aplicativo gamificado, ele transforma exercícios terapêuticos de Fonoaudiologia, Terapia Ocupacional e Reabilitação Motora em missões lúdicas, utilizando o sistema SPSP para monitorar e prever a evolução do paciente."
+    },
+    {
+      icon: <Users2 className="h-5 w-5" />,
+      question: "O Urbeludo substitui o terapeuta?",
+      answer: "Não. O Urbeludo é uma ferramenta de auxílio e potencialização. Ele funciona como o braço direito do profissional, garantindo que o paciente continue se exercitando em casa com a mesma diretriz clínica do consultório, além de fornecer dados precisos para que o terapeuta tome decisões melhores e mais rápidas."
+    },
+    {
+      icon: <Brain className="h-5 w-5" />,
+      question: "O que significa a sigla SPSP e qual sua função?",
+      answer: "SPSP significa Sistema Preditivo de Suporte Psicomotor. É a inteligência analítica do app que processa os dados de interação da criança (tempo de resposta, precisão de movimento, clareza fonológica) e gera relatórios que apontam tendências de melhora ou estagnação, permitindo um ajuste preventivo no plano de tratamento."
+    },
+    {
+      icon: <Activity className="h-5 w-5" />,
+      question: "Como um jogo digital pode ajudar na reabilitação física?",
+      answer: "O jogo utiliza a Ludicidade Progressiva para gerar engajamento. Ao transformar um exercício repetitivo em um desafio gamificado, estimulamos a neuroplasticidade e a liberação de dopamina, o que aumenta a aderência da criança ao tratamento e torna o ganho de consciência corporal e motora muito mais fluido."
+    },
+    {
+      icon: <Smartphone className="h-5 w-5" />,
+      question: "Em quais dispositivos o Urbeludo funciona?",
+      answer: "Focamos na acessibilidade total. O Urbeludo é uma solução multiplataforma, rodando nativamente em sistemas iOS (iPhones e iPads), Android e também em qualquer navegador via Web. Isso permite que o terapeuta gerencie os dados no computador enquanto a criança joga no tablet ou celular."
+    },
+    {
+      icon: <Mic2 className="h-5 w-5" />,
+      question: "Como o aplicativo auxilia especificamente na Fonoaudiologia?",
+      answer: "O app utiliza o reconhecimento de voz e captação de áudio para incentivar a emissão sonora. Em missões de fala, a criança precisa atingir determinadas frequências ou clareza fonética para desbloquear recompensas no jogo, tornando o treino orofacial divertido e constante."
+    },
+    {
+      icon: <Stethoscope className="h-5 w-5" />,
+      question: "O Urbeludo pode ser usado por crianças com qualquer diagnóstico?",
+      answer: "Sim, o foco é o suporte psicomotor amplo. Ele é especialmente eficaz para crianças com atrasos no desenvolvimento, TEA (Transtorno do Espectro Autista), TDAH, Síndrome de Down e paralisia cerebral, pois as atividades são adaptáveis ao nível de desafio que cada paciente suporta."
+    },
+    {
+      icon: <ShieldCheck className="h-5 w-5" />,
+      question: "Os dados do meu paciente/filho estão seguros?",
+      answer: "Segurança é prioridade. O Urbeludo é desenvolvido seguindo as normas da LGPD (Lei Geral de Proteção de Dados). Todas as informações clínicas e de desempenho são criptografadas e o acesso é restrito ao profissional responsável e aos tutores legais."
+    },
+    {
+      icon: <Target className="h-5 w-5" />,
+      question: "Qual o diferencial do Urbeludo para outros apps de jogos infantis?",
+      answer: "Diferente de jogos comuns, o Urbeludo é fundamentado em conceitos científicos de Psicomotricidade e Ludicidade. Cada mecânica de jogo tem um propósito terapêutico validado. Enquanto outros apps focam apenas em entretenimento, nós focamos em resultado clínico mensurável."
+    },
+    {
+      icon: <LayoutDashboard className="h-5 w-5" />,
+      question: "Como as clínicas e terapeutas podem adotar o sistema?",
+      answer: "O Urbeludo opera em um modelo de assinatura (SaaS). As clínicas podem contratar licenças para seus terapeutas, que por sua vez vinculam seus pacientes à plataforma, criando uma rede de monitoramento em tempo real que valoriza o serviço prestado e fideliza as famílias."
+    }
+  ];
+
   return (
     <main id="main-content" className="min-h-screen bg-[#08070b] text-white selection:bg-cyan-500/30 selection:text-white">
       <Navbar />
@@ -64,7 +126,6 @@ export default function UrbeLudoPage() {
       {/* 1. Hero Section - HealthTech Prestige */}
       <section className="relative pt-32 pb-24 md:pt-64 md:pb-48 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          {/* Mesh Gradient Animado */}
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,rgba(6,182,212,0.15),transparent_70%)]" />
           <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[160px] rounded-full animate-pulse" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
@@ -263,7 +324,35 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 6. Investimento & Apoio - Convidativo */}
+      {/* 6. FAQ Estratégico - Ecossistema UrbeLudo */}
+      <section id="faq" className="py-24 md:py-64 bg-white text-slate-950 relative rounded-[5rem] md:rounded-[10rem] mx-4 my-8 shadow-2xl">
+        <div className="container mx-auto px-6 max-w-4xl">
+          <div className="text-center mb-24 space-y-6">
+            <Badge className="bg-primary/10 text-primary border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Base de Conhecimento</Badge>
+            <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none text-slate-950 uppercase">Dúvidas do <br/><span className="text-primary italic">Ecossistema.</span></h3>
+          </div>
+
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {faqs.map((faq, idx) => (
+              <AccordionItem key={idx} value={`item-${idx}`} className="border-none bg-slate-50 rounded-[2.5rem] px-8 py-2 shadow-sm hover:shadow-md transition-all">
+                <AccordionTrigger className="hover:no-underline py-6 group">
+                  <div className="flex items-center gap-6 text-left">
+                    <div className="h-12 w-12 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm group-data-[state=open]:bg-primary group-data-[state=open]:text-white transition-all">
+                      {faq.icon}
+                    </div>
+                    <span className="font-black text-sm md:text-lg tracking-tight uppercase leading-tight text-slate-900">{faq.question}</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-500 font-medium text-base md:text-lg leading-relaxed pb-8 px-4 md:px-20 border-l-2 border-primary/20 ml-6">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* 7. Investimento & Apoio - Convidativo */}
       <section id="investidores" className="py-24 md:py-64 relative overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-center">
@@ -341,7 +430,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 7. CTA Final Call */}
+      {/* 8. CTA Final Call */}
       <section className="py-24 md:py-64 bg-white text-slate-950 mx-4 mb-24 rounded-[6rem] md:rounded-[10rem] shadow-2xl overflow-hidden relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.1),transparent_70%)]" />
         <div className="container mx-auto px-6 relative z-10 text-center space-y-16">
