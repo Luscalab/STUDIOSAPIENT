@@ -23,7 +23,11 @@ import {
   Heart,
   Copy,
   CheckCircle2,
-  ExternalLink
+  ExternalLink,
+  Code2,
+  Gamepad2,
+  Users2,
+  Stethoscope
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -49,7 +53,7 @@ export default function UrbeLudoPage() {
   };
 
   const contactEmail = "sapientcontato@gmail.com";
-  const pixKey = "sapientcontato@gmail.com"; // Usando o mesmo email como chave PIX exemplo
+  const pixKey = "sapientcontato@gmail.com";
 
   return (
     <main id="main-content" className="min-h-screen bg-[#0a0a0c] text-white selection:bg-cyan-500/30 selection:text-white">
@@ -88,10 +92,10 @@ export default function UrbeLudoPage() {
                 CONHECER A SOLUÇÃO
               </Button>
               <button 
-                onClick={() => scrollToSection('spsp')}
+                onClick={() => scrollToSection('expertise')}
                 className="flex items-center gap-4 text-white/30 hover:text-white transition-all duration-500 text-[9px] font-black uppercase tracking-widest group"
               >
-                Explorar Ecossistema <ChevronDown className="h-4 w-4 animate-bounce group-hover:text-cyan-400" />
+                Cérebro do Projeto <ChevronDown className="h-4 w-4 animate-bounce group-hover:text-cyan-400" />
               </button>
             </div>
           </div>
@@ -222,7 +226,53 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 5. Por que Investir? - Business Focus & Cards */}
+      {/* 5. Inteligência Multidisciplinar - NEW SECTION */}
+      <section id="expertise" className="py-24 md:py-48 relative overflow-hidden bg-[#08070b]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(6,182,212,0.1),transparent_50%)]" />
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center mb-24 space-y-6">
+            <Badge className="bg-white/5 text-white/40 border-white/10 px-6 py-2 text-[10px] font-black uppercase tracking-[0.4em]">Expertise Transversal</Badge>
+            <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none text-white uppercase">Inteligência <br/><span className="text-cyan-400 italic">Multidisciplinar.</span></h3>
+            <p className="text-xl text-white/50 font-medium leading-relaxed">O UrbeLudo é a fusão entre rigor clínico e engenharia de software de elite.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="p-10 rounded-[3rem] bg-white/5 border border-white/10 space-y-6 group hover:bg-white/10 transition-all">
+              <div className="h-14 w-14 rounded-2xl bg-cyan-400/20 flex items-center justify-center text-cyan-400">
+                <Users2 className="h-7 w-7" />
+              </div>
+              <h5 className="font-black text-lg uppercase tracking-tight">Design & UX</h5>
+              <p className="text-white/40 text-sm leading-relaxed">Estrategistas visuais que removem barreiras de resistência através de interfaces lúdicas e invisíveis.</p>
+            </div>
+
+            <div className="p-10 rounded-[3rem] bg-white/5 border border-white/10 space-y-6 group hover:bg-white/10 transition-all">
+              <div className="h-14 w-14 rounded-2xl bg-cyan-400/20 flex items-center justify-center text-cyan-400">
+                <Stethoscope className="h-7 w-7" />
+              </div>
+              <h5 className="font-black text-lg uppercase tracking-tight">Corpo Clínico</h5>
+              <p className="text-white/40 text-sm leading-relaxed">Psicólogos e Fonos que validam cada estímulo para garantir eficácia neuropsicomotora absoluta.</p>
+            </div>
+
+            <div className="p-10 rounded-[3rem] bg-white/5 border border-white/10 space-y-6 group hover:bg-white/10 transition-all">
+              <div className="h-14 w-14 rounded-2xl bg-cyan-400/20 flex items-center justify-center text-cyan-400">
+                <Gamepad2 className="h-7 w-7" />
+              </div>
+              <h5 className="font-black text-lg uppercase tracking-tight">Game Dev</h5>
+              <p className="text-white/40 text-sm leading-relaxed">Programadores de jogos que transformam protocolos áridos em jornadas imersivas de alto engajamento.</p>
+            </div>
+
+            <div className="p-10 rounded-[3rem] bg-white/5 border border-white/10 space-y-6 group hover:bg-white/10 transition-all">
+              <div className="h-14 w-14 rounded-2xl bg-cyan-400/20 flex items-center justify-center text-cyan-400">
+                <Code2 className="h-7 w-7" />
+              </div>
+              <h5 className="font-black text-lg uppercase tracking-tight">Full-Stack Dev</h5>
+              <p className="text-white/40 text-sm leading-relaxed">Engenheiros de software garantindo que o SPSP rode com performance total em qualquer ecossistema digital.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Por que Investir? - Business Focus & Cards */}
       <section id="investidores" className="py-24 md:py-48 relative overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
@@ -301,7 +351,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 6. CTA Final Call */}
+      {/* 7. CTA Final Call */}
       <section className="py-24 bg-white text-slate-950 mx-4 mb-24 rounded-[4rem] md:rounded-[6rem] shadow-2xl overflow-hidden relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.05),transparent_70%)]" />
         <div className="container mx-auto px-6 relative z-10 text-center space-y-12">
@@ -324,4 +374,3 @@ export default function UrbeLudoPage() {
     </main>
   );
 }
-
