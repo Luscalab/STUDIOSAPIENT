@@ -123,7 +123,7 @@ export default function UrbeLudoPage() {
                   "A jornada neuropsicomotora enfrenta um obstáculo silencioso: o abismo entre o consultório e a vida real."
                 </p>
                 <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed">
-                  Sem ferramentas que garantam a continuidade lúdica e a coleta de dados precisos em casa, o progresso torna-se lento e desmotivador. O UrbeLudo nasceu para digitalizar essa jornada e devolver o que há de mais precioso: <span className="text-slate-950 font-bold underline decoration-primary decoration-4">a autonomia humana.</span>
+                  Sem ferramentas que garantam a continuidade lúdica e a coleta de dados precisos em casa, o progresso de crianças com atrasos no desenvolvimento torna-se lento, caro e, muitas vezes, desmotivador. O UrbeLudo nasceu para digitalizar essa jornada e devolver o que há de mais precioso: <span className="text-slate-950 font-bold underline decoration-primary decoration-4">a autonomia humana.</span>
                 </p>
                 <div className="flex gap-12 pt-8">
                    <div className="space-y-2">
@@ -166,7 +166,7 @@ export default function UrbeLudoPage() {
                     <h4 className="text-3xl font-black tracking-tighter uppercase text-cyan-400">Cérebro SPSP</h4>
                   </div>
                   <p className="text-xl text-white/80 font-medium leading-relaxed">
-                    O <span className="text-white font-bold underline decoration-cyan-400">Sistema Preditivo de Suporte Psicomotor</span> monitora o desempenho clínico e oferece ajustes de terapia em tempo real através de inteligência artificial proprietária.
+                    O <span className="text-white font-bold underline decoration-cyan-400">Sistema Preditivo de Suporte Psicomotor</span> monitora o desempenho clínico e oferece suporte preditivo para o ajuste de terapias em tempo real.
                   </p>
                 </div>
               </div>
@@ -177,7 +177,7 @@ export default function UrbeLudoPage() {
                  { icon: <Smartphone />, title: "iOS & Android", desc: "Adesão total em dispositivos móveis." },
                  { icon: <Globe />, title: "Web Platform", desc: "Gestão completa para o terapeuta." },
                  { icon: <ShieldCheck />, title: "Rigor Científico", desc: "Protocolos validados por especialistas." },
-                 { icon: <BarChart3 />, title: "Relatórios de ROI", desc: "Dados estruturados para convênios." }
+                 { icon: <BarChart3 />, title: "Relatórios de Dados", desc: "Dados estruturados para evolução clínica." }
                ].map((item, idx) => (
                  <div key={idx} className="p-10 rounded-[3rem] bg-white/5 border border-white/10 group hover:bg-white/10 transition-all duration-500 shadow-xl">
                     <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
@@ -240,7 +240,7 @@ export default function UrbeLudoPage() {
             <Badge className="bg-white/5 text-white/40 border-white/10 px-8 py-2 text-[10px] font-black uppercase tracking-[0.5em]">Expertise Transversal Pro Bono</Badge>
             <h3 className="font-headline text-5xl md:text-9xl font-black tracking-tighter leading-[0.85] text-white uppercase">Cérebro <br/><span className="text-cyan-400 italic">Multidisciplinar.</span></h3>
             <p className="text-2xl text-white/50 font-medium leading-relaxed max-w-3xl mx-auto">
-              O UrbeLudo é a fusão entre rigor clínico e engenharia de software de elite, operado por especialistas que contribuem de forma <span className="text-white font-bold">pro bono</span> pelo impacto social.
+              O UrbeLudo é a fusão entre rigor clínico e engenharia de software de elite, operado por especialistas que contribuem de forma <span className="text-white font-bold">pro bono (sem custos)</span> pelo impacto social.
             </p>
           </div>
 
@@ -270,7 +270,7 @@ export default function UrbeLudoPage() {
             <div className="lg:col-span-6 space-y-16">
               <h3 className="font-headline text-5xl md:text-[7rem] font-black tracking-tighter leading-[0.85] text-white">Pronto para <br/><span className="text-primary italic">Mover o Futuro?</span></h3>
               <p className="text-2xl text-white/40 font-medium max-w-xl leading-relaxed">
-                Buscamos parceiros estratégicos e especialistas dispostos a colaborar para democratizar a saúde digital.
+                Buscamos parceiros estratégicos e especialistas dispostos a colaborar pro bono para democratizar a saúde digital.
               </p>
               <div className="space-y-8">
                 {[
@@ -294,11 +294,11 @@ export default function UrbeLudoPage() {
                  <div className="space-y-8 relative z-10">
                    <div className="flex gap-4">
                      <Badge className="bg-primary/10 text-primary border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Colaboração Pro Bono</Badge>
-                     <Badge className="bg-cyan-500/10 text-cyan-600 border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Apoio Técnico</Badge>
+                     <Badge className="bg-cyan-500/10 text-cyan-600 border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Sem Custos</Badge>
                    </div>
                    <h4 className="font-headline text-4xl font-black tracking-tighter uppercase leading-none">Seja um <br/>Co-Autor.</h4>
                    <p className="text-slate-500 font-medium text-xl leading-relaxed">
-                     Buscamos designers, clínicos e desenvolvedores que queiram atuar sem custos para acelerar este impacto social.
+                     Buscamos designers, clínicos e desenvolvedores que queiram atuar <span className="text-primary font-bold">pro bono</span> para acelerar este impacto social sem cobrança de honorários.
                    </p>
                    <button 
                      onClick={() => copyToClipboard(contactEmail, "E-mail")} 
@@ -319,10 +319,10 @@ export default function UrbeLudoPage() {
                    <Heart className="h-64 w-64 text-primary" />
                  </div>
                  <div className="space-y-8 relative z-10">
-                   <Badge className="bg-cyan-500/10 text-cyan-400 border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Doação Direta</Badge>
-                   <h4 className="font-headline text-4xl font-black tracking-tighter uppercase leading-none text-white">Impacto na <br/>Baixa Renda.</h4>
+                   <Badge className="bg-cyan-500/10 text-cyan-400 border-none px-6 py-2 text-[10px] font-black uppercase tracking-widest">Apoio de Desenvolvimento</Badge>
+                   <h4 className="font-headline text-4xl font-black tracking-tighter uppercase leading-none text-white">Custear o <br/>Projeto.</h4>
                    <p className="text-white/40 font-medium text-xl leading-relaxed">
-                     Sua doação via PIX garante que esta tecnologia chegue a ONGs e famílias que não podem pagar por tratamento privado.
+                     Sua doação via PIX ajuda a <span className="text-white font-bold">custear o desenvolvimento</span> e garante que esta tecnologia chegue a ONGs e famílias de baixa renda.
                    </p>
                    <button 
                      onClick={() => copyToClipboard(pixKey, "Chave PIX")} 
