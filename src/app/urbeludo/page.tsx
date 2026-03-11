@@ -43,7 +43,11 @@ import {
   Smile,
   Navigation,
   Layers,
-  Info
+  Info,
+  Rocket,
+  Search,
+  PenTool,
+  Clock
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -97,7 +101,7 @@ export default function UrbeLudoPage() {
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
-    const sections = ['desafio', 'semiotica', 'spsp', 'expertise', 'faq', 'investidores'];
+    const sections = ['desafio', 'semiotica', 'spsp', 'marcos', 'expertise', 'faq', 'investidores'];
     sections.forEach(id => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
@@ -113,6 +117,7 @@ export default function UrbeLudoPage() {
     { id: 'desafio', label: 'Desafio', icon: <Target className="h-4 w-4" /> },
     { id: 'semiotica', label: 'Semiótica', icon: <Info className="h-4 w-4" /> },
     { id: 'spsp', label: 'SPSP Tech', icon: <Cpu className="h-4 w-4" /> },
+    { id: 'marcos', label: 'Marcos', icon: <Rocket className="h-4 w-4" /> },
     { id: 'expertise', label: 'Equipe', icon: <Users2 className="h-4 w-4" /> },
     { id: 'faq', label: 'Dúvidas', icon: <Zap className="h-4 w-4" /> },
     { id: 'investidores', label: 'Apoiar', icon: <Heart className="h-4 w-4" /> },
@@ -168,6 +173,41 @@ export default function UrbeLudoPage() {
       icon: <LayoutDashboard className="h-5 w-5" />,
       question: "Como as clínicas e terapeutas podem adotar o sistema? ",
       answer: "O Urbeludo opera em um modelo de assinatura (SaaS). As clínicas podem contratar licenças para seus terapeutas, que por sua vez vinculam seus pacientes à plataforma, criando uma rede de monitoramento em tempo real que valoriza o serviço prestado e fideliza as famílias."
+    }
+  ];
+
+  const milestones = [
+    {
+      id: "fase-01",
+      title: "Fase 01: Arquitetura e Inteligência",
+      status: "Em andamento",
+      desc: "Nesta etapa, consolidamos a base lógica do SPSP (Sistema Preditivo de Suporte Psicomotor) e o design de experiência (UX) focado na acessibilidade. É aqui que o conhecimento clínico se traduz em algoritmos de monitoramento e engajamento.",
+      icon: <Brain />,
+      color: "from-cyan-400 to-cyan-600"
+    },
+    {
+      id: "fase-02",
+      title: "Fase 02: O Nascimento do MVP",
+      status: "Planejado",
+      desc: "Desenvolvimento da versão inicial multiplataforma. O foco está na estabilidade da integração entre as interfaces iOS, Android e Web, criando um ambiente fluido onde o terapeuta e a família se conectam em tempo real.",
+      icon: <Smartphone />,
+      color: "from-blue-500 to-indigo-600"
+    },
+    {
+      id: "fase-03",
+      title: "Fase 03: Validação e Refinamento",
+      status: "Planejado",
+      desc: "O Urbeludo entra em clínicas parceiras para testes controlados. Nesta fase, calibramos nossa inteligência preditiva com dados reais, garantindo que os relatórios gerados sejam ferramentas de transformação na mão dos especialistas.",
+      icon: <Activity />,
+      color: "from-indigo-600 to-primary"
+    },
+    {
+      id: "fase-04",
+      title: "Fase 04: Lançamento e Escala",
+      status: "Planejado",
+      desc: "A abertura oficial do ecossistema para o mercado global de HealthTech. Implementação de módulos avançados de IA e expansão da biblioteca de atividades lúdicas para todas as áreas da reabilitação.",
+      icon: <Globe />,
+      color: "from-primary to-pink-500"
     }
   ];
 
@@ -289,7 +329,7 @@ export default function UrbeLudoPage() {
                     <h4 className="text-3xl font-black tracking-tighter uppercase text-white">URBE</h4>
                  </div>
                  <p className="text-lg text-white/40 font-medium leading-relaxed">
-                   Do latim <span className="text-cyan-400 font-bold italic">Urbs</span> (Cidade). Representa o ambiente, a estrutura e o corpo humano como um espaço habitado. Reabilitar é dar condições para que a criança navegue com autonomia sua própria "urbe interna".
+                   Do latim <span className="text-cyan-400 font-bold italic">Urbs</span> (Cidade). Representa o ambiente, a estrutura e o corpo humano como um espaço habitado. Reabilitar é dar condições para que a criança navegue com autonomia sua própria \"urbe interna\".
                  </p>
                </div>
             </div>
@@ -336,7 +376,7 @@ export default function UrbeLudoPage() {
                       <div className="h-1 w-10 bg-primary rounded-full" />
                       <p className="text-base text-white font-bold uppercase tracking-widest">Sonoridade Robusta</p>
                       <p className="text-sm text-white/50 font-medium leading-relaxed">
-                        A sonoridade termina de forma robusta e marcante, fugindo dos nomes frios terminados em "med" ou "fisio".
+                        A sonoridade termina de forma robusta e marcante, fugindo dos nomes frios terminados em \"med\" ou \"fisio\".
                       </p>
                     </div>
                   </div>
@@ -397,42 +437,55 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 5. Pilares de Atuação */}
-      <section className="py-20 md:py-32 bg-white text-slate-950 relative rounded-[3rem] md:rounded-[6rem] mx-4 my-6 shadow-2xl">
+      {/* 5. Marcos de Evolução - Timeline Section */}
+      <section id="marcos" className="py-20 md:py-32 relative overflow-hidden bg-[#0a0a0c]">
         <div className="container mx-auto px-6">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <Badge className="mb-8 bg-primary/10 text-primary border-none px-5 py-2 text-[9px] font-black uppercase tracking-widest">Especialidades Clínicas</Badge>
-            <h3 className="font-headline text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] mb-6">Pilares do <br/><span className="text-primary italic">Cuidado.</span></h3>
+          <div className="max-w-4xl mx-auto text-center mb-24 space-y-8">
+            <Badge className="bg-primary/10 text-primary border-none px-7 py-2 text-[9px] font-black uppercase tracking-[0.4em]">Visão de Longo Prazo</Badge>
+            <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-[0.9] text-white uppercase">Marcos de <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-primary to-pink-500 italic">Evolução.</span></h3>
+            <p className="text-xl text-white/50 font-medium leading-relaxed max-w-2xl mx-auto">
+              Nossa jornada é guiada pelo rigor científico e pela agilidade tecnológica. Dividimos o desenvolvimento em fases estratégicas para máxima eficácia.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              { 
-                icon: <Mic2 />, 
-                title: "Fonoaudiologia", 
-                desc: "Estímulos de fala e linguagem integrados a mecânicas interativas que transformam som em progresso." 
-              },
-              { 
-                icon: <Target />, 
-                title: "Terapia Ocupacional", 
-                desc: "Desafios de planejamento motor e organização sensorial desenhados para ampliar a autonomia real." 
-              },
-              { 
-                icon: <BarChart3 />, 
-                title: "Fisioterapia Motora", 
-                desc: "Guia de movimentos funcionais com foco na coordenação e no equilíbrio sob rigor científico." 
-              }
-            ].map((pilar, idx) => (
-              <div key={idx} className="p-10 rounded-[3rem] bg-slate-50 border border-slate-100 space-y-8 group hover:bg-white hover:shadow-xl transition-all duration-700">
-                 <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                   {pilar.icon}
-                 </div>
-                 <div className="space-y-4">
-                    <h4 className="font-headline text-2xl font-black tracking-tighter uppercase leading-none">{pilar.title}</h4>
-                    <p className="text-slate-500 text-base font-medium leading-relaxed">{pilar.desc}</p>
-                 </div>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-24">
+            {milestones.map((milestone, idx) => (
+              <div key={milestone.id} className="relative group">
+                <div className={cn(
+                  "h-full p-10 rounded-[3rem] bg-white/5 border border-white/10 space-y-8 transition-all duration-700 hover:bg-white/10 group-hover:border-white/20 shadow-2xl relative overflow-hidden",
+                  idx === 0 && "border-cyan-500/30"
+                )}>
+                  <div className={cn("absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r", milestone.color)} />
+                  
+                  <div className="space-y-6 relative z-10">
+                    <div className={cn("h-14 w-14 rounded-2xl bg-gradient-to-br flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform duration-500", milestone.color)}>
+                      {milestone.icon}
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                         <span className="text-[8px] font-black uppercase tracking-widest text-white/30">Módulo 0{idx + 1}</span>
+                         <Badge className={cn("border-none text-[7px] font-black uppercase tracking-widest", idx === 0 ? "bg-cyan-500/20 text-cyan-400" : "bg-white/5 text-white/20")}>{milestone.status}</Badge>
+                      </div>
+                      <h4 className="text-xl font-black tracking-tighter uppercase leading-tight text-white">{milestone.title}</h4>
+                      <p className="text-sm text-white/40 font-medium leading-relaxed">{milestone.desc}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
+          </div>
+
+          <div className="max-w-4xl mx-auto p-12 md:p-16 rounded-[4rem] bg-gradient-to-br from-white/5 to-transparent border border-white/10 text-center space-y-10 shadow-2xl">
+             <h5 className="text-3xl font-black tracking-tighter uppercase text-white">Por que mostramos nosso caminho?</h5>
+             <p className="text-lg text-white/40 font-medium leading-relaxed italic">
+               Acreditamos que a transparência é o primeiro passo para uma parceria de sucesso. Um projeto de saúde digital não é apenas um software; é um organismo vivo que exige planejamento, ética e visão de longo prazo.
+             </p>
+             <div className="pt-4">
+                <Button onClick={handleOpenChat} className="h-16 px-12 bg-white text-black hover:bg-primary hover:text-white rounded-full font-black uppercase tracking-[0.4em] text-[10px] transition-all shadow-xl group">
+                  QUER SABER ONDE ESTAMOS HOJE? <ArrowRight className="ml-4 h-4 w-4 group-hover:translate-x-2 transition-transform" />
+                </Button>
+             </div>
           </div>
         </div>
       </section>
