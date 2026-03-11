@@ -1,7 +1,6 @@
 
 import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/sections/Hero";
-import { TrustedBy } from "@/components/sections/TrustedBy";
 import { Services } from "@/components/sections/Services";
 import { Process } from "@/components/sections/Process";
 import { FAQ } from "@/components/sections/FAQ";
@@ -18,7 +17,9 @@ export default function Home() {
       
       <Navbar />
       <Hero />
-      <TrustedBy />
+      
+      {/* Seção TrustedBy removida da home e integrada na Navbar conforme solicitado */}
+      
       <Services />
       <Process />
       <FAQ />
