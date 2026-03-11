@@ -339,22 +339,35 @@ export default function UrbeLudoPage() {
                </div>
             </div>
 
-            {/* O Fator Urso Peludo */}
-            <div className="lg:col-span-12 p-12 md:p-20 rounded-[5rem] bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex flex-col md:row gap-16 items-center shadow-2xl relative overflow-hidden">
-               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.05),transparent_70%)]" />
-               <div className="md:w-1/3 text-center md:text-left space-y-6">
-                 <div className="h-24 w-24 rounded-[2.5rem] bg-white text-black flex items-center justify-center shadow-2xl mx-auto md:mx-0">
-                   <Heart className="h-12 w-12 text-primary animate-pulse" />
+            {/* A Fusão: Urbeludo (Espaço em Movimento) */}
+            <div className="lg:col-span-12 p-12 md:p-20 rounded-[5rem] bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex flex-col lg:flex-row gap-16 items-center shadow-2xl relative overflow-hidden">
+               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.05),transparent_70%)]" />
+               <div className="lg:w-1/3 text-center lg:text-left space-y-6 shrink-0">
+                 <div className="h-24 w-24 rounded-[2.5rem] bg-cyan-400 text-black flex items-center justify-center shadow-2xl mx-auto lg:mx-0">
+                   <Zap className="h-12 w-12" />
                  </div>
-                 <h5 className="text-3xl font-black tracking-tighter uppercase text-white leading-none">Ponte <br/>Fonética</h5>
+                 <h5 className="text-3xl font-black tracking-tighter uppercase text-white leading-none">A Fusão <br/>Estratégica</h5>
                </div>
-               <div className="md:w-2/3 space-y-8">
-                  <p className="text-2xl md:text-3xl text-white/80 font-medium tracking-tight leading-tight">
-                    Foneticamente, o nome remete a <span className="text-primary font-black italic">"Urso Peludo"</span>.
+               <div className="lg:w-2/3 space-y-8 relative z-10">
+                  <p className="text-3xl md:text-5xl text-white font-black tracking-tighter leading-none">
+                    Urbeludo: <span className="text-cyan-400 italic">Espaço em Movimento.</span>
                   </p>
-                  <p className="text-lg text-white/40 font-medium leading-relaxed">
-                    Essa escolha retira a carga pesada da palavra "reabilitação" e a substitui por algo familiar e acolhedor. O UrbeLudo é seguro, macio e amigável – um ativo de branding desenhado para ser o companheiro fiel da criança.
-                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div className="space-y-4">
+                      <div className="h-1 w-12 bg-cyan-400 rounded-full" />
+                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400">Urbanismo do Movimento</p>
+                      <p className="text-lg text-white/50 font-medium leading-relaxed">
+                        O nome sugere a organização lúdica das funções psicomotoras. É o planejamento estratégico da evolução física através do jogo.
+                      </p>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="h-1 w-12 bg-primary rounded-full" />
+                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Identidade Robusta</p>
+                      <p className="text-lg text-white/50 font-medium leading-relaxed">
+                        Uma sonoridade marcante que foge do óbvio clínico de nomes frios terminados em "med" ou "fisio", transmitindo inovação absoluta.
+                      </p>
+                    </div>
+                  </div>
                </div>
             </div>
           </div>
