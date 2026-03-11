@@ -15,24 +15,19 @@ export function Footer() {
     <footer className="pt-16 pb-12 border-t border-white/5 bg-[#08070b] overflow-hidden text-white">
       <div className="container mx-auto px-6">
         
-        {/* Prova Social Integrada - Espaçamento Otimizado para Mobile */}
-        <div className="mb-8 pb-8 md:mb-12 md:pb-12 border-b border-white/5 flex justify-center md:justify-start">
-          <TrustedBy />
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16 items-start">
           
-          <div className="lg:col-span-4 space-y-8">
-            <div className="space-y-4">
+          <div className="lg:col-span-4 flex flex-col items-center md:items-start text-center md:text-left">
+            <div className="mb-6 md:mb-8 space-y-4">
               <p className="text-white text-3xl md:text-4xl font-black tracking-tighter uppercase leading-none">
                 studiosapient.
               </p>
-              <p className="text-white/40 text-base md:text-lg font-medium leading-relaxed max-w-sm">
+              <p className="text-white/40 text-base md:text-lg font-medium leading-relaxed max-w-sm mx-auto md:mx-0">
                 Transformamos negócios em referências através de ecossistemas digitais de alta clareza e autoridade visual.
               </p>
             </div>
             
-            <div className="flex gap-3">
+            <div className="flex gap-3 mb-8 md:mb-10">
               {[
                 { icon: <Instagram size={18} />, href: "https://instagram.com/studiosapient", label: "Instagram" },
                 { icon: <Palette size={18} />, href: behanceUrl, label: "Behance" }
@@ -50,9 +45,14 @@ export function Footer() {
                 </Link>
               ))}
             </div>
+
+            {/* Prova Social Integrada - Versão Ultra-Compacta */}
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
+              <TrustedBy />
+            </div>
           </div>
 
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 pt-4 md:pt-0">
             <h4 className="font-black text-[8px] md:text-[9px] uppercase tracking-[0.4em] text-primary mb-6 md:mb-8">Soluções</h4>
             <ul className="space-y-3 md:space-y-4">
               {[
@@ -92,22 +92,22 @@ export function Footer() {
             <h4 className="font-black text-[8px] md:text-[9px] uppercase tracking-[0.4em] text-primary mb-6 md:mb-8">Contatos Oficiais</h4>
             <ul className="space-y-4 md:space-y-6">
               <li>
-                <a href={`mailto:${email}`} className="group flex items-center gap-3 md:gap-4 text-white/30 hover:text-primary transition-all">
+                <a href={`mailto:${email}`} className="group flex items-center gap-3 md:gap-4 text-white/30 hover:text-primary transition-all justify-center md:justify-start">
                   <div className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:bg-primary group-hover:text-white transition-all shrink-0">
                     <Mail size={16} />
                   </div>
-                  <div className="min-w-0">
+                  <div className="min-w-0 text-left">
                     <p className="text-[6px] md:text-[7px] font-black uppercase tracking-widest text-white/20">E-mail Corporativo</p>
                     <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-tight text-white">{email}</p>
                   </div>
                 </a>
               </li>
               <li>
-                <a href={`https://wa.me/${phoneDigits}`} target="_blank" className="group flex items-center gap-3 md:gap-4 text-white/30 hover:text-primary transition-all">
+                <a href={`https://wa.me/${phoneDigits}`} target="_blank" className="group flex items-center gap-3 md:gap-4 text-white/30 hover:text-primary transition-all justify-center md:justify-start">
                   <div className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:bg-primary group-hover:text-white transition-all shrink-0">
                     <MessageCircle size={16} />
                   </div>
-                  <div className="min-w-0">
+                  <div className="min-w-0 text-left">
                     <p className="text-[6px] md:text-[7px] font-black uppercase tracking-widest text-white/20">WhatsApp Business</p>
                     <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-tight text-white">{phone}</p>
                   </div>
