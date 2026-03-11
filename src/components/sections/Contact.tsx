@@ -26,19 +26,19 @@ export function Contact() {
   const whatsappUrl = `https://wa.me/${contactData.phoneDigits}?text=${encodeURIComponent(contactData.whatsappMsg)}`;
 
   return (
-    <section id="contato" className="py-10 md:py-24 bg-[#0c0a1a] text-white relative rounded-[2rem] md:rounded-[5rem] mx-4 mb-16 shadow-2xl overflow-hidden">
+    <section id="contato" className="py-10 md:py-32 bg-[#0c0a1a] text-white relative rounded-[2rem] md:rounded-[5rem] mx-4 mb-16 shadow-2xl overflow-hidden">
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.08),transparent_70%)]" />
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center max-w-2xl mx-auto mb-10 md:mb-16">
-          <h3 className="font-headline text-lg md:text-4xl lg:text-5xl font-black tracking-tighter leading-none mb-3 md:mb-4 text-white uppercase">
-            VAMOS <br />
-            <span className="text-primary italic font-medium">CONVERSAR.</span>
-          </h3>
-          <p className="text-[8px] md:text-base text-white/30 font-medium tracking-[0.4em] uppercase px-4 text-balance">Canais Diretos de Estratégia</p>
+        <div className="text-center max-w-2xl mx-auto mb-12 md:mb-24 space-y-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Canais de Consultoria</p>
+          <h2 className="font-headline text-3xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.85] mb-3 md:mb-4 text-white uppercase">
+            Vamos <br />
+            <span className="text-primary italic font-medium">Conversar.</span>
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-6 max-w-[1000px] mx-auto">

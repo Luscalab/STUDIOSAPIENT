@@ -1,7 +1,8 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Sparkles } from "lucide-react";
 
 export function Hero() {
   const scrollToSection = (id: string) => {
@@ -20,15 +21,20 @@ export function Hero() {
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-[1000px] mx-auto text-center">
-          <h1 className="font-headline text-4xl md:text-6xl lg:text-8xl font-black text-white tracking-tighter leading-[0.95] mb-8 py-2">
-            Design e Estratégia <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary italic font-medium block mt-2">
-              para o seu Negócio.
+        <div className="max-w-[1000px] mx-auto text-center space-y-4">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Sparkles className="h-3 w-3 text-primary animate-pulse" />
+            <p className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40">Inteligência Criativa & Performance</p>
+          </div>
+          
+          <h1 className="font-headline text-4xl md:text-7xl lg:text-[8.5rem] font-black text-white tracking-[calc(-0.04em)] leading-[0.85] py-2 uppercase">
+            Estratégia <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary italic font-medium block mt-2 lowercase">
+              & resultados.
             </span>
           </h1>
           
-          <p className="text-sm md:text-xl lg:text-2xl text-white/40 font-medium max-w-2xl mx-auto leading-tight tracking-tight text-balance mb-12">
+          <p className="text-sm md:text-xl lg:text-2xl text-white/40 font-medium max-w-2xl mx-auto leading-tight tracking-tight text-balance pt-6 pb-12">
             Apoiamos o crescimento da sua marca através de uma comunicação visual clara e estratégias focadas em resultados reais. <span className="text-white font-bold">Uma parceria verdadeira.</span>
           </p>
           

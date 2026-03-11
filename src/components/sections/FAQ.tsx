@@ -40,9 +40,11 @@ export function FAQ() {
   return (
     <section id="faq" className="py-10 md:py-24 bg-white text-black relative overflow-hidden rounded-[2rem] md:rounded-[5rem] mx-4 my-6 shadow-lg">
       <div className="container mx-auto px-6 max-w-[900px] relative z-20">
-        <div className="text-center mb-8 md:mb-16">
-          <h2 className="font-headline text-lg md:text-5xl font-black tracking-tighter leading-none text-black uppercase">
-            DÚVIDAS <span className="text-primary italic font-medium">FREQUENTES.</span>
+        <div className="text-center mb-10 md:mb-20 space-y-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Suporte Técnico</p>
+          <h2 className="font-headline text-2xl md:text-6xl font-black tracking-tighter leading-[0.85] text-black uppercase">
+            Dúvidas <br />
+            <span className="text-primary italic font-medium">Frequentes.</span>
           </h2>
         </div>
 

@@ -62,10 +62,11 @@ export function Services() {
   return (
     <section id="servicos" className="py-8 md:py-16 bg-white text-black relative overflow-hidden rounded-[2rem] md:rounded-[4rem] mx-4 my-4 shadow-xl">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="mb-8 lg:mb-12 text-center md:text-left max-w-2xl">
-          <h2 className="font-headline text-lg md:text-3xl lg:text-4xl font-black text-black tracking-tighter leading-none uppercase">
-            COMO PODEMOS <br />
-            <span className="text-primary italic font-medium">AJUDAR.</span>
+        <div className="mb-8 lg:mb-16 text-center md:text-left max-w-2xl space-y-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Soluções de Escala</p>
+          <h2 className="font-headline text-3xl md:text-6xl font-black text-black tracking-tighter leading-[0.85] uppercase">
+            Como podemos <br />
+            <span className="text-primary italic font-medium">Ajudar.</span>
           </h2>
         </div>
         

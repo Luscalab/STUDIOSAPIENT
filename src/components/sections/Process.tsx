@@ -30,10 +30,11 @@ export function Process() {
   return (
     <section id="metodologia" className="py-16 md:py-24 lg:py-32 bg-white text-black relative overflow-hidden rounded-[3rem] md:rounded-[6rem] mx-4 my-6 shadow-xl">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="mb-10 lg:mb-24 text-center md:text-left max-w-3xl">
-          <h2 className="font-headline text-2xl md:text-5xl lg:text-6xl font-black text-black tracking-tighter leading-none uppercase">
-            NOSSA <br />
-            <span className="text-primary italic font-medium">METODOLOGIA.</span>
+        <div className="mb-10 lg:mb-24 text-center md:text-left max-w-3xl space-y-2">
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Caminho do ROI</p>
+          <h2 className="font-headline text-3xl md:text-6xl lg:text-7xl font-black text-black tracking-tighter leading-[0.85] uppercase">
+            Nossa <br />
+            <span className="text-primary italic font-medium">Metodologia.</span>
           </h2>
         </div>
 
