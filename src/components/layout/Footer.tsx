@@ -1,16 +1,21 @@
 
+'use client';
+
 import Link from "next/link";
-import { Instagram, Palette, ArrowUpRight } from "lucide-react";
+import { Instagram, Palette, ArrowUpRight, Mail, MessageCircle } from "lucide-react";
 
 export function Footer() {
   const behanceUrl = "https://www.behance.net/sapient";
+  const email = "contato@studiosapient.com.br";
+  const phone = "+55 11 95963-1870";
+  const phoneDigits = "5511959631870";
 
   return (
     <footer className="py-24 border-t border-muted bg-white overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-32 mb-24 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-8 mb-24 items-start">
           
-          <div className="lg:col-span-6 space-y-10">
+          <div className="lg:col-span-5 space-y-10">
             <div>
               <p className="text-black text-4xl font-black tracking-tighter mb-6 uppercase">
                 studiosapient.
@@ -40,12 +45,12 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-2">
             <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-8">Navegação</h4>
             <ul className="space-y-4">
               <li>
                 <Link href="/urbeludo" className="group flex items-center gap-2 w-fit text-cyan-600 hover:text-cyan-500 transition-all">
-                  <span className="text-sm font-black uppercase tracking-widest">UrbeLudo Tech</span>
+                  <span className="text-sm font-black uppercase tracking-widest">UrbeLudo</span>
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </li>
@@ -63,13 +68,13 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-2">
             <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-8">Agência</h4>
             <ul className="space-y-4">
               {[
                 { name: "Portfólio", href: behanceUrl, external: true },
                 { name: "Metodologia", href: "/#metodologia" },
-                { name: "Falar com Consultor", href: "/#contato" }
+                { name: "Dossiês", href: "/blog" }
               ].map((item) => (
                 <li key={item.name}>
                   <Link 
@@ -81,6 +86,34 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          <div className="lg:col-span-3">
+            <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-8">Contatos</h4>
+            <ul className="space-y-6">
+              <li>
+                <a href={`mailto:${email}`} className="group flex items-center gap-4 text-black/50 hover:text-primary transition-all">
+                  <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all">
+                    <Mail size={16} />
+                  </div>
+                  <div>
+                    <p className="text-[8px] font-black uppercase tracking-widest text-slate-300">E-mail</p>
+                    <p className="text-[10px] font-bold uppercase tracking-wider truncate max-w-[140px]">{email}</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href={`https://wa.me/${phoneDigits}`} target="_blank" className="group flex items-center gap-4 text-black/50 hover:text-primary transition-all">
+                  <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all">
+                    <MessageCircle size={16} />
+                  </div>
+                  <div>
+                    <p className="text-[8px] font-black uppercase tracking-widest text-slate-300">WhatsApp</p>
+                    <p className="text-[10px] font-bold uppercase tracking-wider">{phone}</p>
+                  </div>
+                </a>
+              </li>
             </ul>
           </div>
         </div>
