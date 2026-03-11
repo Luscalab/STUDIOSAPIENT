@@ -3,7 +3,7 @@
 
 /**
  * @fileOverview Inteligência de Atendimento Sapient Studio.
- * Linguagem ajustada para ser clara, amigável e sem jargões técnicos excessivos.
+ * Linguagem simplificada e novos nichos adicionados para maior alcance.
  */
 
 import { z } from 'genkit';
@@ -37,7 +37,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   const historyText = input.history.map(h => h.content.toLowerCase()).join(' ');
   const fullHistoryText = historyText + ' ' + msg;
 
-  // --- 0. INTERCEPTAÇÃO DE FAQ ---
+  // FAQ e Respostas Rápidas
   if (msg.includes('como funciona') || msg.includes('preço') || msg.includes('valor') || msg.includes('quanto custa')) {
     return {
       reply: "Entendi sua dúvida! O valor do investimento depende muito do que vamos construir juntos para trazer o melhor retorno para você. Que tal terminarmos de entender o que você precisa primeiro?",
@@ -48,21 +48,24 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // --- 1. EXTRAÇÃO DINÂMICA DE DADOS ---
+  // Extração de Nicho Expandida
   let niche = '';
-  if (fullHistoryText.match(/(médico|saúde|clínica|hospital|saude)/)) niche = 'Saúde & Bem-estar';
-  else if (fullHistoryText.match(/(advogado|jurídico|direito)/)) niche = 'Jurídico & Direito';
-  else if (fullHistoryText.match(/(loja|varejo|e-commerce|ecommerce)/)) niche = 'Varejo & E-commerce';
-  else if (fullHistoryText.match(/(tecnologia|ti|software|saas)/)) niche = 'Tecnologia & SaaS';
-  else if (fullHistoryText.match(/(imobiliário|corretor|imóveis)/)) niche = 'Imobiliário & Imóveis';
-  else if (fullHistoryText.match(/(estética|estetica|beleza)/)) niche = 'Estética & Beleza';
-  else if (fullHistoryText.match(/(arquitetura|design)/)) niche = 'Arquitetura & Design';
+  if (fullHistoryText.match(/(médico|saúde|clínica|hospital|saude|psicólogo|nutricionista|dentista)/)) niche = 'Saúde & Bem-estar';
+  else if (fullHistoryText.match(/(advogado|jurídico|direito|escritório|legal)/)) niche = 'Jurídico & Direito';
+  else if (fullHistoryText.match(/(loja|varejo|e-commerce|ecommerce|vendas online|venda)/)) niche = 'Varejo & E-commerce';
+  else if (fullHistoryText.match(/(tecnologia|ti|software|saas|app|startup)/)) niche = 'Tecnologia & SaaS';
+  else if (fullHistoryText.match(/(imobiliário|corretor|imóveis|casa|apartamento|venda de imóveis)/)) niche = 'Imobiliário & Imóveis';
+  else if (fullHistoryText.match(/(estética|estetica|beleza|salão|manicure|sobrancelha)/)) niche = 'Estética & Beleza';
+  else if (fullHistoryText.match(/(arquitetura|design|interiores|obra|reforma)/)) niche = 'Arquitetura & Design';
+  else if (fullHistoryText.match(/(escola|curso|educação|treinamento|infoproduto|professor)/)) niche = 'Educação & Cursos';
+  else if (fullHistoryText.match(/(restaurante|gastronomia|comida|delivery|hamburguer)/)) niche = 'Gastronomia & Food';
   
   const askedForSpecificNiche = historyText.includes('com o que você trabalha exatamente');
   if (askedForSpecificNiche && niche === '' && msg !== 'outros') {
     niche = input.currentMessage;
   }
 
+  // Plataformas e Dores
   const platforms: string[] = [];
   if (fullHistoryText.includes('instagram')) platforms.push('Instagram');
   if (fullHistoryText.includes('google ads')) platforms.push('Anúncios no Google');
@@ -70,10 +73,10 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   if (fullHistoryText.includes('indicações')) platforms.push('Indicações de clientes');
 
   const mainPainPoints: string[] = [];
-  if (fullHistoryText.match(/(leads desqualificados|pessoas curiosas)/)) mainPainPoints.push('Muitos curiosos, poucos clientes');
-  if (fullHistoryText.match(/(atendimento lento|demora)/)) mainPainPoints.push('Demora para responder');
-  if (fullHistoryText.match(/(design amador|visual ruim)/)) mainPainPoints.push('Visual pouco profissional');
-  if (fullHistoryText.match(/(falta de previsibilidade|vendas caíram)/)) mainPainPoints.push('Vendas instáveis');
+  if (fullHistoryText.match(/(leads desqualificados|pessoas curiosas|curioso)/)) mainPainPoints.push('Muitos curiosos, poucos clientes');
+  if (fullHistoryText.match(/(atendimento lento|demora|demorado)/)) mainPainPoints.push('Demora para responder');
+  if (fullHistoryText.match(/(design amador|visual ruim|feio)/)) mainPainPoints.push('Visual pouco profissional');
+  if (fullHistoryText.match(/(falta de previsibilidade|vendas caíram|instável)/)) mainPainPoints.push('Vendas instáveis');
 
   const goals: string[] = [];
   if (fullHistoryText.includes('vender mais')) goals.push('Vender mais todo mês');
@@ -81,10 +84,9 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   if (fullHistoryText.includes('automatizar')) goals.push('Atender clientes no automático');
   if (fullHistoryText.includes('anunciar melhor')) goals.push('Melhorar meus anúncios');
 
-  // --- 2. LÓGICA DE PROGRESSÃO ---
-
-  // FINALIZAÇÃO
+  // Lógica de Progressão
   const lastBotMsg = input.history.filter(h => h.role === 'model').pop()?.content || '';
+
   if (niche && platforms.length > 0 && mainPainPoints.length > 0 && goals.length > 0) {
     if (lastBotMsg.includes('qual o nome da sua empresa')) {
       return {
@@ -107,7 +109,6 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // OBJETIVOS
   if (niche && platforms.length > 0 && mainPainPoints.length > 0) {
     return {
       reply: `Legal! E pensando nos próximos meses, o que é mais importante para você agora?`,
@@ -120,7 +121,6 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // DIFICULDADES (PAIN POINTS)
   if (niche && platforms.length > 0) {
     return {
       reply: `Entendi. E onde você sente que está tendo mais dificuldade hoje? Pode marcar mais de uma opção:`,
@@ -133,7 +133,6 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // CANAIS (PLATFORMS)
   if (niche) {
     return {
       reply: `Certo, para a área de ${niche}, onde você costuma divulgar seu trabalho atualmente?`,
@@ -146,7 +145,6 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // TRATAMENTO DE "OUTROS"
   if (msg === 'outros') {
     return {
       reply: "Sem problemas! Pode me contar com o que você trabalha exatamente?",
@@ -157,7 +155,6 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // INÍCIO
   return {
     reply: "Olá! Vamos conversar sobre o seu negócio? Para eu te ajudar melhor, em qual dessas áreas você atua hoje?",
     shouldRedirect: false,
@@ -168,8 +165,9 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
       "Jurídico & Direito", 
       "Estética & Beleza", 
       "Tecnologia & SaaS", 
-      "Varejo & E-commerce",
+      "Imobiliário & Imóveis",
       "Arquitetura & Design",
+      "Educação & Cursos",
       "Outros"
     ]
   };

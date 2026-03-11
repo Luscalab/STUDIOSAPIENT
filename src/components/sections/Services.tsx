@@ -10,7 +10,8 @@ import {
   Bot, 
   CheckCircle2, 
   Users, 
-  FileText
+  FileText,
+  Layout
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -28,6 +29,13 @@ const services = [
     description: "Atraia as pessoas certas para o seu negócio com campanhas no Google e redes sociais focadas em trazer clientes reais.",
     icon: <TrendingUp className="h-4 w-4 md:h-7 md:w-7" />,
     features: ["Apareça no topo do Google", "Anúncios para seu bairro", "Mais chamadas no WhatsApp"]
+  },
+  {
+    title: "Criação de Sites",
+    slug: "sites-premium",
+    description: "Desenvolvemos sites modernos e rápidos que funcionam como sua vitrine de luxo na internet, prontos para converter visitantes em clientes.",
+    icon: <Layout className="h-4 w-4 md:h-7 md:w-7" />,
+    features: ["Sites Rápidos e Seguros", "Design que Encanta", "Otimizado para Celular"]
   },
   {
     title: "Design de Marca",
@@ -136,7 +144,6 @@ export function Services() {
           </CarouselContent>
         </Carousel>
 
-        {/* Indicador de Status Animado */}
         <div className="mt-12 flex flex-col items-center gap-4">
           <div className="flex gap-2 items-center">
             {Array.from({ length: count }).map((_, i) => (
