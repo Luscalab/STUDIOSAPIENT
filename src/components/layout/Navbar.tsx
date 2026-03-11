@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -26,11 +25,12 @@ export function Navbar() {
 
   return (
     <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
-      <div className="container mx-auto px-6 flex items-center justify-between gap-6">
-        {/* Logo imponente e ajustado para evitar sobreposição */}
+      <div className="container mx-auto px-6 flex items-center justify-between gap-10">
+        
+        {/* Logo imponente e ajustado para a direita conforme solicitação */}
         <Link 
           href="/" 
-          className="relative block w-[120px] h-[36px] md:w-[160px] md:h-[48px] lg:w-[240px] lg:h-[72px] transition-transform duration-700 hover:scale-105 shrink-0"
+          className="relative block w-[140px] h-[42px] md:w-[180px] md:h-[54px] lg:w-[320px] lg:h-[96px] transition-transform duration-700 hover:scale-[1.02] shrink-0 ml-4 lg:ml-8"
         >
           <Image 
             src={logoUrl} 
@@ -42,7 +42,7 @@ export function Navbar() {
         </Link>
 
         {/* Menu de Navegação Desktop */}
-        <nav className="hidden lg:flex items-center gap-8 px-10 py-4 rounded-full glass-morphism border-white/5 shadow-xl relative z-20">
+        <nav className="hidden lg:flex items-center gap-8 px-10 py-5 rounded-full glass-morphism border-white/5 shadow-2xl relative z-20">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
