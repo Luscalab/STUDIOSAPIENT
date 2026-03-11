@@ -5,7 +5,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Image from "next/image";
 
 export function TrustedBy() {
-  const partnerLogo = PlaceHolderImages.find(img => img.id === "partner-logo-1")?.imageUrl || "";
+  const partnerLogo = PlaceHolderImages.find(img => img.id === "partner-logo-1")?.imageUrl;
 
   const partners = [
     { id: 1, url: partnerLogo, name: "Parceiro 1" },
@@ -14,7 +14,7 @@ export function TrustedBy() {
     { id: 4, url: "https://picsum.photos/seed/p4/200/100", name: "Parceiro 4" },
     { id: 5, url: "https://picsum.photos/seed/p5/200/100", name: "Parceiro 5" },
     { id: 6, url: partnerLogo, name: "Parceiro 6" },
-  ];
+  ].filter(p => !!p.url); // SEGURANÇA: Remove itens sem URL válida
 
   return (
     <section className="py-8 md:py-12 bg-white/5 border-y border-white/5 overflow-hidden">
@@ -28,7 +28,7 @@ export function TrustedBy() {
             {[...partners, ...partners].map((partner, idx) => (
               <div key={idx} className="relative h-6 w-24 md:h-10 md:w-40 grayscale opacity-20 hover:grayscale-0 hover:opacity-100 transition-all duration-700 flex items-center justify-center">
                 <Image
-                  src={partner.url}
+                  src={partner.url!}
                   alt={partner.name}
                   fill
                   className="object-contain"
