@@ -27,7 +27,8 @@ import {
   Code2,
   Gamepad2,
   Users2,
-  Stethoscope
+  Stethoscope,
+  HandHeart
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -233,7 +234,7 @@ export default function UrbeLudoPage() {
           <div className="max-w-4xl mx-auto text-center mb-24 space-y-6">
             <Badge className="bg-white/5 text-white/40 border-white/10 px-6 py-2 text-[10px] font-black uppercase tracking-[0.4em]">Expertise Transversal</Badge>
             <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none text-white uppercase">Inteligência <br/><span className="text-cyan-400 italic">Multidisciplinar.</span></h3>
-            <p className="text-xl text-white/50 font-medium leading-relaxed">O UrbeLudo é a fusão entre rigor clínico e engenharia de software de elite.</p>
+            <p className="text-xl text-white/50 font-medium leading-relaxed">O UrbeLudo é a fusão entre rigor clínico e engenharia de software de elite, operado por especialistas que contribuem de forma pro bono pelo impacto social.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -301,10 +302,13 @@ export default function UrbeLudoPage() {
                    <TrendingUp className="h-48 w-48 text-primary" />
                  </div>
                  <div className="space-y-6 relative z-10">
-                   <Badge className="bg-primary/10 text-primary border-none px-4 py-1 text-[8px] font-black uppercase tracking-widest">Parceria Estratégica</Badge>
+                   <div className="flex gap-2">
+                     <Badge className="bg-primary/10 text-primary border-none px-4 py-1 text-[8px] font-black uppercase tracking-widest">Parceria Estratégica</Badge>
+                     <Badge className="bg-cyan-500/10 text-cyan-600 border-none px-4 py-1 text-[8px] font-black uppercase tracking-widest">Apoio Pro Bono</Badge>
+                   </div>
                    <h4 className="font-headline text-3xl font-black tracking-tighter uppercase leading-none">Vamos mover o <br/>futuro juntos?</h4>
                    <p className="text-slate-500 font-medium text-lg leading-relaxed">
-                     Estamos em busca de investidores e parceiros estratégicos que compartilhem da nossa visão de futuro para a saúde digital.
+                     Buscamos investidores e <strong>especialistas (Design, Saúde e Tech) dispostos a colaborar sem custos (pro bono)</strong> para acelerar o desenvolvimento do projeto.
                    </p>
                    <div className="pt-4">
                       <button 
@@ -327,7 +331,7 @@ export default function UrbeLudoPage() {
                    <Heart className="h-48 w-48 text-primary" />
                  </div>
                  <div className="space-y-6 relative z-10">
-                   <Badge className="bg-cyan-500/10 text-cyan-400 border-none px-4 py-1 text-[8px] font-black uppercase tracking-widest">Apoio Social</Badge>
+                   <Badge className="bg-cyan-500/10 text-cyan-400 border-none px-4 py-1 text-[8px] font-black uppercase tracking-widest">Impacto Social</Badge>
                    <h4 className="font-headline text-3xl font-black tracking-tighter uppercase leading-none text-white">Impacto Real <br/>na Vida Real.</h4>
                    <p className="text-white/40 font-medium text-lg leading-relaxed">
                      Sua doação direta via PIX impulsiona o desenvolvimento contínuo e garante a disponibilidade futura do projeto em ONGs e clínicas de baixa renda.

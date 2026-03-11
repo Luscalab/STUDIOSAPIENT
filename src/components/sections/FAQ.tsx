@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     question: "Como posso apoiar ou investir no UrbeLudo?",
-    answer: "Existem três caminhos: como investidor estratégico para escala global, através de doações diretas via PIX para manter o projeto em ONGs, ou como colaborador especialista nas áreas de saúde e tecnologia."
+    answer: "Existem três caminhos: como investidor estratégico para escala global, através de doações diretas via PIX para manter o projeto em ONGs, ou como colaborador especialista nas áreas de saúde e tecnologia que deseje atuar pro bono (sem custos)."
   },
   {
     question: "A Sapient atende qualquer tipo de empresa?",
