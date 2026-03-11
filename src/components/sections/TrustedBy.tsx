@@ -1,11 +1,12 @@
 
-"use client";
+'use client';
 
 import * as React from "react";
 import Image from "next/image";
 
 /**
- * Componente de Prova Social de Elite - Versão Compacta para Rodapé.
+ * Componente de Prova Social de Elite - Versão Compacta e Suave para Rodapé.
+ * Logotipos em formato quadrado minimalista.
  */
 export function TrustedBy() {
   const [currentPartner, setCurrentPartner] = React.useState(0);
@@ -33,30 +34,30 @@ export function TrustedBy() {
   }, [partners.length]);
 
   return (
-    <div className="flex items-center gap-4 md:gap-8 bg-white/5 p-3 md:p-5 rounded-[2rem] border border-white/10 backdrop-blur-xl transition-all duration-700 hover:border-primary/30 group w-fit">
+    <div className="flex items-center gap-6 bg-white/5 p-4 rounded-[2rem] border border-white/5 backdrop-blur-3xl transition-all duration-700 hover:border-primary/20 group w-fit">
       
-      {/* Box da Imagem - Compacta e Suave */}
-      <div className="relative h-14 w-14 md:h-20 md:w-20 rounded-[1.5rem] bg-white border border-white/20 flex items-center justify-center overflow-hidden shadow-xl transition-all duration-1000 group-hover:scale-[1.03]">
-        <div className="relative w-full h-full p-1.5 md:p-2.5">
+      {/* Box do Logotipo - Compacto e Suave */}
+      <div className="relative h-14 w-14 md:h-16 md:w-16 rounded-[1.2rem] bg-white flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-1000 group-hover:scale-[1.02]">
+        <div className="relative w-full h-full p-2">
           <Image 
             src={partners[currentPartner].url} 
             alt={partners[currentPartner].name}
             fill
-            className="object-contain transition-all duration-1000 transform scale-95 group-hover:scale-100"
+            className="object-contain transition-all duration-1000 scale-90 group-hover:scale-95"
             key={partners[currentPartner].url}
             priority
           />
         </div>
       </div>
 
-      {/* Textos de Identidade - Brancos e Minimalistas */}
-      <div className="min-w-[120px] md:min-w-[180px] pr-2">
-        <p className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.4em] text-white/40 mb-1.5 md:mb-2">
+      {/* Identidade do Cliente */}
+      <div className="min-w-[140px] md:min-w-[180px] pr-4">
+        <p className="text-[7px] md:text-[8px] font-black uppercase tracking-[0.4em] text-white/20 mb-1">
           CONFIADO POR
         </p>
-        <div className="h-[25px] md:h-[35px] flex items-center">
+        <div className="h-[25px] flex items-center">
           <p 
-            className="text-sm md:text-2xl font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-4 duration-700" 
+            className="text-sm md:text-xl font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-2 duration-700" 
             key={`name-${currentPartner}`}
           >
             {partners[currentPartner].name}
