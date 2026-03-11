@@ -18,13 +18,13 @@ export default function Home() {
       
       <Navbar />
       
-      {/* Prova Social entre Header e Primeira Seção (Hero) */}
-      <div className="pt-32 md:pt-48">
+      <Hero />
+      
+      {/* Prova Social Estratégica: Antes do título "Como podemos ajudar" */}
+      <div className="py-8 md:py-16">
         <TrustedBy />
       </div>
 
-      <Hero />
-      
       <Services />
       <Process />
       <FAQ />
