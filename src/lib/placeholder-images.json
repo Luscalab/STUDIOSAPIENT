@@ -31,22 +31,16 @@
       "imageHint": "premium brand"
     },
     {
-      "id": "portfolio-2",
-      "description": "Modern marketing campaign",
-      "imageUrl": "https://picsum.photos/seed/sap-port-2/800/1000",
-      "imageHint": "marketing digital"
-    },
-    {
-      "id": "portfolio-3",
-      "description": "Strategic social media management",
-      "imageUrl": "https://picsum.photos/seed/sap-port-3/800/1000",
-      "imageHint": "social design"
-    },
-    {
       "id": "partner-logo-1",
-      "description": "Empresa atendida pela Sapient",
+      "description": "Empresa atendida pela Sapient - Final Logo",
       "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/FINALLOGO.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvRklOQUxMT0dPLnBuZyIsImlhdCI6MTc3MzI1ODk2MSwiZXhwIjoyMDg4NjE4OTYxfQ.YCn2mnUAXxdeCIDDY43MZpB1jEf94V0pcajlqRuXkA8",
       "imageHint": "partner logo"
+    },
+    {
+      "id": "partner-logo-2",
+      "description": "Empresa atendida pela Sapient - Unnamed Client",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/unnamed%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvdW5uYW1lZCAoMSkuanBnIiwiaWF0IjoxNzczMjU5MzAyLCJleHAiOjE4MDQ3OTUzMDJ9.Ey6aHahoSnfrOlVxBsHpOnYXUGfDDEZFj_rLrwbbOro",
+      "imageHint": "client logo"
     }
   ]
 }
