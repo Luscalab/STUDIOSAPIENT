@@ -1,6 +1,7 @@
 
 'use client';
 
+import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
@@ -18,8 +19,6 @@ import {
   ArrowRight, 
   Target,
   Smartphone,
-  ChevronDown,
-  Globe,
   Activity,
   Box,
   Smile,
@@ -32,18 +31,13 @@ import {
   Stethoscope
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
 
 export default function UrbeLudoPage() {
   const { toast } = useToast();
-  const [activeSection, setActiveSection] = useState("");
   const [mounted, setMounted] = useState(false);
   
-  const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoxOTMwNjE0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM";
-
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -67,34 +61,11 @@ export default function UrbeLudoPage() {
       const offsetPosition = elementPosition - offset;
 
       window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-      setActiveSection(id);
     }
   };
 
-  useEffect(() => {
-    const observerOptions = { root: null, rootMargin: '-20% 0px -60% 0px', threshold: 0 };
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(entry => { if (entry.isIntersecting) setActiveSection(entry.target.id); });
-    };
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    const sections = ['inicio', 'coracao', 'ciencia', 'spsp', 'frentes', 'colaboracao', 'apoio', 'faq'];
-    sections.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
-
   const contactEmail = "contato@studiosapient.com.br";
   const pixKey = "contato@studiosapient.com.br";
-
-  const navItems = [
-    { id: 'coracao', label: 'Conceito', icon: <Target className="h-3 w-3" /> },
-    { id: 'ciencia', label: 'Ciência', icon: <Brain className="h-3 w-3" /> },
-    { id: 'spsp', label: 'SPSP', icon: <Cpu className="h-3 w-3" /> },
-    { id: 'frentes', label: 'Cuidado', icon: <Heart className="h-3 w-3" /> },
-    { id: 'faq', label: 'FAQ', icon: <Zap className="h-3 w-3" /> },
-  ];
 
   const faqs = [
     {
@@ -144,57 +115,17 @@ export default function UrbeLudoPage() {
   return (
     <main className="min-h-screen bg-white text-slate-900 selection:bg-primary/20 selection:text-primary pb-32 overflow-x-hidden">
       
-      {/* Header Fixo de Navegação Premium */}
-      <header className="fixed top-0 left-0 right-0 z-[500] bg-white/80 backdrop-blur-3xl border-b border-slate-100 h-16 md:h-24">
-        <div className="container mx-auto px-6 h-full flex items-center justify-between">
-          <Link href="/" className="relative block w-[110px] h-[32px] md:w-[180px] md:h-[40px] hover:scale-105 transition-all">
-            <Image src={logoUrl} alt="Logo" fill className="object-contain object-left" priority />
-          </Link>
-          
-          <nav className="hidden lg:flex items-center gap-8">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={cn(
-                  "text-[9px] font-black uppercase tracking-[0.4em] transition-all relative group py-2",
-                  activeSection === item.id ? "text-primary" : "text-slate-400 hover:text-slate-950"
-                )}
-              >
-                {item.label}
-                <span className={cn(
-                  "absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-500",
-                  activeSection === item.id ? "w-full" : "w-0 group-hover:w-full"
-                )} />
-              </button>
-            ))}
-          </nav>
-          
-          <div className="lg:hidden flex items-center gap-1">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={cn(
-                  "p-2 rounded-lg",
-                  activeSection === item.id ? "text-primary bg-primary/5" : "text-slate-400"
-                )}
-              >
-                {item.icon}
-              </button>
-            ))}
-          </div>
-        </div>
-      </header>
+      {/* Header Global Sincronizado */}
+      <Navbar />
 
       {/* 01. Hero - Onde o afeto encontra a tecnologia */}
-      <section id="inicio" className="relative pt-32 pb-20 md:pt-56 md:pb-48 px-6 text-center hero-purple-mesh bg-[#08070b]">
+      <section id="inicio" className="relative pt-32 pb-20 md:pt-64 md:pb-48 px-6 text-center hero-purple-mesh bg-[#08070b]">
         <div className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
         
         <div className="container mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center text-left">
           <div className="space-y-8">
             <Badge className="bg-primary/10 text-primary border-primary/20 px-8 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">
-              BioScience & Connection
+              Bioscience & Connection
             </Badge>
             <h1 className="font-headline text-3xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[0.85] uppercase">
               UrbeLudo: <br />
