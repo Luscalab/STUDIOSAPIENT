@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -25,12 +24,12 @@ export function Navbar() {
   const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MjkzNDY0MSwiZXhwIjoxOTMwNjE0NjQxfQ.pkFq4jVl1iewAOv9apV1WAZkn4yA2Gv8CkEHaxUMPbM";
 
   return (
-    <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
+    <header className="absolute top-4 md:top-6 left-0 right-0 z-[150]" role="banner">
       <div className="container mx-auto px-6 flex items-center justify-between gap-4">
         
         <Link 
           href="/" 
-          className="relative block w-[100px] h-[30px] md:w-[220px] md:h-[60px] lg:w-[320px] lg:h-[96px] transition-transform duration-700 hover:scale-[1.02] shrink-0"
+          className="relative block w-[120px] h-[36px] md:w-[220px] md:h-[60px] lg:w-[320px] lg:h-[96px] transition-transform duration-700 hover:scale-[1.02] shrink-0"
         >
           <Image 
             src={logoUrl} 
@@ -63,22 +62,22 @@ export function Navbar() {
         </nav>
 
         <button 
-          className="lg:hidden p-2.5 rounded-xl bg-white/5 text-white border border-white/10 active:scale-95 transition-transform" 
+          className="lg:hidden p-3 rounded-xl bg-white/5 text-white border border-white/10 active:scale-95 transition-transform" 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Menu"
         >
-          {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-6 pt-24 hero-purple-mesh flex flex-col gap-6 animate-in fade-in slide-in-from-right duration-500">
-          <div className="space-y-4">
+        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-8 pt-32 hero-purple-mesh flex flex-col gap-8 animate-in fade-in slide-in-from-right duration-500">
+          <div className="space-y-6">
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="block text-xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-3" 
+                className="block text-2xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-4" 
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
@@ -86,7 +85,7 @@ export function Navbar() {
             ))}
             <button 
               onClick={handleOpenChat}
-              className="block text-xl font-black text-primary tracking-tighter uppercase text-left w-full"
+              className="block text-2xl font-black text-primary tracking-tighter uppercase text-left w-full"
             >
               Consultoria
             </button>
@@ -94,7 +93,7 @@ export function Navbar() {
           
           <button 
             onClick={() => setIsMobileMenuOpen(false)} 
-            className="mt-auto h-14 w-full rounded-2xl bg-white/5 flex items-center justify-center text-white/30 font-black uppercase tracking-widest text-[8px] border border-white/10"
+            className="mt-auto h-16 w-full rounded-2xl bg-white/5 flex items-center justify-center text-white/30 font-black uppercase tracking-widest text-[9px] border border-white/10"
           >
             Fechar Menu
           </button>

@@ -197,16 +197,16 @@ export function AccessibilityMenu() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Menu de Acessibilidade"
         className={cn(
-          "fixed bottom-24 right-4 md:right-6 z-[200] h-12 w-12 md:h-16 md:w-16 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-2xl",
+          "fixed bottom-24 right-4 md:right-6 z-[200] h-11 w-11 md:h-16 md:w-16 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-2xl",
           isOpen ? "bg-[#08070b] text-white" : "bg-primary text-white"
         )}
       >
-        {isOpen ? <X className="h-5 w-5 md:h-6 md:w-6" /> : <Accessibility className="h-5 w-5 md:h-6 md:w-6" />}
+        {isOpen ? <X className="h-4 w-4 md:h-6 md:w-6" /> : <Accessibility className="h-4 w-4 md:h-6 md:w-6" />}
       </button>
 
       <div
         className={cn(
-          "fixed bottom-40 md:bottom-44 right-4 md:right-6 z-[200] w-[260px] md:w-[320px] bg-white rounded-[2rem] md:rounded-[3rem] border border-primary/20 shadow-[0_40px_120px_rgba(0,0,0,0.3)] transition-all duration-700 origin-bottom-right p-5 md:p-7 space-y-5 md:space-y-7",
+          "fixed bottom-40 md:bottom-44 right-4 md:right-6 z-[200] w-[240px] md:w-[320px] bg-white rounded-[2rem] md:rounded-[3rem] border border-primary/20 shadow-[0_40px_120px_rgba(0,0,0,0.3)] transition-all duration-700 origin-bottom-right p-5 md:p-7 space-y-4 md:space-y-7",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-10 invisible pointer-events-none"
         )}
       >
@@ -243,11 +243,11 @@ export function AccessibilityMenu() {
           </div>
 
           <div className="space-y-2 md:space-y-3">
-            <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("w-full h-11 md:h-14 flex items-center justify-center gap-2 md:gap-3 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase tracking-widest shadow-sm", highlightLinks ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><LinkIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />Realçar Links</button>
-            <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("w-full h-11 md:h-14 flex items-center justify-center gap-2 md:gap-3 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase tracking-widest shadow-sm", stopAnimations ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><ZapOff className="h-3.5 w-3.5 md:h-4 md:w-4" />{stopAnimations ? "Ativar Movimento" : "Parar Movimento"}</button>
+            <button onClick={() => setHighlightLinks(!highlightLinks)} className={cn("w-full h-10 md:h-14 flex items-center justify-center gap-2 md:gap-3 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase tracking-widest shadow-sm", highlightLinks ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><LinkIcon className="h-3 w-3 md:h-4 md:w-4" />Realçar Links</button>
+            <button onClick={() => setStopAnimations(!stopAnimations)} className={cn("w-full h-10 md:h-14 flex items-center justify-center gap-2 md:gap-3 rounded-xl md:rounded-2xl border transition-all text-[8px] md:text-[10px] font-black uppercase tracking-widest shadow-sm", stopAnimations ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-100 hover:border-primary/30")}><ZapOff className="h-3 w-3 md:h-4 md:w-4" />{stopAnimations ? "Ativar" : "Parar"} Animação</button>
           </div>
           
-          <button onClick={resetAll} className="w-full h-10 flex items-center justify-center gap-2 rounded-xl bg-slate-50 text-[8px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-100 transition-colors border border-slate-100"><RotateCcw className="h-3 w-3 md:h-4 md:w-4" />Limpar</button>
+          <button onClick={resetAll} className="w-full h-9 flex items-center justify-center gap-2 rounded-xl bg-slate-50 text-[8px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-100 transition-colors border border-slate-100"><RotateCcw className="h-3 w-3 md:h-4 md:w-4" />Limpar</button>
         </div>
       </div>
     </div>

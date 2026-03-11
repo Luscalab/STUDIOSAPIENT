@@ -96,3 +96,13 @@
     animation-duration: 6s;
   }
 }
+
+/* Utilitário para escala mobile compacta */
+.mobile-compact {
+  @apply scale-75 origin-bottom-right;
+}
+
+/* Prevenção de quebra de layout por sombras */
+.shadow-fix {
+  box-shadow: 0 0 0 1px transparent;
+}
