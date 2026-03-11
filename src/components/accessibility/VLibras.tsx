@@ -5,9 +5,7 @@ import Script from 'next/script';
 
 /**
  * Componente de Acessibilidade VLibras de Elite.
- * 
- * Utiliza injeção estrutural via dangerouslySetInnerHTML para garantir que os
- * atributos customizados exigidos pelo script oficial não sejam filtrados pelo React.
+ * Otimizado com CSS customizado para escala reduzida no mobile.
  */
 export function VLibras() {
   const [mounted, setMounted] = useState(false);
@@ -20,6 +18,20 @@ export function VLibras() {
 
   return (
     <>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media (max-width: 768px) {
+          .vw-access-button {
+            transform: scale(0.65) !important;
+            transform-origin: bottom right !important;
+            margin-bottom: 5px !important;
+            margin-right: 5px !important;
+          }
+          [vw-plugin-wrapper] {
+            transform: scale(0.8) !important;
+            transform-origin: bottom right !important;
+          }
+        }
+      ` }} />
       <div 
         dangerouslySetInnerHTML={{ __html: `
           <div vw="true" class="enabled">
