@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -26,10 +27,10 @@ export function Navbar() {
   return (
     <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
       <div className="container mx-auto px-6 flex items-center justify-between gap-6">
-        {/* Logo imponente no Desktop com deslocamento lateral de 40% */}
+        {/* Logo imponente e ajustado para evitar sobreposição */}
         <Link 
           href="/" 
-          className="relative block w-[120px] h-[36px] md:w-[160px] md:h-[48px] lg:w-[520px] lg:h-[156px] lg:translate-x-[40%] transition-transform duration-700 hover:scale-105 shrink-0"
+          className="relative block w-[120px] h-[36px] md:w-[160px] md:h-[48px] lg:w-[240px] lg:h-[72px] transition-transform duration-700 hover:scale-105 shrink-0"
         >
           <Image 
             src={logoUrl} 
@@ -40,32 +41,41 @@ export function Navbar() {
           />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-6 px-8 py-3 rounded-full glass-morphism border-white/5 shadow-xl">
+        {/* Menu de Navegação Desktop */}
+        <nav className="hidden lg:flex items-center gap-8 px-10 py-4 rounded-full glass-morphism border-white/5 shadow-xl relative z-20">
           {navLinks.map((link) => (
-            <Link key={link.name} href={link.href} className="text-[9px] uppercase tracking-[0.4em] font-black text-white/50 hover:text-white transition-all relative group">
+            <Link 
+              key={link.name} 
+              href={link.href} 
+              className="text-[9px] uppercase tracking-[0.4em] font-black text-white/50 hover:text-white transition-all relative group py-1"
+            >
               {link.name}
-              <span className="absolute -bottom-1 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full" />
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full" />
             </Link>
           ))}
           
           <button 
             onClick={handleOpenChat} 
-            className="text-[9px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all"
+            className="text-[9px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all relative group py-1"
           >
             Consultoria
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full" />
           </button>
         </nav>
 
+        {/* Gatilho Mobile */}
         <button 
           className="lg:hidden p-3 rounded-xl bg-white/5 text-white border border-white/10" 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Abrir Menu"
         >
           {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
+      {/* Menu Mobile */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-12 pt-40 hero-purple-mesh flex flex-col gap-8">
+        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-12 pt-40 hero-purple-mesh flex flex-col gap-8 animate-in fade-in duration-500">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
@@ -76,6 +86,12 @@ export function Navbar() {
               {link.name}
             </Link>
           ))}
+          <button 
+            onClick={handleOpenChat}
+            className="text-2xl font-black text-primary tracking-tighter uppercase text-left"
+          >
+            Consultoria
+          </button>
           <button 
             onClick={() => setIsMobileMenuOpen(false)} 
             className="absolute top-10 right-10 h-14 w-14 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10"
