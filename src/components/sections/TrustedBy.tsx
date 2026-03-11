@@ -14,7 +14,7 @@ export function TrustedBy() {
     { id: 4, url: "https://picsum.photos/seed/p4/200/100", name: "Parceiro 4" },
     { id: 5, url: "https://picsum.photos/seed/p5/200/100", name: "Parceiro 5" },
     { id: 6, url: partnerLogo, name: "Parceiro 6" },
-  ].filter(p => !!p.url); // SEGURANÇA: Remove itens sem URL válida
+  ].filter(p => !!p.url && p.url.length > 0); // Segurança rigorosa contra URLs vazias
 
   return (
     <section className="py-8 md:py-12 bg-white/5 border-y border-white/5 overflow-hidden">
@@ -25,7 +25,7 @@ export function TrustedBy() {
         
         <div className="relative flex overflow-x-hidden">
           <div className="flex animate-marquee whitespace-nowrap gap-16 md:gap-32 items-center">
-            {[...partners, ...partners].map((partner, idx) => (
+            {partners.length > 0 && [...partners, ...partners].map((partner, idx) => (
               <div key={idx} className="relative h-6 w-24 md:h-10 md:w-40 grayscale opacity-20 hover:grayscale-0 hover:opacity-100 transition-all duration-700 flex items-center justify-center">
                 <Image
                   src={partner.url!}
