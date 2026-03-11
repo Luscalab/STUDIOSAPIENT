@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 /**
  * Banner de anúncio de alta fidelidade para o projeto UrbeLudo.
  * Otimizado para ser ultra-discreto no mobile e imponente no desktop.
+ * Duração de exibição: 3 segundos.
  */
 export function UrbeLudoBanner() {
   const [mounted, setMounted] = useState(false);
@@ -16,9 +17,10 @@ export function UrbeLudoBanner() {
 
   useEffect(() => {
     setMounted(true);
+    // Fecha o banner automaticamente após 3 segundos
     const timer = setTimeout(() => {
       handleClose();
-    }, 12000); 
+    }, 3000); 
 
     return () => clearTimeout(timer);
   }, []);
@@ -44,8 +46,8 @@ export function UrbeLudoBanner() {
         {/* Container Principal em Vidro Líquido */}
         <div className="relative flex items-center gap-3 md:gap-4 bg-[#08070b]/80 backdrop-blur-[25px] border border-white/10 p-2.5 md:p-4 rounded-[1.5rem] md:rounded-[2rem] shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] overflow-hidden group-hover:border-primary/20 transition-all duration-500">
           
-          {/* Barra de Progresso Minimalista */}
-          <div className="absolute bottom-0 left-0 h-[1px] md:h-[1.5px] bg-gradient-to-r from-primary to-cyan-400 opacity-40 animate-[progress_12s_linear_forwards]" />
+          {/* Barra de Progresso Minimalista - Sincronizada com 3s */}
+          <div className="absolute bottom-0 left-0 h-[1px] md:h-[1.5px] bg-gradient-to-r from-primary to-cyan-400 opacity-40 animate-[progress_3s_linear_forwards]" />
 
           {/* Ícone de Inovação com Efeito Glow */}
           <div className="h-8 w-8 md:h-10 md:w-10 rounded-lg md:rounded-xl bg-gradient-to-br from-primary/20 to-cyan-500/10 flex items-center justify-center text-primary shrink-0 border border-white/5 relative overflow-hidden group-hover:scale-105 transition-transform duration-500">
