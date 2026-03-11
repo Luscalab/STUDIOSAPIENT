@@ -47,7 +47,7 @@ export default function UrbeLudoPage() {
     toast({
       title: `[ ${label.toUpperCase()} COPIADO ]`,
       description: "Pronto para uso na sua área de transferência.",
-      className: "bg-white border-primary text-slate-950 font-black uppercase tracking-widest text-[9px]"
+      className: "bg-black border-primary text-white font-black uppercase tracking-widest text-[9px]"
     });
   };
 
@@ -291,4 +291,3 @@ export default function UrbeLudoPage() {
     </main>
   );
 }
-
