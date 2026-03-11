@@ -2,8 +2,8 @@
 'use server';
 
 /**
- * @fileOverview Inteligência de Estratégia de Autoridade Sapient Studio - Protocolo V12.5.
- * Otimizado para evitar gargalos e tratar nichos personalizados com fluidez.
+ * @fileOverview Inteligência de Atendimento Sapient Studio.
+ * Linguagem ajustada para ser clara, amigável e sem jargões técnicos excessivos.
  */
 
 import { z } from 'genkit';
@@ -37,130 +37,129 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   const historyText = input.history.map(h => h.content.toLowerCase()).join(' ');
   const fullHistoryText = historyText + ' ' + msg;
 
-  // --- 0. INTERCEPTAÇÃO DE FAQ ESTRATÉGICO ---
-  if (msg.includes('como funciona') || msg.includes('preço') || msg.includes('valor')) {
+  // --- 0. INTERCEPTAÇÃO DE FAQ ---
+  if (msg.includes('como funciona') || msg.includes('preço') || msg.includes('valor') || msg.includes('quanto custa')) {
     return {
-      reply: "Nossa metodologia Sapient é baseada em Ecossistemas de Crescimento. O investimento é proporcional à complexidade do ecossistema necessário para atingir seu ROI. Vamos terminar de mapear seu cenário?",
+      reply: "Entendi sua dúvida! O valor do investimento depende muito do que vamos construir juntos para trazer o melhor retorno para você. Que tal terminarmos de entender o que você precisa primeiro?",
       shouldRedirect: false,
       currentLayer: 0,
       isTextInputEnabled: false,
-      suggestedActions: ["Sim, continuar diagnóstico", "Falar com estrategista"]
+      suggestedActions: ["Sim, vamos continuar", "Falar com alguém agora"]
     };
   }
 
-  // --- 1. EXTRAÇÃO DINÂMICA DE DADOS (STATE-DRIVEN) ---
+  // --- 1. EXTRAÇÃO DINÂMICA DE DADOS ---
   let niche = '';
   if (fullHistoryText.match(/(médico|saúde|clínica|hospital|saude)/)) niche = 'Saúde & Bem-estar';
   else if (fullHistoryText.match(/(advogado|jurídico|direito)/)) niche = 'Jurídico & Direito';
   else if (fullHistoryText.match(/(loja|varejo|e-commerce|ecommerce)/)) niche = 'Varejo & E-commerce';
   else if (fullHistoryText.match(/(tecnologia|ti|software|saas)/)) niche = 'Tecnologia & SaaS';
-  else if (fullHistoryText.match(/(imobiliário|corretor|imóveis)/)) niche = 'Imobiliário & Incorporação';
+  else if (fullHistoryText.match(/(imobiliário|corretor|imóveis)/)) niche = 'Imobiliário & Imóveis';
   else if (fullHistoryText.match(/(estética|estetica|beleza)/)) niche = 'Estética & Beleza';
   else if (fullHistoryText.match(/(arquitetura|design)/)) niche = 'Arquitetura & Design';
   
-  // Captura de Nicho Personalizado (Fluxo "Outros")
-  const askedForSpecificNiche = historyText.includes('qual é exatamente o seu nicho');
+  const askedForSpecificNiche = historyText.includes('com o que você trabalha exatamente');
   if (askedForSpecificNiche && niche === '' && msg !== 'outros') {
-    niche = input.currentMessage; // O usuário digitou seu nicho
+    niche = input.currentMessage;
   }
 
   const platforms: string[] = [];
   if (fullHistoryText.includes('instagram')) platforms.push('Instagram');
-  if (fullHistoryText.includes('google ads')) platforms.push('Google Ads');
-  if (fullHistoryText.includes('site/lp')) platforms.push('Site/LP');
-  if (fullHistoryText.includes('indicações')) platforms.push('Indicações');
+  if (fullHistoryText.includes('google ads')) platforms.push('Anúncios no Google');
+  if (fullHistoryText.includes('site/lp')) platforms.push('Meu próprio site');
+  if (fullHistoryText.includes('indicações')) platforms.push('Indicações de clientes');
 
   const mainPainPoints: string[] = [];
-  if (fullHistoryText.match(/(leads desqualificados)/)) mainPainPoints.push('Leads Desqualificados');
-  if (fullHistoryText.match(/(atendimento lento)/)) mainPainPoints.push('Atendimento Lento');
-  if (fullHistoryText.match(/(design amador)/)) mainPainPoints.push('Design Amador');
-  if (fullHistoryText.match(/(falta de previsibilidade)/)) mainPainPoints.push('Falta de Previsibilidade');
+  if (fullHistoryText.match(/(leads desqualificados|pessoas curiosas)/)) mainPainPoints.push('Muitos curiosos, poucos clientes');
+  if (fullHistoryText.match(/(atendimento lento|demora)/)) mainPainPoints.push('Demora para responder');
+  if (fullHistoryText.match(/(design amador|visual ruim)/)) mainPainPoints.push('Visual pouco profissional');
+  if (fullHistoryText.match(/(falta de previsibilidade|vendas caíram)/)) mainPainPoints.push('Vendas instáveis');
 
   const goals: string[] = [];
-  if (fullHistoryText.includes('dobrar faturamento')) goals.push('Dobrar Faturamento');
-  if (fullHistoryText.includes('consolidar autoridade')) goals.push('Consolidar Autoridade');
-  if (fullHistoryText.includes('automatizar atendimento')) goals.push('Automatizar Atendimento');
-  if (fullHistoryText.includes('escalar tráfego')) goals.push('Escalar Tráfego');
+  if (fullHistoryText.includes('vender mais')) goals.push('Vender mais todo mês');
+  if (fullHistoryText.includes('ser referência')) goals.push('Ser reconhecido como referência');
+  if (fullHistoryText.includes('automatizar')) goals.push('Atender clientes no automático');
+  if (fullHistoryText.includes('anunciar melhor')) goals.push('Melhorar meus anúncios');
 
-  // --- 2. LÓGICA DE PROGRESSÃO POR DADOS ---
+  // --- 2. LÓGICA DE PROGRESSÃO ---
 
-  // CAMADA 6: FINALIZAÇÃO
+  // FINALIZAÇÃO
   const lastBotMsg = input.history.filter(h => h.role === 'model').pop()?.content || '';
   if (niche && platforms.length > 0 && mainPainPoints.length > 0 && goals.length > 0) {
     if (lastBotMsg.includes('qual o nome da sua empresa')) {
       return {
-        reply: `Dossiê concluído para o projeto ${input.currentMessage} no setor de ${niche}. Mapeamos as soluções ideais para escalar sua autoridade. Posso transferir este sumário executivo agora para um estrategista humano finalizar seu plano de ROI?`,
+        reply: `Pronto! Já entendi bem o cenário da ${input.currentMessage} na área de ${niche}. Agora, quer conversar com um consultor da nossa equipe para vermos os próximos passos e como podemos te ajudar?`,
         shouldRedirect: true,
         currentLayer: 6,
         isTextInputEnabled: false,
-        suggestedActions: ["Falar com estrategista", "Reiniciar Diagnóstico"],
+        suggestedActions: ["Quero falar com um consultor", "Recomeçar conversa"],
         extractedData: { niche, companyName: input.currentMessage, goals, platforms, mainPainPoints }
       };
     }
 
     return {
-      reply: "Diagnóstico quase pronto. Para finalizarmos seu dossiê de autoridade: qual o nome da sua empresa ou projeto?",
+      reply: "Estamos quase terminando! Só para eu registrar aqui: qual o nome da sua empresa ou do seu projeto?",
       shouldRedirect: false,
       currentLayer: 5,
-      isTextInputEnabled: true, // Libera o chat para o nome
+      isTextInputEnabled: true,
       suggestedActions: [],
       extractedData: { niche, goals, platforms, mainPainPoints }
     };
   }
 
-  // CAMADA 4: OBJETIVOS
+  // OBJETIVOS
   if (niche && platforms.length > 0 && mainPainPoints.length > 0) {
     return {
-      reply: `Perfeito. Para o cenário de ${niche}, quais desses objetivos são prioritários para os próximos 6 meses?`,
+      reply: `Legal! E pensando nos próximos meses, o que é mais importante para você agora?`,
       shouldRedirect: false,
       isMultiSelect: true,
       isTextInputEnabled: false,
       currentLayer: 4,
-      suggestedActions: ["Dobrar Faturamento", "Consolidar Autoridade", "Automatizar Atendimento", "Escalar Tráfego"],
+      suggestedActions: ["Vender mais todo mês", "Ser reconhecido como referência", "Atender clientes no automático", "Melhorar meus anúncios"],
       extractedData: { niche, platforms, mainPainPoints }
     };
   }
 
-  // CAMADA 3: PAIN POINTS
+  // DIFICULDADES (PAIN POINTS)
   if (niche && platforms.length > 0) {
     return {
-      reply: `Entendido. Onde o ROI da sua operação mais "vaza" hoje? Selecione as opções:`,
+      reply: `Entendi. E onde você sente que está tendo mais dificuldade hoje? Pode marcar mais de uma opção:`,
       shouldRedirect: false,
       isMultiSelect: true,
       isTextInputEnabled: false,
       currentLayer: 3,
-      suggestedActions: ["Leads Desqualificados", "Atendimento Lento", "Design Amador", "Falta de Previsibilidade"],
+      suggestedActions: ["Muitos curiosos, poucos clientes", "Demora para responder", "Visual pouco profissional", "Vendas instáveis"],
       extractedData: { niche, platforms }
     };
   }
 
-  // CAMADA 2: PLATAFORMAS
+  // CANAIS (PLATFORMS)
   if (niche) {
     return {
-      reply: `Cenário mapeado para ${niche}. Quais canais você concentra seus esforços hoje?`,
+      reply: `Certo, para a área de ${niche}, onde você costuma divulgar seu trabalho atualmente?`,
       shouldRedirect: false,
       isMultiSelect: true,
       isTextInputEnabled: false,
       currentLayer: 2,
-      suggestedActions: ["Instagram", "Google Ads", "Site/LP", "Indicações", "Ainda não iniciei"],
+      suggestedActions: ["Instagram", "Anúncios no Google", "Meu próprio site", "Indicações de clientes", "Ainda não divulgo"],
       extractedData: { niche }
     };
   }
 
-  // CAMADA 1.5: TRATAMENTO DE "OUTROS"
+  // TRATAMENTO DE "OUTROS"
   if (msg === 'outros') {
     return {
-      reply: "Compreendo. Para um diagnóstico preciso: qual é exatamente o seu nicho de atuação ou o foco do seu negócio?",
+      reply: "Sem problemas! Pode me contar com o que você trabalha exatamente?",
       shouldRedirect: false,
       currentLayer: 1,
-      isTextInputEnabled: true, // LIBERA O INPUT PARA O USUÁRIO DIGITAR
+      isTextInputEnabled: true,
       suggestedActions: []
     };
   }
 
-  // CAMADA 1: INÍCIO
+  // INÍCIO
   return {
-    reply: "Protocolo de Estratégia iniciado. Para um diagnóstico de autoridade e escala: qual o seu nicho de atuação hoje?",
+    reply: "Olá! Vamos conversar sobre o seu negócio? Para eu te ajudar melhor, em qual dessas áreas você atua hoje?",
     shouldRedirect: false,
     currentLayer: 1,
     isTextInputEnabled: false,

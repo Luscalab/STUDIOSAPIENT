@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -30,7 +31,7 @@ interface Message {
 
 const INITIAL_MESSAGE: Message = {
   role: 'model',
-  content: "Protocolo de Estratégia iniciado. Para um diagnóstico de autoridade e escala: qual o seu nicho de atuação hoje?",
+  content: "Olá! Vamos conversar sobre o seu negócio? Para eu te ajudar melhor, em qual dessas áreas você atua hoje?",
   actions: [
     "Saúde & Bem-estar", 
     "Jurídico & Direito", 
@@ -133,13 +134,13 @@ export function AIChat() {
       } catch (error) {
         setMessages(prev => [...prev, { 
           role: 'model', 
-          content: "Oscilação detectada. Vamos prosseguir via WhatsApp?" 
+          content: "Tive um probleminha técnico aqui. Vamos continuar nossa conversa pelo WhatsApp?" 
         }]);
         setShowRedirect(true);
       } finally {
         setIsLoading(false);
       }
-    }, 1000);
+    }, 800);
   };
 
   const toggleChip = (chip: string) => {
@@ -155,7 +156,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = `Olá! Concluí meu diagnóstico com a IA Sapient e quero discutir meu plano de ROI.`;
+    const text = `Olá! Estava conversando com a IA da Sapient e gostaria de tirar algumas dúvidas sobre meu negócio.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -164,6 +165,7 @@ export function AIChat() {
       <button 
         onClick={() => setIsOpen(true)}
         className="fixed bottom-32 right-4 md:bottom-6 md:right-6 z-[200] h-10 w-10 md:h-14 md:w-14 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-all border-2 border-white/20 animate-glow-pulse"
+        aria-label="Abrir Chat"
       >
         <Bot className="h-4 w-4 md:h-6 md:w-6" />
       </button>
@@ -182,10 +184,10 @@ export function AIChat() {
       <div className="px-4 py-3 bg-[#08070b] text-white flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2.5">
           <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center border border-white/10">
-            <BrainCircuit className="h-3.5 w-3.5 text-white" />
+            <Bot className="h-3.5 w-3.5 text-white" />
           </div>
           <div>
-            <h3 className="font-headline font-black text-[7px] md:text-[9px] uppercase tracking-widest text-white">Estrategista Sapient</h3>
+            <h3 className="font-headline font-black text-[7px] md:text-[9px] uppercase tracking-widest text-white">Consultor Virtual</h3>
             <div className="flex gap-0.5 mt-0.5">
                {[1,2,3,4,5].map(layer => (
                  <div key={layer} className={cn("h-0.5 w-1 rounded-full", layer <= currentLayer ? "bg-primary" : "bg-white/10")} />
@@ -208,7 +210,7 @@ export function AIChat() {
           <div key={i} className={cn("flex flex-col gap-1.5", msg.role === 'user' ? "items-end" : "items-start")}>
             <div className={cn(
               "p-3.5 rounded-[1.2rem] text-[9px] md:text-xs font-bold leading-relaxed max-w-[85%]",
-              msg.role === 'user' ? "bg-primary text-white" : "bg-white text-slate-950 border border-slate-200"
+              msg.role === 'user' ? "bg-primary text-white" : "bg-white text-slate-950 border border-slate-200 shadow-sm"
             )}>
               {msg.content}
             </div>
@@ -222,8 +224,8 @@ export function AIChat() {
                     className={cn(
                       "px-3 py-2 rounded-full text-[7.5px] md:text-[9px] font-black uppercase tracking-widest transition-all border",
                       msg.isMultiSelect 
-                        ? selectedChips.includes(action) ? "bg-primary text-white border-primary" : "bg-white text-slate-950 border-slate-200"
-                        : "bg-white text-slate-950 border-slate-200 hover:border-primary hover:text-primary"
+                        ? selectedChips.includes(action) ? "bg-primary text-white border-primary shadow-lg" : "bg-white text-slate-950 border-slate-200"
+                        : "bg-white text-slate-950 border-slate-200 hover:border-primary hover:text-primary hover:shadow-md"
                     )}
                   >
                     {action} {msg.isMultiSelect && selectedChips.includes(action) && <Check className="h-2 w-2 ml-1" />}
@@ -231,7 +233,7 @@ export function AIChat() {
                 ))}
                 
                 {msg.isMultiSelect && selectedChips.length > 0 && (
-                  <button onClick={handleConfirmSelection} className="w-full mt-1.5 py-2.5 bg-primary text-white rounded-xl font-black uppercase tracking-widest text-[7.5px] shadow-lg">
+                  <button onClick={handleConfirmSelection} className="w-full mt-1.5 py-2.5 bg-primary text-white rounded-xl font-black uppercase tracking-widest text-[7.5px] shadow-lg hover:bg-primary/90 transition-all">
                     Confirmar Seleção
                   </button>
                 )}
@@ -243,14 +245,14 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-1.5 text-slate-400 p-1 animate-pulse">
             <Cpu className="h-2.5 w-2.5 animate-spin text-primary" />
-            <span className="text-[7px] font-black uppercase tracking-widest italic">Analisando Dados...</span>
+            <span className="text-[7px] font-black uppercase tracking-widest italic">Pensando...</span>
           </div>
         )}
 
         {showRedirect && (
-          <div className="pt-2 space-y-2">
-            <button onClick={handleWhatsAppRedirect} className="w-full py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl font-black uppercase tracking-widest text-[7.5px] flex items-center justify-center gap-2 transition-all">
-              <MessageCircle className="h-3.5 w-3.5" /> CONSULTORIA ESTRATÉGICA <ArrowRight className="h-2.5 w-2.5" />
+          <div className="pt-2">
+            <button onClick={handleWhatsAppRedirect} className="w-full py-4 bg-green-500 hover:bg-green-600 text-white rounded-xl font-black uppercase tracking-widest text-[7.5px] flex items-center justify-center gap-2 transition-all shadow-xl">
+              <MessageCircle className="h-3.5 w-3.5" /> FALAR COM UM CONSULTOR <ArrowRight className="h-2.5 w-2.5" />
             </button>
           </div>
         )}
@@ -262,7 +264,7 @@ export function AIChat() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={!isTextInputEnabled || isLoading}
-            placeholder={isTextInputEnabled ? "Nome da sua empresa..." : "Protocolo de Diagnóstico"}
+            placeholder={isTextInputEnabled ? "Digite aqui..." : "Escolha uma das opções acima"}
             className={cn(
               "w-full h-10 pl-5 pr-14 border rounded-xl text-[9px] md:text-xs font-bold transition-all",
               isTextInputEnabled ? "bg-white border-slate-200 text-slate-950 focus:ring-4 focus:ring-primary/10" : "bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed"
@@ -278,7 +280,7 @@ export function AIChat() {
             </button>
           </div>
         </form>
-        <p className="mt-1.5 text-[5.5px] font-black uppercase tracking-[0.3em] text-slate-300 text-center">SAP-IA ENGINE V12.2</p>
+        <p className="mt-1.5 text-[5.5px] font-black uppercase tracking-[0.3em] text-slate-300 text-center">IA Sapient V12.5</p>
       </div>
     </div>
   );
