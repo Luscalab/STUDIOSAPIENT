@@ -223,10 +223,11 @@ export default function UrbeLudoPage() {
               key={item.id}
               onClick={() => scrollToSection(item.id)}
               className={cn(
-                "flex items-center gap-2 px-4 py-2.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] transition-all duration-500 group",
+                "flex items-center gap-2 px-4 py-2.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] transition-all duration-500 group relative",
                 activeSection === item.id 
                   ? "bg-primary text-white shadow-[0_0_15px_rgba(139,92,246,0.4)]" 
-                  : "text-white/40 hover:text-white hover:bg-white/5"
+                  : "text-white/40 hover:text-white hover:bg-white/5",
+                item.id === 'investidores' && "border border-primary/40 shadow-[0_0_15px_rgba(139,92,246,0.25)] animate-glow-pulse"
               )}
             >
               <span className={cn(
@@ -236,6 +237,9 @@ export default function UrbeLudoPage() {
                 {item.icon}
               </span>
               <span className="hidden md:inline">{item.label}</span>
+              {item.id === 'investidores' && (
+                 <span className="absolute -top-1 -right-1 h-2 w-2 bg-primary rounded-full animate-ping" />
+              )}
             </button>
           ))}
         </div>
@@ -329,7 +333,7 @@ export default function UrbeLudoPage() {
                     <h4 className="text-3xl font-black tracking-tighter uppercase text-white">URBE</h4>
                  </div>
                  <p className="text-lg text-white/40 font-medium leading-relaxed">
-                   Do latim <span className="text-cyan-400 font-bold italic">Urbs</span> (Cidade). Representa o ambiente, a estrutura e o corpo humano como um espaço habitado. Reabilitar é dar condições para que a criança navegue com autonomia sua própria \"urbe interna\".
+                   Do latim <span className="text-cyan-400 font-bold italic">Urbs</span> (Cidade). Representa o ambiente, a estrutura e o corpo humano como um espaço habitado. Reabilitar é dar condições para que a criança navegue com autonomia sua própria "urbe interna".
                  </p>
                </div>
             </div>
@@ -376,7 +380,7 @@ export default function UrbeLudoPage() {
                       <div className="h-1 w-10 bg-primary rounded-full" />
                       <p className="text-base text-white font-bold uppercase tracking-widest">Sonoridade Robusta</p>
                       <p className="text-sm text-white/50 font-medium leading-relaxed">
-                        A sonoridade termina de forma robusta e marcante, fugindo dos nomes frios terminados em \"med\" ou \"fisio\".
+                        A sonoridade termina de forma robusta e marcante, fugindo dos nomes frios terminados em "med" ou "fisio".
                       </p>
                     </div>
                   </div>
@@ -648,3 +652,4 @@ export default function UrbeLudoPage() {
     </main>
   );
 }
+
