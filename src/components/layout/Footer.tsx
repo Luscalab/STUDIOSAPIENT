@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from "next/link";
@@ -46,18 +45,13 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-8">Navegação</h4>
+            <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-8">Soluções</h4>
             <ul className="space-y-4">
-              <li>
-                <Link href="/urbeludo" className="group flex items-center gap-2 w-fit text-cyan-600 hover:text-cyan-500 transition-all">
-                  <span className="text-sm font-black uppercase tracking-widest">UrbeLudo</span>
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </li>
               {[
-                { name: "Performance", href: "/servicos/performance-ads" },
-                { name: "Design", href: "/servicos/design-estrategico" },
-                { name: "IA Chat", href: "/servicos/chat-ia" }
+                { name: "Performance Ads", href: "/servicos/performance-ads" },
+                { name: "Sites Premium", href: "/servicos/sites-premium" },
+                { name: "Design Estratégico", href: "/servicos/design-estrategico" },
+                { name: "Chat Inteligente", href: "/servicos/chat-ia" }
               ].map((item) => (
                 <li key={item.name}>
                   <Link href={item.href} className="text-black/50 hover:text-primary text-sm font-bold uppercase tracking-widest transition-colors">
@@ -69,19 +63,16 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-8">Agência</h4>
+            <h4 className="font-black text-[10px] uppercase tracking-[0.4em] text-primary mb-8">Navegação</h4>
             <ul className="space-y-4">
               {[
-                { name: "Portfólio", href: behanceUrl, external: true },
+                { name: "UrbeLudo", href: "/urbeludo" },
+                { name: "Dossiês/Blog", href: "/blog" },
                 { name: "Metodologia", href: "/#metodologia" },
-                { name: "Dossiês", href: "/blog" }
+                { name: "Início", href: "/" }
               ].map((item) => (
                 <li key={item.name}>
-                  <Link 
-                    href={item.href} 
-                    target={item.external ? "_blank" : "_self"}
-                    className="text-black/50 hover:text-primary text-sm font-bold uppercase tracking-widest transition-colors"
-                  >
+                  <Link href={item.href} className="text-black/50 hover:text-primary text-sm font-bold uppercase tracking-widest transition-colors">
                     {item.name}
                   </Link>
                 </li>
@@ -94,7 +85,7 @@ export function Footer() {
             <ul className="space-y-6">
               <li>
                 <a href={`mailto:${email}`} className="group flex items-center gap-4 text-black/50 hover:text-primary transition-all">
-                  <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all">
+                  <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all shrink-0">
                     <Mail size={16} />
                   </div>
                   <div className="min-w-0">
@@ -105,7 +96,7 @@ export function Footer() {
               </li>
               <li>
                 <a href={`https://wa.me/${phoneDigits}`} target="_blank" className="group flex items-center gap-4 text-black/50 hover:text-primary transition-all">
-                  <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all">
+                  <div className="h-10 w-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 group-hover:bg-primary group-hover:text-white transition-all shrink-0">
                     <MessageCircle size={16} />
                   </div>
                   <div className="min-w-0">
