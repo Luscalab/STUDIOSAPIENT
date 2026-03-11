@@ -1,5 +1,7 @@
+
 "use client";
 
+import * as React from "react";
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
 import { 
   TrendingUp, 
@@ -15,54 +17,69 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 const services = [
   {
-    title: "Performance & Ads",
+    title: "Vendas & Anúncios",
     slug: "performance-ads",
-    description: "Atraia o público certo para o seu negócio com campanhas otimizadas e focadas em conversão imediata.",
+    description: "Atraia as pessoas certas para o seu negócio com campanhas no Google e redes sociais focadas em trazer clientes reais.",
     icon: <TrendingUp className="h-4 w-4 md:h-7 md:w-7" />,
-    features: ["Visibilidade no Google", "Anúncios Segmentados", "Otimização de GMN"]
+    features: ["Apareça no topo do Google", "Anúncios para seu bairro", "Mais chamadas no WhatsApp"]
   },
   {
-    title: "Design Estratégico",
+    title: "Design de Marca",
     slug: "design-estrategico",
-    description: "Crie uma identidade visual de prestígio que transmita confiança e reflita a verdadeira qualidade do seu trabalho.",
+    description: "Crie um visual profissional que passa confiança e mostra que você é a melhor escolha do seu mercado.",
     icon: <Palette className="h-4 w-4 md:h-7 md:w-7" />,
-    features: ["Identidade de Marca", "Design de Prestígio", "Psicologia Visual"]
+    features: ["Logotipos Profissionais", "Visual que vende mais", "Cores que passam credibilidade"]
   },
   {
-    title: "Atendimento com IA",
+    title: "Atendimento Automático",
     slug: "chat-ia",
-    description: "Agilize o atendimento aos seus clientes com assistentes inteligentes treinados na sua expertise 24/7.",
+    description: "Tenha um assistente inteligente no seu site ou WhatsApp que responde dúvidas e atende clientes 24 horas por dia.",
     icon: <Bot className="h-4 w-4 md:h-7 md:w-7" />,
-    features: ["WhatsApp Business IA", "Qualificação de Leads", "Respostas Imediatas"]
+    features: ["WhatsApp que responde só", "Filtro de curiosos", "Atendimento sem demora"]
   },
   {
-    title: "Gestão Social",
+    title: "Redes Sociais",
     slug: "gestao-social",
-    description: "Construímos autoridade inquestionável através de curadoria estratégica e conteúdo de alto impacto visual.",
+    description: "Deixe seu perfil no Instagram e LinkedIn com cara de empresa grande, postando conteúdos que atraem quem realmente compra.",
     icon: <Users className="h-4 w-4 md:h-7 md:w-7" />,
-    features: ["Curadoria de Conteúdo", "Autoridade Digital", "Growth Qualificado"]
+    features: ["Postagens que educam", "Visual de dar inveja", "Crescimento de seguidores reais"]
   },
   {
-    title: "Narrativa Visual",
+    title: "Apresentações & Dossiês",
     slug: "narrativa-visual",
-    description: "Transformamos processos complexos em dossiês de venda e infográficos de alta compreensão e desejo.",
+    description: "Transforme seus serviços ou propostas em apresentações lindas e fáceis de entender, que ajudam a fechar vendas maiores.",
     icon: <FileText className="h-4 w-4 md:h-7 md:w-7" />,
-    features: ["Dossiês de Venda", "Infográficos Técnicos", "Clareza de Valor"]
+    features: ["Propostas de Luxo", "Explicação visual simples", "Clareza total de valor"]
   }
 ];
 
 export function Services() {
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [current, setCurrent] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) return;
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
+
   return (
     <section id="servicos" className="py-12 md:py-24 bg-white text-black relative overflow-hidden rounded-[2rem] md:rounded-[4rem] mx-4 my-4 shadow-xl">
       <div className="container mx-auto px-6 relative z-10">
         <div className="mb-10 md:mb-16 text-center md:text-left max-w-2xl">
-          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60 mb-2">Soluções de Escala</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60 mb-2">Soluções para crescer</p>
           <h2 className="font-headline text-2xl md:text-6xl font-black text-black tracking-tighter leading-[0.85] uppercase">
             Como podemos <br />
             <span className="text-primary italic font-medium">Ajudar.</span>
@@ -70,6 +87,7 @@ export function Services() {
         </div>
         
         <Carousel
+          setApi={setApi}
           opts={{
             align: "start",
             loop: true,
@@ -117,6 +135,22 @@ export function Services() {
             ))}
           </CarouselContent>
         </Carousel>
+
+        {/* Indicador de Status Animado */}
+        <div className="mt-12 flex flex-col items-center gap-4">
+          <div className="flex gap-2 items-center">
+            {Array.from({ length: count }).map((_, i) => (
+              <div 
+                key={i} 
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-500",
+                  current === i ? "w-8 bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "w-1.5 bg-slate-200"
+                )} 
+              />
+            ))}
+          </div>
+          <p className="text-[7px] font-black uppercase tracking-[0.5em] text-slate-300 animate-pulse">Deslize para navegar</p>
+        </div>
       </div>
     </section>
   );
