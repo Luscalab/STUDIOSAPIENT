@@ -26,7 +26,10 @@ import {
   Heart,
   Sparkles,
   ShieldCheck,
-  Users
+  Users,
+  Mic,
+  MousePointer2,
+  Stethoscope
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -74,7 +77,7 @@ export default function UrbeLudoPage() {
       entries.forEach(entry => { if (entry.isIntersecting) setActiveSection(entry.target.id); });
     };
     const observer = new IntersectionObserver(observerCallback, observerOptions);
-    const sections = ['inicio', 'desafio', 'semiotica', 'marcos', 'faq', 'investidores'];
+    const sections = ['inicio', 'coracao', 'ciencia', 'spsp', 'frentes', 'colaboracao', 'apoio', 'faq'];
     sections.forEach(id => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
@@ -86,18 +89,11 @@ export default function UrbeLudoPage() {
   const pixKey = "sapientcontato@gmail.com";
 
   const navItems = [
-    { id: 'desafio', label: 'Desafio', icon: <Target className="h-3 w-3" /> },
-    { id: 'semiotica', label: 'Marca', icon: <Box className="h-3 w-3" /> },
-    { id: 'marcos', label: 'Evolução', icon: <Cpu className="h-3 w-3" /> },
-    { id: 'faq', label: 'Dúvidas', icon: <Zap className="h-3 w-3" /> },
-    { id: 'investidores', label: 'Apoiar', icon: <Heart className="h-3 w-3" /> },
-  ];
-
-  const milestones = [
-    { id: "f-01", title: "Fase 01: Arquitetura", status: "Em andamento", desc: "Base lógica SPSP e design focado em acessibilidade clínica.", icon: <Brain className="h-5 w-5 md:h-6 md:w-6" />, color: "from-cyan-400 to-cyan-600" },
-    { id: "f-02", title: "Fase 02: MVP Tech", status: "Planejado", desc: "Versão multiplataforma integrada iOS, Android e Web.", icon: <Smartphone className="h-5 w-5 md:h-6 md:w-6" />, color: "from-blue-500 to-indigo-600" },
-    { id: "f-03", title: "Fase 03: Validação", status: "Planejado", desc: "Implementação em clínicas para calibração de dados reais.", icon: <Activity className="h-5 w-5 md:h-6 md:w-6" />, color: "from-indigo-600 to-primary" },
-    { id: "f-04", title: "Fase 04: Escala", status: "Planejado", desc: "Expansão global e democratização para ONGs.", icon: <Globe className="h-5 w-5 md:h-6 md:w-6" />, color: "from-primary to-pink-500" }
+    { id: 'coracao', label: 'Conceito', icon: <Target className="h-3 w-3" /> },
+    { id: 'ciencia', label: 'Ciência', icon: <Brain className="h-3 w-3" /> },
+    { id: 'spsp', label: 'SPSP', icon: <Cpu className="h-3 w-3" /> },
+    { id: 'frentes', label: 'Cuidado', icon: <Heart className="h-3 w-3" /> },
+    { id: 'faq', label: 'FAQ', icon: <Zap className="h-3 w-3" /> },
   ];
 
   const faqs = [
@@ -148,20 +144,14 @@ export default function UrbeLudoPage() {
   return (
     <main className="min-h-screen bg-white text-slate-900 selection:bg-primary/20 selection:text-primary pb-32 overflow-x-hidden">
       
-      {/* Specialized Fixed Header for UrbeLudo */}
-      <header className="fixed top-0 left-0 right-0 z-[500] bg-white/80 backdrop-blur-3xl border-b border-slate-100 transition-all duration-500">
-        <div className="container mx-auto px-6 h-16 md:h-24 flex items-center justify-between gap-4">
-          <Link href="/" className="relative block w-[120px] h-[36px] md:w-[200px] md:h-[50px] transition-all hover:scale-105 shrink-0">
-            <Image 
-              src={logoUrl} 
-              alt="studiosapient Logo" 
-              fill 
-              className="object-contain object-left" 
-              priority 
-            />
+      {/* Header Fixo de Navegação Premium */}
+      <header className="fixed top-0 left-0 right-0 z-[500] bg-white/80 backdrop-blur-3xl border-b border-slate-100 h-16 md:h-24">
+        <div className="container mx-auto px-6 h-full flex items-center justify-between">
+          <Link href="/" className="relative block w-[110px] h-[32px] md:w-[180px] md:h-[40px] hover:scale-105 transition-all">
+            <Image src={logoUrl} alt="Logo" fill className="object-contain object-left" priority />
           </Link>
           
-          <nav className="hidden lg:flex items-center gap-10">
+          <nav className="hidden lg:flex items-center gap-8">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -180,16 +170,15 @@ export default function UrbeLudoPage() {
             ))}
           </nav>
           
-          <div className="lg:hidden flex items-center gap-1 overflow-x-auto no-scrollbar max-w-[200px]">
+          <div className="lg:hidden flex items-center gap-1">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
                 className={cn(
-                  "p-2 rounded-lg transition-all",
+                  "p-2 rounded-lg",
                   activeSection === item.id ? "text-primary bg-primary/5" : "text-slate-400"
                 )}
-                aria-label={item.label}
               >
                 {item.icon}
               </button>
@@ -198,87 +187,168 @@ export default function UrbeLudoPage() {
         </div>
       </header>
 
-      {/* Hero Section - Dark & Purple Premium Mesh */}
-      <section id="inicio" className="relative pt-32 pb-16 md:pt-64 md:pb-48 px-6 text-center space-y-4 overflow-hidden hero-purple-mesh bg-[#08070b]">
+      {/* 01. Hero - Onde o afeto encontra a tecnologia */}
+      <section id="inicio" className="relative pt-32 pb-20 md:pt-56 md:pb-48 px-6 text-center hero-purple-mesh bg-[#08070b]">
         <div className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
         
-        <div className="relative z-10 container mx-auto">
-          <Badge className="mb-8 bg-primary/10 text-primary border-primary/20 px-8 py-2.5 text-[9px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">HealthTech Vanguarda</Badge>
-          <h1 className="font-headline text-3xl md:text-8xl lg:text-[9rem] font-black text-white tracking-tighter leading-[0.85] mb-8 text-balance uppercase">
-            UrbeLudo <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary italic block lowercase font-medium">movimento & inteligência.</span>
-          </h1>
-          <p className="text-xs md:text-2xl text-white/40 font-medium max-w-3xl mx-auto leading-tight mb-12 text-balance px-4 pt-4">
-            Escalando a eficácia clínica através de tecnologia preditiva para o desenvolvimento neuropsicomotor infantil.
-          </p>
-          <div className="flex justify-center pt-8">
-            <button onClick={() => scrollToSection('desafio')} className="h-10 w-10 md:h-12 md:w-12 rounded-full border border-white/10 flex items-center justify-center text-primary animate-bounce hover:bg-white/5 transition-colors">
-              <ChevronDown className="h-4 w-4 md:h-5 md:w-5" />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Seção Desafio - High Contrast White Editorial */}
-      <section id="desafio" className="py-20 md:py-48 bg-white text-slate-950 rounded-[2.5rem] md:rounded-[6rem] mx-4 -mt-8 relative z-20 shadow-2xl px-6 overflow-hidden border border-slate-100">
-        <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-32 items-center">
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Gap de Saúde Pública</p>
-              <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">O Abismo da <br/><span className="text-primary italic font-medium">Reabilitação.</span></h2>
+        <div className="container mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center text-left">
+          <div className="space-y-8">
+            <Badge className="bg-primary/10 text-primary border-primary/20 px-8 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">
+              BioScience & Connection
+            </Badge>
+            <h1 className="font-headline text-3xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[0.85] uppercase">
+              UrbeLudo: <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary italic font-medium lowercase">movimento no bolso.</span>
+            </h1>
+            <p className="text-sm md:text-xl text-white/40 font-medium leading-relaxed max-w-xl">
+              A reabilitação neuropsicomotora não precisa ser um processo rígido. Criamos uma ponte digital para que o desenvolvimento da criança continue em casa, transformando exercícios em momentos de descoberta.
+            </p>
+            <div className="flex gap-4">
+              <Button onClick={() => scrollToSection('coracao')} className="h-14 px-8 bg-primary text-white rounded-full font-black uppercase tracking-widest text-[9px] border-none shadow-2xl shadow-primary/30">
+                Conhecer Método
+              </Button>
             </div>
-            <p className="text-sm md:text-lg text-slate-500 leading-relaxed max-w-md font-medium">O atraso no diagnóstico e a falta de continuidade no tratamento domiciliar geram perdas irreversíveis na autonomia infantil. O UrbeLudo digitaliza esse processo para democratizar resultados.</p>
           </div>
-          <blockquote className="text-lg md:text-4xl text-slate-300 font-medium leading-tight italic border-l-4 md:border-l-8 border-primary/10 pl-6 md:pl-8 text-balance">
-            "Digitalizamos a jornada psicomotora para devolver o que há de mais precioso: a autonomia humana."
-          </blockquote>
-        </div>
-      </section>
-
-      {/* Seção Semiótica - Light Gray Technical Minimalist */}
-      <section id="semiotica" className="py-20 md:py-48 px-6 bg-slate-50">
-        <div className="container mx-auto max-w-6xl text-center space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Arquitetura de Marca</p>
-          <h3 className="font-headline text-2xl md:text-7xl font-black text-slate-950 uppercase mb-16 tracking-tighter leading-[0.85]">Urbanismo do <br /><span className="text-primary italic font-medium">Movimento.</span></h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 pt-8">
-            <div className="p-8 md:p-16 rounded-[2rem] md:rounded-[3rem] bg-white border border-slate-200 text-left space-y-4 md:space-y-6 shadow-sm group hover:border-primary/20 transition-all duration-700">
-              <div className="h-12 w-12 md:h-16 md:w-16 rounded-xl bg-slate-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                <Box className="h-6 w-6 md:h-8 md:w-8" />
-              </div>
-              <div className="space-y-3">
-                <h4 className="text-lg md:text-3xl font-black uppercase tracking-tighter text-slate-950">URBE (Cidade)</h4>
-                <p className="text-slate-500 leading-relaxed text-xs md:text-lg font-medium">A organização lúdica das funções psicomotoras. O corpo como espaço estruturado, onde cada movimento tem sua coordenada e função lógica.</p>
-              </div>
-            </div>
-            <div className="p-8 md:p-16 rounded-[2rem] md:rounded-[3rem] bg-white border border-slate-200 text-left space-y-4 md:space-y-6 shadow-sm group hover:border-primary/20 transition-all duration-700">
-              <div className="h-12 w-12 md:h-16 md:w-16 rounded-xl bg-slate-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
-                <Smile className="h-6 w-6 md:h-8 md:w-8" />
-              </div>
-              <div className="space-y-3">
-                <h4 className="text-lg md:text-3xl font-black uppercase tracking-tighter text-slate-950">LUDO (Brincar)</h4>
-                <p className="text-slate-500 leading-relaxed text-xs md:text-lg font-medium">A fluidez do brincar. O motor de engajamento que remove a barreira clínica fria e datada, transformando o esforço terapêutico em diversão imersiva.</p>
-              </div>
+          
+          <div className="relative aspect-square md:aspect-video rounded-[3rem] overflow-hidden shadow-2xl border border-white/10 group">
+            <Image 
+              src="https://picsum.photos/seed/sap-tablet-v1/1200/800" 
+              alt="Interface UrbeLudo" 
+              fill 
+              className="object-cover group-hover:scale-105 transition-transform duration-[4000ms]"
+              data-ai-hint="tablet interaction"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            <div className="absolute bottom-8 left-8 flex items-center gap-4">
+               <div className="h-12 w-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-primary">
+                 <Smartphone className="h-6 w-6" />
+               </div>
+               <span className="text-white text-[10px] font-black uppercase tracking-widest">UX Lúdica & Intuitiva</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Seção Marcos - White Pipeline Compact */}
-      <section id="marcos" className="py-20 md:py-48 bg-white px-6 rounded-[2.5rem] md:rounded-[6rem] mx-4 mb-12 border border-slate-100">
-        <div className="container mx-auto max-w-7xl space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Pipeline de Inovação</p>
-          <h3 className="font-headline text-2xl md:text-7xl font-black text-slate-950 uppercase mb-16 text-center tracking-tighter leading-[0.85]">Marcos de <br /><span className="text-primary italic font-medium">Evolução.</span></h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 pt-8">
-            {milestones.map((m, i) => (
-              <div key={i} className="p-6 md:p-10 rounded-[1.5rem] md:rounded-[2.5rem] bg-slate-50 border border-slate-200 space-y-4 relative overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-700">
-                <div className={cn("absolute top-0 left-0 w-full h-1 bg-gradient-to-r", m.color)} />
-                <div className={cn("h-10 w-10 md:h-14 md:w-14 rounded-xl flex items-center justify-center text-white bg-gradient-to-br shadow-md", m.color)}>
-                  <div className="scale-75 md:scale-100">{m.icon}</div>
+      {/* 02. O Coração do Projeto: Por que UrbeLudo? */}
+      <section id="coracao" className="py-20 md:py-48 bg-white text-slate-950 rounded-[2.5rem] md:rounded-[6rem] mx-4 -mt-8 relative z-20 shadow-2xl px-6 border border-slate-100 overflow-hidden">
+        <div className="container mx-auto max-w-5xl space-y-20">
+          <div className="text-center space-y-4">
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">DNA do Projeto</span>
+            <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">O Coração da <br /><span className="text-primary italic font-medium lowercase">experiência.</span></h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+            <div className="p-10 md:p-16 rounded-[3rem] bg-slate-50 border border-slate-100 space-y-6 group hover:border-primary/20 transition-all duration-700">
+               <div className="h-16 w-16 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:text-white transition-all">
+                 <Box className="h-8 w-8" />
+               </div>
+               <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">URBE (Espaço)</h3>
+               <p className="text-slate-500 text-sm md:text-lg leading-relaxed font-medium">Entendemos o corpo como o primeiro território. Dominá-lo é como navegar em uma cidade; exige mapas (esquema corporal) e vias livres (coordenação).</p>
+            </div>
+            
+            <div className="p-10 md:p-16 rounded-[3rem] bg-slate-50 border border-slate-100 space-y-6 group hover:border-primary/20 transition-all duration-700">
+               <div className="h-16 w-16 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:text-white transition-all">
+                 <Smile className="h-8 w-8" />
+               </div>
+               <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">LUDO (Brincar)</h3>
+               <p className="text-slate-500 text-sm md:text-lg leading-relaxed font-medium">O jogo é a linguagem natural da infância. Através do lúdico o cérebro cria novas conexões neurais e supera limites sem o peso da obrigação.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 03. Base Teórica: A Ciência por trás do Brincar */}
+      <section id="ciencia" className="py-20 md:py-48 bg-slate-50 px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className="flex flex-col lg:flex-row gap-16 lg:gap-32 items-start">
+             <div className="lg:w-1/2 space-y-8">
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Rigor Científico</span>
+                <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">A Ciência do <br /><span className="text-primary italic font-medium lowercase">fluxo.</span></h2>
+                <p className="text-slate-500 text-sm md:text-lg font-medium leading-relaxed">Nossa plataforma não é apenas diversão; ela é fundamentada em pilares sólidos da saúde e educação que garantem resultados clínicos reais.</p>
+             </div>
+             
+             <div className="lg:w-1/2 space-y-6">
+                {[
+                  { title: "Psicomotricidade", desc: "Trabalhamos a relação entre pensamento, emoção e movimento, focando na estruturação espacial e imagem corporal.", icon: <Users className="h-5 w-5" /> },
+                  { title: "Neuroplasticidade", desc: "Desafios desenhados para estimular a reorganização cerebral, criando novas rotas para a fala e o movimento.", icon: <Brain className="h-5 w-5" /> },
+                  { title: "Teoria do Fluxo", desc: "Nível de desafio equilibrado para evitar tédio ou frustração, garantindo engajamento contínuo.", icon: <Zap className="h-5 w-5" /> }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex gap-6 p-8 rounded-[2rem] bg-white border border-slate-200 group hover:shadow-lg transition-all">
+                    <div className="h-12 w-12 rounded-xl bg-slate-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shrink-0">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <h4 className="font-black text-lg uppercase tracking-tighter text-slate-950 mb-2">{item.title}</h4>
+                      <p className="text-slate-500 text-[11px] md:text-sm font-medium leading-tight">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 04. SPSP: A Inteligência que Apoia o Terapeuta */}
+      <section id="spsp" className="py-20 md:py-48 bg-white px-6">
+        <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center">
+          <div className="relative">
+             <div className="absolute -inset-4 bg-primary/5 rounded-[4rem] blur-2xl" />
+             <div className="relative p-10 md:p-16 rounded-[4rem] bg-[#08070b] text-white border border-white/5 space-y-10 shadow-2xl">
+                <div className="h-16 w-16 rounded-2xl bg-primary flex items-center justify-center text-white">
+                  <Cpu className="h-8 w-8" />
                 </div>
-                <div className="space-y-2 md:space-y-4">
-                  <h5 className="text-base md:text-xl font-black uppercase leading-tight tracking-tighter text-slate-950">{m.title}</h5>
-                  <Badge className="bg-white text-slate-400 border-none px-3 py-0.5 text-[7px] font-black uppercase tracking-widest">{m.status}</Badge>
-                  <p className="text-slate-500 text-[10px] md:text-base leading-relaxed font-medium">{m.desc}</p>
+                <div className="space-y-4">
+                  <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none">Motor <br />SPSP.</h3>
+                  <p className="text-white/40 text-sm md:text-lg font-medium leading-relaxed">Enquanto a criança brinca, o Sistema Preditivo de Suporte Psicomotor analisa discretamente padrões de interação.</p>
+                </div>
+                <div className="grid grid-cols-2 gap-6 pt-4">
+                   <div className="space-y-2">
+                     <p className="text-2xl font-black text-primary">Previsão</p>
+                     <p className="text-[9px] text-white/30 uppercase font-black">Tendências de Evolução</p>
+                   </div>
+                   <div className="space-y-2">
+                     <p className="text-2xl font-black text-cyan-400">Dados</p>
+                     <p className="text-[9px] text-white/30 uppercase font-black">Precisão Clínica</p>
+                   </div>
+                </div>
+             </div>
+          </div>
+          
+          <div className="space-y-10">
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Backstage Técnico</span>
+            <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">Relatórios <br /><span className="text-primary italic font-medium lowercase">assertivos.</span></h2>
+            <p className="text-slate-500 text-sm md:text-lg font-medium leading-relaxed">
+              O sistema identifica dificuldades específicas em fonemas ou coordenação fina. Esses dados são transformados em relatórios simples, permitindo que a próxima sessão presencial foque exatamente onde a criança mais precisa.
+            </p>
+            <div className="flex items-center gap-4 p-6 rounded-2xl bg-slate-50 border border-slate-100">
+               <Activity className="h-6 w-6 text-primary" />
+               <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest italic">Monitoramento em tempo real via Cloud Sapient.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 05. Nossas Frentes de Cuidado */}
+      <section id="frentes" className="py-20 md:py-48 bg-slate-50 px-6 rounded-[3rem] md:rounded-[6rem] mx-4 my-12">
+        <div className="container mx-auto max-w-7xl">
+          <div className="text-center space-y-6 mb-24">
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Verticalização Clínica</span>
+            <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">Frentes de <br /><span className="text-primary italic font-medium lowercase">cuidado.</span></h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
+            {[
+              { title: "Fonoaudiologia", desc: "Jogos que incentivam a voz e o sopro. O microfone vira ferramenta de poder, onde a fala faz o mundo ganhar vida.", icon: <Mic className="h-10 w-10" /> },
+              { title: "Terapia Ocupacional", desc: "Atividades de 'arrastar e encaixar' que treinam a precisão, atenção visual e planejamento motor diário.", icon: <MousePointer2 className="h-10 w-10" /> },
+              { title: "Movimento & Reabilitação", desc: "Exercícios guiados de imitação e ritmo, trabalhando o equilíbrio e a coordenação global da criança.", icon: <Stethoscope className="h-10 w-10" /> }
+            ].map((frente, idx) => (
+              <div key={idx} className="p-12 rounded-[3.5rem] bg-white border border-slate-100 space-y-8 shadow-sm hover:shadow-2xl transition-all group flex flex-col h-full">
+                <div className="h-20 w-20 rounded-3xl bg-slate-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                  {frente.icon}
+                </div>
+                <div className="space-y-4 flex-1">
+                  <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter text-slate-950">{frente.title}</h3>
+                  <p className="text-slate-500 text-sm md:text-base leading-relaxed font-medium">{frente.desc}</p>
                 </div>
               </div>
             ))}
@@ -286,18 +356,64 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* Seção FAQ - Light Gray Minimalist Restoration */}
-      <section id="faq" className="py-20 md:py-48 bg-slate-50 text-slate-950 rounded-[2.5rem] md:rounded-[4rem] mx-4 my-12 px-6">
-        <div className="container mx-auto max-w-4xl space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Base de Conhecimento</p>
-          <h3 className="font-headline text-xl md:text-6xl font-black text-center uppercase mb-12 tracking-tighter leading-[0.85]">Dúvidas <br /><span className="text-primary italic font-medium">Técnicas.</span></h3>
-          <Accordion type="single" collapsible className="space-y-2 pt-4">
+      {/* 06. Comunidade e Colaboração Pro Bono */}
+      <section id="colaboracao" className="py-20 md:py-48 bg-white px-6">
+        <div className="container mx-auto max-w-5xl text-center space-y-12">
+          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Ecossistema Social</span>
+          <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">Seja um <br /><span className="text-primary italic font-medium lowercase">co-autor.</span></h2>
+          <p className="text-slate-500 text-sm md:text-xl font-medium leading-relaxed max-w-3xl mx-auto">
+            O UrbeLudo é feito por pessoas para pessoas. Contamos com uma rede de especialistas que doam tempo e talento para que esta ferramenta chegue a quem mais precisa.
+          </p>
+          <div className="pt-8">
+            <Button 
+              onClick={() => copyToClipboard(contactEmail, "Email")} 
+              className="h-24 px-16 bg-[#08070b] text-white hover:bg-slate-800 rounded-full font-black uppercase tracking-[0.4em] text-[10px] border-none shadow-2xl active:scale-95 transition-all"
+            >
+              Juntar-se à Rede Voluntária
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* 07. Como você pode ajudar (PIX) */}
+      <section id="apoio" className="py-20 md:py-48 bg-[#08070b] text-white rounded-[2.5rem] md:rounded-[6rem] mx-4 my-12 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none opacity-10 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.4),transparent_70%)]" />
+        <div className="container mx-auto max-w-4xl text-center space-y-12 relative z-10 px-6">
+          <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center text-primary mx-auto mb-8 animate-pulse">
+            <Heart className="h-8 w-8" />
+          </div>
+          <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">Mova o <br /><span className="text-primary italic font-medium lowercase">futuro.</span></h2>
+          <p className="text-white/40 text-sm md:text-xl font-medium leading-relaxed">
+            Manter um ecossistema digital exige investimento em servidores e segurança. Nossa meta é manter o UrbeLudo acessível para ONGs que atendem crianças carentes.
+          </p>
+          <div className="p-8 md:p-12 rounded-[3rem] bg-white/5 border border-white/10 space-y-6">
+             <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">Apoio via PIX</p>
+             <p className="text-2xl md:text-4xl font-black tracking-tighter text-white">{pixKey}</p>
+             <Button 
+              onClick={() => copyToClipboard(pixKey, "PIX")} 
+              className="h-20 px-12 bg-primary text-white hover:bg-primary/90 rounded-full font-black uppercase tracking-widest text-[9px] border-none shadow-2xl"
+            >
+              Copiar Chave PIX
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* 08. FAQ: Tirando as dúvidas */}
+      <section id="faq" className="py-20 md:py-48 bg-white px-6">
+        <div className="container mx-auto max-w-4xl space-y-16">
+          <div className="text-center space-y-4">
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Base de Conhecimento</span>
+            <h2 className="font-headline text-xl md:text-6xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">Dúvidas <br /><span className="text-primary italic font-medium lowercase">técnicas.</span></h2>
+          </div>
+          
+          <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, i) => (
-              <AccordionItem key={i} value={`q${i}`} className="border-none bg-white rounded-xl md:rounded-[2rem] px-5 md:px-10 shadow-sm border border-slate-200 overflow-hidden">
-                <AccordionTrigger className="text-left font-black uppercase text-[9px] md:text-sm py-5 md:py-8 text-slate-950 hover:no-underline group">
+              <AccordionItem key={i} value={`q${i}`} className="border-none bg-slate-50 rounded-2xl md:rounded-[2.5rem] px-8 md:px-12 shadow-sm border border-slate-100 overflow-hidden">
+                <AccordionTrigger className="text-left font-black uppercase text-[10px] md:text-sm py-6 md:py-10 text-slate-950 hover:no-underline group">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-slate-500 text-[10px] md:text-lg pb-6 md:pb-10 leading-relaxed border-l-2 md:border-l-4 border-primary/10 pl-4 md:pl-6 font-medium">
+                <AccordionContent className="text-slate-500 text-[11px] md:text-lg pb-8 md:pb-12 leading-relaxed border-l-4 border-primary/10 pl-6 md:pl-10 font-medium">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>
@@ -306,49 +422,9 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* Seção Investidores - Mixed Impact Hybrid Contrast */}
-      <section id="investidores" className="py-20 md:py-48 px-6 bg-white">
-        <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-32">
-          <div className="space-y-6 md:space-y-8">
-            <div className="space-y-4">
-              <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Ecossistema Social</p>
-              <h3 className="font-headline text-2xl md:text-8xl font-black text-slate-950 leading-[0.85] uppercase tracking-tighter">Mova o <br/><span className="text-primary italic font-medium">Futuro.</span></h3>
-            </div>
-            <p className="text-sm md:text-xl text-slate-500 leading-relaxed text-balance font-medium">Buscamos parcerias estratégicas para democratizar a saúde infantil. Cada apoio acelera a chegada do UrbeLudo a quem mais precisa.</p>
-            <div className="flex items-center gap-3 p-4 md:p-6 rounded-2xl bg-primary/5 border border-primary/10">
-               <Sparkles className="h-4 w-4 md:h-6 md:w-6 text-primary" />
-               <p className="text-[8px] md:text-sm font-bold text-primary/80 uppercase tracking-widest italic">100% dos apoios sociais são revertidos para ONGs.</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 gap-4 md:gap-6">
-            <div className="p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] bg-slate-50 text-slate-950 space-y-6 md:space-y-8 border-t-4 md:border-t-[8px] border-primary shadow-sm hover:shadow-lg transition-all">
-              <Badge className="bg-primary/10 text-primary px-4 py-1.5 text-[8px] uppercase font-black tracking-widest border-none">Pro Bono</Badge>
-              <h4 className="text-lg md:text-4xl font-black uppercase leading-none tracking-tighter">Seja Co-Autor</h4>
-              <p className="text-slate-500 text-[10px] md:text-lg leading-relaxed font-medium">Buscamos especialistas em saúde e tech para colaborar no refinamento do método SPSP sem custos operacionais.</p>
-              <Button 
-                className="w-full h-12 md:h-20 rounded-2xl bg-slate-950 text-white hover:bg-slate-800 font-black text-[8px] md:text-[10px] uppercase tracking-widest transition-all active:scale-95 border-none shadow-xl" 
-                onClick={() => copyToClipboard(contactEmail, "Email")}
-              >
-                Copiar Email de Contato
-              </Button>
-            </div>
-            <div className="p-8 md:p-14 rounded-[2rem] md:rounded-[3rem] bg-[#08070b] border border-white/5 text-white space-y-6 md:space-y-8 shadow-2xl hover:shadow-primary/20 transition-all border-t-4 md:border-t-[8px] border-primary">
-              <Badge className="bg-primary/20 text-primary px-4 py-1.5 text-[8px] uppercase font-black tracking-widest border-none">Impacto Direto</Badge>
-              <h4 className="text-lg md:text-4xl font-black uppercase leading-none tracking-tighter text-white">Custear Projeto</h4>
-              <p className="text-white/40 text-[10px] md:text-lg leading-relaxed font-medium">Contribua com a manutenção do servidor e expansão de licenças para instituições carentes.</p>
-              <Button 
-                className="w-full h-12 md:h-20 rounded-2xl bg-primary hover:bg-primary/90 text-white font-black text-[8px] md:text-[10px] uppercase tracking-widest shadow-lg shadow-primary/20 border-none transition-all active:scale-95" 
-                onClick={() => copyToClipboard(pixKey, "PIX")}
-              >
-                Apoiar via PIX <ArrowRight className="ml-3 h-3 w-3" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <Footer />
       <AIChat />
     </main>
   );
 }
+
