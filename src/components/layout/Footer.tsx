@@ -27,28 +27,31 @@ export function Footer() {
               </p>
             </div>
             
-            <div className="flex gap-3 mb-8 md:mb-10">
-              {[
-                { icon: <Instagram size={18} />, href: "https://instagram.com/studiosapient", label: "Instagram" },
-                { icon: <Palette size={18} />, href: behanceUrl, label: "Behance" }
-              ].map((social, i) => (
-                <Link 
-                  key={i} 
-                  href={social.href} 
-                  target="_blank"
-                  aria-label={social.label}
-                  className="h-10 w-10 md:h-12 md:w-12 rounded-2xl bg-white/5 flex items-center justify-center text-white border border-white/10 hover:bg-primary hover:text-white hover:scale-110 transition-all duration-500 group"
-                >
-                  <div className="group-hover:rotate-12 transition-transform duration-500">
-                    {social.icon}
-                  </div>
-                </Link>
-              ))}
-            </div>
+            {/* Bloco de Ação e Autoridade Integrado */}
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-4 md:mb-6">
+              <div className="flex gap-2">
+                {[
+                  { icon: <Instagram size={18} />, href: "https://instagram.com/studiosapient", label: "Instagram" },
+                  { icon: <Palette size={18} />, href: behanceUrl, label: "Behance" }
+                ].map((social, i) => (
+                  <Link 
+                    key={i} 
+                    href={social.href} 
+                    target="_blank"
+                    aria-label={social.label}
+                    className="h-10 w-10 md:h-12 md:w-12 rounded-[1rem] bg-white/5 flex items-center justify-center text-white border border-white/10 hover:bg-primary hover:text-white hover:scale-105 transition-all duration-500 group"
+                  >
+                    <div className="group-hover:rotate-12 transition-transform duration-500">
+                      {social.icon}
+                    </div>
+                  </Link>
+                ))}
+              </div>
 
-            {/* Prova Social Integrada - Versão Ultra-Compacta */}
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-              <TrustedBy />
+              {/* Prova Social de Elite Lado a Lado */}
+              <div className="animate-in fade-in slide-in-from-left-4 duration-1000">
+                <TrustedBy />
+              </div>
             </div>
           </div>
 
@@ -128,3 +131,4 @@ export function Footer() {
     </footer>
   );
 }
+
