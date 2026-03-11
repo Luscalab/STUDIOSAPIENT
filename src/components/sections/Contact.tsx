@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Mail, MessageCircle, Phone, Copy, Send, ExternalLink } from "lucide-react";
@@ -7,7 +8,7 @@ export function Contact() {
   const { toast } = useToast();
   
   const contactData = {
-    email: "sapientcontato@gmail.com",
+    email: "contato@studiosapient.com.br",
     phone: "+55 11 95963-1870",
     phoneDigits: "5511959631870",
     whatsappMsg: "Olá! Gostaria de saber mais sobre os serviços da studiosapient."

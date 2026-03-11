@@ -17,7 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
 
-const AUTHORIZED_EMAIL = "sapientcontato@gmail.com";
+const AUTHORIZED_EMAIL = "contato@studiosapient.com.br";
 
 export default function AdminPage() {
   const { user, isUserLoading } = useUser();

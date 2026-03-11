@@ -85,8 +85,8 @@ export default function UrbeLudoPage() {
     return () => observer.disconnect();
   }, []);
 
-  const contactEmail = "sapientcontato@gmail.com";
-  const pixKey = "sapientcontato@gmail.com";
+  const contactEmail = "contato@studiosapient.com.br";
+  const pixKey = "contato@studiosapient.com.br";
 
   const navItems = [
     { id: 'coracao', label: 'Conceito', icon: <Target className="h-3 w-3" /> },
@@ -318,7 +318,7 @@ export default function UrbeLudoPage() {
             <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Backstage Técnico</span>
             <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">Relatórios <br /><span className="text-primary italic font-medium lowercase">assertivos.</span></h2>
             <p className="text-slate-500 text-sm md:text-lg font-medium leading-relaxed">
-              O sistema identifica dificuldades específicas em fonemas ou coordenação fina. Esses dados são transformados em relatórios simples, permitindo que a próxima sessão presencial foque exatamente onde a criança mais precisa.
+              O sistema identifica dificuldades específicas em fonemas ou coordenação fina. Esses dados são transformados em relatórios simples, permitindo que a próxima sessão presencial foque exatamente onde a criança mais precisa de ajuda.
             </p>
             <div className="flex items-center gap-4 p-6 rounded-2xl bg-slate-50 border border-slate-100">
                <Activity className="h-6 w-6 text-primary" />
@@ -427,4 +427,3 @@ export default function UrbeLudoPage() {
     </main>
   );
 }
-

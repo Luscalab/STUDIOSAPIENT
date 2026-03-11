@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const AUTHORIZED_EMAIL = "sapientcontato@gmail.com";
+const AUTHORIZED_EMAIL = "contato@studiosapient.com.br";
 
 export function GoogleLoginButton() {
   const auth = useAuth();

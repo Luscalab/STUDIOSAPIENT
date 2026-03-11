@@ -10,7 +10,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Lock, Settings } from "lucide-react";
 
-const ADMIN_EMAIL = "sapientcontato@gmail.com";
+const ADMIN_EMAIL = "contato@studiosapient.com.br";
 
 export default function BlogPage() {
   const { user } = useUser();
