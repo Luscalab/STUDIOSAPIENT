@@ -41,7 +41,7 @@ export default function UrbeLudoPage() {
     toast({
       title: `[ ${label.toUpperCase()} COPIADO ]`,
       description: "Pronto para uso na sua área de transferência.",
-      className: "bg-black border-cyan-500 text-white font-black uppercase tracking-widest text-[10px]"
+      className: "bg-[#08070b] border-cyan-500/50 text-white font-black uppercase tracking-widest text-[10px] shadow-[0_0_20px_rgba(6,182,212,0.3)]"
     });
   };
 
@@ -226,7 +226,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 5. Inteligência Multidisciplinar - NEW SECTION */}
+      {/* 5. Inteligência Multidisciplinar */}
       <section id="expertise" className="py-24 md:py-48 relative overflow-hidden bg-[#08070b]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(6,182,212,0.1),transparent_50%)]" />
         <div className="container mx-auto px-6 relative z-10">
@@ -296,7 +296,7 @@ export default function UrbeLudoPage() {
 
             <div className="lg:col-span-6 grid grid-cols-1 gap-8">
               {/* Card Contato / Parceria */}
-              <div className="p-10 rounded-[3.5rem] bg-white text-slate-950 space-y-8 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] relative overflow-hidden group border border-slate-100">
+              <div className="p-10 rounded-[3.5rem] bg-white text-slate-950 space-y-8 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] relative overflow-hidden group border border-slate-100 hover:scale-[1.02] transition-all duration-500">
                  <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity pointer-events-none">
                    <TrendingUp className="h-48 w-48 text-primary" />
                  </div>
@@ -304,12 +304,12 @@ export default function UrbeLudoPage() {
                    <Badge className="bg-primary/10 text-primary border-none px-4 py-1 text-[8px] font-black uppercase tracking-widest">Parceria Estratégica</Badge>
                    <h4 className="font-headline text-3xl font-black tracking-tighter uppercase leading-none">Vamos mover o <br/>futuro juntos?</h4>
                    <p className="text-slate-500 font-medium text-lg leading-relaxed">
-                     Estamos em busca de investidores e parceiros estratégicos que compartilhem da nossa visão de futuro.
+                     Estamos em busca de investidores e parceiros estratégicos que compartilhem da nossa visão de futuro para a saúde digital.
                    </p>
                    <div className="pt-4">
                       <button 
                         onClick={() => copyToClipboard(contactEmail, "E-mail")} 
-                        className="flex items-center justify-between w-full p-6 rounded-2xl bg-slate-50 border border-slate-200 group/btn hover:border-primary transition-all shadow-sm"
+                        className="flex items-center justify-between w-full p-6 rounded-2xl bg-slate-50 border border-slate-200 group/btn hover:border-primary hover:bg-white transition-all shadow-sm"
                       >
                         <div className="flex items-center gap-4">
                           <Mail className="h-5 w-5 text-primary" />
@@ -322,7 +322,7 @@ export default function UrbeLudoPage() {
               </div>
 
               {/* Card PIX / Apoio Social */}
-              <div className="p-10 rounded-[3.5rem] bg-[#121216] border border-white/10 space-y-8 shadow-2xl relative overflow-hidden group">
+              <div className="p-10 rounded-[3.5rem] bg-[#121216] border border-white/10 space-y-8 shadow-2xl relative overflow-hidden group hover:scale-[1.02] transition-all duration-500">
                  <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
                    <Heart className="h-48 w-48 text-primary" />
                  </div>
@@ -330,12 +330,12 @@ export default function UrbeLudoPage() {
                    <Badge className="bg-cyan-500/10 text-cyan-400 border-none px-4 py-1 text-[8px] font-black uppercase tracking-widest">Apoio Social</Badge>
                    <h4 className="font-headline text-3xl font-black tracking-tighter uppercase leading-none text-white">Impacto Real <br/>na Vida Real.</h4>
                    <p className="text-white/40 font-medium text-lg leading-relaxed">
-                     Sua doação direta via PIX ajuda a manter o projeto ativo em ONGs e clínicas de baixa renda.
+                     Sua doação direta via PIX impulsiona o desenvolvimento contínuo e garante a disponibilidade futura do projeto em ONGs e clínicas de baixa renda.
                    </p>
                    <div className="pt-4">
                       <button 
                         onClick={() => copyToClipboard(pixKey, "Chave PIX")} 
-                        className="flex items-center justify-between w-full p-6 rounded-2xl bg-white/5 border border-white/10 group/pix hover:border-cyan-400 transition-all"
+                        className="flex items-center justify-between w-full p-6 rounded-2xl bg-white/5 border border-white/10 group/pix hover:border-cyan-400 hover:bg-white/10 transition-all"
                       >
                         <div className="flex items-center gap-4">
                           <Zap className="h-5 w-5 text-cyan-400" />
@@ -359,7 +359,7 @@ export default function UrbeLudoPage() {
              O Futuro é <span className="text-primary italic">Humano.</span>
            </h3>
            <p className="text-xl md:text-2xl text-slate-500 font-medium max-w-3xl mx-auto tracking-tight">
-             O UrbeLudo é a prova de que a tecnologia, quando guiada pelo afeto, é a maior ferramenta de liberdade que existe.
+             O UrbeLudo é a prova de que a tecnologia, quando guiada pelo afeto e pela ciência, é a maior ferramenta de liberdade que existe.
            </p>
            <div className="pt-8">
               <Button onClick={handleOpenChat} className="h-24 px-16 bg-primary text-white hover:bg-primary/90 rounded-full font-black uppercase tracking-[0.4em] text-[12px] transition-all shadow-2xl shadow-primary/30">
