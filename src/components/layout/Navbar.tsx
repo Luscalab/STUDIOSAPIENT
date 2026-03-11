@@ -25,12 +25,12 @@ export function Navbar() {
 
   return (
     <header className="absolute top-6 left-0 right-0 z-[150]" role="banner">
-      <div className="container mx-auto px-6 flex items-center justify-between gap-10">
+      <div className="container mx-auto px-6 flex items-center justify-between gap-4">
         
-        {/* Logo imponente e ajustado para a direita conforme solicitação */}
+        {/* Logo imponente e ajustado para a direita */}
         <Link 
           href="/" 
-          className="relative block w-[140px] h-[42px] md:w-[180px] md:h-[54px] lg:w-[320px] lg:h-[96px] transition-transform duration-700 hover:scale-[1.02] shrink-0 ml-4 lg:ml-8"
+          className="relative block w-[140px] h-[40px] md:w-[220px] md:h-[60px] lg:w-[320px] lg:h-[96px] transition-transform duration-700 hover:scale-[1.02] shrink-0"
         >
           <Image 
             src={logoUrl} 
@@ -63,40 +63,43 @@ export function Navbar() {
           </button>
         </nav>
 
-        {/* Gatilho Mobile */}
+        {/* Gatilho Mobile - Melhorado para Mobile */}
         <button 
-          className="lg:hidden p-3 rounded-xl bg-white/5 text-white border border-white/10" 
+          className="lg:hidden p-4 rounded-2xl bg-white/5 text-white border border-white/10 active:scale-95 transition-transform" 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Abrir Menu"
+          aria-label="Menu"
         >
-          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Menu Mobile */}
+      {/* Menu Mobile Fullscreen */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-12 pt-40 hero-purple-mesh flex flex-col gap-8 animate-in fade-in duration-500">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              href={link.href} 
-              className="text-2xl font-black text-white tracking-tighter uppercase" 
-              onClick={() => setIsMobileMenuOpen(false)}
+        <div className="lg:hidden fixed inset-0 z-[160] bg-[#09080f] p-10 pt-40 hero-purple-mesh flex flex-col gap-10 animate-in fade-in slide-in-from-right duration-500">
+          <div className="space-y-8">
+            {navLinks.map((link) => (
+              <Link 
+                key={link.name} 
+                href={link.href} 
+                className="block text-4xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-4" 
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <button 
+              onClick={handleOpenChat}
+              className="block text-4xl font-black text-primary tracking-tighter uppercase text-left w-full"
             >
-              {link.name}
-            </Link>
-          ))}
-          <button 
-            onClick={handleOpenChat}
-            className="text-2xl font-black text-primary tracking-tighter uppercase text-left"
-          >
-            Consultoria
-          </button>
+              Consultoria
+            </button>
+          </div>
+          
           <button 
             onClick={() => setIsMobileMenuOpen(false)} 
-            className="absolute top-10 right-10 h-14 w-14 rounded-full bg-white/5 flex items-center justify-center text-white border border-white/10"
+            className="mt-auto h-20 w-full rounded-3xl bg-white/5 flex items-center justify-center text-white/40 font-black uppercase tracking-widest text-[10px] border border-white/10"
           >
-            <X size={28} />
+            Fechar Menu
           </button>
         </div>
       )}

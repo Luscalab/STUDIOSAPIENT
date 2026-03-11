@@ -32,7 +32,10 @@
     @apply border-border;
   }
   html {
-    font-size: 16px;
+    font-size: 14px;
+    @screen md {
+      font-size: 16px;
+    }
     scroll-behavior: smooth;
     max-width: 100vw;
     overflow-x: hidden;
@@ -41,19 +44,17 @@
     @apply bg-[#08070b] text-foreground selection:bg-primary/20 selection:text-primary antialiased font-body;
     text-rendering: optimizeLegibility;
     min-height: 100vh;
+    max-width: 100vw;
+    overflow-x: hidden;
     
-    /* SEGURANÇA: Impede seleção de texto em todo o corpo do site */
+    /* SEGURANÇA: Impede seleção de texto */
     -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
   }
 
-  /* SEGURANÇA: Permite seleção apenas em campos de entrada */
+  /* SEGURANÇA: Permite seleção em campos de entrada */
   input, textarea, [contenteditable="true"] {
     -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
     user-select: text;
   }
 
@@ -61,11 +62,9 @@
   img {
     pointer-events: none;
     -webkit-user-drag: none;
-    user-drag: none;
   }
 }
 
-/* Foco de Alta Visibilidade para Acessibilidade */
 :focus-visible {
   @apply outline-none ring-4 ring-primary ring-offset-2 ring-offset-[#08070b];
 }
@@ -87,57 +86,13 @@
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 40px -10px rgba(139, 92, 246, 0.3); }
-  50% { box-shadow: 0 0 60px -5px rgba(139, 92, 246, 0.5); }
+  0%, 100% { box-shadow: 0 0 30px -5px rgba(139, 92, 246, 0.2); }
+  50% { box-shadow: 0 0 50px -2px rgba(139, 92, 246, 0.4); }
 }
 
-/* VLibras Adjustments - PRIORIDADE ABSOLUTA */
-[vw].enabled,
-[vw-access-button],
-.vw-plugin-wrapper,
-.vw-plugin-top-wrapper,
-.access-button,
-.vp-container {
-  z-index: 99999 !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-/* Garante visibilidade sobre o menu de acessibilidade e chats */
-[vw-access-button].active {
-  z-index: 99999 !important;
-  display: block !important;
-}
-
-/* Modos de Acessibilidade */
-.accessibility-high-contrast {
-  --background: 0 0% 0%;
-  --foreground: 0 0% 100%;
-  --primary: 60 100% 50%;
-  --primary-foreground: 0 0% 0%;
-  --card: 0 0% 5%;
-  --border: 0 0% 100%;
-}
-
-.accessibility-grayscale {
-  filter: grayscale(100%);
-}
-
-.accessibility-highlight-links a {
-  text-decoration: underline !important;
-  font-weight: 800 !important;
-  color: hsl(var(--primary)) !important;
-  background-color: rgba(139, 92, 246, 0.1);
-  padding: 0.1rem 0.3rem;
-  border-radius: 0.25rem;
-}
-
-/* Redução de Movimento */
-.accessibility-stop-animations *,
-.accessibility-stop-animations *::before,
-.accessibility-stop-animations *::after {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.01ms !important;
-  scroll-behavior: auto !important;
+/* Otimizações Mobile para Toque */
+@media (hover: none) {
+  .animate-glow-pulse {
+    animation-duration: 6s;
+  }
 }
