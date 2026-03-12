@@ -1,11 +1,16 @@
-
 'use server';
 
 /**
- * @fileOverview Inteligência de Atendimento Sapient Studio V4 - Diagnóstico Profundo.
- * - Coleta de URL de site e análise de presença digital.
- * - Mapeamento de dores (pain points) e objetivos de ROI.
- * - Lógica de estados resiliente com extração de dados via regex.
+ * @fileOverview Inteligência de Atendimento Sapient Studio V4.1 - Motor de Diagnóstico Adaptativo.
+ * 
+ * Este fluxo gerencia o estado da conversa através de camadas (layers) para qualificar o lead.
+ * - Layer 1: Nicho de Atuação
+ * - Layer 2: Canais Atuais (Plataformas)
+ * - Layer 3: Auditoria de Website (URL)
+ * - Layer 4: Mapeamento de Dores (Pain Points)
+ * - Layer 5: Objetivos de Curto Prazo (ROI)
+ * - Layer 6: Formalização (Nome da Empresa)
+ * - Layer 7: Fechamento/Redirecionamento
  */
 
 import { z } from 'genkit';
@@ -38,21 +43,21 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   const historyText = input.history.map(h => h.content.toLowerCase()).join(' ');
   const fullHistoryText = historyText + ' ' + msg;
 
-  // 1. Extração de URL de Site
-  let websiteUrl = '';
-  const urlMatch = fullHistoryText.match(/(https?:\/\/[^\s]+|www\.[^\s]+|[a-z0-9-]+\.[a-z]{2,})/i);
-  if (urlMatch) websiteUrl = urlMatch[0];
-
-  // 2. Detecção de Urgência e Contato Humano
-  if (msg.match(/(falar com alguém|atendente|humano|pessoa|telefone|whatsapp|ligar|urgente|agora|contato)/)) {
+  // 1. Detecção de Urgência Imediata (Atalho para Humano)
+  if (msg.match(/(falar com alguém|atendente|humano|pessoa|telefone|whatsapp|ligar|urgente|agora|contato|ajuda)/)) {
     return {
-      reply: "Com certeza. Conectar você a um especialista é a nossa prioridade para acelerar seu resultado. Vou te encaminhar agora mesmo para o nosso WhatsApp de consultoria sênior.",
+      reply: "Entendo perfeitamente a sua urgência. O tempo é o recurso mais escasso no digital. Vou te encaminhar agora mesmo para a nossa consultoria sênior via WhatsApp para resolvermos isso imediatamente.",
       shouldRedirect: true,
       currentLayer: 7,
       isTextInputEnabled: false,
       suggestedActions: ["Falar no WhatsApp agora"]
     };
   }
+
+  // 2. Extração de Website URL
+  let websiteUrl = '';
+  const urlMatch = fullHistoryText.match(/(https?:\/\/[^\s]+|www\.[^\s]+|[a-z0-9-]+\.[a-z]{2,})/i);
+  if (urlMatch) websiteUrl = urlMatch[0];
 
   // 3. Extração Inteligente de Nicho
   let niche = '';
@@ -85,16 +90,16 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   if (fullHistoryText.match(/(automático|ia|robô|chatbot|sozinho|automatizar)/)) goals.push('Atender clientes no automático');
   if (fullHistoryText.match(/(anunciar|tráfego|campanha|trafegho)/)) goals.push('Melhorar meus anúncios');
 
-  // --- LÓGICA DE ESTADOS (CAMADAS) ---
+  // --- LÓGICA DE ESTADOS (CAMADAS ADAPTATIVAS) ---
 
-  // ESTADO 7: FINAL (Nome da Empresa)
+  // ESTADO FINAL: NOME DA EMPRESA
   if (niche && platforms.length > 0 && mainPainPoints.length > 0 && goals.length > 0 && (websiteUrl || !platforms.includes('Meu próprio site'))) {
     const nameMatch = msg.match(/(meu negócio é a|minha empresa é a|empresa|chamada|chama-se|nome é) ([\w\s]+)/);
-    const companyName = nameMatch ? nameMatch[2].trim() : (input.history.length > 10 ? input.currentMessage : '');
+    const companyName = nameMatch ? nameMatch[2].trim() : (input.history.length > 10 && msg.length > 2 ? input.currentMessage : '');
 
     if (companyName) {
       return {
-        reply: `Excelente diagnóstico! O cenário para ${niche} tem um potencial enorme se aplicarmos nossa metodologia de Autoridade Visual. Vou preparar um dossiê para nossa reunião estratégica. Vamos agendar?`,
+        reply: `Dossiê concluído para a ${companyName}! O cenário de ${niche} exige clareza e autoridade visual para converter tickets altos. Vou preparar os dados para nossa reunião estratégica agora mesmo.`,
         shouldRedirect: true,
         currentLayer: 7,
         isTextInputEnabled: false,
@@ -104,7 +109,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     }
 
     return {
-      reply: "Perfeito, já tenho quase tudo para o nosso plano de ação. Só para eu formalizar seu dossiê: qual o nome da sua empresa ou projeto?",
+      reply: "Excelente, já mapeamos sua estratégia. Para eu formalizar seu dossiê técnico de autoridade: qual o nome oficial da sua empresa ou projeto?",
       shouldRedirect: false,
       currentLayer: 6,
       isTextInputEnabled: true,
@@ -113,10 +118,10 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // ESTADO 6: OBJETIVOS
+  // ESTADO 5: OBJETIVOS
   if (niche && platforms.length > 0 && mainPainPoints.length > 0 && (websiteUrl || !platforms.includes('Meu próprio site'))) {
     return {
-      reply: `Com certeza resolveremos esses gargalos. E qual desses objetivos é sua prioridade número 1 para os próximos 90 dias?`,
+      reply: `Com certeza resolveremos esses gargalos com design estratégico. E qual destes objetivos é sua prioridade número 1 para os próximos 90 dias?`,
       shouldRedirect: false,
       isMultiSelect: true,
       isTextInputEnabled: false,
@@ -126,10 +131,10 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // ESTADO 5: DORES
+  // ESTADO 4: DORES
   if (niche && platforms.length > 0 && (websiteUrl || !platforms.includes('Meu próprio site'))) {
     return {
-      reply: `Entendi o cenário. E hoje, o que mais te 'tira o sono' no digital? Pode marcar as opções que mais te incomodam:`,
+      reply: `Entendi o cenário. Na área de ${niche}, a percepção de valor é tudo. Hoje, o que mais te 'tira o sono' no digital? Pode marcar mais de uma:`,
       shouldRedirect: false,
       isMultiSelect: true,
       isTextInputEnabled: false,
@@ -139,10 +144,10 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // ESTADO 4: URL DO SITE (Se ele disse que tem site mas não passou o link)
+  // ESTADO 3: URL DO SITE (Se ele disse que tem site mas não passou o link)
   if (niche && platforms.includes('Meu próprio site') && !websiteUrl) {
     return {
-      reply: "Legal! Ter um site próprio é fundamental. Poderia me enviar o link dele? Assim eu consigo fazer uma análise técnica rápida da sua performance agora mesmo.",
+      reply: "Perfeito! Ter um site próprio é o primeiro passo para a autoridade. Poderia me enviar o link dele? Assim eu faço uma auditoria rápida de performance e visual agora mesmo.",
       shouldRedirect: false,
       currentLayer: 3,
       isTextInputEnabled: true,
@@ -151,10 +156,10 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // ESTADO 3: PLATAFORMAS (Canais de Tráfego)
+  // ESTADO 2: PLATAFORMAS (Canais de Tráfego)
   if (niche) {
     return {
-      reply: `Legal, na área de ${niche} a concorrência é forte. Hoje, por onde os novos clientes costumam chegar até você?`,
+      reply: `Ótimo nicho! Em ${niche}, a concorrência exige um posicionamento premium. Hoje, por onde os novos clientes costumam chegar até você?`,
       shouldRedirect: false,
       isMultiSelect: true,
       isTextInputEnabled: false,
@@ -164,7 +169,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // ESTADO INICIAL: NICHO
+  // ESTADO 1: NICHO (INICIAL)
   return {
     reply: "Olá! Sou o consultor virtual da Sapient. Para eu entender como podemos escalar seu negócio com design e estratégia, com o que você trabalha hoje?",
     shouldRedirect: false,

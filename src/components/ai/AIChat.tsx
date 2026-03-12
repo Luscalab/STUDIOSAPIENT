@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -18,7 +17,8 @@ import {
   Lock,
   ChevronRight,
   Sparkles,
-  Search
+  Search,
+  Zap
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { recommendServices, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
@@ -81,10 +81,10 @@ export function AIChat() {
   const saveLead = async (data: any) => {
     if (!db) return;
     try {
-      addDoc(collection(db, 'leads'), {
+      await addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Sapient Intelligence V4.0'
+        source: 'Sapient Strategic Agent V4.1'
       });
     } catch (e) {
       console.error("Erro ao salvar lead:", e);
@@ -107,7 +107,7 @@ export function AIChat() {
       content: m.content 
     }));
     
-    // Simulação de processamento estratégico (mais rápido para parecer IA real)
+    // Simulação de "Pensamento Estratégico"
     setTimeout(async () => {
       try {
         const result = await recommendServices({
@@ -141,13 +141,13 @@ export function AIChat() {
       } catch (error) {
         setMessages(prev => [...prev, { 
           role: 'model', 
-          content: "Tive um pequeno contratempo técnico. Vamos continuar agora mesmo pelo WhatsApp para eu te dar um atendimento VIP e completar o diagnóstico?" 
+          content: "Tive um pequeno contratempo técnico ao processar seu diagnóstico. Vamos continuar pelo WhatsApp para eu te dar um atendimento VIP agora?" 
         }]);
         setShowRedirect(true);
       } finally {
         setIsLoading(false);
       }
-    }, 1200);
+    }, 1500);
   };
 
   const toggleChip = (chip: string) => {
@@ -163,7 +163,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = `Olá! Acabei de fazer o diagnóstico Sapient para o nicho de ${extractedData?.niche || 'meu negócio'}. Meu site é ${extractedData?.websiteUrl || 'não informado'}. Gostaria de agendar minha consultoria estratégica.`;
+    const text = `Olá! Acabei de concluir o diagnóstico estratégico Sapient para meu negócio de ${extractedData?.niche || 'meu setor'}. Gostaria de agendar minha consultoria gratuita para discutir o dossiê.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -192,13 +192,13 @@ export function AIChat() {
       <div className="px-6 py-5 bg-[#08070b] text-white flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <div className="h-10 w-10 rounded-2xl bg-primary flex items-center justify-center border border-white/10 relative shadow-lg">
-            <Bot className="h-5 w-5 text-white" />
+            <Zap className="h-5 w-5 text-white" />
             <div className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 bg-green-500 rounded-full border-2 border-[#08070b]" />
           </div>
           <div>
-            <h3 className="font-headline font-black text-[10px] md:text-xs uppercase tracking-widest text-white leading-none">Diagnóstico Sapient</h3>
+            <h3 className="font-headline font-black text-[10px] md:text-xs uppercase tracking-widest text-white leading-none">Agente Estratégico</h3>
             <p className="text-[7px] text-white/40 uppercase font-bold mt-1.5 tracking-widest flex items-center gap-1">
-              <Sparkles className="h-2 w-2 text-primary" /> Ativo para análise
+              <Sparkles className="h-2 w-2 text-primary" /> Diagnóstico em curso
             </p>
           </div>
         </div>
@@ -217,20 +217,20 @@ export function AIChat() {
         {messages.map((msg, i) => (
           <div key={i} className={cn("flex flex-col gap-3", msg.role === 'user' ? "items-end" : "items-start animate-in fade-in slide-in-from-left-2 duration-500")}>
             <div className={cn(
-              "p-5 rounded-[1.8rem] text-[11px] md:text-[15px] font-bold leading-relaxed max-w-[90%] shadow-sm",
+              "p-5 rounded-[1.8rem] text-[11px] md:text-[14px] font-bold leading-relaxed max-w-[85%] shadow-sm",
               msg.role === 'user' ? "bg-primary text-white rounded-tr-none shadow-primary/20" : "bg-white text-slate-900 border border-slate-100 rounded-tl-none"
             )}>
               {msg.content}
             </div>
 
             {msg.role === 'model' && msg.actions && msg.actions.length > 0 && i === messages.length - 1 && (
-              <div className="flex flex-wrap gap-2.5 mt-3 max-w-full">
+              <div className="flex flex-wrap gap-2 mt-3 max-w-full">
                 {msg.actions.map((action, idx) => (
                   <button
                     key={idx}
                     onClick={() => msg.isMultiSelect ? toggleChip(action) : handleSendMessage(action)}
                     className={cn(
-                      "px-5 py-3 rounded-2xl text-[8px] md:text-[10px] font-black uppercase tracking-widest transition-all border shadow-sm",
+                      "px-5 py-3 rounded-2xl text-[8px] md:text-[9px] font-black uppercase tracking-widest transition-all border shadow-sm",
                       msg.isMultiSelect 
                         ? selectedChips.includes(action) 
                           ? "bg-primary text-white border-primary shadow-lg scale-105" 
@@ -247,8 +247,8 @@ export function AIChat() {
                     onClick={handleConfirmSelection} 
                     disabled={selectedChips.length === 0}
                     className={cn(
-                      "w-full mt-4 py-4 rounded-2xl font-black uppercase tracking-widest text-[9px] md:text-[10px] flex items-center justify-center gap-3 transition-all",
-                      selectedChips.length > 0 ? "bg-[#08070b] text-white shadow-xl hover:bg-primary" : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                      "w-full mt-4 py-4 rounded-2xl font-black uppercase tracking-widest text-[9px] md:text-[10px] flex items-center justify-center gap-3 transition-all shadow-xl",
+                      selectedChips.length > 0 ? "bg-[#08070b] text-white hover:bg-primary" : "bg-slate-200 text-slate-400 cursor-not-allowed"
                     )}
                   >
                     Confirmar Seleção <ChevronRight className="h-4 w-4" />
@@ -260,17 +260,20 @@ export function AIChat() {
         ))}
 
         {isLoading && (
-          <div className="flex items-center gap-3 text-slate-400 p-3 animate-pulse bg-white/80 w-fit rounded-2xl px-6 border border-slate-100 shadow-sm">
+          <div className="flex items-center gap-3 text-slate-400 p-4 animate-pulse bg-white/80 w-fit rounded-2xl px-8 border border-slate-100 shadow-sm">
             <Search className="h-4 w-4 animate-spin text-primary" />
-            <span className="text-[9px] font-black uppercase tracking-widest italic">Analisando presença digital...</span>
+            <span className="text-[9px] font-black uppercase tracking-widest italic">Processando Estratégia...</span>
           </div>
         )}
 
         {showRedirect && (
           <div className="pt-6 animate-in zoom-in slide-in-from-bottom-4 duration-700">
-            <div className="bg-primary/5 border border-primary/20 p-6 rounded-[2rem] mb-6 space-y-3">
-              <p className="text-[10px] font-black uppercase tracking-widest text-primary text-center">Diagnóstico Concluído</p>
-              <p className="text-[11px] font-medium text-slate-600 text-center">Nossos consultores já receberam sua análise e estão prontos para o próximo passo.</p>
+            <div className="bg-primary/5 border border-primary/20 p-8 rounded-[2rem] mb-6 space-y-4">
+              <div className="flex items-center gap-3 mb-2">
+                 <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center text-white"><Check className="h-3 w-3" /></div>
+                 <p className="text-[10px] font-black uppercase tracking-widest text-primary">Diagnóstico Consolidado</p>
+              </div>
+              <p className="text-[11px] font-medium text-slate-600 leading-relaxed">Sua tese de autoridade está pronta. Clique abaixo para receber o dossiê e falar com um especialista agora mesmo.</p>
             </div>
             <button onClick={handleWhatsAppRedirect} className="w-full py-6 bg-green-500 hover:bg-green-600 text-white rounded-[2rem] font-black uppercase tracking-[0.2em] text-[10px] md:text-[11px] flex items-center justify-center gap-4 transition-all shadow-2xl hover:scale-[1.02] active:scale-95">
               <MessageCircle className="h-6 w-6" /> AGENDAR CONSULTORIA AGORA <ArrowRight className="h-4 w-4" />
@@ -280,15 +283,15 @@ export function AIChat() {
       </div>
 
       {/* Rodapé de Input */}
-      <div className="p-5 md:p-6 bg-white border-t border-slate-100 shrink-0">
+      <div className="p-5 md:p-8 bg-white border-t border-slate-100 shrink-0">
         <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(input); }} className="relative group">
           <input 
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={!isTextInputEnabled || isLoading}
-            placeholder={isTextInputEnabled ? "Cole o link ou digite o nome..." : "Selecione uma opção acima"}
+            placeholder={isTextInputEnabled ? "Cole o link ou digite sua resposta..." : "Selecione uma opção acima"}
             className={cn(
-              "w-full h-14 md:h-16 pl-8 pr-20 border rounded-2xl md:rounded-3xl text-[11px] md:text-[15px] font-bold transition-all",
+              "w-full h-14 md:h-16 pl-8 pr-20 border rounded-2xl md:rounded-3xl text-[11px] md:text-[14px] font-bold transition-all",
               isTextInputEnabled 
                 ? "bg-white border-slate-200 text-slate-900 focus:border-primary focus:ring-8 focus:ring-primary/5" 
                 : "bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed"
@@ -304,10 +307,10 @@ export function AIChat() {
             </button>
           </div>
         </form>
-        <div className="mt-4 flex items-center justify-center gap-5">
-          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">Sapient Intelligence V4.0</p>
-          <div className="h-1.5 w-1.5 bg-primary/20 rounded-full" />
-          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">Análise de Performance</p>
+        <div className="mt-5 flex items-center justify-center gap-6">
+          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">SAPIENT STRATEGIC AGENT V4.1</p>
+          <div className="h-1 w-1 bg-primary/20 rounded-full" />
+          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">AUDITORIA DE PERFORMANCE</p>
         </div>
       </div>
     </div>
