@@ -31,7 +31,7 @@ export function Navbar() {
         
         <Link 
           href="/" 
-          className="relative block w-[200px] h-[70px] md:w-[600px] md:h-[180px] transition-all duration-1000 hover:scale-[1.01] shrink-0"
+          className="relative block w-[220px] h-[80px] md:w-[850px] md:h-[260px] transition-all duration-1000 hover:scale-[1.01] shrink-0"
         >
           <Image 
             src={logoData?.imageUrl || ""} 
