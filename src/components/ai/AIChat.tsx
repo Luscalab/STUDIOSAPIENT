@@ -35,6 +35,7 @@ const INITIAL_MESSAGE: Message = {
   actions: [
     "Saúde (Médico/Clínica)", 
     "Direito (Advocacia)", 
+    "Alimentação / Restaurante",
     "Estética / Beleza", 
     "Vendas / Loja",
     "Tecnologia / Software", 
