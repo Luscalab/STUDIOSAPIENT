@@ -78,7 +78,6 @@ export function Footer() {
             <ul className="space-y-3 md:space-y-4">
               {[
                 { name: "UrbeLudo", href: "/urbeludo" },
-                { name: "Dossiês/Blog", href: "/blog" },
                 { name: "Metodologia", href: "/#metodologia" },
                 { name: "Início", href: "/" }
               ].map((item) => (
