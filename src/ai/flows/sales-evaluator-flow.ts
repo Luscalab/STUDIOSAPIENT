@@ -23,31 +23,55 @@ const SalesEvaluationOutputSchema = z.object({
 
 export type SalesEvaluationOutput = z.infer<typeof SalesEvaluationOutputSchema>;
 
-export async function evaluateSalesCandidate(input: z.infer<typeof SalesEvaluationInputSchema>): Promise<SalesEvaluationOutput> {
-  const prompt = ai.definePrompt({
-    name: 'evaluateSalesCandidatePrompt',
-    input: { schema: SalesEvaluationInputSchema },
-    output: { schema: SalesEvaluationOutputSchema },
-    prompt: `Você é o Diretor Comercial Sênior da studiosapient. 
-Sua missão é avaliar um candidato a vendedor (SDR/Closer) em um cenário de Roleplay Realista.
+/**
+ * Prompt especializado no cenário "Sr. Jorge".
+ * Define as diretrizes de análise para a IA.
+ */
+const evaluatePrompt = ai.definePrompt({
+  name: 'evaluateSalesCandidatePrompt',
+  input: { schema: SalesEvaluationInputSchema },
+  output: { schema: SalesEvaluationOutputSchema },
+  prompt: `Você é o Diretor Comercial Sênior da studiosapient. 
+Sua missão é avaliar um candidato a vendedor (SDR/Closer) em um cenário de Roleplay Realista e Cruel.
 
-Cenário: Marmoraria Granito Fino (Nicho de Luxo).
-Lead: Sr. Jorge (Prático, conservador, acha que design é frescura, mas quer vender mais).
+CENÁRIO: Marmoraria Granito Fino (Nicho de Luxo).
+LEAD: Sr. Jorge (Prático, conservador, acha que design é frescura, mas quer vender mais). Ele é resistente e odeia perder tempo.
 
 DADOS DO TESTE:
 Candidato: {{{candidateName}}}
-Fase 1 (Abordagem por Áudio): {{{pitchTranscription}}}
+Fase 1 (Abordagem por Áudio Transcrito): {{{pitchTranscription}}}
 Fase 2 (Objeção e Agendamento por Texto): {{{objectionHandling}}}
 
 CRITÉRIOS DE AVALIAÇÃO (O QUE BUSCAMOS):
-1. QUEBRA DE GELO: O candidato foi direto ao ponto ou pediu "um minuto"? (Sr. Jorge odeia perder tempo).
-2. ARGUMENTO DE VALOR: Ele usou a concorrência e a perda de novos clientes (jovens) para provar que design não é gasto?
-3. ANCORAGEM: Ele evitou dar preço direto e focou no diagnóstico e no ROI?
-4. AGENDAMENTO: Ele criou compromisso firme para a reunião com o Diretor Lucas ou foi vago?
+1. QUEBRA DE GELO: O candidato foi direto ao ponto? Ele usou a abordagem "Sr. Jorge, notei que sua marmoraria é referência, mas seu site está dificultando novos orçamentos pelo celular"? Se ele pediu "um minuto", ele perdeu o Sr. Jorge.
+2. ARGUMENTO DE VALOR (ROI): Ele conseguiu provar que design não é gasto? Ele usou o fator "CONCORRÊNCIA" (ex: novos concorrentes no Instagram roubando clientes jovens)?
+3. ANCORAGEM: Ele evitou dar preço direto? O foco deve ser no "DIAGNÓSTICO".
+4. AGENDAMENTO: Ele criou um compromisso firme? O objetivo é o handover para o "Diretor Lucas". Ele usou um horário específico?
 
-Gere um veredito rigoroso. Queremos vendedores que saibam transformar um 'gargalo técnico' em um 'desejo de negócio'.`,
-  });
+Gere um veredito rigoroso. Queremos vendedores que saibam transformar um 'gargalo técnico' em um 'desejo de negócio'. Seja técnico no seu feedback.`,
+});
 
-  const { output } = await prompt(input);
-  return output!;
+/**
+ * Fluxo de execução da avaliação.
+ */
+const evaluateSalesFlow = ai.defineFlow(
+  {
+    name: 'evaluateSalesFlow',
+    inputSchema: SalesEvaluationInputSchema,
+    outputSchema: SalesEvaluationOutputSchema,
+  },
+  async (input) => {
+    const { output } = await evaluatePrompt(input);
+    if (!output) {
+      throw new Error("Falha na geração da análise de vendas.");
+    }
+    return output;
+  }
+);
+
+/**
+ * Wrapper para exportação do serviço de avaliação.
+ */
+export async function evaluateSalesCandidate(input: z.infer<typeof SalesEvaluationInputSchema>): Promise<SalesEvaluationOutput> {
+  return evaluateSalesFlow(input);
 }
