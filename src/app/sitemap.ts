@@ -9,11 +9,10 @@ import { MetadataRoute } from 'next'
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://studiosapient.com.br'
 
-  // Rotas estáticas principais
+  // Rotas estáticas principais (Blog e Admin removidos)
   const routes = [
     '',
     '/urbeludo',
-    '/blog',
     '/servicos/performance-ads',
     '/servicos/sites-premium',
     '/servicos/design-estrategico',

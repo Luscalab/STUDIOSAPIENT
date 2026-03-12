@@ -2,8 +2,8 @@
 import { MetadataRoute } from 'next'
 
 /**
- * @fileOverview Configuração de permissões para robôs de busca (Google, Bing, etc).
- * Protege a área administrativa e aponta para o sitemap.
+ * @fileOverview Configuração de permissões para robôs de busca.
+ * Removido desallow de /admin pois a rota não existe mais.
  */
 
 export default function robots(): MetadataRoute.Robots {
@@ -11,7 +11,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/admin', '/api'],
+      disallow: ['/api'],
     },
     sitemap: 'https://studiosapient.com.br/sitemap.xml',
   }
