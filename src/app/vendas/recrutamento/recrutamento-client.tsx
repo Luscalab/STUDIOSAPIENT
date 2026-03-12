@@ -69,6 +69,7 @@ export function RecrutamentoClient() {
   const recognitionRef = useRef<any>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const streamRef = useRef<MediaStream | null>(null);
 
   // Recuperar progresso ao montar
   useEffect(() => {
@@ -82,14 +83,6 @@ export function RecrutamentoClient() {
         setAudioBase64(parsed.audioBase64 || null);
         setConsentAccepted(parsed.consentAccepted || false);
         setEvaluation(parsed.evaluation || null);
-        
-        if (parsed.step > 1) {
-          toast({
-            title: "Progresso Recuperado",
-            description: "Você voltou de onde parou.",
-            className: "bg-primary text-white"
-          });
-        }
       } catch (e) {
         console.error("Erro ao carregar progresso:", e);
       }
@@ -132,10 +125,13 @@ export function RecrutamentoClient() {
       } catch (e) {}
     }
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-      mediaRecorderRef.current.stop();
-      if (mediaRecorderRef.current.stream) {
-        mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
-      }
+      try {
+        mediaRecorderRef.current.stop();
+      } catch (e) {}
+    }
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
     }
     setIsRecording(false);
   };
@@ -155,7 +151,6 @@ export function RecrutamentoClient() {
   const confirmMicAccess = async () => {
     setShowMicDialog(false);
     try {
-      // Solicitação explícita de permissão ao hardware
       const stream = await navigator.mediaDevices.getUserMedia({ 
         audio: {
           echoCancellation: true,
@@ -164,6 +159,7 @@ export function RecrutamentoClient() {
         } 
       });
       
+      streamRef.current = stream;
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
@@ -206,7 +202,6 @@ export function RecrutamentoClient() {
       };
 
       recognitionRef.current.onend = () => {
-        // Se ainda deveria estar gravando, tenta reiniciar (evita silêncio parando o serviço)
         if (isRecording) {
            try { recognitionRef.current.start(); } catch(e) {}
         }
@@ -228,7 +223,7 @@ export function RecrutamentoClient() {
       console.error("Erro ao acessar microfone:", err);
       toast({ 
         title: "Erro de Hardware", 
-        description: "Não foi possível ativar o microfone. Verifique se ele está conectado ou se a permissão foi concedida.", 
+        description: "Não foi possível ativar o microfone. Verifique as permissões de privacidade do navegador.", 
         variant: "destructive" 
       });
     }
@@ -299,7 +294,6 @@ export function RecrutamentoClient() {
       }
 
       setStep(4);
-      // Limpa cache ao finalizar com sucesso
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
       console.error(error);
