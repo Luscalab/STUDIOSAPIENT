@@ -7,8 +7,20 @@ import { FirebaseClientProvider } from "@/firebase";
 import { SecurityHardening } from "@/components/security/SecurityHardening";
 
 export const metadata: Metadata = {
-  title: 'studiosapient. | Estratégia e Resultados',
-  description: 'studiosapient - Agência de Marketing Digital e Branding. Transformando negócios em marcas de autoridade.',
+  title: {
+    default: 'studiosapient. | Estratégia, Design e Performance Digital',
+    template: '%s | studiosapient.'
+  },
+  description: 'A studiosapient transforma negócios em marcas de autoridade através de design estratégico, tráfego pago (Ads) e inteligência artificial. Conheça nossas soluções de elite.',
+  keywords: ['agência de marketing digital', 'design estratégico', 'tráfego pago', 'branding de luxo', 'estratégia de negócios', 'inteligência artificial para empresas'],
+  authors: [{ name: 'studiosapient' }],
+  creator: 'studiosapient',
+  publisher: 'studiosapient',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   icons: {
     icon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><linearGradient id=%22grad%22 x1=%220%%22 y1=%220%%22 x2=%22100%%22 y2=%22100%%22><stop offset=%220%%22 style=%22stop-color:%238b5cf6;stop-opacity:1%22 /><stop offset=%22100%%22 style=%22stop-color:%237c3aed;stop-opacity:1%22 /></linearGradient></defs><rect width=%22100%22 height=%22100%22 rx=%2230%22 fill=%22url(%23grad)%22/><text y=%2250%%22 x=%2250%%22 font-size=%2265%22 fill=%22white%22 font-family=%22Helvetica, Arial, sans-serif%22 font-weight=%22900%22 text-anchor=%22middle%22 dominant-baseline=%22central%22>S</text></svg>',
   },
