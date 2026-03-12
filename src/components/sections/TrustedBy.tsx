@@ -7,21 +7,18 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { cn } from "@/lib/utils";
 
 /**
- * Componente de Prova Social de Elite - Versão Ultra-Compacta Lateral.
- * Exibe os logotipos e nomes dos parceiros estratégicos com rotação automática.
+ * Componente de Prova Social de Elite - Versão Ultra-Compacta Lateral com Nomes.
  */
 export function TrustedBy() {
   const [currentPartner, setCurrentPartner] = React.useState(0);
   const [isVisible, setIsVisible] = React.useState(true);
 
-  // Filtra e ordena os parceiros específicos garantindo que os IDs batam com o JSON
   const partnersData = React.useMemo(() => [
     PlaceHolderImages.find(img => img.id === "partner-logo-2"), // 3DGOPRINT
     PlaceHolderImages.find(img => img.id === "partner-logo-1"), // Quitute Certa
     PlaceHolderImages.find(img => img.id === "partner-logo-3"), // ChargerBed
   ].filter((p): p is NonNullable<typeof p> => !!p), []);
 
-  // Mapeamento explícito de nomes para garantir exibição correta
   const partnerNames: Record<string, string> = {
     'partner-logo-1': 'Quitute Certa',
     'partner-logo-2': '3DGOPRINT',
@@ -49,8 +46,6 @@ export function TrustedBy() {
 
   return (
     <div className="flex items-center gap-3 bg-white/5 p-2 rounded-[1.2rem] border border-white/10 backdrop-blur-3xl transition-all duration-700 hover:border-primary/40 group w-fit shadow-2xl">
-      
-      {/* Box do Logotipo */}
       <div className="relative h-10 w-10 rounded-[0.8rem] bg-white flex items-center justify-center overflow-hidden shadow-lg transition-all duration-1000 group-hover:scale-105">
         <div className={cn(
           "relative w-full h-full p-1.5 transition-all duration-500",
@@ -66,8 +61,7 @@ export function TrustedBy() {
         </div>
       </div>
 
-      {/* Identidade do Cliente */}
-      <div className="min-w-[100px] md:min-w-[140px] pr-2 text-left">
+      <div className="min-w-[120px] md:min-w-[150px] pr-3 text-left">
         <p className="text-[6px] font-black uppercase tracking-[0.4em] text-white/30 mb-0.5">
           CONFIADO POR
         </p>
