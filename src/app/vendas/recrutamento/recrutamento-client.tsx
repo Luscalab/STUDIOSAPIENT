@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
@@ -42,7 +43,12 @@ import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { LocalBrain } from "@/components/ai/LocalBrain";
+
+// Importação dinâmica da IA Local para evitar que o Vercel tente carregar binários pesados no servidor
+const LocalBrain = dynamic(
+  () => import("@/components/ai/LocalBrain").then((mod) => mod.LocalBrain),
+  { ssr: false, loading: () => <div className="p-6 rounded-3xl bg-white/5 border border-white/10 animate-pulse text-[10px] uppercase font-black text-white/20">Iniciando Processador Local...</div> }
+);
 
 const STORAGE_KEY = "sapient_recruitment_v10";
 
@@ -352,7 +358,7 @@ export function RecrutamentoClient() {
                   </p>
                 </div>
 
-                {/* IA LOCAL: Analisa a energia do texto do candidato antes de enviar */}
+                {/* IA LOCAL: Carregada dinamicamente via importação dinâmica no topo */}
                 <LocalBrain text={formData.objection} />
 
                 <Textarea 
