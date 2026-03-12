@@ -13,7 +13,9 @@ import {
   Minimize2,
   Lock,
   ChevronRight,
-  Loader2
+  Loader2,
+  Sparkles,
+  TrendingUp
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { recommendServices } from "@/ai/flows/ai-service-recommender";
@@ -100,9 +102,7 @@ export function AIChat() {
     setIsTextInputEnabled(false);
 
     try {
-      // Simulação de tempo de pensamento humano (muito breve)
-      await new Promise(r => setTimeout(r, 400));
-
+      // Simulação de tempo de resposta instantânea para fluxo determinístico
       const result = await recommendServices({
         history: currentHistory.map(m => ({ role: m.role, content: m.content })),
         currentMessage: userMsg
@@ -156,9 +156,13 @@ export function AIChat() {
     return (
       <button 
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-32 right-4 md:bottom-6 md:right-6 z-[200] h-12 w-12 md:h-16 md:w-16 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-all border-2 border-white/20"
+        className="fixed bottom-32 right-4 md:bottom-6 md:right-6 z-[200] h-14 w-14 md:h-18 md:w-18 rounded-full bg-primary text-white flex items-center justify-center shadow-[0_20px_50px_rgba(139,92,246,0.3)] hover:scale-110 active:scale-95 transition-all border-2 border-white/20 animate-glow-pulse"
+        aria-label="Abrir Consultoria"
       >
-        <Bot className="h-6 w-6 md:h-8 md:w-8" />
+        <div className="relative">
+          <Zap className="h-7 w-7 md:h-8 md:w-8 relative z-10" />
+          <div className="absolute inset-0 bg-white blur-md opacity-20 animate-pulse" />
+        </div>
       </button>
     );
   }
@@ -174,12 +178,12 @@ export function AIChat() {
       
       <div className="px-6 py-5 bg-[#08070b] text-white flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
-          <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center">
+          <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
             <Zap className="h-5 w-5 text-white" />
           </div>
           <div>
             <h3 className="font-headline font-black text-[10px] uppercase tracking-widest text-white leading-none">Consultor Sapient</h3>
-            <p className="text-[7px] text-white/40 uppercase font-bold mt-1 tracking-[0.2em]">Raio-X de Negócio</p>
+            <p className="text-[7px] text-white/40 uppercase font-bold mt-1 tracking-[0.2em]">Raio-X de Performance</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
@@ -197,7 +201,7 @@ export function AIChat() {
           <div key={i} className={cn("flex flex-col gap-2", msg.role === 'user' ? "items-end" : "items-start")}>
             <div className={cn(
               "p-4 rounded-2xl text-sm font-bold leading-relaxed max-w-[85%]",
-              msg.role === 'user' ? "bg-primary text-white rounded-tr-none" : "bg-white text-slate-900 border border-slate-100 rounded-tl-none shadow-sm"
+              msg.role === 'user' ? "bg-primary text-white rounded-tr-none shadow-md" : "bg-white text-slate-900 border border-slate-100 rounded-tl-none shadow-sm"
             )}>
               {msg.content}
             </div>
@@ -209,7 +213,7 @@ export function AIChat() {
                     key={idx}
                     onClick={() => msg.isMultiSelect ? toggleChip(action) : handleSendMessage(action)}
                     className={cn(
-                      "px-4 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border",
+                      "px-4 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border shadow-sm",
                       msg.isMultiSelect 
                         ? selectedChips.includes(action) 
                           ? "bg-primary text-white border-primary" 
@@ -241,7 +245,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-2 text-slate-300">
             <Loader2 className="h-4 w-4 animate-spin text-primary" />
-            <span className="text-[9px] font-black uppercase tracking-widest">Analisando...</span>
+            <span className="text-[9px] font-black uppercase tracking-widest">Processando Dados...</span>
           </div>
         )}
 
