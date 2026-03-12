@@ -3,6 +3,7 @@
 
 import { Mail, MessageCircle, Phone, Copy, Send, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 
 export function Contact() {
   const { toast } = useToast();
@@ -63,7 +64,7 @@ export function Contact() {
           </div>
 
           {/* Card E-mail */}
-          <div className="p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-[#121216] border border-white/5 text-white flex flex-col h-[240px] md:h-[350px] border-t-4 border-primary shadow-xl group transition-all">
+          <div className="p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] bg-[#121216] border border-white/5 text-white flex flex-col h-[280px] md:h-[420px] border-t-4 border-primary shadow-xl group transition-all">
             <div className="space-y-4 flex-1">
               <div className="h-10 w-10 md:h-14 md:w-14 rounded-xl bg-primary/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                 <Mail className="h-5 w-5 md:h-6 md:w-6" />
@@ -73,12 +74,20 @@ export function Contact() {
                 <p className="text-white/40 font-medium text-[10px] md:text-base leading-relaxed">Solicitações e documentação de projetos.</p>
               </div>
             </div>
-            <a 
-              href={`mailto:${contactData.email}`}
-              className="flex items-center justify-center gap-2 w-full py-3.5 md:py-5 rounded-xl bg-white text-black hover:bg-white/90 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] transition-all"
-            >
-              <Send className="h-3 w-3" /> Enviar
-            </a>
+            <div className="flex flex-col gap-2">
+              <a 
+                href={`mailto:${contactData.email}`}
+                className="flex items-center justify-center gap-2 w-full py-3.5 md:py-5 rounded-xl bg-white text-black hover:bg-white/90 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] transition-all"
+              >
+                <Send className="h-3 w-3" /> Enviar
+              </a>
+              <button 
+                onClick={() => handleCopy(contactData.email, 'E-mail')}
+                className="flex items-center justify-center gap-2 w-full py-3 md:py-4 rounded-xl bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-white/10 text-[7px] md:text-[9px] font-black uppercase tracking-[0.3em] transition-all"
+              >
+                <Copy className="h-3 w-3" /> Copiar Endereço
+              </button>
+            </div>
           </div>
 
           {/* Card Telefone */}
