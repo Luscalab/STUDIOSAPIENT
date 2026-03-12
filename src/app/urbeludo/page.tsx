@@ -153,13 +153,6 @@ export default function UrbeLudoPage() {
                 priority
               />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-            <div className="absolute bottom-8 left-8 flex items-center gap-4">
-               <div className="h-12 w-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-primary">
-                 <Smartphone className="h-6 w-6" />
-               </div>
-               <span className="text-white text-[10px] font-black uppercase tracking-widest">UX Lúdica & Intuitiva</span>
-            </div>
           </div>
         </div>
       </section>
