@@ -14,7 +14,7 @@ export function TrustedBy() {
   const [currentPartner, setCurrentPartner] = React.useState(0);
   const [isVisible, setIsVisible] = React.useState(true);
 
-  // Filtra e ordena os parceiros específicos
+  // Filtra e ordena os parceiros específicos garantindo que os IDs batam com o JSON
   const partnersData = React.useMemo(() => [
     PlaceHolderImages.find(img => img.id === "partner-logo-2"), // 3DGOPRINT
     PlaceHolderImages.find(img => img.id === "partner-logo-1"), // Quitute Certa

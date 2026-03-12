@@ -2,55 +2,55 @@
   "placeholderImages": [
     {
       "id": "main-logo",
-      "description": "Sapient Studio Main Logo",
+      "description": "Logotipo oficial studiosapient em tons de roxo e branco",
       "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/public/Images/sapient%20logo.png",
       "imageHint": "company logo"
     },
     {
       "id": "hero-bg",
-      "description": "Abstract premium purple waves",
+      "description": "Fundo abstrato com ondas púrpuras e malha tecnológica",
       "imageUrl": "https://picsum.photos/seed/sapient-hero-v2/1920/1080",
       "imageHint": "abstract purple"
     },
     {
       "id": "team-lucas",
-      "description": "Lucas Souza - Marketing and Designer",
+      "description": "Lucas Souza, Diretor Criativo e Designer Estratégico da studiosapient",
       "imageUrl": "https://picsum.photos/seed/lucas-souza/400/400",
       "imageHint": "man professional"
     },
     {
       "id": "team-luan",
-      "description": "Luan Guimarães - Sales Consultant",
+      "description": "Luan Guimarães, Consultor de Vendas e Estrategista Comercial da studiosapient",
       "imageUrl": "https://picsum.photos/seed/luan-guimaraes/400/400",
       "imageHint": "man suit"
     },
     {
       "id": "portfolio-1",
-      "description": "Premium branding project",
+      "description": "Dossiê de Identidade Visual Premium para marca de alto luxo",
       "imageUrl": "https://picsum.photos/seed/sap-port-1/800/1000",
       "imageHint": "premium brand"
     },
     {
       "id": "urbeludo-main",
-      "description": "UrbeLudo Official Interface",
+      "description": "Interface oficial do aplicativo UrbeLudo para reabilitação motora e neurodiversidade",
       "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/public/Images/58a182ea-b653-409e-960c-b269bb1b8cce.png",
       "imageHint": "app interface"
     },
     {
       "id": "partner-logo-1",
-      "description": "Quitute Certa - Sapient Partner",
+      "description": "Logotipo Quitute Certa, parceiro estratégico studiosapient",
       "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/public/Images/FINALLOGO.png",
       "imageHint": "partner logo"
     },
     {
       "id": "partner-logo-2",
-      "description": "3DGOPRINT - Sapient Partner",
+      "description": "Logotipo 3DGOPRINT, cliente studiosapient especializado em impressão 3D",
       "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/public/Images/unnamed%20(1).jpg",
       "imageHint": "client logo"
     },
     {
       "id": "partner-logo-3",
-      "description": "ChargerBed - Sapient Partner",
+      "description": "Logotipo ChargerBed, inovação tecnológica parceira studiosapient",
       "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/public/Images/chargerbed.png",
       "imageHint": "chargerbed logo"
     }
