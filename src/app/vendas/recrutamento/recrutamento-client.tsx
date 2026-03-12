@@ -25,7 +25,7 @@ import {
   ShieldCheck,
   RotateCcw,
   Search,
-  Info
+  Lock
 } from "lucide-react";
 import { 
   AlertDialog,
@@ -43,13 +43,12 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
-const STORAGE_KEY = "sapient_recruitment_v7";
+const STORAGE_KEY = "sapient_recruitment_v8";
 
 export function RecrutamentoClient() {
   const [step, setStep] = useState(1);
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessingAudio, setIsProcessingAudio] = useState(false);
-  const [transcription, setTranscription] = useState("");
   const [audioBase64, setAudioBase64] = useState<string | null>(null);
   const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -79,7 +78,6 @@ export function RecrutamentoClient() {
         if (parsed.step < 4) {
           setStep(parsed.step || 1);
           setFormData(parsed.formData || { name: "", email: "", phone: "", objection: "" });
-          setTranscription(parsed.transcription || "");
           setAudioBase64(parsed.audioBase64 || null);
           setConsentAccepted(parsed.consentAccepted || false);
         }
@@ -91,10 +89,10 @@ export function RecrutamentoClient() {
   useEffect(() => {
     if (step < 4) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        step, formData, transcription, audioBase64, consentAccepted
+        step, formData, audioBase64, consentAccepted
       }));
     }
-  }, [step, formData, transcription, audioBase64, consentAccepted]);
+  }, [step, formData, audioBase64, consentAccepted]);
 
   const stopAllRecording = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
@@ -109,7 +107,7 @@ export function RecrutamentoClient() {
 
   const startRecording = async () => {
     setShowMicDialog(false);
-    setIsProcessingAudio(true);
+    setIsProcessingAudio(true); // Trava enquanto solicita permissão
     setAudioBase64(null);
     setAudioPreviewUrl(null);
     
@@ -126,6 +124,7 @@ export function RecrutamentoClient() {
       };
 
       mediaRecorder.onstop = async () => {
+        setIsProcessingAudio(true); // Trava enquanto processa o blob final
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         const previewUrl = URL.createObjectURL(audioBlob);
         setAudioPreviewUrl(previewUrl);
@@ -140,6 +139,7 @@ export function RecrutamentoClient() {
 
       mediaRecorder.start();
       setIsRecording(true);
+      setIsProcessingAudio(false); // Libera o botão para o usuário poder PARAR a gravação
       toast({ title: "GRAVANDO", description: "Fale com clareza e autoridade.", className: "bg-primary text-white font-black uppercase text-[9px]" });
     } catch (err) {
       console.error(err);
@@ -149,8 +149,8 @@ export function RecrutamentoClient() {
   };
 
   const handleNextStep = () => {
-    if (step === 1 && (!formData.name.trim() || !consentAccepted)) {
-      toast({ title: "Atenção", description: "Preencha seu nome e aceite os termos de privacidade.", variant: "destructive" });
+    if (step === 1 && (!formData.name.trim() || !formData.email.trim() || !consentAccepted)) {
+      toast({ title: "Atenção", description: "Preencha seus dados e aceite os termos de privacidade para continuar.", variant: "destructive" });
       return;
     }
     if (step === 2 && !audioBase64) {
@@ -168,14 +168,12 @@ export function RecrutamentoClient() {
       const result = await evaluateSalesCandidate({
         candidateName: formData.name,
         pitchAudioUri: audioBase64!,
-        pitchTranscription: transcription,
         objectionHandling: formData.objection
       });
       setEvaluation(result);
       if (db) {
         await addDoc(collection(db, 'sales_candidates'), {
           ...formData,
-          pitchTranscription: transcription,
           pitchAudioUri: audioBase64,
           score: result.score,
           verdict: result.verdict,
@@ -204,7 +202,7 @@ export function RecrutamentoClient() {
               <Mic className="text-primary" /> Ativar Microfone
             </AlertDialogTitle>
             <AlertDialogDescription className="text-white/50">
-              O Studio Sapient avaliará sua autoridade e tom de voz. Fale com o Sr. Jorge como se estivesse em uma reunião real.
+              O Studio Sapient avaliará sua autoridade e tom de voz. Fale com o Sr. Jorge como se estivesse em uma reunião real. Garanta que seu navegador tenha permissão de acesso.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -239,22 +237,34 @@ export function RecrutamentoClient() {
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="space-y-4">
                   <h2 className="text-2xl font-black uppercase tracking-tighter">1. Dados do Candidato</h2>
-                  <p className="text-white/40 text-sm">Seus dados serão usados apenas para identificação no processo seletivo.</p>
+                  <p className="text-white/40 text-sm">Preencha seus dados oficiais e aceite os termos de segurança para liberar o hardware de avaliação.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Seu Nome" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Seu Nome Completo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} placeholder="Seu Melhor E-mail" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                 </div>
-                <div className="p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 space-y-4">
-                  <div className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-[9px]"><ShieldCheck size={16} /> LGPD & Segurança studiosapient</div>
-                  <div className="flex items-start gap-4">
-                    <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} className="mt-1" />
-                    <label htmlFor="consent" className="text-[10px] text-white/40 leading-relaxed cursor-pointer">
-                      Estou ciente de que minha voz e respostas serão processadas por inteligência artificial para fins de avaliação de competências comerciais. Meus dados estão protegidos por criptografia de ponta a ponta.
-                    </label>
+                
+                <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-6 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-8 opacity-5"><Lock size={80} /></div>
+                  <div className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-[10px]">
+                    <ShieldCheck size={18} /> Protocolo de Segurança Sapient (LGPD)
+                  </div>
+                  <div className="space-y-4">
+                    <p className="text-[10px] text-white/60 leading-relaxed font-medium">
+                      Para participar deste processo seletivo, você deve concordar com o tratamento de seus dados. Sua voz será gravada e processada por nossos motores de IA exclusivamente para fins de avaliação comercial. Seus dados não serão compartilhados com terceiros e estão protegidos sob criptografia militar.
+                    </p>
+                    <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
+                      <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} className="mt-1" />
+                      <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer">
+                        CONCORDO COM OS TERMOS DE PRIVACIDADE E AUTORIZO A CAPTURA DE ÁUDIO PARA FINS DE RECRUTAMENTO.
+                      </label>
+                    </div>
                   </div>
                 </div>
-                <Button onClick={handleNextStep} className="h-16 px-12 bg-primary rounded-full font-black uppercase text-[10px] shadow-xl">Iniciar Simulação <ChevronRight size={16} /></Button>
+                
+                <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] shadow-xl w-full md:w-auto">
+                  Iniciar Avaliação Estratégica <ChevronRight size={18} />
+                </Button>
               </div>
             )}
 
@@ -285,44 +295,50 @@ export function RecrutamentoClient() {
                   </div>
                 </div>
 
-                <div className="flex flex-col items-center gap-8 py-12 border-2 border-dashed border-white/10 rounded-[3rem] bg-white/[0.02]">
+                <div className="flex flex-col items-center gap-8 py-12 border-2 border-dashed border-white/10 rounded-[3rem] bg-white/[0.02] relative">
                   <button 
                     onClick={() => isRecording ? stopAllRecording() : setShowMicDialog(true)}
                     disabled={isProcessingAudio}
                     className={cn(
-                      "h-28 w-28 rounded-full flex items-center justify-center transition-all shadow-2xl relative",
-                      isRecording ? "bg-red-500 scale-110" : "bg-primary text-white hover:scale-105",
-                      isProcessingAudio && "opacity-50"
+                      "h-32 w-32 rounded-full flex items-center justify-center transition-all shadow-2xl relative z-10",
+                      isRecording ? "bg-red-500 scale-110 animate-pulse" : "bg-primary text-white hover:scale-105",
+                      isProcessingAudio && "opacity-50 cursor-not-allowed"
                     )}
                   >
-                    {isRecording ? <MicOff size={32} className="animate-pulse" /> : <Mic size={32} />}
+                    {isRecording ? <MicOff size={40} /> : <Mic size={40} />}
                   </button>
+
+                  <div className="text-center space-y-2">
+                    <p className="text-sm font-black uppercase tracking-widest text-white">
+                      {isRecording ? "GRAVANDO... CLIQUE PARA PARAR" : audioBase64 ? "ÁUDIO CAPTURADO COM SUCESSO" : "INICIAR GRAVAÇÃO DO PITCH"}
+                    </p>
+                    <p className="text-[9px] text-white/30 uppercase font-black">
+                      {isRecording ? "Sua voz está sendo capturada pelo motor Sapient" : "Grave sua abordagem comercial ao Sr. Jorge"}
+                    </p>
+                  </div>
 
                   {isProcessingAudio && (
                     <div className="flex items-center gap-2 text-primary animate-pulse">
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      <span className="text-[9px] font-black uppercase tracking-widest">Processando sua Voz...</span>
+                      <span className="text-[9px] font-black uppercase tracking-widest">Processando Áudio...</span>
                     </div>
                   )}
 
                   {audioPreviewUrl && !isRecording && !isProcessingAudio && (
-                    <div className="w-full max-w-md space-y-4 text-center animate-in zoom-in">
+                    <div className="w-full max-w-md space-y-4 text-center animate-in zoom-in px-4">
+                      <div className="h-px w-full bg-white/10 mb-6" />
                       <p className="text-[9px] font-black uppercase text-green-400 flex items-center justify-center gap-2"><Volume2 size={12}/> Ouça seu pitch antes de confirmar:</p>
                       <audio controls src={audioPreviewUrl} className="w-full h-12 rounded-full bg-white/10" />
                     </div>
                   )}
-                  
-                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest">
-                    {isRecording ? "Sua voz está sendo gravada..." : audioBase64 ? "Clique para regravar se necessário" : "Clique no microfone para gravar seu pitch de abordagem"}
-                  </p>
                 </div>
 
                 <Button 
                   onClick={handleNextStep} 
                   disabled={!audioBase64 || isRecording || isProcessingAudio}
-                  className="h-16 px-12 bg-primary rounded-full font-black uppercase text-[10px] w-full md:w-auto shadow-xl transition-all disabled:opacity-30"
+                  className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] w-full md:w-auto shadow-xl transition-all disabled:opacity-30 disabled:grayscale"
                 >
-                  Confirmar Abordagem <ChevronRight size={16} />
+                  Confirmar Abordagem Vocal <ChevronRight size={18} />
                 </Button>
               </div>
             )}
@@ -339,10 +355,10 @@ export function RecrutamentoClient() {
                   value={formData.objection} 
                   onChange={(e) => setFormData({...formData, objection: e.target.value})}
                   placeholder="Responda por escrito: Como você contorna essa objeção usando argumentos de ROI e os gargalos técnicos identificados?" 
-                  className="bg-white/5 border-white/10 min-h-[200px] rounded-[2rem] p-8 font-bold"
+                  className="bg-white/5 border-white/10 min-h-[200px] rounded-[2rem] p-8 font-bold text-lg"
                 />
-                <Button onClick={handleSubmit} disabled={isLoading} className="h-20 w-full bg-primary rounded-full font-black uppercase text-[11px] shadow-2xl">
-                  {isLoading ? <Loader2 className="animate-spin mr-3" /> : "Finalizar Análise de Autoridade"} <Zap size={16} className="ml-2" />
+                <Button onClick={handleSubmit} disabled={isLoading} className="h-24 w-full bg-primary rounded-full font-black uppercase text-[12px] shadow-2xl">
+                  {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Finalizar Análise de Autoridade"} <Zap size={20} className="ml-2" />
                 </Button>
               </div>
             )}
