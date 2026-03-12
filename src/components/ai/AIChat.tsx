@@ -12,10 +12,11 @@ import {
   Maximize2,
   Minimize2,
   Lock,
-  ChevronRight
+  ChevronRight,
+  Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { recommendServices, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
+import { recommendServices } from "@/ai/flows/ai-service-recommender";
 import { useFirestore } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -28,15 +29,15 @@ interface Message {
 
 const INITIAL_MESSAGE: Message = {
   role: 'model',
-  content: "Olá! Sou o consultor da Sapient. Para eu entender como te ajudar, com o que você trabalha hoje?",
+  content: "Olá! Para a gente começar, qual é a sua área de atuação hoje?",
   actions: [
-    "Saúde (Clínica/Médico)", 
-    "Advocacia", 
-    "Estética", 
-    "Loja / Vendas",
-    "Tecnologia", 
-    "Imóveis",
-    "Arquitetura",
+    "Saúde (Médico/Clínica)", 
+    "Direito (Advocacia)", 
+    "Estética / Beleza", 
+    "Vendas / Loja",
+    "Tecnologia / Software", 
+    "Imóveis / Arquitetura",
+    "Serviços (Geral)",
     "Outros"
   ],
   isMultiSelect: false
@@ -80,7 +81,7 @@ export function AIChat() {
       await addDoc(collection(db, 'leads'), {
         conversation: history.map(h => `${h.role}: ${h.content}`).join('\n'),
         timestamp: serverTimestamp(),
-        source: 'Chat Direto'
+        source: 'Chat Inteligente (Plano de Negócio)'
       });
     } catch (e) {
       console.error("Erro ao salvar contato:", e);
@@ -99,6 +100,9 @@ export function AIChat() {
     setIsTextInputEnabled(false);
 
     try {
+      // Simulação de tempo de pensamento humano (muito breve)
+      await new Promise(r => setTimeout(r, 400));
+
       const result = await recommendServices({
         history: currentHistory.map(m => ({ role: m.role, content: m.content })),
         currentMessage: userMsg
@@ -123,7 +127,7 @@ export function AIChat() {
       console.error(error);
       setMessages(prev => [...prev, { 
         role: 'model', 
-        content: "Tive um probleminha aqui. Vamos continuar pelo WhatsApp para eu te ajudar agora?" 
+        content: "Opa, tive um probleminha técnico. Vamos continuar pelo WhatsApp?" 
       }]);
       setShowRedirect(true);
     } finally {
@@ -144,7 +148,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = `Olá! Estava no chat do site e quero tirar algumas dúvidas sobre meu negócio.`;
+    const text = `Olá! Acabei de preencher as informações no chat do site e quero falar sobre meu negócio.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -174,8 +178,8 @@ export function AIChat() {
             <Zap className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h3 className="font-headline font-black text-xs uppercase tracking-widest text-white leading-none">Consultor Sapient</h3>
-            <p className="text-[8px] text-white/40 uppercase font-bold mt-1 tracking-widest">Atendimento Direto</p>
+            <h3 className="font-headline font-black text-[10px] uppercase tracking-widest text-white leading-none">Consultor Sapient</h3>
+            <p className="text-[7px] text-white/40 uppercase font-bold mt-1 tracking-[0.2em]">Raio-X de Negócio</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
@@ -205,7 +209,7 @@ export function AIChat() {
                     key={idx}
                     onClick={() => msg.isMultiSelect ? toggleChip(action) : handleSendMessage(action)}
                     className={cn(
-                      "px-4 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border",
+                      "px-4 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all border",
                       msg.isMultiSelect 
                         ? selectedChips.includes(action) 
                           ? "bg-primary text-white border-primary" 
@@ -223,7 +227,7 @@ export function AIChat() {
                     disabled={selectedChips.length === 0}
                     className={cn(
                       "w-full mt-2 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 transition-all",
-                      selectedChips.length > 0 ? "bg-[#08070b] text-white" : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                      selectedChips.length > 0 ? "bg-[#08070b] text-white shadow-xl" : "bg-slate-200 text-slate-400 cursor-not-allowed"
                     )}
                   >
                     Confirmar Opções <ChevronRight className="h-4 w-4" />
@@ -236,15 +240,15 @@ export function AIChat() {
 
         {isLoading && (
           <div className="flex items-center gap-2 text-slate-300">
-            <Zap className="h-4 w-4 animate-pulse text-primary" />
-            <span className="text-[10px] font-black uppercase tracking-widest">Preparando...</span>
+            <Loader2 className="h-4 w-4 animate-spin text-primary" />
+            <span className="text-[9px] font-black uppercase tracking-widest">Analisando...</span>
           </div>
         )}
 
         {showRedirect && (
-          <div className="pt-4 animate-in zoom-in">
-            <button onClick={handleWhatsAppRedirect} className="w-full py-6 bg-green-500 hover:bg-green-600 text-white rounded-2xl font-black uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 transition-all">
-              <MessageCircle className="h-6 w-6" /> CHAMAR NO WHATSAPP <ArrowRight className="h-4 w-4" />
+          <div className="pt-4 animate-in zoom-in duration-500">
+            <button onClick={handleWhatsAppRedirect} className="w-full py-6 bg-green-500 hover:bg-green-600 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 transition-all shadow-[0_20px_40px_-10px_rgba(34,197,94,0.4)]">
+              <MessageCircle className="h-6 w-6" /> FALAR COM ESTRATEGISTA <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         )}
@@ -261,7 +265,7 @@ export function AIChat() {
             className={cn(
               "w-full h-14 pl-6 pr-16 border rounded-2xl text-sm font-bold transition-all",
               isTextInputEnabled 
-                ? "bg-white border-slate-200 text-slate-900 focus:border-primary" 
+                ? "bg-white border-slate-200 text-slate-900 focus:border-primary focus:ring-4 focus:ring-primary/10" 
                 : "bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed"
             )}
           />
@@ -269,7 +273,7 @@ export function AIChat() {
              <button 
               type="submit"
               disabled={!input.trim() || !isTextInputEnabled || isLoading}
-              className="h-10 w-10 rounded-xl bg-primary text-white flex items-center justify-center disabled:opacity-30 transition-all"
+              className="h-10 w-10 rounded-xl bg-primary text-white flex items-center justify-center disabled:opacity-30 transition-all shadow-lg active:scale-90"
             >
               {isTextInputEnabled ? <Send className="h-5 w-5" /> : <Lock size={16} />}
             </button>

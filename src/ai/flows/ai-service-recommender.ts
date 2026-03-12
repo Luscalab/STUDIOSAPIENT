@@ -1,28 +1,21 @@
 'use server';
 
 /**
- * @fileOverview Motor de Atendimento Sapient - Fluxo Simples e Direto.
+ * @fileOverview Motor de Diagnóstico Sapient - Fluxo Determinístico e Personalizado.
  * 
- * Sequência de 7 perguntas para entender o negócio do cliente sem usar termos complicados.
+ * Este fluxo coleta informações estratégicas para identificar gargalos no negócio do cliente
+ * e sugerir as soluções corretas entre o nosso portfólio de serviços.
  */
 
 import { z } from 'genkit';
 
 const RecommenderOutputSchema = z.object({
-  reply: z.string().describe('A pergunta do consultor.'),
-  suggestedActions: z.array(z.string()).describe('Opções de botões.'),
-  isMultiSelect: z.boolean().describe('Permite múltiplas escolhas.'),
-  isTextInputEnabled: z.boolean().describe('Habilita campo de texto.'),
-  shouldRedirect: z.boolean().describe('Fim da conversa.'),
-  currentLayer: z.number().describe('Índice da camada atual.'),
-  extractedData: z.object({
-    niche: z.string().optional(),
-    traffic: z.array(z.string()).optional(),
-    hasSite: z.string().optional(),
-    painPoints: z.array(z.string()).optional(),
-    goals: z.string().optional(),
-    companyName: z.string().optional()
-  }).optional()
+  reply: z.string().describe('A pergunta ou comentário do consultor.'),
+  suggestedActions: z.array(z.string()).describe('Opções de botões para o usuário.'),
+  isMultiSelect: z.boolean().describe('Permite que o usuário marque várias opções.'),
+  isTextInputEnabled: z.boolean().describe('Habilita o campo de digitação.'),
+  shouldRedirect: z.boolean().describe('Sinaliza o fim da conversa para redirecionamento.'),
+  currentLayer: z.number().describe('O índice do passo atual.')
 });
 
 export type RecommenderOutput = z.infer<typeof RecommenderOutputSchema>;
@@ -37,47 +30,50 @@ const RecommenderInputSchema = z.object({
 
 export type RecommenderInput = z.infer<typeof RecommenderInputSchema>;
 
+/**
+ * Define as camadas do diálogo.
+ */
 const STEPS = [
   {
     id: 1,
-    question: "Para começar, com o que você trabalha hoje?",
-    options: ["Saúde (Clínica/Médico)", "Advocacia", "Estética", "Loja / Vendas", "Tecnologia", "Imóveis", "Arquitetura", "Outros"],
+    question: "Para a gente começar, qual é a sua área de atuação hoje?",
+    options: ["Saúde (Médico/Clínica)", "Direito (Advocacia)", "Estética / Beleza", "Vendas / Loja", "Tecnologia / Software", "Imóveis / Arquitetura", "Serviços (Geral)", "Outros"],
     isMulti: false
   },
   {
     id: 2,
-    question: "Legal! E como os clientes chegam até você hoje? (Pode marcar mais de um)",
-    options: ["Instagram / Facebook", "Google", "Indicação", "Ainda não tenho clientes"],
+    question: "Entendi. E como os novos clientes chegam até você hoje?",
+    options: ["Pelo Instagram", "Pelo Google", "Só por Indicação", "Panfleto / Local", "Ainda não tenho clientes"],
     isMulti: true
   },
   {
     id: 3,
-    question: "Você já tem um site ou alguma página na internet?",
-    options: ["Sim, já tenho", "Não tenho", "Tenho, mas não gosto dele", "Não preciso de site"],
+    question: "Você já tem um site ou uma página para apresentar seu trabalho?",
+    options: ["Sim, já tenho", "Não tenho", "Tenho, mas não gosto dele", "Não preciso de um"],
     isMulti: false
   },
   {
     id: 4,
-    question: "Qual é o seu maior problema hoje? O que mais te atrapalha a vender?",
-    options: ["Pouca gente chamando", "Clientes que só perguntam preço", "Não tenho tempo para postar", "Minha marca parece amadora"],
+    question: "Qual é o seu maior 'gargalo' hoje? O que mais te impede de crescer?",
+    options: [], // Será preenchido dinamicamente com base no nicho
     isMulti: true
   },
   {
     id: 5,
-    question: "Se pudesse escolher um objetivo para os próximos meses, qual seria?",
-    options: ["Vender mais", "Ser mais conhecido", "Organizar o atendimento", "Lançar um produto novo"],
+    question: "Se a gente pudesse resolver um problema nos próximos 90 dias, qual seria?",
+    options: ["Vender mais", "Aparecer para mais gente", "Organizar o atendimento", "Ter uma marca mais profissional"],
     isMulti: false
   },
   {
     id: 6,
-    question: "Entendi perfeitamente. Qual é o nome da sua empresa ou marca?",
+    question: "Certo. E qual é o nome da sua empresa ou da sua marca?",
     options: [],
     isMulti: false,
     forceText: true
   },
   {
     id: 7,
-    question: "Pronto! Já entendi o seu momento. Clique no botão abaixo para falarmos no WhatsApp e eu te mostrar como podemos resolver esses problemas.",
+    question: "Perfeito! Já tenho um rascunho do que podemos fazer. Clique no botão abaixo para falar com nosso estrategista no WhatsApp e receber sua proposta personalizada.",
     options: [],
     isMulti: false,
     isEnd: true
@@ -88,36 +84,71 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   const userResponses = input.history.filter(m => m.role === 'user');
   const stepIndex = userResponses.length;
 
+  // Fim do fluxo
   if (stepIndex >= STEPS.length) {
-    const lastStep = STEPS[STEPS.length - 1];
     return {
-      reply: lastStep.question,
+      reply: STEPS[STEPS.length - 1].question,
       suggestedActions: [],
       isMultiSelect: false,
       isTextInputEnabled: false,
       shouldRedirect: true,
-      currentLayer: lastStep.id
+      currentLayer: 7
     };
   }
 
   const currentStep = STEPS[stepIndex];
-  let options = currentStep.options;
+  let reply = currentStep.question;
+  let options = [...currentStep.options];
   let forceText = currentStep.forceText || false;
 
-  // Se clicar em "Outros" no primeiro passo, pede o texto
-  if (stepIndex === 0 && input.currentMessage === "Outros") {
-    return {
-      reply: "Sem problemas! Qual seria a sua área então?",
-      suggestedActions: [],
-      isMultiSelect: false,
-      isTextInputEnabled: true,
-      shouldRedirect: false,
-      currentLayer: 1
-    };
+  // Lógica de "Outros" no primeiro passo
+  if (stepIndex === 1 && input.history[0]?.content === "Outros") {
+    // Se o usuário acabou de responder "Outros", pedimos o texto
+    if (input.currentMessage === "Outros") {
+       return {
+        reply: "Sem problemas! Qual seria a sua área específica?",
+        suggestedActions: [],
+        isMultiSelect: false,
+        isTextInputEnabled: true,
+        shouldRedirect: false,
+        currentLayer: 1
+      };
+    }
+  }
+
+  // Personalização da Pergunta de Gargalos (Passo 4)
+  if (stepIndex === 3) {
+    const niche = userResponses[0]?.content || "";
+    
+    if (niche.includes("Saúde") || niche.includes("Direito") || niche.includes("Estética")) {
+      options = [
+        "Clientes só perguntam preço",
+        "Minha imagem parece amadora",
+        "Demoro a responder no WhatsApp",
+        "Não apareço quando buscam no Google",
+        "Tenho vergonha de postar"
+      ];
+    } else if (niche.includes("Vendas") || niche.includes("Tecnologia")) {
+      options = [
+        "Pouca gente visita meu site",
+        "As pessoas não confiam na marca",
+        "Perco vendas por falta de suporte",
+        "Anúncios estão caros e sem retorno",
+        "Meu site é lento/ruim"
+      ];
+    } else {
+      options = [
+        "Preciso de mais contatos",
+        "Quero ser visto como autoridade",
+        "Falta de tempo para marketing",
+        "Atendimento muito bagunçado",
+        "Minha marca está desatualizada"
+      ];
+    }
   }
 
   return {
-    reply: currentStep.question,
+    reply,
     suggestedActions: options,
     isMultiSelect: currentStep.isMulti || false,
     isTextInputEnabled: forceText,
