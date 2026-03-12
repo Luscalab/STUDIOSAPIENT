@@ -142,13 +142,32 @@ export default function UrbeLudoPage() {
             </div>
           </div>
           
-          <div className="relative aspect-square md:aspect-video overflow-hidden">
+          <div className="relative h-[300px] md:h-[600px] w-full flex items-center justify-center">
+            {/* Espirais Decorativos em Roxo e Lilás */}
+            <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-visible">
+              <svg viewBox="0 0 200 200" className="w-[150%] h-[150%] opacity-40 blur-3xl animate-pulse">
+                <defs>
+                  <radialGradient id="spiralGrad1" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="hsl(var(--primary))" />
+                    <stop offset="100%" stopColor="transparent" />
+                  </radialGradient>
+                  <radialGradient id="spiralGrad2" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="hsl(var(--accent))" />
+                    <stop offset="100%" stopColor="transparent" />
+                  </radialGradient>
+                </defs>
+                <circle cx="100" cy="100" r="80" fill="url(#spiralGrad1)" className="animate-pulse" />
+                <path d="M100 20 A80 80 0 0 1 180 100 A80 80 0 0 1 100 180 A80 80 0 0 1 20 100 A80 80 0 0 1 100 20" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" className="animate-spin" style={{ animationDuration: '20s' }} />
+                <path d="M100 40 A60 60 0 0 1 160 100 A60 60 0 0 1 100 160 A60 60 0 0 1 40 100 A60 60 0 0 1 100 40" fill="none" stroke="hsl(var(--accent))" strokeWidth="0.5" className="animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }} />
+              </svg>
+            </div>
+
             {urbeludoMainImage && (
               <Image 
                 src={urbeludoMainImage} 
                 alt="Interface UrbeLudo Official" 
                 fill 
-                className="object-contain"
+                className="object-contain relative z-10"
                 data-ai-hint="app interaction"
                 priority
               />
