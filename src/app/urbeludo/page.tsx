@@ -142,13 +142,13 @@ export default function UrbeLudoPage() {
             </div>
           </div>
           
-          <div className="relative aspect-square md:aspect-video rounded-[3rem] overflow-hidden shadow-2xl border border-white/10 group bg-white/5">
+          <div className="relative aspect-square md:aspect-video overflow-hidden">
             {urbeludoMainImage && (
               <Image 
                 src={urbeludoMainImage} 
                 alt="Interface UrbeLudo Official" 
                 fill 
-                className="object-cover group-hover:scale-105 transition-transform duration-[4000ms]"
+                className="object-contain"
                 data-ai-hint="app interaction"
                 priority
               />
