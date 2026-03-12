@@ -33,6 +33,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export default function UrbeLudoPage() {
   const { toast } = useToast();
@@ -41,6 +42,8 @@ export default function UrbeLudoPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const urbeludoMainImage = PlaceHolderImages.find(img => img.id === "urbeludo-main")?.imageUrl || "";
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -115,10 +118,8 @@ export default function UrbeLudoPage() {
   return (
     <main className="min-h-screen bg-white text-slate-900 selection:bg-primary/20 selection:text-primary pb-32 overflow-x-hidden">
       
-      {/* Header Global Sincronizado */}
       <Navbar />
 
-      {/* 01. Hero - Onde o afeto encontra a tecnologia */}
       <section id="inicio" className="relative pt-32 pb-20 md:pt-64 md:pb-48 px-6 text-center hero-purple-mesh bg-[#08070b]">
         <div className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
         
@@ -141,13 +142,14 @@ export default function UrbeLudoPage() {
             </div>
           </div>
           
-          <div className="relative aspect-square md:aspect-video rounded-[3rem] overflow-hidden shadow-2xl border border-white/10 group">
+          <div className="relative aspect-square md:aspect-video rounded-[3rem] overflow-hidden shadow-2xl border border-white/10 group bg-white/5">
             <Image 
-              src="https://picsum.photos/seed/sap-tablet-v1/1200/800" 
-              alt="Interface UrbeLudo" 
+              src={urbeludoMainImage} 
+              alt="Interface UrbeLudo Official" 
               fill 
               className="object-cover group-hover:scale-105 transition-transform duration-[4000ms]"
-              data-ai-hint="tablet interaction"
+              data-ai-hint="app interaction"
+              priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-8 left-8 flex items-center gap-4">
@@ -160,7 +162,6 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 02. O Coração do Projeto: Por que UrbeLudo? */}
       <section id="coracao" className="py-20 md:py-48 bg-white text-slate-950 rounded-[2.5rem] md:rounded-[6rem] mx-4 -mt-8 relative z-20 shadow-2xl px-6 border border-slate-100 overflow-hidden">
         <div className="container mx-auto max-w-5xl space-y-20">
           <div className="text-center space-y-4">
@@ -188,7 +189,6 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 03. Base Teórica: A Ciência por trás do Brincar */}
       <section id="ciencia" className="py-20 md:py-48 bg-slate-50 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-32 items-start">
@@ -202,7 +202,7 @@ export default function UrbeLudoPage() {
                 {[
                   { title: "Psicomotricidade", desc: "Trabalhamos a relação entre pensamento, emoção e movimento, focando na estruturação espacial e imagem corporal.", icon: <Users className="h-5 w-5" /> },
                   { title: "Neuroplasticidade", desc: "Desafios desenhados para estimular a reorganização cerebral, criando novas rotas para a fala e o movimento.", icon: <Brain className="h-5 w-5" /> },
-                  { title: "Teoria do Fluxo", desc: "Nível de desafio equilibrado para evitar tédio ou frustração, garantindo engajamento contínuo.", icon: <Zap className="h-5 w-5" /> }
+                  { title: "Teoria do Fluxo", desc: "Nível de desafio equilibrado para evitar tédio ou fluxos de frustração, garantindo engajamento contínuo.", icon: <Zap className="h-5 w-5" /> }
                 ].map((item, idx) => (
                   <div key={idx} className="flex gap-6 p-8 rounded-[2rem] bg-white border border-slate-200 group hover:shadow-lg transition-all">
                     <div className="h-12 w-12 rounded-xl bg-slate-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shrink-0">
@@ -219,7 +219,6 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 04. SPSP: A Inteligência que Apoia o Terapeuta */}
       <section id="spsp" className="py-20 md:py-48 bg-white px-6">
         <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center">
           <div className="relative">
@@ -259,7 +258,6 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 05. Nossas Frentes de Cuidado */}
       <section id="frentes" className="py-20 md:py-48 bg-slate-50 px-6 rounded-[3rem] md:rounded-[6rem] mx-4 my-12">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center space-y-6 mb-24">
@@ -287,7 +285,6 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 06. Comunidade e Colaboração Pro Bono */}
       <section id="colaboracao" className="py-20 md:py-48 bg-white px-6">
         <div className="container mx-auto max-w-5xl text-center space-y-12">
           <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Ecossistema Social</span>
@@ -306,7 +303,6 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 07. Como você pode ajudar (PIX) */}
       <section id="apoio" className="py-20 md:py-48 bg-[#08070b] text-white rounded-[2.5rem] md:rounded-[6rem] mx-4 my-12 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none opacity-10 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.4),transparent_70%)]" />
         <div className="container mx-auto max-w-4xl text-center space-y-12 relative z-10 px-6">
@@ -330,7 +326,6 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 08. FAQ: Tirando as dúvidas */}
       <section id="faq" className="py-20 md:py-48 bg-white px-6">
         <div className="container mx-auto max-w-4xl space-y-16">
           <div className="text-center space-y-4">

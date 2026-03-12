@@ -32,22 +32,28 @@
       "imageHint": "premium brand"
     },
     {
-      "id": "portfolio-2",
-      "description": "Modern marketing campaign",
-      "imageUrl": "https://picsum.photos/seed/sap-port-2/800/1000",
-      "imageHint": "marketing digital"
-    },
-    {
-      "id": "portfolio-3",
-      "description": "Strategic social media management",
-      "imageUrl": "https://picsum.photos/seed/sap-port-3/800/1000",
-      "imageHint": "social design"
+      "id": "urbeludo-main",
+      "description": "UrbeLudo Official Interface",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/58a182ea-b653-409e-960c-b269bb1b8cce.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvNThhMTgyZWEtYjY1My00MDllLTk2MGMtYjI2OWJiMWI4Y2NlLnBuZyIsImlhdCI6MTc3MzI4ODY2MCwiZXhwIjoxODA0ODI0NjYwfQ.wCT9FxWWmzFQz67OKl1go39S7MWEAov7Mk7fXMu7GUA",
+      "imageHint": "app interface"
     },
     {
       "id": "partner-logo-1",
-      "description": "Empresa atendida pela Sapient",
+      "description": "Quitute Certa - Sapient Partner",
       "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/FINALLOGO.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvRklOQUxMT0dPLnBuZyIsImlhdCI6MTc3MzI1ODk2MSwiZXhwIjoyMDg4NjE4OTYxfQ.YCn2mnUAXxdeCIDDY43MZpB1jEf94V0pcajlqRuXkA8",
       "imageHint": "partner logo"
+    },
+    {
+      "id": "partner-logo-2",
+      "description": "3DGOPRINT - Sapient Partner",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/unnamed%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvdW5uYW1lZCAoMSkuanBnIiwiaWF0IjoxNzczMjU5MzAyLCJleHAiOjE4MDQ3OTUzMDJ9.Ey6aHahoSnfrOlVxBsHpOnYXUGfDDEZFj_rLrwbbOro",
+      "imageHint": "client logo"
+    },
+    {
+      "id": "partner-logo-3",
+      "description": "ChargerBed - Sapient Partner",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/chargerbed.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvY2hhcmdlcmJlZC5wbmciLCJpYXQiOjE3NzMyNTk2OTEsImV4cCI6MTc3NDEyMzY5MX0.Vjw_0CI-92YGGgxQil9racQzBQSMVoinTbZ8P_ZYymQ",
+      "imageHint": "chargerbed logo"
     }
   ]
 }
