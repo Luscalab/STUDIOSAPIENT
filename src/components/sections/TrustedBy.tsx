@@ -67,7 +67,7 @@ export function TrustedBy() {
       </div>
 
       {/* Identidade do Cliente */}
-      <div className="min-w-[100px] md:min-w-[140px] pr-2">
+      <div className="min-w-[100px] md:min-w-[140px] pr-2 text-left">
         <p className="text-[6px] font-black uppercase tracking-[0.4em] text-white/30 mb-0.5">
           CONFIADO POR
         </p>
