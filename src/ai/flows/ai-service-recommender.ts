@@ -1,12 +1,12 @@
 'use server';
 
 /**
- * @fileOverview Inteligência de Atendimento Sapient Studio V4.2 - Motor de Diagnóstico Adaptativo.
+ * @fileOverview Inteligência de Atendimento Sapient Studio V4.3 - Motor de Diagnóstico Adaptativo.
  * 
  * Correções:
- * 1. Filtragem de histórico: Agora analisa apenas mensagens do usuário para evitar falsos positivos.
- * 2. Fluxo "Outros": Tratamento específico para permitir entrada de texto manual quando o nicho não é mapeado.
- * 3. Camadas de Estado: Refinamento na progressão para evitar loops.
+ * 1. Lógica de Contexto: Corrigido o rastreamento da mensagem anterior para o fluxo "Outros".
+ * 2. Extração de Nome: Maior sensibilidade para capturar nomes de empresas curtos.
+ * 3. Persistência: Retorno consistente do estado acumulado (extractedData).
  */
 
 import { z } from 'genkit';
@@ -37,13 +37,11 @@ export type RecommenderInput = {
 export async function recommendServices(input: RecommenderInput): Promise<RecommenderOutput> {
   const msg = input.currentMessage.toLowerCase().trim();
   
-  // Analisamos APENAS o que o usuário disse para evitar capturar as próprias perguntas da IA
-  const userHistoryText = input.history
-    .filter(h => h.role === 'user')
-    .map(h => h.content.toLowerCase())
-    .join(' ') + ' ' + msg;
+  // Analisamos o histórico de mensagens do usuário para extração de dados
+  const userMessages = input.history.filter(h => h.role === 'user');
+  const userHistoryText = userMessages.map(h => h.content.toLowerCase()).join(' ');
 
-  // 1. Detecção de Urgência Imediata (Atalho para Humano)
+  // 1. Detecção de Urgência Imediata
   if (msg.match(/(falar com alguém|atendente|humano|pessoa|telefone|whatsapp|ligar|urgente|agora|contato|ajuda)/)) {
     return {
       reply: "Entendo perfeitamente a sua urgência. O tempo é o recurso mais escasso no digital. Vou te encaminhar agora mesmo para a nossa consultoria sênior via WhatsApp para resolvermos isso imediatamente.",
@@ -59,7 +57,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   const urlMatch = userHistoryText.match(/(https?:\/\/[^\s]+|www\.[^\s]+|[a-z0-9-]+\.[a-z]{2,})/i);
   if (urlMatch) websiteUrl = urlMatch[0];
 
-  // 3. Extração Inteligente de Nicho (Apenas de inputs do usuário)
+  // 3. Extração Inteligente de Nicho
   let niche = '';
   if (userHistoryText.match(/(médico|dentista|clínica|hospital|saúde|psicólog|nutri|fisioterapeuta|doutor|paciente|consultório|dermato|estética)/)) niche = 'Saúde & Bem-estar';
   else if (userHistoryText.match(/(advogado|jurídico|direito|escritório|legal|processo|justiça|oab|tributário)/)) niche = 'Jurídico & Direito';
@@ -70,8 +68,9 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   else if (userHistoryText.match(/(arquitetura|design|interiores|obra|reforma|decor|construção|engenharia)/)) niche = 'Arquitetura & Design';
 
   // Tratamento especial para o botão "Outros"
-  const lastUserMsg = input.history.filter(h => h.role === 'user').pop()?.content.toLowerCase() || '';
-  const isTransitioningFromOthers = lastUserMsg === 'outros';
+  // Verificamos se a mensagem ANTERIOR à atual no histórico foi "outros"
+  const previousUserMsg = userMessages.length > 1 ? userMessages[userMessages.length - 2].content.toLowerCase() : '';
+  const isTransitioningFromOthers = previousUserMsg === 'outros';
 
   if (msg === 'outros') {
     return {
@@ -83,7 +82,6 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  // Se ele clicou em outros e agora escreveu algo, esse é o nicho
   if (isTransitioningFromOthers && !niche) {
     niche = input.currentMessage;
   }
@@ -109,12 +107,19 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   if (userHistoryText.match(/(automático|ia|robô|chatbot|sozinho|automatizar)/)) goals.push('Atender clientes no automático');
   if (userHistoryText.match(/(anunciar|tráfego|campanha|trafegho)/)) goals.push('Melhorar meus anúncios');
 
+  // Dados acumulados para retorno constante
+  const currentExtractedData = { niche, platforms, websiteUrl, mainPainPoints, goals };
+
   // --- LÓGICA DE ESTADOS (CAMADAS ADAPTATIVAS) ---
 
   // ESTADO FINAL: NOME DA EMPRESA
   if (niche && platforms.length > 0 && mainPainPoints.length > 0 && goals.length > 0 && (websiteUrl || !platforms.includes('Meu próprio site'))) {
-    const nameMatch = msg.match(/(meu negócio é a|minha empresa é a|empresa|chamada|chama-se|nome é) ([\w\s]+)/);
-    const companyName = nameMatch ? nameMatch[2].trim() : (input.history.length > 10 && msg.length > 2 && !msg.includes('vender') ? input.currentMessage : '');
+    // Busca por padrões de nome ou assume a última mensagem se for a resposta direta à pergunta do nome
+    const nameMatch = msg.match(/(meu negócio é a|minha empresa é a|empresa|chamada|chama-se|nome é) ([\w\s]+)/i);
+    const lastModelMsg = input.history.filter(h => h.role === 'model').pop()?.content.toLowerCase() || '';
+    const isAnsweringName = lastModelMsg.includes('nome oficial');
+    
+    const companyName = nameMatch ? nameMatch[2].trim() : (isAnsweringName && msg.length > 1 ? input.currentMessage : '');
 
     if (companyName) {
       return {
@@ -123,7 +128,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
         currentLayer: 7,
         isTextInputEnabled: false,
         suggestedActions: ["Agendar Consultoria Gratuita", "Falar no WhatsApp"],
-        extractedData: { niche, platforms, websiteUrl, mainPainPoints, goals, companyName }
+        extractedData: { ...currentExtractedData, companyName }
       };
     }
 
@@ -133,7 +138,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
       currentLayer: 6,
       isTextInputEnabled: true,
       suggestedActions: [],
-      extractedData: { niche, platforms, websiteUrl, mainPainPoints, goals }
+      extractedData: currentExtractedData
     };
   }
 
@@ -146,7 +151,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
       isTextInputEnabled: false,
       currentLayer: 5,
       suggestedActions: ["Vender mais todo mês", "Ser reconhecido como referência", "Atender clientes no automático", "Melhorar meus anúncios"],
-      extractedData: { niche, platforms, websiteUrl, mainPainPoints }
+      extractedData: currentExtractedData
     };
   }
 
@@ -159,11 +164,11 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
       isTextInputEnabled: false,
       currentLayer: 4,
       suggestedActions: ["Muitos curiosos, poucos clientes", "Demora para responder", "Visual pouco profissional", "Vendas instáveis"],
-      extractedData: { niche, platforms, websiteUrl }
+      extractedData: currentExtractedData
     };
   }
 
-  // ESTADO 3: URL DO SITE (Se ele disse que tem site mas não passou o link)
+  // ESTADO 3: URL DO SITE
   if (niche && platforms.includes('Meu próprio site') && !websiteUrl) {
     return {
       reply: "Perfeito! Ter um site próprio é o primeiro passo para a autoridade. Poderia me enviar o link dele? Assim eu faço uma auditoria rápida de performance e visual agora mesmo.",
@@ -171,11 +176,11 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
       currentLayer: 3,
       isTextInputEnabled: true,
       suggestedActions: ["Ainda não está pronto", "Vou enviar depois"],
-      extractedData: { niche, platforms }
+      extractedData: currentExtractedData
     };
   }
 
-  // ESTADO 2: PLATAFORMAS (Canais de Tráfego)
+  // ESTADO 2: PLATAFORMAS
   if (niche) {
     return {
       reply: `Ótimo nicho! Em ${niche}, a concorrência exige um posicionamento premium. Hoje, por onde os novos clientes costumam chegar até você?`,
@@ -184,7 +189,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
       isTextInputEnabled: false,
       currentLayer: 2,
       suggestedActions: ["Instagram", "Anúncios no Google", "Meu próprio site", "Indicações de clientes", "Ainda não divulgo"],
-      extractedData: { niche }
+      extractedData: currentExtractedData
     };
   }
 
@@ -203,6 +208,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
       "Imobiliário & Imóveis",
       "Arquitetura & Design",
       "Outros"
-    ]
+    ],
+    extractedData: currentExtractedData
   };
 }

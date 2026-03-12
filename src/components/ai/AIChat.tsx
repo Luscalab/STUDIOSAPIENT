@@ -62,6 +62,7 @@ export function AIChat() {
 
   const db = useFirestore();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleOpen = () => setIsOpen(true);
@@ -76,7 +77,11 @@ export function AIChat() {
         behavior: 'smooth'
       });
     }
-  }, [messages, isLoading]);
+    // Auto-focus no input se habilitado
+    if (isTextInputEnabled && !isLoading) {
+      inputRef.current?.focus();
+    }
+  }, [messages, isLoading, isTextInputEnabled]);
 
   const saveLead = async (data: any) => {
     if (!db) return;
@@ -84,7 +89,7 @@ export function AIChat() {
       await addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Sapient Strategic Agent V4.1'
+        source: 'Sapient Strategic Agent V4.3'
       });
     } catch (e) {
       console.error("Erro ao salvar lead:", e);
@@ -147,7 +152,7 @@ export function AIChat() {
       } finally {
         setIsLoading(false);
       }
-    }, 1500);
+    }, 1200);
   };
 
   const toggleChip = (chip: string) => {
@@ -198,7 +203,7 @@ export function AIChat() {
           <div>
             <h3 className="font-headline font-black text-[10px] md:text-xs uppercase tracking-widest text-white leading-none">Agente Estratégico</h3>
             <p className="text-[7px] text-white/40 uppercase font-bold mt-1.5 tracking-widest flex items-center gap-1">
-              <Sparkles className="h-2 w-2 text-primary" /> Diagnóstico em curso
+              <Sparkles className="h-2 w-2 text-primary" /> Diagnóstico V4.3
             </p>
           </div>
         </div>
@@ -286,6 +291,7 @@ export function AIChat() {
       <div className="p-5 md:p-8 bg-white border-t border-slate-100 shrink-0">
         <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(input); }} className="relative group">
           <input 
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={!isTextInputEnabled || isLoading}
@@ -308,7 +314,7 @@ export function AIChat() {
           </div>
         </form>
         <div className="mt-5 flex items-center justify-center gap-6">
-          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">SAPIENT STRATEGIC AGENT V4.1</p>
+          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">SAPIENT STRATEGIC AGENT V4.3</p>
           <div className="h-1 w-1 bg-primary/20 rounded-full" />
           <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">AUDITORIA DE PERFORMANCE</p>
         </div>
