@@ -67,14 +67,14 @@ export function TrustedBy() {
       </div>
 
       {/* Identidade do Cliente */}
-      <div className="min-w-[90px] md:min-w-[120px] pr-2">
+      <div className="min-w-[100px] md:min-w-[140px] pr-2">
         <p className="text-[6px] font-black uppercase tracking-[0.4em] text-white/30 mb-0.5">
           CONFIADO POR
         </p>
-        <div className="h-[16px] flex items-center">
+        <div className="h-[18px] flex items-center overflow-hidden">
           <p 
             className={cn(
-              "text-[10px] md:text-[11px] font-black text-white uppercase tracking-tight leading-none transition-all duration-500",
+              "text-[10px] md:text-[11px] font-black text-white uppercase tracking-tight leading-none transition-all duration-500 whitespace-nowrap",
               isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2"
             )}
           >
