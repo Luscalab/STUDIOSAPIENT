@@ -29,7 +29,10 @@ import {
   Search,
   Smartphone,
   Info,
-  Clock
+  Clock,
+  MapPin,
+  Star,
+  Camera
 } from "lucide-react";
 import { 
   AlertDialog,
@@ -47,7 +50,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
-const STORAGE_KEY = "sapient_recruitment_v2";
+const STORAGE_KEY = "sapient_recruitment_v3";
 
 export function RecrutamentoClient() {
   const [step, setStep] = useState(1);
@@ -143,7 +146,7 @@ export function RecrutamentoClient() {
 
   const confirmMicAccess = async () => {
     setShowMicDialog(false);
-    setTranscription(""); // Limpa transcrição anterior antes de novo teste
+    setTranscription("");
     
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
@@ -201,7 +204,6 @@ export function RecrutamentoClient() {
       };
 
       recognition.onend = () => {
-        // Se ainda estiver gravando e parou por timeout, reinicia
         if (isRecording && recognitionRef.current) {
           try { recognitionRef.current.start(); } catch(e) {}
         }
@@ -213,7 +215,7 @@ export function RecrutamentoClient() {
       
       toast({ 
         title: "SISTEMA OUVINDO", 
-        description: "Pode começar seu diagnóstico. O tempo está correndo.",
+        description: "Pode começar seu diagnóstico.",
         className: "bg-primary text-white border-none font-black uppercase tracking-widest text-[9px]"
       });
     } catch (err) {
@@ -231,7 +233,7 @@ export function RecrutamentoClient() {
       stopAllRecording();
     } else {
       if (!isBrowserSupported) {
-        toast({ title: "Navegador incompatível", description: "O recurso de transcrição requer Google Chrome ou Safari atualizado.", variant: "destructive" });
+        toast({ title: "Navegador incompatível", description: "Use Google Chrome ou Safari atualizado.", variant: "destructive" });
         return;
       }
       setShowMicDialog(true);
@@ -241,14 +243,14 @@ export function RecrutamentoClient() {
   const handleNextStep = () => {
     if (step === 1) {
       if (!formData.name.trim() || !formData.email.trim() || !consentAccepted) {
-        toast({ title: "Atenção", description: "Preencha seus dados e aceite os termos de segurança para continuar.", variant: "destructive" });
+        toast({ title: "Atenção", description: "Preencha seus dados e aceite os termos para continuar.", variant: "destructive" });
         return;
       }
     }
     if (step === 2) {
       if (isRecording) stopAllRecording();
       if (!transcription.trim()) {
-        toast({ title: "Sem Transcrição", description: "Precisamos capturar sua voz para avaliar sua autoridade. Tente novamente.", variant: "destructive" });
+        toast({ title: "Atenção", description: "Capture seu pitch para continuar.", variant: "destructive" });
         return;
       }
     }
@@ -258,7 +260,7 @@ export function RecrutamentoClient() {
 
   const handleSubmit = async () => {
     if (!formData.objection.trim()) {
-      toast({ title: "Atenção", description: "A resposta à objeção é obrigatória para o fechamento do teste.", variant: "destructive" });
+      toast({ title: "Atenção", description: "Responda à objeção para finalizar.", variant: "destructive" });
       return;
     }
 
@@ -292,7 +294,7 @@ export function RecrutamentoClient() {
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
       console.error("Submit Error", error);
-      toast({ title: "Falha na Análise", description: "Ocorreu um erro ao processar sua avaliação. Tente novamente.", variant: "destructive" });
+      toast({ title: "Falha na Análise", description: "Tente novamente mais tarde.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -309,7 +311,7 @@ export function RecrutamentoClient() {
               <Mic className="text-primary" /> Ativar Microfone
             </AlertDialogTitle>
             <AlertDialogDescription className="text-white/50 text-base leading-relaxed">
-              Para avaliar sua autoridade, precisamos capturar sua voz. Sua fala será transcrita para análise da IA e o áudio será armazenado para audição do nosso Diretor Comercial.
+              Precisamos capturar sua voz para avaliar sua autoridade comercial. Sua fala será transcrita pela nossa IA e o áudio será salvo para o Diretor Comercial.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="mt-6">
@@ -349,16 +351,16 @@ export function RecrutamentoClient() {
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                   <div className="space-y-4">
                     <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação Profissional</h2>
-                    <p className="text-white/40 text-sm leading-relaxed">Este teste avalia seu "jogo de cintura" e capacidade de diagnóstico. <br/> Buscamos consultores que transformam problemas técnicos em urgência de negócio.</p>
+                    <p className="text-white/40 text-sm leading-relaxed">Buscamos consultores que transformam problemas técnicos em urgência de negócio. <br/> Seu objetivo é provar valor, não apenas vender produtos.</p>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Seu Nome Completo</label>
+                      <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Nome Completo</label>
                       <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="bg-white/5 border-white/10 h-16 rounded-2xl text-lg font-bold focus:border-primary/50" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-white/30">E-mail Corporativo</label>
+                      <label className="text-[10px] font-black uppercase tracking-widest text-white/30">E-mail</label>
                       <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="bg-white/5 border-white/10 h-16 rounded-2xl text-lg font-bold focus:border-primary/50" />
                     </div>
                   </div>
@@ -370,7 +372,7 @@ export function RecrutamentoClient() {
                     <div className="flex items-start gap-4">
                       <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(checked) => setConsentAccepted(checked === true)} className="mt-1.5 border-white/20 h-5 w-5 data-[state=checked]:bg-primary" />
                       <label htmlFor="consent" className="text-xs text-white/50 leading-relaxed cursor-pointer select-none">
-                        Autorizo o Studio Sapient a capturar e processar minha voz e dados exclusivamente para este recrutamento. Meus dados serão tratados com sigilo absoluto conforme a Lei Geral de Proteção de Dados.
+                        Autorizo o Studio Sapient a processar minha voz e dados exclusivamente para este recrutamento. Sigilo absoluto garantido conforme a LGPD.
                       </label>
                     </div>
                   </div>
@@ -383,31 +385,56 @@ export function RecrutamentoClient() {
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-8">
+                      {/* LEAD BRIEFING */}
                       <div className="p-10 rounded-[3rem] bg-primary/10 border border-primary/20 space-y-6">
                         <div className="flex items-center gap-3 text-primary font-black uppercase tracking-[0.2em] text-[10px]"><Building2 size={16} /> LEAD: Marmoraria Granito Fino</div>
                         <div className="space-y-4">
                           <h3 className="text-2xl font-black uppercase tracking-tight">O Caso Sr. Jorge</h3>
                           <p className="text-sm text-white/70 leading-relaxed">
-                            Referência há 25 anos, mas faturamento caiu 35% no último ano. Sr. Jorge é conservador e acha que o "boca a boca" ainda é tudo. Ele vê design como custo e não como motor de lucro.
+                            Marmoraria referência há 25 anos, mas faturamento caiu 35%. Sr. Jorge acha que "design é frescura" e que o boca a boca basta. Ele não percebe que o público de elite mudou o comportamento de compra.
                           </p>
                         </div>
                       </div>
 
+                      {/* GOOGLE MEU NEGOCIO EXPLAINER */}
+                      <div className="p-10 rounded-[3rem] bg-white/[0.03] border border-white/10 space-y-6">
+                        <div className="flex items-center gap-3 text-cyan-400 font-black uppercase tracking-[0.2em] text-[10px]"><MapPin size={16} /> O que é o Google Meu Negócio?</div>
+                        <div className="space-y-4">
+                          <p className="text-xs text-white/60 leading-relaxed">
+                            É o **Cartão de Visitas Digital** no Google Maps e na Busca. É onde 90% das decisões de compra local acontecem. Se você não está bem posicionado lá, você é invisível para quem busca "marmoraria perto de mim".
+                          </p>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                             <div className="space-y-2">
+                                <div className="flex items-center gap-2 text-[8px] font-black text-white/40 uppercase"><Star size={10} className="text-yellow-500" /> Prova Social</div>
+                                <p className="text-[9px] text-white/30">Avaliações geram confiança imediata. Sem estrelas, o cliente nem liga.</p>
+                             </div>
+                             <div className="space-y-2">
+                                <div className="flex items-center gap-2 text-[8px] font-black text-white/40 uppercase"><Camera size={10} className="text-blue-500" /> Vitrine Visual</div>
+                                <p className="text-[9px] text-white/30">Fotos de alta qualidade no perfil aumentam cliques em 35%.</p>
+                             </div>
+                             <div className="space-y-2">
+                                <div className="flex items-center gap-2 text-[8px] font-black text-white/40 uppercase"><MapPin size={10} className="text-red-500" /> Localização</div>
+                                <p className="text-[9px] text-white/30">O algoritmo prioriza quem está mais perto e tem perfil otimizado.</p>
+                             </div>
+                          </div>
+                        </div>
+                      </div>
+
                       <div className="space-y-4">
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 flex items-center gap-2"><BarChart3 size={14} className="text-primary"/> Dados de Diagnóstico (Use no seu Pitch)</h4>
+                        <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 flex items-center gap-2"><BarChart3 size={14} className="text-primary"/> Gargalos Críticos detectados pela Sapient</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/5 flex gap-4 items-start">
                             <Smartphone className="text-primary h-5 w-5 shrink-0" />
                             <div>
                               <p className="font-bold text-xs uppercase mb-1">Morte no Mobile</p>
-                              <p className="text-[10px] text-white/40">O site atual não carrega fotos em celulares (85% do tráfego). Sr. Jorge está jogando dinheiro fora em cliques inúteis.</p>
+                              <p className="text-[10px] text-white/40">O site atual não carrega fotos em celulares. Ele está pagando por anúncios mas o cliente foge quando clica.</p>
                             </div>
                           </div>
                           <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/5 flex gap-4 items-start">
                             <Search className="text-primary h-5 w-5 shrink-0" />
                             <div>
-                              <p className="font-bold text-xs uppercase mb-1">Invisibilidade Local</p>
-                              <p className="text-[10px] text-white/40">Marmorarias novas estão roubando clientes porque aparecem no Google Maps, enquanto o Sr. Jorge é "fantasma" digital.</p>
+                              <p className="font-bold text-xs uppercase mb-1">GMN Abandonado</p>
+                              <p className="text-[10px] text-white/40">O Sr. Jorge tem 2 estrelas no Google e fotos de 2012. Concorrentes novos estão com 5 estrelas e roubando o topo da busca.</p>
                             </div>
                           </div>
                         </div>
@@ -415,9 +442,9 @@ export function RecrutamentoClient() {
                     </div>
 
                     <div className="p-8 rounded-[3rem] bg-white/[0.02] border border-white/5 space-y-6">
-                      <div className="flex items-center gap-2 text-[9px] font-black uppercase text-orange-400"><Info size={14}/> Regra do Teste</div>
+                      <div className="flex items-center gap-2 text-[9px] font-black uppercase text-orange-400"><Info size={14}/> Dica do Diretor Lucas</div>
                       <p className="text-xs text-white/50 leading-relaxed italic">
-                        "Você não está vendendo um site. Você está provando pro Sr. Jorge que o silêncio digital dele é o que está alimentando a conta bancária do concorrente dele. Seja autoridade."
+                        "Sr. Jorge não liga para 'design'. Ele liga para o faturamento que caiu. Use o Google Meu Negócio como exemplo de como a concorrência está sendo mais rápida que ele na hora de captar o cliente de luxo."
                       </p>
                     </div>
                   </div>
@@ -439,8 +466,7 @@ export function RecrutamentoClient() {
                          "min-h-[160px] p-8 rounded-[2rem] bg-black/40 border border-white/5 text-sm italic leading-relaxed text-center flex flex-col items-center justify-center",
                          transcription ? "text-white font-bold" : "text-white/30"
                        )}>
-                         {transcription || (isRecording ? "Gravando e transcrevendo sua autoridade..." : "Toque no microfone e realize sua abordagem ao Sr. Jorge.")}
-                         {isRecording && <div className="mt-4 flex gap-1"><div className="h-1 w-1 bg-red-500 rounded-full animate-bounce" /><div className="h-1 w-1 bg-red-500 rounded-full animate-bounce [animation-delay:0.2s]" /><div className="h-1 w-1 bg-red-500 rounded-full animate-bounce [animation-delay:0.4s]" /></div>}
+                         {transcription || (isRecording ? "Gravando sua autoridade comercial..." : "Realize sua abordagem ao Sr. Jorge focando no diagnóstico.")}
                        </div>
                     </div>
 
@@ -448,7 +474,7 @@ export function RecrutamentoClient() {
                       {audioBase64 && !isRecording && (
                         <div className="flex items-center gap-4 bg-green-500/10 border border-green-500/20 px-6 py-4 rounded-full">
                           <Volume2 className="h-4 w-4 text-green-400" />
-                          <span className="text-[9px] font-black uppercase tracking-widest text-green-400">Locução Capturada</span>
+                          <span className="text-[9px] font-black uppercase tracking-widest text-green-400">Voz Capturada</span>
                         </div>
                       )}
                       {transcription && (
@@ -473,7 +499,7 @@ export function RecrutamentoClient() {
               {step === 3 && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                   <div className="p-8 rounded-[2.5rem] bg-orange-500/10 border border-orange-500/20 space-y-4">
-                    <div className="flex items-center gap-3 text-orange-400 font-black uppercase tracking-[0.2em] text-[10px]"><AlertCircle size={16} /> A Barreira do Sr. Jorge</div>
+                    <div className="flex items-center gap-3 text-orange-400 font-black uppercase tracking-[0.2em] text-[10px]"><AlertCircle size={16} /> A Resistência do Sr. Jorge</div>
                     <p className="text-sm text-white font-medium leading-relaxed italic">
                       "Meu filho, eu já vendo bem há 25 anos sem esse negócio de internet. O meu público é de elite, eles não ficam no Google procurando pedra. Por que eu gastaria agora se o dinheiro já entra?"
                     </p>
@@ -481,11 +507,11 @@ export function RecrutamentoClient() {
 
                   <div className="space-y-4">
                     <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Sua Resposta de Fechamento (Texto)</label>
-                    <Textarea value={formData.objection} onChange={(e) => setFormData({...formData, objection: e.target.value})} className="bg-white/5 border-white/10 min-h-[220px] rounded-[2rem] p-8 text-base focus:ring-primary/20 focus:border-primary/50" placeholder="Use o ROI, o custo de oportunidade ou a ameaça da concorrência para converter o Sr. Jorge em um agendamento com o Diretor Lucas..." />
+                    <Textarea value={formData.objection} onChange={(e) => setFormData({...formData, objection: e.target.value})} className="bg-white/5 border-white/10 min-h-[220px] rounded-[2rem] p-8 text-base focus:ring-primary/20 focus:border-primary/50" placeholder="Use o ROI, o custo de oportunidade ou a ameaça da concorrência para converter o Sr. Jorge em um agendamento..." />
                   </div>
 
                   <Button onClick={handleSubmit} disabled={isLoading} className="h-20 px-12 bg-primary rounded-full font-black uppercase tracking-widest text-[11px] w-full border-none shadow-2xl hover:scale-[1.02] transition-all disabled:opacity-50">
-                    {isLoading ? <><Loader2 className="mr-3 h-5 w-5 animate-spin" /> ANALISANDO SEU JOGO DE CINTURA...</> : <>FINALIZAR E RECEBER FEEDBACK TÉCNICO <Zap className="ml-2 h-4 w-4" /></>}
+                    {isLoading ? <><Loader2 className="mr-3 h-5 w-5 animate-spin" /> ANALISANDO SEU JOGO DE CINTURA...</> : <>FINALIZAR E RECEBER FEEDBACK <Zap className="ml-2 h-4 w-4" /></>}
                   </Button>
                 </div>
               )}
@@ -521,7 +547,7 @@ export function RecrutamentoClient() {
                   </div>
 
                   <div className="text-center pt-8">
-                     <Button onClick={() => window.location.href = '/'} variant="outline" className="h-16 px-12 border-white/10 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-white/5">Voltar ao Site Principal</Button>
+                     <Button onClick={() => window.location.href = '/'} variant="outline" className="h-16 px-12 border-white/10 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-white/5">Voltar ao Site</Button>
                   </div>
                 </div>
               )}
