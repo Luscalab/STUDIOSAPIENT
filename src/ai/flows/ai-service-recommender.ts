@@ -1,9 +1,10 @@
-
 'use server';
 
 /**
- * @fileOverview Inteligência de Atendimento Sapient Studio.
- * Linguagem simplificada e novos nichos adicionados para maior alcance.
+ * @fileOverview Inteligência de Atendimento Sapient Studio V2.
+ * - Foco em linguagem natural e acessível (não técnica).
+ * - Lógica de "Short-circuit" para usuários que já dão informações no início.
+ * - Reconhecimento expandido de nichos e dores.
  */
 
 import { z } from 'genkit';
@@ -37,70 +38,86 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   const historyText = input.history.map(h => h.content.toLowerCase()).join(' ');
   const fullHistoryText = historyText + ' ' + msg;
 
-  // FAQ e Respostas Rápidas
-  if (msg.includes('como funciona') || msg.includes('preço') || msg.includes('valor') || msg.includes('quanto custa')) {
+  // 1. Detecção de Desejo Imediato de Falar com Humano
+  if (msg.match(/(quero falar com alguém|atendente|humano|pessoa|telefone|whatsapp|ligar|urgente|agora)/)) {
     return {
-      reply: "Entendi sua dúvida! O valor do investimento depende muito do que vamos construir juntos para trazer o melhor retorno para você. Que tal terminarmos de entender o que você precisa primeiro?",
-      shouldRedirect: false,
-      currentLayer: 0,
+      reply: "Com certeza! Nada substitui o olho no olho. Vou te conectar agora mesmo com um de nossos consultores para agilizarmos seu projeto.",
+      shouldRedirect: true,
+      currentLayer: 6,
       isTextInputEnabled: false,
-      suggestedActions: ["Sim, vamos continuar", "Falar com alguém agora"]
+      suggestedActions: ["Falar no WhatsApp agora"]
     };
   }
 
-  // Extração de Nicho Expandida
+  // 2. FAQ e Preços (Linguagem mais consultiva)
+  if (msg.match(/(preço|valor|quanto custa|investimento|orçamento|orcamento|precos)/)) {
+    return {
+      reply: "Essa é uma ótima pergunta! Como cada projeto é único e focado no seu resultado específico, o investimento varia. Para te dar um valor justo, preciso entender só mais uns detalhes. Podemos continuar?",
+      shouldRedirect: false,
+      currentLayer: 0,
+      isTextInputEnabled: false,
+      suggestedActions: ["Sim, vamos lá", "Falar com consultor"]
+    };
+  }
+
+  // 3. Extração Inteligente de Nicho (Mapeamento Expandido para 'Leigos')
   let niche = '';
-  if (fullHistoryText.match(/(médico|saúde|clínica|hospital|saude|psicólogo|nutricionista|dentista)/)) niche = 'Saúde & Bem-estar';
-  else if (fullHistoryText.match(/(advogado|jurídico|direito|escritório|legal)/)) niche = 'Jurídico & Direito';
-  else if (fullHistoryText.match(/(loja|varejo|e-commerce|ecommerce|vendas online|venda)/)) niche = 'Varejo & E-commerce';
-  else if (fullHistoryText.match(/(tecnologia|ti|software|saas|app|startup)/)) niche = 'Tecnologia & SaaS';
-  else if (fullHistoryText.match(/(imobiliário|corretor|imóveis|casa|apartamento|venda de imóveis)/)) niche = 'Imobiliário & Imóveis';
-  else if (fullHistoryText.match(/(estética|estetica|beleza|salão|manicure|sobrancelha)/)) niche = 'Estética & Beleza';
-  else if (fullHistoryText.match(/(arquitetura|design|interiores|obra|reforma)/)) niche = 'Arquitetura & Design';
-  else if (fullHistoryText.match(/(escola|curso|educação|treinamento|infoproduto|professor)/)) niche = 'Educação & Cursos';
-  else if (fullHistoryText.match(/(restaurante|gastronomia|comida|delivery|hamburguer)/)) niche = 'Gastronomia & Food';
-  
-  const askedForSpecificNiche = historyText.includes('com o que você trabalha exatamente');
-  if (askedForSpecificNiche && niche === '' && msg !== 'outros') {
+  if (fullHistoryText.match(/(médico|dentista|clínica|hospital|saúde|psicólog|nutri|fisioterapeuta|doutor|paciente|consultório)/)) niche = 'Saúde & Bem-estar';
+  else if (fullHistoryText.match(/(advogado|jurídico|direito|escritório|legal|processo|justiça|oab)/)) niche = 'Jurídico & Direito';
+  else if (fullHistoryText.match(/(loja|varejo|e-commerce|ecommerce|vendas online|venda|produto|roupa|sapato|estoque)/)) niche = 'Varejo & E-commerce';
+  else if (fullHistoryText.match(/(tecnologia|ti|software|saas|app|startup|desenvolvimento|computador|sistema)/)) niche = 'Tecnologia & SaaS';
+  else if (fullHistoryText.match(/(imobiliário|corretor|imóveis|casa|apartamento|venda de imóveis|terreno|aluguel)/)) niche = 'Imobiliário & Imóveis';
+  else if (fullHistoryText.match(/(estética|estetica|beleza|salão|manicure|sobrancelha|cabelo|spa|maquiagem)/)) niche = 'Estética & Beleza';
+  else if (fullHistoryText.match(/(arquitetura|design|interiores|obra|reforma|decor)/)) niche = 'Arquitetura & Design';
+  else if (fullHistoryText.match(/(escola|curso|educação|treinamento|infoproduto|professor|aula|ementa)/)) niche = 'Educação & Cursos';
+  else if (fullHistoryText.match(/(restaurante|gastronomia|comida|delivery|hamburguer|pizza|café|bar)/)) niche = 'Gastronomia & Food';
+  else if (fullHistoryText.match(/(oficina|mêcanico|carro|autopeça|veículo)/)) niche = 'Serviços Automotivos';
+  else if (fullHistoryText.match(/(contabilidade|contador|fiscal|imposto|contabil)/)) niche = 'Contabilidade & Consultoria';
+
+  // Se o usuário selecionou "Outros" e agora está descrevendo
+  const lastBotMsg = input.history.filter(h => h.role === 'model').pop()?.content || '';
+  if (lastBotMsg.includes('trabalha exatamente') && !niche) {
     niche = input.currentMessage;
   }
 
-  // Plataformas e Dores
+  // 4. Extração de Plataformas
   const platforms: string[] = [];
   if (fullHistoryText.includes('instagram')) platforms.push('Instagram');
-  if (fullHistoryText.includes('google ads')) platforms.push('Anúncios no Google');
-  if (fullHistoryText.includes('site/lp')) platforms.push('Meu próprio site');
-  if (fullHistoryText.includes('indicações')) platforms.push('Indicações de clientes');
+  if (fullHistoryText.match(/(google ads|anúncios no google|anuncio no google|pesquisa do google)/)) platforms.push('Anúncios no Google');
+  if (fullHistoryText.match(/(site|lp|landing page|página)/)) platforms.push('Meu próprio site');
+  if (fullHistoryText.match(/(indicações|boca a boca|indicação)/)) platforms.push('Indicações de clientes');
 
+  // 5. Extração de Dores (Onde dói no bolso do cliente)
   const mainPainPoints: string[] = [];
-  if (fullHistoryText.match(/(leads desqualificados|pessoas curiosas|curioso)/)) mainPainPoints.push('Muitos curiosos, poucos clientes');
-  if (fullHistoryText.match(/(atendimento lento|demora|demorado)/)) mainPainPoints.push('Demora para responder');
-  if (fullHistoryText.match(/(design amador|visual ruim|feio)/)) mainPainPoints.push('Visual pouco profissional');
-  if (fullHistoryText.match(/(falta de previsibilidade|vendas caíram|instável)/)) mainPainPoints.push('Vendas instáveis');
+  if (fullHistoryText.match(/(curioso|lead ruim|desqualificado|gente chata)/)) mainPainPoints.push('Muitos curiosos, poucos clientes');
+  if (fullHistoryText.match(/(demora|atendimento lento|vácuo|atender)/)) mainPainPoints.push('Demora para responder');
+  if (fullHistoryText.match(/(amador|feio|ruim|bagunçado|visual)/)) mainPainPoints.push('Visual pouco profissional');
+  if (fullHistoryText.match(/(instável|venda caiu|parado|crise)/)) mainPainPoints.push('Vendas instáveis');
 
+  // 6. Extração de Objetivos
   const goals: string[] = [];
-  if (fullHistoryText.includes('vender mais')) goals.push('Vender mais todo mês');
-  if (fullHistoryText.includes('ser referência')) goals.push('Ser reconhecido como referência');
-  if (fullHistoryText.includes('automatizar')) goals.push('Atender clientes no automático');
-  if (fullHistoryText.includes('anunciar melhor')) goals.push('Melhorar meus anúncios');
+  if (fullHistoryText.match(/(vender mais|faturamento|lucro)/)) goals.push('Vender mais todo mês');
+  if (fullHistoryText.match(/(referência|autoridade|famoso|reconhecido)/)) goals.push('Ser reconhecido como referência');
+  if (fullHistoryText.match(/(automático|ia|robô|chatbot|sozinho)/)) goals.push('Atender clientes no automático');
+  if (fullHistoryText.match(/(anunciar|tráfego|campanha)/)) goals.push('Melhorar meus anúncios');
 
-  // Lógica de Progressão
-  const lastBotMsg = input.history.filter(h => h.role === 'model').pop()?.content || '';
+  // LÓGICA DE FLUXO (ESTADOS)
 
+  // ESTADO FINAL: Captura de Nome da Empresa
   if (niche && platforms.length > 0 && mainPainPoints.length > 0 && goals.length > 0) {
-    if (lastBotMsg.includes('qual o nome da sua empresa')) {
+    if (lastBotMsg.includes('qual o nome da sua empresa') || lastBotMsg.includes('projeto?')) {
       return {
-        reply: `Pronto! Já entendi bem o cenário da ${input.currentMessage} na área de ${niche}. Agora, quer conversar com um consultor da nossa equipe para vermos os próximos passos e como podemos te ajudar?`,
+        reply: `Perfeito! Já tenho um diagnóstico preliminar para a ${input.currentMessage}. O cenário de ${niche} pede uma estratégia de autoridade que estamos prontos para desenhar. Quer ver os próximos passos com um de nossos consultores?`,
         shouldRedirect: true,
         currentLayer: 6,
         isTextInputEnabled: false,
-        suggestedActions: ["Quero falar com um consultor", "Recomeçar conversa"],
+        suggestedActions: ["Quero falar com um consultor", "Recomeçar"],
         extractedData: { niche, companyName: input.currentMessage, goals, platforms, mainPainPoints }
       };
     }
 
     return {
-      reply: "Estamos quase terminando! Só para eu registrar aqui: qual o nome da sua empresa ou do seu projeto?",
+      reply: "Entendido! Estamos chegando na melhor solução. Só para eu formalizar aqui: qual o nome da sua empresa ou do seu projeto?",
       shouldRedirect: false,
       currentLayer: 5,
       isTextInputEnabled: true,
@@ -109,9 +126,10 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
+  // ESTADO 4: Objetivos
   if (niche && platforms.length > 0 && mainPainPoints.length > 0) {
     return {
-      reply: `Legal! E pensando nos próximos meses, o que é mais importante para você agora?`,
+      reply: `Tudo anotado. E pensando no seu crescimento, o que seria o 'sucesso' para você hoje?`,
       shouldRedirect: false,
       isMultiSelect: true,
       isTextInputEnabled: false,
@@ -121,9 +139,10 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
+  // ESTADO 3: Dificuldades (Dores)
   if (niche && platforms.length > 0) {
     return {
-      reply: `Entendi. E onde você sente que está tendo mais dificuldade hoje? Pode marcar mais de uma opção:`,
+      reply: `Certo. E onde você sente que está o maior 'gargalo' ou dificuldade hoje? Pode marcar mais de uma:`,
       shouldRedirect: false,
       isMultiSelect: true,
       isTextInputEnabled: false,
@@ -133,9 +152,10 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
+  // ESTADO 2: Divulgação Atual
   if (niche) {
     return {
-      reply: `Certo, para a área de ${niche}, onde você costuma divulgar seu trabalho atualmente?`,
+      reply: `Legal, na área de ${niche} a concorrência é forte. Hoje, onde as pessoas costumam te encontrar mais?`,
       shouldRedirect: false,
       isMultiSelect: true,
       isTextInputEnabled: false,
@@ -145,9 +165,10 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
-  if (msg === 'outros') {
+  // ESTADO ESPECIAL: Outros
+  if (msg === 'outros' || msg.includes('trabalha com o que exatamente')) {
     return {
-      reply: "Sem problemas! Pode me contar com o que você trabalha exatamente?",
+      reply: "Sem problemas! O mundo é vasto. Pode me contar um pouquinho sobre o que você faz exatamente?",
       shouldRedirect: false,
       currentLayer: 1,
       isTextInputEnabled: true,
@@ -155,8 +176,9 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     };
   }
 
+  // ESTADO INICIAL: Saudação e Nicho
   return {
-    reply: "Olá! Vamos conversar sobre o seu negócio? Para eu te ajudar melhor, em qual dessas áreas você atua hoje?",
+    reply: "Olá! Sou o consultor virtual da Sapient. Para eu entender como podemos escalar seu negócio, com o que você trabalha hoje?",
     shouldRedirect: false,
     currentLayer: 1,
     isTextInputEnabled: false,
@@ -164,10 +186,10 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
       "Saúde & Bem-estar", 
       "Jurídico & Direito", 
       "Estética & Beleza", 
+      "Varejo & E-commerce",
       "Tecnologia & SaaS", 
       "Imobiliário & Imóveis",
       "Arquitetura & Design",
-      "Educação & Cursos",
       "Outros"
     ]
   };
