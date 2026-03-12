@@ -37,7 +37,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // SEGURANÇA: Headers otimizados para produção e compatibilidade com o Studio
   async headers() {
     return [
       {
@@ -49,7 +48,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'X-Frame-Options',
-            value: 'SAMEORIGIN', // Permite visualização no frame do Studio
+            value: 'SAMEORIGIN',
           },
           {
             key: 'X-XSS-Protection',
@@ -61,7 +60,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=*, geolocation=(), interest-cohort=()',
+            value: 'camera=(), microphone=(self), geolocation=(), interest-cohort=()',
           },
           {
             key: 'Strict-Transport-Security',
