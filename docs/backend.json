@@ -27,6 +27,21 @@
         "authorId": { "type": "string" }
       },
       "required": ["title", "slug", "content"]
+    },
+    "SalesCandidate": {
+      "title": "Sales Candidate",
+      "description": "Candidato a vendedor avaliado via teste de locução e fechamento.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "pitchTranscription": { "type": "string" },
+        "aiFeedback": { "type": "string" },
+        "score": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "pitchTranscription"]
     }
   },
   "auth": {
@@ -41,13 +56,9 @@
       "schema": "BlogPost",
       "description": "Artigos estratégicos abertos ao público."
     },
-    "/blogPosts_premium/{postId}": {
-      "schema": "BlogPost",
-      "description": "Dossiês exclusivos para clientes de elite."
-    },
-    "/admin_blogPosts_drafts/{draftId}": {
-      "schema": "BlogPost",
-      "description": "Rascunhos em processo de curadoria."
+    "/sales_candidates/{candidateId}": {
+      "schema": "SalesCandidate",
+      "description": "Candidatos a vendas avaliados pela IA."
     }
   }
 }
