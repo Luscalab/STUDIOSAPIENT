@@ -7,6 +7,9 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
+// Aumenta o tempo de execução para suportar o processamento de áudio no Vercel
+export const maxDuration = 60;
+
 const SalesEvaluationInputSchema = z.object({
   candidateName: z.string(),
   pitchAudioUri: z.string().describe("O áudio do pitch gravado pelo candidato como Data URI."),
@@ -53,7 +56,12 @@ Gere um veredito direto e profissional.`,
 });
 
 export async function evaluateSalesCandidate(input: z.infer<typeof SalesEvaluationInputSchema>): Promise<SalesEvaluationOutput> {
-  const { output } = await evaluatePrompt(input);
-  if (!output) throw new Error("Falha na geração da análise de recrutamento.");
-  return output;
+  try {
+    const { output } = await evaluatePrompt(input);
+    if (!output) throw new Error("A IA não retornou um resultado válido.");
+    return output;
+  } catch (err) {
+    console.error("Erro no fluxo de avaliação:", err);
+    throw new Error("Falha na comunicação com o motor de IA. Verifique sua conexão ou tente um áudio mais curto.");
+  }
 }

@@ -43,7 +43,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
-const STORAGE_KEY = "sapient_recruitment_v8";
+const STORAGE_KEY = "sapient_recruitment_v9";
 
 export function RecrutamentoClient() {
   const [step, setStep] = useState(1);
@@ -107,7 +107,7 @@ export function RecrutamentoClient() {
 
   const startRecording = async () => {
     setShowMicDialog(false);
-    setIsProcessingAudio(true); // Trava enquanto solicita permissão
+    setIsProcessingAudio(true);
     setAudioBase64(null);
     setAudioPreviewUrl(null);
     
@@ -124,7 +124,7 @@ export function RecrutamentoClient() {
       };
 
       mediaRecorder.onstop = async () => {
-        setIsProcessingAudio(true); // Trava enquanto processa o blob final
+        setIsProcessingAudio(true);
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         const previewUrl = URL.createObjectURL(audioBlob);
         setAudioPreviewUrl(previewUrl);
@@ -139,7 +139,7 @@ export function RecrutamentoClient() {
 
       mediaRecorder.start();
       setIsRecording(true);
-      setIsProcessingAudio(false); // Libera o botão para o usuário poder PARAR a gravação
+      setIsProcessingAudio(false);
       toast({ title: "GRAVANDO", description: "Fale com clareza e autoridade.", className: "bg-primary text-white font-black uppercase text-[9px]" });
     } catch (err) {
       console.error(err);
@@ -150,7 +150,7 @@ export function RecrutamentoClient() {
 
   const handleNextStep = () => {
     if (step === 1 && (!formData.name.trim() || !formData.email.trim() || !consentAccepted)) {
-      toast({ title: "Atenção", description: "Preencha seus dados e aceite os termos de privacidade para continuar.", variant: "destructive" });
+      toast({ title: "Atenção", description: "Preencha seus dados e aceite os termos de privacidade.", variant: "destructive" });
       return;
     }
     if (step === 2 && !audioBase64) {
@@ -185,7 +185,7 @@ export function RecrutamentoClient() {
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
       console.error(error);
-      toast({ title: "Erro na Análise", description: "Falha ao conectar com o motor de IA. Tente novamente.", variant: "destructive" });
+      toast({ title: "Erro na Análise", description: "Falha ao processar áudio pesado ou timeout da IA. Tente um pitch mais curto (máx 30s).", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -287,9 +287,9 @@ export function RecrutamentoClient() {
                       </ul>
                     </div>
                     <div className="p-5 rounded-2xl bg-black/40 border border-white/5">
-                      <h4 className="text-[9px] font-black uppercase text-primary mb-2 flex items-center gap-2"><Search size={12}/> O que é Google Meu Negócio?</h4>
+                      <h4 className="text-[9px] font-black uppercase text-primary mb-2 flex items-center gap-2"><Search size={12}/> Google Meu Negócio?</h4>
                       <p className="text-[10px] text-white/40 leading-relaxed">
-                        É a ficha da empresa no Google Maps. Se o Sr. Jorge não está bem posicionado lá, ele não recebe chamadas de quem busca "Marmoraria perto de mim".
+                        É a ficha da empresa no Google Maps. Sem ela, o Sr. Jorge não recebe chamadas de quem busca "Marmoraria perto de mim".
                       </p>
                     </div>
                   </div>
@@ -310,24 +310,17 @@ export function RecrutamentoClient() {
 
                   <div className="text-center space-y-2">
                     <p className="text-sm font-black uppercase tracking-widest text-white">
-                      {isRecording ? "GRAVANDO... CLIQUE PARA PARAR" : audioBase64 ? "ÁUDIO CAPTURADO COM SUCESSO" : "INICIAR GRAVAÇÃO DO PITCH"}
+                      {isRecording ? "GRAVANDO... CLIQUE PARA PARAR" : audioBase64 ? "ÁUDIO PRONTO" : "GRAVAR PITCH (MÁX 30S)"}
                     </p>
                     <p className="text-[9px] text-white/30 uppercase font-black">
-                      {isRecording ? "Sua voz está sendo capturada pelo motor Sapient" : "Grave sua abordagem comercial ao Sr. Jorge"}
+                      {isRecording ? "Sua voz está sendo capturada" : "Simule sua abordagem ao Sr. Jorge"}
                     </p>
                   </div>
-
-                  {isProcessingAudio && (
-                    <div className="flex items-center gap-2 text-primary animate-pulse">
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      <span className="text-[9px] font-black uppercase tracking-widest">Processando Áudio...</span>
-                    </div>
-                  )}
 
                   {audioPreviewUrl && !isRecording && !isProcessingAudio && (
                     <div className="w-full max-w-md space-y-4 text-center animate-in zoom-in px-4">
                       <div className="h-px w-full bg-white/10 mb-6" />
-                      <p className="text-[9px] font-black uppercase text-green-400 flex items-center justify-center gap-2"><Volume2 size={12}/> Ouça seu pitch antes de confirmar:</p>
+                      <p className="text-[9px] font-black uppercase text-green-400 flex items-center justify-center gap-2"><Volume2 size={12}/> Ouça antes de confirmar:</p>
                       <audio controls src={audioPreviewUrl} className="w-full h-12 rounded-full bg-white/10" />
                     </div>
                   )}
@@ -336,7 +329,7 @@ export function RecrutamentoClient() {
                 <Button 
                   onClick={handleNextStep} 
                   disabled={!audioBase64 || isRecording || isProcessingAudio}
-                  className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] w-full md:w-auto shadow-xl transition-all disabled:opacity-30 disabled:grayscale"
+                  className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] w-full md:w-auto shadow-xl disabled:opacity-30 transition-all"
                 >
                   Confirmar Abordagem Vocal <ChevronRight size={18} />
                 </Button>
@@ -346,7 +339,7 @@ export function RecrutamentoClient() {
             {step === 3 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-orange-500/10 border border-orange-500/20">
-                  <div className="flex items-center gap-3 text-orange-400 font-black uppercase text-[10px] mb-4"><MessageSquare size={16} /> O Sr. Jorge questiona o valor:</div>
+                  <div className="flex items-center gap-3 text-orange-400 font-black uppercase text-[10px] mb-4"><MessageSquare size={16} /> Objeção do Sr. Jorge:</div>
                   <p className="text-sm font-medium italic leading-relaxed text-white">
                     "Olha, eu já vendo bem sem site. O boca a boca sempre funcionou. Por que eu gastaria dinheiro com isso agora? Parece coisa de quem tem dinheiro sobrando."
                   </p>
@@ -354,7 +347,7 @@ export function RecrutamentoClient() {
                 <Textarea 
                   value={formData.objection} 
                   onChange={(e) => setFormData({...formData, objection: e.target.value})}
-                  placeholder="Responda por escrito: Como você contorna essa objeção usando argumentos de ROI e os gargalos técnicos identificados?" 
+                  placeholder="Como você prova o ROI e contorna essa objeção usando os gargalos técnicos?" 
                   className="bg-white/5 border-white/10 min-h-[200px] rounded-[2rem] p-8 font-bold text-lg"
                 />
                 <Button onClick={handleSubmit} disabled={isLoading} className="h-24 w-full bg-primary rounded-full font-black uppercase text-[12px] shadow-2xl">
