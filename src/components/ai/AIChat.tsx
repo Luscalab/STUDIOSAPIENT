@@ -7,18 +7,14 @@ import {
   Send, 
   MessageCircle,
   ArrowRight,
-  BrainCircuit,
-  Cpu,
-  Target,
-  Layers,
+  Sparkles,
+  Search,
+  Zap,
   Check,
   Maximize2,
   Minimize2,
   Lock,
-  ChevronRight,
-  Sparkles,
-  Search,
-  Zap
+  ChevronRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { recommendServices, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
@@ -55,7 +51,6 @@ export function AIChat() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showRedirect, setShowRedirect] = useState(false);
-  const [currentLayer, setCurrentLayer] = useState(1);
   const [isTextInputEnabled, setIsTextInputEnabled] = useState(false);
   const [extractedData, setExtractedData] = useState<RecommenderOutput['extractedData']>(undefined);
   const [selectedChips, setSelectedChips] = useState<string[]>([]);
@@ -77,7 +72,6 @@ export function AIChat() {
         behavior: 'smooth'
       });
     }
-    // Auto-focus no input se habilitado
     if (isTextInputEnabled && !isLoading) {
       inputRef.current?.focus();
     }
@@ -89,7 +83,7 @@ export function AIChat() {
       await addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Sapient Strategic Agent V4.3'
+        source: 'Sapient Cognitive Agent V5.0'
       });
     } catch (e) {
       console.error("Erro ao salvar lead:", e);
@@ -112,47 +106,44 @@ export function AIChat() {
       content: m.content 
     }));
     
-    // Simulação de "Pensamento Estratégico"
-    setTimeout(async () => {
-      try {
-        const result = await recommendServices({
-          history: historyForAi,
-          currentMessage: userMsg
-        });
+    try {
+      const result = await recommendServices({
+        history: historyForAi,
+        currentMessage: userMsg
+      });
 
-        if (result) {
-          setMessages(prev => [...prev, { 
-            role: 'model', 
-            content: result.reply,
-            actions: result.suggestedActions,
-            isMultiSelect: result.isMultiSelect
-          }]);
-          
-          setCurrentLayer(result.currentLayer || currentLayer);
-          setIsTextInputEnabled(result.isTextInputEnabled || false);
-
-          if (result.extractedData) {
-            setExtractedData(prev => ({ ...prev, ...result.extractedData }));
-          }
-
-          if (result.shouldRedirect) {
-            setShowRedirect(true);
-            saveLead({
-              ...result.extractedData,
-              fullConversation: historyForAi.map(h => `${h.role}: ${h.content}`).join('\n')
-            });
-          }
-        }
-      } catch (error) {
+      if (result) {
         setMessages(prev => [...prev, { 
           role: 'model', 
-          content: "Tive um pequeno contratempo técnico ao processar seu diagnóstico. Vamos continuar pelo WhatsApp para eu te dar um atendimento VIP agora?" 
+          content: result.reply,
+          actions: result.suggestedActions,
+          isMultiSelect: result.isMultiSelect
         }]);
-        setShowRedirect(true);
-      } finally {
-        setIsLoading(false);
+        
+        setIsTextInputEnabled(result.isTextInputEnabled);
+
+        if (result.extractedData) {
+          setExtractedData(prev => ({ ...prev, ...result.extractedData }));
+        }
+
+        if (result.shouldRedirect) {
+          setShowRedirect(true);
+          saveLead({
+            ...result.extractedData,
+            fullConversation: historyForAi.map(h => `${h.role}: ${h.content}`).join('\n')
+          });
+        }
       }
-    }, 1200);
+    } catch (error) {
+      console.error(error);
+      setMessages(prev => [...prev, { 
+        role: 'model', 
+        content: "Tive um pequeno contratempo técnico ao processar seu diagnóstico. Vamos continuar pelo WhatsApp para eu te dar um atendimento VIP agora?" 
+      }]);
+      setShowRedirect(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const toggleChip = (chip: string) => {
@@ -177,7 +168,6 @@ export function AIChat() {
       <button 
         onClick={() => setIsOpen(true)}
         className="fixed bottom-32 right-4 md:bottom-6 md:right-6 z-[200] h-10 w-10 md:h-14 md:w-14 rounded-full bg-primary text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-all border-2 border-white/20 animate-glow-pulse"
-        aria-label="Consultor Virtual"
       >
         <Bot className="h-4 w-4 md:h-6 md:w-6" />
       </button>
@@ -193,7 +183,6 @@ export function AIChat() {
       isOpen ? "animate-in slide-in-from-bottom-8" : "hidden"
     )}>
       
-      {/* Header do Chat */}
       <div className="px-6 py-5 bg-[#08070b] text-white flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <div className="h-10 w-10 rounded-2xl bg-primary flex items-center justify-center border border-white/10 relative shadow-lg">
@@ -203,7 +192,7 @@ export function AIChat() {
           <div>
             <h3 className="font-headline font-black text-[10px] md:text-xs uppercase tracking-widest text-white leading-none">Agente Estratégico</h3>
             <p className="text-[7px] text-white/40 uppercase font-bold mt-1.5 tracking-widest flex items-center gap-1">
-              <Sparkles className="h-2 w-2 text-primary" /> Diagnóstico V4.3
+              <Sparkles className="h-2 w-2 text-primary" /> Diagnóstico V5.0
             </p>
           </div>
         </div>
@@ -217,7 +206,6 @@ export function AIChat() {
         </div>
       </div>
 
-      {/* Área de Mensagens */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 md:p-10 space-y-6 md:space-y-8 bg-slate-50/50">
         {messages.map((msg, i) => (
           <div key={i} className={cn("flex flex-col gap-3", msg.role === 'user' ? "items-end" : "items-start animate-in fade-in slide-in-from-left-2 duration-500")}>
@@ -267,7 +255,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-3 text-slate-400 p-4 animate-pulse bg-white/80 w-fit rounded-2xl px-8 border border-slate-100 shadow-sm">
             <Search className="h-4 w-4 animate-spin text-primary" />
-            <span className="text-[9px] font-black uppercase tracking-widest italic">Processando Estratégia...</span>
+            <span className="text-[9px] font-black uppercase tracking-widest italic">Análise Cognitiva...</span>
           </div>
         )}
 
@@ -276,18 +264,17 @@ export function AIChat() {
             <div className="bg-primary/5 border border-primary/20 p-8 rounded-[2rem] mb-6 space-y-4">
               <div className="flex items-center gap-3 mb-2">
                  <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center text-white"><Check className="h-3 w-3" /></div>
-                 <p className="text-[10px] font-black uppercase tracking-widest text-primary">Diagnóstico Consolidado</p>
+                 <p className="text-[10px] font-black uppercase tracking-widest text-primary">Dossiê de Autoridade Pronto</p>
               </div>
-              <p className="text-[11px] font-medium text-slate-600 leading-relaxed">Sua tese de autoridade está pronta. Clique abaixo para receber o dossiê e falar com um especialista agora mesmo.</p>
+              <p className="text-[11px] font-medium text-slate-600 leading-relaxed">Seu diagnóstico estratégico foi consolidado. Fale com um estrategista agora para receber o plano de ação.</p>
             </div>
             <button onClick={handleWhatsAppRedirect} className="w-full py-6 bg-green-500 hover:bg-green-600 text-white rounded-[2rem] font-black uppercase tracking-[0.2em] text-[10px] md:text-[11px] flex items-center justify-center gap-4 transition-all shadow-2xl hover:scale-[1.02] active:scale-95">
-              <MessageCircle className="h-6 w-6" /> AGENDAR CONSULTORIA AGORA <ArrowRight className="h-4 w-4" />
+              <MessageCircle className="h-6 w-6" /> RECEBER DOSSIÊ NO WHATSAPP <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         )}
       </div>
 
-      {/* Rodapé de Input */}
       <div className="p-5 md:p-8 bg-white border-t border-slate-100 shrink-0">
         <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(input); }} className="relative group">
           <input 
@@ -295,11 +282,11 @@ export function AIChat() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={!isTextInputEnabled || isLoading}
-            placeholder={isTextInputEnabled ? "Cole o link ou digite sua resposta..." : "Selecione uma opção acima"}
+            placeholder={isTextInputEnabled ? "Digite sua resposta estratégica..." : "Aguardando sua escolha estratégica..."}
             className={cn(
               "w-full h-14 md:h-16 pl-8 pr-20 border rounded-2xl md:rounded-3xl text-[11px] md:text-[14px] font-bold transition-all",
               isTextInputEnabled 
-                ? "bg-white border-slate-200 text-slate-900 focus:border-primary focus:ring-8 focus:ring-primary/5" 
+                ? "bg-white border-slate-200 text-slate-900 focus:border-primary focus:ring-8 focus:ring-primary/5 shadow-inner" 
                 : "bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed"
             )}
           />
@@ -314,9 +301,7 @@ export function AIChat() {
           </div>
         </form>
         <div className="mt-5 flex items-center justify-center gap-6">
-          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">SAPIENT STRATEGIC AGENT V4.3</p>
-          <div className="h-1 w-1 bg-primary/20 rounded-full" />
-          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">AUDITORIA DE PERFORMANCE</p>
+          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">SAPIENT STRATEGIC INTELLIGENCE V5.0</p>
         </div>
       </div>
     </div>
