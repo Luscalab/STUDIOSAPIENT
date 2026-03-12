@@ -35,7 +35,8 @@ import {
   Gamepad2,
   HeartPulse,
   MessageSquare,
-  Move
+  Move,
+  Mail
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
@@ -133,9 +134,14 @@ export default function UrbeLudoPage() {
         
         <div className="container mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center text-left">
           <div className="space-y-8">
-            <Badge className="bg-primary/10 text-primary border-primary/20 px-8 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">
-              Bioscience & Connection
-            </Badge>
+            <div className="flex items-center gap-3">
+              <Badge className="bg-primary/10 text-primary border-primary/20 px-8 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">
+                Bioscience & Connection
+              </Badge>
+              <Badge variant="outline" className="border-cyan-400 text-cyan-400 px-4 py-2 text-[8px] font-black uppercase tracking-[0.3em] rounded-full animate-pulse">
+                Em Breve
+              </Badge>
+            </div>
             <h1 className="font-headline text-3xl md:text-5xl lg:text-7xl font-black text-white tracking-tighter leading-[0.85] uppercase">
               UrbeLudo: <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary italic font-medium lowercase">desenvolvimento neuropsicomotor.</span>
@@ -344,14 +350,22 @@ export default function UrbeLudoPage() {
       {/* 08. Ecossistema de Colaboração (Pro Bono) */}
       <section id="colaboradores" className="py-20 md:py-48 bg-white px-6">
         <div className="container mx-auto max-w-7xl">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 mb-24">
+          <div className="flex flex-col lg:flex-row items-start justify-between gap-12 mb-24">
             <div className="max-w-2xl">
               <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Propósito em Rede</span>
               <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">Ecossistema de <br /><span className="text-primary italic font-medium lowercase">colaboração.</span></h2>
             </div>
-            <p className="text-slate-400 text-lg md:text-2xl font-medium max-w-md leading-tight tracking-tight">
-              O UrbeLudo só é possível graças ao esforço conjunto de profissionais que acreditam na democratização da tecnologia assistiva.
-            </p>
+            <div className="max-w-md space-y-6">
+              <p className="text-slate-400 text-lg md:text-2xl font-medium leading-tight tracking-tight">
+                O UrbeLudo está em fase final de desenvolvimento. Para que este ecossistema chegue às famílias e clínicas o quanto antes, buscamos profissionais dispostos a contribuir com sua expertise.
+              </p>
+              <a 
+                href={`mailto:${contactEmail}?subject=Colaboração UrbeLudo`}
+                className="inline-flex items-center gap-4 px-10 py-6 bg-primary text-white rounded-full font-black uppercase tracking-widest text-[10px] shadow-xl hover:scale-105 transition-all"
+              >
+                <Mail className="h-4 w-4" /> Seja um Colaborador
+              </a>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
