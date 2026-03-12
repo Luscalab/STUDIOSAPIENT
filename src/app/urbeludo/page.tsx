@@ -81,7 +81,7 @@ export default function UrbeLudoPage() {
   const faqs = [
     {
       q: "01. O UrbeLudo é indicado para quais perfis dentro da neurodiversidade?",
-      a: "Acreditamos que cada cérebro processa o world de uma forma única. Por isso, o UrbeLudo foi desenhado para abraçar a pluralidade: desde crianças no Espectro Autista (TEA), que buscam previsibilidade e estímulos sensoriais organizados, até perfis com TDAH, que se beneficiam de mecânicas de foco e recompensa. Também atuamos com foco em Dispraxia, Síndrome de Down e atrasos globais do desenvolvimento, onde a organização do movimento e a consciência corporal são as chaves para a autonomia."
+      a: "Acreditamos que cada cérebro processa o mundo de uma forma única. Por isso, o UrbeLudo foi desenhado para abraçar a pluralidade: desde crianças no Espectro Autista (TEA), que buscam previsibilidade e estímulos sensoriais organizados, até perfis com TDAH, que se beneficiam de mecânicas de foco e recompensa. Também atuamos com foco em Dispraxia, Síndrome de Down e atrasos globais do desenvolvimento, onde a organização do movimento e a consciência corporal são as chaves para a autonomia."
     },
     {
       q: "02. Como uma tela digital consegue estimular o movimento físico e corporal?",
@@ -136,7 +136,7 @@ export default function UrbeLudoPage() {
           <div className="space-y-8">
             <div className="flex items-center gap-3">
               <Badge className="bg-primary/10 text-primary border-primary/20 px-8 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">
-                Bioscience & Connection
+                Biociência & Conexão
               </Badge>
               <Badge variant="outline" className="border-cyan-400 text-cyan-400 px-4 py-2 text-[8px] font-black uppercase tracking-[0.3em] rounded-full animate-pulse">
                 Em Breve

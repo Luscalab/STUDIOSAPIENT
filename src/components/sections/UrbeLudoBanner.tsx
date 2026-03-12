@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from "react";
@@ -60,7 +61,7 @@ export function UrbeLudoBanner() {
             <div className="flex items-center gap-1 mb-0.5">
               <Sparkles className="h-1.5 w-1.5 md:h-2 md:w-2 text-cyan-400" />
               <span className="text-[6px] md:text-[7px] font-black text-white/30 uppercase tracking-[0.3em] md:tracking-[0.4em]">
-                Bioscience & Tech
+                Biociência & Tech
               </span>
             </div>
             
