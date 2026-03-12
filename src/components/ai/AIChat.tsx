@@ -103,7 +103,6 @@ export function AIChat() {
     setIsTextInputEnabled(false);
 
     try {
-      // Simulação de tempo de resposta instantânea para fluxo determinístico
       const result = await recommendServices({
         history: currentHistory.map(m => ({ role: m.role, content: m.content })),
         currentMessage: userMsg
@@ -158,10 +157,10 @@ export function AIChat() {
       <button 
         onClick={() => setIsOpen(true)}
         className="fixed bottom-32 right-4 md:bottom-6 md:right-6 z-[200] h-14 w-14 md:h-18 md:w-18 rounded-full bg-primary text-white flex items-center justify-center shadow-[0_20px_50px_rgba(139,92,246,0.3)] hover:scale-110 active:scale-95 transition-all border-2 border-white/20 animate-glow-pulse"
-        aria-label="Abrir Consultoria"
+        aria-label="Abrir Chat"
       >
         <div className="relative">
-          <Zap className="h-7 w-7 md:h-8 md:w-8 relative z-10" />
+          <MessageCircle className="h-7 w-7 md:h-8 md:w-8 relative z-10" />
           <div className="absolute inset-0 bg-white blur-md opacity-20 animate-pulse" />
         </div>
       </button>
@@ -180,7 +179,7 @@ export function AIChat() {
       <div className="px-6 py-5 bg-[#08070b] text-white flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
-            <Zap className="h-5 w-5 text-white" />
+            <MessageCircle className="h-5 w-5 text-white" />
           </div>
           <div>
             <h3 className="font-headline font-black text-[10px] uppercase tracking-widest text-white leading-none">Consultor Sapient</h3>
@@ -246,7 +245,7 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-2 text-slate-300">
             <Loader2 className="h-4 w-4 animate-spin text-primary" />
-            <span className="text-[9px] font-black uppercase tracking-widest">Processando Dados...</span>
+            <span className="text-[9px] font-black uppercase tracking-widest">Analisando...</span>
           </div>
         )}
 
