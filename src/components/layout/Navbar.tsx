@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -27,11 +26,11 @@ export function Navbar() {
   
   return (
     <header className="absolute top-4 md:top-8 left-0 right-0 z-[150]" role="banner">
-      <div className="container mx-auto px-6 flex items-center justify-between gap-12">
+      <div className="container mx-auto px-6 flex items-center justify-between gap-8 md:gap-12">
         
         <Link 
           href="/" 
-          className="relative block w-[220px] h-[80px] md:w-[850px] md:h-[260px] transition-all duration-1000 hover:scale-[1.01] shrink-0"
+          className="relative block w-[160px] h-[60px] md:w-[350px] md:h-[130px] transition-all duration-1000 hover:scale-[1.01] shrink-0"
         >
           <Image 
             src={logoData?.imageUrl || ""} 
@@ -43,12 +42,12 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-10 px-12 py-6 rounded-full glass-morphism border-white/5 shadow-2xl relative z-20">
+        <nav className="hidden lg:flex items-center gap-8 px-10 py-5 rounded-full glass-morphism border-white/5 shadow-2xl relative z-20">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
               href={link.href} 
-              className="text-[10px] uppercase tracking-[0.5em] font-black text-white/40 hover:text-white transition-all relative group py-1"
+              className="text-[9px] uppercase tracking-[0.4em] font-black text-white/40 hover:text-white transition-all relative group py-1"
             >
               {link.name}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full" />
@@ -57,7 +56,7 @@ export function Navbar() {
           
           <button 
             onClick={handleOpenChat} 
-            className="text-[10px] uppercase tracking-[0.5em] font-black text-primary hover:text-white transition-all relative group py-1"
+            className="text-[9px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all relative group py-1"
           >
             Consultoria
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full" />
@@ -66,11 +65,11 @@ export function Navbar() {
 
         {/* Mobile Menu Trigger */}
         <button 
-          className="lg:hidden h-12 w-12 rounded-xl bg-white/5 text-white border border-white/10 active:scale-90 transition-all backdrop-blur-md flex items-center justify-center" 
+          className="lg:hidden h-10 w-10 rounded-xl bg-white/5 text-white border border-white/10 active:scale-90 transition-all backdrop-blur-md flex items-center justify-center" 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Abrir Menu"
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
@@ -82,7 +81,7 @@ export function Navbar() {
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="block text-3xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-6"
+                className="block text-2xl font-black text-white tracking-tighter uppercase border-b border-white/5 pb-6"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
@@ -90,7 +89,7 @@ export function Navbar() {
             ))}
             <button 
               onClick={handleOpenChat}
-              className="block text-3xl font-black text-primary tracking-tighter uppercase text-left w-full"
+              className="block text-2xl font-black text-primary tracking-tighter uppercase text-left w-full"
             >
               Consultoria
             </button>
@@ -98,7 +97,7 @@ export function Navbar() {
           
           <button 
             onClick={() => setIsMobileMenuOpen(false)} 
-            className="mt-auto h-16 w-full rounded-2xl bg-white/5 flex items-center justify-center text-white/30 font-black uppercase tracking-[0.5em] text-[10px] border border-white/10"
+            className="mt-auto h-14 w-full rounded-2xl bg-white/5 flex items-center justify-center text-white/30 font-black uppercase tracking-[0.5em] text-[10px] border border-white/10"
           >
             Fechar Menu
           </button>

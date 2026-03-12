@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -27,42 +26,42 @@ const services = [
     title: "Vendas & Anúncios",
     slug: "performance-ads",
     description: "Atraia as pessoas certas para o seu negócio com campanhas no Google e redes sociais focadas em trazer clientes reais.",
-    icon: <TrendingUp className="h-4 w-4 md:h-7 md:w-7" />,
+    icon: <TrendingUp className="h-4 w-4 md:h-6 md:w-6" />,
     features: ["Apareça no topo do Google", "Anúncios para seu bairro", "Mais chamadas no WhatsApp"]
   },
   {
     title: "Criação de Sites",
     slug: "sites-premium",
     description: "Desenvolvemos sites modernos e rápidos que funcionam como sua vitrine de luxo na internet, prontos para converter visitantes em clientes.",
-    icon: <Layout className="h-4 w-4 md:h-7 md:w-7" />,
+    icon: <Layout className="h-4 w-4 md:h-6 md:w-6" />,
     features: ["Sites Rápidos e Seguros", "Design que Encanta", "Otimizado para Celular"]
   },
   {
     title: "Design de Marca",
     slug: "design-estrategico",
     description: "Crie um visual profissional que passa confiança e mostra que você é a melhor escolha do seu mercado.",
-    icon: <Palette className="h-4 w-4 md:h-7 md:w-7" />,
+    icon: <Palette className="h-4 w-4 md:h-6 md:w-6" />,
     features: ["Logotipos Profissionais", "Visual que vende mais", "Cores que passam credibilidade"]
   },
   {
     title: "Atendimento Automático",
     slug: "chat-ia",
     description: "Tenha um assistente inteligente no seu site ou WhatsApp que responde dúvidas e atende clientes 24 horas por dia.",
-    icon: <Bot className="h-4 w-4 md:h-7 md:w-7" />,
+    icon: <Bot className="h-4 w-4 md:h-6 md:w-6" />,
     features: ["WhatsApp que responde só", "Filtro de curiosos", "Atendimento sem demora"]
   },
   {
     title: "Redes Sociais",
     slug: "gestao-social",
     description: "Deixe seu perfil no Instagram e LinkedIn com cara de empresa grande, postando conteúdos que atraem quem realmente compra.",
-    icon: <Users className="h-4 w-4 md:h-7 md:w-7" />,
+    icon: <Users className="h-4 w-4 md:h-6 md:w-6" />,
     features: ["Postagens que educam", "Visual de dar inveja", "Crescimento de seguidores reais"]
   },
   {
     title: "Apresentações & Dossiês",
     slug: "narrativa-visual",
     description: "Transforme seus serviços ou propostas em apresentações lindas e fáceis de entender, que ajudam a fechar vendas maiores.",
-    icon: <FileText className="h-4 w-4 md:h-7 md:w-7" />,
+    icon: <FileText className="h-4 w-4 md:h-6 md:w-6" />,
     features: ["Propostas de Luxo", "Explicação visual simples", "Clareza total de valor"]
   }
 ];
@@ -82,13 +81,13 @@ export function Services() {
   }, [api]);
 
   return (
-    <section id="servicos" className="py-12 md:py-32 bg-white text-black relative overflow-hidden rounded-[2rem] md:rounded-[4rem] mx-4 my-4 shadow-xl">
+    <section id="servicos" className="py-12 md:py-24 bg-white text-black relative overflow-hidden rounded-[2rem] md:rounded-[3rem] mx-4 my-4 shadow-xl">
       <div className="container mx-auto px-6 relative z-10">
         
-        <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-12 mb-16 md:mb-24">
+        <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-12 mb-12 md:mb-16">
           <div className="max-w-2xl text-center lg:text-left">
-            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60 mb-2">Soluções para crescer</p>
-            <h2 className="font-headline text-3xl md:text-7xl font-black text-black tracking-tighter leading-[0.85] uppercase">
+            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-primary/60 mb-2">Soluções para crescer</p>
+            <h2 className="font-headline text-3xl md:text-6xl font-black text-black tracking-tighter leading-[0.9] uppercase">
               Como podemos <br />
               <span className="text-primary italic font-medium">Ajudar.</span>
             </h2>
@@ -107,25 +106,25 @@ export function Services() {
             {services.map((service, idx) => (
               <CarouselItem key={idx} className="pl-3 md:pl-4 basis-[85%] md:basis-1/2 lg:basis-1/3">
                 <Card 
-                  className="group relative border-none bg-secondary/20 rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-10 transition-all duration-700 hover:bg-white hover:shadow-2xl flex flex-col justify-between h-[360px] md:h-[480px] overflow-hidden border border-muted/5"
+                  className="group relative border-none bg-secondary/20 rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-8 transition-all duration-700 hover:bg-white hover:shadow-2xl flex flex-col justify-between h-[340px] md:h-[420px] overflow-hidden border border-muted/5"
                 >
                   <div className="relative z-10">
-                    <div className="mb-6 md:mb-10">
-                      <div className="h-12 w-12 md:h-16 md:w-16 rounded-2xl bg-primary/5 flex items-center justify-center text-primary transition-all duration-700 group-hover:bg-primary group-hover:text-white border border-primary/10">
+                    <div className="mb-6 md:mb-8">
+                      <div className="h-10 w-10 md:h-14 md:w-14 rounded-2xl bg-primary/5 flex items-center justify-center text-primary transition-all duration-700 group-hover:bg-primary group-hover:text-white border border-primary/10">
                         {service.icon}
                       </div>
                     </div>
 
-                    <CardTitle className="font-headline text-lg md:text-3xl mb-3 tracking-tighter font-black text-black uppercase leading-none">
+                    <CardTitle className="font-headline text-lg md:text-2xl mb-3 tracking-tighter font-black text-black uppercase leading-none">
                       {service.title}
                     </CardTitle>
-                    <CardDescription className="text-black/60 text-[10px] md:text-base leading-relaxed font-medium mb-6 md:mb-8 tracking-tight">
+                    <CardDescription className="text-black/60 text-[9px] md:text-sm leading-relaxed font-medium mb-6 md:mb-8 tracking-tight">
                       {service.description}
                     </CardDescription>
 
-                    <div className="space-y-2 md:space-y-3 mb-8">
+                    <div className="space-y-1.5 md:space-y-2 mb-8">
                       {service.features.map((feature, fIdx) => (
-                        <div key={fIdx} className="flex items-center gap-3 text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-black/30 group-hover:text-black/70">
+                        <div key={fIdx} className="flex items-center gap-3 text-[7px] md:text-[9px] font-black uppercase tracking-[0.15em] text-black/30 group-hover:text-black/70">
                           <CheckCircle2 className="h-3 w-3 text-primary shrink-0" />
                           {feature}
                         </div>
@@ -135,9 +134,9 @@ export function Services() {
                   
                   <Link 
                     href={`/servicos/${service.slug}`} 
-                    className="flex items-center justify-between p-4 md:p-6 rounded-2xl bg-white text-black hover:bg-black hover:text-white transition-all duration-500 text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] border border-muted shadow-sm mt-auto"
+                    className="flex items-center justify-between p-3.5 md:p-5 rounded-2xl bg-white text-black hover:bg-black hover:text-white transition-all duration-500 text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em] border border-muted shadow-sm mt-auto"
                   >
-                    Explorar Solução <ArrowUpRight className="h-4 w-4" />
+                    Explorar Solução <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </Card>
               </CarouselItem>
@@ -145,19 +144,19 @@ export function Services() {
           </CarouselContent>
         </Carousel>
 
-        <div className="mt-16 flex flex-col items-center gap-4">
+        <div className="mt-12 flex flex-col items-center gap-3">
           <div className="flex gap-2 items-center">
             {Array.from({ length: count }).map((_, i) => (
               <div 
                 key={i} 
                 className={cn(
-                  "h-1.5 rounded-full transition-all duration-500",
-                  current === i ? "w-10 bg-primary shadow-[0_0_15px_rgba(139,92,246,0.4)]" : "w-1.5 bg-slate-200"
+                  "h-1 rounded-full transition-all duration-500",
+                  current === i ? "w-8 bg-primary shadow-[0_0_10px_rgba(139,92,246,0.3)]" : "w-1 bg-slate-200"
                 )} 
               />
             ))}
           </div>
-          <p className="text-[8px] font-black uppercase tracking-[0.5em] text-slate-300 animate-pulse">Deslize para navegar pelas soluções</p>
+          <p className="text-[7px] font-black uppercase tracking-[0.4em] text-slate-300 animate-pulse">Deslize para navegar</p>
         </div>
       </div>
     </section>
