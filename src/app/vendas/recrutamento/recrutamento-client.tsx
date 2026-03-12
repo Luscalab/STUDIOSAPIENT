@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from "react";
@@ -8,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Mic, 
   MicOff, 
@@ -20,7 +20,8 @@ import {
   ChevronRight,
   BrainCircuit,
   MessageSquare,
-  Trophy
+  Trophy,
+  Shield
 } from "lucide-react";
 import { 
   AlertDialog,
@@ -45,6 +46,7 @@ export function RecrutamentoClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [showMicDialog, setShowMicDialog] = useState(false);
   const [evaluation, setEvaluation] = useState<SalesEvaluationOutput | null>(null);
+  const [consentAccepted, setConsentAccepted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -57,7 +59,6 @@ export function RecrutamentoClient() {
   const db = useFirestore();
   const recognitionRef = useRef<any>(null);
 
-  // Garantir que o usuário tenha uma sessão anônima para identificação
   useEffect(() => {
     if (auth) {
       initiateAnonymousSignIn(auth);
@@ -105,7 +106,6 @@ export function RecrutamentoClient() {
   const confirmMicAccess = async () => {
     setShowMicDialog(false);
     try {
-      // Solicita permissão explicitamente via API moderna para forçar o pop-up do navegador
       await navigator.mediaDevices.getUserMedia({ audio: true });
       
       setTranscription("");
@@ -145,6 +145,14 @@ export function RecrutamentoClient() {
         });
         return;
       }
+      if (!consentAccepted) {
+        toast({ 
+          title: "Consentimento Necessário", 
+          description: "Você precisa aceitar os termos de proteção de dados para continuar.", 
+          variant: "destructive" 
+        });
+        return;
+      }
     }
     if (step === 2 && !transcription.trim() && !isRecording) {
       toast({ 
@@ -176,6 +184,8 @@ export function RecrutamentoClient() {
       if (db) {
         await addDoc(collection(db, 'sales_candidates'), {
           ...formData,
+          consentAccepted: true,
+          consentTimestamp: new Date().toISOString(),
           pitchTranscription: transcription,
           aiFeedback: result.feedback,
           score: result.score,
@@ -199,7 +209,6 @@ export function RecrutamentoClient() {
     <main className="min-h-screen bg-[#08070b] text-white selection:bg-primary/30">
       <Navbar />
       
-      {/* Pop-up de Permissão de Microfone */}
       <AlertDialog open={showMicDialog} onOpenChange={setShowMicDialog}>
         <AlertDialogContent className="bg-[#121216] border-white/10 text-white rounded-[2rem]">
           <AlertDialogHeader>
@@ -207,7 +216,7 @@ export function RecrutamentoClient() {
               Acesso ao Microfone
             </AlertDialogTitle>
             <AlertDialogDescription className="text-white/50 text-base leading-relaxed">
-              Para avaliar sua <span className="text-white font-bold">locução e dicção</span>, precisamos capturar o seu áudio durante o pitch. Suas informações são processadas por nossa IA de recrutamento. 
+              Para avaliar sua <span className="text-white font-bold">locução e dicção</span>, precisamos capturar o seu áudio durante o pitch. Suas informações são processadas por nossa IA de recrutamento de forma segura.
               <br /><br />
               Deseja permitir o acesso agora?
             </AlertDialogDescription>
@@ -235,17 +244,16 @@ export function RecrutamentoClient() {
           <div className="max-w-4xl mx-auto">
             <div className="mb-12 text-center md:text-left">
               <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full">
-                Processo de Recrutamento Interno
+                Processo de Recrutamento de Elite
               </Badge>
               <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none mb-6">
-                Módulo de <span className="text-primary italic">Alta Performance.</span>
+                Seja studiosapient.
               </h1>
               <p className="text-white/40 text-lg md:text-xl font-medium max-w-2xl leading-relaxed">
-                Estamos em busca de fechadores que entendem o valor do design estratégico. Teste suas habilidades agora.
+                Nesta etapa avaliaremos seu pitch, sua dicção e sua capacidade de contornar objeções técnicas sob pressão.
               </p>
             </div>
 
-            {/* Stepper Progress */}
             <div className="flex items-center gap-4 mb-12">
               {[1, 2, 3, 4].map((s) => (
                 <div 
@@ -260,12 +268,11 @@ export function RecrutamentoClient() {
 
             <div className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 md:p-16 backdrop-blur-3xl">
               
-              {/* STEP 1: Dados Básicos */}
               {step === 1 && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                   <div className="space-y-2">
-                    <h2 className="text-2xl font-black uppercase tracking-tighter">Identificação</h2>
-                    <p className="text-white/40 text-sm">Inicie sua jornada no ecossistema studiosapient.</p>
+                    <h2 className="text-2xl font-black uppercase tracking-tighter">Identificação & Segurança</h2>
+                    <p className="text-white/40 text-sm">Garantimos a proteção total dos seus dados durante este processo.</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
@@ -287,13 +294,30 @@ export function RecrutamentoClient() {
                       />
                     </div>
                   </div>
-                  <Button onClick={handleNextStep} className="h-16 px-12 bg-primary hover:bg-primary/90 rounded-full font-black uppercase tracking-widest text-[10px] w-full md:w-auto">
+
+                  <div className="p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4">
+                    <div className="flex items-start gap-4">
+                      <Checkbox 
+                        id="consent" 
+                        checked={consentAccepted}
+                        onCheckedChange={(checked) => setConsentAccepted(checked === true)}
+                        className="mt-1 border-white/20 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                      />
+                      <label htmlFor="consent" className="text-[11px] md:text-xs text-white/50 leading-relaxed cursor-pointer select-none">
+                        Estou ciente e concordo com o processamento dos meus dados pessoais (nome, e-mail e áudio) pela <span className="text-white font-bold">studiosapient</span> para fins exclusivos de avaliação de recrutamento. Entendo que minha voz será transcrita e analisada por uma inteligência artificial em conformidade com a LGPD e políticas de privacidade.
+                      </label>
+                    </div>
+                    <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-white/20">
+                      <Shield size={12} className="text-primary" /> Conexão Criptografada & Segura
+                    </div>
+                  </div>
+
+                  <Button onClick={handleNextStep} disabled={!consentAccepted} className="h-16 px-12 bg-primary hover:bg-primary/90 rounded-full font-black uppercase tracking-widest text-[10px] w-full md:w-auto disabled:opacity-30 disabled:cursor-not-allowed">
                     Iniciar Avaliação <ChevronRight className="ml-2" />
                   </Button>
                 </div>
               )}
 
-              {/* STEP 2: Teste de Áudio/Pitch */}
               {step === 2 && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                   <div className="space-y-2">
@@ -336,7 +360,6 @@ export function RecrutamentoClient() {
                 </div>
               )}
 
-              {/* STEP 3: Objeção */}
               {step === 3 && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                   <div className="space-y-2">
@@ -373,7 +396,6 @@ export function RecrutamentoClient() {
                 </div>
               )}
 
-              {/* STEP 4: Feedback Final */}
               {step === 4 && evaluation && (
                 <div className="space-y-10 animate-in zoom-in duration-700">
                   <div className="text-center space-y-4">

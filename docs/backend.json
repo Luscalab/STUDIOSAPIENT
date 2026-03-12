@@ -1,4 +1,3 @@
-
 {
   "entities": {
     "Lead": {
@@ -36,12 +35,14 @@
         "name": { "type": "string" },
         "email": { "type": "string" },
         "phone": { "type": "string" },
+        "consentAccepted": { "type": "boolean" },
+        "consentTimestamp": { "type": "string", "format": "date-time" },
         "pitchTranscription": { "type": "string" },
         "aiFeedback": { "type": "string" },
         "score": { "type": "number" },
         "timestamp": { "type": "string", "format": "date-time" }
       },
-      "required": ["name", "email", "pitchTranscription"]
+      "required": ["name", "email", "pitchTranscription", "consentAccepted"]
     }
   },
   "auth": {
