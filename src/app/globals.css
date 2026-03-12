@@ -46,23 +46,55 @@
     min-height: 100vh;
     max-width: 100vw;
     overflow-x: hidden;
-    
-    /* SEGURANÇA: Impede seleção de texto */
     -webkit-user-select: none;
     user-select: none;
   }
 
-  /* SEGURANÇA: Permite seleção em campos de entrada */
   input, textarea, [contenteditable="true"] {
     -webkit-user-select: text;
     user-select: text;
   }
 
-  /* SEGURANÇA: Impede arrastar imagens */
   img {
     pointer-events: none;
     -webkit-user-drag: none;
   }
+}
+
+/* CLASSES DE ACESSIBILIDADE */
+.accessibility-high-contrast {
+  --background: 0 0% 0% !important;
+  --foreground: 0 0% 100% !important;
+  --primary: 60 100% 50% !important; /* Amarelo Vibrante */
+  --primary-foreground: 0 0% 0% !important;
+  --border: 0 0% 100% !important;
+  --card: 0 0% 0% !important;
+  --muted: 0 0% 20% !important;
+  --muted-foreground: 0 0% 100% !important;
+  background-color: black !important;
+  color: white !important;
+}
+
+.accessibility-high-contrast * {
+  border-color: white !important;
+}
+
+.accessibility-grayscale {
+  filter: grayscale(100%) !important;
+}
+
+.accessibility-highlight-links a {
+  outline: 4px solid #facc15 !important;
+  outline-offset: 4px !important;
+  background-color: #000 !important;
+  color: #fff !important;
+  font-weight: 900 !important;
+  text-decoration: underline !important;
+}
+
+.accessibility-stop-animations * {
+  animation: none !important;
+  transition: none !important;
 }
 
 :focus-visible {
@@ -94,19 +126,16 @@
   50% { box-shadow: 0 0 50px -2px rgba(139, 92, 246, 0.4); }
 }
 
-/* Otimizações Mobile para Toque */
 @media (hover: none) {
   .animate-glow-pulse {
     animation-duration: 6s;
   }
 }
 
-/* Utilitário para escala mobile compacta */
 .mobile-compact {
   @apply scale-75 origin-bottom-right;
 }
 
-/* Prevenção de quebra de layout por sombras */
 .shadow-fix {
   box-shadow: 0 0 0 1px transparent;
 }
