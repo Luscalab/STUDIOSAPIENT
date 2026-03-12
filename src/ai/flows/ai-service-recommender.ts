@@ -37,7 +37,7 @@ const STEPS = [
   {
     id: 1,
     question: "Para a gente começar, qual é a sua área de atuação hoje?",
-    options: ["Saúde (Médico/Clínica)", "Direito (Advocacia)", "Estética / Beleza", "Vendas / Loja", "Tecnologia / Software", "Imóveis / Arquitetura", "Serviços (Geral)", "Outros"],
+    options: ["Saúde (Médico/Clínica)", "Direito (Advocacia)", "Alimentação / Restaurante", "Estética / Beleza", "Vendas / Loja", "Tecnologia / Software", "Imóveis / Arquitetura", "Serviços (Geral)", "Outros"],
     isMulti: false
   },
   {
@@ -127,6 +127,14 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
         "Demoro a responder no WhatsApp",
         "Não apareço quando buscam no Google",
         "Tenho vergonha de postar"
+      ];
+    } else if (niche.includes("Alimentação")) {
+      options = [
+        "Poucos pedidos no delivery",
+        "Salão vazio no meio da semana",
+        "Minhas fotos não abrem o apetite",
+        "Não apareço quando buscam 'onde comer'",
+        "Demoro a responder no WhatsApp/iFood"
       ];
     } else if (niche.includes("Vendas") || niche.includes("Tecnologia")) {
       options = [
