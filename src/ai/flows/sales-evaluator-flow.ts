@@ -7,8 +7,9 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
-// Aumenta o tempo de execução para suportar o processamento de áudio no Vercel
+// Configurações de tempo de execução para o Vercel suportar processamento de áudio
 export const maxDuration = 60;
+export const runtime = 'nodejs';
 
 const SalesEvaluationInputSchema = z.object({
   candidateName: z.string(),
@@ -29,13 +30,15 @@ export type SalesEvaluationOutput = z.infer<typeof SalesEvaluationOutputSchema>;
 
 /**
  * Prompt Multimodal especializado que "ouve" o candidato.
+ * Explicitamente definido para usar o Gemini 1.5 Flash.
  */
 const evaluatePrompt = ai.definePrompt({
   name: 'evaluateSalesCandidatePrompt',
+  model: 'googleai/gemini-1.5-flash',
   input: { schema: SalesEvaluationInputSchema },
   output: { schema: SalesEvaluationOutputSchema },
   prompt: `Você é o Diretor Comercial Sênior da studiosapient.
-Sua missão é avaliar um candidato a vendedor (SDR/Closer) através de uma simulação de vendas.
+Sua missão é avaliar um candidato a vendedor através de uma simulação de vendas técnica e agressiva.
 
 CENÁRIO: Marmoraria Granito Fino.
 CLIENTE: Sr. Jorge (30 anos de mercado, prático, cético com digital).
@@ -43,25 +46,36 @@ GARGALOS TÉCNICOS: Site obsoleto (perda de 85% mobile), Invisibilidade no Googl
 
 DADOS DA AVALIAÇÃO:
 Candidato: {{{candidateName}}}
-Fase 1 (Áudio da Abordagem): {{media url=pitchAudioUri}}
-Fase 2 (Resposta à Objeção): {{{objectionHandling}}}
+Fase 1 (Análise Vocal do Pitch): {{media url=pitchAudioUri}}
+Fase 2 (Contorno de Objeção): {{{objectionHandling}}}
 
-SUA ANÁLISE DEVE CONSIDERAR:
-1. AUTORIDADE VOCAL: O áudio passa segurança ou hesitação? Ele fala com "fome" de venda ou parece um robô?
-2. DIAGNÓSTICO: Ele citou que o Sr. Jorge está PERDENDO DINHEIRO (custo de oportunidade) por causa do site mobile e do Google Maps?
-3. ARGUMENTAÇÃO: Ele focou em ROI (Retorno sobre Investimento) ou tentou vender "estética"? Na Sapient, vendemos lucro.
-4. CONTORNO DE OBJEÇÃO: Como ele reagiu à frase "o boca a boca é suficiente"? Ele provou que o digital potencializa o boca a boca?
+DIRETRIZES DE AVALIAÇÃO:
+1. AUTORIDADE: O candidato fala com convicção ou hesitação?
+2. DIAGNÓSTICO: Ele provou que o Sr. Jorge está PERDENDO DINHEIRO agora?
+3. ROI: Ele focou em lucro e eficiência ou apenas em estética?
+4. OBJEÇÃO: Ele soube reverter a frase "o boca a boca é suficiente"?
 
-Gere um veredito direto e profissional.`,
+Gere um dossiê com score, pontos fortes, pontos fracos e o feedback oficial.`,
 });
 
 export async function evaluateSalesCandidate(input: z.infer<typeof SalesEvaluationInputSchema>): Promise<SalesEvaluationOutput> {
   try {
+    // Garante que o Base64 seja processado corretamente
     const { output } = await evaluatePrompt(input);
-    if (!output) throw new Error("A IA não retornou um resultado válido.");
+    
+    if (!output) {
+      throw new Error("A IA processou o áudio mas não conseguiu estruturar a resposta. Tente um áudio mais conciso.");
+    }
+    
     return output;
-  } catch (err) {
-    console.error("Erro no fluxo de avaliação:", err);
-    throw new Error("Falha na comunicação com o motor de IA. Verifique sua conexão ou tente um áudio mais curto.");
+  } catch (err: any) {
+    console.error("ERRO CRÍTICO IA SAPIENT:", err);
+    
+    // Tratamento específico para timeouts ou falhas de hardware
+    if (err.message?.includes('timeout')) {
+      throw new Error("O processamento do áudio excedeu o tempo limite. Tente gravar um pitch de no máximo 20 segundos.");
+    }
+    
+    throw new Error("Falha na comunicação com o motor de IA. Verifique se a chave de API está configurada no Vercel como GOOGLE_GENAI_API_KEY.");
   }
 }
