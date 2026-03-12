@@ -42,8 +42,9 @@ import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { LocalBrain } from "@/components/ai/LocalBrain";
 
-const STORAGE_KEY = "sapient_recruitment_v9";
+const STORAGE_KEY = "sapient_recruitment_v10";
 
 export function RecrutamentoClient() {
   const [step, setStep] = useState(1);
@@ -112,10 +113,16 @@ export function RecrutamentoClient() {
     setAudioPreviewUrl(null);
     
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        } 
+      });
       streamRef.current = stream;
       
-      const mediaRecorder = new MediaRecorder(stream);
+      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
@@ -140,11 +147,11 @@ export function RecrutamentoClient() {
       mediaRecorder.start();
       setIsRecording(true);
       setIsProcessingAudio(false);
-      toast({ title: "GRAVANDO", description: "Fale com clareza e autoridade.", className: "bg-primary text-white font-black uppercase text-[9px]" });
+      toast({ title: "CAPTURANDO ÁUDIO", description: "Fale com clareza e autoridade.", className: "bg-primary text-white font-black uppercase text-[9px]" });
     } catch (err) {
       console.error(err);
       setIsProcessingAudio(false);
-      toast({ title: "ERRO DE HARDWARE", description: "Microfone não encontrado ou bloqueado pelo navegador.", variant: "destructive" });
+      toast({ title: "ERRO DE HARDWARE", description: "Certifique-se de que o microfone está conectado e permitido no navegador.", variant: "destructive" });
     }
   };
 
@@ -185,7 +192,7 @@ export function RecrutamentoClient() {
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
       console.error(error);
-      toast({ title: "Erro na Análise", description: "Falha ao processar áudio pesado ou timeout da IA. Tente um pitch mais curto (máx 30s).", variant: "destructive" });
+      toast({ title: "Erro na Análise", description: "Falha ao processar áudio. Tente um pitch mais curto (máx 20s).", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -202,7 +209,7 @@ export function RecrutamentoClient() {
               <Mic className="text-primary" /> Ativar Microfone
             </AlertDialogTitle>
             <AlertDialogDescription className="text-white/50">
-              O Studio Sapient avaliará sua autoridade e tom de voz. Fale com o Sr. Jorge como se estivesse em uma reunião real. Garanta que seu navegador tenha permissão de acesso.
+              O Studio Sapient avaliará sua autoridade vocal. Fale com o Sr. Jorge como se estivesse em uma reunião real. Garanta que seu navegador tenha permissão de acesso.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -310,7 +317,7 @@ export function RecrutamentoClient() {
 
                   <div className="text-center space-y-2">
                     <p className="text-sm font-black uppercase tracking-widest text-white">
-                      {isRecording ? "GRAVANDO... CLIQUE PARA PARAR" : audioBase64 ? "ÁUDIO PRONTO" : "GRAVAR PITCH (MÁX 30S)"}
+                      {isRecording ? "GRAVANDO... CLIQUE PARA PARAR" : audioBase64 ? "ÁUDIO PRONTO" : "GRAVAR PITCH (MÁX 20S)"}
                     </p>
                     <p className="text-[9px] text-white/30 uppercase font-black">
                       {isRecording ? "Sua voz está sendo capturada" : "Simule sua abordagem ao Sr. Jorge"}
@@ -344,12 +351,17 @@ export function RecrutamentoClient() {
                     "Olha, eu já vendo bem sem site. O boca a boca sempre funcionou. Por que eu gastaria dinheiro com isso agora? Parece coisa de quem tem dinheiro sobrando."
                   </p>
                 </div>
+
+                {/* IA LOCAL: Analisa a energia do texto do candidato antes de enviar */}
+                <LocalBrain text={formData.objection} />
+
                 <Textarea 
                   value={formData.objection} 
                   onChange={(e) => setFormData({...formData, objection: e.target.value})}
                   placeholder="Como você prova o ROI e contorna essa objeção usando os gargalos técnicos?" 
                   className="bg-white/5 border-white/10 min-h-[200px] rounded-[2rem] p-8 font-bold text-lg"
                 />
+                
                 <Button onClick={handleSubmit} disabled={isLoading} className="h-24 w-full bg-primary rounded-full font-black uppercase text-[12px] shadow-2xl">
                   {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Finalizar Análise de Autoridade"} <Zap size={20} className="ml-2" />
                 </Button>
