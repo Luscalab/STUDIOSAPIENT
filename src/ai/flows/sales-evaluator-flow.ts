@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview Avaliador de Talentos de Vendas Sapient - Análise Multimodal de Alta Fidelidade.
@@ -6,10 +5,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-
-// Configurações de tempo de execução para o Vercel suportar processamento de áudio
-export const maxDuration = 60;
-export const runtime = 'nodejs';
 
 const SalesEvaluationInputSchema = z.object({
   candidateName: z.string(),
@@ -60,7 +55,6 @@ Gere um dossiê com score, pontos fortes, pontos fracos e o feedback oficial.`,
 
 export async function evaluateSalesCandidate(input: z.infer<typeof SalesEvaluationInputSchema>): Promise<SalesEvaluationOutput> {
   try {
-    // Garante que o Base64 seja processado corretamente
     const { output } = await evaluatePrompt(input);
     
     if (!output) {
@@ -71,11 +65,10 @@ export async function evaluateSalesCandidate(input: z.infer<typeof SalesEvaluati
   } catch (err: any) {
     console.error("ERRO CRÍTICO IA SAPIENT:", err);
     
-    // Tratamento específico para timeouts ou falhas de hardware
     if (err.message?.includes('timeout')) {
       throw new Error("O processamento do áudio excedeu o tempo limite. Tente gravar um pitch de no máximo 20 segundos.");
     }
     
-    throw new Error("Falha na comunicação com o motor de IA. Verifique se a chave de API está configurada no Vercel como GOOGLE_GENAI_API_KEY.");
+    throw new Error("Falha na comunicação com o motor de IA. Verifique se a chave de API está configurada no Vercel.");
   }
 }
