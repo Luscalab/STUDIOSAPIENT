@@ -22,6 +22,16 @@ import {
   MessageSquare,
   Trophy
 } from "lucide-react";
+import { 
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { evaluateSalesCandidate, type SalesEvaluationOutput } from "@/ai/flows/sales-evaluator-flow";
 import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -33,6 +43,7 @@ export function RecrutamentoClient() {
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showMicDialog, setShowMicDialog] = useState(false);
   const [evaluation, setEvaluation] = useState<SalesEvaluationOutput | null>(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -72,18 +83,55 @@ export function RecrutamentoClient() {
       recognitionRef.current.onerror = (event: any) => {
         console.error("Speech recognition error", event.error);
         setIsRecording(false);
+        if (event.error === 'not-allowed') {
+          toast({
+            title: "Microfone Bloqueado",
+            description: "Você precisa permitir o acesso ao microfone nas configurações do navegador.",
+            variant: "destructive"
+          });
+        }
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsRecording(false);
       };
     }
-  }, []);
+  }, [toast]);
+
+  const handleStartRecording = () => {
+    setShowMicDialog(true);
+  };
+
+  const confirmMicAccess = async () => {
+    setShowMicDialog(false);
+    try {
+      // Solicita permissão explicitamente via API moderna para forçar o pop-up do navegador
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+      
+      setTranscription("");
+      recognitionRef.current?.start();
+      setIsRecording(true);
+      
+      toast({
+        title: "Microfone Ativo",
+        description: "Pode começar a falar o seu pitch.",
+        className: "bg-green-600 text-white font-black"
+      });
+    } catch (err) {
+      toast({
+        title: "Permissão Negada",
+        description: "Não conseguimos acessar seu microfone. Verifique as permissões do site.",
+        variant: "destructive"
+      });
+    }
+  };
 
   const toggleRecording = () => {
     if (isRecording) {
       recognitionRef.current?.stop();
       setIsRecording(false);
     } else {
-      setTranscription("");
-      recognitionRef.current?.start();
-      setIsRecording(true);
+      handleStartRecording();
     }
   };
 
@@ -98,7 +146,7 @@ export function RecrutamentoClient() {
         return;
       }
     }
-    if (step === 2 && !transcription.trim()) {
+    if (step === 2 && !transcription.trim() && !isRecording) {
       toast({ 
         title: "Pitch Ausente", 
         description: "Você precisa realizar o teste de locução antes de prosseguir.", 
@@ -151,6 +199,33 @@ export function RecrutamentoClient() {
     <main className="min-h-screen bg-[#08070b] text-white selection:bg-primary/30">
       <Navbar />
       
+      {/* Pop-up de Permissão de Microfone */}
+      <AlertDialog open={showMicDialog} onOpenChange={setShowMicDialog}>
+        <AlertDialogContent className="bg-[#121216] border-white/10 text-white rounded-[2rem]">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="font-headline text-2xl font-black uppercase tracking-tighter">
+              Acesso ao Microfone
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-white/50 text-base leading-relaxed">
+              Para avaliar sua <span className="text-white font-bold">locução e dicção</span>, precisamos capturar o seu áudio durante o pitch. Suas informações são processadas por nossa IA de recrutamento. 
+              <br /><br />
+              Deseja permitir o acesso agora?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="gap-4">
+            <AlertDialogCancel className="bg-transparent border-white/10 text-white/50 hover:bg-white/5 rounded-full uppercase font-black text-[10px] tracking-widest">
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmMicAccess}
+              className="bg-primary hover:bg-primary/90 text-white rounded-full uppercase font-black text-[10px] tracking-widest px-8"
+            >
+              Permitir e Gravar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <section className="relative pt-32 pb-24 md:pt-48 md:pb-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.1),transparent_70%)] opacity-50" />
@@ -251,7 +326,7 @@ export function RecrutamentoClient() {
                   </div>
 
                   <div className="flex flex-col md:flex-row gap-4">
-                    <Button onClick={handleNextStep} disabled={!transcription} className="h-16 px-12 bg-primary hover:bg-primary/90 rounded-full font-black uppercase tracking-widest text-[10px]">
+                    <Button onClick={handleNextStep} disabled={!transcription && !isRecording} className="h-16 px-12 bg-primary hover:bg-primary/90 rounded-full font-black uppercase tracking-widest text-[10px]">
                       Confirmar Pitch <ChevronRight className="ml-2" />
                     </Button>
                     <Button variant="ghost" onClick={() => setTranscription("")} className="text-white/40 hover:text-white uppercase tracking-widest text-[9px] font-black">
