@@ -32,7 +32,8 @@ import {
   Clock,
   MapPin,
   Star,
-  Camera
+  Camera,
+  PlayCircle
 } from "lucide-react";
 import { 
   AlertDialog,
@@ -50,13 +51,14 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
-const STORAGE_KEY = "sapient_recruitment_v3";
+const STORAGE_KEY = "sapient_recruitment_v4";
 
 export function RecrutamentoClient() {
   const [step, setStep] = useState(1);
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
   const [audioBase64, setAudioBase64] = useState<string | null>(null);
+  const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showMicDialog, setShowMicDialog] = useState(false);
   const [evaluation, setEvaluation] = useState<SalesEvaluationOutput | null>(null);
@@ -101,7 +103,8 @@ export function RecrutamentoClient() {
 
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      setIsBrowserSupported(false);
+      // O reconhecimento não é crítico para a gravação, mas avisamos se não houver
+      console.warn("Navegador não suporta transcrição em tempo real. A avaliação será feita via áudio.");
     }
   }, [auth]);
 
@@ -125,9 +128,6 @@ export function RecrutamentoClient() {
 
   const stopAllRecording = () => {
     if (recognitionRef.current) {
-      recognitionRef.current.onresult = null;
-      recognitionRef.current.onend = null;
-      recognitionRef.current.onerror = null;
       try { recognitionRef.current.stop(); } catch(e) {}
       recognitionRef.current = null;
     }
@@ -146,19 +146,15 @@ export function RecrutamentoClient() {
 
   const confirmMicAccess = async () => {
     setShowMicDialog(false);
+    setAudioBase64(null);
+    setAudioPreviewUrl(null);
     setTranscription("");
     
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true
-        } 
-      });
-      
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
-      const mediaRecorder = new MediaRecorder(stream);
+      
+      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
@@ -168,6 +164,9 @@ export function RecrutamentoClient() {
 
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const previewUrl = URL.createObjectURL(audioBlob);
+        setAudioPreviewUrl(previewUrl);
+
         const reader = new FileReader();
         reader.readAsDataURL(audioBlob);
         reader.onloadend = () => {
@@ -175,56 +174,35 @@ export function RecrutamentoClient() {
         };
       };
 
+      // Inicia o reconhecimento em paralelo (se disponível)
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
-      recognitionRef.current = recognition;
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = 'pt-BR';
-
-      recognition.onresult = (event: any) => {
-        let finalTranscript = "";
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcript;
+      if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognitionRef.current = recognition;
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'pt-BR';
+        recognition.onresult = (event: any) => {
+          let text = "";
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            if (event.results[i].isFinal) text += event.results[i][0].transcript;
           }
-        }
-        if (finalTranscript) {
-          setTranscription(prev => (prev + " " + finalTranscript).trim());
-        }
-      };
+          if (text) setTranscription(prev => (prev + " " + text).trim());
+        };
+        recognition.start();
+      }
 
-      recognition.onerror = (event: any) => {
-        console.error("Speech Recognition Error", event.error);
-        if (event.error === 'not-allowed') {
-          toast({ title: "Acesso Negado", description: "O microfone foi bloqueado pelo navegador.", variant: "destructive" });
-          stopAllRecording();
-        }
-      };
-
-      recognition.onend = () => {
-        if (isRecording && recognitionRef.current) {
-          try { recognitionRef.current.start(); } catch(e) {}
-        }
-      };
-
-      recognition.start();
       mediaRecorder.start();
       setIsRecording(true);
       
       toast({ 
-        title: "SISTEMA OUVINDO", 
-        description: "Pode começar seu diagnóstico.",
+        title: "GRAVAÇÃO INICIADA", 
+        description: "Pode começar seu pitch.",
         className: "bg-primary text-white border-none font-black uppercase tracking-widest text-[9px]"
       });
     } catch (err) {
-      console.error("Hardware Error", err);
-      toast({ 
-        title: "Erro de Hardware", 
-        description: "Certifique-se de que o microfone está conectado e permitido.", 
-        variant: "destructive" 
-      });
+      console.error("Mic Access Error", err);
+      toast({ title: "Erro de Acesso", description: "Não conseguimos acessar seu microfone.", variant: "destructive" });
     }
   };
 
@@ -232,10 +210,6 @@ export function RecrutamentoClient() {
     if (isRecording) {
       stopAllRecording();
     } else {
-      if (!isBrowserSupported) {
-        toast({ title: "Navegador incompatível", description: "Use Google Chrome ou Safari atualizado.", variant: "destructive" });
-        return;
-      }
       setShowMicDialog(true);
     }
   };
@@ -243,14 +217,14 @@ export function RecrutamentoClient() {
   const handleNextStep = () => {
     if (step === 1) {
       if (!formData.name.trim() || !formData.email.trim() || !consentAccepted) {
-        toast({ title: "Atenção", description: "Preencha seus dados e aceite os termos para continuar.", variant: "destructive" });
+        toast({ title: "Atenção", description: "Preencha seus dados e aceite os termos.", variant: "destructive" });
         return;
       }
     }
     if (step === 2) {
       if (isRecording) stopAllRecording();
-      if (!transcription.trim()) {
-        toast({ title: "Atenção", description: "Capture seu pitch para continuar.", variant: "destructive" });
+      if (!audioBase64) {
+        toast({ title: "Atenção", description: "Grave seu pitch para continuar.", variant: "destructive" });
         return;
       }
     }
@@ -268,7 +242,7 @@ export function RecrutamentoClient() {
     try {
       const result = await evaluateSalesCandidate({
         candidateName: formData.name,
-        pitchTranscription: transcription,
+        pitchTranscription: transcription || "[Pitch enviado via áudio - Transcrição offline]",
         objectionHandling: formData.objection
       });
 
@@ -294,7 +268,7 @@ export function RecrutamentoClient() {
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
       console.error("Submit Error", error);
-      toast({ title: "Falha na Análise", description: "Tente novamente mais tarde.", variant: "destructive" });
+      toast({ title: "Falha na Análise", description: "Ocorreu um erro ao processar. Tente novamente.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -311,12 +285,12 @@ export function RecrutamentoClient() {
               <Mic className="text-primary" /> Ativar Microfone
             </AlertDialogTitle>
             <AlertDialogDescription className="text-white/50 text-base leading-relaxed">
-              Precisamos capturar sua voz para avaliar sua autoridade comercial. Sua fala será transcrita pela nossa IA e o áudio será salvo para o Diretor Comercial.
+              Precisamos gravar sua voz para avaliar sua autoridade comercial. Você poderá ouvir o áudio antes de confirmar o envio.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="mt-6">
             <AlertDialogCancel className="bg-transparent border-white/10 text-white/50 hover:bg-white/5 rounded-full uppercase font-black text-[10px] tracking-widest h-12 px-6">Agora não</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmMicAccess} className="bg-primary hover:bg-primary/90 text-white rounded-full uppercase font-black text-[10px] tracking-widest px-10 h-12 border-none">Iniciar Captura</AlertDialogAction>
+            <AlertDialogAction onClick={confirmMicAccess} className="bg-primary hover:bg-primary/90 text-white rounded-full uppercase font-black text-[10px] tracking-widest px-10 h-12 border-none">Começar a Falar</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -327,8 +301,8 @@ export function RecrutamentoClient() {
             
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
               <div className="text-center md:text-left">
-                <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full">Recrutamento de Elite Sapient</Badge>
-                <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none uppercase">Roleplay de <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary italic font-medium lowercase">consultoria comercial.</span></h1>
+                <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full">Etapa de Seleção</Badge>
+                <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none uppercase">Roleplay de <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary italic font-medium lowercase">vendas estratégicas.</span></h1>
               </div>
               
               {step > 1 && step < 4 && (
@@ -350,8 +324,8 @@ export function RecrutamentoClient() {
               {step === 1 && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                   <div className="space-y-4">
-                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação Profissional</h2>
-                    <p className="text-white/40 text-sm leading-relaxed">Buscamos consultores que transformam problemas técnicos em urgência de negócio. <br/> Seu objetivo é provar valor, não apenas vender produtos.</p>
+                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Perfil do Candidato</h2>
+                    <p className="text-white/40 text-sm leading-relaxed">As informações abaixo serão usadas para identificação interna e registro do seu desempenho na plataforma Sapient.</p>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -367,131 +341,72 @@ export function RecrutamentoClient() {
 
                   <div className="p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 space-y-6">
                     <div className="flex items-center gap-4 text-primary font-black uppercase tracking-widest text-[9px]">
-                      <ShieldCheck size={16} /> Proteção de Dados (LGPD)
+                      <ShieldCheck size={16} /> Política de Segurança & Dados
                     </div>
                     <div className="flex items-start gap-4">
                       <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(checked) => setConsentAccepted(checked === true)} className="mt-1.5 border-white/20 h-5 w-5 data-[state=checked]:bg-primary" />
                       <label htmlFor="consent" className="text-xs text-white/50 leading-relaxed cursor-pointer select-none">
-                        Autorizo o Studio Sapient a processar minha voz e dados exclusivamente para este recrutamento. Sigilo absoluto garantido conforme a LGPD.
+                        Estou ciente que minha voz e respostas serão armazenadas e analisadas exclusivamente pelo Studio Sapient para fins de recrutamento, com total proteção de privacidade.
                       </label>
                     </div>
                   </div>
 
-                  <Button onClick={handleNextStep} className="h-16 px-12 bg-primary rounded-full font-black uppercase tracking-widest text-[10px] border-none shadow-xl hover:scale-105 transition-all">Acessar Briefing do Caso <ChevronRight className="ml-2 h-4 w-4" /></Button>
+                  <Button onClick={handleNextStep} className="h-16 px-12 bg-primary rounded-full font-black uppercase tracking-widest text-[10px] border-none shadow-xl hover:scale-105 transition-all">Iniciar Roleplay <ChevronRight className="ml-2 h-4 w-4" /></Button>
                 </div>
               )}
 
               {step === 2 && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-2 space-y-8">
-                      {/* LEAD BRIEFING */}
-                      <div className="p-10 rounded-[3rem] bg-primary/10 border border-primary/20 space-y-6">
-                        <div className="flex items-center gap-3 text-primary font-black uppercase tracking-[0.2em] text-[10px]"><Building2 size={16} /> LEAD: Marmoraria Granito Fino</div>
-                        <div className="space-y-4">
-                          <h3 className="text-2xl font-black uppercase tracking-tight">O Caso Sr. Jorge</h3>
-                          <p className="text-sm text-white/70 leading-relaxed">
-                            Marmoraria referência há 25 anos, mas faturamento caiu 35%. Sr. Jorge acha que "design é frescura" e que o boca a boca basta. Ele não percebe que o público de elite mudou o comportamento de compra.
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* GOOGLE MEU NEGOCIO EXPLAINER */}
-                      <div className="p-10 rounded-[3rem] bg-white/[0.03] border border-white/10 space-y-6">
-                        <div className="flex items-center gap-3 text-cyan-400 font-black uppercase tracking-[0.2em] text-[10px]"><MapPin size={16} /> O que é o Google Meu Negócio?</div>
-                        <div className="space-y-4">
-                          <p className="text-xs text-white/60 leading-relaxed">
-                            É o **Cartão de Visitas Digital** no Google Maps e na Busca. É onde 90% das decisões de compra local acontecem. Se você não está bem posicionado lá, você é invisível para quem busca "marmoraria perto de mim".
-                          </p>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-[8px] font-black text-white/40 uppercase"><Star size={10} className="text-yellow-500" /> Prova Social</div>
-                                <p className="text-[9px] text-white/30">Avaliações geram confiança imediata. Sem estrelas, o cliente nem liga.</p>
-                             </div>
-                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-[8px] font-black text-white/40 uppercase"><Camera size={10} className="text-blue-500" /> Vitrine Visual</div>
-                                <p className="text-[9px] text-white/30">Fotos de alta qualidade no perfil aumentam cliques em 35%.</p>
-                             </div>
-                             <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-[8px] font-black text-white/40 uppercase"><MapPin size={10} className="text-red-500" /> Localização</div>
-                                <p className="text-[9px] text-white/30">O algoritmo prioriza quem está mais perto e tem perfil otimizado.</p>
-                             </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-4">
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 flex items-center gap-2"><BarChart3 size={14} className="text-primary"/> Gargalos Críticos detectados pela Sapient</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/5 flex gap-4 items-start">
-                            <Smartphone className="text-primary h-5 w-5 shrink-0" />
-                            <div>
-                              <p className="font-bold text-xs uppercase mb-1">Morte no Mobile</p>
-                              <p className="text-[10px] text-white/40">O site atual não carrega fotos em celulares. Ele está pagando por anúncios mas o cliente foge quando clica.</p>
-                            </div>
-                          </div>
-                          <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/5 flex gap-4 items-start">
-                            <Search className="text-primary h-5 w-5 shrink-0" />
-                            <div>
-                              <p className="font-bold text-xs uppercase mb-1">GMN Abandonado</p>
-                              <p className="text-[10px] text-white/40">O Sr. Jorge tem 2 estrelas no Google e fotos de 2012. Concorrentes novos estão com 5 estrelas e roubando o topo da busca.</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="p-8 rounded-[3rem] bg-white/[0.02] border border-white/5 space-y-6">
-                      <div className="flex items-center gap-2 text-[9px] font-black uppercase text-orange-400"><Info size={14}/> Dica do Diretor Lucas</div>
-                      <p className="text-xs text-white/50 leading-relaxed italic">
-                        "Sr. Jorge não liga para 'design'. Ele liga para o faturamento que caiu. Use o Google Meu Negócio como exemplo de como a concorrência está sendo mais rápida que ele na hora de captar o cliente de luxo."
-                      </p>
-                    </div>
+                  <div className="p-10 rounded-[3rem] bg-primary/10 border border-primary/20 space-y-4">
+                    <div className="flex items-center gap-3 text-primary font-black uppercase tracking-[0.2em] text-[10px]"><Building2 size={16} /> LEAD: Marmoraria Granito Fino</div>
+                    <h3 className="text-2xl font-black uppercase tracking-tight">Cenário: Sr. Jorge</h3>
+                    <p className="text-sm text-white/70 leading-relaxed">
+                      Marmoraria de luxo com faturamento em queda. O Sr. Jorge é conservador e acha que design é custo. 
+                      **Gargalo:** O site não abre no celular (85% do tráfego perdido) e os concorrentes estão dominando o Google Maps com fotos de alta qualidade.
+                    </p>
                   </div>
 
-                  <div className="flex flex-col items-center gap-8 py-12 border-2 border-dashed border-white/10 rounded-[3rem] bg-white/[0.02] relative">
+                  <div className="p-8 rounded-[3rem] bg-white/[0.03] border border-white/5 space-y-4">
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-cyan-400">Dica Sapient: Google Meu Negócio</h4>
+                    <p className="text-xs text-white/50 leading-relaxed">
+                      Explique ao Sr. Jorge que o Google é a nova vitrine. Se o perfil dele está abandonado, ele está invisível para os arquitetos e clientes que buscam "marmoraria de luxo" agora mesmo.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col items-center gap-8 py-12 border-2 border-dashed border-white/10 rounded-[3rem] bg-white/[0.02]">
                     <button 
                       onClick={toggleRecording} 
                       className={cn(
-                        "h-28 w-28 rounded-full flex items-center justify-center transition-all duration-500 shadow-2xl relative z-10", 
-                        isRecording ? "bg-red-500 scale-110 shadow-red-500/30" : "bg-primary text-white hover:scale-105"
+                        "h-28 w-28 rounded-full flex items-center justify-center transition-all duration-500 shadow-2xl relative", 
+                        isRecording ? "bg-red-500 scale-110" : "bg-primary text-white"
                       )}
                     >
                       {isRecording ? <MicOff size={36} className="animate-pulse" /> : <Mic size={36} />}
                       {isRecording && <span className="absolute -inset-4 border-2 border-red-500/20 rounded-full animate-ping" />}
                     </button>
                     
-                    <div className="w-full px-8">
-                       <div className={cn(
-                         "min-h-[160px] p-8 rounded-[2rem] bg-black/40 border border-white/5 text-sm italic leading-relaxed text-center flex flex-col items-center justify-center",
-                         transcription ? "text-white font-bold" : "text-white/30"
-                       )}>
-                         {transcription || (isRecording ? "Gravando sua autoridade comercial..." : "Realize sua abordagem ao Sr. Jorge focando no diagnóstico.")}
-                       </div>
-                    </div>
+                    {!isRecording && audioPreviewUrl && (
+                      <div className="w-full max-w-md space-y-4 text-center animate-in zoom-in duration-500">
+                        <div className="flex items-center justify-center gap-3 text-green-400 font-black uppercase tracking-widest text-[9px]">
+                          <Volume2 size={14} /> Gravação Concluída. Ouça abaixo:
+                        </div>
+                        <audio controls src={audioPreviewUrl} className="w-full h-12 rounded-full brightness-75 contrast-125" />
+                      </div>
+                    )}
 
-                    <div className="flex flex-wrap gap-4 justify-center">
-                      {audioBase64 && !isRecording && (
-                        <div className="flex items-center gap-4 bg-green-500/10 border border-green-500/20 px-6 py-4 rounded-full">
-                          <Volume2 className="h-4 w-4 text-green-400" />
-                          <span className="text-[9px] font-black uppercase tracking-widest text-green-400">Voz Capturada</span>
-                        </div>
-                      )}
-                      {transcription && (
-                        <div className="flex items-center gap-4 bg-primary/10 border border-primary/20 px-6 py-4 rounded-full">
-                          <CheckCircle2 className="h-4 w-4 text-primary" />
-                          <span className="text-[9px] font-black uppercase tracking-widest text-primary">Diagnóstico Processado</span>
-                        </div>
-                      )}
+                    <div className="text-center px-8">
+                      <p className="text-xs font-bold text-white/40">
+                        {isRecording ? "Gravando... Pressione novamente para parar." : audioBase64 ? "Áudio pronto para envio." : "Clique no microfone para gravar seu pitch."}
+                      </p>
                     </div>
                   </div>
 
                   <Button 
                     onClick={handleNextStep} 
-                    disabled={!transcription.trim() || isRecording} 
+                    disabled={!audioBase64 || isRecording} 
                     className="h-16 px-12 bg-primary rounded-full font-black uppercase tracking-widest text-[10px] border-none shadow-xl w-full md:w-auto hover:scale-105 transition-all disabled:opacity-30"
                   >
-                    Confirmar Abordagem Estratégica <ChevronRight className="ml-2 h-4 w-4" />
+                    Confirmar Abordagem <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               )}
@@ -499,19 +414,19 @@ export function RecrutamentoClient() {
               {step === 3 && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                   <div className="p-8 rounded-[2.5rem] bg-orange-500/10 border border-orange-500/20 space-y-4">
-                    <div className="flex items-center gap-3 text-orange-400 font-black uppercase tracking-[0.2em] text-[10px]"><AlertCircle size={16} /> A Resistência do Sr. Jorge</div>
+                    <div className="flex items-center gap-3 text-orange-400 font-black uppercase tracking-[0.2em] text-[10px]"><AlertCircle size={16} /> A Objeção do Sr. Jorge</div>
                     <p className="text-sm text-white font-medium leading-relaxed italic">
-                      "Meu filho, eu já vendo bem há 25 anos sem esse negócio de internet. O meu público é de elite, eles não ficam no Google procurando pedra. Por que eu gastaria agora se o dinheiro já entra?"
+                      "Eu vendo há 25 anos sem site. O dinheiro entra. Por que eu gastaria agora com esse negócio de internet?"
                     </p>
                   </div>
 
                   <div className="space-y-4">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Sua Resposta de Fechamento (Texto)</label>
-                    <Textarea value={formData.objection} onChange={(e) => setFormData({...formData, objection: e.target.value})} className="bg-white/5 border-white/10 min-h-[220px] rounded-[2rem] p-8 text-base focus:ring-primary/20 focus:border-primary/50" placeholder="Use o ROI, o custo de oportunidade ou a ameaça da concorrência para converter o Sr. Jorge em um agendamento..." />
+                    <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Sua Resposta (Texto)</label>
+                    <Textarea value={formData.objection} onChange={(e) => setFormData({...formData, objection: e.target.value})} className="bg-white/5 border-white/10 min-h-[220px] rounded-[2rem] p-8 text-base focus:ring-primary/20 focus:border-primary/50" placeholder="Use o ROI e a perda de mercado para o celular como argumento..." />
                   </div>
 
                   <Button onClick={handleSubmit} disabled={isLoading} className="h-20 px-12 bg-primary rounded-full font-black uppercase tracking-widest text-[11px] w-full border-none shadow-2xl hover:scale-[1.02] transition-all disabled:opacity-50">
-                    {isLoading ? <><Loader2 className="mr-3 h-5 w-5 animate-spin" /> ANALISANDO SEU JOGO DE CINTURA...</> : <>FINALIZAR E RECEBER FEEDBACK <Zap className="ml-2 h-4 w-4" /></>}
+                    {isLoading ? <><Loader2 className="mr-3 h-5 w-5 animate-spin" /> ANALISANDO SEU PITCH...</> : <>FINALIZAR TESTE <Zap className="ml-2 h-4 w-4" /></>}
                   </Button>
                 </div>
               )}
@@ -526,28 +441,16 @@ export function RecrutamentoClient() {
                       {evaluation.verdict === 'APROVADO' ? <Trophy size={48} /> : <BrainCircuit size={48} />}
                     </div>
                     <h2 className="text-4xl font-black uppercase tracking-tighter">Veredito: {evaluation.verdict}</h2>
-                    <p className="text-[10px] font-black uppercase tracking-[0.6em] text-white/30">SCORE DE AUTORIDADE: {evaluation.score}%</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.6em] text-white/30">SCORE COMERCIAL: {evaluation.score}%</p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="p-10 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-6">
-                      <h4 className="font-bold text-xs uppercase tracking-widest text-green-400 flex items-center gap-3"><CheckCircle2 size={20} /> Pontos Fortes</h4>
-                      <ul className="space-y-3">{evaluation.strongPoints.map((p, i) => (<li key={i} className="text-sm text-white/60 flex items-start gap-3"><span className="text-primary mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" /> {p}</li>))}</ul>
-                    </div>
-                    <div className="p-10 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-6">
-                      <h4 className="font-bold text-xs uppercase tracking-widest text-primary flex items-center gap-3"><TrendingUp size={20} /> Pontos a Melhorar</h4>
-                      <ul className="space-y-3">{evaluation.weakPoints.map((p, i) => (<li key={i} className="text-sm text-white/60 flex items-start gap-3"><span className="text-primary mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" /> {p}</li>))}</ul>
-                    </div>
-                  </div>
-
-                  <div className="p-12 rounded-[3rem] bg-primary text-white space-y-6 shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-8 opacity-10"><MessageSquare size={120} /></div>
-                    <div className="flex items-center gap-4 relative z-10"><MessageSquare className="h-8 w-8" /><h4 className="font-black uppercase tracking-tighter text-2xl">Análise do Diretor Comercial</h4></div>
-                    <p className="text-base md:text-lg font-medium leading-relaxed italic relative z-10">"{evaluation.feedback}"</p>
+                  <div className="p-12 rounded-[3rem] bg-primary text-white space-y-6 shadow-2xl">
+                    <div className="flex items-center gap-4"><MessageSquare className="h-8 w-8" /><h4 className="font-black uppercase tracking-tighter text-2xl">Feedback Sapient</h4></div>
+                    <p className="text-base md:text-lg font-medium leading-relaxed italic">"{evaluation.feedback}"</p>
                   </div>
 
                   <div className="text-center pt-8">
-                     <Button onClick={() => window.location.href = '/'} variant="outline" className="h-16 px-12 border-white/10 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-white/5">Voltar ao Site</Button>
+                     <Button onClick={() => window.location.href = '/'} variant="outline" className="h-16 px-12 border-white/10 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-white/5">Voltar ao Início</Button>
                   </div>
                 </div>
               )}
