@@ -31,7 +31,11 @@ import {
   Stethoscope,
   Quote,
   Layers,
-  Fingerprint
+  Fingerprint,
+  Gamepad2,
+  HeartPulse,
+  MessageSquare,
+  Move
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
@@ -76,7 +80,7 @@ export default function UrbeLudoPage() {
   const faqs = [
     {
       q: "01. O UrbeLudo é indicado para quais perfis dentro da neurodiversidade?",
-      a: "Acreditamos que cada cérebro processa o mundo de uma forma única. Por isso, o UrbeLudo foi desenhado para abraçar a pluralidade: desde crianças no Espectro Autista (TEA), que buscam previsibilidade e estímulos sensoriais organizados, até perfis com TDAH, que se beneficiam de mecânicas de foco e recompensa. Também atuamos com foco em Dispraxia, Síndrome de Down e atrasos globais do desenvolvimento, onde a organização do movimento e a consciência corporal são as chaves para a autonomia."
+      a: "Acreditamos que cada cérebro processa o world de uma forma única. Por isso, o UrbeLudo foi desenhado para abraçar a pluralidade: desde crianças no Espectro Autista (TEA), que buscam previsibilidade e estímulos sensoriais organizados, até perfis com TDAH, que se beneficiam de mecânicas de foco e recompensa. Também atuamos com foco em Dispraxia, Síndrome de Down e atrasos globais do desenvolvimento, onde a organização do movimento e a consciência corporal são as chaves para a autonomia."
     },
     {
       q: "02. Como uma tela digital consegue estimular o movimento físico e corporal?",
@@ -314,7 +318,7 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 07. FAQ: Entendendo o Ecossistema */}
+      {/* 07. FAQ */}
       <section id="faq" className="py-20 md:py-48 bg-slate-50 px-6 rounded-[3rem] md:rounded-[6rem] mx-4 border border-slate-100">
         <div className="container mx-auto max-w-4xl space-y-16">
           <div className="text-center space-y-4">
@@ -337,7 +341,60 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* Apoio Social */}
+      {/* 08. Ecossistema de Colaboração (Pro Bono) */}
+      <section id="colaboradores" className="py-20 md:py-48 bg-white px-6">
+        <div className="container mx-auto max-w-7xl">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 mb-24">
+            <div className="max-w-2xl">
+              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Propósito em Rede</span>
+              <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">Ecossistema de <br /><span className="text-primary italic font-medium lowercase">colaboração.</span></h2>
+            </div>
+            <p className="text-slate-400 text-lg md:text-2xl font-medium max-w-md leading-tight tracking-tight">
+              O UrbeLudo só é possível graças ao esforço conjunto de profissionais que acreditam na democratização da tecnologia assistiva.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { 
+                title: "Desenvolvimento de Jogos", 
+                desc: "Programadores e designers que transformam mecânicas terapêuticas em experiências imersivas.",
+                icon: <Gamepad2 className="h-6 w-6" />
+              },
+              { 
+                title: "Psicologia & Neurociência", 
+                desc: "Especialistas que garantem o suporte emocional e a validação dos processos cognitivos.",
+                icon: <HeartPulse className="h-6 w-6" />
+              },
+              { 
+                title: "Fonoaudiologia", 
+                desc: "Profissionais focados na comunicação, voz e linguagem dentro do ambiente digital.",
+                icon: <MessageSquare className="h-6 w-6" />
+              },
+              { 
+                title: "Psicomotricidade", 
+                desc: "A base do nosso projeto, orientando cada movimento e interação para o ganho real.",
+                icon: <Move className="h-6 w-6" />
+              }
+            ].map((colab, idx) => (
+              <div key={idx} className="p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 space-y-6 group hover:bg-white hover:shadow-2xl transition-all duration-500 h-full flex flex-col">
+                <div className="h-14 w-14 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:text-white transition-all">
+                  {colab.icon}
+                </div>
+                <div className="space-y-3 flex-1">
+                  <h4 className="font-black text-lg uppercase tracking-tighter text-slate-950 leading-none">{colab.title}</h4>
+                  <p className="text-slate-500 text-[11px] md:text-sm font-medium leading-relaxed">{colab.desc}</p>
+                </div>
+                <div className="pt-4">
+                  <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase tracking-widest">Colaborador Pro Bono</Badge>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 09. Apoio Social */}
       <section id="apoio" className="py-20 md:py-48 bg-[#08070b] text-white rounded-[2.5rem] md:rounded-[6rem] mx-4 my-12 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none opacity-10 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.4),transparent_70%)]" />
         <div className="container mx-auto max-w-4xl text-center space-y-12 relative z-10 px-6">
