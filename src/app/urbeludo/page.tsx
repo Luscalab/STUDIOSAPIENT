@@ -75,44 +75,44 @@ export default function UrbeLudoPage() {
 
   const faqs = [
     {
-      q: "O app é apenas para crianças autistas?",
-      a: "Não. O UrbeLudo é desenhado para toda a gama da neurodiversidade (TEA, TDAH, Down, Dispraxia, etc.) e atrasos de desenvolvimento em geral."
+      q: "01. O UrbeLudo é indicado para quais perfis dentro da neurodiversidade?",
+      a: "Acreditamos que cada cérebro processa o mundo de uma forma única. Por isso, o UrbeLudo foi desenhado para abraçar a pluralidade: desde crianças no Espectro Autista (TEA), que buscam previsibilidade e estímulos sensoriais organizados, até perfis com TDAH, que se beneficiam de mecânicas de foco e recompensa. Também atuamos com foco em Dispraxia, Síndrome de Down e atrasos globais do desenvolvimento, onde a organização do movimento e a consciência corporal são as chaves para a autonomia."
     },
     {
-      q: "O UrbeLudo substitui a terapia presencial?",
-      a: "De forma alguma. Somos uma ferramenta de suporte para garantir que a criança continue estimulada entre as sessões presenciais."
+      q: "02. Como uma tela digital consegue estimular o movimento físico e corporal?",
+      a: "Este é o nosso maior diferencial. Não usamos a tecnologia para o entretenimento passivo, mas como um catalisador da ação. Através de conceitos da Psicomotricidade, as atividades no app exigem planejamento motor (praxia), coordenação visomotora e ritmo. A tela funciona como um espelho interativo: a criança projeta sua intenção no digital e executa o movimento no mundo real, fortalecendo seu esquema corporal e sua imagem de si mesma."
     },
     {
-      q: "Como o app ajuda no TDAH?",
-      a: "Através de desafios que exigem atenção sustentada e recompensas imediatas que ajudam na regulação do foco."
+      q: "03. O que torna o sistema SPSP \"Preditivo\" e não apenas um banco de dados?",
+      a: "Diferente de apps que apenas registram se a tarefa foi feita, o SPSP (Sistema Preditivo de Suporte Psicomotor) analisa a qualidade da interação. Ele observa latências de resposta, padrões de toque e precisão fonológica ao longo do tempo. Com isso, o sistema consegue identificar uma tendência de estagnação ou um salto de evolução antes mesmo da próxima sessão clínica, enviando um insight ao terapeuta para que ele possa ajustar a conduta de forma antecipada e personalizada."
     },
     {
-      q: "É seguro usar a tela para terapia?",
-      a: "Sim. O conteúdo é planejado por especialistas para ser um tempo de tela ativo e terapêutico, diferente do entretenimento passivo."
+      q: "04. Existe um risco de aumentar o \"tempo de tela\" prejudicial da criança?",
+      a: "Nossa filosofia separa o \"tempo de tela passivo\" (consumo de vídeos) do \"tempo de tela ativo/terapêutico\". No UrbeLudo, a criança é a protagonista da ação. Cada minuto de interação é desenhado para gerar estímulo cognitivo e motor. Além disso, incentivamos que o uso seja um momento de conexão entre pais e filhos ou terapeuta e paciente, transformando o dispositivo em uma ferramenta de mediação social, e não de isolamento."
     },
     {
-      q: "Quem tem acesso aos dados da criança?",
-      a: "Somente os pais e o terapeuta responsável. Seguimos rigorosamente a LGPD (Lei Geral de Proteção de Dados)."
+      q: "05. Como o UrbeLudo auxilia especificamente na jornada do terapeuta?",
+      a: "O terapeuta muitas vezes trabalha no escuro sobre o que acontece nos seis dias da semana em que o paciente não está na clínica. O UrbeLudo ilumina esse intervalo. Ao acessar o dashboard, o profissional visualiza dados estruturados que confirmam se as metas de fala, coordenação ou atenção estão sendo atingidas no ambiente domiciliar. Isso reduz o tempo de \"investigação\" no início da sessão e permite focar no que realmente importa: a intervenção direta."
     },
     {
-      q: "Onde o aplicativo roda?",
-      a: "Disponível para iOS, Android e também em versão Web para computadores."
+      q: "06. O app pode ser utilizado em contextos de inclusão escolar?",
+      a: "Com certeza. O UrbeLudo é uma ferramenta poderosa para o ambiente escolar, auxiliando mediadores e professores no suporte a alunos neurodivergentes. Ele pode ser usado para trabalhar funções executivas e organização espacial dentro da rotina pedagógica, servindo como um elo de comunicação entre a escola, a família e a equipe de saúde que acompanha a criança."
     },
     {
-      q: "Existe uma versão para escolas?",
-      a: "Sim, o UrbeLudo pode ser adaptado para apoiar o processo de inclusão escolar e suporte psicopedagógico."
+      q: "07. Como o foco na ludicidade ajuda em casos de resistência terapêutica?",
+      a: "Muitas crianças chegam à reabilitação exaustas por rotinas rígidas. O \"Ludo\" em nosso nome é o antídoto para isso. Ao entrar em uma narrativa de jogo, a criança baixa suas defesas e se permite errar e tentar de novo sem a pressão do \"ambiente médico\". O prazer do jogo libera neurotransmissores que facilitam a neuroplasticidade, tornando o aprendizado do movimento algo orgânico e desejado pelo paciente."
     },
     {
-      q: "Como o SPSP ajuda o terapeuta?",
-      a: "Ele fornece dados sobre o que a criança consegue realizar em casa, trazendo clareza para a evolução clínica."
+      q: "08. De que forma o projeto garante a segurança e privacidade de dados sensíveis?",
+      a: "Tratamos dados de saúde com o rigor máximo exigido pela LGPD (Lei Geral de Proteção de Dados). Todas as interações são criptografadas e os relatórios de desempenho são de acesso exclusivo dos responsáveis legais e dos profissionais de saúde autorizados. No UrbeLudo, a privacidade é um pilar da ética clínica, e não apenas uma conformidade técnica."
     },
     {
-      q: "O projeto é gratuito?",
-      a: "Temos uma missão social forte. Oferecemos versões gratuitas para ONGs e famílias de baixa renda através do nosso fundo de apoio."
+      q: "09. O que significa o modelo de colaboração Pro Bono e impacto social do projeto?",
+      a: "O UrbeLudo nasceu da vontade de democratizar a tecnologia assistiva de ponta. Por isso, mantemos uma rede de especialistas que doam sua expertise para que o sistema evolua constantemente. Esse modelo nos permite oferecer o ecossistema gratuitamente para ONGs e famílias em situação de vulnerabilidade, garantindo que o CEP ou a condição financeira não sejam barreiras para o desenvolvimento de uma criança."
     },
     {
-      q: "Como posso me tornar um parceiro?",
-      a: "Aceitamos colaborações de profissionais de saúde e tecnologia que queiram atuar Pro Bono ou através de apoio direto ao projeto."
+      q: "10. Como o UrbeLudo se adapta a diferentes necessidades sensoriais?",
+      a: "Sabemos que o que estimula uma criança pode sobrecarregar outra. Por isso, a interface do UrbeLudo é pensada para ser sensorialmente amigável. O terapeuta ou responsável pode ajustar níveis de estímulo visual e auditivo, garantindo que o ambiente digital seja seguro e confortável tanto para crianças com hipersensibilidade quanto para aquelas que buscam maior intensidade de estímulo."
     }
   ];
 
@@ -203,7 +203,7 @@ export default function UrbeLudoPage() {
                  <Box className="h-8 w-8" />
                </div>
                <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">URBE (Estrutura)</h3>
-               <p className="text-slate-500 text-sm md:text-lg leading-relaxed font-medium">Entendemos o corpo como o nosso primeiro território, a nossa "cidade interna". Organizar a Urbe é ajudar a criança a mapear seu esquema corporal e se sentir segura em seu espaço.</p>
+               <p className="text-slate-500 text-sm md:text-lg leading-relaxed font-medium">Entendemos o corpo como o nosso primeiro território, a nossa \"cidade interna\". Organizar a Urbe é ajudar a criança a mapear seu esquema corporal e se sentir segura em seu espaço.</p>
             </div>
             
             <div className="p-10 md:p-16 rounded-[3rem] bg-white border border-slate-100 space-y-6 group hover:border-primary/20 transition-all duration-700 shadow-sm">
@@ -251,7 +251,7 @@ export default function UrbeLudoPage() {
 
       {/* 05. SPSP */}
       <section id="spsp" className="py-20 md:py-48 bg-slate-950 text-white px-6 rounded-[3rem] md:rounded-[6rem] mx-4">
-        <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center">
+        <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:flex-row lg:grid-cols-2 gap-16 md:gap-32 items-center">
           <div className="relative p-10 md:p-16 rounded-[4rem] bg-white/5 border border-white/10 space-y-10 shadow-2xl">
              <div className="h-16 w-16 rounded-2xl bg-primary flex items-center justify-center text-white">
                <Cpu className="h-8 w-8" />
@@ -314,12 +314,12 @@ export default function UrbeLudoPage() {
         </div>
       </section>
 
-      {/* 07. FAQ: Tirando Dúvidas Reais */}
-      <section id="faq" className="py-20 md:py-48 bg-slate-50 px-6 rounded-[3rem] md:rounded-[6rem] mx-4">
+      {/* 07. FAQ: Entendendo o Ecossistema */}
+      <section id="faq" className="py-20 md:py-48 bg-slate-50 px-6 rounded-[3rem] md:rounded-[6rem] mx-4 border border-slate-100">
         <div className="container mx-auto max-w-4xl space-y-16">
           <div className="text-center space-y-4">
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Base de Conhecimento</span>
-            <h2 className="font-headline text-xl md:text-6xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">Dúvidas <br /><span className="text-primary italic font-medium lowercase">reais.</span></h2>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Conhecimento Compartilhado</span>
+            <h2 className="font-headline text-2xl md:text-6xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">FAQ <br /><span className="text-primary italic font-medium lowercase">ecossistema.</span></h2>
           </div>
           
           <Accordion type="single" collapsible className="space-y-4">
@@ -366,4 +366,3 @@ export default function UrbeLudoPage() {
     </main>
   );
 }
-
