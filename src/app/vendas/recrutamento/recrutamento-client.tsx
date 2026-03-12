@@ -88,6 +88,10 @@ export function RecrutamentoClient() {
     }
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
+      // Encerra os tracks para liberar o microfone no navegador
+      if (mediaRecorderRef.current.stream) {
+        mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+      }
     }
     setIsRecording(false);
   };
@@ -186,9 +190,14 @@ export function RecrutamentoClient() {
         return;
       }
     }
-    if (step === 2 && !transcription.trim() && !isRecording) {
-      toast({ title: "Pitch Necessário", description: "Grave seu áudio para prosseguir.", variant: "destructive" });
-      return;
+    if (step === 2) {
+      if (isRecording) {
+        stopAllRecording();
+      }
+      if (!transcription.trim()) {
+        toast({ title: "Pitch Necessário", description: "Grave seu áudio para prosseguir.", variant: "destructive" });
+        return;
+      }
     }
     setStep(prev => prev + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
