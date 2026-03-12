@@ -24,7 +24,11 @@ import {
   AlertCircle,
   Volume2,
   ShieldCheck,
-  RotateCcw
+  RotateCcw,
+  BarChart3,
+  Search,
+  Smartphone,
+  Info
 } from "lucide-react";
 import { 
   AlertDialog,
@@ -129,7 +133,6 @@ export function RecrutamentoClient() {
       streamRef.current = null;
     }
     setIsRecording(false);
-    toast({ title: "Gravação Encerrada", description: "Áudio capturado. Você pode revisar e confirmar agora." });
   };
 
   const confirmMicAccess = async () => {
@@ -292,7 +295,7 @@ export function RecrutamentoClient() {
               <Mic className="text-primary" /> Ativar Microfone
             </AlertDialogTitle>
             <AlertDialogDescription className="text-white/50 text-base leading-relaxed">
-              O Studio Sapient utiliza sua voz para avaliar a autoridade e clareza da sua locução. Ao permitir, sua fala será transcrita e gravada.
+              O Studio Sapient utiliza sua voz para avaliar a autoridade e clareza da sua locução. Ao permitir, sua fala será transcrita e gravada para análise do nosso Diretor Comercial.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="mt-6">
@@ -304,12 +307,12 @@ export function RecrutamentoClient() {
 
       <section className="relative pt-32 pb-24 md:pt-48 md:pb-32">
         <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
               <div className="text-center md:text-left">
-                <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full">Portal de Talentos</Badge>
-                <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none uppercase">Roleplay de <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary italic font-medium lowercase">vendas.</span></h1>
+                <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full">Portal de Talentos Sapient</Badge>
+                <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none uppercase">Roleplay de <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary italic font-medium lowercase">consultoria comercial.</span></h1>
               </div>
               
               {step > 1 && step < 4 && (
@@ -330,45 +333,79 @@ export function RecrutamentoClient() {
 
               {step === 1 && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                  <div className="space-y-2">
-                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação</h2>
-                    <p className="text-white/40 text-sm">Bem-vindo à simulação comercial da studiosapient.</p>
+                  <div className="space-y-4">
+                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação Profissional</h2>
+                    <p className="text-white/40 text-sm leading-relaxed">Bem-vindo à studiosapient. Este teste simula uma negociação real. <br/> Seja estratégico, use dados e prove que você não é apenas um vendedor, mas um parceiro de crescimento.</p>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Seu Nome</label>
+                      <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Seu Nome Completo</label>
                       <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="bg-white/5 border-white/10 h-16 rounded-2xl text-lg font-bold focus:border-primary/50" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-white/30">E-mail Profissional</label>
+                      <label className="text-[10px] font-black uppercase tracking-widest text-white/30">E-mail Corporativo</label>
                       <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="bg-white/5 border-white/10 h-16 rounded-2xl text-lg font-bold focus:border-primary/50" />
                     </div>
                   </div>
 
                   <div className="p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/10 space-y-6">
                     <div className="flex items-center gap-4 text-primary font-black uppercase tracking-widest text-[9px]">
-                      <ShieldCheck size={16} /> Segurança e Privacidade (LGPD)
+                      <ShieldCheck size={16} /> Proteção de Dados e Transparência (LGPD)
                     </div>
                     <div className="flex items-start gap-4">
                       <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(checked) => setConsentAccepted(checked === true)} className="mt-1.5 border-white/20 h-5 w-5 data-[state=checked]:bg-primary" />
                       <label htmlFor="consent" className="text-xs text-white/50 leading-relaxed cursor-pointer select-none">
-                        Autorizo o Studio Sapient a capturar e processar minha voz e dados pessoais exclusivamente para avaliação de perfil comercial. Seus dados estão protegidos e não serão compartilhados com terceiros.
+                        Autorizo a studiosapient a capturar e processar minha voz e dados profissionais exclusivamente para avaliação de perfil comercial. Seus dados estão criptografados e serão excluídos após o ciclo de recrutamento.
                       </label>
                     </div>
                   </div>
 
-                  <Button onClick={handleNextStep} className="h-16 px-12 bg-primary rounded-full font-black uppercase tracking-widest text-[10px] border-none shadow-xl hover:scale-105 transition-all">Iniciar Avaliação <ChevronRight className="ml-2 h-4 w-4" /></Button>
+                  <Button onClick={handleNextStep} className="h-16 px-12 bg-primary rounded-full font-black uppercase tracking-widest text-[10px] border-none shadow-xl hover:scale-105 transition-all">Acessar Briefing do Caso <ChevronRight className="ml-2 h-4 w-4" /></Button>
                 </div>
               )}
 
               {step === 2 && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                  <div className="p-8 rounded-[2.5rem] bg-primary/10 border border-primary/20 space-y-4">
-                    <div className="flex items-center gap-3 text-primary font-black uppercase tracking-[0.2em] text-[10px]"><Building2 size={16} /> Briefing: Marmoraria Granito Fino</div>
-                    <p className="text-sm text-white/80 leading-relaxed italic">
-                      "Sr. Jorge, dono da marmoraria, acha que design é frescura. Tente convencê-lo de que ele está perdendo vendas para a concorrência por causa do site amador."
-                    </p>
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="lg:col-span-2 space-y-8">
+                      <div className="p-10 rounded-[3rem] bg-primary/10 border border-primary/20 space-y-6">
+                        <div className="flex items-center gap-3 text-primary font-black uppercase tracking-[0.2em] text-[10px]"><Building2 size={16} /> LEAD: Marmoraria Granito Fino</div>
+                        <div className="space-y-4">
+                          <h3 className="text-2xl font-black uppercase tracking-tight">O Perfil do Sr. Jorge</h3>
+                          <p className="text-sm text-white/70 leading-relaxed">
+                            Dono há 25 anos. Conservador, focado em lucro imediato e acha que "design e site" são gastos desnecessários. Ele acredita que o "boca a boca" é suficiente, mas sente que o movimento caiu 30% nos últimos 12 meses.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 flex items-center gap-2"><BarChart3 size={14} className="text-primary"/> Diagnóstico de Gargalos (Seu Trunfo)</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/5 flex gap-4 items-start">
+                            <Smartphone className="text-primary h-5 w-5 shrink-0" />
+                            <div>
+                              <p className="font-bold text-xs uppercase mb-1">Mobile Inexistente</p>
+                              <p className="text-[10px] text-white/40">85% dos clientes buscam pelo celular, mas o site do Sr. Jorge não carrega fotos em smartphones.</p>
+                            </div>
+                          </div>
+                          <div className="p-6 rounded-3xl bg-white/[0.03] border border-white/5 flex gap-4 items-start">
+                            <Search className="text-primary h-5 w-5 shrink-0" />
+                            <div>
+                              <p className="font-bold text-xs uppercase mb-1">Invisibilidade Local</p>
+                              <p className="text-[10px] text-white/40">Perdendo para concorrentes novos no Google por falta de ficha técnica otimizada (GMN).</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-8 rounded-[3rem] bg-white/[0.02] border border-white/5 space-y-6">
+                      <div className="flex items-center gap-2 text-[9px] font-black uppercase text-orange-400"><Info size={14}/> Objetivo do Pitch</div>
+                      <p className="text-xs text-white/50 leading-relaxed italic">
+                        "Você não quer vender um site. Você quer mostrar que o Sr. Jorge está deixando dinheiro na mesa para concorrentes amadores que têm presença digital. Use os gargalos acima para gerar urgência."
+                      </p>
+                    </div>
                   </div>
 
                   <div className="flex flex-col items-center gap-8 py-12 border-2 border-dashed border-white/10 rounded-[3rem] bg-white/[0.02] relative">
@@ -385,7 +422,7 @@ export function RecrutamentoClient() {
                     
                     <div className="w-full px-8">
                        <div className="min-h-[140px] p-8 rounded-[2rem] bg-black/40 border border-white/5 text-sm italic text-white/60 leading-relaxed text-center">
-                         {transcription || (isRecording ? "Processando sua fala..." : "Clique no microfone e realize sua abordagem inicial ao Sr. Jorge.")}
+                         {transcription || (isRecording ? "Ouvindo seu diagnóstico..." : "Realize sua abordagem inicial (Áudio). Foque nos problemas do Sr. Jorge.")}
                        </div>
                     </div>
 
@@ -393,13 +430,13 @@ export function RecrutamentoClient() {
                       {audioBase64 && !isRecording && (
                         <div className="flex items-center gap-4 bg-green-500/10 border border-green-500/20 px-6 py-4 rounded-full">
                           <Volume2 className="h-4 w-4 text-green-400" />
-                          <span className="text-[9px] font-black uppercase tracking-widest text-green-400">Locução capturada com sucesso</span>
+                          <span className="text-[9px] font-black uppercase tracking-widest text-green-400">Locução Capturada</span>
                         </div>
                       )}
                       {transcription && (
                         <div className="flex items-center gap-4 bg-primary/10 border border-primary/20 px-6 py-4 rounded-full">
                           <CheckCircle2 className="h-4 w-4 text-primary" />
-                          <span className="text-[9px] font-black uppercase tracking-widest text-primary">Transcrição Concluída</span>
+                          <span className="text-[9px] font-black uppercase tracking-widest text-primary">Diagnóstico Transcrito</span>
                         </div>
                       )}
                     </div>
@@ -410,7 +447,7 @@ export function RecrutamentoClient() {
                     disabled={!transcription.trim() || isRecording} 
                     className="h-16 px-12 bg-primary rounded-full font-black uppercase tracking-widest text-[10px] border-none shadow-xl w-full md:w-auto hover:scale-105 transition-all disabled:opacity-30"
                   >
-                    Confirmar Abordagem <ChevronRight className="ml-2 h-4 w-4" />
+                    Confirmar Abordagem Técnica <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               )}
@@ -418,19 +455,19 @@ export function RecrutamentoClient() {
               {step === 3 && (
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                   <div className="p-8 rounded-[2.5rem] bg-orange-500/10 border border-orange-500/20 space-y-4">
-                    <div className="flex items-center gap-3 text-orange-400 font-black uppercase tracking-[0.2em] text-[10px]"><AlertCircle size={16} /> Objeção do Sr. Jorge</div>
+                    <div className="flex items-center gap-3 text-orange-400 font-black uppercase tracking-[0.2em] text-[10px]"><AlertCircle size={16} /> A Resistência do Sr. Jorge</div>
                     <p className="text-sm text-white font-medium leading-relaxed italic">
-                      "Meu filho, eu já vendo bem há 20 anos sem site bonito. Por que eu gastaria com isso agora se o dinheiro já entra?"
+                      "Meu filho, eu já vendo bem há 25 anos sem esse negócio de internet. O meu público é de elite, eles não ficam no Google. Por que eu gastaria 10 mil reais com isso agora se o dinheiro já entra?"
                     </p>
                   </div>
 
                   <div className="space-y-4">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Sua Resposta Escrita (Estratégia)</label>
-                    <Textarea value={formData.objection} onChange={(e) => setFormData({...formData, objection: e.target.value})} className="bg-white/5 border-white/10 min-h-[220px] rounded-[2rem] p-8 text-base focus:ring-primary/20 focus:border-primary/50" placeholder="Use argumentos de ROI, custo de oportunidade ou concorrência..." />
+                    <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Sua Resposta Estratégica (Texto)</label>
+                    <Textarea value={formData.objection} onChange={(e) => setFormData({...formData, objection: e.target.value})} className="bg-white/5 border-white/10 min-h-[220px] rounded-[2rem] p-8 text-base focus:ring-primary/20 focus:border-primary/50" placeholder="Use o fator concorrência, o ROI ou o 'Custo do Silêncio' para convencer o Sr. Jorge a agendar uma conversa com o Lucas..." />
                   </div>
 
                   <Button onClick={handleSubmit} disabled={isLoading} className="h-20 px-12 bg-primary rounded-full font-black uppercase tracking-widest text-[11px] w-full border-none shadow-2xl hover:scale-[1.02] transition-all disabled:opacity-50">
-                    {isLoading ? <><Loader2 className="mr-3 h-5 w-5 animate-spin" /> IA ESTÁ ANALISANDO SEU PERFIL...</> : <>FINALIZAR E RECEBER FEEDBACK <Zap className="ml-2 h-4 w-4" /></>}
+                    {isLoading ? <><Loader2 className="mr-3 h-5 w-5 animate-spin" /> NOSSO MOTOR DE IA ESTÁ ANALISANDO SEU PERFIL...</> : <>FINALIZAR E RECEBER FEEDBACK DO DIRETOR <Zap className="ml-2 h-4 w-4" /></>}
                   </Button>
                 </div>
               )}
@@ -444,24 +481,24 @@ export function RecrutamentoClient() {
                     )}>
                       {evaluation.verdict === 'APROVADO' ? <Trophy size={48} /> : <BrainCircuit size={48} />}
                     </div>
-                    <h2 className="text-4xl font-black uppercase tracking-tighter">Resultado: {evaluation.verdict}</h2>
-                    <p className="text-[10px] font-black uppercase tracking-[0.6em] text-white/30">Métrica de Performance: {evaluation.score}%</p>
+                    <h2 className="text-4xl font-black uppercase tracking-tighter">Veredito: {evaluation.verdict}</h2>
+                    <p className="text-[10px] font-black uppercase tracking-[0.6em] text-white/30">Métrica de Performance Estratégica: {evaluation.score}%</p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="p-10 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-6">
-                      <h4 className="font-bold text-xs uppercase tracking-widest text-green-400 flex items-center gap-3"><CheckCircle2 size={20} /> O que você fez bem</h4>
+                      <h4 className="font-bold text-xs uppercase tracking-widest text-green-400 flex items-center gap-3"><CheckCircle2 size={20} /> Pontos de Autoridade</h4>
                       <ul className="space-y-3">{evaluation.strongPoints.map((p, i) => (<li key={i} className="text-sm text-white/60 flex items-start gap-3"><span className="text-primary mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" /> {p}</li>))}</ul>
                     </div>
                     <div className="p-10 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-6">
-                      <h4 className="font-bold text-xs uppercase tracking-widest text-primary flex items-center gap-3"><TrendingUp size={20} /> Onde melhorar</h4>
+                      <h4 className="font-bold text-xs uppercase tracking-widest text-primary flex items-center gap-3"><TrendingUp size={20} /> Gargalos de Melhoria</h4>
                       <ul className="space-y-3">{evaluation.weakPoints.map((p, i) => (<li key={i} className="text-sm text-white/60 flex items-start gap-3"><span className="text-primary mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" /> {p}</li>))}</ul>
                     </div>
                   </div>
 
                   <div className="p-12 rounded-[3rem] bg-primary text-white space-y-6 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-8 opacity-10"><MessageSquare size={120} /></div>
-                    <div className="flex items-center gap-4 relative z-10"><MessageSquare className="h-8 w-8" /><h4 className="font-black uppercase tracking-tighter text-2xl">Avaliação Técnica</h4></div>
+                    <div className="flex items-center gap-4 relative z-10"><MessageSquare className="h-8 w-8" /><h4 className="font-black uppercase tracking-tighter text-2xl">Avaliação Técnica do Diretor</h4></div>
                     <p className="text-base md:text-lg font-medium leading-relaxed italic relative z-10">"{evaluation.feedback}"</p>
                   </div>
 
