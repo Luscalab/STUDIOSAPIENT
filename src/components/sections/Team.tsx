@@ -1,27 +1,34 @@
 
+"use client";
+
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Badge } from "@/components/ui/badge";
-import { Instagram, ArrowRight } from "lucide-react";
+import { Instagram } from "lucide-react";
+
+const lucasData = PlaceHolderImages.find(img => img.id === "team-lucas");
+const luanData = PlaceHolderImages.find(img => img.id === "team-luan");
 
 const team = [
   {
     name: "Lucas Souza",
     role: "Diretor Criativo",
     bio: "Especialista em converter visões de negócio em ecossistemas visuais eficientes.",
-    image: PlaceHolderImages.find(img => img.id === "team-lucas")?.imageUrl || "https://picsum.photos/seed/lucas-marketing/800/1000"
+    image: lucasData?.imageUrl || "",
+    alt: lucasData?.description || "Lucas Souza - Diretor Criativo"
   },
   {
     name: "Luan Guimarães",
     role: "Estrategista Comercial",
     bio: "Consultoria focada em escala, otimização de funis e resultados sustentáveis.",
-    image: PlaceHolderImages.find(img => img.id === "team-luan")?.imageUrl || "https://picsum.photos/seed/luan-sales/800/1000"
+    image: luanData?.imageUrl || "",
+    alt: luanData?.description || "Luan Guimarães - Estrategista Comercial"
   }
 ];
 
 export function Team() {
   return (
-    <section id="sobre" className="section-spacing relative overflow-hidden bg-secondary/20">
+    <section id="sobre" className="section-spacing relative overflow-hidden bg-secondary/20 py-32">
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-start justify-between mb-40 gap-20">
           <div className="max-w-4xl">
@@ -39,7 +46,7 @@ export function Team() {
               <div className="relative w-full aspect-[4/5] mb-12 rounded-[4rem] overflow-hidden bg-white premium-shadow transition-all duration-1000 group-hover:-translate-y-4">
                 <Image 
                   src={member.image}
-                  alt={member.name}
+                  alt={member.alt}
                   fill
                   className="object-cover transition-transform duration-[4000ms] group-hover:scale-105"
                   data-ai-hint="professional portrait"

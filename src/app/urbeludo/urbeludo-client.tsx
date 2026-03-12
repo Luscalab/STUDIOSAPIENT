@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -51,7 +52,8 @@ export function UrbeLudoClient() {
     setMounted(true);
   }, []);
 
-  const urbeludoMainImage = PlaceHolderImages.find(img => img.id === "urbeludo-main")?.imageUrl;
+  const urbeludoMainData = PlaceHolderImages.find(img => img.id === "urbeludo-main");
+  const lucasData = PlaceHolderImages.find(img => img.id === "team-lucas");
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -170,10 +172,10 @@ export function UrbeLudoClient() {
           </div>
           
           <div className="relative h-[300px] md:h-[600px] w-full flex items-center justify-center">
-            {urbeludoMainImage && (
+            {urbeludoMainData && (
               <Image 
-                src={urbeludoMainImage} 
-                alt="Interface UrbeLudo Official" 
+                src={urbeludoMainData.imageUrl} 
+                alt={urbeludoMainData.description} 
                 fill 
                 className="object-contain relative z-10 drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
                 priority
@@ -188,8 +190,8 @@ export function UrbeLudoClient() {
         <div className="container mx-auto max-w-6xl flex flex-col lg:flex-row gap-16 items-center">
           <div className="lg:w-1/3 relative aspect-square w-full max-w-[400px]">
             <Image 
-              src={PlaceHolderImages.find(img => img.id === "team-lucas")?.imageUrl || "https://picsum.photos/seed/lucas/600/600"} 
-              alt="Lucas Souza - Fundador UrbeLudo" 
+              src={lucasData?.imageUrl || ""} 
+              alt={lucasData?.description || "Lucas Souza - Fundador UrbeLudo"} 
               fill 
               className="object-cover rounded-[3rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
             />
@@ -225,7 +227,7 @@ export function UrbeLudoClient() {
                  <Box className="h-8 w-8" />
                </div>
                <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">URBE (Estrutura)</h3>
-               <p className="text-slate-500 text-sm md:text-lg leading-relaxed font-medium">Entendemos o corpo como o nosso primeiro território, a nossa \"cidade interna\". Organizar a Urbe é ajudar a criança a mapear seu esquema corporal e se sentir segura em seu espaço.</p>
+               <p className="text-slate-500 text-sm md:text-lg leading-relaxed font-medium">Entendemos o corpo como o nosso primeiro territory, a nossa \"cidade interna\". Organizar a Urbe é ajudar a criança a mapear seu esquema corporal e se sentir segura em seu espaço.</p>
             </div>
             
             <div className="p-10 md:p-16 rounded-[3rem] bg-white border border-slate-100 space-y-6 group hover:border-primary/20 transition-all duration-700 shadow-sm">

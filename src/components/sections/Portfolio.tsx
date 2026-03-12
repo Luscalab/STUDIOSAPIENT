@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -8,7 +9,7 @@ import Link from "next/link";
 
 export function Portfolio() {
   const behanceUrl = "https://www.behance.net/sapient";
-  const featuredImage = PlaceHolderImages.find(img => img.id === "portfolio-1")?.imageUrl || "";
+  const portfolioData = PlaceHolderImages.find(img => img.id === "portfolio-1");
 
   return (
     <section id="portfolio" className="py-32 md:py-64 bg-white relative overflow-hidden">
@@ -30,8 +31,8 @@ export function Portfolio() {
             className="relative block aspect-video md:aspect-[21/9] rounded-[5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] transition-all duration-1000 group-hover:shadow-primary/20"
           >
             <Image 
-              src={featuredImage}
-              alt="Portfolio Highlight"
+              src={portfolioData?.imageUrl || ""}
+              alt={portfolioData?.description || "Dossiê Identidade Premium"}
               fill
               className="object-cover transition-transform duration-[4000ms] group-hover:scale-105"
             />

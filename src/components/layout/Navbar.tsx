@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -22,21 +23,19 @@ export function Navbar() {
     { name: "Contato", href: "/#contato" },
   ];
 
-  // URL Oficial do Logotipo Sapient Studio
-  const logoUrl = "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MzI1ODkzNSwiZXhwIjoyMDg4NjE4OTM1fQ.IzwEMRrb4fKfxxJqcobcRaK14UuTZxUJCtCbG141MJo";
+  const logoData = PlaceHolderImages.find(img => img.id === "main-logo");
   
   return (
     <header className="absolute top-4 md:top-8 left-0 right-0 z-[150]" role="banner">
       <div className="container mx-auto px-6 flex items-center justify-between gap-12">
         
-        {/* Logo Principal Sapient - Escala Imponente e Suave */}
         <Link 
           href="/" 
           className="relative block w-[200px] h-[70px] md:w-[600px] md:h-[180px] transition-all duration-1000 hover:scale-[1.01] shrink-0"
         >
           <Image 
-            src={logoUrl} 
-            alt="studiosapient Logo" 
+            src={logoData?.imageUrl || ""} 
+            alt={logoData?.description || "studiosapient Logo"} 
             fill 
             className="object-contain object-left drop-shadow-[0_15px_30px_rgba(0,0,0,0.3)]" 
             priority 
@@ -69,7 +68,7 @@ export function Navbar() {
         <button 
           className="lg:hidden h-12 w-12 rounded-xl bg-white/5 text-white border border-white/10 active:scale-90 transition-all backdrop-blur-md flex items-center justify-center" 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Menu"
+          aria-label="Abrir Menu"
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>

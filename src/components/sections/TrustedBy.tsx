@@ -3,6 +3,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 /**
  * Componente de Prova Social de Elite - Versão Ultra-Compacta Lateral.
@@ -10,27 +11,20 @@ import Image from "next/image";
 export function TrustedBy() {
   const [currentPartner, setCurrentPartner] = React.useState(0);
 
-  const partners = [
-    { 
-      name: "3DGOPRINT", 
-      url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/unnamed%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvdW5uYW1lZCAoMSkuanBnIiwiaWF0IjoxNzczMjU5MzAyLCJleHAiOjE4MDQ3OTUzMDJ9.Ey6aHahoSnfrOlVxBsHpOnYXUGfDDEZFj_rLrwbbOro" 
-    },
-    { 
-      name: "Quitute Certa", 
-      url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/FINALLOGO.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvRklOQUxMT0dPLnBuZyIsImlhdCI6MTc3MzI1ODk2MSwiZXhwIjoyMDg4NjE4OTYxfQ.YCn2mnUAXxdeCIDDY43MZpB1jEf94V0pcajlqRuXkA8" 
-    },
-    { 
-      name: "ChargerBed", 
-      url: "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/chargerbed.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvY2hhcmdlcmJlZC5wbmciLCJpYXQiOjE3NzMyNTk2OTEsImV4cCI6MTc3NDEyMzY5MX0.Vjw_0CI-92YGGgxQil9racQzBQSMVoinTbZ8P_ZYymQ" 
-    }
-  ];
+  const partnersData = [
+    PlaceHolderImages.find(img => img.id === "partner-logo-2"), // 3DGOPRINT
+    PlaceHolderImages.find(img => img.id === "partner-logo-1"), // Quitute Certa
+    PlaceHolderImages.find(img => img.id === "partner-logo-3"), // ChargerBed
+  ].filter(Boolean);
 
   React.useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentPartner((prev) => (prev + 1) % partners.length);
+      setCurrentPartner((prev) => (prev + 1) % partnersData.length);
     }, 4000);
     return () => clearInterval(timer);
-  }, [partners.length]);
+  }, [partnersData.length]);
+
+  if (partnersData.length === 0) return null;
 
   return (
     <div className="flex items-center gap-2 md:gap-3 bg-white/5 p-1.5 md:p-2 rounded-[1rem] md:rounded-[1.2rem] border border-white/5 backdrop-blur-3xl transition-all duration-700 hover:border-primary/20 group w-fit">
@@ -39,11 +33,11 @@ export function TrustedBy() {
       <div className="relative h-8 w-8 md:h-10 md:w-10 rounded-[0.6rem] md:rounded-[0.8rem] bg-white flex items-center justify-center overflow-hidden shadow-xl transition-all duration-1000 group-hover:scale-[1.02]">
         <div className="relative w-full h-full p-1 md:p-1.5">
           <Image 
-            src={partners[currentPartner].url} 
-            alt={partners[currentPartner].name}
+            src={partnersData[currentPartner]?.imageUrl || ""} 
+            alt={partnersData[currentPartner]?.description || "Logotipo do Parceiro"}
             fill
             className="object-contain transition-all duration-1000 scale-95 group-hover:scale-100"
-            key={partners[currentPartner].url}
+            key={partnersData[currentPartner]?.imageUrl}
             priority
           />
         </div>
@@ -59,7 +53,7 @@ export function TrustedBy() {
             className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-tighter leading-none animate-in fade-in slide-in-from-left-2 duration-700" 
             key={`name-${currentPartner}`}
           >
-            {partners[currentPartner].name}
+            {partnersData[currentPartner]?.id?.replace('partner-logo-', '').toUpperCase() || "PARCEIRO"}
           </p>
         </div>
       </div>
