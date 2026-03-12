@@ -4,7 +4,7 @@
     {
       "id": "main-logo",
       "description": "Logotipo oficial studiosapient em tons de roxo e branco",
-      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/sapient%20logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvc2FwaWVudCBsb2dvLnBuZyIsImlhdCI6MTc3MzI1ODkzNSwiZXhwIjoyMDg4NjE4OTM1fQ.IzwEMRrb4fKfxxJqcobcRaK14UuTZxUJCtCbG141MJo",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/public/Images/sapient%20logo.png",
       "imageHint": "company logo"
     },
     {
@@ -34,25 +34,25 @@
     {
       "id": "urbeludo-main",
       "description": "Interface oficial do aplicativo UrbeLudo para reabilitação motora e neurodiversidade",
-      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/58a182ea-b653-409e-960c-b269bb1b8cce.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvNThhMTgyZWEtYjY1My00MDllLTk2MGMtYjI2OWJiMWI4Y2NlLnBuZyIsImlhdCI6MTc3MzI4ODY2MCwiZXhwIjoxODA0ODI0NjYwfQ.wCT9FxWWmzFQz67OKl1go39S7MWEAov7Mk7fXMu7GUA",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/public/Images/58a182ea-b653-409e-960c-b269bb1b8cce.png",
       "imageHint": "app interface"
     },
     {
       "id": "partner-logo-1",
       "description": "Logotipo Quitute Certa, parceiro estratégico studiosapient",
-      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/FINALLOGO.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvRklOQUxMT0dPLnBuZyIsImlhdCI6MTc3MzI1ODk2MSwiZXhwIjoyMDg4NjE4OTYxfQ.YCn2mnUAXxdeCIDDY43MZpB1jEf94V0pcajlqRuXkA8",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/public/Images/FINALLOGO.png",
       "imageHint": "partner logo"
     },
     {
       "id": "partner-logo-2",
       "description": "Logotipo 3DGOPRINT, cliente studiosapient especializado em impressão 3D",
-      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/unnamed%20(1).jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvdW5uYW1lZCAoMSkuanBnIiwiaWF0IjoxNzczMjU5MzAyLCJleHAiOjE4MDQ3OTUzMDJ9.Ey6aHahoSnfrOlVxBsHpOnYXUGfDDEZFj_rLrwbbOro",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/public/Images/unnamed%20(1).jpg",
       "imageHint": "client logo"
     },
     {
       "id": "partner-logo-3",
       "description": "Logotipo ChargerBed, inovação tecnológica parceira studiosapient",
-      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/chargerbed.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvY2hhcmdlcmJlZC5wbmciLCJpYXQiOjE3NzMyNTk2OTEsImV4cCI6MTc3NDEyMzY5MX0.Vjw_0CI-92YGGgxQil9racQzBQSMVoinTbZ8P_ZYymQ",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/public/Images/chargerbed.png",
       "imageHint": "chargerbed logo"
     }
   ]
