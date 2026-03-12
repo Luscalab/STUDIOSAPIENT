@@ -36,7 +36,8 @@ import {
   HeartPulse,
   MessageSquare,
   Move,
-  Mail
+  Mail,
+  HelpCircle
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
@@ -149,9 +150,23 @@ export default function UrbeLudoPage() {
             <p className="text-sm md:text-xl text-white/40 font-medium leading-relaxed max-w-xl">
               Um ecossistema digital (iOS, Android e Web) desenhado para apoiar o desenvolvimento de crianças e jovens, respeitando a singularidade de cada cérebro. Unimos o rigor clínico ao engajamento lúdico.
             </p>
-            <div className="flex gap-4">
-              <Button onClick={() => scrollToSection('essencia')} className="h-14 px-8 bg-primary text-white rounded-full font-black uppercase tracking-widest text-[9px] border-none shadow-2xl shadow-primary/30">
+            
+            {/* Botões de Navegação no Header */}
+            <div className="flex flex-wrap gap-3">
+              <Button onClick={() => scrollToSection('essencia')} className="h-14 px-8 bg-primary text-white rounded-full font-black uppercase tracking-widest text-[9px] border-none shadow-2xl shadow-primary/30 hover:scale-105 transition-all">
                 Conhecer Projeto
+              </Button>
+              <Button onClick={() => scrollToSection('ciencia')} variant="outline" className="h-14 px-8 border-white/10 text-white hover:bg-white/5 rounded-full font-black uppercase tracking-widest text-[9px] hover:scale-105 transition-all">
+                <Brain className="h-4 w-4 mr-2 text-primary" /> Nossa Ciência
+              </Button>
+              <Button onClick={() => scrollToSection('colaboradores')} variant="outline" className="h-14 px-8 border-white/10 text-white hover:bg-white/5 rounded-full font-black uppercase tracking-widest text-[9px] hover:scale-105 transition-all">
+                <Users className="h-4 w-4 mr-2 text-primary" /> Colaborar
+              </Button>
+              <Button onClick={() => scrollToSection('apoio')} variant="outline" className="h-14 px-8 border-white/10 text-white hover:bg-white/5 rounded-full font-black uppercase tracking-widest text-[9px] hover:scale-105 transition-all">
+                <Heart className="h-4 w-4 mr-2 text-primary" /> Apoiar Social
+              </Button>
+              <Button onClick={() => scrollToSection('faq')} variant="outline" className="h-14 px-8 border-white/10 text-white hover:bg-white/5 rounded-full font-black uppercase tracking-widest text-[9px] hover:scale-105 transition-all">
+                <HelpCircle className="h-4 w-4 mr-2 text-primary" /> FAQ
               </Button>
             </div>
           </div>
