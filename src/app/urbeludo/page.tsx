@@ -128,7 +128,7 @@ export default function UrbeLudoPage() {
             <Badge className="bg-primary/10 text-primary border-primary/20 px-8 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">
               Bioscience & Connection
             </Badge>
-            <h1 className="font-headline text-3xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[0.85] uppercase">
+            <h1 className="font-headline text-2xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter leading-[0.85] uppercase">
               UrbeLudo: <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary italic font-medium lowercase">movimento no bolso.</span>
             </h1>
@@ -143,7 +143,6 @@ export default function UrbeLudoPage() {
           </div>
           
           <div className="relative h-[300px] md:h-[600px] w-full flex items-center justify-center">
-            {/* Espirais Decorativos em Roxo e Lilás */}
             <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-visible">
               <svg viewBox="0 0 200 200" className="w-[150%] h-[150%] opacity-40 blur-3xl animate-pulse">
                 <defs>
