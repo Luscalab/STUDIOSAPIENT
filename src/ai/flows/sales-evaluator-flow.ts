@@ -1,8 +1,7 @@
-
 'use server';
 /**
- * @fileOverview Avaliador de Talentos de Vendas Sapient.
- * Analisa a transcrição do pitch do candidato e fornece um score de fechamento.
+ * @fileOverview Avaliador de Talentos de Vendas Sapient - Cenário Marmoraria Granito Fino.
+ * Analisa a transcrição do pitch e a resposta à objeção do Sr. Jorge.
  */
 
 import { ai } from '@/ai/genkit';
@@ -10,16 +9,16 @@ import { z } from 'genkit';
 
 const SalesEvaluationInputSchema = z.object({
   candidateName: z.string(),
-  pitchTranscription: z.string().describe("A transcrição do áudio do pitch do candidato."),
-  objectionHandling: z.string().describe("Como o candidato respondeu a uma objeção de preço."),
+  pitchTranscription: z.string().describe("A transcrição do áudio do pitch de abordagem inicial ao Sr. Jorge."),
+  objectionHandling: z.string().describe("Como o candidato respondeu à objeção de 'gasto vs investimento' e o agendamento."),
 });
 
 const SalesEvaluationOutputSchema = z.object({
-  score: z.number().min(0).max(100).describe("Nota de 0 a 100 para a capacidade de fechamento."),
-  feedback: z.string().describe("Feedback detalhado sobre a performance, tom e clareza."),
-  verdict: z.enum(['APROVADO', 'TREINAMENTO', 'REPROVADO']).describe("Veredito final do recrutador virtual."),
-  strongPoints: z.array(z.string()).describe("Pontos fortes identificados."),
-  weakPoints: z.array(z.string()).describe("Pontos que precisam de melhoria."),
+  score: z.number().min(0).max(100).describe("Nota de 0 a 100 para a capacidade de fechamento e persuasão."),
+  feedback: z.string().describe("Feedback técnico detalhado simulando a visão do Diretor Comercial."),
+  verdict: z.enum(['APROVADO', 'TREINAMENTO', 'REPROVADO']).describe("Veredito final baseado no perfil studiosapient."),
+  strongPoints: z.array(z.string()).describe("Pontos fortes identificados na fala/texto."),
+  weakPoints: z.array(z.string()).describe("Pontos que precisam de melhoria imediata."),
 });
 
 export type SalesEvaluationOutput = z.infer<typeof SalesEvaluationOutputSchema>;
@@ -30,19 +29,23 @@ export async function evaluateSalesCandidate(input: z.infer<typeof SalesEvaluati
     input: { schema: SalesEvaluationInputSchema },
     output: { schema: SalesEvaluationOutputSchema },
     prompt: `Você é o Diretor Comercial Sênior da studiosapient. 
-Sua missão é avaliar um candidato a vendedor (SDR/Closer) com base na transcrição do pitch de vendas dele e na resposta a uma objeção de preço.
+Sua missão é avaliar um candidato a vendedor (SDR/Closer) em um cenário de Roleplay Realista.
 
+Cenário: Marmoraria Granito Fino (Nicho de Luxo).
+Lead: Sr. Jorge (Prático, conservador, acha que design é frescura, mas quer vender mais).
+
+DADOS DO TESTE:
 Candidato: {{{candidateName}}}
-Transcrição do Pitch: {{{pitchTranscription}}}
-Resposta à Objeção: {{{objectionHandling}}}
+Fase 1 (Abordagem por Áudio): {{{pitchTranscription}}}
+Fase 2 (Objeção e Agendamento por Texto): {{{objectionHandling}}}
 
-Critérios de Avaliação:
-1. Clareza na entrega do valor da studiosapient (design estratégico, ROI, autoridade).
-2. Persuasão e confiança na voz (inferida pela transcrição).
-3. Capacidade de contornar a objeção "Está muito caro" com autoridade, não baixando o preço, mas reforçando o valor.
-4. Uso de gatilhos mentais (exclusividade, autoridade, prova social).
+CRITÉRIOS DE AVALIAÇÃO (O QUE BUSCAMOS):
+1. QUEBRA DE GELO: O candidato foi direto ao ponto ou pediu "um minuto"? (Sr. Jorge odeia perder tempo).
+2. ARGUMENTO DE VALOR: Ele usou a concorrência e a perda de novos clientes (jovens) para provar que design não é gasto?
+3. ANCORAGEM: Ele evitou dar preço direto e focou no diagnóstico e no ROI?
+4. AGENDAMENTO: Ele criou compromisso firme para a reunião com o Diretor Lucas ou foi vago?
 
-Gere um feedback técnico e direto, avaliando se ele tem o "perfil studiosapient" de elite.`,
+Gere um veredito rigoroso. Queremos vendedores que saibam transformar um 'gargalo técnico' em um 'desejo de negócio'.`,
   });
 
   const { output } = await prompt(input);
