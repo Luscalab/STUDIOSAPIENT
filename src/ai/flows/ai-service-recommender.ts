@@ -1,30 +1,31 @@
 'use server';
 
 /**
- * @fileOverview Inteligência de Diagnóstico Sapient V5.1 - Motor de Raciocínio Cognitivo Adaptativo.
+ * @fileOverview Motor de Diagnóstico Sapient V6.0 - Fluxo Determinístico.
  * 
- * Este fluxo utiliza IA para conduzir um diagnóstico estratégico onde cada resposta do usuário
- * é analisada, comentada e utilizada para moldar o restante da consultoria.
+ * Este fluxo segue uma sequência lógica de 7 camadas pré-estabelecidas.
+ * A IA é utilizada estritamente para formatar o comentário empático sobre a escolha do usuário.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 const RecommenderOutputSchema = z.object({
-  reply: z.string().describe('A resposta empática, estratégica e personalizada do consultor.'),
-  suggestedActions: z.array(z.string()).describe('Botões de ação rápida baseados no contexto atual.'),
-  isMultiSelect: z.boolean().describe('Se as ações sugeridas permitem seleção múltipla.'),
-  isTextInputEnabled: z.boolean().describe('Se o campo de texto deve estar aberto para o usuário.'),
-  shouldRedirect: z.boolean().describe('Se o diagnóstico terminou e deve encaminhar para o WhatsApp.'),
-  currentLayer: z.number().describe('O estágio atual do diagnóstico (1-7).'),
+  reply: z.string().describe('O comentário do consultor sobre a escolha do usuário + a próxima pergunta fixa.'),
+  suggestedActions: z.array(z.string()).describe('Botões de ação fixa para a camada atual.'),
+  isMultiSelect: z.boolean().describe('Se a camada atual permite múltiplas escolhas.'),
+  isTextInputEnabled: z.boolean().describe('Se o campo de texto deve ser aberto.'),
+  shouldRedirect: z.boolean().describe('Se chegamos ao fim do diagnóstico.'),
+  currentLayer: z.number().describe('O índice da camada atual (1-7).'),
   extractedData: z.object({
     niche: z.string().optional(),
-    platforms: z.array(z.string()).optional(),
-    websiteUrl: z.string().optional(),
-    mainPainPoints: z.array(z.string()).optional(),
+    traffic: z.array(z.string()).optional(),
+    hasSite: z.boolean().optional(),
+    siteUrl: z.string().optional(),
+    painPoints: z.array(z.string()).optional(),
     goals: z.array(z.string()).optional(),
     companyName: z.string().optional()
-  }).optional().describe('Dados estruturados capturados.')
+  }).optional()
 });
 
 export type RecommenderOutput = z.infer<typeof RecommenderOutputSchema>;
@@ -39,51 +40,94 @@ const RecommenderInputSchema = z.object({
 
 export type RecommenderInput = z.infer<typeof RecommenderInputSchema>;
 
-/**
- * Motor de Recomendação e Diagnóstico.
- */
+// Definição do Fluxo de Perguntas Pré-estabelecidas
+const DIAGNOSTIC_LAYERS = [
+  {
+    layer: 1,
+    question: "Para começar nosso diagnóstico estratégico, com o que você trabalha hoje?",
+    options: ["Saúde & Bem-estar", "Jurídico & Direito", "Estética & Beleza", "Varejo & E-commerce", "Tecnologia & SaaS", "Imobiliário & Imóveis", "Arquitetura & Design", "Outros"],
+    isMulti: false
+  },
+  {
+    layer: 2,
+    question: "E como seus potenciais clientes costumam te encontrar hoje?",
+    options: ["Instagram / Redes Sociais", "Google Ads / Pesquisa", "Indicações", "Outros"],
+    isMulti: true
+  },
+  {
+    layer: 3,
+    question: "Sobre sua vitrine digital: você já possui um site ou landing page ativa?",
+    options: ["Sim, já tenho um site", "Não, preciso criar do zero"],
+    isMulti: false
+  },
+  {
+    layer: 4,
+    question: "Qual o principal desafio que trava o seu crescimento hoje?",
+    options: ["Poucos Leads", "Leads Desqualificados", "Visual Amador", "Vendas Instáveis"],
+    isMulti: true
+  },
+  {
+    layer: 5,
+    question: "Qual sua meta principal para os próximos 90 dias?",
+    options: ["Aumentar Faturamento", "Posicionamento de Luxo", "Escalar Operação"],
+    isMulti: false
+  },
+  {
+    layer: 6,
+    question: "Perfeito. Para finalizarmos seu dossiê, qual o nome da sua marca?",
+    options: [],
+    isMulti: false,
+    forceTextInput: true
+  },
+  {
+    layer: 7,
+    question: "Diagnóstico Concluído. Seu dossiê de autoridade está pronto para ser discutido com nossos estrategistas.",
+    options: [],
+    isMulti: false,
+    isEnd: true
+  }
+];
+
 export async function recommendServices(input: RecommenderInput): Promise<RecommenderOutput> {
+  // Determina a camada atual com base no histórico de mensagens do usuário
+  const userMessagesCount = input.history.filter(m => m.role === 'user').length;
+  const currentLayerIndex = Math.min(userMessagesCount, DIAGNOSTIC_LAYERS.length - 1);
+  const nextLayer = DIAGNOSTIC_LAYERS[currentLayerIndex];
+
+  // Caso especial: L3 pedindo link após "Sim, tenho site"
+  let promptSuffix = "";
+  let forceTextInput = nextLayer.forceTextInput || false;
+
+  if (currentLayerIndex === 3 && input.currentMessage.includes("Sim")) {
+    promptSuffix = "Poderia enviar o link do seu site para que eu possa fazer uma pré-auditoria?";
+    forceTextInput = true;
+  }
+
   const { output } = await ai.generate({
     model: 'googleai/gemini-1.5-flash',
     output: { schema: RecommenderOutputSchema },
-    system: `Você é o Consultor Estratégico Sênior da Sapient Studio. Seu tom é impecável, técnico e focado em autoridade.
+    system: `Você é o Consultor Estratégico da Sapient Studio.
+    Sua missão é COMENTAR a resposta do usuário e apresentar a PRÓXIMA PERGUNTA do fluxo.
     
-    DIRETRIZES DE CONVERSAÇÃO (ALTA FIDELIDADE):
-    1. RECONHECIMENTO OBRIGATÓRIO: Sempre comente a resposta específica do usuário antes de perguntar algo novo.
-       - Se ele escolher um nicho (ex: Saúde), diga por que design/estratégia é vital para esse nicho.
-       - Se ele disser que não tem site, valide que isso é uma oportunidade de começar com o pé direito.
+    PERGUNTA ATUAL DO FLUXO: "${nextLayer.question} ${promptSuffix}"
     
-    2. SEQUÊNCIA DE DIAGNÓSTICO:
-       L1: Identificar Nicho (Se "Outros", peça para digitar).
-       L2: Fontes de Tráfego (Instagram, Google, Indicações, etc).
-       L3: Auditoria de Site (Peça o link ou pergunte se quer criar um do zero).
-       L4: Dores de Negócio (O que impede o crescimento hoje?).
-       L5: Metas de 90 dias (Qual o objetivo de faturamento ou posicionamento?).
-       L6: Nome da Marca (Para personalizar o dossiê final).
-       L7: Conclusão e Redirecionamento.
-
-    3. ADAPTABILIDADE:
-       - Se o usuário digitar algo que responda múltiplas camadas, pule as camadas resolvidas.
-       - Se o usuário clicar em "Outros", você DEVE habilitar isTextInputEnabled=true e pedir a descrição.
-    
-    4. EXEMPLOS DE RESPOSTAS PARA NICHOS:
-       - Saúde: "No setor de saúde, a confiança visual é o que separa o agendamento da dúvida. Como seus pacientes chegam até você hoje?"
-       - Jurídico: "A autoridade técnica precisa ser refletida em cada pixel. Por onde seus potenciais clientes costumam te encontrar?"
-       - Outros: "Entendido. Cada modelo de negócio tem sua particularidade estratégica. Poderia descrever brevemente com o que você trabalha?"
-
-    REGRAS DE UI:
-    - Se precisar de uma resposta aberta (Link, Nome, Descrição), defina isTextInputEnabled=true.
-    - Se oferecer opções fechadas, defina isTextInputEnabled=false para manter o foco nos botões.
-    - Máximo de 3 frases por resposta.`,
-    prompt: [
-      { text: `Histórico da conversa: ${JSON.stringify(input.history)}` },
-      { text: `Última mensagem do usuário: ${input.currentMessage}` }
-    ]
+    DIRETRIZES:
+    1. Valide a escolha do usuário (ex: "No setor de saúde, o visual é tudo...").
+    2. Encaixe a próxima pergunta de forma natural.
+    3. Mantenha o tom profissional e sênior.
+    4. Se for a última camada, parabenize o usuário pelo dossiê.`,
+    prompt: `Usuário escolheu: ${input.currentMessage}. Próxima camada do fluxo: ${nextLayer.layer}.`
   });
 
-  if (!output) {
-    throw new Error('Falha no processamento cognitivo do consultor.');
-  }
+  if (!output) throw new Error('Falha no processamento.');
 
-  return output;
+  return {
+    ...output,
+    reply: output.reply, // O texto gerado pela IA (Comentário + Pergunta Fixa)
+    suggestedActions: forceTextInput ? [] : nextLayer.options,
+    isMultiSelect: nextLayer.isMulti,
+    isTextInputEnabled: forceTextInput || input.currentMessage === "Outros",
+    shouldRedirect: nextLayer.isEnd || false,
+    currentLayer: nextLayer.layer
+  };
 }
