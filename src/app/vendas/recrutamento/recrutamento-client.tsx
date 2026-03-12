@@ -23,7 +23,7 @@ import {
   Trophy
 } from "lucide-react";
 import { evaluateSalesCandidate, type SalesEvaluationOutput } from "@/ai/flows/sales-evaluator-flow";
-import { useFirestore } from "@/firebase";
+import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -42,8 +42,16 @@ export function RecrutamentoClient() {
   });
 
   const { toast } = useToast();
+  const { auth } = useFirebase();
   const db = useFirestore();
   const recognitionRef = useRef<any>(null);
+
+  // Garantir que o usuário tenha uma sessão anônima para identificação
+  useEffect(() => {
+    if (auth) {
+      initiateAnonymousSignIn(auth);
+    }
+  }, [auth]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
@@ -80,19 +88,29 @@ export function RecrutamentoClient() {
   };
 
   const handleNextStep = () => {
-    if (step === 1 && (!formData.name || !formData.email)) {
-      toast({ title: "Erro", description: "Preencha seus dados básicos.", variant: "destructive" });
-      return;
+    if (step === 1) {
+      if (!formData.name.trim() || !formData.email.trim()) {
+        toast({ 
+          title: "Campos Obrigatórios", 
+          description: "Por favor, informe seu nome e e-mail para continuar.", 
+          variant: "destructive" 
+        });
+        return;
+      }
     }
-    if (step === 2 && !transcription) {
-      toast({ title: "Erro", description: "Realize o teste de locução.", variant: "destructive" });
+    if (step === 2 && !transcription.trim()) {
+      toast({ 
+        title: "Pitch Ausente", 
+        description: "Você precisa realizar o teste de locução antes de prosseguir.", 
+        variant: "destructive" 
+      });
       return;
     }
     setStep(prev => prev + 1);
   };
 
   const handleSubmit = async () => {
-    if (!formData.objection) {
+    if (!formData.objection.trim()) {
       toast({ title: "Erro", description: "Responda à objeção para prosseguir.", variant: "destructive" });
       return;
     }
@@ -108,12 +126,14 @@ export function RecrutamentoClient() {
       setEvaluation(result);
 
       if (db) {
-        addDoc(collection(db, 'sales_candidates'), {
+        await addDoc(collection(db, 'sales_candidates'), {
           ...formData,
           pitchTranscription: transcription,
           aiFeedback: result.feedback,
           score: result.score,
           verdict: result.verdict,
+          strongPoints: result.strongPoints,
+          weakPoints: result.weakPoints,
           timestamp: serverTimestamp()
         });
       }
@@ -321,7 +341,7 @@ export function RecrutamentoClient() {
 
                   <div className="p-10 rounded-[2.5rem] bg-primary text-white space-y-6">
                     <div className="flex items-center gap-4">
-                      <MessageCircle className="h-6 w-6" />
+                      <MessageSquare className="h-6 w-6" />
                       <h4 className="font-black uppercase tracking-tighter text-xl">Feedback da Diretoria</h4>
                     </div>
                     <p className="text-sm font-medium leading-relaxed opacity-90 italic">
