@@ -15,7 +15,8 @@ import {
   Maximize2,
   Minimize2,
   Lock,
-  ChevronRight
+  ChevronRight,
+  Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { recommendServices, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
@@ -31,7 +32,7 @@ interface Message {
 
 const INITIAL_MESSAGE: Message = {
   role: 'model',
-  content: "Olá! Sou o consultor virtual da Sapient. Para eu entender como podemos escalar seu negócio, com o que você trabalha hoje?",
+  content: "Olá! Sou o consultor virtual da Sapient. Para eu entender como podemos escalar seu negócio com design e estratégia, com o que você trabalha hoje?",
   actions: [
     "Saúde & Bem-estar", 
     "Jurídico & Direito", 
@@ -81,9 +82,11 @@ export function AIChat() {
       addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Sapient Engine V12.5'
+        source: 'Sapient Intelligence V3.0'
       });
-    } catch (e) {}
+    } catch (e) {
+      console.error("Erro ao salvar lead:", e);
+    }
   };
 
   const handleSendMessage = async (text: string) => {
@@ -102,7 +105,7 @@ export function AIChat() {
       content: m.content 
     }));
     
-    // Simulação de tempo de processamento para parecer mais humano
+    // Simulação de tempo de processamento estratégico
     setTimeout(async () => {
       try {
         const result = await recommendServices({
@@ -136,13 +139,13 @@ export function AIChat() {
       } catch (error) {
         setMessages(prev => [...prev, { 
           role: 'model', 
-          content: "Tive um pequeno contratempo técnico. Que tal continuarmos essa conversa diretamente pelo WhatsApp para eu te dar total atenção?" 
+          content: "Tive um pequeno contratempo técnico ao analisar seu negócio. Vamos continuar agora mesmo pelo WhatsApp para eu te dar um atendimento VIP?" 
         }]);
         setShowRedirect(true);
       } finally {
         setIsLoading(false);
       }
-    }, 1200);
+    }, 1500);
   };
 
   const toggleChip = (chip: string) => {
@@ -158,7 +161,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = `Olá! Estava conversando com a IA da Sapient e gostaria de agendar uma consultoria estratégica.`;
+    const text = `Olá! Acabei de fazer o diagnóstico com o Consultor Sapient para o nicho de ${extractedData?.niche || 'meu negócio'}. Gostaria de agendar minha consultoria estratégica.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -178,58 +181,62 @@ export function AIChat() {
     <div className={cn(
       "fixed z-[300] bg-white flex flex-col overflow-hidden border border-slate-200 transition-all duration-500 shadow-[0_40px_100px_-15px_rgba(0,0,0,0.4)]",
       isExpanded 
-        ? "inset-4 md:inset-auto md:bottom-6 md:right-6 md:w-[800px] md:h-[calc(100vh-120px)] rounded-[2rem]" 
-        : "bottom-20 right-4 left-4 h-[450px] md:inset-auto md:bottom-24 md:right-6 md:w-[350px] md:h-[600px] rounded-[2rem] origin-bottom-right",
+        ? "inset-4 md:inset-auto md:bottom-6 md:right-6 md:w-[800px] md:h-[calc(100vh-120px)] rounded-[2.5rem]" 
+        : "bottom-20 right-4 left-4 h-[450px] md:inset-auto md:bottom-24 md:right-6 md:w-[350px] md:h-[600px] rounded-[2.5rem] origin-bottom-right",
       isOpen ? "animate-in slide-in-from-bottom-8" : "hidden"
     )}>
       
       {/* Header do Chat */}
-      <div className="px-5 py-4 bg-[#08070b] text-white flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-xl bg-primary flex items-center justify-center border border-white/10 relative">
-            <Bot className="h-4 w-4 text-white" />
-            <div className="absolute -bottom-0.5 -right-0.5 h-2 w-2 bg-green-500 rounded-full border-2 border-[#08070b]" />
+      <div className="px-6 py-5 bg-[#08070b] text-white flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-4">
+          <div className="h-10 w-10 rounded-2xl bg-primary flex items-center justify-center border border-white/10 relative shadow-lg">
+            <Bot className="h-5 w-5 text-white" />
+            <div className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 bg-green-500 rounded-full border-2 border-[#08070b]" />
           </div>
           <div>
-            <h3 className="font-headline font-black text-[8px] md:text-[10px] uppercase tracking-widest text-white leading-none">Consultor Sapient</h3>
-            <p className="text-[6px] text-white/40 uppercase font-bold mt-1 tracking-widest">Online e pronto para ajudar</p>
+            <h3 className="font-headline font-black text-[10px] md:text-xs uppercase tracking-widest text-white leading-none">Consultor Sapient</h3>
+            <p className="text-[7px] text-white/40 uppercase font-bold mt-1.5 tracking-widest flex items-center gap-1">
+              <Sparkles className="h-2 w-2 text-primary" /> Online agora
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <button onClick={() => setIsExpanded(!isExpanded)} className="hidden md:flex h-8 w-8 items-center justify-center text-white/50 hover:text-white transition-colors rounded-lg hover:bg-white/5">
-            {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+          <button onClick={() => setIsExpanded(!isExpanded)} className="hidden md:flex h-10 w-10 items-center justify-center text-white/50 hover:text-white transition-colors rounded-xl hover:bg-white/5">
+            {isExpanded ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
           </button>
-          <button onClick={() => { setIsOpen(false); setIsExpanded(false); }} className="h-8 w-8 flex items-center justify-center text-white/50 hover:text-white transition-colors rounded-lg hover:bg-white/5">
-            <X className="h-5 w-5" />
+          <button onClick={() => { setIsOpen(false); setIsExpanded(false); }} className="h-10 w-10 flex items-center justify-center text-white/50 hover:text-white transition-colors rounded-xl hover:bg-white/5">
+            <X className="h-6 w-6" />
           </button>
         </div>
       </div>
 
       {/* Área de Mensagens */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 md:p-8 space-y-4 md:space-y-6 bg-slate-50/30">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 md:p-10 space-y-6 md:space-y-8 bg-slate-50/50">
         {messages.map((msg, i) => (
-          <div key={i} className={cn("flex flex-col gap-2", msg.role === 'user' ? "items-end" : "items-start animate-in fade-in slide-in-from-left-2")}>
+          <div key={i} className={cn("flex flex-col gap-3", msg.role === 'user' ? "items-end" : "items-start animate-in fade-in slide-in-from-left-2 duration-500")}>
             <div className={cn(
-              "p-4 rounded-[1.4rem] text-[10px] md:text-sm font-bold leading-relaxed max-w-[85%] shadow-sm",
-              msg.role === 'user' ? "bg-primary text-white rounded-tr-none" : "bg-white text-slate-900 border border-slate-100 rounded-tl-none"
+              "p-5 rounded-[1.8rem] text-[11px] md:text-[15px] font-bold leading-relaxed max-w-[90%] shadow-sm",
+              msg.role === 'user' ? "bg-primary text-white rounded-tr-none shadow-primary/20" : "bg-white text-slate-900 border border-slate-100 rounded-tl-none"
             )}>
               {msg.content}
             </div>
 
             {msg.role === 'model' && msg.actions && msg.actions.length > 0 && i === messages.length - 1 && (
-              <div className="flex flex-wrap gap-2 mt-2">
+              <div className="flex flex-wrap gap-2.5 mt-3 max-w-full">
                 {msg.actions.map((action, idx) => (
                   <button
                     key={idx}
                     onClick={() => msg.isMultiSelect ? toggleChip(action) : handleSendMessage(action)}
                     className={cn(
-                      "px-4 py-2.5 rounded-full text-[8px] md:text-[9.5px] font-black uppercase tracking-widest transition-all border",
+                      "px-5 py-3 rounded-2xl text-[8px] md:text-[10px] font-black uppercase tracking-widest transition-all border shadow-sm",
                       msg.isMultiSelect 
-                        ? selectedChips.includes(action) ? "bg-primary text-white border-primary shadow-lg scale-105" : "bg-white text-slate-950 border-slate-200"
-                        : "bg-white text-slate-950 border-slate-200 hover:border-primary hover:text-primary hover:bg-primary/5 shadow-sm"
+                        ? selectedChips.includes(action) 
+                          ? "bg-primary text-white border-primary shadow-lg scale-105" 
+                          : "bg-white text-slate-950 border-slate-200 hover:border-primary/50"
+                        : "bg-white text-slate-950 border-slate-200 hover:border-primary hover:text-primary hover:bg-primary/5 active:scale-95"
                     )}
                   >
-                    {action} {msg.isMultiSelect && selectedChips.includes(action) && <Check className="h-2 w-2 ml-1" />}
+                    {action} {msg.isMultiSelect && selectedChips.includes(action) && <Check className="h-3 w-3 ml-2 inline-block" />}
                   </button>
                 ))}
                 
@@ -238,11 +245,11 @@ export function AIChat() {
                     onClick={handleConfirmSelection} 
                     disabled={selectedChips.length === 0}
                     className={cn(
-                      "w-full mt-3 py-3 rounded-xl font-black uppercase tracking-widest text-[8px] md:text-[9px] flex items-center justify-center gap-2 transition-all",
-                      selectedChips.length > 0 ? "bg-primary text-white shadow-xl hover:bg-primary/90" : "bg-slate-100 text-slate-400 cursor-not-allowed"
+                      "w-full mt-4 py-4 rounded-2xl font-black uppercase tracking-widest text-[9px] md:text-[10px] flex items-center justify-center gap-3 transition-all",
+                      selectedChips.length > 0 ? "bg-[#08070b] text-white shadow-xl hover:bg-primary" : "bg-slate-200 text-slate-400 cursor-not-allowed"
                     )}
                   >
-                    Confirmar Seleção <ChevronRight className="h-3 w-3" />
+                    Confirmar Seleção <ChevronRight className="h-4 w-4" />
                   </button>
                 )}
               </div>
@@ -251,50 +258,50 @@ export function AIChat() {
         ))}
 
         {isLoading && (
-          <div className="flex items-center gap-2 text-slate-400 p-2 animate-pulse bg-white/50 w-fit rounded-full px-4 border border-slate-100">
-            <Cpu className="h-3 w-3 animate-spin text-primary" />
-            <span className="text-[8px] font-black uppercase tracking-widest italic">Analisando contexto...</span>
+          <div className="flex items-center gap-3 text-slate-400 p-3 animate-pulse bg-white/80 w-fit rounded-2xl px-6 border border-slate-100 shadow-sm">
+            <Cpu className="h-4 w-4 animate-spin text-primary" />
+            <span className="text-[9px] font-black uppercase tracking-widest italic">Analisando cenário comercial...</span>
           </div>
         )}
 
         {showRedirect && (
-          <div className="pt-4 animate-in zoom-in duration-500">
-            <button onClick={handleWhatsAppRedirect} className="w-full py-5 bg-green-500 hover:bg-green-600 text-white rounded-2xl font-black uppercase tracking-widest text-[9px] flex items-center justify-center gap-3 transition-all shadow-xl hover:scale-[1.02] active:scale-95">
-              <MessageCircle className="h-5 w-5" /> FALAR COM ESTRATEGISTA <ArrowRight className="h-3 w-3" />
+          <div className="pt-6 animate-in zoom-in slide-in-from-bottom-4 duration-700">
+            <button onClick={handleWhatsAppRedirect} className="w-full py-6 bg-green-500 hover:bg-green-600 text-white rounded-[2rem] font-black uppercase tracking-[0.2em] text-[10px] md:text-[11px] flex items-center justify-center gap-4 transition-all shadow-2xl hover:scale-[1.02] active:scale-95">
+              <MessageCircle className="h-6 w-6" /> AGENDAR COM ESTRATEGISTA <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         )}
       </div>
 
       {/* Rodapé de Input */}
-      <div className="p-4 bg-white border-t border-slate-100 shrink-0">
+      <div className="p-5 md:p-6 bg-white border-t border-slate-100 shrink-0">
         <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(input); }} className="relative group">
           <input 
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={!isTextInputEnabled || isLoading}
-            placeholder={isTextInputEnabled ? "Digite aqui..." : "Selecione uma opção acima"}
+            placeholder={isTextInputEnabled ? "Descreva seu projeto..." : "Selecione uma opção acima para prosseguir"}
             className={cn(
-              "w-full h-12 pl-6 pr-16 border rounded-2xl text-[10px] md:text-sm font-bold transition-all",
+              "w-full h-14 md:h-16 pl-8 pr-20 border rounded-2xl md:rounded-3xl text-[11px] md:text-[15px] font-bold transition-all",
               isTextInputEnabled 
-                ? "bg-white border-slate-200 text-slate-900 focus:border-primary focus:ring-4 focus:ring-primary/5" 
+                ? "bg-white border-slate-200 text-slate-900 focus:border-primary focus:ring-8 focus:ring-primary/5" 
                 : "bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed"
             )}
           />
-          <div className="absolute right-1.5 top-1/2 -translate-y-1/2">
+          <div className="absolute right-2 top-1/2 -translate-y-1/2">
              <button 
               type="submit"
               disabled={!input.trim() || !isTextInputEnabled || isLoading}
-              className="h-9 w-9 rounded-xl bg-primary text-white flex items-center justify-center disabled:opacity-30 transition-all shadow-md hover:bg-primary/90 active:scale-90"
+              className="h-10 w-10 md:h-12 md:w-12 rounded-xl md:rounded-2xl bg-primary text-white flex items-center justify-center disabled:opacity-30 transition-all shadow-lg hover:bg-primary/90 active:scale-90"
             >
-              {isTextInputEnabled ? <Send className="h-4 w-4" /> : <Lock className="h-3.5 w-3.5" />}
+              {isTextInputEnabled ? <Send className="h-5 w-5" /> : <Lock className="h-4 w-4" />}
             </button>
           </div>
         </form>
-        <div className="mt-3 flex items-center justify-center gap-4">
-          <p className="text-[6px] font-black uppercase tracking-[0.4em] text-slate-300">Inteligência Sapient V12.5</p>
-          <div className="h-1 w-1 bg-slate-200 rounded-full" />
-          <p className="text-[6px] font-black uppercase tracking-[0.4em] text-slate-300">Fim da Transmissão</p>
+        <div className="mt-4 flex items-center justify-center gap-5">
+          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">Sapient Engine V3.0</p>
+          <div className="h-1.5 w-1.5 bg-primary/20 rounded-full" />
+          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">Inteligência Estratégica</p>
         </div>
       </div>
     </div>
