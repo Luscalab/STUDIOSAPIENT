@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -16,7 +17,8 @@ import {
   Minimize2,
   Lock,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  Search
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { recommendServices, type RecommenderOutput } from "@/ai/flows/ai-service-recommender";
@@ -82,7 +84,7 @@ export function AIChat() {
       addDoc(collection(db, 'leads'), {
         ...data,
         timestamp: serverTimestamp(),
-        source: 'Sapient Intelligence V3.0'
+        source: 'Sapient Intelligence V4.0'
       });
     } catch (e) {
       console.error("Erro ao salvar lead:", e);
@@ -105,7 +107,7 @@ export function AIChat() {
       content: m.content 
     }));
     
-    // Simulação de tempo de processamento estratégico
+    // Simulação de processamento estratégico (mais rápido para parecer IA real)
     setTimeout(async () => {
       try {
         const result = await recommendServices({
@@ -139,13 +141,13 @@ export function AIChat() {
       } catch (error) {
         setMessages(prev => [...prev, { 
           role: 'model', 
-          content: "Tive um pequeno contratempo técnico ao analisar seu negócio. Vamos continuar agora mesmo pelo WhatsApp para eu te dar um atendimento VIP?" 
+          content: "Tive um pequeno contratempo técnico. Vamos continuar agora mesmo pelo WhatsApp para eu te dar um atendimento VIP e completar o diagnóstico?" 
         }]);
         setShowRedirect(true);
       } finally {
         setIsLoading(false);
       }
-    }, 1500);
+    }, 1200);
   };
 
   const toggleChip = (chip: string) => {
@@ -161,7 +163,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = `Olá! Acabei de fazer o diagnóstico com o Consultor Sapient para o nicho de ${extractedData?.niche || 'meu negócio'}. Gostaria de agendar minha consultoria estratégica.`;
+    const text = `Olá! Acabei de fazer o diagnóstico Sapient para o nicho de ${extractedData?.niche || 'meu negócio'}. Meu site é ${extractedData?.websiteUrl || 'não informado'}. Gostaria de agendar minha consultoria estratégica.`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -194,9 +196,9 @@ export function AIChat() {
             <div className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 bg-green-500 rounded-full border-2 border-[#08070b]" />
           </div>
           <div>
-            <h3 className="font-headline font-black text-[10px] md:text-xs uppercase tracking-widest text-white leading-none">Consultor Sapient</h3>
+            <h3 className="font-headline font-black text-[10px] md:text-xs uppercase tracking-widest text-white leading-none">Diagnóstico Sapient</h3>
             <p className="text-[7px] text-white/40 uppercase font-bold mt-1.5 tracking-widest flex items-center gap-1">
-              <Sparkles className="h-2 w-2 text-primary" /> Online agora
+              <Sparkles className="h-2 w-2 text-primary" /> Ativo para análise
             </p>
           </div>
         </div>
@@ -259,15 +261,19 @@ export function AIChat() {
 
         {isLoading && (
           <div className="flex items-center gap-3 text-slate-400 p-3 animate-pulse bg-white/80 w-fit rounded-2xl px-6 border border-slate-100 shadow-sm">
-            <Cpu className="h-4 w-4 animate-spin text-primary" />
-            <span className="text-[9px] font-black uppercase tracking-widest italic">Analisando cenário comercial...</span>
+            <Search className="h-4 w-4 animate-spin text-primary" />
+            <span className="text-[9px] font-black uppercase tracking-widest italic">Analisando presença digital...</span>
           </div>
         )}
 
         {showRedirect && (
           <div className="pt-6 animate-in zoom-in slide-in-from-bottom-4 duration-700">
+            <div className="bg-primary/5 border border-primary/20 p-6 rounded-[2rem] mb-6 space-y-3">
+              <p className="text-[10px] font-black uppercase tracking-widest text-primary text-center">Diagnóstico Concluído</p>
+              <p className="text-[11px] font-medium text-slate-600 text-center">Nossos consultores já receberam sua análise e estão prontos para o próximo passo.</p>
+            </div>
             <button onClick={handleWhatsAppRedirect} className="w-full py-6 bg-green-500 hover:bg-green-600 text-white rounded-[2rem] font-black uppercase tracking-[0.2em] text-[10px] md:text-[11px] flex items-center justify-center gap-4 transition-all shadow-2xl hover:scale-[1.02] active:scale-95">
-              <MessageCircle className="h-6 w-6" /> AGENDAR COM ESTRATEGISTA <ArrowRight className="h-4 w-4" />
+              <MessageCircle className="h-6 w-6" /> AGENDAR CONSULTORIA AGORA <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         )}
@@ -280,7 +286,7 @@ export function AIChat() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={!isTextInputEnabled || isLoading}
-            placeholder={isTextInputEnabled ? "Descreva seu projeto..." : "Selecione uma opção acima para prosseguir"}
+            placeholder={isTextInputEnabled ? "Cole o link ou digite o nome..." : "Selecione uma opção acima"}
             className={cn(
               "w-full h-14 md:h-16 pl-8 pr-20 border rounded-2xl md:rounded-3xl text-[11px] md:text-[15px] font-bold transition-all",
               isTextInputEnabled 
@@ -299,9 +305,9 @@ export function AIChat() {
           </div>
         </form>
         <div className="mt-4 flex items-center justify-center gap-5">
-          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">Sapient Engine V3.0</p>
+          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">Sapient Intelligence V4.0</p>
           <div className="h-1.5 w-1.5 bg-primary/20 rounded-full" />
-          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">Inteligência Estratégica</p>
+          <p className="text-[7px] font-black uppercase tracking-[0.6em] text-slate-300">Análise de Performance</p>
         </div>
       </div>
     </div>
