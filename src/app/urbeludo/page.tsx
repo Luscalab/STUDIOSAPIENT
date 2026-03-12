@@ -43,7 +43,7 @@ export default function UrbeLudoPage() {
     setMounted(true);
   }, []);
 
-  const urbeludoMainImage = PlaceHolderImages.find(img => img.id === "urbeludo-main")?.imageUrl || "";
+  const urbeludoMainImage = PlaceHolderImages.find(img => img.id === "urbeludo-main")?.imageUrl;
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -85,7 +85,7 @@ export default function UrbeLudoPage() {
     },
     {
       q: "4. Como um jogo digital pode ajudar na reabilitação física?",
-      a: "O jogo utiliza a Ludicidade Progressiva para gerar engajamento. Ao transformar um exercício repetitivo em um desafio gamificado, estimulamos a neuroplasticidade e a liberação de dopamina, o que aumenta a aderência da criança ao tratamento e torna o ganho de consciência corporal e motora muito mais fluido."
+      a: "O jogo utiliza a Ludicidade Progressiva para geragem engajamento. Ao transformar um exercício repetitivo em um desafio gamificado, estimulamos a neuroplasticidade e a liberação de dopamina, o que aumenta a aderência da criança ao tratamento e torna o ganho de consciência corporal e motora muito mais fluido."
     },
     {
       q: "5. Em quais dispositivos o Urbeludo funciona?",
@@ -143,14 +143,16 @@ export default function UrbeLudoPage() {
           </div>
           
           <div className="relative aspect-square md:aspect-video rounded-[3rem] overflow-hidden shadow-2xl border border-white/10 group bg-white/5">
-            <Image 
-              src={urbeludoMainImage} 
-              alt="Interface UrbeLudo Official" 
-              fill 
-              className="object-cover group-hover:scale-105 transition-transform duration-[4000ms]"
-              data-ai-hint="app interaction"
-              priority
-            />
+            {urbeludoMainImage && (
+              <Image 
+                src={urbeludoMainImage} 
+                alt="Interface UrbeLudo Official" 
+                fill 
+                className="object-cover group-hover:scale-105 transition-transform duration-[4000ms]"
+                data-ai-hint="app interaction"
+                priority
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-8 left-8 flex items-center gap-4">
                <div className="h-12 w-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-primary">

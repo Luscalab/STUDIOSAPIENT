@@ -31,6 +31,12 @@
       "imageHint": "premium brand"
     },
     {
+      "id": "urbeludo-main",
+      "description": "UrbeLudo Official Interface",
+      "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/58a182ea-b653-409e-960c-b269bb1b8cce.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvNThhMTgyZWEtYjY1My00MDllLTk2MGMtYjI2OWJiMWI4Y2NlLnBuZyIsImlhdCI6MTc3MzI4ODY2MCwiZXhwIjoxODA0ODI0NjYwfQ.wCT9FxWWmzFQz67OKl1go39S7MWEAov7Mk7fXMu7GUA",
+      "imageHint": "app interface"
+    },
+    {
       "id": "partner-logo-1",
       "description": "Quitute Certa - Sapient Partner",
       "imageUrl": "https://zyhfeonnlhucuhjvekid.supabase.co/storage/v1/object/sign/Images/FINALLOGO.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9lOWZkYjhmNy01MDY3LTQzM2EtOTdjMi1iZjU4MmNiNjMyMTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJJbWFnZXMvRklOQUxMT0dPLnBuZyIsImlhdCI6MTc3MzI1ODk2MSwiZXhwIjoyMDg4NjE4OTYxfQ.YCn2mnUAXxdeCIDDY43MZpB1jEf94V0pcajlqRuXkA8",
