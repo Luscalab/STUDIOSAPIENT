@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "Lead": {
@@ -38,8 +39,10 @@
         "consentAccepted": { "type": "boolean" },
         "consentTimestamp": { "type": "string", "format": "date-time" },
         "pitchTranscription": { "type": "string" },
+        "pitchAudioUri": { "type": "string", "description": "URI de dados Base64 do áudio gravado." },
         "aiFeedback": { "type": "string" },
         "score": { "type": "number" },
+        "verdict": { "type": "string" },
         "timestamp": { "type": "string", "format": "date-time" }
       },
       "required": ["name", "email", "pitchTranscription", "consentAccepted"]
