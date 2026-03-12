@@ -1,46 +1,61 @@
+
 'use client';
 
 import { useEffect } from 'react';
 
 /**
- * Componente de Proteção de Conteúdo e Segurança de UI.
- * Desabilita atalhos de inspeção, cópia e o menu de contexto.
+ * Componente de Blindagem de Interface studiosapient.
+ * Protege contra inspeção de código, cópia não autorizada e extração de imagens.
  */
 export function SecurityHardening() {
   useEffect(() => {
-    // Bloqueia o menu de contexto (botão direito)
+    // 1. Bloqueia Menu de Contexto (Botão Direito)
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault();
     };
 
-    // Bloqueia atalhos de teclado comuns de cópia e inspeção
+    // 2. Bloqueia Atalhos de Inspeção e Cópia
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ctrl+C, Ctrl+U (Source), Ctrl+S (Save), Ctrl+P (Print)
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const isCmdOrCtrl = isMac ? e.metaKey : e.ctrlKey;
+
       if (
-        (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) ||
-        // Ctrl+Shift+I (Inspect), Ctrl+Shift+J (Console), Ctrl+Shift+C (Inspect Element)
-        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
-        // F12 (DevTools)
-        e.key === 'F12'
+        // Cópia, Código Fonte, Salvar, Imprimir
+        (isCmdOrCtrl && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) ||
+        // DevTools (Inspect Element, Console, etc)
+        (isCmdOrCtrl && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+        // F12 e F11 (para evitar manipulação de tela cheia/dev)
+        e.key === 'F12' || (e.key === 'F11' && !isMac)
       ) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    // 3. Bloqueia Arrastar Imagens (Prevenção de Download via Drag)
+    const handleDragStart = (e: DragEvent) => {
+      if ((e.target as HTMLElement).tagName === 'IMG') {
         e.preventDefault();
       }
     };
 
-    // Previne o "Print Screen" limpando o clipboard (apenas em alguns browsers/cenários)
+    // 4. Limpeza de Clipboard em PrintScreen
     const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === 'PrintScreen') {
-        navigator.clipboard.writeText("");
+      if (e.key === 'PrintScreen' || e.key === 'PrtSc') {
+        navigator.clipboard.writeText("Conteúdo Protegido por studiosapient.");
       }
     };
 
+    // Aplicação Global
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('dragstart', handleDragStart);
     document.addEventListener('keyup', handleKeyUp);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('dragstart', handleDragStart);
       document.removeEventListener('keyup', handleKeyUp);
     };
   }, []);

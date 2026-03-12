@@ -2,7 +2,7 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Bloqueio padrão para segurança máxima
+    // Bloqueio total por padrão
     match /{document=**} {
       allow read, write: if false;
     }
@@ -12,16 +12,11 @@ service cloud.firestore {
       return request.auth != null && request.auth.token.email == "contato@studiosapient.com.br";
     }
 
-    // Leads: qualquer um pode enviar interesse, mas apenas o admin pode ler/apagar
+    // Leads: permite apenas criação pública. Leitura e exclusão restritas ao admin.
     match /leads/{leadId} {
       allow create: if true;
-      allow read, update, delete: if isAdmin();
-    }
-
-    // Status de Usuário Premium: o próprio usuário pode ler seu status (futuro uso)
-    match /premium_users/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if isAdmin();
+      allow read, delete: if isAdmin();
+      allow update: if false; // Proteção contra alteração de dados de lead capturados
     }
   }
 }
