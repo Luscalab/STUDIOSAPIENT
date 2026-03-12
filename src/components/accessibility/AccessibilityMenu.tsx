@@ -197,7 +197,7 @@ export function AccessibilityMenu() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Menu de Acessibilidade"
         className={cn(
-          "fixed bottom-20 right-4 md:right-6 z-[200] h-10 w-10 md:h-16 md:w-16 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-2xl",
+          "fixed bottom-24 right-4 md:bottom-24 md:right-6 z-[200] h-10 w-10 md:h-16 md:w-16 rounded-full flex items-center justify-center transition-all duration-500 hover:scale-110 active:scale-95 border-2 border-white/20 backdrop-blur-3xl shadow-2xl",
           isOpen ? "bg-[#08070b] text-white" : "bg-primary text-white"
         )}
       >
@@ -206,7 +206,7 @@ export function AccessibilityMenu() {
 
       <div
         className={cn(
-          "fixed bottom-36 md:bottom-44 right-4 md:right-6 z-[200] w-[240px] md:w-[320px] bg-white rounded-[2rem] md:rounded-[3rem] border border-primary/20 shadow-[0_40px_120px_rgba(0,0,0,0.3)] transition-all duration-700 origin-bottom-right p-5 md:p-7 space-y-4 md:space-y-7",
+          "fixed bottom-40 md:bottom-44 right-4 md:right-6 z-[200] w-[240px] md:w-[320px] bg-white rounded-[2rem] md:rounded-[3rem] border border-primary/20 shadow-[0_40px_120px_rgba(0,0,0,0.3)] transition-all duration-700 origin-bottom-right p-5 md:p-7 space-y-4 md:space-y-7",
           isOpen ? "scale-100 opacity-100 translate-y-0 visible" : "scale-0 opacity-0 translate-y-10 invisible pointer-events-none"
         )}
       >

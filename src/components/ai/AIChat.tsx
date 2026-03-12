@@ -156,7 +156,7 @@ export function AIChat() {
     return (
       <button 
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-32 right-4 md:bottom-6 md:right-6 z-[200] h-14 w-14 md:h-18 md:w-18 rounded-full bg-primary text-white flex items-center justify-center shadow-[0_20px_50px_rgba(139,92,246,0.3)] hover:scale-110 active:scale-95 transition-all border-2 border-white/20 animate-glow-pulse"
+        className="fixed bottom-40 right-4 md:bottom-44 md:right-6 z-[200] h-14 w-14 md:h-18 md:w-18 rounded-full bg-primary text-white flex items-center justify-center shadow-[0_20px_50px_rgba(139,92,246,0.3)] hover:scale-110 active:scale-95 transition-all border-2 border-white/20 animate-glow-pulse"
         aria-label="Abrir Chat"
       >
         <div className="relative">
@@ -172,7 +172,7 @@ export function AIChat() {
       "fixed z-[300] bg-white flex flex-col overflow-hidden border border-slate-200 transition-all duration-500 shadow-2xl",
       isExpanded 
         ? "inset-4 md:inset-auto md:bottom-6 md:right-6 md:w-[800px] md:h-[calc(100vh-120px)] rounded-[2rem]" 
-        : "bottom-20 right-4 left-4 h-[500px] md:inset-auto md:bottom-24 md:right-6 md:w-[380px] md:h-[650px] rounded-[2.5rem] origin-bottom-right",
+        : "bottom-44 right-4 left-4 h-[500px] md:inset-auto md:bottom-48 md:right-6 md:w-[380px] md:h-[650px] rounded-[2.5rem] origin-bottom-right",
       isOpen ? "animate-in slide-in-from-bottom-8" : "hidden"
     )}>
       
