@@ -46,7 +46,9 @@ import {
   BookOpen,
   Layout,
   CheckCircle2,
-  Clock
+  Clock,
+  ArrowRight,
+  Database
 } from "lucide-react";
 import { useFirebase, useFirestore, useDoc, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
 import { collection, serverTimestamp, doc } from "firebase/firestore";
@@ -276,7 +278,6 @@ export function RecrutamentoClient() {
       <section className="pt-32 pb-24 md:pt-48">
         <div className="container mx-auto px-6 max-w-6xl">
           
-          {/* HEADER DO DASHBOARD */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
             <div className="space-y-4">
               <Badge className="bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">
@@ -331,7 +332,6 @@ export function RecrutamentoClient() {
           {view === 'dashboard' ? (
             <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
               
-              {/* STATUS DE PROGRESSO */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="p-10 rounded-[3rem] bg-primary text-white space-y-6 shadow-2xl shadow-primary/20 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:rotate-12 transition-transform duration-1000">
@@ -341,7 +341,7 @@ export function RecrutamentoClient() {
                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/60">Formação Ativa</p>
                     <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">Mestre em <br/>Estratégia.</h3>
                     <Button onClick={startTraining} className="bg-white text-black hover:bg-white/90 rounded-full font-black uppercase text-[10px] px-8 h-12">
-                      Continuar Imersão <ChevronRight size={16} />
+                      {profile ? "Continuar Imersão" : "Iniciar Imersão"} <ChevronRight size={16} />
                     </Button>
                   </div>
                 </div>
@@ -368,7 +368,6 @@ export function RecrutamentoClient() {
                 </div>
               </div>
 
-              {/* GRID DE MÓDULOS */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {modules.map((m, idx) => (
                   <button 
@@ -403,7 +402,6 @@ export function RecrutamentoClient() {
                 ))}
               </div>
 
-              {/* FOOTER DO DASHBOARD */}
               <div className="p-8 rounded-[3rem] bg-amber-500/5 border border-amber-500/10 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="flex items-center gap-6">
                   <div className="h-14 w-14 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
@@ -411,7 +409,7 @@ export function RecrutamentoClient() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] font-black uppercase tracking-widest text-amber-500/60">Análise de Tempo</p>
-                    <p className="text-sm font-bold text-white/80">O tempo médio de conclusão desta imersão é de 45 minutos. Reserve este tempo para foco total.</p>
+                    <p className="text-sm font-bold text-white/80">A imersão técnica exige cerca de 45 minutos para absorção total. Não pule etapas.</p>
                   </div>
                 </div>
                 <Button variant="outline" className="border-white/10 text-white/40 hover:text-white hover:bg-white/5 rounded-full font-black uppercase text-[10px] px-10 h-14">
@@ -431,7 +429,6 @@ export function RecrutamentoClient() {
                   <ChevronLeft size={16} /> Voltar ao Painel
                 </button>
                 
-                {/* PROGRESSO LINEAR */}
                 <div className="flex-1 flex items-center gap-2 overflow-x-auto py-2 no-scrollbar">
                   {Array.from({ length: 22 }).map((_, i) => (
                     <div key={i} className={cn("h-1 min-w-[12px] flex-1 rounded-full transition-all duration-500", step >= (i + 1) ? "bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
@@ -497,36 +494,35 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 01: ADS & GMN */}
+                {/* MÓDULO 01: ADS & GMN - TEORIA */}
                 {step === 3 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 01</Badge>
+                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 01: Inteligência de Tráfego</Badge>
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Performance Ads & GMN</h2>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
                         <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Target size={20} /> Tráfego de Intenção</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">Diferente do Facebook (interrupção), o <strong>Google Ads</strong> captura a intenção real. O cliente busca "Clínica Odontológica em SP". Se você não está no topo, você não existe.</p>
+                        <p className="text-white/50 text-sm leading-relaxed">Capturamos a dor ativa. Quando alguém busca por um serviço no Google, a janela de compra está aberta. Se a empresa não aparece, ela está cedendo mercado para a concorrência.</p>
                         <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
-                          <p className="text-[9px] font-black text-white/30 uppercase">Nuance Técnica:</p>
-                          <p className="text-xs text-white/80 italic font-medium">"O Google pune anúncios que levam a sites lentos, cobrando mais caro pelo clique. Vender o site premium é baratear o Ads."</p>
+                          <p className="text-[9px] font-black text-white/30 uppercase">Nuance Sapient:</p>
+                          <p className="text-xs text-white/80 italic font-medium">"O Google pune anúncios que levam a sites lentos (WordPress). Vender o site premium é, na verdade, baratear o custo por clique do cliente."</p>
                         </div>
                       </div>
                       
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                        <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Search size={20} /> Briefing de GMN</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">O Google Meu Negócio é a fachada. Se está abandonado (sem fotos novas, sem respostas), o cliente desiste.</p>
-                        <ul className="space-y-2 text-[10px] font-bold text-white/40 uppercase">
-                          <li className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-cyan-400" /> Fotos de Alta Resolução</li>
-                          <li className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-cyan-400" /> Prova Social (Depoimentos)</li>
-                          <li className="flex items-center gap-2"><div className="h-1.5 w-1.5 rounded-full bg-cyan-400" /> Atualização Semanal</li>
+                        <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Search size={20} /> Briefing de Diagnóstico</h4>
+                        <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Quantos leads chegam hoje pelo Google?</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> O perfil do GMN tem fotos profissionais e depoimentos recentes?</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Você sabe qual o custo real de cada cliente novo?</li>
                         </ul>
                       </div>
                     </div>
 
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Testar Conhecimento <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Testar Conhecimento Ads <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
@@ -534,7 +530,7 @@ export function RecrutamentoClient() {
                 {step === 4 && (
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio Técnico: Ads</h3>
-                    <p className="text-white/40">Como você provaria matematicamente para um cliente que o site lento dele está fazendo ele "rasgar dinheiro" no Google Ads?</p>
+                    <p className="text-white/40">Como você explicaria ao cliente que estar no topo do Google não é vaidade, mas sim a prevenção de perda de lucro imediata?</p>
                     <Textarea value={formData.ansAds} onChange={(e) => setFormData({...formData, ansAds: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua resposta estratégica..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -543,26 +539,29 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 02: SITES PREMIUM */}
+                {/* MÓDULO 02: SITES PREMIUM - TEORIA */}
                 {step === 5 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 02</Badge>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Engenharia de Sites Premium</h2>
+                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 02: Engenharia de Conversão</Badge>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Sites de Alta Fidelidade</h2>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
                         <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Code size={20} /> Next.js vs WordPress</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">Não usamos WordPress ou Elementor. Nossos sites são construídos em <strong>Next.js (Engenharia de Elite)</strong>. Isso significa carregamento instantâneo e segurança contra invasões.</p>
+                        <p className="text-white/50 text-sm leading-relaxed">Sites em WordPress são pesados e vulneráveis. Nós entregamos **Engenharia de Software (Next.js)**. Isso significa carregamento sub-segundo, segurança absoluta e SEO técnico nativo.</p>
                         <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
-                          <p className="text-[9px] font-black text-white/30 uppercase">Nuance de Produto:</p>
-                          <p className="text-xs text-white/80 italic font-medium">"WordPress é um template. Sapient é Engenharia. Um é um carro de série, o outro é um Fórmula 1 desenhado para a sua marca."</p>
+                          <p className="text-[9px] font-black text-white/30 uppercase">Argumento de Venda:</p>
+                          <p className="text-xs text-white/80 italic font-medium">"Um site lento é um balde furado. Você coloca dinheiro em anúncios, mas o cliente desiste antes da página abrir. Nós consertamos o balde."</p>
                         </div>
                       </div>
                       
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                        <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Smartphone size={20} /> A Nuance do LCP</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">LCP (Largest Contentful Paint) é a velocidade com que o conteúdo principal aparece. Se passar de 2.5s, o cliente vai embora.</p>
-                        <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">O FOCO SAPIEINT: 0.8s a 1.2s</p>
+                        <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Database size={20} /> Nuances Técnicas</h4>
+                        <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> LCP (Velocidade de Carga) menor que 1.5s</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Código limpo sem plugins desnecessários</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Mobile-First: Experiência impecável no celular</li>
+                        </ul>
                       </div>
                     </div>
 
@@ -576,7 +575,7 @@ export function RecrutamentoClient() {
                 {step === 6 && (
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Engenharia Web</h3>
-                    <p className="text-white/40">Um cliente diz: "Vou fazer com um sobrinho no Wix". Como você defende a nossa engenharia de código proprietário em Next.js?</p>
+                    <p className="text-white/40">O cliente diz: "Mas meu site atual funciona". Como você prova que a engenharia de código proprietária em Next.js vai aumentar o ROI dele comparado ao WordPress atual?</p>
                     <Textarea value={formData.ansSites} onChange={(e) => setFormData({...formData, ansSites: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium" placeholder="Defesa técnica..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -585,25 +584,29 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 03: DESIGN ESTRATÉGICO */}
+                {/* MÓDULO 03: DESIGN ESTRATÉGICO - TEORIA */}
                 {step === 7 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 03</Badge>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Design & Semiótica de Valor</h2>
+                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 03: Psicologia de Valor</Badge>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Design & Semiótica de Elite</h2>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                        <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Palette size={20} /> Semiótica de Luxo</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">Design não é estética, é <strong>comando mental</strong>. Usamos cores e formas para comunicar Prestígio, Rapidez ou Acolhimento antes do cliente ler uma palavra.</p>
+                        <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Palette size={20} /> Semiótica de Autoridade</h4>
+                        <p className="text-white/50 text-sm leading-relaxed">Design não é "deixar bonitinho". É criar uma **Barreira de Confiança**. Usamos semiótica para comunicar prestígio e segurança. O cliente deve sentir que o serviço é premium antes de ler o preço.</p>
                         <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
-                          <p className="text-[9px] font-black text-white/30 uppercase">A Nuance:</p>
-                          <p className="text-xs text-white/80 italic font-medium">"O roxo da Sapient comunica Criatividade + Elite. O preto comunica Mistério + Autoridade. É uma barreira de confiança visual."</p>
+                          <p className="text-[9px] font-black text-white/30 uppercase">Nuance de Venda:</p>
+                          <p className="text-xs text-white/80 italic font-medium">"Sua marca está vestida para uma reunião de R$ 100 ou de R$ 10.000? O design estratégico define o quanto você pode cobrar."</p>
                         </div>
                       </div>
                       
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                        <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Gem size={20} /> Briefing de Marca</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">Perguntamos ao cliente: "Se sua marca fosse uma pessoa, como ela estaria vestida?" - Isso define o tom visual do projeto.</p>
+                        <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Gem size={20} /> Diferenciais Sapient</h4>
+                        <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Identidade autoral sem templates</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Hierarquia visual focada em conversão</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Alinhamento com o público decisor</li>
+                        </ul>
                       </div>
                     </div>
 
@@ -617,7 +620,7 @@ export function RecrutamentoClient() {
                 {step === 8 && (
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Barreira de Confiança</h3>
-                    <p className="text-white/40">Explique por que um médico que atende consultas de R$ 800 não pode ter um logotipo feito no Canva por R$ 50.</p>
+                    <p className="text-white/40">Como você venderia um projeto de rebranding para um cliente que acha que "o logotipo atual (feito no Canva) já atende"?</p>
                     <Textarea value={formData.ansDesign} onChange={(e) => setFormData({...formData, ansDesign: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium" placeholder="Sua explicação de valor..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -626,25 +629,29 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 04: CHAT IA */}
+                {/* MÓDULO 04: CHAT IA - TEORIA */}
                 {step === 9 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 04</Badge>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Sistemas de Atendimento IA</h2>
+                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 04: Automação Cognitiva</Badge>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Sistemas IA & Atendimento</h2>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                        <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Brain size={20} /> Agentes de Venda</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">Nossa IA não é um chatbot burro de árvore de opções. É um <strong>Agente Cognitivo</strong> que entende o contexto e qualifica o lead antes de passar para o humano.</p>
+                        <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Brain size={20} /> Agentes de Qualificação</h4>
+                        <p className="text-white/50 text-sm leading-relaxed">Não instalamos chatbots de "aperte 1 para vendas". Criamos **Agentes Cognitivos** que conversam, filtram e qualificam leads 24h. O dono só recebe o contato de quem já está pronto para comprar.</p>
                         <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
-                          <p className="text-[9px] font-black text-white/30 uppercase">Nuance de Atendimento:</p>
-                          <p className="text-xs text-white/80 italic font-medium">"A IA é o segurança da porta. Ela tira as dúvidas comuns e só deixa passar para o WhatsApp do dono quem realmente quer comprar."</p>
+                          <p className="text-[9px] font-black text-white/30 uppercase">Nuance Operacional:</p>
+                          <p className="text-xs text-white/80 italic font-medium">"A IA é o filtro de curiosos. Ela economiza 4h diárias da equipe humana, permitindo foco total no fechamento."</p>
                         </div>
                       </div>
                       
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
                         <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><MessageSquare size={20} /> Omnicanalidade</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">Integramos o cérebro da IA no Site, WhatsApp e Instagram. Atendimento 24h que nunca esquece de seguir o script de venda.</p>
+                        <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Integração Site, WhatsApp e Instagram</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Agendamento automático de consultas/reuniões</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Memória de contexto e suporte multilingue</li>
+                        </ul>
                       </div>
                     </div>
 
@@ -658,7 +665,7 @@ export function RecrutamentoClient() {
                 {step === 10 && (
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: IA & Tempo</h3>
-                    <p className="text-white/40">Como você venderia uma IA para um dono de restaurante que gasta 4h por dia respondendo "Qual o valor da entrega?" no WhatsApp?</p>
+                    <p className="text-white/40">Como você venderia uma IA para uma empresa que recebe 200 mensagens por dia mas o comercial demora 2h para responder cada uma?</p>
                     <Textarea value={formData.ansChat} onChange={(e) => setFormData({...formData, ansChat: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium" placeholder="Sua resposta estratégica..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -667,25 +674,29 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 05: GESTÃO SOCIAL */}
+                {/* MÓDULO 05: GESTÃO SOCIAL - TEORIA */}
                 {step === 11 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05</Badge>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Gestão Social & Autoridade</h2>
+                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Influência de Autoridade</Badge>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Gestão Social & Prova de Valor</h2>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                        <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Users size={20} /> Curadoria de Elite</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">Não postamos por postar. Criamos <strong>Curadoria de Autoridade</strong>. O feed deve ser o portfólio que justifica o seu preço premium.</p>
+                        <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Users size={20} /> Curadoria Estratégica</h4>
+                        <p className="text-white/50 text-sm leading-relaxed">Não fazemos "posts". Fazemos **Curadoria de Autoridade**. O feed do cliente deve ser o portfólio inquestionável de sua competência. Cada peça de conteúdo educa o cliente para aceitar o preço premium.</p>
                         <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
-                          <p className="text-[9px] font-black text-white/30 uppercase">Nuance de Redes:</p>
-                          <p className="text-xs text-white/80 italic font-medium">"Seguidor é métrica de vaidade. Decisor é métrica de lucro. Nosso social foca em atrair o decisor."</p>
+                          <p className="text-[9px] font-black text-white/30 uppercase">Nuance Social:</p>
+                          <p className="text-xs text-white/80 italic font-medium">"Seguidor é vaidade. Decisor é faturamento. Nosso foco é atrair o decisor através de design e copy de alto nível."</p>
                         </div>
                       </div>
                       
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
                         <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Activity size={20} /> Funil de Conteúdo</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">Topo (Atração), Meio (Educação) e Fundo (Desejo). Cada post tem uma função no cérebro do seguidor.</p>
+                        <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Atração: Conteúdo de topo de funil</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Autoridade: Depoimentos e Processos</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Conversão: Chamadas para diagnóstico</li>
+                        </ul>
                       </div>
                     </div>
 
@@ -699,7 +710,7 @@ export function RecrutamentoClient() {
                 {step === 12 && (
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Social & Venda</h3>
-                    <p className="text-white/40">O que você diria para um cliente que tem 100k seguidores mas não consegue fechar um contrato de R$ 5.000?</p>
+                    <p className="text-white/40">Como você provaria para um cliente que ter 100 mil seguidores mas um visual amador está na verdade afastando os clientes de alto padrão?</p>
                     <Textarea value={formData.ansSocial} onChange={(e) => setFormData({...formData, ansSocial: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium" placeholder="Sua análise de autoridade..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -708,25 +719,29 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 06: NARRATIVA VISUAL */}
+                {/* MÓDULO 06: NARRATIVA VISUAL - TEORIA */}
                 {step === 13 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 06</Badge>
+                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 06: Engenharia de Fechamento</Badge>
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Narrativa Visual & Dossiês</h2>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                        <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><FileText size={20} /> Dossiês de Venda</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">Não enviamos orçamentos. Enviamos <strong>Dossiês de Luxo</strong>. São apresentações que traduzem processos complexos em imagens que geram desejo imediato.</p>
+                        <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><FileText size={20} /> Dossiês vs Orçamentos</h4>
+                        <p className="text-white/50 text-sm leading-relaxed">Não enviamos orçamentos em PDF simples. Enviamos **Dossiês de Venda de Luxo**. Transformamos processos técnicos chatos em jornadas visuais emocionantes. Onde o cliente vê clareza, ele sente segurança para investir.</p>
                         <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
-                          <p className="text-[9px] font-black text-white/30 uppercase">Nuance de Fechamento:</p>
-                          <p className="text-xs text-white/80 italic font-medium">"A Narrativa Visual remove a 'névoa informacional'. O cliente entende o benefício em 3 segundos sem ler um parágrafo."</p>
+                          <p className="text-[9px] font-black text-white/30 uppercase">Nuance Comercial:</p>
+                          <p className="text-xs text-white/80 italic font-medium">"A Narrativa Visual remove a 'névoa informacional'. Se o cliente não entende o valor em 3 segundos, ele foca no preço. O Dossiê impede isso."</p>
                         </div>
                       </div>
                       
                       <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                        <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Lightbulb size={20} /> Infográficos de ROI</h4>
-                        <p className="text-white/50 text-sm leading-relaxed">Desenhamos o caminho do dinheiro do cliente. Ele vê o investimento entrando e o lucro saindo de forma visualmente inquestionável.</p>
+                        <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Lightbulb size={20} /> O Poder da Clareza</h4>
+                        <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Infográficos que explicam o ROI</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Apresentações que anulam objeções antes delas surgirem</li>
+                          <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Padronização de alto luxo em todos os canais</li>
+                        </ul>
                       </div>
                     </div>
 
@@ -740,7 +755,7 @@ export function RecrutamentoClient() {
                 {step === 14 && (
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Dossiê de Elite</h3>
-                    <p className="text-white/40">Por que um PDF de "Proposta Comercial" comum mata a venda para um decisor de alto nível?</p>
+                    <p className="text-white/40">Como um dossiê visual de alta fidelidade pode encurtar o tempo de decisão de um CEO que tem pouco tempo para ler propostas?</p>
                     <Textarea value={formData.ansNarrativa} onChange={(e) => setFormData({...formData, ansNarrativa: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium" placeholder="Sua resposta..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -752,20 +767,20 @@ export function RecrutamentoClient() {
                 {/* MÓDULOS DE FECHAMENTO */}
                 {step === 15 && (
                   <div className="space-y-8 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest px-6 py-2">Módulo Final 01</Badge>
+                    <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest px-6 py-2">Módulo Final 01: Visão de Mercado</Badge>
                     <h2 className="text-4xl font-black uppercase tracking-tighter">Estratégias de Nicho</h2>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                       <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
                         <h4 className="text-primary font-bold text-xs uppercase">Beleza & Pet</h4>
-                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Agenda furada. Solução: IA Qualificadora + GMN Ativo para busca local.</p>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Agenda furada e baixa fidelização. Solução: IA Qualificadora + GMN Ativo para busca local + Design que comunica higiene e luxo.</p>
                       </div>
                       <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
                         <h4 className="text-cyan-400 font-bold text-xs uppercase">Saúde & Direito</h4>
-                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Imagem amadora. Solução: Semiótica de Autoridade + Dossiês Visuais.</p>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Imagem amadora e dependência de indicação. Solução: Semiótica de Autoridade + Dossiês Visuais + Google Ads Cirúrgico.</p>
                       </div>
                       <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
                         <h4 className="text-amber-400 font-bold text-xs uppercase">Varejo & Tech</h4>
-                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Conversão baixa. Solução: Engenharia de Sites (LCP < 1s) + Ads de Urgência.</p>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Conversão baixa no site e suporte lento. Solução: Engenharia de Sites (LCP < 1s) + IA de suporte 24/7 + Ads de Urgência.</p>
                       </div>
                     </div>
                     <div className="flex gap-4">
@@ -778,7 +793,7 @@ export function RecrutamentoClient() {
                 {step === 16 && (
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Nichos</h3>
-                    <p className="text-white/40">Como você abordaria o dono de uma clínica de luxo que tem um site que "parece um blog de 2010"?</p>
+                    <p className="text-white/40">Qual seria sua abordagem estratégica para um dono de clínica de luxo que tem um site que "parece um blog de 2010" e não faz anúncios?</p>
                     <Textarea value={formData.ansNichos} onChange={(e) => setFormData({...formData, ansNichos: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium" placeholder="Sua estratégia..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -789,7 +804,7 @@ export function RecrutamentoClient() {
 
                 {step === 17 && (
                   <div className="space-y-8 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest px-6 py-2">Módulo Final 02</Badge>
+                    <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest px-6 py-2">Módulo Final 02: Matemática do Lucro</Badge>
                     <h2 className="text-4xl font-black uppercase tracking-tighter">Precificação Estratégica</h2>
                     <div className="overflow-x-auto">
                       <table className="w-full text-left border-collapse">
@@ -797,24 +812,29 @@ export function RecrutamentoClient() {
                           <tr className="border-b border-white/10 text-[8px] font-black uppercase text-white/30">
                             <th className="py-4">Combos Sapient</th>
                             <th className="py-4">Investimento</th>
-                            <th className="py-4">Foco</th>
+                            <th className="py-4">Foco do Produto</th>
                           </tr>
                         </thead>
                         <tbody className="text-[10px] font-bold">
                           <tr className="border-b border-white/5">
                             <td className="py-4">DOMÍNIO LOCAL (Ads + GMN)</td>
                             <td className="py-4 text-primary">R$ 1.5k - R$ 3k/mês</td>
-                            <td className="py-4 text-white/40">Gerar chamadas hoje</td>
+                            <td className="py-4 text-white/40">Gerar chamadas e visitas imediatas</td>
                           </tr>
                           <tr className="border-b border-white/5">
                             <td className="py-4">ENGENHARIA WEB (Site Next.js)</td>
                             <td className="py-4 text-primary">R$ 3k - R$ 15k (Projeto)</td>
-                            <td className="py-4 text-white/40">Conversão imbatível</td>
+                            <td className="py-4 text-white/40">Eliminar perda de leads e dar autoridade</td>
+                          </tr>
+                          <tr className="border-b border-white/5">
+                            <td className="py-4">SISTEMA IA (Automação)</td>
+                            <td className="py-4 text-primary">R$ 2k - R$ 8k (Setup)</td>
+                            <td className="py-4 text-white/40">Escalar atendimento sem contratar humanos</td>
                           </tr>
                           <tr>
                             <td className="py-4">ECOSSISTEMA FULL (All-in)</td>
                             <td className="py-4 text-primary">R$ 5k - R$ 15k/mês</td>
-                            <td className="py-4 text-white/40">Escala agressiva</td>
+                            <td className="py-4 text-white/40">Domínio total do mercado e escala agressiva</td>
                           </tr>
                         </tbody>
                       </table>
@@ -829,7 +849,7 @@ export function RecrutamentoClient() {
                 {step === 18 && (
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Objeção de Preço</h3>
-                    <p className="text-white/40">O cliente diz: "Mas o rapaz do Instagram faz por R$ 500". Como você explica que a Sapient joga outro jogo?</p>
+                    <p className="text-white/40">O cliente diz: "Achei caro, tem uma agência aqui do bairro que faz por 1/3 do valor". Como você ancora o valor da Sapient no ROI e na Engenharia de Elite?</p>
                     <Textarea value={formData.ansPreco} onChange={(e) => setFormData({...formData, ansPreco: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium" placeholder="Sua defesa comercial..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -843,7 +863,7 @@ export function RecrutamentoClient() {
                     <div className="text-center space-y-4">
                       <div className="h-16 w-16 rounded-full bg-primary/20 text-primary flex items-center justify-center mx-auto mb-6"><Mic size={32} /></div>
                       <h2 className="text-3xl font-black uppercase">O Desafio do Cirurgião</h2>
-                      <p className="text-white/40 max-w-md mx-auto">Você ligou para um dono de clínica. O site dele demora 8s e o GMN está sem fotos. <strong>Você tem 40s para marcar a reunião.</strong></p>
+                      <p className="text-white/40 max-w-md mx-auto">Você ligou para um dono de clínica. O site dele demora 8s e o GMN está sem fotos. <strong>Você tem 40s para marcar a reunião usando o gatilho da hemorragia financeira.</strong></p>
                     </div>
                     
                     <div className="p-10 rounded-[3rem] bg-black/40 border border-white/5 flex flex-col items-center gap-6">
@@ -866,7 +886,7 @@ export function RecrutamentoClient() {
                   <div className="space-y-8 animate-in fade-in">
                     <div className="text-center space-y-4">
                       <h2 className="text-3xl font-black uppercase">O Pitch de Elite</h2>
-                      <p className="text-white/40 max-w-md mx-auto">Por que você deve ser o próximo consultor de elite da studiosapient? <strong>Venda-se em 60s.</strong></p>
+                      <p className="text-white/40 max-w-md mx-auto">Por que você é o consultor que a studiosapient precisa para dominar o mercado? <strong>Venda sua autoridade em 60s.</strong></p>
                     </div>
                     <div className="p-10 rounded-[3rem] bg-black/40 border border-white/5 flex flex-col items-center gap-6">
                       {isRecording ? (
@@ -889,8 +909,8 @@ export function RecrutamentoClient() {
                   <div className="space-y-12 animate-in zoom-in duration-700 text-center py-10">
                     <div className="h-24 w-24 rounded-full bg-green-500 flex items-center justify-center mx-auto shadow-2xl animate-glow-pulse"><Trophy size={40} className="text-white" /></div>
                     <div className="space-y-4">
-                      <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Dossiê Enviado.</h2>
-                      <p className="text-xl text-white/50 font-medium">Sua formação técnica foi concluída. O Lucas Souza analisará seu dossiê e audições em breve.</p>
+                      <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Imersão Concluída.</h2>
+                      <p className="text-xl text-white/50 font-medium">Seu dossiê técnico foi enviado com sucesso. O Lucas Souza analisará seu perfil e audições vocais nas próximas 48 horas.</p>
                     </div>
                     <div className="pt-8"><Button onClick={() => setView('dashboard')} className="h-16 px-12 border border-white/10 bg-transparent rounded-full font-black uppercase text-[10px] hover:bg-white/5">Voltar ao Painel</Button></div>
                   </div>
