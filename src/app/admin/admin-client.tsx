@@ -6,33 +6,31 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { 
   Users, 
   Search, 
-  Filter, 
-  Mic, 
   ChevronRight, 
   Loader2, 
   ShieldCheck, 
   ArrowLeft,
-  Calendar,
   MessageCircle,
   Instagram,
   MapPin,
   Clock,
-  ExternalLink,
   CheckCircle2,
   XCircle,
-  AlertCircle
+  AlertCircle,
+  LogOut,
+  Zap,
+  Mic
 } from "lucide-react";
-import { useFirebase, useFirestore, useCollection, useMemoFirebase } from "@/firebase";
+import { useFirebase, useFirestore, useCollection, useMemoFirebase, initiateSignOut } from "@/firebase";
 import { collection, query, orderBy, doc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 export function AdminClient() {
-  const { user, isUserLoading } = useFirebase();
+  const { auth, user, isUserLoading } = useFirebase();
   const db = useFirestore();
   const router = useRouter();
   const [selectedCandidate, setSelectedCandidate] = useState<any | null>(null);
@@ -49,7 +47,7 @@ export function AdminClient() {
 
   useEffect(() => {
     if (!isUserLoading && (!user || !isAdmin)) {
-      router.push("/");
+      router.push("/vendas/auth");
     }
   }, [user, isUserLoading, isAdmin, router]);
 
@@ -64,17 +62,26 @@ export function AdminClient() {
   if (!isAdmin) return null;
 
   const filteredCandidates = candidates?.filter(c => 
-    c.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    c.email.toLowerCase().includes(searchTerm.toLowerCase())
+    c.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    c.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const updateStatus = async (id: string, status: string) => {
     try {
       const docRef = doc(db, 'sales_candidates', id);
       await updateDoc(docRef, { status });
+      // Atualiza o estado local para refletir a mudança imediatamente
+      if (selectedCandidate?.id === id) {
+        setSelectedCandidate({...selectedCandidate, status});
+      }
     } catch (e) {
       console.error(e);
     }
+  };
+
+  const handleSignOut = () => {
+    initiateSignOut(auth);
+    router.push("/vendas/auth");
   };
 
   return (
@@ -93,15 +100,25 @@ export function AdminClient() {
               </h1>
             </div>
             
-            <div className="relative w-full md:w-80 group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20 group-focus-within:text-primary transition-colors" />
-              <input 
-                type="text" 
-                placeholder="Buscar candidato..." 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 h-14 pl-12 pr-6 rounded-2xl font-bold focus:ring-primary/20 outline-none transition-all text-sm"
-              />
+            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+              <div className="relative w-full md:w-80 group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20 group-focus-within:text-primary transition-colors" />
+                <input 
+                  type="text" 
+                  placeholder="Buscar candidato..." 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 h-14 pl-12 pr-6 rounded-2xl font-bold focus:ring-primary/20 outline-none transition-all text-sm"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={() => router.push('/vendas/recrutamento')} variant="outline" className="h-14 px-6 border-white/10 bg-white/5 text-white hover:bg-white/10 rounded-2xl font-black uppercase text-[9px] tracking-widest">
+                  <Zap className="h-4 w-4 mr-2 text-primary" /> Ver Imersão
+                </Button>
+                <button onClick={handleSignOut} className="h-14 w-14 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all">
+                  <LogOut size={20} />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -174,7 +191,7 @@ export function AdminClient() {
                           <MessageCircle size={16} /> WhatsApp
                         </a>
                         <a href={`mailto:${selectedCandidate.email}`} className="h-12 px-6 bg-primary/10 text-primary rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-primary hover:text-white transition-all">
-                          <Clock size={16} /> E-mail
+                          <Mail size={16} /> E-mail
                         </a>
                         {selectedCandidate.instagram && (
                           <a href={`https://instagram.com/${selectedCandidate.instagram.replace('@', '')}`} target="_blank" className="h-12 px-6 bg-pink-500/10 text-pink-500 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-pink-500 hover:text-white transition-all">
@@ -209,7 +226,7 @@ export function AdminClient() {
                         { label: "Estratégia de Nicho", val: selectedCandidate.ansNichos },
                         { label: "Negociação de Valor", val: selectedCandidate.ansPreco },
                       ].map((ans, i) => (
-                        <div key={i} className="space-y-2 p-6 rounded-2xl bg-white/5 border border-white/5">
+                        <div key={i} className="space-y-2 p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all">
                           <p className="text-[8px] font-black uppercase text-white/30 tracking-widest">{ans.label}</p>
                           <p className="text-sm font-medium leading-relaxed text-white/80">{ans.val || 'Não respondido.'}</p>
                         </div>
@@ -267,7 +284,7 @@ export function AdminClient() {
             ) : (
               <div className="lg:col-span-8 hidden lg:flex flex-col items-center justify-center bg-white/5 border border-dashed border-white/10 rounded-[3rem] p-20 text-center space-y-6">
                 <div className="h-20 w-20 rounded-full bg-white/5 flex items-center justify-center text-white/10">
-                  <Filter size={40} />
+                  <Users size={40} />
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-2xl font-black uppercase tracking-tighter text-white/20">Selecione um candidato</h3>

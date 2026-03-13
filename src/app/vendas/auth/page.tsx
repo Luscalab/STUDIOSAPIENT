@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { useFirebase } from "@/firebase";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, ArrowRight, Loader2, ShieldCheck, Key } from "lucide-react";
+import { Mail, Lock, ArrowRight, Loader2, Key } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function AuthPage() {
@@ -19,17 +19,23 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [activationCode, setActivationCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { auth, user } = useFirebase();
+  const { auth, user, isUserLoading } = useFirebase();
   const router = useRouter();
   const { toast } = useToast();
 
   const REQUIRED_ACTIVATION_CODE = "COLABSAPI8569";
+  const ADMIN_EMAILS = ["lucassouza.sou@gmail.com", "contato@studiosapient.com.br"];
 
   useEffect(() => {
-    if (user) {
-      router.push("/vendas/recrutamento");
+    if (!isUserLoading && user) {
+      const isAdmin = ADMIN_EMAILS.includes(user.email || "");
+      if (isAdmin) {
+        router.push("/admin");
+      } else {
+        router.push("/vendas/recrutamento");
+      }
     }
-  }, [user, router]);
+  }, [user, isUserLoading, router]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,6 +74,14 @@ export default function AuthPage() {
       setIsLoading(false);
     }
   };
+
+  if (isUserLoading) {
+    return (
+      <div className="min-h-screen bg-[#08070b] flex items-center justify-center">
+        <Loader2 className="h-12 w-12 text-primary animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#08070b] text-white selection:bg-primary/30 pb-32">
