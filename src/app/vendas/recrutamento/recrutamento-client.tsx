@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from "react";
@@ -54,7 +55,6 @@ export function RecrutamentoClient() {
     email: "",
     phone: "",
     instagram: "",
-    linkedin: "",
     cityState: "",
     currentOccupation: "",
     experience: "",
@@ -163,8 +163,9 @@ export function RecrutamentoClient() {
 
   const handleNextStep = () => {
     if (step === 1) {
+      // CAMPOS OBRIGATÓRIOS: Nome, Email, WhatsApp e Consentimento
       if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !consentAccepted) {
-        toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos.", variant: "destructive" });
+        toast({ title: "Dados Incompletos", description: "Preencha os campos obrigatórios (Nome, E-mail e WhatsApp) e aceite os termos.", variant: "destructive" });
         return;
       }
       if (profileRef) {
@@ -173,7 +174,6 @@ export function RecrutamentoClient() {
           email: formData.email,
           phone: formData.phone,
           instagram: formData.instagram,
-          linkedin: formData.linkedin,
           cityState: formData.cityState,
           currentOccupation: formData.currentOccupation,
           experience: formData.experience,
@@ -265,14 +265,13 @@ export function RecrutamentoClient() {
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="space-y-4">
                     <h2 className="text-2xl font-black uppercase tracking-tighter">1. Perfil do Colaborador</h2>
-                    <p className="text-white/40 text-sm">Preencha sua identificação profissional para começar.</p>
+                    <p className="text-white/40 text-sm">Preencha sua identificação profissional para começar. Campos com (*) são obrigatórios.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Nome Completo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                  <Input disabled value={formData.email} placeholder="E-mail Corporativo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold opacity-50" />
-                  <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp (DDD + Número)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Nome Completo *" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input disabled value={formData.email} placeholder="E-mail *" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold opacity-50" />
+                  <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp (DDD + Número) *" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.instagram} onChange={(e) => setFormData({...formData, instagram: e.target.value})} placeholder="Instagram (@usuario)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                  <Input value={formData.linkedin} onChange={(e) => setFormData({...formData, linkedin: e.target.value})} placeholder="LinkedIn (URL)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.cityState} onChange={(e) => setFormData({...formData, cityState: e.target.value})} placeholder="Cidade/Estado" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.currentOccupation} onChange={(e) => setFormData({...formData, currentOccupation: e.target.value})} placeholder="Ocupação Atual" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.experience} onChange={(e) => setFormData({...formData, experience: e.target.value})} placeholder="Tempo em Vendas" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
@@ -286,7 +285,7 @@ export function RecrutamentoClient() {
                       setConsentAccepted(c === true);
                       setFormData(prev => ({ ...prev, consentAccepted: c === true, consentTimestamp: new Date().toISOString() }));
                     }} />
-                    <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">Confirmo ciência dos protocolos de segurança e conduta.</label>
+                    <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">Confirmo ciência dos protocolos de segurança e conduta. *</label>
                   </div>
                 </div>
                 <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] shadow-xl w-full md:w-auto">
@@ -310,7 +309,7 @@ export function RecrutamentoClient() {
                     </div>
                     <div className="p-8 bg-black/40 rounded-[2rem] border border-white/5 space-y-4">
                       <p className="text-[10px] font-black text-primary uppercase tracking-widest">SEU PAPEL:</p>
-                      <p className="text-sm text-white/70 italic leading-relaxed">Ser o <strong>Cirurgião</strong>: diagnosticar o problema em 30s e marcar a reunião estratégica.</p>
+                      <p className="text-sm text-white/70 italic leading-relaxed">Ser o <strong>Cirurgião</strong>: diagnosticar o problem em 30s e marcar a reunião estratégica.</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4 p-6 rounded-[2rem] bg-amber-500/5 border border-amber-500/20">

@@ -37,7 +37,6 @@
         "email": { "type": "string" },
         "phone": { "type": "string" },
         "instagram": { "type": "string" },
-        "linkedin": { "type": "string" },
         "cityState": { "type": "string" },
         "currentOccupation": { "type": "string" },
         "experience": { "type": "string" },
@@ -55,7 +54,6 @@
         "email": { "type": "string" },
         "phone": { "type": "string" },
         "instagram": { "type": "string" },
-        "linkedin": { "type": "string" },
         "cityState": { "type": "string" },
         "currentOccupation": { "type": "string" },
         "experience": { "type": "string" },
@@ -75,7 +73,7 @@
     }
   },
   "auth": {
-    "providers": ["google", "email"]
+    "providers": ["email"]
   },
   "firestore": {
     "/leads/{leadId}": {
