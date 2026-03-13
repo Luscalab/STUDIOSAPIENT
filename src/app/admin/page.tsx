@@ -1,9 +1,16 @@
 
-import { redirect } from 'next/navigation';
+import type { Metadata } from 'next';
+import { AdminClient } from "./admin-client";
 
-/**
- * Redireciona usuários que tentarem acessar a rota administrativa removida.
- */
-export default function AdminLegacyPage() {
-  redirect('/');
+export const metadata: Metadata = {
+  title: 'Painel Admin | studiosapient',
+  description: 'Gestão de recrutamento e análise de candidatos comerciais.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
+export default function AdminPage() {
+  return <AdminClient />;
 }
