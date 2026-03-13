@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     default: 'studiosapient. | Estratégia, Design e Performance Digital',
     template: '%s | studiosapient.'
   },
-  description: 'A studiosapient transforma negócios em marcas de autoridade através de design estratégico, tráfego pago (Ads) e inteligência artificial. Conheça nossas soluções de elite.',
+  description: 'A studiosapient transforma negócios em marcas de autoridade através de design estratégico, tráfego pago (Ads) e inteligência artificial. Conheça nossas soluções profissionais.',
   keywords: ['agência de marketing digital', 'design estratégico', 'tráfego pago', 'branding de luxo', 'estratégia de negócios', 'inteligência artificial para empresas'],
   authors: [{ name: 'studiosapient' }],
   creator: 'studiosapient',
@@ -52,8 +52,10 @@ export default function RootLayout({
           </a>
 
           {/* Componentes de Acessibilidade */}
-          <VLibras />
-          <AccessibilityMenu />
+          <div className="relative z-[200]">
+            <VLibras />
+            <AccessibilityMenu />
+          </div>
 
           {children}
           <Toaster />

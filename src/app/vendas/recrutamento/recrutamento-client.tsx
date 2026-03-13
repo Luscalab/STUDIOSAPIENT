@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from "react";
@@ -29,7 +28,10 @@ import {
   Users,
   Star,
   BrainCircuit,
-  Database
+  Database,
+  Info,
+  BookOpen,
+  ArrowRight
 } from "lucide-react";
 import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -119,7 +121,7 @@ export function RecrutamentoClient() {
 
   const handleNextStep = () => {
     if (step === 1 && (!formData.name.trim() || !formData.email.trim() || !consentAccepted)) {
-      toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos.", variant: "destructive" });
+      toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos de segurança.", variant: "destructive" });
       return;
     }
     setStep(prev => prev + 1);
@@ -147,7 +149,7 @@ export function RecrutamentoClient() {
           status: 'PENDENTE_AVALIACAO_HUMANA'
         });
       }
-      setStep(9);
+      setStep(10);
     } catch (error) {
       console.error(error);
       toast({ title: "Erro no Envio", description: "Ocorreu um problema ao salvar seu dossiê.", variant: "destructive" });
@@ -170,19 +172,19 @@ export function RecrutamentoClient() {
           </div>
 
           <div className="flex items-center gap-2 mb-12">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => (
-              <div key={s} className={cn("h-1 flex-1 rounded-full", step >= s ? "bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((s) => (
+              <div key={s} className={cn("h-1 flex-1 rounded-full", step >= s ? "bg-primary shadow-[0_0:10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
             ))}
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-16 backdrop-blur-3xl shadow-2xl relative overflow-hidden">
             
-            {/* ETAPA 1: IDENTIFICAÇÃO */}
+            {/* ETAPA 1: IDENTIFICAÇÃO E SEGURANÇA */}
             {step === 1 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="space-y-4 text-center md:text-left">
-                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação de Elite</h2>
-                    <p className="text-white/40 text-sm">Na Sapient, não vendemos serviços, vendemos clareza e autoridade. Identifique-se.</p>
+                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação Profissional</h2>
+                    <p className="text-white/40 text-sm">Inicie sua jornada conosco. Na Sapient, valorizamos a clareza e a segurança dos dados.</p>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -191,26 +193,80 @@ export function RecrutamentoClient() {
                   <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp (com DDD)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                 </div>
                 
-                <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-4">
+                <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-6">
                   <div className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-[10px]">
-                    <ShieldCheck size={18} /> Protocolo de Privacidade LGPD
+                    <ShieldCheck size={18} /> Protocolo de Segurança e Privacidade
                   </div>
-                  <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/40 border border-white/5">
-                    <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} />
-                    <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">
-                      Autorizo a studiosapient a coletar meus dados e áudio para fins de recrutamento comercial.
-                    </label>
+                  <div className="space-y-4">
+                    <p className="text-[11px] text-white/50 leading-relaxed uppercase font-bold">
+                      Seus dados estão protegidos sob protocolos rígidos de segurança. Utilizamos criptografia de ponta a ponta e o armazenamento é realizado em servidores seguros do Google Firebase (EUA). A coleta tem finalidade exclusiva de recrutamento e seus dados não serão compartilhados com terceiros.
+                    </p>
+                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/40 border border-white/5">
+                      <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} />
+                      <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">
+                        Estou ciente da política de privacidade e autorizo a coleta dos meus dados e áudio para recrutamento.
+                      </label>
+                    </div>
                   </div>
                 </div>
                 
                 <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] shadow-xl w-full md:w-auto">
-                  Iniciar Jornada Educativa <ChevronRight size={18} />
+                  Próximo Passo <ChevronRight size={18} />
                 </Button>
               </div>
             )}
 
-            {/* ETAPA 2: PERFORMANCE ADS */}
+            {/* ETAPA 2: TREINAMENTO E BRIEFING INICIAL */}
             {step === 2 && (
+              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                <div className="p-8 rounded-[2.5rem] bg-indigo-500/10 border border-indigo-500/20 space-y-8">
+                  <div className="flex items-center gap-3 text-indigo-400 font-black uppercase text-[10px]"><BookOpen size={16} /> BRIEFING ESTRATÉGICO: COMO VENDEMOS</div>
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-black uppercase tracking-tighter">Nossa Filosofia</h3>
+                      <p className="text-sm text-white/60 leading-relaxed">
+                        Na <strong>studiosapient</strong>, não vendemos apenas "marketing". Vendemos <strong>Clareza, Autoridade e ROI</strong>. 
+                        Nossos clientes são decisores de alto nível que buscam parceiros estratégicos, não apenas executores de tarefas.
+                      </p>
+                      <ul className="space-y-2">
+                        {[
+                          "Foco no Gargalo: Identifique a dor real.",
+                          "Valor > Preço: Mostre o lucro, não o custo.",
+                          "Autoridade: Fale com propriedade técnica."
+                        ].map((tip, i) => (
+                          <li key={i} className="flex items-center gap-3 text-[10px] font-bold text-indigo-300 uppercase">
+                            <CheckCircle2 size={14} /> {tip}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div className="space-y-4 bg-black/20 p-6 rounded-3xl border border-white/5">
+                      <h4 className="text-xs font-black uppercase text-indigo-400">Dica de Ouro</h4>
+                      <p className="text-[11px] text-white/40 italic leading-relaxed">
+                        "Ao conversar com um médico, fale sobre Prestígio. Ao conversar com um lojista, fale sobre Fluxo. Ao conversar com um CEO, fale sobre Escala. Adapte sua linguagem para ser visto como um par, não como um vendedor."
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-white/5 p-6 rounded-2xl border border-white/5 space-y-3">
+                    <p className="text-[10px] font-black uppercase text-white">Como este teste funciona:</p>
+                    <p className="text-[11px] text-white/40 leading-relaxed">
+                      Nas próximas etapas, você será apresentado a cada um dos nossos serviços. Leia a descrição e responda ao desafio de "Contorno de Objeção". Queremos ver como você raciocina sob pressão comercial.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Entendido, Iniciar Testes <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {/* ETAPA 3: PERFORMANCE ADS */}
+            {step === 3 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-primary/10 border border-primary/20 space-y-6">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><TrendingUp size={16} /> PILAR 01: PERFORMANCE ADS</div>
@@ -238,17 +294,17 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 3: SITES PREMIUM */}
-            {step === 3 && (
+            {/* ETAPA 4: SITES PREMIUM */}
+            {step === 4 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-cyan-500/10 border border-cyan-500/20 space-y-6">
-                  <div className="flex items-center gap-3 text-cyan-400 font-black uppercase text-[10px]"><Layout size={16} /> PILAR 02: SITES PREMIUM</div>
+                  <div className="flex items-center gap-3 text-cyan-400 font-black uppercase text-[10px]"><Layout size={16} /> PILAR 02: SITES PROFISSIONAIS</div>
                   <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">Engenharia que Converte</h3>
                   <p className="text-sm md:text-base text-white/60 leading-relaxed">
                     Um site Sapient não é um "template". É um software de conversão. Focamos em <strong>Velocidade Extrema (Core Web Vitals)</strong> e Mobile-First. Se o site demora mais de 3 segundos para carregar, o dinheiro investido no Ads está sendo jogado no lixo.
                   </p>
                   <div className="h-px bg-white/5 w-full" />
-                  <p className="text-xs font-bold text-white/40 uppercase">DESAFIO: Como você convenceria um cliente a investir R$ 10k em um site novo, provando que o site atual dele (lento e amador) está expulsando leads qualificados?</p>
+                  <p className="text-xs font-bold text-white/40 uppercase">DESAFIO: Como você convenceria um cliente a investir em um site novo, provando que o site atual dele (lento e amador) está expulsando leads qualificados?</p>
                 </div>
 
                 <div className="space-y-4">
@@ -267,8 +323,8 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 4: DESIGN ESTRATÉGICO */}
-            {step === 4 && (
+            {/* ETAPA 5: DESIGN ESTRATÉGICO */}
+            {step === 5 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-orange-500/10 border border-orange-500/20 space-y-6">
                   <div className="flex items-center gap-3 text-orange-400 font-black uppercase text-[10px]"><Palette size={16} /> PILAR 03: DESIGN ESTRATÉGICO</div>
@@ -296,8 +352,8 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 5: CHAT IA & AUTOMAÇÃO */}
-            {step === 5 && (
+            {/* ETAPA 6: CHAT IA & AUTOMAÇÃO */}
+            {step === 6 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-violet-500/10 border border-violet-500/20 space-y-6">
                   <div className="flex items-center gap-3 text-violet-400 font-black uppercase text-[10px]"><Bot size={16} /> PILAR 04: CHAT IA & AUTOMAÇÃO</div>
@@ -325,8 +381,8 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 6: GESTÃO DE REDES SOCIAIS */}
-            {step === 6 && (
+            {/* ETAPA 7: GESTÃO DE REDES SOCIAIS */}
+            {step === 7 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-pink-500/10 border border-pink-500/20 space-y-6">
                   <div className="flex items-center gap-3 text-pink-400 font-black uppercase text-[10px]"><Users size={16} /> PILAR 05: GESTÃO SOCIAL</div>
@@ -354,8 +410,8 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 7: NARRATIVA VISUAL E DOSSIÊS */}
-            {step === 7 && (
+            {/* ETAPA 8: NARRATIVA VISUAL E DOSSIÊS */}
+            {step === 8 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-purple-500/10 border border-purple-500/20 space-y-6">
                   <div className="flex items-center gap-3 text-purple-400 font-black uppercase text-[10px]"><FileText size={16} /> PILAR 06: NARRATIVA VISUAL</div>
@@ -383,8 +439,8 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 8: PITCH VOCAL FINAL */}
-            {step === 8 && (
+            {/* ETAPA 9: PITCH VOCAL FINAL */}
+            {step === 9 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white text-black space-y-6">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Target size={16} /> PITCH DE AUTORIDADE</div>
@@ -428,14 +484,14 @@ export function RecrutamentoClient() {
                     disabled={isLoading || !audioBase64 || isRecording} 
                     className="h-24 flex-1 bg-primary rounded-full font-black uppercase text-[12px] shadow-2xl"
                   >
-                    {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Enviar Dossiê para Avaliação Humana"} <Zap size={20} className="ml-2" />
+                    {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Enviar Dossiê para Avaliação"} <Zap size={20} className="ml-2" />
                   </Button>
                 </div>
               </div>
             )}
 
-            {/* ETAPA 9: SUCESSO */}
-            {step === 9 && (
+            {/* ETAPA 10: SUCESSO */}
+            {step === 10 && (
               <div className="space-y-12 animate-in zoom-in duration-700 text-center py-10">
                 <div className="h-24 w-24 rounded-full bg-green-500 flex items-center justify-center mx-auto shadow-2xl animate-glow-pulse">
                   <Trophy size={40} className="text-white" />
@@ -446,7 +502,7 @@ export function RecrutamentoClient() {
                 </div>
                 <div className="p-8 rounded-[3rem] bg-white/5 border border-white/10 max-w-2xl mx-auto">
                   <p className="text-white/40 leading-relaxed italic">
-                    "Obrigado por completar o desafio Sapient. Suas respostas técnicas e seu pitch vocal foram salvos em nosso banco de talentos comercial. Nossa diretoria realizará uma avaliação humana detalhada e entraremos em contato via WhatsApp caso seu perfil seja de elite."
+                    "Obrigado por completar o desafio Sapient. Suas respostas técnicas e seu pitch vocal foram salvos em nosso banco de talentos. Nossa diretoria realizará uma avaliação humana detalhada e entraremos em contato via WhatsApp caso seu perfil seja compatível com nossa visão estratégica."
                   </p>
                 </div>
                 <div className="pt-8">

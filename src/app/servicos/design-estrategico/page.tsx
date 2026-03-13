@@ -48,7 +48,7 @@ export default function DesignEstrategicoPage() {
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto space-y-16">
             <h2 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-[0.9]">
-              O Impacto da <span className="text-primary italic">Percepção de Luxo.</span>
+              O Impacto da <span className="text-primary italic">Percepção Profissional.</span>
             </h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
               <blockquote className="text-xl md:text-3xl text-slate-900 font-medium leading-tight tracking-tight italic border-l-[8px] border-primary pl-8">
@@ -69,7 +69,7 @@ export default function DesignEstrategicoPage() {
       <section className="py-24 md:py-48 relative">
         <div className="container mx-auto px-6">
           <div className="mb-24 text-center md:text-left max-w-3xl">
-            <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none text-white uppercase">Sistemas Visuais <br/>de Elite.</h3>
+            <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none text-white uppercase">Sistemas Visuais <br/>de Alto Nível.</h3>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 max-w-6xl mx-auto">

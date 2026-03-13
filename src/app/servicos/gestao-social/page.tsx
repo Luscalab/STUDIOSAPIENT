@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -80,7 +79,7 @@ export default function GestaoSocialPage() {
                    <Users className="h-8 w-8" />
                  </div>
                  <div className="space-y-4">
-                    <h4 className="font-headline text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none">Audiência de Elite</h4>
+                    <h4 className="font-headline text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none">Audiência Qualificada</h4>
                     <p className="text-lg text-white/50 font-medium max-w-lg">Focamos em atrair o público com real potencial de fechamento, eliminando métricas de vaidade que não pagam as contas.</p>
                  </div>
                </div>
@@ -99,7 +98,7 @@ export default function GestaoSocialPage() {
             <div className="md:col-span-6 p-10 rounded-[3rem] bg-[#121216] border border-white/5 space-y-6">
                 <div className="flex items-center gap-4">
                   <Target className="h-6 w-6 text-primary" />
-                  <h4 className="font-bold text-xl tracking-tighter uppercase">Copywriting de Elite</h4>
+                  <h4 className="font-bold text-xl tracking-tighter uppercase">Copywriting de Alto Nível</h4>
                 </div>
                 <p className="text-white/40 leading-relaxed text-sm">Textos desenhados com gatilhos mentais de autoridade para conectar com as dores reais do seu decisor.</p>
             </div>
