@@ -67,6 +67,7 @@ import { collection, serverTimestamp, doc } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { LocalBrain } from "@/components/ai/LocalBrain";
 
 export function RecrutamentoClient() {
   const [view, setView] = useState<'dashboard' | 'training' | 'profile'>('dashboard');
@@ -604,7 +605,16 @@ export function RecrutamentoClient() {
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio Técnico: Ads & GMN</h3>
                     <p className="text-white/40">Um cliente investe R$ 2.000/mês, mas o site dele demora 10s para carregar. Como você usa o conceito de **Índice de Qualidade** e **Hemorragia de Verba** para convencê-lo de que ele está perdendo dinheiro?</p>
-                    <Textarea value={formData.ansAds} onChange={(e) => setFormData({...formData, ansAds: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua resposta estratégica..." />
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                      <div className="lg:col-span-8">
+                        <Textarea value={formData.ansAds} onChange={(e) => setFormData({...formData, ansAds: e.target.value})} className="min-h-[250px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white text-lg" placeholder="Sua resposta estratégica..." />
+                      </div>
+                      <div className="lg:col-span-4">
+                        <LocalBrain text={formData.ansAds} />
+                      </div>
+                    </div>
+
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
                       <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Engenharia Web <ChevronRight size={16}/></Button>
@@ -710,7 +720,16 @@ export function RecrutamentoClient() {
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Engenharia Web</h3>
                     <p className="text-white/40">Como você provaria para um cliente que o site dele feito no WordPress está, na verdade, fazendo ele perder dinheiro todos os meses no Google Ads?</p>
-                    <Textarea value={formData.ansSites} onChange={(e) => setFormData({...formData, ansSites: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Defesa técnica..." />
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                      <div className="lg:col-span-8">
+                        <Textarea value={formData.ansSites} onChange={(e) => setFormData({...formData, ansSites: e.target.value})} className="min-h-[250px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white text-lg" placeholder="Defesa técnica..." />
+                      </div>
+                      <div className="lg:col-span-4">
+                        <LocalBrain text={formData.ansSites} />
+                      </div>
+                    </div>
+
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
                       <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Design Estratégico <ChevronRight size={16}/></Button>
@@ -816,7 +835,16 @@ export function RecrutamentoClient() {
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Barreira de Confiança</h3>
                     <p className="text-white/40">Como você explicaria ao cliente que o logotipo dele feito no Canva está impedindo-o de cobrar 3x mais caro pelo serviço?</p>
-                    <Textarea value={formData.ansDesign} onChange={(e) => setFormData({...formData, ansDesign: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua explicação de valor..." />
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                      <div className="lg:col-span-8">
+                        <Textarea value={formData.ansDesign} onChange={(e) => setFormData({...formData, ansDesign: e.target.value})} className="min-h-[250px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white text-lg" placeholder="Sua explicação de valor..." />
+                      </div>
+                      <div className="lg:col-span-4">
+                        <LocalBrain text={formData.ansDesign} />
+                      </div>
+                    </div>
+
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
                       <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Sistemas IA <ChevronRight size={16}/></Button>
@@ -922,7 +950,16 @@ export function RecrutamentoClient() {
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: IA & Escala</h3>
                     <p className="text-white/40">Como você venderia uma IA para um dono de negócio que acha que "o atendimento humano é insubstituível", provando que ele está perdendo vendas por demora?</p>
-                    <Textarea value={formData.ansChat} onChange={(e) => setFormData({...formData, ansChat: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua resposta estratégica..." />
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                      <div className="lg:col-span-8">
+                        <Textarea value={formData.ansChat} onChange={(e) => setFormData({...formData, ansChat: e.target.value})} className="min-h-[250px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white text-lg" placeholder="Sua resposta estratégica..." />
+                      </div>
+                      <div className="lg:col-span-4">
+                        <LocalBrain text={formData.ansChat} />
+                      </div>
+                    </div>
+
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
                       <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Gestão Social <ChevronRight size={16}/></Button>
@@ -937,9 +974,9 @@ export function RecrutamentoClient() {
                       <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Seção 1/5</Badge>
                       <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Fundamentos</Badge>
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Curadoria Social <br/>de Autoridade</h2>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Redes de Impacto</h2>
                     <p className="text-lg text-white/60 leading-relaxed">
-                      Rede social não é para postar "Bom dia". É para educar o cliente e mostrar que você é o especialista de elite. Transformamos o feed em um **Portfólio de Luxo**.
+                      Transformamos o Instagram em um portfólio de autoridade. O objetivo não é ser "blogueiro", mas ser visto como o especialista mais confiável do nicho.
                     </p>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -956,12 +993,12 @@ export function RecrutamentoClient() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
-                        <h4 className="text-primary font-black uppercase text-xs">Decisor vs Seguidor</h4>
-                        <p className="text-[11px] text-white/40 leading-relaxed">Não queremos 100k curtidas de curiosos. Queremos 100 visualizações de CEOs e donos de empresas.</p>
+                        <h4 className="text-primary font-black uppercase text-xs">Curadoria de Autoridade</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Selecionar o que postar para que o cliente sinta que você detém um conhecimento superior e exclusivo.</p>
                       </div>
                       <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
-                        <h4 className="text-primary font-black uppercase text-xs">Social Proof (Prova Social)</h4>
-                        <p className="text-[11px] text-white/40 leading-relaxed">Depoimentos e resultados estruturados para gatilhos de segurança emocional.</p>
+                        <h4 className="text-primary font-black uppercase text-xs">Decisores vs Seguidores</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Focamos em atrair quem tem o poder de compra (decisor), não apenas quem quer entretenimento.</p>
                       </div>
                     </div>
                     <div className="flex gap-4">
@@ -977,13 +1014,13 @@ export function RecrutamentoClient() {
                       <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Seção 3/5</Badge>
                       <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Estratégia</Badge>
                     </div>
-                    <h3 className="text-3xl font-black uppercase tracking-tighter">O Funil Educativo</h3>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">O Funil de Conteúdo</h3>
                     <p className="text-lg text-white/60 leading-relaxed">
-                      Cada postagem tem uma função: atrair, educar ou vender. Eliminamos o conteúdo "vazio" e focamos em resolver as dores reais do seu cliente ideal de forma visual.
+                      Cada postagem deve educar o cliente sobre o valor da sua solução. O feed da Sapient transforma dúvidas em desejo de compra através de design estratégico e copywriting de elite.
                     </p>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Bio-Otimização) <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Bio-Conversão) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
@@ -994,9 +1031,9 @@ export function RecrutamentoClient() {
                       <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Seção 4/5</Badge>
                       <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Conversão</Badge>
                     </div>
-                    <h3 className="text-3xl font-black uppercase tracking-tighter">Bio-Otimização</h3>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Bio de Alta Performance</h3>
                     <p className="text-lg text-white/60 leading-relaxed">
-                      A bio é sua página de vendas. Se ela não responde "O que você faz?" e "Como eu te contrato?" em 3 segundos, você está perdendo dinheiro diariamente.
+                      A biografia do Instagram é a sua página de vendas rápida. Ela deve conter uma promessa clara, prova de autoridade e um link direto para o fechamento. Menos frases reflexivas, mais gatilhos de lucro.
                     </p>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -1014,7 +1051,7 @@ export function RecrutamentoClient() {
                     <h3 className="text-3xl font-black uppercase tracking-tighter">Perguntas de Ouro</h3>
                     <div className="p-8 rounded-[3rem] bg-pink-500/10 border border-pink-500/20 space-y-4">
                       <p className="text-white font-bold text-sm italic leading-relaxed">
-                        "Se um grande investidor abrir seu Instagram agora, ele vê um amador tentando vender algo ou uma autoridade que ele precisa contratar?"
+                        "Se o seu cliente ideal abrir seu perfil agora, ele te contrata pelo seu valor ou te segue apenas pelas suas dicas gratuitas?"
                       </p>
                     </div>
                     <div className="flex gap-4">
@@ -1028,7 +1065,16 @@ export function RecrutamentoClient() {
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Social & Autoridade</h3>
                     <p className="text-white/40">Como você convenceria um cliente que postar 3x ao dia sem estratégia visual está na verdade destruindo a autoridade dele?</p>
-                    <Textarea value={formData.ansSocial} onChange={(e) => setFormData({...formData, ansSocial: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua análise estratégica..." />
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                      <div className="lg:col-span-8">
+                        <Textarea value={formData.ansSocial} onChange={(e) => setFormData({...formData, ansSocial: e.target.value})} className="min-h-[250px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white text-lg" placeholder="Sua análise estratégica..." />
+                      </div>
+                      <div className="lg:col-span-4">
+                        <LocalBrain text={formData.ansSocial} />
+                      </div>
+                    </div>
+
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
                       <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Narrativa Visual <ChevronRight size={16}/></Button>
@@ -1134,7 +1180,16 @@ export function RecrutamentoClient() {
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Dossiê de Elite</h3>
                     <p className="text-white/40">O cliente diz: "Me manda os valores pelo WhatsApp mesmo". Como você reverte isso para apresentar um **Dossiê de Venda** e não ser comparado por preço?</p>
-                    <Textarea value={formData.ansNarrativa} onChange={(e) => setFormData({...formData, ansNarrativa: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua resposta estratégica..." />
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                      <div className="lg:col-span-8">
+                        <Textarea value={formData.ansNarrativa} onChange={(e) => setFormData({...formData, ansNarrativa: e.target.value})} className="min-h-[250px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white text-lg" placeholder="Sua resposta estratégica..." />
+                      </div>
+                      <div className="lg:col-span-4">
+                        <LocalBrain text={formData.ansNarrativa} />
+                      </div>
+                    </div>
+
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
                       <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Estratégias de Nicho <ChevronRight size={16}/></Button>
@@ -1234,7 +1289,16 @@ export function RecrutamentoClient() {
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Nichos Estratégicos</h3>
                     <p className="text-white/40">Escolha um dos nichos acima e descreva qual o primeiro "gargalo" que você atacaria em uma ligação de 30 segundos usando os termos técnicos que aprendeu.</p>
-                    <Textarea value={formData.ansNichos} onChange={(e) => setFormData({...formData, ansNichos: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua estratégia de abordagem..." />
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                      <div className="lg:col-span-8">
+                        <Textarea value={formData.ansNichos} onChange={(e) => setFormData({...formData, ansNichos: e.target.value})} className="min-h-[250px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white text-lg" placeholder="Sua estratégia de abordagem..." />
+                      </div>
+                      <div className="lg:col-span-4">
+                        <LocalBrain text={formData.ansNichos} />
+                      </div>
+                    </div>
+
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
                       <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Negociação de Valor <ChevronRight size={16}/></Button>
@@ -1340,7 +1404,16 @@ export function RecrutamentoClient() {
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Objeção de Preço</h3>
                     <p className="text-white/40">O cliente diz: "O site está caro". Como você utiliza o argumento do **Lucro Cessante** (o dinheiro que ele já está perdendo) para ancorar o preço da Sapient?</p>
-                    <Textarea value={formData.ansPreco} onChange={(e) => setFormData({...formData, ansPreco: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua defesa comercial de elite..." />
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                      <div className="lg:col-span-8">
+                        <Textarea value={formData.ansPreco} onChange={(e) => setFormData({...formData, ansPreco: e.target.value})} className="min-h-[250px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white text-lg" placeholder="Sua defesa comercial de elite..." />
+                      </div>
+                      <div className="lg:col-span-4">
+                        <LocalBrain text={formData.ansPreco} />
+                      </div>
+                    </div>
+
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
                       <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Preparação Vocal <ChevronRight size={16}/></Button>
@@ -1446,12 +1519,29 @@ export function RecrutamentoClient() {
                     </div>
                     
                     <div className="p-10 rounded-[3rem] bg-black/40 border border-white/5 flex flex-col items-center gap-6">
-                      {isRecording ? (
-                        <Button onClick={stopRecording} className="h-20 w-20 rounded-full bg-red-500 animate-pulse"><MicOff size={32}/></Button>
-                      ) : (
-                        <Button onClick={() => startRecording('audio1')} className="h-24 w-24 rounded-full bg-primary shadow-2xl shadow-primary/40"><Mic size={40}/></Button>
+                      <div className="flex flex-col items-center gap-4">
+                        {isRecording ? (
+                          <Button onClick={stopRecording} className="h-24 w-24 rounded-full bg-red-500 animate-pulse border-4 border-red-500/20 transition-all scale-110 shadow-[0_0_40px_rgba(239,68,68,0.4)]">
+                            <MicOff size={32}/>
+                          </Button>
+                        ) : (
+                          <Button onClick={() => startRecording('audio1')} className="h-24 w-24 rounded-full bg-primary shadow-2xl shadow-primary/40 hover:scale-105 transition-all">
+                            <Mic size={40}/>
+                          </Button>
+                        )}
+                        <p className="text-[10px] font-black uppercase tracking-widest text-white/40">
+                          {isRecording ? "Gravando Resposta..." : audio1Base64 ? "Clique para regravar" : "Clique para iniciar"}
+                        </p>
+                      </div>
+                      
+                      {audio1Base64 && (
+                        <div className="w-full max-w-md p-6 rounded-2xl bg-white/5 border border-white/5 space-y-4 animate-in zoom-in-95">
+                          <p className="text-[8px] font-black uppercase text-green-500 tracking-widest text-center">Arquivo Processado com Sucesso</p>
+                          <audio controls className="w-full h-10 filter invert opacity-80">
+                            <source src={audio1Base64} type="audio/webm" />
+                          </audio>
+                        </div>
                       )}
-                      {audio1Base64 && <Badge className="bg-green-500/20 text-green-500 border-none">Resposta Gravada</Badge>}
                     </div>
 
                     <div className="flex gap-4">
@@ -1556,18 +1646,37 @@ export function RecrutamentoClient() {
                       <h2 className="text-3xl font-black uppercase">O Pitch de Elite</h2>
                       <p className="text-white/40 max-w-md mx-auto">Por que você é o consultor que a studiosapient precisa para dominar o mercado? Demonstre seu domínio sobre os pilares da agência (Ads, Engenharia, IA e Semiótica) em 60s.</p>
                     </div>
+                    
                     <div className="p-10 rounded-[3rem] bg-black/40 border border-white/5 flex flex-col items-center gap-6">
-                      {isRecording ? (
-                        <Button onClick={stopRecording} className="h-20 w-20 rounded-full bg-red-500 animate-pulse"><MicOff size={32}/></Button>
-                      ) : (
-                        <Button onClick={() => startRecording('final')} className="h-24 w-24 rounded-full bg-primary shadow-2xl shadow-primary/40"><Mic size={40}/></Button>
+                      <div className="flex flex-col items-center gap-4">
+                        {isRecording ? (
+                          <Button onClick={stopRecording} className="h-24 w-24 rounded-full bg-red-500 animate-pulse border-4 border-red-500/20 transition-all scale-110 shadow-[0_0_40px_rgba(239,68,68,0.4)]">
+                            <MicOff size={32}/>
+                          </Button>
+                        ) : (
+                          <Button onClick={() => startRecording('final')} className="h-24 w-24 rounded-full bg-primary shadow-2xl shadow-primary/40 hover:scale-105 transition-all">
+                            <Mic size={40}/>
+                          </Button>
+                        )}
+                        <p className="text-[10px] font-black uppercase tracking-widest text-white/40">
+                          {isRecording ? "Gravando Pitch..." : audioFinalBase64 ? "Clique para regravar" : "Clique para iniciar"}
+                        </p>
+                      </div>
+                      
+                      {audioFinalBase64 && (
+                        <div className="w-full max-w-md p-6 rounded-2xl bg-white/5 border border-white/5 space-y-4 animate-in zoom-in-95">
+                          <p className="text-[8px] font-black uppercase text-green-500 tracking-widest text-center">Pitch Final Processado</p>
+                          <audio controls className="w-full h-10 filter invert opacity-80">
+                            <source src={audioFinalBase64} type="audio/webm" />
+                          </audio>
+                        </div>
                       )}
-                      {audioFinalBase64 && <Badge className="bg-green-500/20 text-green-500 border-none">Pitch Final Gravado</Badge>}
                     </div>
+
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
                       <Button disabled={!audioFinalBase64 || isLoading} onClick={handleSubmit} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">
-                        {isLoading ? <Loader2 className="animate-spin" /> : "Enviar Dossiê para Lucas Souza"}
+                        {isLoading ? <Loader2 className="animate-spin" /> : "Enviar Dossiê Final para Avaliação"}
                       </Button>
                     </div>
                   </div>
