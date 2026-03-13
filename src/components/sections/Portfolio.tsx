@@ -34,7 +34,7 @@ export function Portfolio() {
               src={portfolioData?.imageUrl || ""}
               alt={portfolioData?.description || "Dossiê Identidade Premium"}
               fill
-              className="object-cover transition-transform duration-[4000ms] group-hover:scale-105"
+              className="object-cover transition-transform [transition-duration:4000ms] group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-700" />
             

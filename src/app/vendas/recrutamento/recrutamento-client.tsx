@@ -23,35 +23,18 @@ import {
   Palette,
   Bot,
   Users,
-  BookOpen,
-  Search,
-  Video,
-  Layers,
-  MapPin,
-  CircleDollarSign,
-  Briefcase,
-  ShoppingBag,
-  Sparkles,
-  Utensils,
-  Dog,
-  Music,
-  Stethoscope as StethoscopeIcon,
-  PhoneCall,
-  Target,
-  ArrowRight,
-  Info,
-  CheckCircle2,
-  AlertTriangle,
-  Coins,
-  Globe,
-  Activity,
-  Cpu,
-  MousePointer2,
-  Lock,
-  Eye,
-  MessageSquare,
   FileText,
-  LogOut
+  LogOut,
+  Target,
+  Search,
+  CheckCircle2,
+  Activity,
+  Coins,
+  Gem,
+  Sparkles,
+  Smartphone,
+  Eye,
+  MessageSquare
 } from "lucide-react";
 import { useFirebase, useFirestore, initiateSignOut } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -65,12 +48,9 @@ export function RecrutamentoClient() {
   const [step, setStep] = useState(1);
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessingAudio, setIsProcessingAudio] = useState(false);
+  
   const [audio1Base64, setAudio1Base64] = useState<string | null>(null);
-  const [audio1PreviewUrl, setAudio1PreviewUrl] = useState<string | null>(null);
-  const [audio2Base64, setAudio2Base64] = useState<string | null>(null);
-  const [audio2PreviewUrl, setAudio2PreviewUrl] = useState<string | null>(null);
   const [audioFinalBase64, setAudioFinalBase64] = useState<string | null>(null);
-  const [audioFinalPreviewUrl, setAudioFinalPreviewUrl] = useState<string | null>(null);
   
   const [isLoading, setIsLoading] = useState(false);
   const [consentAccepted, setConsentAccepted] = useState(false);
@@ -87,11 +67,11 @@ export function RecrutamentoClient() {
     experience: "",
     ansAds: "",
     ansSites: "",
-    ansChat: "",
-    ansSocial: "",
+    ansDesign: "",
     ansNarrativa: "",
+    ansNichos: "",
+    ansPreco: "",
     audioObjeçãoAds: "",
-    audioCirurgiao: "",
     pitchAudioUri: "",
     consentAccepted: false,
     consentTimestamp: ""
@@ -120,22 +100,10 @@ export function RecrutamentoClient() {
     router.push("/vendas/auth");
   };
 
-  const stopAllRecording = (target: 'audio1' | 'audio2' | 'final') => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-      mediaRecorderRef.current.stop();
-    }
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop());
-      streamRef.current = null;
-    }
-    setIsRecording(false);
-  };
-
-  const startRecording = async (target: 'audio1' | 'audio2' | 'final') => {
+  const startRecording = async (target: 'audio1' | 'final') => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
-      
       const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
@@ -147,23 +115,15 @@ export function RecrutamentoClient() {
       mediaRecorder.onstop = async () => {
         setIsProcessingAudio(true);
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        const url = URL.createObjectURL(audioBlob);
-
         const reader = new FileReader();
         reader.readAsDataURL(audioBlob);
         reader.onloadend = () => {
           const b64 = reader.result as string;
           if (target === 'audio1') {
             setAudio1Base64(b64);
-            setAudio1PreviewUrl(url);
             setFormData(prev => ({ ...prev, audioObjeçãoAds: b64 }));
-          } else if (target === 'audio2') {
-            setAudio2Base64(b64);
-            setAudio2PreviewUrl(url);
-            setFormData(prev => ({ ...prev, audioCirurgiao: b64 }));
           } else {
             setAudioFinalBase64(b64);
-            setAudioFinalPreviewUrl(url);
             setFormData(prev => ({ ...prev, pitchAudioUri: b64 }));
           }
           setIsProcessingAudio(false);
@@ -172,19 +132,29 @@ export function RecrutamentoClient() {
 
       mediaRecorder.start();
       setIsRecording(true);
-      toast({ title: "MICROFONE ATIVO", description: "Gravando resposta vocal.", className: "bg-primary text-white font-black uppercase text-[9px]" });
+      toast({ title: "MICROFONE ATIVO", description: "Gravando resposta vocal." });
     } catch (err) {
       toast({ title: "ERRO DE HARDWARE", description: "Microfone não encontrado ou bloqueado.", variant: "destructive" });
     }
   };
 
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      mediaRecorderRef.current.stop();
+    }
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+    }
+    setIsRecording(false);
+  };
+
   const handleNextStep = () => {
     if (step === 1 && (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !consentAccepted)) {
-      toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos de segurança.", variant: "destructive" });
+      toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos.", variant: "destructive" });
       return;
     }
     if (step === 2 && !outboundAccepted) {
-      toast({ title: "Confirmação Necessária", description: "Você precisa confirmar que entende a dinâmica de Outbound Ativo.", variant: "destructive" });
+      toast({ title: "Confirmação Necessária", description: "Confirme que entende o modelo Outbound.", variant: "destructive" });
       return;
     }
     setStep(prev => prev + 1);
@@ -211,7 +181,6 @@ export function RecrutamentoClient() {
     };
 
     const colRef = collection(db, 'sales_candidates');
-    
     addDoc(colRef, candidateData)
       .then(() => {
         setIsLoading(false);
@@ -225,7 +194,6 @@ export function RecrutamentoClient() {
           requestResourceData: candidateData,
         });
         errorEmitter.emit('permission-error', permissionError);
-        toast({ title: "Erro no Envio", description: "Ocorreu um problema ao salvar seu dossiê.", variant: "destructive" });
       });
   };
 
@@ -259,7 +227,6 @@ export function RecrutamentoClient() {
             </div>
           </div>
 
-          {/* Progress Bar */}
           <div className="flex items-center gap-2 mb-12 overflow-x-auto pb-4 no-scrollbar">
             {Array.from({ length: 22 }).map((_, i) => (
               <div key={i} className={cn("h-1 min-w-[15px] flex-1 rounded-full transition-all duration-500", step >= (i + 1) ? "bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
@@ -270,48 +237,30 @@ export function RecrutamentoClient() {
             
             {step === 1 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-                <div className="space-y-4 text-center md:text-left">
+                <div className="space-y-4">
                     <h2 className="text-2xl font-black uppercase tracking-tighter">1. Perfil do Colaborador</h2>
                     <p className="text-white/40 text-sm">Confirme seus dados para iniciar o treinamento técnico.</p>
                 </div>
-                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <p className="text-[10px] font-black uppercase text-white/40 ml-2">Dados de Contato</p>
-                    <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Nome Completo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                    <Input disabled value={formData.email} placeholder="E-mail Corporativo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold opacity-50" />
-                    <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp (DDD + Número)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-[10px] font-black uppercase text-white/40 ml-2">Redes Sociais & Carreira</p>
-                    <Input value={formData.instagram} onChange={(e) => setFormData({...formData, instagram: e.target.value})} placeholder="Instagram (@usuario)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                    <Input value={formData.linkedin} onChange={(e) => setFormData({...formData, linkedin: e.target.value})} placeholder="LinkedIn (URL)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                    <Input value={formData.currentOccupation} onChange={(e) => setFormData({...formData, currentOccupation: e.target.value})} placeholder="Profissão Atual" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                  </div>
-                  <Input value={formData.cityState} onChange={(e) => setFormData({...formData, cityState: e.target.value})} placeholder="Cidade / Estado" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Nome Completo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input disabled value={formData.email} placeholder="E-mail Corporativo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold opacity-50" />
+                  <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp (DDD + Número)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.instagram} onChange={(e) => setFormData({...formData, instagram: e.target.value})} placeholder="Instagram (@usuario)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.linkedin} onChange={(e) => setFormData({...formData, linkedin: e.target.value})} placeholder="LinkedIn (URL)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.experience} onChange={(e) => setFormData({...formData, experience: e.target.value})} placeholder="Tempo em Vendas" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                 </div>
-                
                 <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-4">
                   <div className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-[10px]">
                     <ShieldCheck size={18} /> Protocolo de Segurança Sapient
                   </div>
-                  <p className="text-[11px] text-white/50 leading-relaxed uppercase font-bold">
-                    Seus dados e áudios de treinamento são protegidos por criptografia de ponta e usados exclusivamente para sua formação comercial interna.
-                  </p>
                   <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/40 border border-white/5">
                     <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => {
                       setConsentAccepted(c === true);
-                      setFormData(prev => ({ 
-                        ...prev, 
-                        consentAccepted: c === true,
-                        consentTimestamp: new Date().toISOString()
-                      }));
+                      setFormData(prev => ({ ...prev, consentAccepted: c === true, consentTimestamp: new Date().toISOString() }));
                     }} />
-                    <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">Confirmo ciência dos protocolos de segurança.</label>
+                    <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">Confirmo ciência dos protocolos de segurança e conduta.</label>
                   </div>
                 </div>
-                
                 <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] shadow-xl w-full md:w-auto">
                   Iniciar Treinamento Técnico <ChevronRight size={18} />
                 </Button>
@@ -322,55 +271,356 @@ export function RecrutamentoClient() {
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-amber-500/10 border border-amber-500/20 space-y-8">
                   <div className="flex items-center gap-3 text-amber-400 font-black uppercase text-[10px]"><Zap size={16} /> BRIEFING DE OPERAÇÃO</div>
-                  <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">DINÂMICA: OUTBOUND ATIVO</h3>
+                  <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">MÉTODO: OUTBOUND ATIVO</h3>
                   <p className="text-lg text-white/60 leading-relaxed">
-                    Aqui, você não espera o lead chegar. Você interrompe o dia dele com o <strong>"Ouro"</strong>.
+                    Você não espera o cliente. Você o interrompe com <strong>"Ouro"</strong>: um diagnóstico de vazamento de lucro que ele nem sabia que tinha.
                   </p>
-                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="p-8 bg-black/40 rounded-[2rem] border border-white/5 space-y-4">
-                      <p className="text-[10px] font-black text-amber-300 uppercase tracking-widest">O QUE VOCÊ RECEBE:</p>
-                      <ul className="space-y-3">
-                        <li className="flex gap-2 text-sm text-white/70 italic"><CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0" /> Diagnóstico pronto do gargalo.</li>
-                        <li className="flex gap-2 text-sm text-white/70 italic"><CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0" /> Contato direto do decisor.</li>
-                        <li className="flex gap-2 text-sm text-white/70 italic"><CheckCircle2 className="h-4 w-4 text-amber-400 shrink-0" /> Scripts de interrupção cirúrgica.</li>
-                      </ul>
+                      <p className="text-[10px] font-black text-amber-300 uppercase tracking-widest">SUA FERRAMENTA:</p>
+                      <p className="text-sm text-white/70 italic leading-relaxed">Diagnóstico pronto do gargalo (LCP alto, GMN abandonado, Semiótica fraca).</p>
                     </div>
                     <div className="p-8 bg-black/40 rounded-[2rem] border border-white/5 space-y-4">
-                      <p className="text-[10px] font-black text-primary uppercase tracking-widest">SEU OBJETIVO:</p>
-                      <p className="text-sm text-white/70 italic leading-relaxed">Ser o <strong>Cirurgião</strong>: diagnosticar o vazamento de lucro nos primeiros 30 segundos e marcar a reunião estratégica.</p>
+                      <p className="text-[10px] font-black text-primary uppercase tracking-widest">SEU PAPEL:</p>
+                      <p className="text-sm text-white/70 italic leading-relaxed">Ser o <strong>Cirurgião</strong>: diagnosticar o problema em 30s e marcar a reunião estratégica.</p>
                     </div>
                   </div>
-
                   <div className="flex items-start gap-4 p-6 rounded-[2rem] bg-amber-500/5 border border-amber-500/20">
                     <Checkbox id="outbound" checked={outboundAccepted} onCheckedChange={(c) => setOutboundAccepted(c === true)} />
-                    <label htmlFor="outbound" className="text-xs text-white font-bold leading-tight cursor-pointer uppercase">
-                      Entendo a dinâmica de Outbound Ativo e interrupção com valor.
-                    </label>
+                    <label htmlFor="outbound" className="text-xs text-white font-bold leading-tight cursor-pointer uppercase">Entendo que o cliente não me espera e meu valor está na interrupção cirúrgica.</label>
                   </div>
                 </div>
-                
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Módulo 01 <ChevronRight size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Ads & GMN <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
 
-            {/* Módulos do Curso (3 a 21) - Omitidos aqui por brevidade, mas mantidos na lógica real */}
-            {step > 2 && step < 22 && (
-              <div className="text-center py-20 space-y-8 animate-in fade-in zoom-in">
-                <p className="text-white/40 font-bold uppercase tracking-[0.5em] text-[10px]">Modulo {step - 2} em Progresso</p>
-                <h3 className="text-3xl font-black uppercase tracking-tighter">Ambiente de Aprendizagem Ativo</h3>
-                <p className="text-sm text-white/60 max-w-md mx-auto">Continue navegando pelas etapas para concluir sua formação técnica.</p>
-                <div className="flex gap-4 max-w-sm mx-auto">
+            {/* Módulo 01: Performance Ads & GMN */}
+            {step === 3 && (
+              <div className="space-y-8 animate-in fade-in">
+                <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 01</Badge>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">O Ecossistema de Urgência</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-6">
+                    <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
+                      <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs mb-4"><Search size={16} /> Google Ads (O Ouro)</h4>
+                      <p className="text-white/50 text-sm leading-relaxed">Capturamos quem está com dor <strong>agora</strong>. Se o cliente busca "dentista 24h", ele precisa de uma solução, não de conteúdo.</p>
+                    </div>
+                    <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
+                      <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs mb-4"><Target size={16} /> GMN (A Fachada)</h4>
+                      <p className="text-white/50 text-sm leading-relaxed">O Google Meu Negócio é a fachada digital. Otimizar GMN é limpar o vidro, organizar as avaliações e garantir que o telefone toque.</p>
+                    </div>
+                  </div>
+                  <div className="p-8 bg-primary/10 rounded-[3rem] border border-primary/20 space-y-4">
+                    <p className="text-[10px] font-black uppercase text-primary tracking-widest">Analogia para o Cliente:</p>
+                    <p className="text-lg italic text-white/80 leading-relaxed">"Sua empresa está invisível no momento em que seu cliente mais precisa. É como ter a melhor loja do mundo num beco sem saída."</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Fazer Teste Técnico <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {step === 4 && (
+              <div className="space-y-8 animate-in fade-in">
+                <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Ads & GMN</h3>
+                <p className="text-white/40">Como você explicaria para um dono de clínica que o GMN dele está "abandonado" e perdendo vendas?</p>
+                <Textarea value={formData.ansAds} onChange={(e) => setFormData({...formData, ansAds: e.target.value})} className="min-h-[150px] bg-white/5 border-white/10 rounded-2xl p-6 font-medium" placeholder="Sua resposta..." />
+                <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
                   <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Etapa <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
 
-            {step === 22 && (
+            {/* Módulo 02: Sites Premium & LCP */}
+            {step === 5 && (
+              <div className="space-y-8 animate-in fade-in">
+                <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 02</Badge>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Sites: A Porta Emperrada</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><Activity size={16} /> O Gargalo: LCP (Velocidade)</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">Se o site demora mais de 3s para carregar (LCP), 50% das pessoas desistem. <strong>Isso é dinheiro jogado no lixo dos Ads.</strong></p>
+                    <div className="p-4 rounded-xl bg-black/40 border border-white/5 text-[10px] text-primary font-bold italic">
+                      Analogia: "Um site lento é como uma loja com a porta de vidro trancada. O cliente vê o produto, mas não consegue entrar."
+                    </div>
+                  </div>
+                  <div className="space-y-6">
+                    <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
+                      <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs mb-4"><Smartphone size={16} /> Mobile-First</h4>
+                      <p className="text-white/50 text-sm leading-relaxed">Não basta ser bonito no PC. 90% dos fechamentos de urgência vêm do celular. Nosso código é artesanal, sem templates lentos.</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Testar Conhecimento <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {step === 6 && (
+              <div className="space-y-8 animate-in fade-in">
+                <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Engenharia Web</h3>
+                <p className="text-white/40">Um cliente diz: "Já tenho site, meu Instagram já resolve". Como você prova que ele está perdendo dinheiro por falta de uma infraestrutura proprietária?</p>
+                <Textarea value={formData.ansSites} onChange={(e) => setFormData({...formData, ansSites: e.target.value})} className="min-h-[150px] bg-white/5 border-white/10 rounded-2xl p-6 font-medium" placeholder="Sua resposta estratégica..." />
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Design <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {/* Módulo 03: Design & Semiótica */}
+            {step === 7 && (
+              <div className="space-y-8 animate-in fade-in">
+                <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 03</Badge>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Design: A Barreira de Confiança</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><Eye size={16} /> Semiótica de Valor</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">Não vendemos logo. Vendemos <strong>percepção de preço</strong>. Se o visual é amador, o cliente vai pedir desconto. Se é premium, ele paga o que você pedir.</p>
+                  </div>
+                  <div className="p-8 bg-primary/10 rounded-[3rem] border border-primary/20 space-y-4">
+                    <p className="text-[10px] font-black uppercase text-primary tracking-widest">Tradutor Leigo:</p>
+                    <p className="text-lg italic text-white/80 leading-relaxed">"Sua marca está vestida de pijama para uma reunião de gala. O design certo remove a dúvida do cliente antes dele falar com você."</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Teste de Design <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {step === 8 && (
+              <div className="space-y-8 animate-in fade-in">
+                <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Autoridade Visual</h3>
+                <p className="text-white/40">Explique a diferença entre "fazer um logo" e "construir uma barreira de confiança visual".</p>
+                <Textarea value={formData.ansDesign} onChange={(e) => setFormData({...formData, ansDesign: e.target.value})} className="min-h-[150px] bg-white/5 border-white/10 rounded-2xl p-6 font-medium" placeholder="Sua resposta..." />
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para IA <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {/* Módulo 04: IA & Atendimento */}
+            {step === 9 && (
+              <div className="space-y-8 animate-in fade-in">
+                <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 04</Badge>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">IA: O Segurança Qualificador</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><MessageSquare size={16} /> Lead Scoring Automatizado</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">Nossa IA no WhatsApp não apenas responde, ela <strong>qualifica</strong>. Ela separa o "curioso" do "decisor" antes de passar para o humano.</p>
+                  </div>
+                  <div className="p-8 bg-cyan-400/10 rounded-[3rem] border border-cyan-400/20 space-y-4 text-cyan-400">
+                    <p className="text-[10px] font-black uppercase tracking-widest">Vantagem:</p>
+                    <p className="text-lg italic text-white/80 leading-relaxed">"Pare de perder 4 horas por dia respondendo quem não tem dinheiro. Deixe a IA filtrar o joio do trigo 24h por dia."</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Teste de IA <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {step === 10 && (
+              <div className="space-y-8 animate-in fade-in">
+                <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Inteligência Artificial</h3>
+                <p className="text-white/40">Como você venderia um Chatbot Inteligente para um dono de restaurante que diz que "prefere o contato humano"?</p>
+                <Textarea value={formData.ansChat} onChange={(e) => setFormData({...formData, ansChat: e.target.value})} className="min-h-[150px] bg-white/5 border-white/10 rounded-2xl p-6 font-medium" placeholder="Sua resposta..." />
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Social <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {/* Módulo 05: Gestão Social & Narrativa */}
+            {step === 11 && (
+              <div className="space-y-8 animate-in fade-in">
+                <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 05</Badge>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Social: Curadoria de Autoridade</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><Users size={16} /> Menos Seguidores, Mais Decisores</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">Não fazemos "postzinho". Criamos curadoria de autoridade. O perfil do cliente deve ser um portfólio de competência, não uma coleção de memes.</p>
+                  </div>
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs"><FileText size={16} /> Dossiês de Venda</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">Transformamos propostas comerciais em ativos de luxo. A Narrativa Visual faz o cliente entender que está comprando um <strong>ecossistema</strong>, não um serviço isolado.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Teste Final de Serviços <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {step === 12 && (
+              <div className="space-y-8 animate-in fade-in">
+                <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Social & Narrativa</h3>
+                <p className="text-white/40">O que é mais importante em um perfil profissional: ter 100 mil seguidores ou 100 decisões de compra tomadas?</p>
+                <Textarea value={formData.ansSocial} onChange={(e) => setFormData({...formData, ansSocial: e.target.value})} className="min-h-[150px] bg-white/5 border-white/10 rounded-2xl p-6 font-medium" placeholder="Sua resposta..." />
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Nichos <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {/* Módulo 06: Especialização por Nicho */}
+            {step === 13 && (
+              <div className="space-y-8 animate-in fade-in">
+                <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 06</Badge>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Estratégias por Nicho</h2>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-3">
+                    <h4 className="text-primary font-bold text-xs uppercase">Beleza & Pet Shop</h4>
+                    <p className="text-[10px] text-white/40">Gargalo: Agenda vazia e briga por preço. Solução: GMN Ativo e Prova Social de Luxo.</p>
+                  </div>
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-3">
+                    <h4 className="text-cyan-400 font-bold text-xs uppercase">Alimentos & Lounges</h4>
+                    <p className="text-[10px] text-white/40">Gargalo: Atendimento lento no WhatsApp. Solução: IA Qualificadora e Cardápio Digital Premium.</p>
+                  </div>
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-3">
+                    <h4 className="text-amber-400 font-bold text-xs uppercase">Médicos & Advogados</h4>
+                    <p className="text-[10px] text-white/40">Gargalo: Imagem amadora. Solução: Semiótica de Autoridade e Site de Alta Fidelidade.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Teste de Nicho <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {step === 14 && (
+              <div className="space-y-8 animate-in fade-in">
+                <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Nichos Específicos</h3>
+                <p className="text-white/40">Como você abordaria um dono de Pet Shop que tem muitas curtidas, mas a agenda está sempre com buracos?</p>
+                <Textarea value={formData.ansNichos} onChange={(e) => setFormData({...formData, ansNichos: e.target.value})} className="min-h-[150px] bg-white/5 border-white/10 rounded-2xl p-6 font-medium" placeholder="Sua estratégia..." />
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Precificação <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {/* Módulo 07: Precificação & Tabela */}
+            {step === 15 && (
+              <div className="space-y-8 animate-in fade-in">
+                <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 07</Badge>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Combos & Precificação</h2>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-white/10 text-[8px] font-black uppercase text-white/30">
+                        <th className="py-4">Serviço Base</th>
+                        <th className="py-4">Investimento Sugerido</th>
+                        <th className="py-4">Público Alvo</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-[10px] font-bold">
+                      <tr className="border-b border-white/5">
+                        <td className="py-4">Combo Local (Ads + GMN)</td>
+                        <td className="py-4 text-primary">R$ 1.200 - R$ 2.500/mês</td>
+                        <td className="py-4 text-white/40">Pequenos Negócios Locais</td>
+                      </tr>
+                      <tr className="border-b border-white/5">
+                        <td className="py-4">Ecossistema Full (Site + Ads + Social)</td>
+                        <td className="py-4 text-primary">R$ 3.500 - R$ 7.000/mês</td>
+                        <td className="py-4 text-white/40">Empresas em Escala</td>
+                      </tr>
+                      <tr>
+                        <td className="py-4">Dossiê Visual (Design Único)</td>
+                        <td className="py-4 text-primary">R$ 2.000 - R$ 15.000 (Projeto)</td>
+                        <td className="py-4 text-white/40">Profissionais Liberais Premium</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-[10px] text-white/60">
+                  <p><strong>Atenção:</strong> Somos flexíveis. Empresas grandes pagam valor de mercado. Pequenos negócios que queremos ajudar a crescer recebem descontos estratégicos da Sapient Studio.</p>
+                </div>
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Teste de Preço <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {step === 16 && (
+              <div className="space-y-8 animate-in fade-in">
+                <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Negociação</h3>
+                <p className="text-white/40">O cliente diz: "Achei caro, fulano faz por R$ 300". Como você defende o valor do ecossistema Sapient?</p>
+                <Textarea value={formData.ansPreco} onChange={(e) => setFormData({...formData, ansPreco: e.target.value})} className="min-h-[150px] bg-white/5 border-white/10 rounded-2xl p-6 font-medium" placeholder="Sua defesa comercial..." />
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Desafio de Voz <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {/* Desafio Final: Áudios */}
+            {step === 17 && (
+              <div className="space-y-8 animate-in fade-in">
+                <div className="text-center space-y-4">
+                  <div className="h-16 w-16 rounded-full bg-primary/20 text-primary flex items-center justify-center mx-auto mb-6"><Mic size={32} /></div>
+                  <h2 className="text-3xl font-black uppercase">O Desafio do Cirurgião</h2>
+                  <p className="text-white/40 max-w-md mx-auto">Você ligou para um dono de Lounge. O site dele demora 8s para carregar e o GMN está sem fotos. <strong>Você tem 40 segundos para marcar uma reunião.</strong></p>
+                </div>
+                
+                <div className="p-10 rounded-[3rem] bg-black/40 border border-white/5 flex flex-col items-center gap-6">
+                  {isRecording ? (
+                    <Button onClick={stopRecording} className="h-20 w-20 rounded-full bg-red-500 animate-pulse"><MicOff size={32}/></Button>
+                  ) : (
+                    <Button onClick={() => startRecording('audio1')} className="h-24 w-24 rounded-full bg-primary shadow-2xl shadow-primary/40"><Mic size={40}/></Button>
+                  )}
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/30">{isRecording ? "Gravando..." : "Toque para Gravar"}</p>
+                  {audio1Base64 && <Badge className="bg-green-500/20 text-green-500 border-none">Pitch Gravado com Sucesso</Badge>}
+                </div>
+
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button disabled={!audio1Base64} onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Etapa <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {step === 18 && (
+              <div className="space-y-8 animate-in fade-in">
+                <div className="text-center space-y-4">
+                  <h2 className="text-3xl font-black uppercase">Último Teste: O Pitch Final</h2>
+                  <p className="text-white/40 max-w-md mx-auto">Resuma em um áudio final por que você é o consultor de elite que a studiosapient precisa.</p>
+                </div>
+                <div className="p-10 rounded-[3rem] bg-black/40 border border-white/5 flex flex-col items-center gap-6">
+                  {isRecording ? (
+                    <Button onClick={stopRecording} className="h-20 w-20 rounded-full bg-red-500 animate-pulse"><MicOff size={32}/></Button>
+                  ) : (
+                    <Button onClick={() => startRecording('final')} className="h-24 w-24 rounded-full bg-primary shadow-2xl shadow-primary/40"><Mic size={40}/></Button>
+                  )}
+                  {audioFinalBase64 && <Badge className="bg-green-500/20 text-green-500 border-none">Áudio Final Gravado</Badge>}
+                </div>
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button disabled={!audioFinalBase64 || isLoading} onClick={handleSubmit} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">
+                    {isLoading ? <Loader2 className="animate-spin" /> : "Enviar Dossiê de Recrutamento"}
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {step === 23 && (
               <div className="space-y-12 animate-in zoom-in duration-700 text-center py-10">
                 <div className="h-24 w-24 rounded-full bg-green-500 flex items-center justify-center mx-auto shadow-2xl animate-glow-pulse"><Trophy size={40} className="text-white" /></div>
                 <div className="space-y-4">

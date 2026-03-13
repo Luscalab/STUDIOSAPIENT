@@ -48,7 +48,7 @@ export function Team() {
                   src={member.image}
                   alt={member.alt}
                   fill
-                  className="object-cover transition-transform duration-[4000ms] group-hover:scale-105"
+                  className="object-cover transition-transform [transition-duration:4000ms] group-hover:scale-105"
                   data-ai-hint="professional portrait"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
