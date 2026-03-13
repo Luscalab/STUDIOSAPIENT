@@ -56,7 +56,8 @@ import {
   ShieldAlert,
   Globe,
   BarChart3,
-  Dna
+  Dna,
+  Lock
 } from "lucide-react";
 import { useFirebase, useFirestore, useDoc, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
 import { collection, serverTimestamp, doc } from "firebase/firestore";
@@ -240,7 +241,7 @@ export function RecrutamentoClient() {
     addDocumentNonBlocking(colRef, candidateData)
       .then(() => {
         setIsLoading(false);
-        setStep(23);
+        setStep(53);
       })
       .catch((err) => {
         console.error(err);
@@ -268,15 +269,15 @@ export function RecrutamentoClient() {
 
   const modules = [
     { title: "Performance Ads", icon: <TrendingUp size={24} />, step: 3, done: !!formData.ansAds },
-    { title: "Engenharia Web", icon: <Code size={24} />, step: 5, done: !!formData.ansSites },
-    { title: "Semiótica & Design", icon: <Palette size={24} />, step: 7, done: !!formData.ansDesign },
-    { title: "Sistemas IA", icon: <Brain size={24} />, step: 9, done: !!formData.ansChat },
-    { title: "Gestão Social", icon: <Users size={24} />, step: 11, done: !!formData.ansSocial },
-    { title: "Narrativa Visual", icon: <FileText size={24} />, step: 13, done: !!formData.ansNarrativa },
-    { title: "Estratégia de Nicho", icon: <Target size={24} />, step: 15, done: !!formData.ansNichos },
-    { title: "Negociação de Valor", icon: <PieChart size={24} />, step: 17, done: !!formData.ansPreco },
-    { title: "Audição Técnica", icon: <Mic size={24} />, step: 19, done: !!audio1Base64 },
-    { title: "Pitch de Elite", icon: <Trophy size={24} />, step: 20, done: !!audioFinalBase64 },
+    { title: "Engenharia Web", icon: <Code size={24} />, step: 9, done: !!formData.ansSites },
+    { title: "Semiótica & Design", icon: <Palette size={24} />, step: 15, done: !!formData.ansDesign },
+    { title: "Sistemas IA", icon: <Brain size={24} />, step: 21, done: !!formData.ansChat },
+    { title: "Gestão Social", icon: <Users size={24} />, step: 27, done: !!formData.ansSocial },
+    { title: "Narrativa Visual", icon: <FileText size={24} />, step: 33, done: !!formData.ansNarrativa },
+    { title: "Estratégia de Nicho", icon: <Target size={24} />, step: 39, done: !!formData.ansNichos },
+    { title: "Negociação de Valor", icon: <PieChart size={24} />, step: 45, done: !!formData.ansPreco },
+    { title: "Audição Técnica", icon: <Mic size={24} />, step: 51, done: !!audio1Base64 },
+    { title: "Pitch de Elite", icon: <Trophy size={24} />, step: 52, done: !!audioFinalBase64 },
   ];
 
   return (
@@ -438,8 +439,8 @@ export function RecrutamentoClient() {
                 </button>
                 
                 <div className="flex-1 flex items-center gap-2 overflow-x-auto py-2 no-scrollbar">
-                  {Array.from({ length: 22 }).map((_, i) => (
-                    <div key={i} className={cn("h-1 min-w-[12px] flex-1 rounded-full transition-all duration-500", step >= (i + 1) ? "bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
+                  {Array.from({ length: 53 }).map((_, i) => (
+                    <div key={i} className={cn("h-1 min-w-[8px] flex-1 rounded-full transition-all duration-500", step >= (i + 1) ? "bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
                   ))}
                 </div>
               </div>
@@ -502,541 +503,255 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 01: ADS & GMN (EXTENSIVO) */}
+                {/* MÓDULO 01: ADS & GMN (5 SEÇÕES) */}
                 {step === 3 && (
                   <div className="space-y-10 animate-in fade-in">
                     <div className="flex items-center gap-4">
-                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 01: Inteligência de Tráfego</Badge>
-                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Curso Extensivo</Badge>
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 01: Seção 1/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Conceito</Badge>
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Domínio de Tráfego <br/>de Intenção</h2>
-                    
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                      <div className="lg:col-span-7 space-y-10">
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><BookOpen className="text-primary" /> O Conceito Sapient</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            Agências comuns vendem "cliques". Nós vendemos **Escala Previsível**. O tráfego pago da Sapient é baseado em **Intenção de Busca**. Não interrompemos o usuário com dancinhas; nós aparecemos quando ele grita por socorro no Google.
-                          </p>
-                          <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-4">
-                            <h5 className="text-[10px] font-black uppercase text-primary tracking-widest">Diferencial Técnico: Índice de Qualidade</h5>
-                            <p className="text-xs text-white/40 leading-relaxed">
-                              O Google cobra mais caro de quem tem sites lentos. Nossa engenharia web barateia o anúncio. Se o site do cliente é amador, ele está **queimando verba**. Nós somos a única agência que solda o balde antes de abrir a torneira.
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><Globe className="text-cyan-400" /> A Máquina GMN (Local)</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            O Google Meu Negócio é o maior ativo de uma empresa local. Um perfil sem fotos profissionais, sem avaliações e sem posts semanais é uma **porta fechada**. Nós transformamos o GMN em um canal de chamadas diretas.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="lg:col-span-5 space-y-8">
-                        <div className="p-8 rounded-[3rem] bg-black/40 border border-white/5 space-y-6">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-2"><Dna size={16}/> Glossário Técnico</h5>
-                          <div className="space-y-4">
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">ROAS (Return on Ad Spend)</p>
-                              <p className="text-[9px] text-white/30 italic">Quanto dinheiro voltou para cada R$ 1,00 investido.</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">CPC (Custo por Clique)</p>
-                              <p className="text-[9px] text-white/30 italic">O "pedágio" que o Google cobra por cada visita qualificada.</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Negativação de Termos</p>
-                              <p className="text-[9px] text-white/30 italic">Bloquear buscas como "grátis" ou "vagas" para economizar verba.</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="p-8 rounded-[3rem] bg-primary/10 border border-primary/20 space-y-4">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-white flex items-center gap-2"><Target size={16}/> Briefing de Ouro</h5>
-                          <p className="text-[10px] text-white/60 font-bold italic leading-relaxed">
-                            Pergunte ao cliente: "Se eu buscar seu serviço agora, sua clínica aparece nos 3 primeiros ou estou dando meu dinheiro para o seu concorrente?"
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Tráfego de Intenção <br/>vs Interrupção</h2>
+                    <p className="text-lg text-white/60 leading-relaxed max-w-3xl">
+                      Diferente do Instagram (onde o usuário está apenas passando o tempo), o Google Ads captura a **Intenção de Compra**. Nós aparecemos quando o cliente está gritando por socorro. Isso encurta o ciclo de venda em até 70%.
+                    </p>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Validar Módulo 01 <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Glossário) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
                 {step === 4 && (
-                  <div className="space-y-8 animate-in fade-in">
-                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio Técnico: Ads & GMN</h3>
-                    <p className="text-white/40">Um cliente investe R$ 2.000/mês, mas o site dele demora 10s para carregar. Como você usa o conceito de **Índice de Qualidade** e **Hemorragia de Verba** para convencê-lo de que ele está perdendo dinheiro?</p>
-                    <Textarea value={formData.ansAds} onChange={(e) => setFormData({...formData, ansAds: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua resposta estratégica..." />
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 01: Seção 2/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Glossário Técnico</Badge>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">ROAS</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Return on Ad Spend. Se o cliente investe R$ 1.000 e vende R$ 10.000, o ROAS é 10. É a nossa métrica de sucesso absoluta.</p>
+                      </div>
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">CPC & Índice de Qualidade</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">O Google cobra menos de quem tem sites rápidos. Nossa engenharia barateia o custo por clique do cliente.</p>
+                      </div>
+                    </div>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Módulo 02 <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (GMN) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
-                {/* MÓDULO 02: ENGENHARIA WEB (EXTENSIVO) */}
                 {step === 5 && (
                   <div className="space-y-10 animate-in fade-in">
                     <div className="flex items-center gap-4">
-                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 02: Engenharia de Conversão</Badge>
-                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Curso Extensivo</Badge>
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 01: Seção 3/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Dominância Local</Badge>
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Engenharia vs <br/>Amadorismo Web</h2>
-                    
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                      <div className="lg:col-span-7 space-y-10">
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><Server className="text-primary" /> Por que Next.js?</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            90% das agências usam WordPress (um sistema de 20 anos atrás). Nós usamos **Engenharia de Software (Next.js/React)**. O WordPress é pesado, lento e vulnerável a vírus. O Next.js é blindado, carrega instantaneamente e é o queridinho do algoritmo do Google.
-                          </p>
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="p-6 rounded-2xl bg-red-500/5 border border-red-500/10 space-y-2">
-                              <p className="text-[10px] font-black text-red-400 uppercase">MERCADO COMUM</p>
-                              <p className="text-[9px] text-white/40">WordPress, Wix, Plugins lentos, Segurança frágil.</p>
-                            </div>
-                            <div className="p-6 rounded-2xl bg-green-500/5 border border-green-500/10 space-y-2">
-                              <p className="text-[10px] font-black text-green-400 uppercase">SAPIENT STUDIO</p>
-                              <p className="text-[9px] text-white/40">Next.js, SSR, Segurança Bancária, LCP &lt; 1.5s.</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><Smartphone className="text-cyan-400" /> Mobile First Real</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            Não basta o site "ajustar" na tela. Ele precisa ser **otimizado para o 4G da rua**. Se o cliente está no trânsito e seu site não abre em 2 segundos, você perdeu a venda. Nossa engenharia garante performance extrema onde o dinheiro acontece: no celular.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="lg:col-span-5 space-y-8">
-                        <div className="p-8 rounded-[3rem] bg-black/40 border border-white/5 space-y-6">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-2"><Zap size={16}/> Termos de Engenharia</h5>
-                          <div className="space-y-4">
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">LCP (Largest Contentful Paint)</p>
-                              <p className="text-[9px] text-white/30 italic">Tempo que o conteúdo principal leva para aparecer. O ideal é menos de 1.5s.</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">SSR (Server-Side Rendering)</p>
-                              <p className="text-[9px] text-white/30 italic">O site já nasce pronto no servidor, o Google ama isso para SEO.</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Hydration</p>
-                              <p className="text-[9px] text-white/30 italic">Processo onde o código se torna interativo para o usuário clicar.</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="p-8 rounded-[3rem] bg-cyan-500/10 border border-cyan-500/20 space-y-4">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-white flex items-center gap-2"><MousePointer2 size={16}/> Pergunta de Briefing</h5>
-                          <p className="text-[10px] text-white/60 font-bold italic leading-relaxed">
-                            "Seu site foi feito por um designer ou por um engenheiro? Porque design atrai, mas engenharia é o que faz o site não travar na hora da venda."
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">O Google Meu Negócio</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      É o maior ativo de uma empresa local. Um perfil sem fotos profissionais e sem posts semanais é uma **porta fechada**. Nós transformamos o GMN em um canal de chamadas diretas para o WhatsApp.
+                    </p>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Validar Módulo 02 <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (O Balde Furado) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
                 {step === 6 && (
-                  <div className="space-y-8 animate-in fade-in">
-                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Engenharia Web</h3>
-                    <p className="text-white/40">Como você provaria para um cliente que o site dele feito no WordPress está, na verdade, fazendo ele perder dinheiro todos os meses no Google Ads?</p>
-                    <Textarea value={formData.ansSites} onChange={(e) => setFormData({...formData, ansSites: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Defesa técnica..." />
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 01: Seção 4/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Engenharia</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">O Balde Furado</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Anúncio sem site profissional é queimar dinheiro. Se o site demora 5 segundos para abrir, 50% das pessoas desistem antes de ver a oferta. Nós soldamos o balde antes de abrir a torneira de tráfego.
+                    </p>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Módulo 03 <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Briefing) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
-                {/* MÓDULO 03: DESIGN & SEMIÓTICA (EXTENSIVO) */}
                 {step === 7 && (
                   <div className="space-y-10 animate-in fade-in">
                     <div className="flex items-center gap-4">
-                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 03: Psicologia de Valor</Badge>
-                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Curso Extensivo</Badge>
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 01: Seção 5/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Briefing</Badge>
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Design Estratégico & <br/>Semiótica de Luxo</h2>
-                    
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                      <div className="lg:col-span-7 space-y-10">
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><Gem className="text-primary" /> A Venda Silenciosa</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            Design não é sobre "ser bonito". É sobre **Semiótica**. O cérebro humano julga a competência técnica em milissegundos. Se sua marca parece amadora, o cliente assume que seu serviço também é. Um design de elite remove a barreira de desconfiança e permite cobrar o preço justo.
-                          </p>
-                          <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-4">
-                            <h5 className="text-[10px] font-black uppercase text-primary tracking-widest">O Conceito de Barreira de Confiança</h5>
-                            <p className="text-xs text-white/40 leading-relaxed">
-                              Quando o design é impecável, o cliente não questiona sua expertise. Ele entra na reunião pronto para ouvir a solução, não para testar sua capacidade. O design Sapient é um **filtro de autoridade**.
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><Palette className="text-cyan-400" /> Semiótica de Nicho</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            Cores e formas comunicam mensagens subconscientes. No nicho de saúde, usamos tons que transmitem higiene e tecnologia. No jurídico, autoridade e solidez. Fugimos do Canva genérico para criar universos visuais exclusivos que ninguém consegue copiar.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="lg:col-span-5 space-y-8">
-                        <div className="p-8 rounded-[3rem] bg-black/40 border border-white/5 space-y-6">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-2"><Sparkles size={16}/> Glossário de Valor</h5>
-                          <div className="space-y-4">
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Semiótica</p>
-                              <p className="text-[9px] text-white/30 italic">O estudo de como símbolos e cores geram significados automáticos.</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Brand Equity</p>
-                              <p className="text-[9px] text-white/30 italic">O valor "invisível" que faz uma marca valer mais que o produto em si.</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Hierarquia Visual</p>
-                              <p className="text-[9px] text-white/30 italic">Guiar o olho do cliente para o que realmente gera venda.</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="p-8 rounded-[3rem] bg-purple-500/10 border border-purple-500/20 space-y-4">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-white flex items-center gap-2"><Activity size={16}/> Pergunta de Briefing</h5>
-                          <p className="text-[10px] text-white/60 font-bold italic leading-relaxed">
-                            "Sua marca atual atrai o cliente que chora desconto ou o cliente que valoriza seu tempo? Porque a culpa disso é da sua comunicação visual."
-                          </p>
-                        </div>
-                      </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Perguntas de Ouro</h3>
+                    <div className="p-8 rounded-[3rem] bg-primary/10 border border-primary/20 space-y-4">
+                      <p className="text-white font-bold text-sm italic leading-relaxed">
+                        "Se eu buscar pelo seu serviço agora, sua clínica aparece nos 3 primeiros ou estou dando meu dinheiro para o seu concorrente?"
+                      </p>
                     </div>
-
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Validar Módulo 03 <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Teste do Módulo 01 <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
                 {step === 8 && (
                   <div className="space-y-8 animate-in fade-in">
-                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Barreira de Confiança</h3>
-                    <p className="text-white/40">Como você explicaria ao cliente que o logotipo dele feito no Canva está impedindo-o de cobrar 3x mais caro pelo serviço?</p>
-                    <Textarea value={formData.ansDesign} onChange={(e) => setFormData({...formData, ansDesign: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua explicação de valor..." />
+                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio Técnico: Ads & GMN</h3>
+                    <p className="text-white/40">Um cliente investe R$ 2.000/mês, mas o site dele demora 10s para carregar. Como você usa o conceito de **Índice de Qualidade** e **Hemorragia de Verba** para convencê-lo de que ele está perdendo dinheiro?</p>
+                    <Textarea value={formData.ansAds} onChange={(e) => setFormData({...formData, ansAds: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua resposta estratégica..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Módulo 04 <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Engenharia Web <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
-                {/* MÓDULO 04: CHAT IA (EXTENSIVO) */}
+                {/* MÓDULO 02: ENGENHARIA WEB (5 SEÇÕES) */}
                 {step === 9 && (
                   <div className="space-y-10 animate-in fade-in">
                     <div className="flex items-center gap-4">
-                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 04: Automação Cognitiva</Badge>
-                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Curso Extensivo</Badge>
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 02: Seção 1/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Fundamentos</Badge>
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Agentes IA & <br/>Qualificação de Leads</h2>
-                    
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                      <div className="lg:col-span-7 space-y-10">
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><Brain className="text-primary" /> IA que Resolve e Vende</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            Esqueça os "chatbots" de menus que irritam o cliente. Nós implementamos **Agentes Cognitivos** baseados em **LLMs** (Cérebros Digitais). Eles conversam como humanos, tiram dúvidas técnicas e, o mais importante: **Qualificam o lead**.
-                          </p>
-                          <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-4">
-                            <h5 className="text-[10px] font-black uppercase text-primary tracking-widest">O Filtro de Lucro</h5>
-                            <p className="text-xs text-white/40 leading-relaxed">
-                              A IA Sapient atende 1.000 pessoas no WhatsApp, descobre quem tem orçamento para pagar e entrega para o dono da empresa apenas o "filé mignon". Isso economiza salários e multiplica a produtividade da equipe comercial.
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><Database className="text-cyan-400" /> RAG: Memória Proprietária</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            Nossa IA não "inventa" respostas. Usamos uma técnica chamada **RAG**, onde alimentamos o cérebro da IA com os dados reais da empresa (preços, serviços, horários). Ela se torna a colaboradora mais experiente da empresa, disponível 24h por dia.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="lg:col-span-5 space-y-8">
-                        <div className="p-8 rounded-[3rem] bg-black/40 border border-white/5 space-y-6">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-2"><Cpu size={16}/> Glossário IA</h5>
-                          <div className="space-y-4">
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">LLM (Large Language Model)</p>
-                              <p className="text-[9px] text-white/30 italic">O motor de inteligência por trás da conversa (ex: Gemini).</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">RAG</p>
-                              <p className="text-[9px] text-white/30 italic">Alimentar a IA com documentos reais para evitar alucinações.</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Lead Scoring</p>
-                              <p className="text-[9px] text-white/30 italic">IA dá nota para o cliente baseado no interesse dele.</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="p-8 rounded-[3rem] bg-indigo-500/10 border border-indigo-500/20 space-y-4">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-white flex items-center gap-2"><Zap size={16}/> Pergunta de Briefing</h5>
-                          <p className="text-[10px] text-white/60 font-bold italic leading-relaxed">
-                            "Quanto dinheiro você perde hoje por demorar mais de 10 minutos para responder um lead no WhatsApp? Porque a IA nunca dorme."
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Engenharia vs <br/>Amadorismo CMS</h2>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Agências comuns usam WordPress (uma ferramenta de blog de 20 anos). Nós usamos **Engenharia de Software (Next.js)**. Isso significa que não temos limites de design e o site é imune a 99% dos vírus comuns de plugins.
+                    </p>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Validar Módulo 04 <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Glossário) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
                 {step === 10 && (
-                  <div className="space-y-8 animate-in fade-in">
-                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: IA & Escala</h3>
-                    <p className="text-white/40">Como você venderia uma IA para um dono de negócio que acha que "o atendimento humano é insubstituível", provando que ele está perdendo vendas por demora?</p>
-                    <Textarea value={formData.ansChat} onChange={(e) => setFormData({...formData, ansChat: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua resposta estratégica..." />
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 02: Seção 2/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Glossário Técnico</Badge>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">LCP (Largest Contentful Paint)</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Tempo que o conteúdo principal leva para aparecer. O ideal é menos de 1.5s. WordPress raramente atinge isso sem quebrar.</p>
+                      </div>
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">SSR (Server-Side Rendering)</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">O site já nasce pronto no servidor para o Google ler. É a diferença entre estar na página 1 ou na 10.</p>
+                      </div>
+                    </div>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Módulo 05 <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Segurança) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
-                {/* MÓDULO 05: GESTÃO SOCIAL (EXTENSIVO) */}
                 {step === 11 && (
                   <div className="space-y-10 animate-in fade-in">
                     <div className="flex items-center gap-4">
-                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Influência de Autoridade</Badge>
-                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Curso Extensivo</Badge>
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 02: Seção 3/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Segurança</Badge>
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Curadoria Social & <br/>Atração de Decisores</h2>
-                    
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                      <div className="lg:col-span-7 space-y-10">
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><Users className="text-primary" /> O Funil Educativo</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            Rede social não é para postar "Bom dia". É para construir **Autoridade Percebida**. Cada peça no feed deve educar o cliente e mostrar que você é o especialista de elite. Nós transformamos o Instagram de um "perfil amador" em um **Portfólio de Luxo**.
-                          </p>
-                          <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-4">
-                            <h5 className="text-[10px] font-black uppercase text-primary tracking-widest">O Decisor vs O Seguidor</h5>
-                            <p className="text-xs text-white/40 leading-relaxed">
-                              Não queremos 100 mil curtidas de adolescentes. Queremos 100 visualizações de CEOs e donos de empresas. O conteúdo Sapient é desenhado para atrair quem tem o cartão de crédito na mão, eliminando métricas de vaidade.
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><Eye className="text-cyan-400" /> Bio-Otimização</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            A bio do Instagram é a sua página de vendas. Se ela não responde "O que você faz?", "Para quem você faz?" e "Como eu te contrato?" em 3 segundos, você está perdendo dinheiro todos os dias. Nossa gestão começa na raiz da autoridade visual.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="lg:col-span-5 space-y-8">
-                        <div className="p-8 rounded-[3rem] bg-black/40 border border-white/5 space-y-6">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-2"><TrendingUp size={16}/> Métricas de Elite</h5>
-                          <div className="space-y-4">
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Autoridade Percebida</p>
-                              <p className="text-[9px] text-white/30 italic">Quando o cliente decide te contratar antes mesmo de falar com você.</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Social Proof (Prova Social)</p>
-                              <p className="text-[9px] text-white/30 italic">Depoimentos e resultados estruturados de forma estratégica.</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Engajamento Qualificado</p>
-                              <p className="text-[9px] text-white/30 italic">Comentários de potenciais clientes, não de robôs ou amigos.</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="p-8 rounded-[3rem] bg-pink-500/10 border border-pink-500/20 space-y-4">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-white flex items-center gap-2"><Target size={16}/> Pergunta de Briefing</h5>
-                          <p className="text-[10px] text-white/60 font-bold italic leading-relaxed">
-                            "Se um grande investidor abrir seu Instagram agora, ele vê um amador tentando vender algo ou uma autoridade que ele precisa contratar?"
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Blindagem de Dados</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Em um site WordPress, um plugin de galeria desatualizado pode abrir as portas para um hacker. Em nossa engenharia Next.js, não existem plugins de terceiros rodando no código base. É segurança bancária para empresas sérias.
+                    </p>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Validar Módulo 05 <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Mobile) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
                 {step === 12 && (
-                  <div className="space-y-8 animate-in fade-in">
-                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Social & Autoridade</h3>
-                    <p className="text-white/40">Como você convenceria um cliente que postar 3x ao dia sem estratégia visual está na verdade destruindo a autoridade dele?</p>
-                    <Textarea value={formData.ansSocial} onChange={(e) => setFormData({...formData, ansSocial: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua análise estratégica..." />
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 02: Seção 4/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Mobile First</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Otimização para o 4G</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Não basta o site "ajustar" na tela. Ele precisa ser leve para o 4G instável da rua. Nossa engenharia remove códigos inúteis, carregando apenas o que o usuário vai ver. Isso garante que o lead não desista por lentidão.
+                    </p>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Módulo 06 <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Briefing) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
-                {/* MÓDULO 06: NARRATIVA VISUAL (EXTENSIVO) */}
                 {step === 13 && (
                   <div className="space-y-10 animate-in fade-in">
                     <div className="flex items-center gap-4">
-                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 06: Engenharia de Fechamento</Badge>
-                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Curso Extensivo</Badge>
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 02: Seção 5/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Briefing</Badge>
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Narrativa Visual & <br/>Dossiês de Venda</h2>
-                    
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                      <div className="lg:col-span-7 space-y-10">
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><FileText className="text-primary" /> Matar a Objeção na Origem</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            Agências comuns enviam orçamentos em Word ou PDFs brancos. Nós enviamos **Dossiês de Venda de Luxo**. O objetivo é remover a **Névoa Informacional**. Se o cliente não entende seu processo, ele foca no preço. Se ele entende seu valor visualmente, ele foca no benefício.
-                          </p>
-                          <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-4">
-                            <h5 className="text-[10px] font-black uppercase text-primary tracking-widest">O Argumento do Sócio</h5>
-                            <p className="text-xs text-white/40 leading-relaxed">
-                              Muitas vezes você fala com o dono, mas quem decide é o sócio que não estava na reunião. Se você envia apenas um valor, o sócio diz "tá caro". Se você envia um Dossiê Sapient, o sócio diz "isso aqui é o que a gente precisa".
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="space-y-6">
-                          <h4 className="text-xl font-black uppercase tracking-tight flex items-center gap-3"><Lightbulb className="text-cyan-400" /> Emotional Anchoring</h4>
-                          <p className="text-white/60 leading-relaxed">
-                            Nossos dossiês usam gatilhos mentais visuais para ancorar a solução na dor do cliente. Mostramos o gráfico do "Lucro Cessante" para que o cliente sinta o peso de **não contratar** a Sapient. A proposta deixa de ser um custo e vira uma proteção de patrimônio.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="lg:col-span-5 space-y-8">
-                        <div className="p-8 rounded-[3rem] bg-black/40 border border-white/5 space-y-6">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-2"><Activity size={16}/> Engenharia Narrativa</h5>
-                          <div className="space-y-4">
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Névoa Informacional</p>
-                              <p className="text-[9px] text-white/30 italic">Quando o excesso de termos técnicos confunde o cliente e trava a venda.</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Information Scent</p>
-                              <p className="text-[9px] text-white/30 italic">Deixar pistas visuais que guiam o cliente até o botão de fechar.</p>
-                            </div>
-                            <div className="space-y-1">
-                              <p className="text-[10px] font-black text-white uppercase">Clareza Cognitiva</p>
-                              <p className="text-[9px] text-white/30 italic">Explicar processos complexos através de infográficos de elite.</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="p-8 rounded-[3rem] bg-orange-500/10 border border-orange-500/20 space-y-4">
-                          <h5 className="text-xs font-black uppercase tracking-widest text-white flex items-center gap-2"><PieChart size={16}/> Pergunta de Briefing</h5>
-                          <p className="text-[10px] text-white/60 font-bold italic leading-relaxed">
-                            "Você envia seu preço por mensagem de texto ou apresenta um documento que justifica cada centavo do investimento?"
-                          </p>
-                        </div>
-                      </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Perguntas de Ouro</h3>
+                    <div className="p-8 rounded-[3rem] bg-cyan-500/10 border border-cyan-500/20 space-y-4">
+                      <p className="text-white font-bold text-sm italic leading-relaxed">
+                        "Seu site foi feito por um designer ou por um engenheiro? Porque design atrai, mas engenharia é o que faz o site não travar na hora da venda."
+                      </p>
                     </div>
-
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Validar Módulo 06 <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Teste do Módulo 02 <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
                 {step === 14 && (
                   <div className="space-y-8 animate-in fade-in">
-                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Dossiê de Elite</h3>
-                    <p className="text-white/40">O cliente diz: "Me manda os valores pelo WhatsApp mesmo". Como você reverte isso para apresentar um **Dossiê de Venda** e não ser comparado por preço?</p>
-                    <Textarea value={formData.ansNarrativa} onChange={(e) => setFormData({...formData, ansNarrativa: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua resposta estratégica..." />
+                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Engenharia Web</h3>
+                    <p className="text-white/40">Como você provaria para um cliente que o site dele feito no WordPress está, na verdade, fazendo ele perder dinheiro todos os meses no Google Ads?</p>
+                    <Textarea value={formData.ansSites} onChange={(e) => setFormData({...formData, ansSites: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Defesa técnica..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Estratégias <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Design Estratégico <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
-                {/* MÓDULOS DE FECHAMENTO (EXTENSIVO) */}
+                {/* MÓDULO 03: DESIGN & SEMIÓTICA (5 SEÇÕES) */}
                 {step === 15 && (
                   <div className="space-y-10 animate-in fade-in">
                     <div className="flex items-center gap-4">
-                      <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest px-6 py-2">Módulo Final 01: Visão de Mercado</Badge>
-                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Curso Extensivo</Badge>
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 03: Seção 1/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Fundamentos</Badge>
                     </div>
-                    <h2 className="text-4xl font-black uppercase tracking-tighter leading-none">Estratégias de Nicho: <br/>Onde a Dor Sangra</h2>
-                    <p className="text-white/40 text-sm max-w-2xl leading-relaxed">
-                      Como consultor Sapient, você precisa ser um camaleão técnico. Cada mercado tem um sangramento financeiro específico. Abaixo, o roteiro de diagnóstico para cada um deles:
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Psicologia de Valor <br/>& Semiótica</h2>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Design não é sobre ser "bonito". É sobre **comunicação subconsciente**. O cérebro julga a competência em milissegundos. Um design de elite remove a barreira de desconfiança e autoriza o aumento do ticket médio.
                     </p>
-                    
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                      <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
-                        <div className="flex items-center gap-3 text-primary"><ShieldAlert size={20}/> <h4 className="font-bold text-xs uppercase">Beleza & Saúde (High Ticket)</h4></div>
-                        <p className="text-[11px] text-white/40 leading-relaxed">
-                          **A Dor:** Agenda furada, dependência extrema de indicação e imagem que não condiz com o preço da consulta.<br/>
-                          **A Cura:** IA que qualifica quem pode pagar + GMN que domina a busca local + Design que comunica higiene e prestígio.
-                        </p>
-                      </div>
-                      <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
-                        <div className="flex items-center gap-3 text-cyan-400"><Globe size={20}/> <h4 className="font-bold text-xs uppercase">Direito & Consultoria</h4></div>
-                        <p className="text-[11px] text-white/40 leading-relaxed">
-                          **A Dor:** Dificuldade em cobrar honorários de elite porque o site e o Instagram parecem amadores.<br/>
-                          **A Cura:** Semiótica de Autoridade + Dossiês de Venda de Luxo + Google Ads Cirúrgico para buscas de urgência.
-                        </p>
-                      </div>
-                      <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
-                        <div className="flex items-center gap-3 text-amber-400"><TrendingUp size={20}/> <h4 className="font-bold text-xs uppercase">Varejo & Tech (Escala)</h4></div>
-                        <p className="text-[11px] text-white/40 leading-relaxed">
-                          **A Dor:** Conversão baixa no site por lentidão e suporte humano que não dá conta da demanda noturna.<br/>
-                          **A Cura:** Engenharia de Sites (LCP &lt; 1.5s) + IA de suporte 24/7 com memória real (RAG).
-                        </p>
-                      </div>
-                      <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
-                        <div className="flex items-center gap-3 text-indigo-400"><BarChart3 size={20}/> <h4 className="font-bold text-xs uppercase">Imóveis & Indústria</h4></div>
-                        <p className="text-[11px] text-white/40 leading-relaxed">
-                          **A Dor:** Ciclo de venda longo e consultores perdendo tempo com curiosos que não têm crédito.<br/>
-                          **A Cura:** Narrativa Visual de Impacto + Sistemas de Qualificação IA + Performance Local Dominante.
-                        </p>
-                      </div>
-                    </div>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Validar Conhecimento de Nicho <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Glossário) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
                 {step === 16 && (
-                  <div className="space-y-8 animate-in fade-in">
-                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Nichos Estratégicos</h3>
-                    <p className="text-white/40">Escolha um dos nichos acima e descreva qual o primeiro "gargalo" que você atacaria em uma ligação de 30 segundos usando os termos técnicos que aprendeu.</p>
-                    <Textarea value={formData.ansNichos} onChange={(e) => setFormData({...formData, ansNichos: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua estratégia de abordagem..." />
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 03: Seção 2/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Glossário Técnico</Badge>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">Semiótica</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">O estudo de como símbolos e cores geram significados automáticos. Ex: Roxo comunica sofisticação e criatividade no nosso ecossistema.</p>
+                      </div>
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">Hierarquia Visual</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Guiar o olho do cliente para o que realmente gera venda, eliminando distrações inúteis.</p>
+                      </div>
+                    </div>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Ver Precificação & Valor <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Barreira de Confiança) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
@@ -1044,60 +759,581 @@ export function RecrutamentoClient() {
                 {step === 17 && (
                   <div className="space-y-10 animate-in fade-in">
                     <div className="flex items-center gap-4">
-                      <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest px-6 py-2">Módulo Final 02: Matemática do Lucro</Badge>
-                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Curso Extensivo</Badge>
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 03: Seção 3/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Conceitos</Badge>
                     </div>
-                    <h2 className="text-4xl font-black uppercase tracking-tighter leading-none">Ancoragem de Valor <br/>& ROI Real</h2>
-                    <p className="text-white/40 text-sm max-w-2xl leading-relaxed">
-                      Na Sapient, não cobramos pelo "tempo gasto". Cobramos pelo **ROI gerado**. Se o nosso ecossistema traz um cliente de R$ 50.000 para o médico, cobrar R$ 5.000 é barato. Use esta tabela como base de ancoragem:
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Barreira de Confiança</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Se o seu design parece amador, o cliente assume que seu serviço também é. Um design de elite remove essa dúvida inicial, permitindo que a reunião comercial foque na solução e não na validação da sua capacidade técnica.
                     </p>
-                    <div className="overflow-x-auto rounded-3xl border border-white/10 overflow-hidden">
-                      <table className="w-full text-left border-collapse bg-white/5">
-                        <thead>
-                          <tr className="border-b border-white/10 text-[8px] font-black uppercase text-white/30">
-                            <th className="p-6">Ecossistema Sapient</th>
-                            <th className="p-6">Investimento Estimado</th>
-                            <th className="p-6">Valor Entregue (Ancoragem)</th>
-                          </tr>
-                        </thead>
-                        <tbody className="text-[10px] font-bold">
-                          <tr className="border-b border-white/5 hover:bg-white/10 transition-colors">
-                            <td className="p-6">DOMÍNIO LOCAL (Ads + GMN)</td>
-                            <td className="p-6 text-primary">R$ 1.5k - R$ 3k/mês</td>
-                            <td className="p-6 text-white/40">Fim da dependência de indicações. Chamadas diárias.</td>
-                          </tr>
-                          <tr className="border-b border-white/5 hover:bg-white/10 transition-colors">
-                            <td className="p-6">ENGENHARIA WEB (Site Next.js)</td>
-                            <td className="p-6 text-primary">R$ 3k - R$ 15k (Projeto)</td>
-                            <td className="p-6 text-white/40">Fim da perda de leads por lentidão. SEO de Elite.</td>
-                          </tr>
-                          <tr className="border-b border-white/5 hover:bg-white/10 transition-colors">
-                            <td className="p-6">SISTEMA IA (Automação)</td>
-                            <td className="p-6 text-primary">R$ 2k - R$ 8k (Setup)</td>
-                            <td className="p-6 text-white/40">Equipe comercial 10x mais produtiva. Filtro de curiosos.</td>
-                          </tr>
-                          <tr className="hover:bg-white/10 transition-colors">
-                            <td className="p-6">ECOSSISTEMA FULL (All-in)</td>
-                            <td className="p-6 text-primary">R$ 5k - R$ 15k/mês</td>
-                            <td className="p-6 text-white/40">Dominância absoluta do mercado. Barreira de concorrência.</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div className="p-8 rounded-[2.5rem] bg-primary/10 border border-primary/20 space-y-4">
-                      <h5 className="text-[10px] font-black uppercase text-white tracking-widest flex items-center gap-2"><ShieldCheck size={14}/> O Argumento do Lucro Cessante</h5>
-                      <p className="text-xs text-white/60 leading-relaxed italic">
-                        "O senhor não está pagando R$ 5.000 para a Sapient. O senhor está parando de perder R$ 20.000 todos os meses por causa de um processo comercial amador. Nosso projeto se paga sozinho no primeiro mês."
-                      </p>
-                    </div>
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Validar Negociação <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Autoridade) <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
                 {step === 18 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 03: Seção 4/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Autoridade</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Identidade de Prestígio</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Fugimos do Canva genérico. Nossas marcas são desenhadas do zero para transmitir solidez e exclusividade absoluta. É a diferença entre ser "um profissional" e ser "A Referência".
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Briefing) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 19 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 03: Seção 5/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Briefing</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Perguntas de Ouro</h3>
+                    <div className="p-8 rounded-[3rem] bg-purple-500/10 border border-purple-500/20 space-y-4">
+                      <p className="text-white font-bold text-sm italic leading-relaxed">
+                        "Sua marca atual atrai o cliente que chora desconto ou o cliente que valoriza seu tempo? Porque a culpa disso é da sua comunicação visual."
+                      </p>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Teste do Módulo 03 <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 20 && (
+                  <div className="space-y-8 animate-in fade-in">
+                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Barreira de Confiança</h3>
+                    <p className="text-white/40">Como você explicaria ao cliente que o logotipo dele feito no Canva está impedindo-o de cobrar 3x mais caro pelo serviço?</p>
+                    <Textarea value={formData.ansDesign} onChange={(e) => setFormData({...formData, ansDesign: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua explicação de valor..." />
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Sistemas IA <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* MÓDULO 04: SISTEMAS IA (5 SEÇÕES) */}
+                {step === 21 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 04: Seção 1/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Fundamentos</Badge>
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">IA que Resolve <br/>e Vende</h2>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Esqueça os "chatbots" de menus que irritam o cliente. Nós implementamos **Agentes Cognitivos** que conversam como humanos e qualificam o lead 24h por dia.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Glossário) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 22 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 04: Seção 2/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Glossário Técnico</Badge>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">LLM (Large Language Model)</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">O motor de inteligência por trás da conversa (ex: Gemini). É o que permite a IA entender contextos complexos.</p>
+                      </div>
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">RAG (Retrieval-Augmented Generation)</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Alimentar a IA com documentos reais da empresa para evitar que ela invente informações.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Qualificação) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 23 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 04: Seção 3/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Qualificação</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">O Filtro de Lucro</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      A IA atende 1.000 pessoas, descobre quem tem orçamento e entrega para o comercial apenas quem está pronto para comprar. Isso economiza salários e multiplica a produtividade.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Integração) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 24 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 04: Seção 4/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Integração</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Onipresença Digital</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Nossas IAs rodam no WhatsApp, no site e até no Instagram. Onde o cliente chamar, a Sapient responde com autoridade técnica, sem que o dono da empresa precise estar online.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Briefing) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 25 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 04: Seção 5/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Briefing</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Perguntas de Ouro</h3>
+                    <div className="p-8 rounded-[3rem] bg-indigo-500/10 border border-indigo-500/20 space-y-4">
+                      <p className="text-white font-bold text-sm italic leading-relaxed">
+                        "Quanto dinheiro você perde hoje por demorar mais de 10 minutos para responder um lead no WhatsApp? Porque a IA nunca dorme."
+                      </p>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Teste do Módulo 04 <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 26 && (
+                  <div className="space-y-8 animate-in fade-in">
+                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: IA & Escala</h3>
+                    <p className="text-white/40">Como você venderia uma IA para um dono de negócio que acha que "o atendimento humano é insubstituível", provando que ele está perdendo vendas por demora?</p>
+                    <Textarea value={formData.ansChat} onChange={(e) => setFormData({...formData, ansChat: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua resposta estratégica..." />
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Gestão Social <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* MÓDULO 05: GESTÃO SOCIAL (5 SEÇÕES) */}
+                {step === 27 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Seção 1/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Fundamentos</Badge>
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Curadoria Social <br/>de Autoridade</h2>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Rede social não é para postar "Bom dia". É para educar o cliente e mostrar que você é o especialista de elite. Transformamos o feed em um **Portfólio de Luxo**.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Glossário) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 28 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Seção 2/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Glossário Técnico</Badge>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">Decisor vs Seguidor</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Não queremos 100k curtidas de curiosos. Queremos 100 visualizações de CEOs e donos de empresas.</p>
+                      </div>
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">Social Proof (Prova Social)</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Depoimentos e resultados estruturados para gatilhos de segurança emocional.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Funil Educativo) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 29 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Seção 3/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Estratégia</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">O Funil Educativo</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Cada postagem tem uma função: atrair, educar ou vender. Eliminamos o conteúdo "vazio" e focamos em resolver as dores reais do seu cliente ideal de forma visual.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Bio-Otimização) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 30 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Seção 4/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Conversão</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Bio-Otimização</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      A bio é sua página de vendas. Se ela não responde "O que você faz?" e "Como eu te contrato?" em 3 segundos, você está perdendo dinheiro diariamente.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Briefing) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 31 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Seção 5/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Briefing</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Perguntas de Ouro</h3>
+                    <div className="p-8 rounded-[3rem] bg-pink-500/10 border border-pink-500/20 space-y-4">
+                      <p className="text-white font-bold text-sm italic leading-relaxed">
+                        "Se um grande investidor abrir seu Instagram agora, ele vê um amador tentando vender algo ou uma autoridade que ele precisa contratar?"
+                      </p>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Teste do Módulo 05 <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 32 && (
+                  <div className="space-y-8 animate-in fade-in">
+                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Social & Autoridade</h3>
+                    <p className="text-white/40">Como você convenceria um cliente que postar 3x ao dia sem estratégia visual está na verdade destruindo a autoridade dele?</p>
+                    <Textarea value={formData.ansSocial} onChange={(e) => setFormData({...formData, ansSocial: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua análise estratégica..." />
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Narrativa Visual <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* MÓDULO 06: NARRATIVA VISUAL (5 SEÇÕES) */}
+                {step === 33 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 06: Seção 1/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Fundamentos</Badge>
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Dossiês de Venda <br/>& Fechamento</h2>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Agências comuns enviam PDFs em Word. Nós enviamos **Dossiês de Venda de Luxo**. O objetivo é remover a névoa informacional e tornar o preço irrelevante perante o benefício.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Glossário) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 34 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 06: Seção 2/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Glossário Técnico</Badge>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">Névoa Informacional</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Quando o excesso de termos técnicos confunde o cliente e trava a venda. O dossiê atua como um filtro de clareza.</p>
+                      </div>
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">Emotional Anchoring</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Ancorar a solução na dor do cliente, mostrando visualmente o prejuízo de não contratar.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Argumento do Sócio) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 35 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 06: Seção 3/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Estratégia</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">O Argumento do Sócio</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Muitas vezes o dono quer, mas o sócio nega por preço. O dossiê é feito para que, mesmo sem você na sala, a proposta venda por si só através de infográficos técnicos irrebatíveis.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Hierarquia de Desejo) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 36 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 06: Seção 4/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Impacto</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Hierarquia de Desejo</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Organizamos a informação de forma que o cliente siga um caminho emocional até a decisão. Primeiro a dor, depois a cura, por fim o valor do investimento. É engenharia de fechamento.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Briefing) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 37 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 06: Seção 5/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Briefing</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Perguntas de Ouro</h3>
+                    <div className="p-8 rounded-[3rem] bg-orange-500/10 border border-orange-500/20 space-y-4">
+                      <p className="text-white font-bold text-sm italic leading-relaxed">
+                        "Você envia seu preço por mensagem de texto ou apresenta um documento que justifica cada centavo do investimento?"
+                      </p>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Teste do Módulo 06 <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 38 && (
+                  <div className="space-y-8 animate-in fade-in">
+                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Dossiê de Elite</h3>
+                    <p className="text-white/40">O cliente diz: "Me manda os valores pelo WhatsApp mesmo". Como você reverte isso para apresentar um **Dossiê de Venda** e não ser comparado por preço?</p>
+                    <Textarea value={formData.ansNarrativa} onChange={(e) => setFormData({...formData, ansNarrativa: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua resposta estratégica..." />
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Estratégias de Nicho <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* MÓDULO 07: ESTRATÉGIA DE NICHO (5 SEÇÕES) */}
+                {step === 39 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 07: Seção 1/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Fundamentos</Badge>
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">O Consultor <br/>Camaleão</h2>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Você não vende para todos. Você vende para nichos específicos onde a dor financeira é aguda. Cada mercado exige um diagnóstico diferente.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Saúde) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 40 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 07: Seção 2/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Nicho: Saúde</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Agenda vs Autoridade</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Médicos e Clínicas sofrem com agenda furada e dependência de convênios. Nossa solução é IA de qualificação + Ads Local. Eles param de ser reféns e passam a escolher seus pacientes.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Direito) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 41 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 07: Seção 3/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Nicho: Direito</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Sobriedade e Escassez</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Advogados vendem confiança. Se o site ou Instagram deles é comum, eles não cobram honorários de elite. Atacamos com semiótica de autoridade e buscas de urgência no Google.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Varejo/Tech) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 42 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 07: Seção 4/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Nicho: Varejo/Tech</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Escala Sem Ruído</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      O gargalo aqui é a velocidade do site e o suporte. Solução: Engenharia de Sites (LCP &lt; 1.5s) + IA de suporte 24/7 para não perder vendas noturnas.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Briefing) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 43 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 07: Seção 5/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Briefing</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Diagnóstico por Nicho</h3>
+                    <div className="p-8 rounded-[3rem] bg-white/5 border border-white/10 space-y-4">
+                      <p className="text-white font-bold text-sm italic leading-relaxed">
+                        "Para o médico: Qual sua taxa de no-show? Para o advogado: Qual a primeira coisa que o cliente vê quando te busca no Google?"
+                      </p>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Teste do Módulo 07 <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 44 && (
+                  <div className="space-y-8 animate-in fade-in">
+                    <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Nichos Estratégicos</h3>
+                    <p className="text-white/40">Escolha um dos nichos acima e descreva qual o primeiro "gargalo" que você atacaria em uma ligação de 30 segundos usando os termos técnicos que aprendeu.</p>
+                    <Textarea value={formData.ansNichos} onChange={(e) => setFormData({...formData, ansNichos: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua estratégia de abordagem..." />
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Negociação de Valor <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* MÓDULO 08: NEGOCIAÇÃO DE VALOR (5 SEÇÕES) */}
+                {step === 45 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 08: Seção 1/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Fundamentos</Badge>
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">Matemática <br/>do Lucro</h2>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Na Sapient, não vendemos horas de trabalho. Vendemos **ROI gerado**. Se nosso ecossistema traz R$ 50k/mês para o cliente, cobrar R$ 5k é barato.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Glossário) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 46 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 08: Seção 2/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Glossário Técnico</Badge>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">Ancoragem de Valor</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Comparar o preço da Sapient com o lucro que o cliente está perdendo hoje.</p>
+                      </div>
+                      <div className="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-4">
+                        <h4 className="text-primary font-black uppercase text-xs">Lucro Cessante</h4>
+                        <p className="text-[11px] text-white/40 leading-relaxed">O dinheiro que o cliente NÃO ganha por causa de um processo comercial amador.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Escala de Preços) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 47 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 08: Seção 3/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Matriz de Investimento</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Escala de Investimento</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Domínio Local: R$ 1.5k-3k/mês. Engenharia Web: R$ 3k-15k. Ecossistema Full: R$ 5k-15k/mês. O cliente deve entender que o projeto se paga no primeiro mês.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Matador de Objeções) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 48 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 08: Seção 4/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Matador de Objeções</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">"Está Caro"</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Caro é pagar R$ 2.000 em anúncios e ter um site que não converte. Nossa solução é o fim do desperdício. O senhor não está comprando um site, está comprando a interrupção do seu prejuízo.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Briefing) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 49 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 08: Seção 5/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Briefing</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Perguntas de Ouro</h3>
+                    <div className="p-8 rounded-[3rem] bg-amber-500/10 border border-amber-500/20 space-y-4">
+                      <p className="text-white font-bold text-sm italic leading-relaxed">
+                        "O senhor prefere pagar mais barato para continuar perdendo leads ou investir o justo para começar a dominar o mercado?"
+                      </p>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Teste do Módulo 08 <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 50 && (
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Objeção de Preço</h3>
                     <p className="text-white/40">O cliente diz: "O site está caro". Como você utiliza o argumento do **Lucro Cessante** (o dinheiro que ele já está perdendo) para ancorar o preço da Sapient?</p>
@@ -1109,7 +1345,8 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {step === 19 && (
+                {/* TESTES DE VOZ (PROVAS FINAIS) */}
+                {step === 51 && (
                   <div className="space-y-8 animate-in fade-in">
                     <div className="text-center space-y-4">
                       <div className="h-16 w-16 rounded-full bg-primary/20 text-primary flex items-center justify-center mx-auto mb-6"><Mic size={32} /></div>
@@ -1133,7 +1370,7 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {step === 20 && (
+                {step === 52 && (
                   <div className="space-y-8 animate-in fade-in">
                     <div className="text-center space-y-4">
                       <h2 className="text-3xl font-black uppercase">O Pitch de Elite</h2>
@@ -1156,7 +1393,7 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {step === 23 && (
+                {step === 53 && (
                   <div className="space-y-12 animate-in zoom-in duration-700 text-center py-10">
                     <div className="h-24 w-24 rounded-full bg-green-500 flex items-center justify-center mx-auto shadow-2xl animate-glow-pulse"><Trophy size={40} className="text-white" /></div>
                     <div className="space-y-4">
