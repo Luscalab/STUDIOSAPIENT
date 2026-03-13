@@ -313,8 +313,8 @@ export function RecrutamentoClient() {
                         <p className="text-[11px] text-white/50 leading-relaxed">Não é apenas um mapa. É o seu cartão de visitas local. Se não tem fotos profissionais e avaliações semanais, o cliente sente que a empresa está abandonada.</p>
                       </div>
                       <div className="p-6 bg-black/40 rounded-3xl border border-white/5 space-y-4">
-                        <div className="flex items-center gap-2 text-red-400 font-black uppercase text-[8px]"><Search size={12}/> Palavras Negativas</div>
-                        <p className="text-[11px] text-white/50 leading-relaxed">O segredo do lucro no Google não é o que você compra, é o que você <strong>proíbe</strong>. (Ex: médico não quer clique de 'faculdade de medicina').</p>
+                        <div className="flex items-center gap-2 text-red-400 font-black uppercase text-[8px]"><Search size={12}/> Filtro de Intenção</div>
+                        <p className="text-[11px] text-white/50 leading-relaxed"><strong>Conceito:</strong> Usar palavras negativas e segmentação cirúrgica para barrar quem só quer curiosidade ('quanto custa') e atrair quem quer comprar agora. O segredo é o que você <strong>proíbe</strong>.</p>
                       </div>
                     </div>
                   </div>
@@ -408,7 +408,7 @@ export function RecrutamentoClient() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-3">
                         <p className="text-[10px] font-black text-cyan-400 uppercase">GARGALO: VELOCIDADE (LCP)</p>
-                        <p className="text-[11px] text-white/50">Se o site demora mais que 3 segundos, o cliente desiste. No mobile, cada segundo de atraso é 20% a menos de conversão.</p>
+                        <p className="text-[11px] text-white/50"><strong>Tradução:</strong> LCP é o tempo que o conteúdo principal leva para aparecer. Se o site demora mais que 3 segundos, o cliente desiste. No mobile, cada segundo de atraso é 20% a menos de conversão.</p>
                       </div>
                       <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-3">
                         <p className="text-[10px] font-black text-cyan-400 uppercase">GARGALO: MOBILE FIRST</p>
@@ -443,8 +443,8 @@ export function RecrutamentoClient() {
                         <p className="text-[11px] text-white/50">Logos feitos no Canva ou cores sem harmonia comunicam 'baixo custo'. Para cobrar caro, você precisa parecer caro.</p>
                       </div>
                       <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-3">
-                        <p className="text-[10px] font-black text-pink-400 uppercase">AUTORIDADE VISUAL</p>
-                        <p className="text-[11px] text-white/50">Usamos a semiótica de luxo para remover a barreira de confiança. O cliente decide te contratar nos primeiros 2 segundos.</p>
+                        <p className="text-[10px] font-black text-pink-400 uppercase">SEMIÓTICA DE LUXO</p>
+                        <p className="text-[11px] text-white/50"><strong>Tradução:</strong> A ciência de como cores, fontes e formas falam com o subconsciente. Usamos isso para remover a barreira de confiança instantaneamente.</p>
                       </div>
                     </div>
                   </div>
@@ -505,7 +505,7 @@ export function RecrutamentoClient() {
                       </div>
                       <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-3">
                         <p className="text-[10px] font-black text-violet-400 uppercase">CUSTO DE OPORTUNIDADE</p>
-                        <p className="text-[11px] text-white/50">Uma secretária sobrecarregada perde 60% das oportunidades. A IA atende mil pessoas simultaneamente com a mesma perfeição.</p>
+                        <p className="text-[11px] text-white/50"><strong>Conceito:</strong> O dinheiro que você deixa de ganhar por não estar disponível. Uma secretária sobrecarregada perde 60% das oportunidades.</p>
                       </div>
                     </div>
                   </div>
@@ -537,7 +537,7 @@ export function RecrutamentoClient() {
                       </div>
                       <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-3">
                         <p className="text-[10px] font-black text-blue-400 uppercase">CURADORIA DE NICHO</p>
-                        <p className="text-[11px] text-white/50">Focamos em atrair o decisor, não a massa. É melhor ter 100 seguidores que podem pagar R$ 50k do que 100 mil que pedem desconto.</p>
+                        <p className="text-[11px] text-white/50"><strong>Tradução:</strong> Focar em atrair o decisor, não a massa. É melhor ter 100 seguidores que podem pagar R$ 50k do que 100 mil que pedem desconto.</p>
                       </div>
                     </div>
                   </div>
