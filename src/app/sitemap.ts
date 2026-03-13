@@ -4,7 +4,7 @@ import { MetadataRoute } from 'next'
 /**
  * @fileOverview Gerador dinâmico de Sitemap para a studiosapient.
  * Inclui todas as rotas estratégicas de serviço e projetos.
- * A rota de recrutamento é omitida para manter a privacidade do processo.
+ * O Google utiliza este arquivo para descobrir URLs, enquanto o favicon é detectado via metadados de cabeçalho.
  */
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -20,7 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/servicos/chat-ia',
     '/servicos/gestao-social',
     '/servicos/narrativa-visual',
-    // /vendas/recrutamento omitido propositalmente
+    '/vendas/auth',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),
