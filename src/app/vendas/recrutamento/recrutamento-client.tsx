@@ -780,7 +780,7 @@ export function RecrutamentoClient() {
                       </div>
                       <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
                         <h4 className="text-amber-400 font-bold text-xs uppercase">Varejo & Tech</h4>
-                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Conversão baixa no site e suporte lento. Solução: Engenharia de Sites (LCP < 1s) + IA de suporte 24/7 + Ads de Urgência.</p>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Conversão baixa no site e suporte lento. Solução: Engenharia de Sites (LCP &lt; 1s) + IA de suporte 24/7 + Ads de Urgência.</p>
                       </div>
                     </div>
                     <div className="flex gap-4">
