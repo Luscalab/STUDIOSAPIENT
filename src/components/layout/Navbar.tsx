@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -26,11 +27,11 @@ export function Navbar() {
   
   return (
     <header className="absolute top-4 md:top-8 left-0 right-0 z-[150]" role="banner">
-      <div className="container mx-auto px-6 flex items-center justify-between gap-8 md:gap-12">
+      <div className="container mx-auto px-6 flex items-center justify-between gap-4 md:gap-12">
         
         <Link 
           href="/" 
-          className="relative block w-[240px] h-[90px] md:w-[450px] md:h-[160px] transition-all duration-1000 hover:scale-[1.01] shrink-0"
+          className="relative block w-[200px] h-[75px] sm:w-[240px] sm:h-[90px] md:w-[450px] md:h-[160px] transition-all duration-1000 hover:scale-[1.01] shrink-0 max-w-[65vw]"
         >
           <Image 
             src={logoData?.imageUrl || ""} 
@@ -65,7 +66,7 @@ export function Navbar() {
 
         {/* Mobile Menu Trigger */}
         <button 
-          className="lg:hidden h-10 w-10 rounded-xl bg-white/5 text-white border border-white/10 active:scale-90 transition-all backdrop-blur-md flex items-center justify-center" 
+          className="lg:hidden h-10 w-10 md:h-12 md:w-12 rounded-xl bg-white/5 text-white border border-white/10 active:scale-90 transition-all backdrop-blur-md flex items-center justify-center shrink-0" 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Abrir Menu"
         >
