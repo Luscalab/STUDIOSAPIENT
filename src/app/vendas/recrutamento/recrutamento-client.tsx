@@ -17,13 +17,11 @@ import {
   ChevronRight,
   ChevronLeft,
   Trophy,
-  Volume2,
   ShieldCheck,
   Target,
   TrendingUp,
   Layout,
   Palette,
-  FileText,
   Bot,
   Users,
   BrainCircuit,
@@ -34,7 +32,10 @@ import {
   Activity,
   AlertCircle,
   MessageSquare,
-  Ear
+  Ear,
+  Video,
+  FileText,
+  AlertTriangle
 } from "lucide-react";
 import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -62,7 +63,7 @@ export function RecrutamentoClient() {
     ansChat: "",
     ansSocial: "",
     ansNarrativa: "",
-    audioAdsBase64: "", // Novo campo para áudio intermediário
+    audioAdsBase64: "", 
   });
 
   const { toast } = useToast();
@@ -142,8 +143,8 @@ export function RecrutamentoClient() {
       toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos de segurança.", variant: "destructive" });
       return;
     }
-    if (step === 6 && !audioBase64) {
-      toast({ title: "Áudio Obrigatório", description: "Grave sua resposta para o Dr. Ricardo antes de prosseguir.", variant: "destructive" });
+    if (step === 12 && !audioBase64) {
+      toast({ title: "Áudio Obrigatório", description: "Grave sua resposta estratégica para o Dr. Ricardo.", variant: "destructive" });
       return;
     }
     setStep(prev => prev + 1);
@@ -157,7 +158,7 @@ export function RecrutamentoClient() {
 
   const handleSubmit = async () => {
     if (!audio2Base64) {
-      toast({ title: "Falta o Áudio Final", description: "Grave seu pitch de ecossistema para concluir.", variant: "destructive" });
+      toast({ title: "Falta o Áudio Final", description: "Grave seu pitch final para concluir o dossiê.", variant: "destructive" });
       return;
     }
     setIsLoading(true);
@@ -166,12 +167,12 @@ export function RecrutamentoClient() {
       if (db) {
         await addDoc(collection(db, 'sales_candidates'), {
           ...formData,
-          pitchAudioUri: audio2Base64, // Áudio final
+          pitchAudioUri: audio2Base64,
           timestamp: serverTimestamp(),
           status: 'PENDENTE_AVALIACAO_HUMANA'
         });
       }
-      setStep(11);
+      setStep(15);
     } catch (error) {
       console.error(error);
       toast({ title: "Erro no Envio", description: "Ocorreu um problema ao salvar seu dossiê.", variant: "destructive" });
@@ -188,15 +189,14 @@ export function RecrutamentoClient() {
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div className="text-left">
-              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase">Academia de Vendas Studiosapient</Badge>
-              <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">Jornada <span className="text-primary italic lowercase">estratégica.</span></h1>
+              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">Academia de Consultoria Sapient</Badge>
+              <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">Jornada de <span className="text-primary italic lowercase">conhecimento.</span></h1>
             </div>
           </div>
 
-          {/* PROGRESS BAR */}
-          <div className="flex items-center gap-2 mb-12">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((s) => (
-              <div key={s} className={cn("h-1 flex-1 rounded-full transition-all duration-500", step >= s ? "bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
+          <div className="flex items-center gap-2 mb-12 overflow-x-auto pb-4 no-scrollbar">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((s) => (
+              <div key={s} className={cn("h-1 min-w-[30px] flex-1 rounded-full transition-all duration-500", step >= s ? "bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
             ))}
           </div>
 
@@ -218,14 +218,14 @@ export function RecrutamentoClient() {
                 
                 <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-4">
                   <div className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-[10px]">
-                    <ShieldCheck size={18} /> Segurança de Dados
+                    <ShieldCheck size={18} /> Segurança de Dados & LGPD
                   </div>
                   <p className="text-[11px] text-white/50 leading-relaxed uppercase font-bold">
-                    Ao prosseguir, você concorda que gravaremos suas respostas e áudios para fins exclusivos de avaliação comercial. O Firebase garante que ninguém fora da Studiosapient acesse estas informações.
+                    Ao prosseguir, você concorda que registraremos suas respostas e áudios para fins exclusivos de avaliação comercial. Seus dados são armazenados no Firebase (Google Cloud) com proteção de nível bancário.
                   </p>
                   <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/40 border border-white/5">
                     <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} />
-                    <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">Autorizo o processamento seguro dos meus dados.</label>
+                    <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">Autorizo o processamento seguro e ético dos meus dados.</label>
                   </div>
                 </div>
                 
@@ -235,54 +235,58 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 2: TREINAMENTO 1 - MENTALIDADE */}
+            {/* ETAPA 2: MENTALIDADE DE VALOR */}
             {step === 2 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-indigo-500/10 border border-indigo-500/20 space-y-8">
-                  <div className="flex items-center gap-3 text-indigo-400 font-black uppercase text-[10px]"><BookOpen size={16} /> Módulo 01: Vender Valor &gt; Preço</div>
+                  <div className="flex items-center gap-3 text-indigo-400 font-black uppercase text-[10px]"><BookOpen size={16} /> Módulo 01: Mentalidade &gt; Técnica</div>
                   
                   <div className="space-y-6">
-                    <h3 className="text-3xl font-black uppercase tracking-tighter">Esqueça o "Marketing Digital"</h3>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">Venda o Inatingível.</h3>
                     <p className="text-lg text-white/60 leading-relaxed">
-                      Nós não vendemos "posts" ou "sites". Nós vendemos <strong>Escudo de Autoridade</strong> e <strong>Recuperação de Lucro</strong>. 
+                      Na studiosapient, não vendemos sites. Vendemos <strong>Segurança</strong>. Não vendemos anúncios. Vendemos <strong>Lucro Previsível</strong>.
                     </p>
-                    <div className="p-6 bg-black/40 rounded-3xl border border-white/5 space-y-4">
-                      <p className="text-sm font-bold text-indigo-300 uppercase">DICA DE OURO:</p>
-                      <p className="text-sm text-white/50 italic">"Se o cliente diz que está caro, ele não viu o prejuízo de continuar como ele está. Mostre o buraco no bolso dele, não o preço do seu serviço."</p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-6 bg-black/40 rounded-3xl border border-white/5 space-y-4">
+                        <p className="text-[10px] font-black text-indigo-300 uppercase">DICA DE AUTORIDADE:</p>
+                        <p className="text-sm text-white/70 italic leading-relaxed">"O cliente só pede desconto quando ele sente que você é um custo. Quando ele sente que você é o antídoto para a dor dele, ele pergunta quando começamos."</p>
+                      </div>
+                      <div className="p-6 bg-red-500/10 rounded-3xl border border-red-500/20 space-y-4">
+                        <p className="text-[10px] font-black text-red-400 uppercase">O QUE NÃO FUNCIONA:</p>
+                        <p className="text-sm text-white/70 italic leading-relaxed">Mandar orçamento por PDF sem falar. O PDF não tem voz, não tem brilho no olho e não responde dúvidas. O PDF é onde as vendas morrem.</p>
+                      </div>
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Entendido, Próxima Aula <ChevronRight size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Entendido, Próximo <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
 
-            {/* ETAPA 3: TREINAMENTO 2 - O GARGALO */}
+            {/* ETAPA 3: DIAGNÓSTICO DE GARGALOS */}
             {step === 3 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-amber-500/10 border border-amber-500/20 space-y-8">
-                  <div className="flex items-center gap-3 text-amber-400 font-black uppercase text-[10px]"><Ear size={16} /> Módulo 02: Identificando o Gargalo</div>
+                  <div className="flex items-center gap-3 text-amber-400 font-black uppercase text-[10px]"><Search size={16} /> Módulo 02: O Caçador de Gargalos</div>
                   
                   <div className="space-y-6">
-                    <h3 className="text-3xl font-black uppercase tracking-tighter">Ouvir é fechar.</h3>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">Onde o Dinheiro Está Vazando?</h3>
                     <p className="text-lg text-white/60 leading-relaxed">
-                      Um "Gargalo" é simplesmente onde o dinheiro está fugindo. Mas o cliente não sabe o nome técnico. Ele diz:
+                      Um gargalo é um problema técnico que causa um prejuízo financeiro real. Você deve ensinar o cliente a ver esse vazamento.
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="p-5 rounded-2xl bg-white/5 border border-white/5">
-                        <p className="text-[10px] font-black text-amber-400 mb-2 uppercase">Ele diz:</p>
-                        <p className="text-xs italic text-white/80">"Tem muita gente me chamando, mas ninguém fecha nada."</p>
-                        <p className="text-[10px] font-black text-primary mt-4 uppercase">Gargalo Real:</p>
-                        <p className="text-[10px] text-white/40">Falta de filtro no Google Ads ou site confuso que atrai curiosos.</p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
+                        <h4 className="font-black text-amber-400 text-xs mb-3 uppercase">Gargalo: Site Lento</h4>
+                        <p className="text-[11px] text-white/50 leading-relaxed"><strong>Linguagem Técnica:</strong> LCP alto e tempo de carregamento de 8s.<br/><br/><strong>Tradução Leiga:</strong> É como ter uma loja linda, mas a porta de entrada está emperrada. O cliente força, não consegue abrir e vai para o vizinho.</p>
                       </div>
-                      <div className="p-5 rounded-2xl bg-white/5 border border-white/5">
-                        <p className="text-[10px] font-black text-amber-400 mb-2 uppercase">Ele diz:</p>
-                        <p className="text-xs italic text-white/80">"Sinto que minha marca parece pequena perto da concorrência."</p>
-                        <p className="text-[10px] font-black text-primary mt-4 uppercase">Gargalo Real:</p>
-                        <p className="text-[10px] text-white/40">Imagem visual amadora (Canva) que remove a percepção de preço alto.</p>
+                      <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
+                        <h4 className="font-black text-amber-400 text-xs mb-3 uppercase">Gargalo: Google Ads Genérico</h4>
+                        <p className="text-[11px] text-white/50 leading-relaxed"><strong>Linguagem Técnica:</strong> Falta de palavras-chave negativas e segmentação ampla.<br/><br/><strong>Tradução Leiga:</strong> Você está pagando panfleto para ser entregue na cidade inteira, quando só quem mora na sua rua pode comprar de você.</p>
                       </div>
                     </div>
                   </div>
@@ -290,32 +294,31 @@ export function RecrutamentoClient() {
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-amber-500 text-white rounded-full font-black uppercase text-[10px]">Dominado. Próximo <ChevronRight size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-amber-500 text-white rounded-full font-black uppercase text-[10px]">Dominar Diagnóstico <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
 
-            {/* ETAPA 4: TREINAMENTO 3 - TRADUÇÃO LEIGA */}
+            {/* ETAPA 4: PERFORMANCE ADS (CURSO) */}
             {step === 4 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-                <div className="p-8 rounded-[2.5rem] bg-cyan-500/10 border border-cyan-500/20 space-y-8">
-                  <div className="flex items-center gap-3 text-cyan-400 font-black uppercase text-[10px]"><MessageSquare size={16} /> Módulo 03: Tradução Técnica</div>
+                <div className="p-8 rounded-[2.5rem] bg-primary/10 border border-primary/20 space-y-8">
+                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><TrendingUp size={16} /> Módulo 03: Performance Ads &amp; GMN</div>
                   
                   <div className="space-y-6">
-                    <h3 className="text-3xl font-black uppercase tracking-tighter">Fale como o Cliente.</h3>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">Domínio de Busca.</h3>
                     <p className="text-lg text-white/60 leading-relaxed">
-                      Não tente impressionar com termos difíceis. Explique o benefício prático.
+                      O Google é a "Busca de Urgência". O Instagram é a "Busca de Desejo".
                     </p>
                     
                     <div className="space-y-4">
-                      <div className="flex items-start gap-4 p-6 bg-black/20 rounded-2xl border border-white/5">
-                        <div className="h-10 w-10 rounded-full bg-cyan-500/20 flex items-center justify-center shrink-0 text-cyan-400 font-black">1</div>
-                        <div>
-                          <p className="text-[10px] font-black uppercase text-cyan-400 mb-1">Errado (Técnico):</p>
-                          <p className="text-xs text-white/40 mb-3">"Precisamos otimizar seus Core Web Vitals para reduzir o LCP."</p>
-                          <p className="text-[10px] font-black uppercase text-primary mb-1">Certo (Estúdio Sapient):</p>
-                          <p className="text-sm font-bold text-white">"Seu site é como uma loja que demora 10 segundos para abrir a porta. O cliente desiste e vai para o vizinho."</p>
-                        </div>
+                      <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/20 border border-white/5">
+                        <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0 text-primary font-black text-xs">!</div>
+                        <p className="text-[11px] text-white/70"><strong>GMN (Google Meu Negócio):</strong> É o novo cartão de visitas local. Se não tem fotos boas e avaliações, o cliente nem liga.</p>
+                      </div>
+                      <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/20 border border-white/5">
+                        <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0 text-primary font-black text-xs">!</div>
+                        <p className="text-[11px] text-white/70"><strong>Palavras Negativas:</strong> O segredo do lucro no Google não é o que você compra, é o que você <strong>proíbe</strong>. (Ex: médico não quer clique de 'faculdade de medicina').</p>
                       </div>
                     </div>
                   </div>
@@ -323,48 +326,48 @@ export function RecrutamentoClient() {
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-cyan-500 text-white rounded-full font-black uppercase text-[10px]">Iniciar Desafios Reais <ChevronRight size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Teste Ads <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
 
-            {/* ETAPA 5: DESAFIO ADS - TEXTO */}
+            {/* ETAPA 5: DESAFIO ADS (TEXTO) */}
             {step === 5 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-                <div className="p-8 rounded-[2.5rem] bg-primary/10 border border-primary/20 space-y-6">
-                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><TrendingUp size={16} /> CASO REAL 01: ADS & GOOGLE</div>
+                <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-6">
+                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><TrendingUp size={16} /> DESAFIO 01: ADS</div>
                   <div className="p-6 rounded-2xl bg-black/40 border border-white/5">
                     <p className="text-[10px] font-black text-primary mb-2 uppercase">BRIEFING:</p>
-                    <p className="text-sm font-bold">Dr. Ricardo, Dentista. Ele gasta R$ 1.500/mês no Google mas só recebe gente querendo "limpeza gratuita" ou convênios que ele não atende.</p>
+                    <p className="text-sm font-bold">Dr. Ricardo gastou R$ 5.000 em Ads e só recebeu curiosos perguntando 'quanto custa o clareamento'. Ele acha que o Google não funciona.</p>
                   </div>
                   <p className="text-xs font-bold text-white/40 uppercase italic">
                     <AlertCircle size={14} className="inline mr-2 text-primary" />
-                    Qual é o "gargalo" técnico dele e como você explicaria de forma simples que o Google dele está atraindo a pessoa errada?
+                    Como você explicaria para ele que o problema não é o Google, mas sim a falta de "Filtro de Intenção"? Use a linguagem leiga que aprendeu.
                   </p>
                 </div>
 
                 <Textarea 
                   value={formData.ansAds} 
                   onChange={(e) => setFormData({...formData, ansAds: e.target.value})}
-                  placeholder="Sua resposta estratégica por escrito..." 
+                  placeholder="Sua resposta estratégica..." 
                   className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
                 />
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Fase (Áudio) <ChevronRight size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Áudio <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
 
-            {/* ETAPA 6: DESAFIO ADS - ÁUDIO */}
+            {/* ETAPA 6: DESAFIO ADS (ÁUDIO) */}
             {step === 6 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white text-black space-y-6">
-                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Mic size={16} /> RESPOSTA VOCAL</div>
-                  <h3 className="text-2xl font-black uppercase tracking-tighter leading-none">Simulação: Áudio para o Dr. Ricardo</h3>
+                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Mic size={16} /> DESAFIO DE ORATÓRIA</div>
+                  <h3 className="text-2xl font-black uppercase tracking-tighter leading-none">Voz de Autoridade</h3>
                   <p className="text-sm text-black/60 leading-relaxed">
-                    Agora, grave um áudio de até 60 segundos como se estivesse enviando para ele no WhatsApp. Use a <strong>Tradução Leiga</strong> que aprendemos. Mostre autoridade mas com simplicidade.
+                    Grave um áudio de 45 segundos para o Dr. Ricardo no WhatsApp. <strong>Dica:</strong> Fale com calma, use pausas e mostre que você tem a solução para o desperdício de verba dele.
                   </p>
                 </div>
 
@@ -389,77 +392,177 @@ export function RecrutamentoClient() {
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                  <Button onClick={handleNextStep} disabled={!audioBase64 || isRecording} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Sites <ChevronRight size={16}/></Button>
+                  <Button onClick={handleNextStep} disabled={!audioBase64 || isRecording} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Dominado. Próximo Curso <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
 
-            {/* ETAPA 7: DESAFIO SITES & DESIGN */}
+            {/* ETAPA 7: SITES & DESIGN (CURSO) */}
             {step === 7 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-                <div className="p-8 rounded-[2.5rem] bg-cyan-500/10 border border-cyan-500/20 space-y-6">
-                  <div className="flex items-center gap-3 text-cyan-400 font-black uppercase text-[10px]"><Layout size={16} /> CASO REAL 02: VITRINE PROFISSIONAL</div>
+                <div className="p-8 rounded-[2.5rem] bg-cyan-500/10 border border-cyan-500/20 space-y-8">
+                  <div className="flex items-center gap-3 text-cyan-400 font-black uppercase text-[10px]"><Layout size={16} /> Módulo 04: Vitrine Profissional</div>
+                  
+                  <div className="space-y-6">
+                    <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">Semiótica e Conversão.</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      O design não serve para ser "bonito". Serve para remover a dúvida de quem vai pagar caro por um serviço.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-3">
+                        <p className="text-[10px] font-black text-cyan-400 uppercase">GARGALO: IMAGEM AMADORA</p>
+                        <p className="text-[11px] text-white/50">Um logo feito no Canva por um amador diz ao cérebro do cliente: 'Este profissional não investe nem em si mesmo, por que eu investiria nele?'</p>
+                      </div>
+                      <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-3">
+                        <p className="text-[10px] font-black text-cyan-400 uppercase">GARGALO: FALTA DE FOCO</p>
+                        <p className="text-[11px] text-white/50">Sites com mil botões e menus confundem. Onde há confusão, não há venda. O site deve ser um trilho único para o WhatsApp.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-cyan-500 text-white rounded-full font-black uppercase text-[10px]">Entendido. Testar Sites <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {/* ETAPA 8: DESAFIO SITES/DESIGN (TEXTO) */}
+            {step === 8 && (
+              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-6">
+                  <div className="flex items-center gap-3 text-cyan-400 font-black uppercase text-[10px]"><Layout size={16} /> DESAFIO 02: SITES &amp; IMAGEM</div>
                   <div className="p-6 rounded-2xl bg-black/40 border border-white/5">
                     <p className="text-[10px] font-black text-cyan-400 mb-2 uppercase">BRIEFING:</p>
-                    <p className="text-sm font-bold">Dra. Helena, Advogada. Ela tem um site que o sobrinho fez, demora muito pra abrir e usa um logo feito no Canva. Ela reclama que os clientes "fogem" na hora de ouvir o preço dos honorários.</p>
+                    <p className="text-sm font-bold">Dra. Helena é advogada criminalista. O site dela é rosa, com fotos de banco de imagem genéricas e demora 12 segundos para abrir. Ela quer fechar honorários de R$ 30k.</p>
                   </div>
                   <p className="text-xs font-bold text-white/40 uppercase italic">
                     <AlertCircle size={14} className="inline mr-2 text-cyan-400" />
-                    Como o "gargalo" da imagem visual dela está influenciando no fechamento de contratos de alto valor? Explique a relação entre Design e Preço.
+                    Qual é o principal erro na "Semiótica de Valor" da Dra. Helena e como isso impede ela de cobrar o que deseja?
                   </p>
                 </div>
 
                 <Textarea 
                   value={formData.ansSites} 
                   onChange={(e) => setFormData({...formData, ansSites: e.target.value})}
-                  placeholder="Escreva sua análise estratégica..." 
+                  placeholder="Explique a falha estratégica..." 
                   className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
                 />
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-cyan-500 text-white rounded-full font-black uppercase text-[10px]">Próximo Desafio <ChevronRight size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-cyan-500 text-white rounded-full font-black uppercase text-[10px]">Avançar para IA &amp; Social <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
 
-            {/* ETAPA 8: DESAFIO CHAT IA & SOCIAL */}
-            {step === 8 && (
+            {/* ETAPA 9: CHAT IA & SOCIAL (CURSO) */}
+            {step === 9 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-                <div className="p-8 rounded-[2.5rem] bg-violet-500/10 border border-violet-500/20 space-y-6">
-                  <div className="flex items-center gap-3 text-violet-400 font-black uppercase text-[10px]"><Bot size={16} /> CASO REAL 03: ESCALA INTELIGENTE</div>
+                <div className="p-8 rounded-[2.5rem] bg-violet-500/10 border border-violet-500/20 space-y-8">
+                  <div className="flex items-center gap-3 text-violet-400 font-black uppercase text-[10px]"><Bot size={16} /> Módulo 05: Escala &amp; Autoridade Social</div>
+                  
+                  <div className="space-y-6">
+                    <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">O Vendedor que Nunca Dorme.</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      O Chat IA não é para "atender". É para <strong>Qualificar</strong>.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-3">
+                        <p className="text-[10px] font-black text-violet-400 uppercase">GARGALO: ATENDIMENTO HUMANO LENTO</p>
+                        <p className="text-[11px] text-white/50">Se o lead quente espera 30 minutos para ser respondido, ele já esqueceu o problema ou já fechou com o concorrente que foi mais rápido.</p>
+                      </div>
+                      <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-3">
+                        <p className="text-[10px] font-black text-violet-400 uppercase">SOCIAL: AUTORIDADE &gt; SEGUIDORES</p>
+                        <p className="text-[11px] text-white/50">Seguidor não paga boleto. O Instagram deve ser um dossiê de autoridade onde o cliente entra, vê que você sabe do que fala e decide te contratar.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-violet-500 text-white rounded-full font-black uppercase text-[10px]">Entendido. Testar IA <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {/* ETAPA 10: DESAFIO CHAT/SOCIAL (TEXTO) */}
+            {step === 10 && (
+              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-6">
+                  <div className="flex items-center gap-3 text-violet-400 font-black uppercase text-[10px]"><Bot size={16} /> DESAFIO 03: ESCALA INTELIGENTE</div>
                   <div className="p-6 rounded-2xl bg-black/40 border border-white/5">
                     <p className="text-[10px] font-black text-violet-400 mb-2 uppercase">BRIEFING:</p>
-                    <p className="text-sm font-bold">Imobiliária 'Luz do Sol'. Eles recebem 150 mensagens/dia. A secretária demora 2 horas pra responder. 80% das perguntas são repetitivas (preço, localização). Eles perdem leads quentes no meio da bagunça.</p>
+                    <p className="text-sm font-bold">Imobiliária 'Viver Bem' recebe 200 leads por dia no WhatsApp. A secretária passa o dia mandando 'bom dia' e 'qual seu orçamento', mas só consegue responder 40 pessoas.</p>
                   </div>
                   <p className="text-xs font-bold text-white/40 uppercase italic">
                     <AlertCircle size={14} className="inline mr-2 text-violet-400" />
-                    Como uma IA de atendimento resolve o "vazamento" de dinheiro aqui? Como você venderia isso sem que pareça um "robô chato"?
+                    Como você venderia a implantação de uma IA de Atendimento para o dono dessa imobiliária? Foque no <strong>Custo de Oportunidade Perdida</strong>.
                   </p>
                 </div>
 
                 <Textarea 
                   value={formData.ansChat} 
                   onChange={(e) => setFormData({...formData, ansChat: e.target.value})}
-                  placeholder="Escreva sua solução técnica..." 
+                  placeholder="Escreva seu argumento de venda..." 
                   className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
                 />
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-violet-500 text-white rounded-full font-black uppercase text-[10px]">Desafio Final: O Pitch <ChevronRight size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-violet-500 text-white rounded-full font-black uppercase text-[10px]">Módulo Final: Fechamento <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
 
-            {/* ETAPA 9: PITCH FINAL - ECOSSISTEMA */}
-            {step === 9 && (
+            {/* ETAPA 11: FECHAMENTO & ETIQUETA COMERCIAL (CURSO) */}
+            {step === 11 && (
+              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                <div className="p-8 rounded-[2.5rem] bg-white text-black space-y-8">
+                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Video size={16} /> Módulo Final: A Hora do Sim</div>
+                  
+                  <div className="space-y-6">
+                    <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">Etiqueta de Consultoria Premium.</h3>
+                    <p className="text-lg text-black/60 leading-relaxed">
+                      Como se portar para que o cliente sinta segurança em investir alto com a studiosapient.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <p className="text-[9px] font-black uppercase text-primary">VÍDEO CHAMADA</p>
+                        <p className="text-[10px] text-slate-500">Fundo neutro, luz frontal e contato visual com a lente. O cliente compra você antes do projeto.</p>
+                      </div>
+                      <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <p className="text-[9px] font-black uppercase text-primary">ÁUDIO WHATSAPP</p>
+                        <p className="text-[10px] text-slate-500">Nunca mande áudios maiores que 1:30 min. Seja conciso e termine sempre com uma pergunta instigante.</p>
+                      </div>
+                      <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                        <p className="text-[9px] font-black uppercase text-primary">NARRATIVA VISUAL</p>
+                        <p className="text-[10px] text-slate-500">Ao apresentar a proposta, use nossos Dossiês. Eles transformam 'serviço' em 'estratégia inquestionável'.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Pitch Final <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {/* ETAPA 12: PITCH FINAL (ÁUDIO) */}
+            {step === 12 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white text-black space-y-6">
-                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Trophy size={16} /> DESAFIO FINAL</div>
-                  <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">Venda o Ecossistema Completo</h3>
+                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Trophy size={16} /> O DESAFIO SUPREMO</div>
+                  <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">Apresentação do Ecossistema</h3>
                   <p className="text-sm text-black/60 leading-relaxed">
-                    Grave um pitch final de 2 minutos. Imagine que você está falando com um empresário que fatura bem, mas sente que o digital dele está "bagunçado". Venda a ideia de uma consultoria que resolve <strong>Ads, Site, Design e IA</strong> de uma vez.
+                    Imagine que você está em uma chamada com um empresário que fatura R$ 100k/mês mas o digital dele está "bagunçado". Grave um pitch final de 2 minutos vendendo a ideia de que ele precisa de um <strong>Ecossistema de Autoridade (Ads + Site + IA)</strong> para escalar.
                   </p>
                 </div>
 
@@ -491,25 +594,25 @@ export function RecrutamentoClient() {
                     disabled={isLoading || !audio2Base64 || isRecording} 
                     className="h-24 flex-1 bg-primary rounded-full font-black uppercase text-[12px] shadow-2xl"
                   >
-                    {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Enviar Dossiê de Recrutamento"} <Zap size={20} className="ml-2" />
+                    {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Enviar Dossiê para Avaliação Humana"} <Zap size={20} className="ml-2" />
                   </Button>
                 </div>
               </div>
             )}
 
-            {/* ETAPA 10: SUCESSO */}
-            {step === 10 && (
+            {/* ETAPA 13: SUCESSO */}
+            {step === 15 && (
               <div className="space-y-12 animate-in zoom-in duration-700 text-center py-10">
                 <div className="h-24 w-24 rounded-full bg-green-500 flex items-center justify-center mx-auto shadow-2xl animate-glow-pulse">
                   <Trophy size={40} className="text-white" />
                 </div>
                 <div className="space-y-4">
                   <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Dossiê Protocolado.</h2>
-                  <p className="text-xl text-white/50 font-medium">Sua jornada comercial foi registrada com sucesso.</p>
+                  <p className="text-xl text-white/50 font-medium">Sua jornada estratégica foi concluída com sucesso.</p>
                 </div>
                 <div className="p-8 rounded-[3rem] bg-white/5 border border-white/10 max-w-2xl mx-auto">
                   <p className="text-white/40 leading-relaxed italic">
-                    "Obrigado por completar o treinamento estratégico Sapient. Analisaremos sua visão de negócio e sua oratória vocal. Entraremos em contato via WhatsApp caso seu perfil seja compatível com nosso ecossistema profissional."
+                    "Obrigado por completar o treinamento Sapient. Seus dados e áudios foram enviados diretamente para nossos diretores. Analisaremos sua oratória, visão de negócio e capacidade de tradução estratégica. Aguarde nosso contato via WhatsApp."
                   </p>
                 </div>
                 <div className="pt-8">
