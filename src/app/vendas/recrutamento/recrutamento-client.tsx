@@ -18,22 +18,19 @@ import {
   ChevronRight,
   ChevronLeft,
   Trophy,
-  Building2,
   Volume2,
   ShieldCheck,
   Target,
   TrendingUp,
   Layout,
   Palette,
-  FileText,
-  MousePointer2
+  FileText
 } from "lucide-react";
 import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-
-const STORAGE_KEY = "sapient_collector_v1";
+import { evaluateSalesCandidate } from "@/ai/flows/sales-evaluator-flow";
 
 export function RecrutamentoClient() {
   const [step, setStep] = useState(1);
@@ -135,19 +132,34 @@ export function RecrutamentoClient() {
     setIsLoading(true);
     
     try {
+      // 1. Avaliação via Gemini 1.5 Pro
+      const aiEvaluation = await evaluateSalesCandidate({
+        name: formData.name,
+        ansAds: formData.ansAds,
+        ansSites: formData.ansSites,
+        ansDesign: formData.ansDesign,
+        ansNarrativa: formData.ansNarrativa,
+        pitchAudioUri: audioBase64
+      });
+
+      // 2. Persistência no Firestore
       if (db) {
         await addDoc(collection(db, 'sales_candidates'), {
           ...formData,
           pitchAudioUri: audioBase64,
-          score: 0,
-          verdict: 'PENDENTE',
-          aiFeedback: 'Aguardando avaliação humana.',
+          score: aiEvaluation.score,
+          verdict: aiEvaluation.verdict,
+          aiFeedback: aiEvaluation.feedback,
+          strongPoints: aiEvaluation.strongPoints,
+          weakPoints: aiEvaluation.weakPoints,
+          detailedAnalysis: aiEvaluation.analysis,
           timestamp: serverTimestamp()
         });
       }
       setStep(7);
     } catch (error) {
-      toast({ title: "Erro no Envio", description: "Ocorreu um problema ao salvar seu dossiê.", variant: "destructive" });
+      console.error(error);
+      toast({ title: "Erro no Envio", description: "Ocorreu um problema ao processar sua avaliação com a IA.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -195,7 +207,7 @@ export function RecrutamentoClient() {
                   <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/40 border border-white/5">
                     <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} />
                     <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">
-                      Autorizo a studiosapient a coletar meus dados e áudio para fins de recrutamento.
+                      Autorizo a studiosapient a coletar meus dados e áudio para fins de recrutamento via IA.
                     </label>
                   </div>
                 </div>
@@ -329,13 +341,14 @@ export function RecrutamentoClient() {
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Target size={16} /> DESAFIO FINAL: PITCH DE AUTORIDADE</div>
                   <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">Venda o Ecossistema Sapient</h3>
                   <p className="text-sm md:text-base text-black/60 leading-relaxed">
-                    Grave um áudio de até 2 minutos explicando por que um empresário deve contratar o **Ecossistema studiosapient completo** em vez de contratar agências separadas para cada serviço.
+                    Grave um áudio de até 2 minutos explicando por que um empresário deve contratar o **Ecossistema studiosapient completo**. Sua voz e argumentação serão analisadas pelo Gemini 1.5 Pro.
                   </p>
                 </div>
 
                 <div className="flex flex-col items-center gap-8 py-12 border-2 border-dashed border-white/10 rounded-[3rem] bg-white/[0.02]">
                   <button 
                     onClick={() => isRecording ? stopAllRecording() : startRecording()}
+                    disabled={isLoading}
                     className={cn(
                       "h-32 w-32 rounded-full flex items-center justify-center transition-all shadow-2xl border-4",
                       isRecording ? "bg-red-500 border-red-400 animate-pulse" : "bg-primary border-primary/20 text-white hover:scale-105"
@@ -346,7 +359,7 @@ export function RecrutamentoClient() {
 
                   <div className="text-center space-y-2">
                     <p className="text-sm font-black uppercase tracking-widest text-white">
-                      {isRecording ? "GRAVANDO PITCH..." : audioBase64 ? "ÁUDIO GRAVADO COM SUCESSO" : "Pressione para Gravar seu Pitch"}
+                      {isRecording ? "GRAVANDO PITCH COMERCIAL..." : audioBase64 ? "ÁUDIO PRONTO PARA ANÁLISE" : "Pressione para Gravar seu Pitch"}
                     </p>
                   </div>
 
@@ -366,7 +379,7 @@ export function RecrutamentoClient() {
                     disabled={isLoading || !audioBase64 || isRecording} 
                     className="h-24 flex-1 bg-primary rounded-full font-black uppercase text-[12px] shadow-2xl"
                   >
-                    {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Finalizar e Enviar Dossiê"} <Zap size={20} className="ml-2" />
+                    {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Finalizar e Enviar para Avaliação IA"} <Zap size={20} className="ml-2" />
                   </Button>
                 </div>
               </div>
@@ -379,12 +392,12 @@ export function RecrutamentoClient() {
                   <Trophy size={40} className="text-white" />
                 </div>
                 <div className="space-y-4">
-                  <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Dossiê Recebido.</h2>
-                  <p className="text-xl text-white/50 font-medium">Sua jornada de autoridade começa agora.</p>
+                  <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Dossiê Processado.</h2>
+                  <p className="text-xl text-white/50 font-medium">Sua jornada de autoridade foi analisada pela nossa IA.</p>
                 </div>
                 <div className="p-8 rounded-[3rem] bg-white/5 border border-white/10 max-w-2xl mx-auto">
                   <p className="text-white/40 leading-relaxed italic">
-                    "Obrigado por completar o desafio Sapient. Seus dados e seu pitch vocal foram capturados. Nossa equipe de estratégia comercial analisará sua postura, clareza técnica e capacidade de contorno de objeções. Entraremos em contato via WhatsApp caso seu perfil se alinhe aos nossos valores de elite."
+                    "Obrigado por completar o desafio Sapient. O Gemini 1.5 Pro processou suas respostas e seu pitch vocal. Sua pontuação e feedback detalhado foram salvos em nosso banco de talentos comercial. Nossa equipe entrará em contato via WhatsApp caso seu perfil seja de elite."
                   </p>
                 </div>
                 <div className="pt-8">
