@@ -23,6 +23,8 @@
         "cityState": { "type": "string" },
         "currentOccupation": { "type": "string" },
         "experience": { "type": "string" },
+        "photoUri": { "type": "string" },
+        "resumeUri": { "type": "string" },
         "consentAccepted": { "type": "boolean" },
         "consentTimestamp": { "type": "string", "format": "date-time" }
       }
@@ -40,6 +42,8 @@
         "cityState": { "type": "string" },
         "currentOccupation": { "type": "string" },
         "experience": { "type": "string" },
+        "photoUri": { "type": "string" },
+        "resumeUri": { "type": "string" },
         "ansAds": { "type": "string" },
         "ansSites": { "type": "string" },
         "ansDesign": { "type": "string" },

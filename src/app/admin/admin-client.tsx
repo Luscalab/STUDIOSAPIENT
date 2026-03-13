@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from "react";
@@ -31,7 +32,9 @@ import {
   Target,
   PieChart,
   UserCheck,
-  Contact2
+  Contact2,
+  Download,
+  ExternalLink
 } from "lucide-react";
 import { useFirebase, useFirestore, useCollection, useMemoFirebase, initiateSignOut, updateDocumentNonBlocking } from "@/firebase";
 import { collection, query, orderBy, doc } from "firebase/firestore";
@@ -198,24 +201,31 @@ export function AdminClient() {
                           )}
                         >
                           <div className="relative z-10 flex justify-between items-start">
-                            <div className="space-y-3">
+                            <div className="flex gap-4">
+                              <div className="h-12 w-12 rounded-xl bg-black/20 overflow-hidden border border-white/10 shrink-0">
+                                {c.photoUri ? (
+                                  <img src={c.photoUri} alt="" className="object-cover w-full h-full" />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center text-white/10"><Users size={20} /></div>
+                                )}
+                              </div>
                               <div className="space-y-1">
-                                <h3 className="font-black uppercase tracking-tight text-sm text-white">{c.name || "Candidato sem nome"}</h3>
+                                <h3 className="font-black uppercase tracking-tight text-sm text-white truncate max-w-[150px]">{c.name || "Candidato sem nome"}</h3>
                                 <p className={cn("text-[10px] font-bold uppercase tracking-widest", selectedCandidate?.id === c.id ? "text-white/60" : "text-white/30")}>
                                   {c.cityState || 'Sem localização'}
                                 </p>
                               </div>
-                              <div className="flex gap-2">
-                                <Badge className={cn(
-                                  "text-[8px] font-black px-3 py-1 uppercase border-none",
-                                  c.status === 'APROVADO' ? "bg-green-500 text-white" : 
-                                  c.status === 'REPROVADO' ? "bg-red-500 text-white" : "bg-amber-500 text-black"
-                                )}>
-                                  {c.status?.replace(/_/g, ' ') || 'PENDENTE'}
-                                </Badge>
-                              </div>
                             </div>
-                            <ChevronRight className={cn("h-5 w-5 transition-transform", selectedCandidate?.id === c.id ? "translate-x-1" : "text-white/20")} />
+                            <div className="flex flex-col items-end gap-2">
+                              <ChevronRight className={cn("h-5 w-5 transition-transform", selectedCandidate?.id === c.id ? "translate-x-1" : "text-white/20")} />
+                              <Badge className={cn(
+                                "text-[7px] font-black px-2 py-0.5 uppercase border-none",
+                                c.status === 'APROVADO' ? "bg-green-500 text-white" : 
+                                c.status === 'REPROVADO' ? "bg-red-500 text-white" : "bg-amber-500 text-black"
+                              )}>
+                                {c.status?.replace(/_/g, ' ') || 'PENDENTE'}
+                              </Badge>
+                            </div>
                           </div>
                         </button>
                       ))}
@@ -227,25 +237,44 @@ export function AdminClient() {
                   <div className="lg:col-span-8 animate-in fade-in slide-in-from-right-4">
                     <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-12 backdrop-blur-3xl shadow-2xl space-y-12">
                       <div className="flex flex-col md:flex-row justify-between gap-8 items-start">
-                        <div className="space-y-6">
-                          <button onClick={() => setSelectedCandidate(null)} className="lg:hidden flex items-center gap-2 text-primary font-black uppercase text-[10px] tracking-widest mb-4">
-                            <ArrowLeft size={14} /> Voltar
-                          </button>
-                          <div className="space-y-2">
-                            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none text-white">{selectedCandidate.name}</h2>
-                            <div className="flex flex-wrap gap-4 text-white/40 text-xs font-bold uppercase tracking-widest">
-                              <span className="flex items-center gap-2"><Clock size={14} /> {formatDate(selectedCandidate.timestamp)}</span>
-                              <span className="flex items-center gap-2"><MapPin size={14} /> {selectedCandidate.cityState || "-"}</span>
-                            </div>
+                        <div className="flex flex-col sm:flex-row gap-8">
+                          <div className="h-32 w-32 md:h-48 md:w-48 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden relative shadow-2xl">
+                            {selectedCandidate.photoUri ? (
+                              <img src={selectedCandidate.photoUri} alt={selectedCandidate.name} className="object-cover w-full h-full" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-white/5"><Camera size={48} /></div>
+                            )}
                           </div>
                           
-                          <div className="flex flex-wrap gap-3">
-                            <a href={`https://wa.me/${selectedCandidate.phone?.replace(/\D/g, '')}`} target="_blank" className="h-12 px-6 bg-green-500/10 text-green-500 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all">
-                              <MessageCircle size={16} /> WhatsApp
-                            </a>
-                            <a href={`mailto:${selectedCandidate.email}`} className="h-12 px-6 bg-primary/10 text-primary rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-primary hover:text-white transition-all">
-                              <Mail size={16} /> E-mail
-                            </a>
+                          <div className="space-y-6">
+                            <button onClick={() => setSelectedCandidate(null)} className="lg:hidden flex items-center gap-2 text-primary font-black uppercase text-[10px] tracking-widest mb-4">
+                              <ArrowLeft size={14} /> Voltar
+                            </button>
+                            <div className="space-y-2">
+                              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none text-white">{selectedCandidate.name}</h2>
+                              <div className="flex flex-wrap gap-4 text-white/40 text-xs font-bold uppercase tracking-widest">
+                                <span className="flex items-center gap-2"><Clock size={14} /> {formatDate(selectedCandidate.timestamp)}</span>
+                                <span className="flex items-center gap-2"><MapPin size={14} /> {selectedCandidate.cityState || "-"}</span>
+                              </div>
+                            </div>
+                            
+                            <div className="flex flex-wrap gap-3">
+                              <a href={`https://wa.me/${selectedCandidate.phone?.replace(/\D/g, '')}`} target="_blank" className="h-12 px-6 bg-green-500/10 text-green-500 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all">
+                                <MessageCircle size={16} /> WhatsApp
+                              </a>
+                              <a href={`mailto:${selectedCandidate.email}`} className="h-12 px-6 bg-primary/10 text-primary rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-primary hover:text-white transition-all">
+                                <Mail size={16} /> E-mail
+                              </a>
+                              {selectedCandidate.resumeUri && (
+                                <a 
+                                  href={selectedCandidate.resumeUri} 
+                                  download={`curriculo-${selectedCandidate.name}.pdf`}
+                                  className="h-12 px-6 bg-cyan-500/10 text-cyan-400 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-cyan-500 hover:text-white transition-all"
+                                >
+                                  <Download size={16} /> Baixar CV
+                                </a>
+                              )}
+                            </div>
                           </div>
                         </div>
 
@@ -360,9 +389,18 @@ export function AdminClient() {
                           <UserCheck size={80} />
                         </div>
                         <div className="space-y-4 relative z-10">
-                          <div className="space-y-1">
-                            <h3 className="text-xl font-black uppercase tracking-tighter text-white truncate">{p.name || 'Sem nome'}</h3>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-primary">{p.currentOccupation || 'Consultor Sapient'}</p>
+                          <div className="flex gap-4 items-center">
+                            <div className="h-16 w-16 rounded-2xl bg-black/40 overflow-hidden border border-white/10">
+                              {p.photoUri ? (
+                                <img src={p.photoUri} alt="" className="object-cover w-full h-full" />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center text-white/10"><UserCircle size={32} /></div>
+                              )}
+                            </div>
+                            <div className="space-y-1">
+                              <h3 className="text-xl font-black uppercase tracking-tighter text-white truncate max-w-[180px]">{p.name || 'Sem nome'}</h3>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-primary">{p.currentOccupation || 'Consultor Sapient'}</p>
+                            </div>
                           </div>
                           
                           <div className="space-y-3 pt-4 border-t border-white/5">
@@ -385,13 +423,13 @@ export function AdminClient() {
                             >
                               <MessageCircle size={16} /> WhatsApp
                             </a>
-                            {p.instagram && (
+                            {p.resumeUri && (
                               <a 
-                                href={`https://instagram.com/${p.instagram.replace('@', '')}`} 
-                                target="_blank" 
-                                className="h-12 w-12 bg-pink-500/10 text-pink-500 rounded-xl flex items-center justify-center hover:bg-pink-500 hover:text-white transition-all"
+                                href={p.resumeUri} 
+                                download={`cv-${p.name}.pdf`}
+                                className="h-12 w-12 bg-cyan-500/10 text-cyan-400 rounded-xl flex items-center justify-center hover:bg-cyan-500 hover:text-white transition-all"
                               >
-                                <Instagram size={18} />
+                                <Download size={18} />
                               </a>
                             )}
                           </div>

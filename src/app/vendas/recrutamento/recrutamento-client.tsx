@@ -60,7 +60,9 @@ import {
   Lock,
   Volume2,
   Smile,
-  Megaphone
+  Megaphone,
+  Camera,
+  Upload
 } from "lucide-react";
 import { useFirebase, useFirestore, useDoc, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
 import { collection, serverTimestamp, doc } from "firebase/firestore";
@@ -90,6 +92,8 @@ export function RecrutamentoClient() {
     cityState: "",
     currentOccupation: "",
     experience: "",
+    photoUri: "",
+    resumeUri: "",
     ansAds: "",
     ansSites: "",
     ansDesign: "",
@@ -147,6 +151,28 @@ export function RecrutamentoClient() {
   const handleSignOut = () => {
     initiateSignOut(auth);
     router.push("/vendas/auth");
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: 'photoUri' | 'resumeUri') => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    // Trava de 800KB para evitar estourar o limite de 1MB do Firestore em Base64
+    if (file.size > 800000) {
+      toast({ 
+        title: "Arquivo muito grande", 
+        description: "Para este protótipo, use arquivos menores que 800KB.", 
+        variant: "destructive" 
+      });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData(prev => ({ ...prev, [field]: reader.result as string }));
+      toast({ title: "UPLOAD CONCLUÍDO", description: "Arquivo anexado com sucesso." });
+    };
+    reader.readAsDataURL(file);
   };
 
   const startRecording = async (target: 'audio1' | 'final') => {
@@ -212,6 +238,8 @@ export function RecrutamentoClient() {
           cityState: formData.cityState,
           currentOccupation: formData.currentOccupation,
           experience: formData.experience,
+          photoUri: formData.photoUri,
+          resumeUri: formData.resumeUri,
           consentAccepted: true,
           consentTimestamp: new Date().toISOString()
         };
@@ -326,17 +354,26 @@ export function RecrutamentoClient() {
                      </DialogHeader>
                      <div className="space-y-4 md:space-y-6 py-4 md:py-6">
                        <div className="grid grid-cols-1 gap-4 md:gap-6">
+                         <div className="flex justify-center mb-4">
+                           <div className="h-24 w-24 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden relative group">
+                             {formData.photoUri ? (
+                               <img src={formData.photoUri} alt="Foto" className="object-cover w-full h-full" />
+                             ) : (
+                               <Camera className="text-white/20 h-8 w-8" />
+                             )}
+                           </div>
+                         </div>
                          <div className="space-y-1 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/5">
                            <p className="text-[7px] md:text-[8px] font-black uppercase text-white/30 tracking-widest">Nome Completo</p>
-                           <p className="text-xs md:text-sm font-bold">{profile?.name || '-'}</p>
+                           <p className="text-xs md:text-sm font-bold">{formData.name || '-'}</p>
                          </div>
                          <div className="space-y-1 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/5">
                            <p className="text-[7px] md:text-[8px] font-black uppercase text-white/30 tracking-widest">WhatsApp</p>
-                           <p className="text-xs md:text-sm font-bold">{profile?.phone || '-'}</p>
+                           <p className="text-xs md:text-sm font-bold">{formData.phone || '-'}</p>
                          </div>
                          <div className="space-y-1 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/5">
                            <p className="text-[7px] md:text-[8px] font-black uppercase text-white/30 tracking-widest">Localização</p>
-                           <p className="text-xs md:text-sm font-bold">{profile?.cityState || '-'}</p>
+                           <p className="text-xs md:text-sm font-bold">{formData.cityState || '-'}</p>
                          </div>
                        </div>
                      </div>
@@ -476,6 +513,53 @@ export function RecrutamentoClient() {
                         <h2 className="text-xl md:text-2xl font-black uppercase tracking-tighter">1. Identificação Profissional</h2>
                         <p className="text-white/40 text-xs md:text-sm">Vincule seu desempenho ao seu perfil oficial.</p>
                     </div>
+                    
+                    {/* SEÇÃO DE ARQUIVOS */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 md:p-8 rounded-[2rem] bg-white/5 border border-white/10">
+                      <div className="space-y-4">
+                        <p className="text-[10px] font-black uppercase text-primary tracking-widest">Foto de Perfil</p>
+                        <div className="flex items-center gap-6">
+                          <div className="h-20 w-20 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center overflow-hidden relative">
+                            {formData.photoUri ? (
+                              <img src={formData.photoUri} alt="Preview" className="object-cover w-full h-full" />
+                            ) : (
+                              <Camera className="text-white/20 h-8 w-8" />
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <label className="h-12 px-6 bg-white/10 hover:bg-white/20 text-white rounded-xl flex items-center justify-center gap-2 font-black uppercase text-[9px] tracking-widest cursor-pointer transition-all">
+                              <Upload size={14} /> Selecionar Foto
+                              <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, 'photoUri')} className="hidden" />
+                            </label>
+                            <p className="text-[8px] text-white/30 mt-2 uppercase font-bold">Máx: 800KB</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <p className="text-[10px] font-black uppercase text-primary tracking-widest">Currículo Profissional (PDF/DOC)</p>
+                        <div className="flex-1">
+                          <label className={cn(
+                            "h-20 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer transition-all",
+                            formData.resumeUri ? "border-green-500/50 bg-green-500/5" : "border-white/10 bg-black/40 hover:bg-white/5"
+                          )}>
+                            {formData.resumeUri ? (
+                              <>
+                                <CheckCircle2 className="text-green-500" size={20} />
+                                <span className="text-[9px] font-black text-green-500 uppercase">Documento Pronto</span>
+                              </>
+                            ) : (
+                              <>
+                                <FileText className="text-white/20" size={20} />
+                                <span className="text-[9px] font-black text-white/40 uppercase">Anexar Currículo</span>
+                              </>
+                            )}
+                            <input type="file" accept=".pdf,.doc,.docx" onChange={(e) => handleFileChange(e, 'resumeUri')} className="hidden" />
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                       <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Nome Completo *" className="bg-white/5 border-white/10 h-14 md:h-16 rounded-xl md:rounded-2xl font-bold" />
                       <Input disabled value={formData.email} placeholder="E-mail *" className="bg-white/5 border-white/10 h-14 md:h-16 rounded-xl md:rounded-2xl font-bold opacity-50" />
