@@ -26,14 +26,11 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
       
       setStatus('loading');
       try {
-        // Importação dinâmica para garantir execução apenas no cliente (browser)
         const { pipeline, env } = await import('@huggingface/transformers');
         
-        // Configuração rigorosa para ambiente de navegador
         env.allowLocalModels = false;
         env.useBrowserCache = true;
 
-        // Modelo de análise de autoridade e impacto neural
         classifierRef.current = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', {
           progress_callback: (p: any) => {
             if (p.status === 'progress') setProgress(p.progress);
@@ -68,14 +65,13 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
     return () => clearTimeout(timeout);
   }, [text, status, onAnalysisComplete]);
 
-  // Modo de status para a primeira tela
   if (statusOnly) {
     return (
       <div className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
         {status === 'loading' ? (
           <>
             <Loader2 className="h-3 w-3 animate-spin text-primary" />
-            <span className="text-[8px] font-black text-white/40 uppercase tracking-widest">Sincronizando IA Local: {progress.toFixed(0)}%</span>
+            <span className="text-[8px] font-black text-white/40 uppercase tracking-widest">Aguarde enquanto carrego o ambiente de recrutamento: {progress.toFixed(0)}%</span>
           </>
         ) : status === 'ready' || status === 'analyzing' ? (
           <>
@@ -95,11 +91,11 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
   if (status === 'loading') {
     return (
       <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10 space-y-4 animate-in fade-in">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-primary">
-            <Loader2 className="h-4 w-4 animate-spin" /> Carregando Motor Neural
-          </div>
-          <span className="text-[10px] font-black text-white/20">{progress.toFixed(0)}%</span>
+        <div className="flex flex-col items-center gap-4 text-center">
+          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          <p className="text-[10px] font-black uppercase tracking-widest text-white">
+            Aguarde enquanto carrego o ambiente de recrutamento: {progress.toFixed(0)}%
+          </p>
         </div>
         <Progress value={progress} className="h-1 bg-white/10" />
       </div>
