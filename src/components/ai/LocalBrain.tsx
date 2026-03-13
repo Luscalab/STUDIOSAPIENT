@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Brain, Loader2, Zap, ShieldCheck, Activity, Target, Volume2 } from 'lucide-react';
+import { Brain, Loader2, Activity, Target, Volume2 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 
 interface LocalBrainProps {
@@ -12,17 +12,17 @@ interface LocalBrainProps {
 }
 
 const TONE_DICTIONARY = {
-  AUTHORITY: ["lucro", "resultado", "roi", "investimento", "crescimento", "estratégia", "mercado"],
-  HESITATION: ["talvez", "acho", "tentar", "quem sabe", "não sei", "é...", "hum"],
-  AGGRESSIVE: ["agora", "perda", "dinheiro", "urgente", "fechar", "contrato", "imediatamente"],
-  PROFESSIONAL: ["processo", "metodologia", "diagnóstico", "análise", "performance", "digital"]
+  AUTHORITY: ["lucro", "resultado", "roi", "investimento", "crescimento", "estratégia", "mercado", "performance"],
+  HESITATION: ["talvez", "acho", "tentar", "quem sabe", "não sei", "é...", "hum", "desculpa"],
+  AGGRESSIVE: ["agora", "perda", "dinheiro", "urgente", "fechar", "contrato", "imediatamente", "escala"],
+  PROFESSIONAL: ["processo", "metodologia", "diagnóstico", "análise", "digital", "presença", "posicionamento"]
 };
 
 const INTENT_DICTIONARY = {
-  CLOSING: ["fechar", "proposta", "amanhã", "assinar", "começar", "parceria"],
-  OBJECTION_HANDLING: ["entendo", "porém", "veja bem", "na verdade", "comparado", "embora"],
-  TECHNICAL: ["mobile", "google", "algoritmo", "ads", "seo", "conversão", "leads"],
-  DISCOVERY: ["como", "quando", "onde", "por que", "qual", "quais"]
+  CLOSING: ["fechar", "proposta", "amanhã", "assinar", "começar", "parceria", "fechamento"],
+  OBJECTION_HANDLING: ["entendo", "porém", "veja bem", "na verdade", "comparado", "embora", "justamente"],
+  TECHNICAL: ["mobile", "google", "algoritmo", "ads", "seo", "conversão", "leads", "gmn"],
+  DISCOVERY: ["como", "quando", "onde", "por que", "qual", "quais", "ajudar"]
 };
 
 export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: LocalBrainProps) {
@@ -73,6 +73,7 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
         let detectedTone = "NEUTRAL";
         let detectedIntent = "GENERAL";
 
+        // Busca em dicionários com prioridade de autoridade
         for (const [tone, keywords] of Object.entries(TONE_DICTIONARY)) {
           if (keywords.some(k => lowerText.includes(k))) {
             detectedTone = tone;
@@ -87,13 +88,15 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
           }
         }
 
-        let conclusion = "Análise inconclusiva.";
+        let conclusion = "Processando semântica...";
         if (detectedTone === "AUTHORITY" && detectedIntent === "CLOSING") {
-          conclusion = "Alta probabilidade de fechamento. Discurso focado em ROI.";
+          conclusion = "Forte autoridade comercial detectada.";
         } else if (detectedTone === "HESITATION") {
-          conclusion = "Baixa autoridade detectada. Necessário treinar firmeza vocal.";
-        } else if (detectedIntent === "OBJECTION_HANDLING") {
-          conclusion = "Bom contorno de objeção identificado.";
+          conclusion = "Hesitação identificada. Requer mais firmeza.";
+        } else if (detectedIntent === "TECHNICAL") {
+          conclusion = "Domínio técnico demonstrado.";
+        } else {
+          conclusion = "Discurso em fase de qualificação.";
         }
 
         const fullAnalysis = {
@@ -112,9 +115,9 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
       }
     }
     
-    const timeout = setTimeout(runInference, 150);
+    const timeout = setTimeout(runInference, 300);
     return () => clearTimeout(timeout);
-  }, [text, status, onAnalysisComplete]);
+  }, [text, status]);
 
   if (status === 'loading') {
     return (
@@ -128,32 +131,18 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
     );
   }
 
-  if (statusOnly) {
-    return (
-      <div className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10">
-        {status === 'ready' || status === 'analyzing' ? (
-          <>
-            <ShieldCheck className="h-3 w-3 text-green-500" />
-            <span className="text-[8px] font-black text-green-500 uppercase tracking-widest">Motor Neural Ativo</span>
-          </>
-        ) : (
-          <>
-            <Brain className="h-3 w-3 text-white/20" />
-            <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">IA Local Offline</span>
-          </>
-        )}
-      </div>
-    );
-  }
+  if (statusOnly) return null;
 
-  if (!text || text.length < 3) return null;
+  if (!text || text.length < 3) return (
+    <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 text-center">
+      <p className="text-[9px] font-black uppercase tracking-[0.5em] text-white/20">Aguardando Início de Pitch</p>
+    </div>
+  );
 
   return (
     <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-6 animate-in fade-in">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-primary">
-          <Activity className="h-4 w-4" /> Diagnóstico Neural de Autoridade
-        </div>
+      <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-primary">
+        <Activity className="h-4 w-4" /> Análise Neural Instantânea
       </div>
 
       {analysis ? (
@@ -161,39 +150,35 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-[8px] font-black text-white/40 uppercase tracking-widest">
-                <Volume2 className="h-3 w-3" /> Tom de Voz
+                <Volume2 className="h-3 w-3" /> Dicionário de Tom
               </div>
               <p className="text-xs font-black text-white uppercase">{analysis.tone}</p>
             </div>
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-[8px] font-black text-white/40 uppercase tracking-widest">
-                <Target className="h-3 w-3" /> Intenção
+                <Target className="h-3 w-3" /> Dicionário de Intenção
               </div>
               <p className="text-xs font-black text-white uppercase">{analysis.intent}</p>
             </div>
           </div>
 
-          <div className="h-px w-full bg-white/5" />
-
           <div className="space-y-2">
             <div className="flex justify-between items-center text-[9px] font-black uppercase">
-              <span className="text-white/40">Índice de Persuasão:</span>
-              <span className={analysis.label === 'POSITIVE' ? "text-green-400" : "text-yellow-400"}>
-                {(analysis.score * 100).toFixed(0)}%
-              </span>
+              <span className="text-white/40">Convicção:</span>
+              <span className="text-primary">{(analysis.score * 100).toFixed(0)}%</span>
             </div>
-            <Progress value={analysis.score * 100} className="h-1.5 bg-white/5" />
+            <Progress value={analysis.score * 100} className="h-1 bg-white/5" />
           </div>
 
           <div className="p-4 rounded-xl bg-black/40 border border-white/5">
-            <p className="text-[10px] text-cyan-400 font-bold uppercase tracking-tight leading-tight italic">
-              CONCLUSÃO: {analysis.conclusion}
+            <p className="text-[10px] text-cyan-400 font-bold uppercase italic leading-tight">
+              {analysis.conclusion}
             </p>
           </div>
         </div>
       ) : (
         <div className="flex items-center gap-2 text-[8px] font-black uppercase text-white/20 italic">
-          <Loader2 className="h-3 w-3 animate-spin" /> Analisando semântica e padrões...
+          <Loader2 className="h-3 w-3 animate-spin" /> Mapeando padrões semânticos...
         </div>
       )}
     </div>

@@ -18,15 +18,11 @@ import {
   Loader2, 
   ChevronRight,
   BrainCircuit,
-  MessageSquare,
   Trophy,
   Building2,
   AlertCircle,
   Volume2,
   ShieldCheck,
-  RotateCcw,
-  Search,
-  Lock,
   Target
 } from "lucide-react";
 import { evaluateSalesCandidate, type SalesEvaluationOutput } from "@/ai/flows/sales-evaluator-flow";
@@ -40,7 +36,7 @@ const LocalBrain = dynamic(
   { ssr: false, loading: () => <div className="h-12 w-full rounded-2xl bg-white/5 animate-pulse flex items-center justify-center text-[10px] font-black text-white/20 uppercase tracking-widest">Aguarde enquanto carrego o ambiente de recrutamento...</div> }
 );
 
-const STORAGE_KEY = "sapient_recruitment_v12";
+const STORAGE_KEY = "sapient_recruitment_v15";
 
 export function RecrutamentoClient() {
   const [step, setStep] = useState(1);
@@ -76,9 +72,7 @@ export function RecrutamentoClient() {
         if (parsed.step < 4) {
           setStep(parsed.step || 1);
           setFormData(parsed.formData || { name: "", email: "", phone: "", objection: "" });
-          setAudioBase64(parsed.audioBase64 || null);
           setConsentAccepted(parsed.consentAccepted || false);
-          setPitchTranscription(parsed.pitchTranscription || "");
         }
       } catch (e) { console.error(e); }
     }
@@ -93,26 +87,28 @@ export function RecrutamentoClient() {
         recognitionRef.current.lang = 'pt-BR';
 
         recognitionRef.current.onresult = (event: any) => {
-          let interimTranscript = '';
+          let currentTranscript = '';
           for (let i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
               setPitchTranscription(prev => prev + ' ' + event.results[i][0].transcript);
             } else {
-              interimTranscript += event.results[i][0].transcript;
+              currentTranscript += event.results[i][0].transcript;
             }
           }
         };
       }
     }
+    
+    return () => stopAllRecording();
   }, [auth]);
 
   useEffect(() => {
     if (step < 4) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        step, formData, audioBase64, consentAccepted, pitchTranscription
+        step, formData, consentAccepted
       }));
     }
-  }, [step, formData, audioBase64, consentAccepted, pitchTranscription]);
+  }, [step, formData, consentAccepted]);
 
   const stopAllRecording = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
@@ -129,7 +125,6 @@ export function RecrutamentoClient() {
   };
 
   const startRecording = async () => {
-    setIsProcessingAudio(true);
     setAudioBase64(null);
     setAudioPreviewUrl(null);
     setPitchTranscription("");
@@ -162,10 +157,8 @@ export function RecrutamentoClient() {
       mediaRecorder.start();
       if (recognitionRef.current) recognitionRef.current.start();
       setIsRecording(true);
-      setIsProcessingAudio(false);
-      toast({ title: "GRAVAÇÃO ATIVA", description: "O motor neural está ouvindo sua autoridade.", className: "bg-primary text-white font-black uppercase text-[9px]" });
+      toast({ title: "CAPTURA ATIVA", description: "O motor neural está ouvindo sua voz.", className: "bg-primary text-white font-black uppercase text-[9px]" });
     } catch (err) {
-      setIsProcessingAudio(false);
       toast({ title: "ERRO DE HARDWARE", description: "Microfone não encontrado ou bloqueado.", variant: "destructive" });
     }
   };
@@ -175,7 +168,6 @@ export function RecrutamentoClient() {
       toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos.", variant: "destructive" });
       return;
     }
-    if (step === 2 && !audioBase64) return;
     setStep(prev => prev + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -194,7 +186,6 @@ export function RecrutamentoClient() {
       if (db) {
         await addDoc(collection(db, 'sales_candidates'), {
           ...formData,
-          pitchAudioUri: audioBase64,
           pitchTranscription: pitchTranscription,
           score: result.score,
           verdict: result.verdict,
@@ -205,7 +196,7 @@ export function RecrutamentoClient() {
       setStep(4);
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
-      toast({ title: "Erro na Análise", description: "Falha na comunicação com o motor de IA. Tente novamente.", variant: "destructive" });
+      toast({ title: "Erro na Análise", description: "O motor de IA remoto falhou. Tente novamente.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -220,7 +211,7 @@ export function RecrutamentoClient() {
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div className="text-left">
               <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase">Ambiente de Recrutamento</Badge>
-              <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">Análise <span className="text-primary italic lowercase">neural.</span></h1>
+              <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">Pipeline <span className="text-primary italic lowercase">neural.</span></h1>
             </div>
           </div>
 
@@ -233,12 +224,9 @@ export function RecrutamentoClient() {
           <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-16 backdrop-blur-3xl shadow-2xl relative overflow-hidden">
             {step === 1 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                  <div className="space-y-4">
-                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação de Candidato</h2>
-                    <p className="text-white/40 text-sm">Insira seus dados para inicializar o Motor Local de IA.</p>
-                  </div>
-                  <LocalBrain statusOnly />
+                <div className="space-y-4">
+                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação</h2>
+                    <p className="text-white/40 text-sm">Insira seus dados para inicializar os modelos neurais.</p>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -246,23 +234,20 @@ export function RecrutamentoClient() {
                   <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} placeholder="Seu E-mail" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                 </div>
                 
-                <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-6">
+                <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-4">
                   <div className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-[10px]">
-                    <ShieldCheck size={18} /> Protocolo de Acesso (LGPD)
+                    <ShieldCheck size={18} /> Protocolo de Acesso
                   </div>
-                  <p className="text-[10px] text-white/40 leading-relaxed font-medium uppercase">
-                    Ao prosseguir, você autoriza o uso do hardware de áudio e o processamento de sua voz por modelos neurais locais e remotos para fins de avaliação de autoridade em vendas.
-                  </p>
                   <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/40 border border-white/5">
-                    <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} className="mt-1" />
+                    <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} />
                     <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">
-                      CONCORDO COM OS TERMOS E AUTORIZO A CAPTURA DE HARDWARE.
+                      Autorizo o processamento de minha voz e dados por modelos de IA studiosapient.
                     </label>
                   </div>
                 </div>
                 
                 <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] shadow-xl w-full md:w-auto">
-                  Inicializar Hardware <ChevronRight size={18} />
+                  Próxima Etapa <ChevronRight size={18} />
                 </Button>
               </div>
             )}
@@ -270,28 +255,19 @@ export function RecrutamentoClient() {
             {step === 2 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-primary/10 border border-primary/20 space-y-4">
-                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Building2 size={16} /> LEAD: Marmoraria Granito Fino</div>
-                  <h3 className="text-2xl font-black uppercase tracking-tighter">Cenário Sr. Jorge</h3>
+                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Building2 size={16} /> CLIENTE: Marmoraria Granito Fino</div>
+                  <h3 className="text-2xl font-black uppercase tracking-tighter">O "Boca a Boca" do Sr. Jorge</h3>
                   <p className="text-sm text-white/60 leading-relaxed">
-                    O Sr. Jorge (30 anos de mercado) diz que o "boca a boca" é suficiente. Ele está perdendo 85% do tráfego mobile por um site obsoleto e não aparece no Google Meu Negócio.
+                    Ele acredita que indicação é tudo. Você precisa explicar que o <strong>Google Meu Negócio</strong> gera chamadas imediatas de quem está buscando mármore <em>agora</em> no bairro dele.
                   </p>
-                  
-                  <div className="p-5 rounded-2xl bg-black/40 border border-white/5">
-                    <h4 className="text-[9px] font-black uppercase text-cyan-400 mb-2 flex items-center gap-2"><Target size={12}/> O que é GMN?</h4>
-                    <p className="text-[10px] text-white/40 leading-relaxed font-medium">
-                      Google Meu Negócio é a ficha local que gera chamadas imediatas. Sem ele, a Marmoraria é invisível para quem busca "mármore perto de mim".
-                    </p>
-                  </div>
                 </div>
 
                 <div className="flex flex-col items-center gap-8 py-12 border-2 border-dashed border-white/10 rounded-[3rem] bg-white/[0.02]">
                   <button 
                     onClick={() => isRecording ? stopAllRecording() : startRecording()}
-                    disabled={isProcessingAudio}
                     className={cn(
                       "h-32 w-32 rounded-full flex items-center justify-center transition-all shadow-2xl border-4",
-                      isRecording ? "bg-red-500 border-red-400 animate-pulse" : "bg-primary border-primary/20 text-white hover:scale-105",
-                      isProcessingAudio && "opacity-50 cursor-not-allowed"
+                      isRecording ? "bg-red-500 border-red-400 animate-pulse" : "bg-primary border-primary/20 text-white hover:scale-105"
                     )}
                   >
                     {isRecording ? <MicOff size={40} /> : <Mic size={40} />}
@@ -299,20 +275,14 @@ export function RecrutamentoClient() {
 
                   <div className="text-center space-y-2">
                     <p className="text-sm font-black uppercase tracking-widest text-white">
-                      {isRecording ? "AMBIENTE OUVINDO..." : audioBase64 ? "PITCH CAPTURADO" : "GRAVAR PITCH NEURAL"}
+                      {isRecording ? "GRAVANDO..." : audioBase64 ? "ÁUDIO PRONTO" : "Pressione para Gravar Pitch"}
                     </p>
                   </div>
-
-                  {pitchTranscription && (
-                    <div className="p-6 bg-white/5 border border-white/10 rounded-2xl w-full max-w-2xl">
-                      <p className="text-xs text-white/40 italic leading-relaxed">"{pitchTranscription}"</p>
-                    </div>
-                  )}
 
                   {audioPreviewUrl && !isRecording && (
                     <div className="w-full max-w-md space-y-4 text-center animate-in zoom-in">
                       <div className="h-px w-full bg-white/10" />
-                      <p className="text-[9px] font-black uppercase text-cyan-400 flex items-center justify-center gap-2"><Volume2 size={12}/> Revisão de Autoridade:</p>
+                      <p className="text-[9px] font-black uppercase text-cyan-400 flex items-center justify-center gap-2"><Volume2 size={12}/> Revisão de Pitch:</p>
                       <audio controls src={audioPreviewUrl} className="w-full h-12 rounded-full bg-white/5" />
                     </div>
                   )}
@@ -325,7 +295,7 @@ export function RecrutamentoClient() {
                   disabled={!audioBase64 || isRecording || isProcessingAudio}
                   className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] w-full md:w-auto shadow-xl disabled:opacity-30"
                 >
-                  Confirmar Abordagem <ChevronRight size={18} />
+                  {isProcessingAudio ? <Loader2 className="animate-spin" /> : "Confirmar Pitch"} <ChevronRight size={18} />
                 </Button>
               </div>
             )}
@@ -341,12 +311,12 @@ export function RecrutamentoClient() {
                 <Textarea 
                   value={formData.objection} 
                   onChange={(e) => setFormData({...formData, objection: e.target.value})}
-                  placeholder="Contorne a objeção usando clareza técnica e ROI..." 
+                  placeholder="Contorne a objeção focando em ROI e Escala..." 
                   className="bg-white/5 border-white/10 min-h-[200px] rounded-[2rem] p-8 font-bold text-lg"
                 />
                 
                 <Button onClick={handleSubmit} disabled={isLoading} className="h-24 w-full bg-primary rounded-full font-black uppercase text-[12px] shadow-2xl">
-                  {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Enviar para Auditoria Neural"} <Zap size={20} className="ml-2" />
+                  {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Gerar Dossiê Final"} <Zap size={20} className="ml-2" />
                 </Button>
               </div>
             )}
@@ -361,10 +331,9 @@ export function RecrutamentoClient() {
                     {evaluation.verdict === 'APROVADO' ? <Trophy size={40} /> : <BrainCircuit size={40} />}
                   </div>
                   <h2 className="text-4xl font-black uppercase tracking-tighter">Dossiê: {evaluation.verdict}</h2>
-                  <Badge variant="outline" className="text-white/40 border-white/10 px-6 py-2">Índice Neural: {evaluation.score}%</Badge>
                 </div>
                 <div className="p-10 rounded-[3rem] bg-primary text-white">
-                  <h4 className="font-black uppercase text-xl mb-4">Feedback Sapient Studio</h4>
+                  <h4 className="font-black uppercase text-xl mb-4">Feedback Diretor Lucas</h4>
                   <p className="text-lg font-medium leading-relaxed italic">"{evaluation.feedback}"</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -373,7 +342,7 @@ export function RecrutamentoClient() {
                     {evaluation.strongPoints.map((p, i) => <div key={i} className="text-xs text-white/60 flex items-center gap-2"><CheckCircle2 size={12} className="text-green-500"/> {p}</div>)}
                   </div>
                   <div className="p-8 rounded-[2.5rem] bg-red-500/10 border border-red-500/20 space-y-4">
-                    <h5 className="text-[10px] font-black uppercase text-red-400">Gargalos</h5>
+                    <h5 className="text-[10px] font-black uppercase text-red-400">Pontos de Melhoria</h5>
                     {evaluation.weakPoints.map((p, i) => <div key={i} className="text-xs text-white/60 flex items-center gap-2"><AlertCircle size={12} className="text-red-500"/> {p}</div>)}
                   </div>
                 </div>
