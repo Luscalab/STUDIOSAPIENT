@@ -30,22 +30,30 @@
     },
     "SalesCandidate": {
       "title": "Sales Candidate",
-      "description": "Candidato a vendedor avaliado via teste de locução e fechamento.",
+      "description": "Candidato a vendedor avaliado via ficha técnica e testes de locução.",
       "type": "object",
       "properties": {
         "name": { "type": "string" },
         "email": { "type": "string" },
         "phone": { "type": "string" },
+        "instagram": { "type": "string" },
+        "linkedin": { "type": "string" },
+        "cityState": { "type": "string" },
+        "currentOccupation": { "type": "string" },
+        "experience": { "type": "string" },
         "consentAccepted": { "type": "boolean" },
         "consentTimestamp": { "type": "string", "format": "date-time" },
-        "pitchTranscription": { "type": "string" },
-        "pitchAudioUri": { "type": "string", "description": "URI de dados Base64 do áudio gravado." },
-        "aiFeedback": { "type": "string" },
-        "score": { "type": "number" },
-        "verdict": { "type": "string" },
-        "timestamp": { "type": "string", "format": "date-time" }
+        "ansAds": { "type": "string" },
+        "ansSites": { "type": "string" },
+        "ansChat": { "type": "string" },
+        "ansSocial": { "type": "string" },
+        "audioObjeçãoAds": { "type": "string" },
+        "audioCirurgiao": { "type": "string" },
+        "pitchAudioUri": { "type": "string", "description": "URI de dados Base64 do áudio do pitch final." },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["PENDENTE_AVALIACAO_HUMANA", "APROVADO", "REPROVADO"] }
       },
-      "required": ["name", "email", "pitchTranscription", "consentAccepted"]
+      "required": ["name", "email", "phone", "consentAccepted"]
     }
   },
   "auth": {
@@ -62,7 +70,7 @@
     },
     "/sales_candidates/{candidateId}": {
       "schema": "SalesCandidate",
-      "description": "Candidatos a vendas avaliados pela IA."
+      "description": "Fichas completas de recrutamento comercial."
     }
   }
 }

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from "react";
@@ -17,7 +18,6 @@ import {
   ChevronLeft,
   Trophy,
   ShieldCheck,
-  Target,
   TrendingUp,
   Layout,
   Palette,
@@ -25,27 +25,23 @@ import {
   Users,
   BookOpen,
   Search,
-  Activity,
-  AlertCircle,
   Video,
   Layers,
   MapPin,
   CircleDollarSign,
   Briefcase,
-  Stethoscope,
-  Scale,
-  Home,
   ShoppingBag,
   Sparkles,
   Utensils,
   Dog,
   Music,
   Stethoscope as StethoscopeIcon,
-  PhoneCall,
-  Coins
+  PhoneCall
 } from "lucide-react";
 import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { errorEmitter } from "@/firebase/error-emitter";
+import { FirestorePermissionError } from "@/firebase/errors";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
@@ -79,7 +75,9 @@ export function RecrutamentoClient() {
     ansSocial: "",
     audioObjeçãoAds: "",
     audioCirurgiao: "",
-    pitchFinalAudio: ""
+    pitchAudioUri: "",
+    consentAccepted: false,
+    consentTimestamp: ""
   });
 
   const { toast } = useToast();
@@ -138,7 +136,7 @@ export function RecrutamentoClient() {
           } else {
             setAudioFinalBase64(b64);
             setAudioFinalPreviewUrl(url);
-            setFormData(prev => ({ ...prev, pitchFinalAudio: b64 }));
+            setFormData(prev => ({ ...prev, pitchAudioUri: b64 }));
           }
           setIsProcessingAudio(false);
         };
@@ -170,28 +168,37 @@ export function RecrutamentoClient() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!audioFinalBase64) {
       toast({ title: "Falta o Áudio Final", description: "Grave seu pitch final para concluir.", variant: "destructive" });
       return;
     }
     setIsLoading(true);
     
-    try {
-      if (db) {
-        await addDoc(collection(db, 'sales_candidates'), {
-          ...formData,
-          timestamp: serverTimestamp(),
-          status: 'PENDENTE_AVALIACAO_HUMANA'
+    const candidateData = {
+      ...formData,
+      timestamp: serverTimestamp(),
+      status: 'PENDENTE_AVALIACAO_HUMANA'
+    };
+
+    const colRef = collection(db, 'sales_candidates');
+    
+    // Escrita não-bloqueante conforme diretrizes
+    addDoc(colRef, candidateData)
+      .then(() => {
+        setIsLoading(false);
+        setStep(21);
+      })
+      .catch((serverError) => {
+        setIsLoading(false);
+        const permissionError = new FirestorePermissionError({
+          path: colRef.path,
+          operation: 'create',
+          requestResourceData: candidateData,
         });
-      }
-      setStep(21); 
-    } catch (error) {
-      console.error(error);
-      toast({ title: "Erro no Envio", description: "Ocorreu um problema ao salvar seu dossiê.", variant: "destructive" });
-    } finally {
-      setIsLoading(false);
-    }
+        errorEmitter.emit('permission-error', permissionError);
+        toast({ title: "Erro no Envio", description: "Ocorreu um problema ao salvar seu dossiê.", variant: "destructive" });
+      });
   };
 
   return (
@@ -202,8 +209,8 @@ export function RecrutamentoClient() {
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div className="text-left">
-              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">Treinamento de Consultoria Sapient</Badge>
-              <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">Formação <span className="text-primary italic lowercase">estratégica.</span></h1>
+              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">Formação Consultiva Sapient</Badge>
+              <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">Processo <span className="text-primary italic lowercase">estratégico.</span></h1>
             </div>
           </div>
 
@@ -219,35 +226,42 @@ export function RecrutamentoClient() {
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="space-y-4 text-center md:text-left">
                     <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação &amp; Perfil Profissional</h2>
-                    <p className="text-white/40 text-sm">Seus dados e áudios são protegidos por criptografia de nível bancário.</p>
+                    <p className="text-white/40 text-sm">Seus dados e áudios são protegidos por criptografia de alto nível em servidores Google.</p>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Nome Completo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                  <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} placeholder="E-mail" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} placeholder="E-mail Corporativo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp (DDD + Número)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.cityState} onChange={(e) => setFormData({...formData, cityState: e.target.value})} placeholder="Cidade / Estado" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.instagram} onChange={(e) => setFormData({...formData, instagram: e.target.value})} placeholder="Instagram (@usuario)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.linkedin} onChange={(e) => setFormData({...formData, linkedin: e.target.value})} placeholder="LinkedIn (URL do Perfil)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.currentOccupation} onChange={(e) => setFormData({...formData, currentOccupation: e.target.value})} placeholder="Ocupação Atual" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                  <Input value={formData.experience} onChange={(e) => setFormData({...formData, experience: e.target.value})} placeholder="Tempo de Experiência em Vendas" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.experience} onChange={(e) => setFormData({...formData, experience: e.target.value})} placeholder="Anos de Experiência em Vendas" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                 </div>
                 
                 <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-4">
                   <div className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-[10px]">
-                    <ShieldCheck size={18} /> Protocolo de Dados
+                    <ShieldCheck size={18} /> Protocolo de Segurança de Dados
                   </div>
                   <p className="text-[11px] text-white/50 leading-relaxed uppercase font-bold">
-                    Suas respostas e arquivos de áudio são armazenados de forma segura e utilizados apenas para este processo seletivo. Garantimos privacidade total sob infraestrutura Google Firebase.
+                    Em conformidade com a LGPD, seus dados são armazenados de forma isolada e utilizados exclusivamente para este processo de seleção comercial. Garantimos que nenhuma informação será compartilhada com terceiros.
                   </p>
                   <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/40 border border-white/5">
-                    <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} />
-                    <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">Aceito os termos de segurança e proteção de dados.</label>
+                    <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => {
+                      setConsentAccepted(c === true);
+                      setFormData(prev => ({ 
+                        ...prev, 
+                        consentAccepted: c === true,
+                        consentTimestamp: new Date().toISOString()
+                      }));
+                    }} />
+                    <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">Confirmo a veracidade das informações e aceito os termos de proteção de dados.</label>
                   </div>
                 </div>
                 
                 <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] shadow-xl w-full md:w-auto">
-                  Próximo Passo <ChevronRight size={18} />
+                  Iniciar Treinamento <ChevronRight size={18} />
                 </Button>
               </div>
             )}
@@ -275,14 +289,14 @@ export function RecrutamentoClient() {
                   <div className="flex items-start gap-4 p-6 rounded-[2rem] bg-amber-500/5 border border-amber-500/20">
                     <Checkbox id="outbound" checked={outboundAccepted} onCheckedChange={(c) => setOutboundAccepted(c === true)} />
                     <label htmlFor="outbound" className="text-xs text-white font-bold leading-tight cursor-pointer uppercase">
-                      Entendo que a dinâmica é Outbound Ativo e receberei leads com gargalos já explicados para agir com precisão.
+                      Entendo que a dinâmica é Outbound Ativo e receberei leads com gargalos já explicados para agir com precisão cirúrgica.
                     </label>
                   </div>
                 </div>
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Treinamento <ChevronRight size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Entendido, Iniciar <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
@@ -536,11 +550,11 @@ export function RecrutamentoClient() {
                       <p className="text-[11px] text-white/50">Gargalo: Agenda vazia por falta de confiança. Argumento: Autoridade Visual + GMN impecável.</p>
                     </div>
                     <div className="p-6 rounded-3xl bg-black/40 border border-white/5 space-y-3">
-                      <div className="flex items-center gap-2 text-amber-400 font-black uppercase text-[9px]"><Scale size={14}/> DIREITO</div>
+                      <div className="flex items-center gap-2 text-amber-400 font-black uppercase text-[9px]"><Layers size={14}/> DIREITO</div>
                       <p className="text-[11px] text-white/50">Gargalo: Proibição de propaganda direta. Argumento: Educação de Valor e Semiótica Profissional.</p>
                     </div>
                     <div className="p-6 rounded-3xl bg-black/40 border border-white/5 space-y-3">
-                      <div className="flex items-center gap-2 text-blue-400 font-black uppercase text-[9px]"><Home size={14}/> IMOBILIÁRIO</div>
+                      <div className="flex items-center gap-2 text-blue-400 font-black uppercase text-[9px]"><MapPin size={14}/> IMOBILIÁRIO</div>
                       <p className="text-[11px] text-white/50">Gargalo: Ciclo de venda longo. Argumento: IA para qualificação e Landing Pages rápidas para plantas.</p>
                     </div>
                     <div className="p-6 rounded-3xl bg-black/40 border border-white/5 space-y-3">
@@ -564,7 +578,7 @@ export function RecrutamentoClient() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="p-6 rounded-3xl bg-black/40 border border-white/5 space-y-3">
                       <div className="flex items-center gap-2 text-pink-400 font-black uppercase text-[9px]"><Sparkles size={14}/> BELEZA &amp; ESTÉTICA</div>
-                      <p className="text-[11px] text-white/50">Gargalo: Guerra de preços. Argumento: Design de Luxo para atrair quem paga pelo resultado, não pela promoção.</p>
+                      <p className="text-[11px] text-white/50">Gargalo: Guerra de preços. Argumento: Design de Profissional para atrair quem paga pelo resultado, não pela promoção.</p>
                     </div>
                     <div className="p-6 rounded-3xl bg-black/40 border border-white/5 space-y-3">
                       <div className="flex items-center gap-2 text-amber-400 font-black uppercase text-[9px]"><Dog size={14}/> PET SHOPS &amp; VET</div>
@@ -715,8 +729,8 @@ export function RecrutamentoClient() {
               <div className="space-y-12 animate-in zoom-in duration-700 text-center py-10">
                 <div className="h-24 w-24 rounded-full bg-green-500 flex items-center justify-center mx-auto shadow-2xl animate-glow-pulse"><Trophy size={40} className="text-white" /></div>
                 <div className="space-y-4">
-                  <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Formação Protocolada.</h2>
-                  <p className="text-xl text-white/50 font-medium">Seus dados e áudios foram salvos com sucesso. Analisaremos seu perfil estrategicamente.</p>
+                  <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Formação Concluída.</h2>
+                  <p className="text-xl text-white/50 font-medium">Seus dados e áudios foram salvos em nosso sistema. Analisaremos seu perfil estrategicamente em até 48 horas.</p>
                 </div>
                 <div className="pt-8"><Button onClick={() => window.location.href = '/'} className="h-16 px-12 border border-white/10 bg-transparent rounded-full font-black uppercase text-[10px]">Voltar para o Início</Button></div>
               </div>
