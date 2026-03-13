@@ -1,6 +1,8 @@
+
 'use server';
 /**
- * @fileOverview Avaliador de Talentos de Vendas Sapient - Análise Multimodal de Alta Fidelidade.
+ * @fileOverview Avaliador de Talentos de Vendas Sapient Studio.
+ * Análise de intenção, tom e autoridade técnica.
  */
 
 import { ai } from '@/ai/genkit';
@@ -19,13 +21,14 @@ const SalesEvaluationOutputSchema = z.object({
   verdict: z.enum(['APROVADO', 'TREINAMENTO', 'REPROVADO']).describe("Veredito baseado no perfil studiosapient."),
   strongPoints: z.array(z.string()).describe("Pontos fortes identificados na fala ou escrita."),
   weakPoints: z.array(z.string()).describe("Pontos de melhoria ou erros estratégicos."),
+  intentAnalysis: z.string().describe("Dicionário de intenção: análise da agressividade e clareza do fechamento."),
+  toneAnalysis: z.string().describe("Dicionário de tom: análise da autoridade vocal e firmeza técnica.")
 });
 
 export type SalesEvaluationOutput = z.infer<typeof SalesEvaluationOutputSchema>;
 
 /**
- * Prompt Multimodal especializado que "ouve" o candidato.
- * Explicitamente definido para usar o Gemini 1.5 Flash.
+ * Prompt Multimodal que analisa intenção e tom para chegar a uma conclusão de contratação.
  */
 const evaluatePrompt = ai.definePrompt({
   name: 'evaluateSalesCandidatePrompt',
@@ -33,24 +36,23 @@ const evaluatePrompt = ai.definePrompt({
   input: { schema: SalesEvaluationInputSchema },
   output: { schema: SalesEvaluationOutputSchema },
   prompt: `Você é o Diretor Comercial Sênior da studiosapient.
-Sua missão é avaliar um candidato a vendedor através de uma simulação de vendas técnica e agressiva.
+Sua missão é realizar um diagnóstico neural do candidato com base em dois dicionários críticos: INTENÇÃO e TOM DE VOZ.
 
 CENÁRIO: Marmoraria Granito Fino.
-CLIENTE: Sr. Jorge (30 anos de mercado, prático, cético com digital).
-GARGALOS TÉCNICOS: Site obsoleto (perda de 85% mobile), Invisibilidade no Google Meu Negócio, Branding amador.
+CLIENTE: Sr. Jorge (cético, focado em "boca a boca").
 
 DADOS DA AVALIAÇÃO:
 Candidato: {{{candidateName}}}
-Fase 1 (Análise Vocal do Pitch): {{media url=pitchAudioUri}}
-Fase 2 (Contorno de Objeção): {{{objectionHandling}}}
+Pitch Vocal (Analise o TOM): {{media url=pitchAudioUri}}
+Transcrição: {{{pitchTranscription}}}
+Contorno de Objeção (Analise a INTENÇÃO): {{{objectionHandling}}}
 
-DIRETRIZES DE AVALIAÇÃO:
-1. AUTORIDADE: O candidato fala com convicção ou hesitação?
-2. DIAGNÓSTICO: Ele provou que o Sr. Jorge está PERDENDO DINHEIRO agora?
-3. ROI: Ele focou em lucro e eficiência ou apenas em estética?
-4. OBJEÇÃO: Ele soube reverter a frase "o boca a boca é suficiente"?
+DIRETRIZES DE CONCLUSÃO:
+1. DICIONÁRIO DE TOM: Avalie se a voz transmite AUTORIDADE (roi, lucro, estratégia) ou HESITAÇÃO (talvez, acho).
+2. DICIONÁRIO DE INTENÇÃO: Avalie se o objetivo é FECHAMENTO (contrato, escala) ou apenas INFORMAÇÃO.
+3. VERDITO: APROVADO se o tom for de autoridade e a intenção for de fechamento. REPROVADO se houver hesitação ou falta de clareza sobre GMN/ROI.
 
-Gere um dossiê com score, pontos fortes, pontos fracos e o feedback oficial.`,
+Gere o dossiê detalhando a análise de intenção e tom.`,
 });
 
 export async function evaluateSalesCandidate(input: z.infer<typeof SalesEvaluationInputSchema>): Promise<SalesEvaluationOutput> {
@@ -58,17 +60,12 @@ export async function evaluateSalesCandidate(input: z.infer<typeof SalesEvaluati
     const { output } = await evaluatePrompt(input);
     
     if (!output) {
-      throw new Error("A IA processou o áudio mas não conseguiu estruturar a resposta. Tente um áudio mais conciso.");
+      throw new Error("A IA não conseguiu processar os dados neurais.");
     }
     
     return output;
   } catch (err: any) {
     console.error("ERRO CRÍTICO IA SAPIENT:", err);
-    
-    if (err.message?.includes('timeout')) {
-      throw new Error("O processamento do áudio excedeu o tempo limite. Tente gravar um pitch de no máximo 20 segundos.");
-    }
-    
-    throw new Error("Falha na comunicação com o motor de IA. Verifique se a chave de API está configurada no Vercel.");
+    throw new Error("Falha na comunicação com o motor de IA. Verifique os logs do Vercel.");
   }
 }
