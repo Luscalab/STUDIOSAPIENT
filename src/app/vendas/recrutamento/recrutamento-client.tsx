@@ -68,6 +68,11 @@ export function RecrutamentoClient() {
     name: "",
     email: "",
     phone: "",
+    instagram: "",
+    linkedin: "",
+    cityState: "",
+    currentOccupation: "",
+    experience: "",
     ansAds: "",
     ansSites: "",
     ansChat: "",
@@ -148,7 +153,7 @@ export function RecrutamentoClient() {
   };
 
   const handleNextStep = () => {
-    if (step === 1 && (!formData.name.trim() || !formData.email.trim() || !consentAccepted)) {
+    if (step === 1 && (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !consentAccepted)) {
       toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos de segurança.", variant: "destructive" });
       return;
     }
@@ -213,14 +218,19 @@ export function RecrutamentoClient() {
             {step === 1 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="space-y-4 text-center md:text-left">
-                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação &amp; Segurança</h2>
+                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação &amp; Perfil Profissional</h2>
                     <p className="text-white/40 text-sm">Seus dados e áudios são protegidos por criptografia de nível bancário.</p>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Nome Completo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} placeholder="E-mail" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                  <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold md:col-span-2" />
+                  <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp (DDD + Número)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.cityState} onChange={(e) => setFormData({...formData, cityState: e.target.value})} placeholder="Cidade / Estado" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.instagram} onChange={(e) => setFormData({...formData, instagram: e.target.value})} placeholder="Instagram (@usuario)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.linkedin} onChange={(e) => setFormData({...formData, linkedin: e.target.value})} placeholder="LinkedIn (URL do Perfil)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.currentOccupation} onChange={(e) => setFormData({...formData, currentOccupation: e.target.value})} placeholder="Ocupação Atual" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.experience} onChange={(e) => setFormData({...formData, experience: e.target.value})} placeholder="Tempo de Experiência em Vendas" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                 </div>
                 
                 <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-4">
@@ -369,7 +379,7 @@ export function RecrutamentoClient() {
             {step === 7 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white text-black space-y-6">
-                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Mic size={16} /> DESAFIO DE VOZ: REVERSÃO</div>
+                  <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Mic size={16} /> DESAFIO de VOZ: REVERSÃO</div>
                   <h3 className="text-2xl font-black uppercase tracking-tighter leading-none">LIDANDO COM A NEGATIVA</h3>
                   <p className="text-sm text-black/60 leading-relaxed">Mande um áudio para o Dr. Ricardo explicando que o Google funciona, mas ele está "pescando no lugar errado sem isca". Termine marcando uma conversa de 5 min.</p>
                 </div>
