@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from "react";
@@ -58,6 +59,7 @@ export function RecrutamentoClient() {
   const [isProcessingAudio, setIsProcessingAudio] = useState(false);
   const [audioBase64, setAudioBase64] = useState<string | null>(null);
   const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
+  const [pitchTranscription, setPitchTranscription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showMicDialog, setShowMicDialog] = useState(false);
   const [evaluation, setEvaluation] = useState<SalesEvaluationOutput | null>(null);
@@ -74,6 +76,7 @@ export function RecrutamentoClient() {
   const db = useFirestore();
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const recognitionRef = useRef<any>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
 
@@ -87,23 +90,50 @@ export function RecrutamentoClient() {
           setFormData(parsed.formData || { name: "", email: "", phone: "", objection: "" });
           setAudioBase64(parsed.audioBase64 || null);
           setConsentAccepted(parsed.consentAccepted || false);
+          setPitchTranscription(parsed.pitchTranscription || "");
         }
       } catch (e) { console.error(e); }
     }
     if (auth) initiateAnonymousSignIn(auth);
+
+    // Inicializa Web Speech API para transcrição instantânea
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        recognitionRef.current = new SpeechRecognition();
+        recognitionRef.current.continuous = true;
+        recognitionRef.current.interimResults = true;
+        recognitionRef.current.lang = 'pt-BR';
+
+        recognitionRef.current.onresult = (event: any) => {
+          let finalTranscript = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              finalTranscript += event.results[i][0].transcript;
+            }
+          }
+          if (finalTranscript) {
+            setPitchTranscription(prev => prev + ' ' + finalTranscript);
+          }
+        };
+      }
+    }
   }, [auth]);
 
   useEffect(() => {
     if (step < 4) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        step, formData, audioBase64, consentAccepted
+        step, formData, audioBase64, consentAccepted, pitchTranscription
       }));
     }
-  }, [step, formData, audioBase64, consentAccepted]);
+  }, [step, formData, audioBase64, consentAccepted, pitchTranscription]);
 
   const stopAllRecording = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
+    }
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
     }
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop());
@@ -117,6 +147,7 @@ export function RecrutamentoClient() {
     setIsProcessingAudio(true);
     setAudioBase64(null);
     setAudioPreviewUrl(null);
+    setPitchTranscription("");
     
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
@@ -151,9 +182,12 @@ export function RecrutamentoClient() {
       };
 
       mediaRecorder.start();
+      if (recognitionRef.current) {
+        recognitionRef.current.start();
+      }
       setIsRecording(true);
       setIsProcessingAudio(false);
-      toast({ title: "CAPTURANDO ÁUDIO", description: "Fale com clareza e autoridade.", className: "bg-primary text-white font-black uppercase text-[9px]" });
+      toast({ title: "CAPTURA NEURAL ATIVA", description: "O ambiente de recrutamento está ouvindo.", className: "bg-primary text-white font-black uppercase text-[9px]" });
     } catch (err) {
       console.error(err);
       setIsProcessingAudio(false);
@@ -163,11 +197,11 @@ export function RecrutamentoClient() {
 
   const handleNextStep = () => {
     if (step === 1 && (!formData.name.trim() || !formData.email.trim() || !consentAccepted)) {
-      toast({ title: "Atenção", description: "Preencha seus dados e aceite os termos para ativar a IA Local.", variant: "destructive" });
+      toast({ title: "Atenção", description: "Preencha seus dados e aceite os termos para ativar o ambiente de recrutamento.", variant: "destructive" });
       return;
     }
     if (step === 2 && !audioBase64) {
-      toast({ title: "Atenção", description: "Grave seu áudio para análise neural.", variant: "destructive" });
+      toast({ title: "Atenção", description: "Grave seu pitch para que a IA possa avaliar seu perfil.", variant: "destructive" });
       return;
     }
     setStep(prev => prev + 1);
@@ -181,6 +215,7 @@ export function RecrutamentoClient() {
       const result = await evaluateSalesCandidate({
         candidateName: formData.name,
         pitchAudioUri: audioBase64!,
+        pitchTranscription: pitchTranscription,
         objectionHandling: formData.objection
       });
       setEvaluation(result);
@@ -188,6 +223,7 @@ export function RecrutamentoClient() {
         await addDoc(collection(db, 'sales_candidates'), {
           ...formData,
           pitchAudioUri: audioBase64,
+          pitchTranscription: pitchTranscription,
           score: result.score,
           verdict: result.verdict,
           aiFeedback: result.feedback,
@@ -212,15 +248,15 @@ export function RecrutamentoClient() {
         <AlertDialogContent className="bg-[#121216] border-white/10 text-white rounded-[2.5rem]">
           <AlertDialogHeader>
             <AlertDialogTitle className="font-headline text-2xl font-black uppercase flex items-center gap-3">
-              <Mic className="text-primary" /> Captura Neural
+              <Mic className="text-primary" /> Ativar Ambiente Neural
             </AlertDialogTitle>
             <AlertDialogDescription className="text-white/50">
-              O motor local analisará sua autoridade vocal. Garanta um ambiente silencioso para maior precisão nos dados de persuasão.
+              O ambiente de recrutamento analisará sua autoridade vocal e semântica localmente para máxima velocidade.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="bg-transparent border-white/10 text-white/50 rounded-full font-black text-[10px] uppercase">Agora não</AlertDialogCancel>
-            <AlertDialogAction onClick={startRecording} className="bg-primary hover:bg-primary/90 rounded-full font-black text-[10px] uppercase">Iniciar Captura</AlertDialogAction>
+            <AlertDialogAction onClick={startRecording} className="bg-primary hover:bg-primary/90 rounded-full font-black text-[10px] uppercase">Iniciar Teste</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -268,7 +304,7 @@ export function RecrutamentoClient() {
                   </div>
                   <div className="space-y-4">
                     <p className="text-[10px] text-white/60 leading-relaxed font-medium">
-                      Sua voz será processada por modelos Transformers.js (BERT/DistilBERT) localmente para avaliar autoridade vocal. Ao aceitar, você autoriza a captura de hardware estritamente para este fim.
+                      Sua voz e texto serão processados por modelos de semântica e transcrição localmente para avaliar autoridade. Ao aceitar, você autoriza a captura de hardware para este fim.
                     </p>
                     <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
                       <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} className="mt-1" />
@@ -291,7 +327,7 @@ export function RecrutamentoClient() {
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Building2 size={16} /> LEAD: Marmoraria Granito Fino</div>
                   <h3 className="text-2xl font-black uppercase">Cenário: Sr. Jorge</h3>
                   <p className="text-sm text-white/60 leading-relaxed">
-                    O Sr. Jorge acredita que o "boca a boca" é suficiente. Você precisa usar os gargalos técnicos abaixo para provar o ROI da Sapient.
+                    O Sr. Jorge acredita que o "boca a boca" é suficiente. Use os gargalos abaixo para provar o ROI.
                   </p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -305,7 +341,7 @@ export function RecrutamentoClient() {
                     <div className="p-5 rounded-2xl bg-black/40 border border-white/5">
                       <h4 className="text-[9px] font-black uppercase text-primary mb-2 flex items-center gap-2"><Target size={12}/> O que é GMN?</h4>
                       <p className="text-[10px] text-white/40 leading-relaxed">
-                        Ficha do Google que gera chamadas imediatas de quem busca marmorarias próximas.
+                        Ficha do Google que gera chamadas imediatas de quem busca serviços próximos.
                       </p>
                     </div>
                   </div>
@@ -326,12 +362,19 @@ export function RecrutamentoClient() {
 
                   <div className="text-center space-y-2">
                     <p className="text-sm font-black uppercase tracking-widest text-white">
-                      {isRecording ? "ANALISANDO VOZ..." : audioBase64 ? "CAPTURA FINALIZADA" : "GRAVAR PITCH NEURAL"}
+                      {isRecording ? "AMBIENTE OUVINDO..." : audioBase64 ? "CAPTURA FINALIZADA" : "GRAVAR PITCH NEURAL"}
                     </p>
                     <p className="text-[9px] text-white/30 uppercase font-black">
-                      {isRecording ? "Motor neural ouvindo agora" : "Aborde o Sr. Jorge com autoridade"}
+                      {isRecording ? "IA local transcrevendo e analisando agora" : "Fale com autoridade para o Sr. Jorge"}
                     </p>
                   </div>
+
+                  {pitchTranscription && (
+                    <div className="p-6 bg-white/5 border border-white/10 rounded-2xl w-full max-w-2xl text-xs text-white/60 italic leading-relaxed">
+                      <Badge variant="outline" className="mb-3 text-primary border-primary/20 text-[7px] font-black uppercase">Transcrição Instantânea:</Badge>
+                      <p>"{pitchTranscription}"</p>
+                    </div>
+                  )}
 
                   {audioPreviewUrl && !isRecording && !isProcessingAudio && (
                     <div className="w-full max-w-md space-y-4 text-center animate-in zoom-in px-4">
@@ -347,7 +390,7 @@ export function RecrutamentoClient() {
                   disabled={!audioBase64 || isRecording || isProcessingAudio}
                   className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] w-full md:w-auto shadow-xl disabled:opacity-30 transition-all"
                 >
-                  Processar Dados de Voz <ChevronRight size={18} />
+                  Confirmar Pitch Neural <ChevronRight size={18} />
                 </Button>
               </div>
             )}

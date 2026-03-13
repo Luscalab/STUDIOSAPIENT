@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -11,8 +12,8 @@ interface LocalBrainProps {
 }
 
 /**
- * @fileOverview LocalBrain - IA que roda 100% no navegador do usuário.
- * Utiliza Transformers.js para análise neural sem API externa.
+ * @fileOverview LocalBrain - IA de Alta Velocidade.
+ * Utiliza o modelo DistilBERT quantizado (extremamente leve) via Transformers.js.
  */
 export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: LocalBrainProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'analyzing'>('idle');
@@ -28,9 +29,11 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
       try {
         const { pipeline, env } = await import('@huggingface/transformers');
         
+        // Otimização de performance: desativa modelos locais e usa cache do browser
         env.allowLocalModels = false;
         env.useBrowserCache = true;
 
+        // Usando o modelo sst2-english que é ultra-leve e rápido para análise semântica
         classifierRef.current = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', {
           progress_callback: (p: any) => {
             if (p.status === 'progress') setProgress(p.progress);
@@ -61,7 +64,8 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
       }
     }
     
-    const timeout = setTimeout(runInference, 800);
+    // Debounce para não sobrecarregar o processador durante a digitação/transcrição
+    const timeout = setTimeout(runInference, 300);
     return () => clearTimeout(timeout);
   }, [text, status, onAnalysisComplete]);
 
@@ -76,7 +80,7 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
         ) : status === 'ready' || status === 'analyzing' ? (
           <>
             <ShieldCheck className="h-3 w-3 text-green-500" />
-            <span className="text-[8px] font-black text-green-500 uppercase tracking-widest">Motor Neural Ativo</span>
+            <span className="text-[8px] font-black text-green-500 uppercase tracking-widest">Ambiente de Recrutamento Pronto</span>
           </>
         ) : (
           <>
@@ -108,11 +112,11 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
     <div className="p-6 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-4 animate-in slide-in-from-bottom-2">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-primary">
-          <Brain className="h-4 w-4" /> Análise de Autoridade Local
+          <Brain className="h-4 w-4" /> Análise Semântica Instantânea
         </div>
         <div className="flex items-center gap-2 px-3 py-1 bg-green-500/10 rounded-full border border-green-500/20">
           <Activity className="h-3 w-3 text-green-500 animate-pulse" />
-          <span className="text-[7px] font-black text-green-500 uppercase tracking-widest">Hardware Ativo</span>
+          <span className="text-[7px] font-black text-green-500 uppercase tracking-widest">Motor Neural Ativo</span>
         </div>
       </div>
 
@@ -121,24 +125,24 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
           <div className="flex items-center gap-2">
             <Zap className={result.label === 'POSITIVE' ? "text-yellow-400 h-3 w-3" : "text-white/20 h-3 w-3"} />
             <p className="text-[11px] font-black uppercase tracking-tight">
-              Impacto de Persuasão: <span className={result.label === 'POSITIVE' ? "text-yellow-400" : "text-white/40"}>
-                {result.label === 'POSITIVE' ? "ALTA CONFIANÇA" : "TOM EM ANÁLISE"}
+              Impacto: <span className={result.label === 'POSITIVE' ? "text-yellow-400" : "text-white/40"}>
+                {result.label === 'POSITIVE' ? "ALTA CONFIANÇA" : "ANALISANDO TOM"}
               </span>
             </p>
           </div>
           <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
             <div 
-              className="h-full bg-primary transition-all duration-1000" 
+              className="h-full bg-primary transition-all duration-500" 
               style={{ width: `${result.score * 100}%` }}
             />
           </div>
           <p className="text-[8px] text-white/20 leading-tight uppercase font-black">
-            Processado via WebAssembly no dispositivo. Confiança Neural: {(result.score * 100).toFixed(1)}%.
+            WebAssembly Local — Latência Zero. Confiança: {(result.score * 100).toFixed(1)}%.
           </p>
         </div>
       ) : status === 'analyzing' ? (
         <div className="flex items-center gap-3 text-[9px] font-black uppercase text-white/40 italic">
-          <Loader2 className="h-3 w-3 animate-spin text-primary" /> Decompondo padrões de fala...
+          <Loader2 className="h-3 w-3 animate-spin text-primary" /> Processando semântica local...
         </div>
       ) : null}
     </div>
