@@ -29,29 +29,18 @@ import {
   Lock,
   Target
 } from "lucide-react";
-import { 
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { evaluateSalesCandidate, type SalesEvaluationOutput } from "@/ai/flows/sales-evaluator-flow";
 import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
-// IA Local carregada estritamente no cliente para análise de voz e transcrição
 const LocalBrain = dynamic(
   () => import("@/components/ai/LocalBrain").then((mod) => mod.LocalBrain),
-  { ssr: false, loading: () => <div className="h-10 w-48 rounded-full bg-white/5 animate-pulse" /> }
+  { ssr: false, loading: () => <div className="h-12 w-full rounded-2xl bg-white/5 animate-pulse flex items-center justify-center text-[10px] font-black text-white/20 uppercase tracking-widest">Aguarde enquanto carrego o ambiente de recrutamento...</div> }
 );
 
-const STORAGE_KEY = "sapient_recruitment_v11";
+const STORAGE_KEY = "sapient_recruitment_v12";
 
 export function RecrutamentoClient() {
   const [step, setStep] = useState(1);
@@ -61,7 +50,6 @@ export function RecrutamentoClient() {
   const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
   const [pitchTranscription, setPitchTranscription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showMicDialog, setShowMicDialog] = useState(false);
   const [evaluation, setEvaluation] = useState<SalesEvaluationOutput | null>(null);
   const [consentAccepted, setConsentAccepted] = useState(false);
   const [formData, setFormData] = useState({
@@ -96,7 +84,6 @@ export function RecrutamentoClient() {
     }
     if (auth) initiateAnonymousSignIn(auth);
 
-    // Inicializa Web Speech API para transcrição instantânea
     if (typeof window !== 'undefined') {
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       if (SpeechRecognition) {
@@ -106,14 +93,13 @@ export function RecrutamentoClient() {
         recognitionRef.current.lang = 'pt-BR';
 
         recognitionRef.current.onresult = (event: any) => {
-          let finalTranscript = '';
+          let interimTranscript = '';
           for (let i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
-              finalTranscript += event.results[i][0].transcript;
+              setPitchTranscription(prev => prev + ' ' + event.results[i][0].transcript);
+            } else {
+              interimTranscript += event.results[i][0].transcript;
             }
-          }
-          if (finalTranscript) {
-            setPitchTranscription(prev => prev + ' ' + finalTranscript);
           }
         };
       }
@@ -143,20 +129,13 @@ export function RecrutamentoClient() {
   };
 
   const startRecording = async () => {
-    setShowMicDialog(false);
     setIsProcessingAudio(true);
     setAudioBase64(null);
     setAudioPreviewUrl(null);
     setPitchTranscription("");
     
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true
-        } 
-      });
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
       
       const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
@@ -170,8 +149,7 @@ export function RecrutamentoClient() {
       mediaRecorder.onstop = async () => {
         setIsProcessingAudio(true);
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        const previewUrl = URL.createObjectURL(audioBlob);
-        setAudioPreviewUrl(previewUrl);
+        setAudioPreviewUrl(URL.createObjectURL(audioBlob));
 
         const reader = new FileReader();
         reader.readAsDataURL(audioBlob);
@@ -182,28 +160,22 @@ export function RecrutamentoClient() {
       };
 
       mediaRecorder.start();
-      if (recognitionRef.current) {
-        recognitionRef.current.start();
-      }
+      if (recognitionRef.current) recognitionRef.current.start();
       setIsRecording(true);
       setIsProcessingAudio(false);
-      toast({ title: "CAPTURA NEURAL ATIVA", description: "O ambiente de recrutamento está ouvindo.", className: "bg-primary text-white font-black uppercase text-[9px]" });
+      toast({ title: "GRAVAÇÃO ATIVA", description: "O motor neural está ouvindo sua autoridade.", className: "bg-primary text-white font-black uppercase text-[9px]" });
     } catch (err) {
-      console.error(err);
       setIsProcessingAudio(false);
-      toast({ title: "ERRO DE HARDWARE", description: "Certifique-se de que o microfone está conectado e permitido.", variant: "destructive" });
+      toast({ title: "ERRO DE HARDWARE", description: "Microfone não encontrado ou bloqueado.", variant: "destructive" });
     }
   };
 
   const handleNextStep = () => {
     if (step === 1 && (!formData.name.trim() || !formData.email.trim() || !consentAccepted)) {
-      toast({ title: "Atenção", description: "Preencha seus dados e aceite os termos para ativar o ambiente de recrutamento.", variant: "destructive" });
+      toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos.", variant: "destructive" });
       return;
     }
-    if (step === 2 && !audioBase64) {
-      toast({ title: "Atenção", description: "Grave seu pitch para que a IA possa avaliar seu perfil.", variant: "destructive" });
-      return;
-    }
+    if (step === 2 && !audioBase64) return;
     setStep(prev => prev + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -233,8 +205,7 @@ export function RecrutamentoClient() {
       setStep(4);
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
-      console.error(error);
-      toast({ title: "Erro na Análise", description: "Falha ao processar dados. Tente uma resposta mais concisa.", variant: "destructive" });
+      toast({ title: "Erro na Análise", description: "Falha na comunicação com o motor de IA. Tente novamente.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -244,79 +215,54 @@ export function RecrutamentoClient() {
     <main className="min-h-screen bg-[#08070b] text-white selection:bg-primary/30 pb-32">
       <Navbar />
       
-      <AlertDialog open={showMicDialog} onOpenChange={setShowMicDialog}>
-        <AlertDialogContent className="bg-[#121216] border-white/10 text-white rounded-[2.5rem]">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="font-headline text-2xl font-black uppercase flex items-center gap-3">
-              <Mic className="text-primary" /> Ativar Ambiente Neural
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-white/50">
-              O ambiente de recrutamento analisará sua autoridade vocal e semântica localmente para máxima velocidade.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-transparent border-white/10 text-white/50 rounded-full font-black text-[10px] uppercase">Agora não</AlertDialogCancel>
-            <AlertDialogAction onClick={startRecording} className="bg-primary hover:bg-primary/90 rounded-full font-black text-[10px] uppercase">Iniciar Teste</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
       <section className="pt-32 pb-24 md:pt-48">
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div className="text-left">
-              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase">Recrutamento Estratégico</Badge>
-              <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase">Análise <span className="text-primary italic lowercase">neural.</span></h1>
+              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase">Ambiente de Recrutamento</Badge>
+              <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">Análise <span className="text-primary italic lowercase">neural.</span></h1>
             </div>
-            {step > 1 && step < 4 && (
-              <button onClick={() => { localStorage.removeItem(STORAGE_KEY); window.location.reload(); }} className="text-[8px] font-black uppercase tracking-widest text-white/20 hover:text-white flex items-center gap-2">
-                <RotateCcw size={12} /> Reiniciar Processo
-              </button>
-            )}
           </div>
 
           <div className="flex items-center gap-2 mb-12">
             {[1, 2, 3, 4].map((s) => (
-              <div key={s} className={cn("h-1 flex-1 rounded-full", step >= s ? "bg-primary" : "bg-white/10")} />
+              <div key={s} className={cn("h-1 flex-1 rounded-full", step >= s ? "bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
             ))}
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-16 backdrop-blur-3xl shadow-2xl">
+          <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-16 backdrop-blur-3xl shadow-2xl relative overflow-hidden">
             {step === 1 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                   <div className="space-y-4">
-                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação Profissional</h2>
-                    <p className="text-white/40 text-sm">Preencha seus dados para habilitar o Motor Neural Local.</p>
+                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação de Candidato</h2>
+                    <p className="text-white/40 text-sm">Insira seus dados para inicializar o Motor Local de IA.</p>
                   </div>
                   <LocalBrain statusOnly />
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Seu Nome Completo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                  <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} placeholder="Seu Melhor E-mail" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} placeholder="Seu E-mail" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                 </div>
                 
-                <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-6 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-8 opacity-5"><Lock size={80} /></div>
+                <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-6">
                   <div className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-[10px]">
-                    <ShieldCheck size={18} /> Protocolo de Acesso Neural (LGPD)
+                    <ShieldCheck size={18} /> Protocolo de Acesso (LGPD)
                   </div>
-                  <div className="space-y-4">
-                    <p className="text-[10px] text-white/60 leading-relaxed font-medium">
-                      Sua voz e texto serão processados por modelos de semântica e transcrição localmente para avaliar autoridade. Ao aceitar, você autoriza a captura de hardware para este fim.
-                    </p>
-                    <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/40 border border-white/5">
-                      <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} className="mt-1" />
-                      <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer">
-                        CONCORDO COM O PROCESSAMENTO NEURAL LOCAL E AUTORIZO A CAPTURA DE VOZ.
-                      </label>
-                    </div>
+                  <p className="text-[10px] text-white/40 leading-relaxed font-medium uppercase">
+                    Ao prosseguir, você autoriza o uso do hardware de áudio e o processamento de sua voz por modelos neurais locais e remotos para fins de avaliação de autoridade em vendas.
+                  </p>
+                  <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/40 border border-white/5">
+                    <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} className="mt-1" />
+                    <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">
+                      CONCORDO COM OS TERMOS E AUTORIZO A CAPTURA DE HARDWARE.
+                    </label>
                   </div>
                 </div>
                 
                 <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] shadow-xl w-full md:w-auto">
-                  Liberar Hardware Estratégico <ChevronRight size={18} />
+                  Inicializar Hardware <ChevronRight size={18} />
                 </Button>
               </div>
             )}
@@ -325,35 +271,26 @@ export function RecrutamentoClient() {
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-primary/10 border border-primary/20 space-y-4">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Building2 size={16} /> LEAD: Marmoraria Granito Fino</div>
-                  <h3 className="text-2xl font-black uppercase">Cenário: Sr. Jorge</h3>
+                  <h3 className="text-2xl font-black uppercase tracking-tighter">Cenário Sr. Jorge</h3>
                   <p className="text-sm text-white/60 leading-relaxed">
-                    O Sr. Jorge acredita que o "boca a boca" é suficiente. Use os gargalos abaixo para provar o ROI.
+                    O Sr. Jorge (30 anos de mercado) diz que o "boca a boca" é suficiente. Ele está perdendo 85% do tráfego mobile por um site obsoleto e não aparece no Google Meu Negócio.
                   </p>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                    <div className="p-5 rounded-2xl bg-black/40 border border-white/5">
-                      <h4 className="text-[9px] font-black uppercase text-cyan-400 mb-2 flex items-center gap-2"><AlertCircle size={12}/> Dados de Perda</h4>
-                      <ul className="text-[10px] text-white/40 space-y-1 list-disc pl-4">
-                        <li>Inexistência no Google Meu Negócio.</li>
-                        <li>Site obsoleto bloqueia 85% de orçamentos mobile.</li>
-                      </ul>
-                    </div>
-                    <div className="p-5 rounded-2xl bg-black/40 border border-white/5">
-                      <h4 className="text-[9px] font-black uppercase text-primary mb-2 flex items-center gap-2"><Target size={12}/> O que é GMN?</h4>
-                      <p className="text-[10px] text-white/40 leading-relaxed">
-                        Ficha do Google que gera chamadas imediatas de quem busca serviços próximos.
-                      </p>
-                    </div>
+                  <div className="p-5 rounded-2xl bg-black/40 border border-white/5">
+                    <h4 className="text-[9px] font-black uppercase text-cyan-400 mb-2 flex items-center gap-2"><Target size={12}/> O que é GMN?</h4>
+                    <p className="text-[10px] text-white/40 leading-relaxed font-medium">
+                      Google Meu Negócio é a ficha local que gera chamadas imediatas. Sem ele, a Marmoraria é invisível para quem busca "mármore perto de mim".
+                    </p>
                   </div>
                 </div>
 
-                <div className="flex flex-col items-center gap-8 py-12 border-2 border-dashed border-white/10 rounded-[3rem] bg-white/[0.02] relative">
+                <div className="flex flex-col items-center gap-8 py-12 border-2 border-dashed border-white/10 rounded-[3rem] bg-white/[0.02]">
                   <button 
-                    onClick={() => isRecording ? stopAllRecording() : setShowMicDialog(true)}
+                    onClick={() => isRecording ? stopAllRecording() : startRecording()}
                     disabled={isProcessingAudio}
                     className={cn(
-                      "h-32 w-32 rounded-full flex items-center justify-center transition-all shadow-2xl relative z-10",
-                      isRecording ? "bg-red-500 scale-110 animate-pulse" : "bg-primary text-white hover:scale-105",
+                      "h-32 w-32 rounded-full flex items-center justify-center transition-all shadow-2xl border-4",
+                      isRecording ? "bg-red-500 border-red-400 animate-pulse" : "bg-primary border-primary/20 text-white hover:scale-105",
                       isProcessingAudio && "opacity-50 cursor-not-allowed"
                     )}
                   >
@@ -362,35 +299,33 @@ export function RecrutamentoClient() {
 
                   <div className="text-center space-y-2">
                     <p className="text-sm font-black uppercase tracking-widest text-white">
-                      {isRecording ? "AMBIENTE OUVINDO..." : audioBase64 ? "CAPTURA FINALIZADA" : "GRAVAR PITCH NEURAL"}
-                    </p>
-                    <p className="text-[9px] text-white/30 uppercase font-black">
-                      {isRecording ? "IA local transcrevendo e analisando agora" : "Fale com autoridade para o Sr. Jorge"}
+                      {isRecording ? "AMBIENTE OUVINDO..." : audioBase64 ? "PITCH CAPTURADO" : "GRAVAR PITCH NEURAL"}
                     </p>
                   </div>
 
                   {pitchTranscription && (
-                    <div className="p-6 bg-white/5 border border-white/10 rounded-2xl w-full max-w-2xl text-xs text-white/60 italic leading-relaxed">
-                      <Badge variant="outline" className="mb-3 text-primary border-primary/20 text-[7px] font-black uppercase">Transcrição Instantânea:</Badge>
-                      <p>"{pitchTranscription}"</p>
+                    <div className="p-6 bg-white/5 border border-white/10 rounded-2xl w-full max-w-2xl">
+                      <p className="text-xs text-white/40 italic leading-relaxed">"{pitchTranscription}"</p>
                     </div>
                   )}
 
-                  {audioPreviewUrl && !isRecording && !isProcessingAudio && (
-                    <div className="w-full max-w-md space-y-4 text-center animate-in zoom-in px-4">
-                      <div className="h-px w-full bg-white/10 mb-6" />
-                      <p className="text-[9px] font-black uppercase text-green-400 flex items-center justify-center gap-2"><Volume2 size={12}/> Revisão de Pitch:</p>
-                      <audio controls src={audioPreviewUrl} className="w-full h-12 rounded-full bg-white/10" />
+                  {audioPreviewUrl && !isRecording && (
+                    <div className="w-full max-w-md space-y-4 text-center animate-in zoom-in">
+                      <div className="h-px w-full bg-white/10" />
+                      <p className="text-[9px] font-black uppercase text-cyan-400 flex items-center justify-center gap-2"><Volume2 size={12}/> Revisão de Autoridade:</p>
+                      <audio controls src={audioPreviewUrl} className="w-full h-12 rounded-full bg-white/5" />
                     </div>
                   )}
                 </div>
 
+                <LocalBrain text={pitchTranscription} />
+
                 <Button 
                   onClick={handleNextStep} 
                   disabled={!audioBase64 || isRecording || isProcessingAudio}
-                  className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] w-full md:w-auto shadow-xl disabled:opacity-30 transition-all"
+                  className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] w-full md:w-auto shadow-xl disabled:opacity-30"
                 >
-                  Confirmar Pitch Neural <ChevronRight size={18} />
+                  Confirmar Abordagem <ChevronRight size={18} />
                 </Button>
               </div>
             )}
@@ -398,23 +333,20 @@ export function RecrutamentoClient() {
             {step === 3 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-orange-500/10 border border-orange-500/20">
-                  <div className="flex items-center gap-3 text-orange-400 font-black uppercase text-[10px] mb-4"><MessageSquare size={16} /> Objeção Crítica:</div>
                   <p className="text-sm font-medium italic leading-relaxed text-white">
                     "O boca a boca sempre me serviu. Por que investir nisso agora? Parece gasto desnecessário."
                   </p>
                 </div>
 
-                <LocalBrain text={formData.objection} />
-
                 <Textarea 
                   value={formData.objection} 
                   onChange={(e) => setFormData({...formData, objection: e.target.value})}
-                  placeholder="Contorne a objeção provando o ROI através da clareza técnica..." 
+                  placeholder="Contorne a objeção usando clareza técnica e ROI..." 
                   className="bg-white/5 border-white/10 min-h-[200px] rounded-[2rem] p-8 font-bold text-lg"
                 />
                 
                 <Button onClick={handleSubmit} disabled={isLoading} className="h-24 w-full bg-primary rounded-full font-black uppercase text-[12px] shadow-2xl">
-                  {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Finalizar Avaliação Neural"} <Zap size={20} className="ml-2" />
+                  {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Enviar para Auditoria Neural"} <Zap size={20} className="ml-2" />
                 </Button>
               </div>
             )}
@@ -428,25 +360,25 @@ export function RecrutamentoClient() {
                   )}>
                     {evaluation.verdict === 'APROVADO' ? <Trophy size={40} /> : <BrainCircuit size={40} />}
                   </div>
-                  <h2 className="text-4xl font-black uppercase">Dossiê: {evaluation.verdict}</h2>
+                  <h2 className="text-4xl font-black uppercase tracking-tighter">Dossiê: {evaluation.verdict}</h2>
                   <Badge variant="outline" className="text-white/40 border-white/10 px-6 py-2">Índice Neural: {evaluation.score}%</Badge>
                 </div>
                 <div className="p-10 rounded-[3rem] bg-primary text-white">
-                  <h4 className="font-black uppercase text-xl mb-4">Feedback Direção Comercial</h4>
+                  <h4 className="font-black uppercase text-xl mb-4">Feedback Sapient Studio</h4>
                   <p className="text-lg font-medium leading-relaxed italic">"{evaluation.feedback}"</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="p-8 rounded-[2.5rem] bg-green-500/10 border border-green-500/20 space-y-4">
-                    <h5 className="text-[10px] font-black uppercase text-green-400">Pontos de Autoridade</h5>
+                    <h5 className="text-[10px] font-black uppercase text-green-400">Pontos Fortes</h5>
                     {evaluation.strongPoints.map((p, i) => <div key={i} className="text-xs text-white/60 flex items-center gap-2"><CheckCircle2 size={12} className="text-green-500"/> {p}</div>)}
                   </div>
                   <div className="p-8 rounded-[2.5rem] bg-red-500/10 border border-red-500/20 space-y-4">
-                    <h5 className="text-[10px] font-black uppercase text-red-400">Gargalos Identificados</h5>
+                    <h5 className="text-[10px] font-black uppercase text-red-400">Gargalos</h5>
                     {evaluation.weakPoints.map((p, i) => <div key={i} className="text-xs text-white/60 flex items-center gap-2"><AlertCircle size={12} className="text-red-500"/> {p}</div>)}
                   </div>
                 </div>
                 <div className="text-center">
-                  <Button onClick={() => window.location.href = '/'} className="h-16 px-12 border border-white/10 bg-transparent rounded-full font-black uppercase text-[10px]">Concluir Avaliação</Button>
+                  <Button onClick={() => window.location.href = '/'} className="h-16 px-12 border border-white/10 bg-transparent rounded-full font-black uppercase text-[10px]">Voltar para Início</Button>
                 </div>
               </div>
             )}
