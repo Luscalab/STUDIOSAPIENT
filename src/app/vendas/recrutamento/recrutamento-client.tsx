@@ -26,12 +26,13 @@ import {
   FileText,
   Bot,
   Users,
-  Star,
   BrainCircuit,
-  Database,
   Info,
   BookOpen,
-  ArrowRight
+  ArrowRight,
+  Search,
+  Activity,
+  AlertCircle
 } from "lucide-react";
 import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -171,9 +172,10 @@ export function RecrutamentoClient() {
             </div>
           </div>
 
+          {/* PROGRESS BAR */}
           <div className="flex items-center gap-2 mb-12">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((s) => (
-              <div key={s} className={cn("h-1 flex-1 rounded-full", step >= s ? "bg-primary shadow-[0_0:10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
+              <div key={s} className={cn("h-1 flex-1 rounded-full transition-all duration-500", step >= s ? "bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
             ))}
           </div>
 
@@ -184,34 +186,34 @@ export function RecrutamentoClient() {
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="space-y-4 text-center md:text-left">
                     <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação Profissional</h2>
-                    <p className="text-white/40 text-sm">Inicie sua jornada conosco. Na Sapient, valorizamos a clareza e a segurança dos dados.</p>
+                    <p className="text-white/40 text-sm">Na Sapient, a segurança dos dados é nossa prioridade técnica.</p>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Seu Nome Completo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} placeholder="Seu E-mail Corporativo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
-                  <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp (com DDD)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp (com DDD)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold md:col-span-2" />
                 </div>
                 
                 <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-6">
                   <div className="flex items-center gap-3 text-primary font-black uppercase tracking-widest text-[10px]">
-                    <ShieldCheck size={18} /> Protocolo de Segurança e Privacidade
+                    <ShieldCheck size={18} /> Transparência & LGPD
                   </div>
                   <div className="space-y-4">
                     <p className="text-[11px] text-white/50 leading-relaxed uppercase font-bold">
-                      Seus dados estão protegidos sob protocolos rígidos de segurança. Utilizamos criptografia de ponta a ponta e o armazenamento é realizado em servidores seguros do Google Firebase (EUA). A coleta tem finalidade exclusiva de recrutamento e seus dados não serão compartilhados com terceiros.
+                      Seus dados são criptografados e armazenados em servidores seguros do Google Firebase. A coleta de áudio e texto tem finalidade exclusiva de avaliação comercial interna e não é compartilhada com terceiros.
                     </p>
                     <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/40 border border-white/5">
                       <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} />
                       <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">
-                        Estou ciente da política de privacidade e autorizo a coleta dos meus dados e áudio para recrutamento.
+                        Autorizo o processamento dos meus dados para este processo seletivo.
                       </label>
                     </div>
                   </div>
                 </div>
                 
                 <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] shadow-xl w-full md:w-auto">
-                  Próximo Passo <ChevronRight size={18} />
+                  Iniciar Treinamento <ChevronRight size={18} />
                 </Button>
               </div>
             )}
@@ -220,20 +222,19 @@ export function RecrutamentoClient() {
             {step === 2 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-indigo-500/10 border border-indigo-500/20 space-y-8">
-                  <div className="flex items-center gap-3 text-indigo-400 font-black uppercase text-[10px]"><BookOpen size={16} /> BRIEFING ESTRATÉGICO: COMO VENDEMOS</div>
+                  <div className="flex items-center gap-3 text-indigo-400 font-black uppercase text-[10px]"><BookOpen size={16} /> COMO VENDEMOS: VALOR > PREÇO</div>
                   
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="space-y-4">
-                      <h3 className="text-2xl font-black uppercase tracking-tighter">Nossa Filosofia</h3>
+                      <h3 className="text-2xl font-black uppercase tracking-tighter">Nossa Mentalidade</h3>
                       <p className="text-sm text-white/60 leading-relaxed">
-                        Na <strong>studiosapient</strong>, não vendemos apenas "marketing". Vendemos <strong>Clareza, Autoridade e ROI</strong>. 
-                        Nossos clientes são decisores de alto nível que buscam parceiros estratégicos, não apenas executores de tarefas.
+                        Não somos "vendedores de marketing". Somos <strong>Estrategistas de ROI</strong>. O cliente não quer um site; ele quer a autoridade que o site traz. Ele não quer anúncios; ele quer o lucro que os anúncios geram.
                       </p>
                       <ul className="space-y-2">
                         {[
-                          "Foco no Gargalo: Identifique a dor real.",
-                          "Valor > Preço: Mostre o lucro, não o custo.",
-                          "Autoridade: Fale com propriedade técnica."
+                          "Dica 01: Identifique o Gargalo (O que trava o lucro?)",
+                          "Dica 02: Use Linguagem de Negócio (ROI, LTV, CAC)",
+                          "Dica 03: Posicione-se como um Consultor Técnico"
                         ].map((tip, i) => (
                           <li key={i} className="flex items-center gap-3 text-[10px] font-bold text-indigo-300 uppercase">
                             <CheckCircle2 size={14} /> {tip}
@@ -243,18 +244,11 @@ export function RecrutamentoClient() {
                     </div>
                     
                     <div className="space-y-4 bg-black/20 p-6 rounded-3xl border border-white/5">
-                      <h4 className="text-xs font-black uppercase text-indigo-400">Dica de Ouro</h4>
+                      <h4 className="text-xs font-black uppercase text-indigo-400">O que é um 'Gargalo'?</h4>
                       <p className="text-[11px] text-white/40 italic leading-relaxed">
-                        "Ao conversar com um médico, fale sobre Prestígio. Ao conversar com um lojista, fale sobre Fluxo. Ao conversar com um CEO, fale sobre Escala. Adapte sua linguagem para ser visto como um par, não como um vendedor."
+                        É o ponto específico onde o dinheiro do cliente está "vazando". Pode ser um site que demora a carregar, um GMN sem fotos, ou um atendimento que demora 2 horas para responder no WhatsApp. Sua missão é achar o vazamento e oferecer o tampão.
                       </p>
                     </div>
-                  </div>
-
-                  <div className="bg-white/5 p-6 rounded-2xl border border-white/5 space-y-3">
-                    <p className="text-[10px] font-black uppercase text-white">Como este teste funciona:</p>
-                    <p className="text-[11px] text-white/40 leading-relaxed">
-                      Nas próximas etapas, você será apresentado a cada um dos nossos serviços. Leia a descrição e responda ao desafio de "Contorno de Objeção". Queremos ver como você raciocina sob pressão comercial.
-                    </p>
                   </div>
                 </div>
                 
@@ -265,27 +259,38 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 3: PERFORMANCE ADS */}
+            {/* ETAPA 3: PERFORMANCE ADS (GOOGLE & GMN) */}
             {step === 3 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-primary/10 border border-primary/20 space-y-6">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><TrendingUp size={16} /> PILAR 01: PERFORMANCE ADS</div>
-                  <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">O Domínio da Demanda Ativa</h3>
-                  <p className="text-sm md:text-base text-white/60 leading-relaxed">
-                    Diferente de agências que focam em "branding" ou "likes", a Sapient foca em <strong>Intenção</strong>. O Google Ads é nossa ferramenta para capturar quem precisa do serviço <strong>agora</strong>. Eliminamos a dependência de indicações através de um funil previsível.
-                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <h4 className="text-[10px] font-black uppercase text-white/40">Ecossistema de Busca Local</h4>
+                      <p className="text-sm text-white/60 leading-relaxed">
+                        O Google Ads captura a <strong>Intenção de Urgência</strong>. O GMN (Google Meu Negócio) é a porta de entrada. Se o GMN está desatualizado ou os anúncios não têm "negativação estratégica", o cliente joga dinheiro no lixo atraindo curiosos.
+                      </p>
+                    </div>
+                    <div className="p-6 rounded-2xl bg-black/20 border border-white/5 space-y-3">
+                      <p className="text-[9px] font-black uppercase text-primary">BRIEFING DO CLIENTE:</p>
+                      <p className="text-[11px] font-bold text-white/80">Dr. Ricardo, dono de uma clínica odontológica. Ele investe R$ 2.000/mês em Google Ads sozinho, mas diz que "só recebe mensagem de gente perguntando preço ou querendo serviço que ele não faz".</p>
+                    </div>
+                  </div>
+
                   <div className="h-px bg-white/5 w-full" />
-                  <p className="text-xs font-bold text-white/40 uppercase">DESAFIO: Um empresário diz que "já tentou Google Ads e não deu certo". Como você explicaria que o erro não é da ferramenta, mas da falta de uma estratégia de urgência e negativação cirúrgica?</p>
+                  <p className="text-xs font-bold text-white/40 uppercase flex items-center gap-2">
+                    <AlertCircle size={14} className="text-primary" /> 
+                    GARGALO: Desperdício de verba por falta de segmentação e GMN amador. Como você convenceria ele a deixar a Sapient gerenciar essa verba?
+                  </p>
                 </div>
 
-                <div className="space-y-4">
-                  <Textarea 
-                    value={formData.ansAds} 
-                    onChange={(e) => setFormData({...formData, ansAds: e.target.value})}
-                    placeholder="Sua abordagem estratégica aqui..." 
-                    className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
-                  />
-                </div>
+                <Textarea 
+                  value={formData.ansAds} 
+                  onChange={(e) => setFormData({...formData, ansAds: e.target.value})}
+                  placeholder="Explique o erro técnico dele e sua solução..." 
+                  className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
+                />
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -294,27 +299,38 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 4: SITES PREMIUM */}
+            {/* ETAPA 4: SITES PREMIUM (VELOCIDADE & CONVERSÃO) */}
             {step === 4 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-cyan-500/10 border border-cyan-500/20 space-y-6">
                   <div className="flex items-center gap-3 text-cyan-400 font-black uppercase text-[10px]"><Layout size={16} /> PILAR 02: SITES PROFISSIONAIS</div>
-                  <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">Engenharia que Converte</h3>
-                  <p className="text-sm md:text-base text-white/60 leading-relaxed">
-                    Um site Sapient não é um "template". É um software de conversão. Focamos em <strong>Velocidade Extrema (Core Web Vitals)</strong> e Mobile-First. Se o site demora mais de 3 segundos para carregar, o dinheiro investido no Ads está sendo jogado no lixo.
-                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <h4 className="text-[10px] font-black uppercase text-white/40">Engenharia Web</h4>
+                      <p className="text-sm text-white/60 leading-relaxed">
+                        Um site lento é um ralo de dinheiro. Falamos de <strong>Core Web Vitals</strong>. Se o site demora +3 segundos, 50% dos cliques do Ads desistem. Sites Sapient são mobile-first e focados em "Barreiras de Confiança".
+                      </p>
+                    </div>
+                    <div className="p-6 rounded-2xl bg-black/20 border border-white/5 space-y-3">
+                      <p className="text-[9px] font-black uppercase text-cyan-400">BRIEFING DO CLIENTE:</p>
+                      <p className="text-[11px] font-bold text-white/80">Loja 'Casa & Conforto'. O site é de 2018, feito em template pronto, demora 8 segundos para abrir no 4G e o botão do WhatsApp fica escondido.</p>
+                    </div>
+                  </div>
+
                   <div className="h-px bg-white/5 w-full" />
-                  <p className="text-xs font-bold text-white/40 uppercase">DESAFIO: Como você convenceria um cliente a investir em um site novo, provando que o site atual dele (lento e amador) está expulsando leads qualificados?</p>
+                  <p className="text-xs font-bold text-white/40 uppercase flex items-center gap-2">
+                    <AlertCircle size={14} className="text-cyan-400" /> 
+                    GARGALO: Taxa de rejeição altíssima. Como você prova que o site "barato" dele está custando caro no final do mês?
+                  </p>
                 </div>
 
-                <div className="space-y-4">
-                  <Textarea 
-                    value={formData.ansSites} 
-                    onChange={(e) => setFormData({...formData, ansSites: e.target.value})}
-                    placeholder="Sua argumentação técnica..." 
-                    className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
-                  />
-                </div>
+                <Textarea 
+                  value={formData.ansSites} 
+                  onChange={(e) => setFormData({...formData, ansSites: e.target.value})}
+                  placeholder="Sua análise sobre performance e lucro..." 
+                  className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
+                />
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -323,27 +339,38 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 5: DESIGN ESTRATÉGICO */}
+            {/* ETAPA 5: DESIGN ESTRATÉGICO (PERCEPÇÃO DE VALOR) */}
             {step === 5 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-orange-500/10 border border-orange-500/20 space-y-6">
                   <div className="flex items-center gap-3 text-orange-400 font-black uppercase text-[10px]"><Palette size={16} /> PILAR 03: DESIGN ESTRATÉGICO</div>
-                  <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">Semiótica do Valor</h3>
-                  <p className="text-sm md:text-base text-white/60 leading-relaxed">
-                    Design na Sapient é sobre <strong>Percepção de Prestígio</strong>. Usamos a psicologia cromática e a hierarquia visual para remover barreiras de preço. Se a marca parece barata, o cliente pede desconto. Se a marca comunica autoridade, o preço é aceito sem questionamentos.
-                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <h4 className="text-[10px] font-black uppercase text-white/40">Semiótica Comercial</h4>
+                      <p className="text-sm text-white/60 leading-relaxed">
+                        Design não é "enfeite". É sobre <strong>Posicionamento de Preço</strong>. Se a marca parece amadora, o cliente pede desconto. Se a marca comunica autoridade técnica e prestígio, o cliente aceita o orçamento sem questionar.
+                      </p>
+                    </div>
+                    <div className="p-6 rounded-2xl bg-black/20 border border-white/5 space-y-3">
+                      <p className="text-[9px] font-black uppercase text-orange-400">BRIEFING DO CLIENTE:</p>
+                      <p className="text-[11px] font-bold text-white/80">Dra. Helena, Advogada de Família. Tem um logo que o sobrinho fez no Canva. Ela reclama que os clientes sempre acham seus honorários "puxados".</p>
+                    </div>
+                  </div>
+
                   <div className="h-px bg-white/5 w-full" />
-                  <p className="text-xs font-bold text-white/40 uppercase">DESAFIO: Um profissional de alto padrão (médico ou advogado) usa um logo genérico. Como você explica que a imagem atual dele está "nivelando por baixo" seus honorários?</p>
+                  <p className="text-xs font-bold text-white/40 uppercase flex items-center gap-2">
+                    <AlertCircle size={14} className="text-orange-400" /> 
+                    GARGALO: Incoerência entre expertise e imagem visual. Como você explica que o design Canva dela está "baixando" o ticket dela?
+                  </p>
                 </div>
 
-                <div className="space-y-4">
-                  <Textarea 
-                    value={formData.ansDesign} 
-                    onChange={(e) => setFormData({...formData, ansDesign: e.target.value})}
-                    placeholder="Sua análise de semiótica..." 
-                    className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
-                  />
-                </div>
+                <Textarea 
+                  value={formData.ansDesign} 
+                  onChange={(e) => setFormData({...formData, ansDesign: e.target.value})}
+                  placeholder="Sua defesa sobre autoridade visual..." 
+                  className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
+                />
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -352,27 +379,38 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 6: CHAT IA & AUTOMAÇÃO */}
+            {/* ETAPA 6: CHAT IA & AUTOMAÇÃO (ESCALA DE ATENDIMENTO) */}
             {step === 6 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-violet-500/10 border border-violet-500/20 space-y-6">
                   <div className="flex items-center gap-3 text-violet-400 font-black uppercase text-[10px]"><Bot size={16} /> PILAR 04: CHAT IA & AUTOMAÇÃO</div>
-                  <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">Atendimento 24/7 sem Fadiga</h3>
-                  <p className="text-sm md:text-base text-white/60 leading-relaxed">
-                    Implementamos agentes inteligentes que não apenas respondem, mas <strong>qualificam e vendem</strong>. O Chat IA da Sapient filtra curiosos e entrega leads prontos para o consultor humano fechar, eliminando o gargalo de atendimento lento no WhatsApp.
-                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <h4 className="text-[10px] font-black uppercase text-white/40">Eficiência Operacional</h4>
+                      <p className="text-sm text-white/60 leading-relaxed">
+                        Agentes inteligentes Sapient não apenas respondem "olá". Eles <strong>Qualificam Leads</strong>. Eles filtram curiosos e entregam para o humano apenas quem tem potencial real de fechamento, eliminando a fadiga da equipe comercial.
+                      </p>
+                    </div>
+                    <div className="p-6 rounded-2xl bg-black/20 border border-white/5 space-y-3">
+                      <p className="text-[9px] font-black uppercase text-violet-400">BRIEFING DO CLIENTE:</p>
+                      <p className="text-[11px] font-bold text-white/80">Imobiliária 'Luz do Sol'. Recebem 100 mensagens/dia no WhatsApp. A secretária demora 2 horas para responder e gasta 80% do tempo respondendo 'onde fica' e 'qual valor'.</p>
+                    </div>
+                  </div>
+
                   <div className="h-px bg-white/5 w-full" />
-                  <p className="text-xs font-bold text-white/40 uppercase">DESAFIO: O cliente diz que "prefere o toque humano e tem medo da IA". Como você prova que a demora humana é pior que uma IA imediata, inteligente e resolutiva?</p>
+                  <p className="text-xs font-bold text-white/40 uppercase flex items-center gap-2">
+                    <AlertCircle size={14} className="text-violet-400" /> 
+                    GARGALO: Demora no atendimento e perda de produtividade. Como você prova que a IA é melhor que a demora humana?
+                  </p>
                 </div>
 
-                <div className="space-y-4">
-                  <Textarea 
-                    value={formData.ansChat} 
-                    onChange={(e) => setFormData({...formData, ansChat: e.target.value})}
-                    placeholder="Sua defesa da automação..." 
-                    className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
-                  />
-                </div>
+                <Textarea 
+                  value={formData.ansChat} 
+                  onChange={(e) => setFormData({...formData, ansChat: e.target.value})}
+                  placeholder="Sua visão sobre automação inteligente..." 
+                  className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
+                />
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -381,27 +419,38 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 7: GESTÃO DE REDES SOCIAIS */}
+            {/* ETAPA 7: GESTÃO DE REDES SOCIAIS (CURADORIA DE AUTORIDADE) */}
             {step === 7 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-pink-500/10 border border-pink-500/20 space-y-6">
                   <div className="flex items-center gap-3 text-pink-400 font-black uppercase text-[10px]"><Users size={16} /> PILAR 05: GESTÃO SOCIAL</div>
-                  <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">Prova de Valor Constante</h3>
-                  <p className="text-sm md:text-base text-white/60 leading-relaxed">
-                    Não fazemos "posts". Fazemos <strong>Curadoria de Autoridade</strong>. O Instagram do cliente deve ser um portfólio que educa o mercado e o posiciona como a escolha óbvia. É onde a marca ganha vida e mantém o desejo de compra ativo após o primeiro clique.
-                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <h4 className="text-[10px] font-black uppercase text-white/40">Portfolio Vivo</h4>
+                      <p className="text-sm text-white/60 leading-relaxed">
+                        Não fazemos "posts". Fazemos <strong>Curadoria de Conteúdo</strong>. O Instagram deve educar o seguidor e transformá-lo em decisor. É o lugar de provar competência técnica todos os dias através de narrativas de autoridade.
+                      </p>
+                    </div>
+                    <div className="p-6 rounded-2xl bg-black/20 border border-white/5 space-y-3">
+                      <p className="text-[9px] font-black uppercase text-pink-400">BRIEFING DO CLIENTE:</p>
+                      <p className="text-[11px] font-bold text-white/80">Empresa de Consultoria Empresarial. Postam apenas 'frases motivacionais' e fotos de reuniões. Têm 10k seguidores, mas nenhum vem das redes sociais.</p>
+                    </div>
+                  </div>
+
                   <div className="h-px bg-white/5 w-full" />
-                  <p className="text-xs font-bold text-white/40 uppercase">DESAFIO: Como você diferencia uma "gestão de postagens comum" de uma "curadoria estratégica de autoridade Sapient" para um cliente cético?</p>
+                  <p className="text-xs font-bold text-white/40 uppercase flex items-center gap-2">
+                    <AlertCircle size={14} className="text-pink-400" /> 
+                    GARGALO: Audiência irrelevante e falta de prova técnica. Como você diferencia nossa curadoria de uma 'agência de postagem comum'?
+                  </p>
                 </div>
 
-                <div className="space-y-4">
-                  <Textarea 
-                    value={formData.ansSocial} 
-                    onChange={(e) => setFormData({...formData, ansSocial: e.target.value})}
-                    placeholder="Seu diferencial comercial..." 
-                    className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
-                  />
-                </div>
+                <Textarea 
+                  value={formData.ansSocial} 
+                  onChange={(e) => setFormData({...formData, ansSocial: e.target.value})}
+                  placeholder="Sua estratégia de narrativa social..." 
+                  className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
+                />
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -410,27 +459,38 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* ETAPA 8: NARRATIVA VISUAL E DOSSIÊS */}
+            {/* ETAPA 8: NARRATIVA VISUAL (DOSSIÊS DE VENDA) */}
             {step === 8 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-purple-500/10 border border-purple-500/20 space-y-6">
                   <div className="flex items-center gap-3 text-purple-400 font-black uppercase text-[10px]"><FileText size={16} /> PILAR 06: NARRATIVA VISUAL</div>
-                  <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">O Impacto do Dossiê</h3>
-                  <p className="text-sm md:text-base text-white/60 leading-relaxed">
-                    Propostas comerciais na Sapient são <strong>Dossiês de Venda</strong>. Transformamos processos complexos em narrativas visuais simples e impactantes que encurtam o ciclo de decisão e justificam o alto ticket. É a "pá de cal" no fechamento.
-                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <h4 className="text-[10px] font-black uppercase text-white/40">Fechamento de Alto Impacto</h4>
+                      <p className="text-sm text-white/60 leading-relaxed">
+                        Nossas propostas são <strong>Dossiês Técnicos</strong>. Transformamos serviços complexos em infográficos de fácil compreensão. O objetivo é encurtar o ciclo de decisão: o cliente vê o dossiê e entende na hora por que você é a melhor escolha.
+                      </p>
+                    </div>
+                    <div className="p-6 rounded-2xl bg-black/20 border border-white/5 space-y-3">
+                      <p className="text-[9px] font-black uppercase text-purple-400">BRIEFING DO CLIENTE:</p>
+                      <p className="text-[11px] font-bold text-white/80">Empresa de Engenharia. Vendem projetos de R$ 50k enviando um PDF de orçamento branco e preto cheio de termos técnicos que o dono do prédio não entende.</p>
+                    </div>
+                  </div>
+
                   <div className="h-px bg-white/5 w-full" />
-                  <p className="text-xs font-bold text-white/40 uppercase">DESAFIO: O cliente amou a reunião, mas precisa "passar para o sócio financeiro". Por que o nosso Dossiê Visual é a arma perfeita para esse momento?</p>
+                  <p className="text-xs font-bold text-white/40 uppercase flex items-center gap-2">
+                    <AlertCircle size={14} className="text-purple-400" /> 
+                    GARGALO: Dificuldade de percepção de valor na hora de fechar. Como um Dossiê Visual ajudaria esse engenheiro a cobrar mais caro?
+                  </p>
                 </div>
 
-                <div className="space-y-4">
-                  <Textarea 
-                    value={formData.ansNarrativa} 
-                    onChange={(e) => setFormData({...formData, ansNarrativa: e.target.value})}
-                    placeholder="Sua visão sobre narrativa de venda..." 
-                    className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
-                  />
-                </div>
+                <Textarea 
+                  value={formData.ansNarrativa} 
+                  onChange={(e) => setFormData({...formData, ansNarrativa: e.target.value})}
+                  placeholder="Sua análise sobre clareza visual e venda..." 
+                  className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold"
+                />
                 
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -444,9 +504,9 @@ export function RecrutamentoClient() {
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white text-black space-y-6">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Target size={16} /> PITCH DE AUTORIDADE</div>
-                  <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">Venda o Ecossistema Studiosapient</h3>
+                  <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">Venda o Ecossistema Sapient</h3>
                   <p className="text-sm md:text-base text-black/60 leading-relaxed">
-                    Grave um áudio de até 2 minutos simulando o fechamento de uma consultoria completa. Use todos os pilares que você acabou de aprender. Queremos ouvir sua voz, sua entonação e sua capacidade de gerar desejo.
+                    Agora é com você. Grave um áudio de até 2 minutos simulando o fechamento de uma consultoria completa para um dos clientes dos briefings acima. Mostre sua entonação, sua clareza técnica e sua capacidade de gerar desejo de mudança.
                   </p>
                 </div>
 
@@ -484,7 +544,7 @@ export function RecrutamentoClient() {
                     disabled={isLoading || !audioBase64 || isRecording} 
                     className="h-24 flex-1 bg-primary rounded-full font-black uppercase text-[12px] shadow-2xl"
                   >
-                    {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Enviar Dossiê para Avaliação"} <Zap size={20} className="ml-2" />
+                    {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Enviar Dossiê para Avaliação Humana"} <Zap size={20} className="ml-2" />
                   </Button>
                 </div>
               </div>
@@ -502,7 +562,7 @@ export function RecrutamentoClient() {
                 </div>
                 <div className="p-8 rounded-[3rem] bg-white/5 border border-white/10 max-w-2xl mx-auto">
                   <p className="text-white/40 leading-relaxed italic">
-                    "Obrigado por completar o desafio Sapient. Suas respostas técnicas e seu pitch vocal foram salvos em nosso banco de talentos. Nossa diretoria realizará uma avaliação humana detalhada e entraremos em contato via WhatsApp caso seu perfil seja compatível com nossa visão estratégica."
+                    "Obrigado por completar o treinamento estratégico Sapient. Seus dados e seu pitch vocal foram salvos em nosso banco de talentos. Realizaremos uma avaliação humana detalhada e entraremos em contato via WhatsApp caso seu perfil seja compatível com nosso ecossistema profissional."
                   </p>
                 </div>
                 <div className="pt-8">
