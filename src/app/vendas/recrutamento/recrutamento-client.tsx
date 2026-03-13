@@ -25,7 +25,6 @@ import {
   ShieldCheck,
   Target
 } from "lucide-react";
-import { evaluateSalesCandidate, type SalesEvaluationOutput } from "@/ai/flows/sales-evaluator-flow";
 import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
@@ -36,7 +35,7 @@ const LocalBrain = dynamic(
   { ssr: false, loading: () => <div className="h-12 w-full rounded-2xl bg-white/5 animate-pulse flex items-center justify-center text-[10px] font-black text-white/20 uppercase tracking-widest">Aguarde enquanto carrego o ambiente de recrutamento...</div> }
 );
 
-const STORAGE_KEY = "sapient_recruitment_v15";
+const STORAGE_KEY = "sapient_recruitment_v16_local";
 
 export function RecrutamentoClient() {
   const [step, setStep] = useState(1);
@@ -46,7 +45,8 @@ export function RecrutamentoClient() {
   const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
   const [pitchTranscription, setPitchTranscription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [evaluation, setEvaluation] = useState<SalesEvaluationOutput | null>(null);
+  const [localAnalysis, setLocalAnalysis] = useState<any>(null);
+  const [evaluation, setEvaluation] = useState<any>(null);
   const [consentAccepted, setConsentAccepted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -157,7 +157,7 @@ export function RecrutamentoClient() {
       mediaRecorder.start();
       if (recognitionRef.current) recognitionRef.current.start();
       setIsRecording(true);
-      toast({ title: "CAPTURA ATIVA", description: "O motor neural está ouvindo sua voz.", className: "bg-primary text-white font-black uppercase text-[9px]" });
+      toast({ title: "CAPTURA ATIVA", description: "O motor neural local está ouvindo sua voz.", className: "bg-primary text-white font-black uppercase text-[9px]" });
     } catch (err) {
       toast({ title: "ERRO DE HARDWARE", description: "Microfone não encontrado ou bloqueado.", variant: "destructive" });
     }
@@ -172,17 +172,55 @@ export function RecrutamentoClient() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const generateLocalEvaluation = () => {
+    // Lógica determinística baseada na análise neural local
+    const score = localAnalysis ? Math.round(localAnalysis.score * 100) : 50;
+    const tone = localAnalysis?.tone || "NEUTRAL";
+    const intent = localAnalysis?.intent || "GENERAL";
+    
+    let verdict: 'APROVADO' | 'TREINAMENTO' | 'REPROVADO' = 'TREINAMENTO';
+    let feedback = "";
+    let strong = ["Uso de IA Local", "Iniciativa de Teste"];
+    let weak = ["Pode melhorar autoridade vocal"];
+
+    if (tone === "AUTHORITY" && score > 70) {
+      verdict = 'APROVADO';
+      feedback = "Excelente postura comercial. Você demonstrou domínio técnico e autoridade imediata no pitch.";
+      strong.push("Autoridade Vocal", "Convicção Comercial");
+    } else if (tone === "HESITATION") {
+      verdict = 'TREINAMENTO';
+      feedback = "O conteúdo está correto, mas a entrega vocal precisa de mais firmeza e menos hesitação.";
+      weak.push("Insegurança Vocal");
+    } else if (score < 40) {
+      verdict = 'REPROVADO';
+      feedback = "O discurso não atingiu o nível de clareza e impacto exigido para vendas de alto valor.";
+      weak.push("Falta de Clareza", "Baixa Energia");
+    } else {
+      feedback = "Bom desempenho técnico. Com alguns ajustes na abordagem de fechamento você estará pronto.";
+    }
+
+    return {
+      score,
+      feedback,
+      verdict,
+      strongPoints: strong,
+      weakPoints: weak,
+      toneAnalysis: tone,
+      intentAnalysis: intent
+    };
+  };
+
   const handleSubmit = async () => {
     if (!formData.objection.trim()) return;
     setIsLoading(true);
+    
+    // Pequeno delay para simular o "pensamento" da IA local
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
     try {
-      const result = await evaluateSalesCandidate({
-        candidateName: formData.name,
-        pitchAudioUri: audioBase64!,
-        pitchTranscription: pitchTranscription,
-        objectionHandling: formData.objection
-      });
+      const result = generateLocalEvaluation();
       setEvaluation(result);
+      
       if (db) {
         await addDoc(collection(db, 'sales_candidates'), {
           ...formData,
@@ -190,13 +228,14 @@ export function RecrutamentoClient() {
           score: result.score,
           verdict: result.verdict,
           aiFeedback: result.feedback,
+          source: 'Local AI Pipeline',
           timestamp: serverTimestamp()
         });
       }
       setStep(4);
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
-      toast({ title: "Erro na Análise", description: "O motor de IA remoto falhou. Tente novamente.", variant: "destructive" });
+      toast({ title: "Erro na Análise", description: "Ocorreu um erro ao processar o dossiê local.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -210,8 +249,8 @@ export function RecrutamentoClient() {
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div className="text-left">
-              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase">Ambiente de Recrutamento</Badge>
-              <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">Pipeline <span className="text-primary italic lowercase">neural.</span></h1>
+              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase">Ambiente de Recrutamento Neural</Badge>
+              <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">Pipeline <span className="text-primary italic lowercase">local.</span></h1>
             </div>
           </div>
 
@@ -226,7 +265,7 @@ export function RecrutamentoClient() {
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="space-y-4">
                     <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação</h2>
-                    <p className="text-white/40 text-sm">Insira seus dados para inicializar os modelos neurais.</p>
+                    <p className="text-white/40 text-sm">Insira seus dados para inicializar os modelos neurais locais.</p>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -241,7 +280,7 @@ export function RecrutamentoClient() {
                   <div className="flex items-start gap-4 p-5 rounded-2xl bg-black/40 border border-white/5">
                     <Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} />
                     <label htmlFor="consent" className="text-[11px] text-white font-bold leading-tight cursor-pointer uppercase">
-                      Autorizo o processamento de minha voz e dados por modelos de IA studiosapient.
+                      Autorizo o processamento de minha voz e dados por modelos de IA locais.
                     </label>
                   </div>
                 </div>
@@ -288,7 +327,7 @@ export function RecrutamentoClient() {
                   )}
                 </div>
 
-                <LocalBrain text={pitchTranscription} />
+                <LocalBrain text={pitchTranscription} onAnalysisComplete={(res) => setLocalAnalysis(res)} />
 
                 <Button 
                   onClick={handleNextStep} 
@@ -316,7 +355,7 @@ export function RecrutamentoClient() {
                 />
                 
                 <Button onClick={handleSubmit} disabled={isLoading} className="h-24 w-full bg-primary rounded-full font-black uppercase text-[12px] shadow-2xl">
-                  {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Gerar Dossiê Final"} <Zap size={20} className="ml-2" />
+                  {isLoading ? <Loader2 className="animate-spin mr-3 h-6 w-6" /> : "Gerar Dossiê Final (IA Local)"} <Zap size={20} className="ml-2" />
                 </Button>
               </div>
             )}
@@ -330,20 +369,20 @@ export function RecrutamentoClient() {
                   )}>
                     {evaluation.verdict === 'APROVADO' ? <Trophy size={40} /> : <BrainCircuit size={40} />}
                   </div>
-                  <h2 className="text-4xl font-black uppercase tracking-tighter">Dossiê: {evaluation.verdict}</h2>
+                  <h2 className="text-4xl font-black uppercase tracking-tighter">Dossiê Local: {evaluation.verdict}</h2>
                 </div>
                 <div className="p-10 rounded-[3rem] bg-primary text-white">
-                  <h4 className="font-black uppercase text-xl mb-4">Feedback Diretor Lucas</h4>
+                  <h4 className="font-black uppercase text-xl mb-4">Análise Sapient Studio</h4>
                   <p className="text-lg font-medium leading-relaxed italic">"{evaluation.feedback}"</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="p-8 rounded-[2.5rem] bg-green-500/10 border border-green-500/20 space-y-4">
                     <h5 className="text-[10px] font-black uppercase text-green-400">Pontos Fortes</h5>
-                    {evaluation.strongPoints.map((p, i) => <div key={i} className="text-xs text-white/60 flex items-center gap-2"><CheckCircle2 size={12} className="text-green-500"/> {p}</div>)}
+                    {evaluation.strongPoints.map((p: string, i: number) => <div key={i} className="text-xs text-white/60 flex items-center gap-2"><CheckCircle2 size={12} className="text-green-500"/> {p}</div>)}
                   </div>
                   <div className="p-8 rounded-[2.5rem] bg-red-500/10 border border-red-500/20 space-y-4">
-                    <h5 className="text-[10px] font-black uppercase text-red-400">Pontos de Melhoria</h5>
-                    {evaluation.weakPoints.map((p, i) => <div key={i} className="text-xs text-white/60 flex items-center gap-2"><AlertCircle size={12} className="text-red-500"/> {p}</div>)}
+                    <h5 className="text-[10px] font-black uppercase text-red-400">Gargalos Identificados</h5>
+                    {evaluation.weakPoints.map((p: string, i: number) => <div key={i} className="text-xs text-white/60 flex items-center gap-2"><AlertCircle size={12} className="text-red-500"/> {p}</div>)}
                   </div>
                 </div>
                 <div className="text-center">

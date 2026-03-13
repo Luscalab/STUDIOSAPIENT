@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Brain, Loader2, Activity, Target, Volume2 } from 'lucide-react';
+import { Loader2, Activity, Target, Volume2 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 
 interface LocalBrainProps {
@@ -12,17 +12,17 @@ interface LocalBrainProps {
 }
 
 const TONE_DICTIONARY = {
-  AUTHORITY: ["lucro", "resultado", "roi", "investimento", "crescimento", "estratégia", "mercado", "performance"],
-  HESITATION: ["talvez", "acho", "tentar", "quem sabe", "não sei", "é...", "hum", "desculpa"],
-  AGGRESSIVE: ["agora", "perda", "dinheiro", "urgente", "fechar", "contrato", "imediatamente", "escala"],
-  PROFESSIONAL: ["processo", "metodologia", "diagnóstico", "análise", "digital", "presença", "posicionamento"]
+  AUTHORITY: ["lucro", "resultado", "roi", "investimento", "crescimento", "estratégia", "mercado", "performance", "escala", "autoridade"],
+  HESITATION: ["talvez", "acho", "tentar", "quem sabe", "não sei", "é...", "hum", "desculpa", "provavelmente"],
+  AGGRESSIVE: ["agora", "perda", "dinheiro", "urgente", "fechar", "contrato", "imediatamente", "escala", "obrigatório"],
+  PROFESSIONAL: ["processo", "metodologia", "diagnóstico", "análise", "digital", "presença", "posicionamento", "branding"]
 };
 
 const INTENT_DICTIONARY = {
-  CLOSING: ["fechar", "proposta", "amanhã", "assinar", "começar", "parceria", "fechamento"],
-  OBJECTION_HANDLING: ["entendo", "porém", "veja bem", "na verdade", "comparado", "embora", "justamente"],
-  TECHNICAL: ["mobile", "google", "algoritmo", "ads", "seo", "conversão", "leads", "gmn"],
-  DISCOVERY: ["como", "quando", "onde", "por que", "qual", "quais", "ajudar"]
+  CLOSING: ["fechar", "proposta", "amanhã", "assinar", "começar", "parceria", "fechamento", "fechado"],
+  OBJECTION_HANDLING: ["entendo", "porém", "veja bem", "na verdade", "comparado", "embora", "justamente", "compreendo"],
+  TECHNICAL: ["mobile", "google", "algoritmo", "ads", "seo", "conversão", "leads", "gmn", "site", "premium"],
+  DISCOVERY: ["como", "quando", "onde", "por que", "qual", "quais", "ajudar", "entender"]
 };
 
 export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: LocalBrainProps) {
@@ -47,6 +47,7 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
         env.useBrowserCache = true;
         env.allowRemoteModels = true;
 
+        // Carrega um modelo leve para análise semântica local
         classifierRef.current = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', {
           progress_callback: (p: any) => {
             if (p.status === 'progress') setProgress(p.progress);
@@ -54,6 +55,7 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
         });
         setStatus('ready');
       } catch (err) {
+        console.error("Erro IA Local:", err);
         setStatus('idle');
       }
     }
@@ -73,7 +75,7 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
         let detectedTone = "NEUTRAL";
         let detectedIntent = "GENERAL";
 
-        // Busca em dicionários com prioridade de autoridade
+        // Varredura de dicionários semânticos proprietários
         for (const [tone, keywords] of Object.entries(TONE_DICTIONARY)) {
           if (keywords.some(k => lowerText.includes(k))) {
             detectedTone = tone;
@@ -88,15 +90,15 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
           }
         }
 
-        let conclusion = "Processando semântica...";
+        let conclusion = "Processando semântica local...";
         if (detectedTone === "AUTHORITY" && detectedIntent === "CLOSING") {
-          conclusion = "Forte autoridade comercial detectada.";
+          conclusion = "Forte autoridade comercial detectada localmente.";
         } else if (detectedTone === "HESITATION") {
-          conclusion = "Hesitação identificada. Requer mais firmeza.";
+          conclusion = "Hesitação identificada pelo motor local.";
         } else if (detectedIntent === "TECHNICAL") {
           conclusion = "Domínio técnico demonstrado.";
         } else {
-          conclusion = "Discurso em fase de qualificação.";
+          conclusion = "Discurso em fase de qualificação neural.";
         }
 
         const fullAnalysis = {
@@ -111,11 +113,12 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
         setStatus('ready');
         if (onAnalysisComplete) onAnalysisComplete(fullAnalysis);
       } catch (e) {
+        console.error("Inference Error:", e);
         setStatus('ready');
       }
     }
     
-    const timeout = setTimeout(runInference, 300);
+    const timeout = setTimeout(runInference, 500);
     return () => clearTimeout(timeout);
   }, [text, status]);
 
@@ -135,14 +138,14 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
 
   if (!text || text.length < 3) return (
     <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 text-center">
-      <p className="text-[9px] font-black uppercase tracking-[0.5em] text-white/20">Aguardando Início de Pitch</p>
+      <p className="text-[9px] font-black uppercase tracking-[0.5em] text-white/20">Aguardando Início de Pitch para Análise Local</p>
     </div>
   );
 
   return (
     <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-6 animate-in fade-in">
       <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-primary">
-        <Activity className="h-4 w-4" /> Análise Neural Instantânea
+        <Activity className="h-4 w-4" /> Análise Neural 100% Local
       </div>
 
       {analysis ? (
@@ -150,13 +153,13 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-[8px] font-black text-white/40 uppercase tracking-widest">
-                <Volume2 className="h-3 w-3" /> Dicionário de Tom
+                <Volume2 className="h-3 w-3" /> Tom Detectado
               </div>
               <p className="text-xs font-black text-white uppercase">{analysis.tone}</p>
             </div>
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-[8px] font-black text-white/40 uppercase tracking-widest">
-                <Target className="h-3 w-3" /> Dicionário de Intenção
+                <Target className="h-3 w-3" /> Intenção Detectada
               </div>
               <p className="text-xs font-black text-white uppercase">{analysis.intent}</p>
             </div>
@@ -164,7 +167,7 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
 
           <div className="space-y-2">
             <div className="flex justify-between items-center text-[9px] font-black uppercase">
-              <span className="text-white/40">Convicção:</span>
+              <span className="text-white/40">Convicção Neural:</span>
               <span className="text-primary">{(analysis.score * 100).toFixed(0)}%</span>
             </div>
             <Progress value={analysis.score * 100} className="h-1 bg-white/5" />
@@ -178,7 +181,7 @@ export function LocalBrain({ text, onAnalysisComplete, statusOnly = false }: Loc
         </div>
       ) : (
         <div className="flex items-center gap-2 text-[8px] font-black uppercase text-white/20 italic">
-          <Loader2 className="h-3 w-3 animate-spin" /> Mapeando padrões semânticos...
+          <Loader2 className="h-3 w-3 animate-spin" /> Mapeando padrões localmente...
         </div>
       )}
     </div>
