@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from "react";
@@ -42,7 +41,8 @@ import {
   Dog,
   Music,
   Stethoscope as StethoscopeIcon,
-  PhoneCall
+  PhoneCall,
+  Coins
 } from "lucide-react";
 import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -62,6 +62,7 @@ export function RecrutamentoClient() {
   
   const [isLoading, setIsLoading] = useState(false);
   const [consentAccepted, setConsentAccepted] = useState(false);
+  const [outboundAccepted, setOutboundAccepted] = useState(false);
   
   const [formData, setFormData] = useState({
     name: "",
@@ -151,6 +152,10 @@ export function RecrutamentoClient() {
       toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos de segurança.", variant: "destructive" });
       return;
     }
+    if (step === 2 && !outboundAccepted) {
+      toast({ title: "Confirmação Necessária", description: "Você precisa confirmar que entende a dinâmica de Outbound Ativo.", variant: "destructive" });
+      return;
+    }
     setStep(prev => prev + 1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -175,7 +180,7 @@ export function RecrutamentoClient() {
           status: 'PENDENTE_AVALIACAO_HUMANA'
         });
       }
-      setStep(20); 
+      setStep(21); 
     } catch (error) {
       console.error(error);
       toast({ title: "Erro no Envio", description: "Ocorreu um problema ao salvar seu dossiê.", variant: "destructive" });
@@ -198,7 +203,7 @@ export function RecrutamentoClient() {
           </div>
 
           <div className="flex items-center gap-2 mb-12 overflow-x-auto pb-4 no-scrollbar">
-            {Array.from({ length: 19 }).map((_, i) => (
+            {Array.from({ length: 20 }).map((_, i) => (
               <div key={i} className={cn("h-1 min-w-[20px] flex-1 rounded-full transition-all duration-500", step >= (i + 1) ? "bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
             ))}
           </div>
@@ -232,12 +237,47 @@ export function RecrutamentoClient() {
                 </div>
                 
                 <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] shadow-xl w-full md:w-auto">
-                  Iniciar Treinamento <ChevronRight size={18} />
+                  Próximo Passo <ChevronRight size={18} />
                 </Button>
               </div>
             )}
 
             {step === 2 && (
+              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                <div className="p-8 rounded-[2.5rem] bg-amber-500/10 border border-amber-500/20 space-y-8">
+                  <div className="flex items-center gap-3 text-amber-400 font-black uppercase text-[10px]"><Zap size={16} /> BRIEFING DE OPERAÇÃO: O MÉTODO SAPIENT</div>
+                  <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">DINÂMICA DE OUTBOUND ATIVO</h3>
+                  <p className="text-lg text-white/60 leading-relaxed">
+                    Diferente de agências tradicionais, aqui você não espera o lead chegar. Nós entregamos <strong>"O Ouro"</strong> nas suas mãos.
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="p-6 bg-black/40 rounded-3xl border border-white/5 space-y-4">
+                      <p className="text-[10px] font-black text-amber-300 uppercase">O QUE VOCÊ RECEBE:</p>
+                      <p className="text-sm text-white/70 italic leading-relaxed">O nome do lead, o contato direto e o diagnóstico pronto de onde ele está <strong>vazando dinheiro</strong> agora.</p>
+                    </div>
+                    <div className="p-6 bg-black/40 rounded-3xl border border-white/5 space-y-4">
+                      <p className="text-[10px] font-black text-primary uppercase">O SEU DESAFIO:</p>
+                      <p className="text-sm text-white/70 italic leading-relaxed">O cliente não está esperando sua ligação. Você deve ser um <strong>Cirurgião</strong>: interromper, mostrar o problema e fechar a reunião.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4 p-6 rounded-[2rem] bg-amber-500/5 border border-amber-500/20">
+                    <Checkbox id="outbound" checked={outboundAccepted} onCheckedChange={(c) => setOutboundAccepted(c === true)} />
+                    <label htmlFor="outbound" className="text-xs text-white font-bold leading-tight cursor-pointer uppercase">
+                      Entendo que a dinâmica é Outbound Ativo e receberei leads com gargalos já explicados para agir com precisão.
+                    </label>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Treinamento <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {step === 3 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-indigo-500/10 border border-indigo-500/20 space-y-8">
                   <div className="flex items-center gap-3 text-indigo-400 font-black uppercase text-[10px]"><BookOpen size={16} /> Módulo 01: Mentalidade Comercial</div>
@@ -261,7 +301,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 3 && (
+            {step === 4 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-amber-500/10 border border-amber-500/20 space-y-8">
                   <div className="flex items-center gap-3 text-amber-400 font-black uppercase text-[10px]"><Search size={16} /> Módulo 02: O Caçador de Gargalos</div>
@@ -285,7 +325,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 4 && (
+            {step === 5 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-primary/10 border border-primary/20 space-y-8">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><TrendingUp size={16} /> Módulo 03: Performance Ads &amp; GMN</div>
@@ -308,7 +348,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 5 && (
+            {step === 6 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-6">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><TrendingUp size={16} /> DESAFIO 01: ADS</div>
@@ -326,7 +366,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 6 && (
+            {step === 7 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white text-black space-y-6">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Mic size={16} /> DESAFIO DE VOZ: REVERSÃO</div>
@@ -347,7 +387,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 7 && (
+            {step === 8 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-cyan-500/10 border border-cyan-500/20 space-y-8">
                   <div className="flex items-center gap-3 text-cyan-400 font-black uppercase text-[10px]"><Layout size={16} /> Módulo 04: Vitrine Digital</div>
@@ -370,7 +410,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 8 && (
+            {step === 9 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-pink-500/10 border border-pink-500/20 space-y-8">
                   <div className="flex items-center gap-3 text-pink-400 font-black uppercase text-[10px]"><Palette size={16} /> Módulo 05: Psicologia de Valor</div>
@@ -393,7 +433,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 9 && (
+            {step === 10 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-6">
                   <div className="flex items-center gap-3 text-cyan-400 font-black uppercase text-[10px]"><Layout size={16} /> DESAFIO 02: SITES &amp; DESIGN</div>
@@ -411,7 +451,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 10 && (
+            {step === 11 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-violet-500/10 border border-violet-500/20 space-y-8">
                   <div className="flex items-center gap-3 text-violet-400 font-black uppercase text-[10px]"><Bot size={16} /> Módulo 06: Chat IA &amp; Automação</div>
@@ -434,7 +474,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 11 && (
+            {step === 12 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-blue-500/10 border border-blue-500/20 space-y-8">
                   <div className="flex items-center gap-3 text-blue-400 font-black uppercase text-[10px]"><Users size={16} /> Módulo 07: Gestão de Autoridade</div>
@@ -457,7 +497,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 12 && (
+            {step === 13 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-6">
                   <div className="flex items-center gap-3 text-violet-400 font-black uppercase text-[10px]"><Bot size={16} /> DESAFIO 03: ESCALA &amp; ATENDIMENTO</div>
@@ -475,7 +515,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 13 && (
+            {step === 14 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-emerald-500/10 border border-emerald-500/20 space-y-8">
                   <div className="flex items-center gap-3 text-emerald-400 font-black uppercase text-[10px]"><Briefcase size={16} /> Módulo 08: Especialização (Parte 1)</div>
@@ -506,7 +546,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 14 && (
+            {step === 15 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-rose-500/10 border border-rose-500/20 space-y-8">
                   <div className="flex items-center gap-3 text-rose-400 font-black uppercase text-[10px]"><Sparkles size={16} /> Módulo 09: Especialização (Parte 2)</div>
@@ -537,7 +577,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 15 && (
+            {step === 16 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-primary/10 border border-primary/20 space-y-8">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><PhoneCall size={16} /> Módulo 10: O Consultor Cirurgião</div>
@@ -561,7 +601,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 16 && (
+            {step === 17 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white text-black space-y-6">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Mic size={16} /> DESAFIO: ABERTURA CIRÚRGICA</div>
@@ -585,7 +625,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 17 && (
+            {step === 18 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-green-500/10 border border-green-500/20 space-y-8">
                   <div className="flex items-center gap-3 text-green-400 font-black uppercase text-[10px]"><CircleDollarSign size={16} /> Módulo 11: Planos &amp; Ecossistema</div>
@@ -611,7 +651,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 18 && (
+            {step === 19 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white text-black space-y-8">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Video size={16} /> Módulo 12: Postura &amp; Etiqueta</div>
@@ -638,7 +678,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 19 && (
+            {step === 20 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="p-8 rounded-[2.5rem] bg-white text-black space-y-6">
                   <div className="flex items-center gap-3 text-primary font-black uppercase text-[10px]"><Trophy size={16} /> O DESAFIO FINAL</div>
@@ -661,7 +701,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 20 && (
+            {step === 21 && (
               <div className="space-y-12 animate-in zoom-in duration-700 text-center py-10">
                 <div className="h-24 w-24 rounded-full bg-green-500 flex items-center justify-center mx-auto shadow-2xl animate-glow-pulse"><Trophy size={40} className="text-white" /></div>
                 <div className="space-y-4">
