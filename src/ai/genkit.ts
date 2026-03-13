@@ -1,15 +1,9 @@
 import { genkit } from 'genkit';
-import { googleAI } from '@genkit-ai/google-genai';
 
 /**
- * @fileOverview Inicialização do motor de IA Sapient Studio.
- * Configurado para o modelo Gemini 1.5 Flash utilizando a chave do ambiente GOOGLE_API_KEY.
+ * @fileOverview Inicialização do motor Sapient Studio.
+ * Configurado para operação local e fluxos determinísticos, sem dependências de APIs externas pagas.
  */
 export const ai = genkit({
-  plugins: [
-    googleAI({ 
-      apiKey: process.env.GOOGLE_API_KEY
-    })
-  ],
-  model: 'googleai/gemini-1.5-flash',
+  plugins: [], // Removido plugins de IA externa
 });

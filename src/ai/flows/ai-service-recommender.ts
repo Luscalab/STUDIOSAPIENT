@@ -1,10 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Motor de Diagnóstico Sapient - Fluxo Determinístico e Personalizado.
- * 
- * Este fluxo coleta informações estratégicas para identificar gargalos no negócio do cliente
- * e sugerir as soluções corretas entre o nosso portfólio de serviços.
+ * @fileOverview Motor de Diagnóstico Sapient - Fluxo Determinístico.
+ * Coleta informações para identificar gargalos sem uso de modelos LLM externos.
  */
 
 import { z } from 'genkit';
@@ -30,9 +28,6 @@ const RecommenderInputSchema = z.object({
 
 export type RecommenderInput = z.infer<typeof RecommenderInputSchema>;
 
-/**
- * Define as camadas do diálogo.
- */
 const STEPS = [
   {
     id: 1,
@@ -55,7 +50,7 @@ const STEPS = [
   {
     id: 4,
     question: "Qual é o seu maior 'gargalo' hoje? O que mais te impede de crescer?",
-    options: [], // Será preenchido dinamicamente com base no nicho
+    options: [], 
     isMulti: true
   },
   {
@@ -84,7 +79,6 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   const userResponses = input.history.filter(m => m.role === 'user');
   const stepIndex = userResponses.length;
 
-  // Fim do fluxo
   if (stepIndex >= STEPS.length) {
     return {
       reply: STEPS[STEPS.length - 1].question,
@@ -101,9 +95,7 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   let options = [...currentStep.options];
   let forceText = currentStep.forceText || false;
 
-  // Lógica de "Outros" no primeiro passo
   if (stepIndex === 1 && input.history[0]?.content === "Outros") {
-    // Se o usuário acabou de responder "Outros", pedimos o texto
     if (input.currentMessage === "Outros") {
        return {
         reply: "Sem problemas! Qual seria a sua área específica?",
@@ -116,42 +108,16 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     }
   }
 
-  // Personalização da Pergunta de Gargalos (Passo 4)
   if (stepIndex === 3) {
     const niche = userResponses[0]?.content || "";
-    
     if (niche.includes("Saúde") || niche.includes("Direito") || niche.includes("Estética")) {
-      options = [
-        "Clientes só perguntam preço",
-        "Minha imagem parece amadora",
-        "Demoro a responder no WhatsApp",
-        "Não apareço quando buscam no Google",
-        "Tenho vergonha de postar"
-      ];
+      options = ["Clientes só perguntam preço", "Minha imagem parece amadora", "Demoro a responder no WhatsApp", "Não apareço quando buscam no Google", "Tenho vergonha de postar"];
     } else if (niche.includes("Alimentação")) {
-      options = [
-        "Poucos pedidos no delivery",
-        "Salão vazio no meio da semana",
-        "Minhas fotos não abrem o apetite",
-        "Não apareço quando buscam 'onde comer'",
-        "Demoro a responder no WhatsApp/iFood"
-      ];
+      options = ["Poucos pedidos no delivery", "Salão vazio no meio da semana", "Minhas fotos não abrem o apetite", "Não apareço quando buscam 'onde comer'", "Demoro a responder no WhatsApp/iFood"];
     } else if (niche.includes("Vendas") || niche.includes("Tecnologia")) {
-      options = [
-        "Pouca gente visita meu site",
-        "As pessoas não confiam na marca",
-        "Perco vendas por falta de suporte",
-        "Anúncios estão caros e sem retorno",
-        "Meu site é lento/ruim"
-      ];
+      options = ["Pouca gente visita meu site", "As pessoas não confiam na marca", "Perco vendas por falta de suporte", "Anúncios estão caros e sem retorno", "Meu site é lento/ruim"];
     } else {
-      options = [
-        "Preciso de mais contatos",
-        "Quero ser visto como autoridade",
-        "Falta de tempo para marketing",
-        "Atendimento muito bagunçado",
-        "Minha marca está desatualizada"
-      ];
+      options = ["Preciso de mais contatos", "Quero ser visto como autoridade", "Falta de tempo para marketing", "Atendimento muito bagunçado", "Minha marca está desatualizada"];
     }
   }
 
