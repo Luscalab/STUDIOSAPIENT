@@ -10,6 +10,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { 
   Mic, 
   MicOff, 
   Zap, 
@@ -30,7 +37,8 @@ import {
   Briefcase,
   Gem,
   Palette,
-  TrendingUp
+  TrendingUp,
+  UserCircle
 } from "lucide-react";
 import { useFirebase, useFirestore, useDoc, initiateSignOut, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { collection, addDoc, serverTimestamp, doc } from "firebase/firestore";
@@ -83,15 +91,17 @@ export function RecrutamentoClient() {
 
   const { data: profile, isLoading: isProfileLoading } = useDoc(profileRef);
 
+  // Redirecionamento se não logado
   useEffect(() => {
     if (!isUserLoading && !user) {
       router.push("/vendas/auth");
     }
     if (user && formData.email === "") {
-      setFormData(prev => ({ ...prev, email: user.email || "", name: user.displayName || "" }));
+      setFormData(prev => ({ ...prev, email: user.email || "" }));
     }
   }, [user, isUserLoading, router]);
 
+  // Salta para o curso se o perfil já existir
   useEffect(() => {
     if (profile && step === 1) {
       setFormData(prev => ({
@@ -100,7 +110,7 @@ export function RecrutamentoClient() {
         consentAccepted: true
       }));
       setConsentAccepted(true);
-      setStep(2);
+      setStep(2); // Vai direto para o Método Outbound
     }
   }, [profile]);
 
@@ -163,7 +173,6 @@ export function RecrutamentoClient() {
 
   const handleNextStep = () => {
     if (step === 1) {
-      // CAMPOS OBRIGATÓRIOS: Nome, Email, WhatsApp e Consentimento
       if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !consentAccepted) {
         toast({ title: "Dados Incompletos", description: "Preencha os campos obrigatórios (Nome, E-mail e WhatsApp) e aceite os termos.", variant: "destructive" });
         return;
@@ -239,14 +248,51 @@ export function RecrutamentoClient() {
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div className="text-left">
-              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">Portal de Imersão Comercial studiosapient</Badge>
+              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">Imersão Comercial studiosapient</Badge>
               <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">Imersão <span className="text-primary italic lowercase">comercial.</span></h1>
             </div>
             <div className="flex items-center gap-4 bg-white/5 p-4 rounded-3xl border border-white/10">
                <div className="text-right">
                  <p className="text-[8px] font-black uppercase text-white/20 tracking-widest">Consultor ativo,</p>
-                 <p className="text-[10px] font-bold text-white uppercase">{user?.displayName || user?.email?.split('@')[0]}</p>
+                 <p className="text-[10px] font-bold text-white uppercase">{profile?.name || user?.email?.split('@')[0]}</p>
                </div>
+               
+               <Dialog>
+                 <DialogTrigger asChild>
+                   <button className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                     <UserCircle size={18} />
+                   </button>
+                 </DialogTrigger>
+                 <DialogContent className="bg-[#0c0a1a] border-white/10 text-white rounded-[2rem] max-w-md">
+                   <DialogHeader>
+                     <DialogTitle className="text-xl font-black uppercase tracking-tighter">Meu Perfil</DialogTitle>
+                   </DialogHeader>
+                   <div className="space-y-4 py-4">
+                     <div className="grid grid-cols-2 gap-4">
+                       <div className="space-y-1">
+                         <p className="text-[8px] font-black uppercase text-white/30 tracking-widest">Nome Completo</p>
+                         <p className="text-xs font-bold">{profile?.name || 'Não informado'}</p>
+                       </div>
+                       <div className="space-y-1">
+                         <p className="text-[8px] font-black uppercase text-white/30 tracking-widest">WhatsApp</p>
+                         <p className="text-xs font-bold">{profile?.phone || 'Não informado'}</p>
+                       </div>
+                       <div className="space-y-1">
+                         <p className="text-[8px] font-black uppercase text-white/30 tracking-widest">Cidade/Estado</p>
+                         <p className="text-xs font-bold">{profile?.cityState || 'Não informado'}</p>
+                       </div>
+                       <div className="space-y-1">
+                         <p className="text-[8px] font-black uppercase text-white/30 tracking-widest">Instagram</p>
+                         <p className="text-xs font-bold">{profile?.instagram || 'Não informado'}</p>
+                       </div>
+                     </div>
+                     <div className="pt-4 border-t border-white/5">
+                       <p className="text-[9px] text-white/20 font-bold uppercase text-center">Os dados acima são utilizados para sua identificação oficial nos dossiês de recrutamento.</p>
+                     </div>
+                   </div>
+                 </DialogContent>
+               </Dialog>
+
                <button onClick={handleSignOut} className="h-10 w-10 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all">
                  <LogOut size={18} />
                </button>
@@ -264,8 +310,8 @@ export function RecrutamentoClient() {
             {step === 1 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="space-y-4">
-                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Perfil do Colaborador</h2>
-                    <p className="text-white/40 text-sm">Preencha sua identificação profissional para começar. Campos com (*) são obrigatórios.</p>
+                    <h2 className="text-2xl font-black uppercase tracking-tighter">1. Identificação de Consultor</h2>
+                    <p className="text-white/40 text-sm">Olá! Precisamos salvar seus dados básicos apenas uma vez para vincular sua conta ao nosso sistema de formação.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Nome Completo *" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
@@ -318,7 +364,7 @@ export function RecrutamentoClient() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  {profile ? null : <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>}
                   <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Ads & GMN <ChevronRight size={16}/></Button>
                 </div>
               </div>

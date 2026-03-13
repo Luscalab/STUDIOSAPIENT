@@ -8,19 +8,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useFirebase } from "@/firebase";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, Lock, ArrowRight, Loader2, ShieldCheck, Key } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function AuthPage() {
   const [mode, setStep] = useState<'login' | 'register'>('login');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [activationCode, setActivationCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { auth, user } = useFirebase();
   const router = useRouter();
   const { toast } = useToast();
+
+  const REQUIRED_ACTIVATION_CODE = "COLABSAPI8569";
 
   useEffect(() => {
     if (user) {
@@ -31,6 +34,16 @@ export default function AuthPage() {
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) return;
+    
+    if (mode === 'register' && activationCode !== REQUIRED_ACTIVATION_CODE) {
+      toast({
+        title: "Código Inválido",
+        description: "O código de ativação inserido está incorreto.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsLoading(true);
     
     try {
@@ -66,7 +79,7 @@ export default function AuthPage() {
             <Badge className="bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">
               Portal de Imersão Sapient
             </Badge>
-            <h1 className="font-headline text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none">
+            <h1 className="font-headline text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none text-white">
               Sapient <span className="text-primary italic lowercase">studio.</span>
             </h1>
             <p className="text-white/40 text-sm font-medium">Acesse o ambiente de treinamento e recrutamento de elite.</p>
@@ -75,13 +88,13 @@ export default function AuthPage() {
           <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-12 backdrop-blur-3xl shadow-2xl space-y-8">
             <div className="flex bg-black/40 p-1.5 rounded-2xl border border-white/5">
               <button 
-                onClick={() => setStep('login')}
+                onClick={() => { setStep('login'); setIsLoading(false); }}
                 className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${mode === 'login' ? "bg-primary text-white shadow-lg" : "text-white/30 hover:text-white"}`}
               >
                 Entrar
               </button>
               <button 
-                onClick={() => setStep('register')}
+                onClick={() => { setStep('register'); setIsLoading(false); }}
                 className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${mode === 'register' ? "bg-primary text-white shadow-lg" : "text-white/30 hover:text-white"}`}
               >
                 Cadastrar
@@ -89,7 +102,7 @@ export default function AuthPage() {
             </div>
 
             <form onSubmit={handleEmailAuth} className="space-y-4">
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div className="relative group">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20 group-focus-within:text-primary transition-colors" />
                   <Input 
@@ -97,7 +110,7 @@ export default function AuthPage() {
                     placeholder="Seu e-mail" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/5 border-white/10 h-14 pl-12 rounded-2xl font-bold focus:ring-primary/20 transition-all"
+                    className="bg-white/5 border-white/10 h-14 pl-12 rounded-2xl font-bold focus:ring-primary/20 transition-all text-white placeholder:text-white/20"
                   />
                 </div>
                 <div className="relative group">
@@ -107,15 +120,27 @@ export default function AuthPage() {
                     placeholder="Sua senha" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-white/5 border-white/10 h-14 pl-12 rounded-2xl font-bold focus:ring-primary/20 transition-all"
+                    className="bg-white/5 border-white/10 h-14 pl-12 rounded-2xl font-bold focus:ring-primary/20 transition-all text-white placeholder:text-white/20"
                   />
                 </div>
+                {mode === 'register' && (
+                  <div className="relative group animate-in slide-in-from-top-2">
+                    <Key className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary animate-pulse" />
+                    <Input 
+                      type="text" 
+                      placeholder="Código de Ativação" 
+                      value={activationCode}
+                      onChange={(e) => setActivationCode(e.target.value)}
+                      className="bg-primary/5 border-primary/20 h-14 pl-12 rounded-2xl font-black tracking-widest focus:ring-primary/20 transition-all text-primary placeholder:text-primary/30"
+                    />
+                  </div>
+                )}
               </div>
 
               <Button disabled={isLoading} className="w-full h-16 bg-primary hover:bg-primary/90 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-primary/20">
                 {isLoading ? <Loader2 className="animate-spin h-5 w-5" /> : (
                   <span className="flex items-center gap-2">
-                    {mode === 'login' ? 'Acessar Imersão' : 'Criar minha Conta'} 
+                    {mode === 'login' ? 'Acessar Imersão' : 'Ativar Minha Conta'} 
                     <ArrowRight size={16} />
                   </span>
                 )}
