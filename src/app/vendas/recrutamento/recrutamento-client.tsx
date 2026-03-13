@@ -41,7 +41,8 @@ import {
   ArrowRight,
   Info,
   CheckCircle2,
-  AlertTriangle
+  AlertTriangle,
+  Coins
 } from "lucide-react";
 import { useFirebase, useFirestore, initiateAnonymousSignIn } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -429,7 +430,7 @@ export function RecrutamentoClient() {
                     <p className="text-[10px] font-black text-primary mb-2 uppercase">BRIEFING CLIENTE:</p>
                     <p className="text-sm font-bold">Dr. Ricardo gastou R$ 5.000 no Google e diz que "só vem curioso querendo saber o preço". Ele quer parar os anúncios agora porque "Google não funciona".</p>
                   </div>
-                  <p className="text-xs font-bold text-white/40 uppercase italic">Como você explica para ele o conceito de "Filtro de Intenção" usando a analogia do segurança na porta?</p>
+                  <p className="text-xs font-bold text-white/40 uppercase italic">Como você explica para ele o concept de "Filtro de Intenção" usando a analogia do segurança na porta?</p>
                 </div>
                 <Textarea value={formData.ansAds} onChange={(e) => setFormData({...formData, ansAds: e.target.value})} placeholder="Escreva aqui sua explicação estratégica..." className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold" />
                 <div className="flex gap-4">
@@ -598,7 +599,7 @@ export function RecrutamentoClient() {
                     <p className="text-[10px] font-black text-violet-400 mb-2 uppercase">BRIEFING CLIENTE:</p>
                     <p className="text-sm font-bold">Imobiliária recebe 300 leads por dia no WhatsApp vindo de anúncios. A secretária só consegue responder 50. Eles reclamam que os leads "desistem rápido" e o dono quer cortar o marketing.</p>
                   </div>
-                  <p className="text-xs font-bold text-white/40 uppercase italic">Use o conceito de "Custo de Oportunidade" para convencê-lo de que o problema não é o marketing, mas o gargalo no atendimento que a IA resolveria.</p>
+                  <p className="text-xs font-bold text-white/40 uppercase italic">Use o concept de "Custo de Oportunidade" para convencê-lo de que o problema não é o marketing, mas o gargalo no atendimento que a IA resolveria.</p>
                 </div>
                 <Textarea value={formData.ansChat} onChange={(e) => setFormData({...formData, ansChat: e.target.value})} placeholder="Seu argumento de lucro aqui..." className="bg-white/5 border-white/10 min-h-[150px] rounded-2xl p-6 font-bold" />
                 <div className="flex gap-4">
@@ -729,13 +730,13 @@ export function RecrutamentoClient() {
 
             {step === 18 && (
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
-                <div className="p-8 rounded-[2.5rem] bg-green-500/10 border border-green-500/20 space-y-8">
-                  <div className="flex items-center gap-3 text-green-400 font-black uppercase text-[10px]"><CircleDollarSign size={16} /> Módulo 11: Planos &amp; Ecossistema</div>
+                <div className="p-8 rounded-[2.5rem] bg-green-500/10 border border-green-500/20 space-y-10">
+                  <div className="flex items-center gap-3 text-green-400 font-black uppercase text-[10px]"><CircleDollarSign size={16} /> Módulo 11: Planos &amp; Precificação Estratégica</div>
                   <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">VENDA O ECOSSISTEMA, NÃO A TABELA.</h3>
                   
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="space-y-6">
-                      <p className="text-lg text-white/60 leading-relaxed">Nós buscamos o ecossistema ideal para tampar todos os vazamentos de lucro do cliente. Aqui estão as faixas sugeridas:</p>
+                      <p className="text-lg text-white/60 leading-relaxed">Identificamos o ecossistema ideal para estancar os vazamentos de lucro. Abaixo estão as bases médias de investimento:</p>
                       <div className="p-6 rounded-3xl bg-black/40 border border-white/10 space-y-2">
                         <p className="text-[10px] font-black text-green-400 uppercase">SOLUÇÃO PONTUAL</p>
                         <p className="text-sm text-white/70">Ex: Só Ads ou Só Site. R$ 2.5k - 5k/mês.</p>
@@ -747,13 +748,27 @@ export function RecrutamentoClient() {
                         <div className="absolute top-0 right-0 p-2"><Badge className="bg-primary text-white text-[7px] uppercase">CARRO-CHEFE</Badge></div>
                         <p className="text-[10px] font-black text-primary uppercase mb-1">ECOSSISTEMA BASE</p>
                         <p className="text-sm text-white/70">Ads + Landing Page + GMN. R$ 6k - 10k/mês.</p>
-                        <p className="text-[9px] text-white/40 mt-2">Por que vender: É o combo que garante ROI real. Sem site não tem conversão, sem Ads não tem tráfego.</p>
+                        <p className="text-[9px] text-white/40 mt-2">Por que vender: É o combo que garante ROI real e escala imediata.</p>
                       </div>
                       <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
                         <p className="text-[10px] font-black text-white/60 uppercase mb-1">AUTORIDADE TOTAL</p>
                         <p className="text-sm text-white/70">Tudo acima + IA + Social + Dossiês. R$ 15k+/mês.</p>
-                        <p className="text-[9px] text-white/30 mt-2">Ideal para: Grandes empresas que buscam domínio de mercado absoluto.</p>
+                        <p className="text-[9px] text-white/30 mt-2">Ideal para: Grandes empresas que buscam domínio absoluto de mercado.</p>
                       </div>
+                    </div>
+                  </div>
+
+                  <div className="p-8 rounded-[2rem] bg-white/5 border border-white/10 space-y-6">
+                    <div className="flex items-center gap-3 text-cyan-400 font-black uppercase text-[10px]">
+                      <Coins size={18} /> Política de Flexibilidade e Impacto
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <p className="text-xs text-white/50 leading-relaxed font-medium">
+                        Estes são <strong>valores base</strong>. Nossa precificação é estratégica e flexível: empresas de grande porte investem valores condizentes com o mercado de alto padrão, garantindo a entrega de máxima sofisticação técnica.
+                      </p>
+                      <p className="text-xs text-white/50 leading-relaxed font-medium">
+                        Contudo, a <strong>studiosapient</strong> realiza descontos para empresas de pequeno porte e profissionais autônomos, <strong>a fim de expandir o alcance da sapient studio</strong> e democratizar soluções profissionais que antes eram acessíveis apenas para gigantes.
+                      </p>
                     </div>
                   </div>
                 </div>
