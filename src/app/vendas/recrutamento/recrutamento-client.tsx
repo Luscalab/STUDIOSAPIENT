@@ -57,7 +57,10 @@ import {
   Globe,
   BarChart3,
   Dna,
-  Lock
+  Lock,
+  Volume2,
+  Smile,
+  Megaphone
 } from "lucide-react";
 import { useFirebase, useFirestore, useDoc, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
 import { collection, serverTimestamp, doc } from "firebase/firestore";
@@ -241,7 +244,7 @@ export function RecrutamentoClient() {
     addDocumentNonBlocking(colRef, candidateData)
       .then(() => {
         setIsLoading(false);
-        setStep(53);
+        setStep(63);
       })
       .catch((err) => {
         console.error(err);
@@ -277,7 +280,7 @@ export function RecrutamentoClient() {
     { title: "Estratégia de Nicho", icon: <Target size={24} />, step: 39, done: !!formData.ansNichos },
     { title: "Negociação de Valor", icon: <PieChart size={24} />, step: 45, done: !!formData.ansPreco },
     { title: "Audição Técnica", icon: <Mic size={24} />, step: 51, done: !!audio1Base64 },
-    { title: "Pitch de Elite", icon: <Trophy size={24} />, step: 52, done: !!audioFinalBase64 },
+    { title: "Pitch de Elite", icon: <Trophy size={24} />, step: 57, done: !!audioFinalBase64 },
   ];
 
   return (
@@ -418,7 +421,7 @@ export function RecrutamentoClient() {
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] font-black uppercase tracking-widest text-amber-500/60">Análise de Tempo</p>
-                    <p className="text-sm font-bold text-white/80">A imersão técnica exige cerca de 45 minutos para absorção total. Não pule etapas.</p>
+                    <p className="text-sm font-bold text-white/80">A imersão técnica exige cerca de 60 minutos para absorção total. Não pule etapas.</p>
                   </div>
                 </div>
                 <Button variant="outline" className="border-white/10 text-white/40 hover:text-white hover:bg-white/5 rounded-full font-black uppercase text-[10px] px-10 h-14">
@@ -439,7 +442,7 @@ export function RecrutamentoClient() {
                 </button>
                 
                 <div className="flex-1 flex items-center gap-2 overflow-x-auto py-2 no-scrollbar">
-                  {Array.from({ length: 53 }).map((_, i) => (
+                  {Array.from({ length: 63 }).map((_, i) => (
                     <div key={i} className={cn("h-1 min-w-[8px] flex-1 rounded-full transition-all duration-500", step >= (i + 1) ? "bg-primary shadow-[0_0_10px_rgba(139,92,246,0.5)]" : "bg-white/5")} />
                   ))}
                 </div>
@@ -1340,13 +1343,101 @@ export function RecrutamentoClient() {
                     <Textarea value={formData.ansPreco} onChange={(e) => setFormData({...formData, ansPreco: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua defesa comercial de elite..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Prova de Voz 01: O Cirurgião <ChevronRight size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Preparação Vocal <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
-                {/* TESTES DE VOZ (PROVAS FINAIS) */}
+                {/* MÓDULO 09: PREPARAÇÃO VOCAL (5 SEÇÕES) */}
                 {step === 51 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 09: Seção 1/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Oratória de Impacto</Badge>
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">A Voz do <br/>Estrategista</h2>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Em uma ligação outbound, o cliente não te vê. Sua voz é seu design. Ela deve projetar **autoridade técnica**, calma e segurança. Evite vícios de linguagem (hmmm, ééé) e mantenha um ritmo cadenciado.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Gatilho de Interrupção) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 52 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 09: Seção 2/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Gatilhos</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">O Gancho dos 3 Segundos</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Você tem 3 segundos para não ser desligado. Não peça "licença para falar". Vá direto ao ponto técnico: "Identifiquei uma falha de 8 segundos no carregamento da sua página de vendas."
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Tonality) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 53 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 09: Seção 3/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Vocal</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">A "Voz do Cirurgião"</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      O cirurgião não corre para dar o diagnóstico. Ele fala com clareza e autoridade. Baixe o tom da voz no final das frases. Isso transmite que você detém o conhecimento que o cliente precisa.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Espelhamento) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 54 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 09: Seção 4/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Psicologia</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">O Efeito Curiosidade</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Não entregue toda a solução por telefone. Dê o diagnóstico (o erro) e guarde a cura para a reunião. Sua voz deve sinalizar que existe um método proprietário que resolve o problema.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Briefing Vocal) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 55 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 09: Seção 5/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Preparação Final</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">O Desafio de 40 Segundos</h3>
+                    <div className="p-8 rounded-[3rem] bg-indigo-500/10 border border-indigo-500/20 space-y-4">
+                      <p className="text-white font-bold text-sm italic leading-relaxed">
+                        No próximo passo, você gravará um áudio. Respire fundo, sorria levemente (isso muda o timbre) e fale como se o cliente estivesse perdendo mil reais por minuto.
+                      </p>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Prova de Voz 01 <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* TESTE DE VOZ 01 (ETAPA 56) */}
+                {step === 56 && (
                   <div className="space-y-8 animate-in fade-in">
                     <div className="text-center space-y-4">
                       <div className="h-16 w-16 rounded-full bg-primary/20 text-primary flex items-center justify-center mx-auto mb-6"><Mic size={32} /></div>
@@ -1365,12 +1456,101 @@ export function RecrutamentoClient() {
 
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                      <Button disabled={!audio1Base64} onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Última Etapa: Pitch Final <ChevronRight size={16}/></Button>
+                      <Button disabled={!audio1Base64} onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Avançar para Trilha de Pitch <ChevronRight size={16}/></Button>
                     </div>
                   </div>
                 )}
 
-                {step === 52 && (
+                {/* MÓDULO 10: TRILHA DE PITCH (5 SEÇÕES) */}
+                {step === 57 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 10: Seção 1/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Branding Pessoal</Badge>
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">O Pitch <br/>Inquestionável</h2>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Seu pitch final deve mostrar que você é o sócio estratégico que o cliente sonha ter. Não é sobre currículo, é sobre a capacidade de **resolver o problema técnico dele com um ecossistema completo.**
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Síntese de Pilares) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 58 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 10: Seção 2/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Estratégia</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">A Síntese Sapient</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Combine Ads, Engenharia e IA em uma única visão de lucro. "Eu ajudo empresas a pararem de queimar verba no Google através de sites de alta engenharia e triagem automática por IA."
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Vocal Energy) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 59 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 10: Seção 3/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Energia</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Entusiasmo Técnico</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Entusiasmo não é falar gritando. É a convicção nos dados. Transmita que você acredita piamente que o ROI do seu cliente vai explodir com a nossa metodologia. O tom deve ser vibrante e decisivo.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (O Fechamento) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 60 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 10: Seção 4/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Call to Action</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">A Chamada Direta</h3>
+                    <p className="text-lg text-white/60 leading-relaxed">
+                      Não termine com "o que você acha?". Termine com autoridade: "Estou pronto para auditar seu processo e escalar seu faturamento. Vamos começar?" A segurança no CTA é o que separa o amador do elite.
+                    </p>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próxima Seção (Dossiê Vocal) <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {step === 61 && (
+                  <div className="space-y-10 animate-in fade-in">
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 10: Seção 5/5</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Checklist Final</Badge>
+                    </div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter">Sua Assinatura de Valor</h3>
+                    <div className="p-8 rounded-[3rem] bg-cyan-500/10 border border-cyan-500/20 space-y-4">
+                      <p className="text-white font-bold text-sm italic leading-relaxed">
+                        No próximo passo, grave seu Pitch Final de 60s. Nele, você deve se vender como a solução definitiva para o crescimento da agência. Boa sorte, estrategista.
+                      </p>
+                    </div>
+                    <div className="flex gap-4">
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Iniciar Pitch de Elite <ChevronRight size={16}/></Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* TESTE DE VOZ 02 (ETAPA 62) */}
+                {step === 62 && (
                   <div className="space-y-8 animate-in fade-in">
                     <div className="text-center space-y-4">
                       <h2 className="text-3xl font-black uppercase">O Pitch de Elite</h2>
@@ -1393,7 +1573,7 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {step === 53 && (
+                {step === 63 && (
                   <div className="space-y-12 animate-in zoom-in duration-700 text-center py-10">
                     <div className="h-24 w-24 rounded-full bg-green-500 flex items-center justify-center mx-auto shadow-2xl animate-glow-pulse"><Trophy size={40} className="text-white" /></div>
                     <div className="space-y-4">
