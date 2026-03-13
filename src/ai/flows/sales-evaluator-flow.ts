@@ -1,7 +1,6 @@
-
 'use server';
 /**
- * @fileOverview Fluxo de avaliação de candidatos a vendas utilizando Gemini 1.5 Pro.
+ * @fileOverview Fluxo de avaliação de candidatos a vendas utilizando Gemini 1.5 Flash.
  * Analisa as respostas técnicas e o pitch comercial.
  */
 
@@ -64,7 +63,7 @@ Instruções de Avaliação:
 3. Gere um Score de 0 a 100.
 4. Defina o Veredito: APROVADO (Pronto para fechar), POTENCIAL (Precisa de treino) ou REPROVADO (Não alinhado).
 
-Forneça um feedback construtivo e direto.`,
+Forneça um feedback construtivo e direto utilizando a inteligência do Gemini 1.5 Flash.`,
 });
 
 const evaluateSalesCandidateFlow = ai.defineFlow(
