@@ -22,10 +22,11 @@ import {
   AlertCircle,
   LogOut,
   Zap,
-  Mic
+  Mic,
+  Mail
 } from "lucide-react";
-import { useFirebase, useFirestore, useCollection, useMemoFirebase, initiateSignOut } from "@/firebase";
-import { collection, query, orderBy, doc, updateDoc } from "firebase/firestore";
+import { useFirebase, useFirestore, useCollection, useMemoFirebase, initiateSignOut, updateDocumentNonBlocking } from "@/firebase";
+import { collection, query, orderBy, doc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -66,22 +67,31 @@ export function AdminClient() {
     c.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const updateStatus = async (id: string, status: string) => {
-    try {
-      const docRef = doc(db, 'sales_candidates', id);
-      await updateDoc(docRef, { status });
-      // Atualiza o estado local para refletir a mudança imediatamente
-      if (selectedCandidate?.id === id) {
-        setSelectedCandidate({...selectedCandidate, status});
-      }
-    } catch (e) {
-      console.error(e);
+  const updateStatus = (id: string, status: string) => {
+    const docRef = doc(db, 'sales_candidates', id);
+    updateDocumentNonBlocking(docRef, { status });
+    
+    // Atualiza o estado local para feedback imediato
+    if (selectedCandidate?.id === id) {
+      setSelectedCandidate({ ...selectedCandidate, status });
     }
   };
 
   const handleSignOut = () => {
     initiateSignOut(auth);
     router.push("/vendas/auth");
+  };
+
+  const formatDate = (timestamp: any) => {
+    if (!timestamp) return "-";
+    try {
+      if (typeof timestamp.toDate === 'function') {
+        return timestamp.toDate().toLocaleDateString('pt-BR');
+      }
+      return new Date(timestamp).toLocaleDateString('pt-BR');
+    } catch (e) {
+      return "-";
+    }
   };
 
   return (
@@ -146,7 +156,7 @@ export function AdminClient() {
                       <div className="relative z-10 flex justify-between items-start">
                         <div className="space-y-3">
                           <div className="space-y-1">
-                            <h3 className="font-black uppercase tracking-tight text-sm">{c.name}</h3>
+                            <h3 className="font-black uppercase tracking-tight text-sm">{c.name || "Candidato sem nome"}</h3>
                             <p className={cn("text-[10px] font-bold uppercase tracking-widest", selectedCandidate?.id === c.id ? "text-white/60" : "text-white/30")}>
                               {c.cityState || 'Localização não informada'}
                             </p>
@@ -157,7 +167,7 @@ export function AdminClient() {
                               c.status === 'APROVADO' ? "bg-green-500 text-white" : 
                               c.status === 'REPROVADO' ? "bg-red-500 text-white" : "bg-amber-500 text-black"
                             )}>
-                              {c.status?.replace('_', ' ') || 'PENDENTE'}
+                              {c.status?.replace(/_/g, ' ') || 'PENDENTE'}
                             </Badge>
                           </div>
                         </div>
@@ -181,8 +191,8 @@ export function AdminClient() {
                       <div className="space-y-2">
                         <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none">{selectedCandidate.name}</h2>
                         <div className="flex flex-wrap gap-4 text-white/40 text-xs font-bold uppercase tracking-widest">
-                          <span className="flex items-center gap-2"><Clock size={14} /> {selectedCandidate.timestamp?.toDate().toLocaleDateString('pt-BR')}</span>
-                          <span className="flex items-center gap-2"><MapPin size={14} /> {selectedCandidate.cityState}</span>
+                          <span className="flex items-center gap-2"><Clock size={14} /> {formatDate(selectedCandidate.timestamp)}</span>
+                          <span className="flex items-center gap-2"><MapPin size={14} /> {selectedCandidate.cityState || "Não informado"}</span>
                         </div>
                       </div>
                       

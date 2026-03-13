@@ -6,27 +6,10 @@
       "description": "Interesse de consultoria capturado via site.",
       "type": "object",
       "properties": {
-        "name": { "type": "string" },
-        "business": { "type": "string" },
-        "niche": { "type": "string" },
+        "conversation": { "type": "string" },
+        "source": { "type": "string" },
         "timestamp": { "type": "string", "format": "date-time" }
       }
-    },
-    "BlogPost": {
-      "title": "BlogPost",
-      "description": "Dossiê técnico ou artigo estratégico para a rede Sapient.",
-      "type": "object",
-      "properties": {
-        "title": { "type": "string" },
-        "slug": { "type": "string" },
-        "excerpt": { "type": "string" },
-        "content": { "type": "string" },
-        "featuredImageUri": { "type": "string" },
-        "isPremium": { "type": "boolean" },
-        "publishedDate": { "type": "string", "format": "date-time" },
-        "authorId": { "type": "string" }
-      },
-      "required": ["title", "slug", "content"]
     },
     "SalesProfile": {
       "title": "SalesProfile",
@@ -78,19 +61,15 @@
   "firestore": {
     "/leads/{leadId}": {
       "schema": "Lead",
-      "description": "Leads de consultoria capturados."
-    },
-    "/blogPosts_public/{postId}": {
-      "schema": "BlogPost",
-      "description": "Artigos estratégicos abertos ao público."
+      "description": "Leads de consultoria capturados via chat inteligente."
     },
     "/sales_profiles/{userId}": {
       "schema": "SalesProfile",
-      "description": "Perfis persistentes dos consultores."
+      "description": "Perfis persistentes dos consultores logados."
     },
     "/sales_candidates/{candidateId}": {
       "schema": "SalesCandidate",
-      "description": "Fichas completas de recrutamento comercial."
+      "description": "Dossiês completos de recrutamento comercial."
     }
   }
 }

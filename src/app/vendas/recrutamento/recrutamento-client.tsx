@@ -40,8 +40,8 @@ import {
   TrendingUp,
   UserCircle
 } from "lucide-react";
-import { useFirebase, useFirestore, useDoc, initiateSignOut, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
-import { collection, addDoc, serverTimestamp, doc } from "firebase/firestore";
+import { useFirebase, useFirestore, useDoc, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
+import { collection, serverTimestamp, doc } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -220,7 +220,7 @@ export function RecrutamentoClient() {
     };
 
     const colRef = collection(db, 'sales_candidates');
-    addDoc(colRef, candidateData)
+    addDocumentNonBlocking(colRef, candidateData)
       .then(() => {
         setIsLoading(false);
         setStep(23);
