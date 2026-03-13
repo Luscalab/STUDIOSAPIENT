@@ -7,9 +7,10 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { useFirebase, initiateEmailSignIn, initiateEmailSignUp, initiateGoogleSignIn } from "@/firebase";
+import { useFirebase, initiateGoogleSignIn } from "@/firebase";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, Chrome, ArrowRight, Loader2, UserPlus, LogIn, Sparkles } from "lucide-react";
+import { Mail, Lock, Chrome, ArrowRight, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function AuthPage() {
@@ -31,14 +32,27 @@ export default function AuthPage() {
     e.preventDefault();
     if (!email || !password) return;
     setIsLoading(true);
+    
     try {
       if (mode === 'login') {
-        initiateEmailSignIn(auth, email, password);
+        await signInWithEmailAndPassword(auth, email, password);
       } else {
-        initiateEmailSignUp(auth, email, password);
+        await createUserWithEmailAndPassword(auth, email, password);
       }
-    } catch (err) {
-      toast({ title: "Erro de Acesso", description: "Verifique suas credenciais.", variant: "destructive" });
+      // O useEffect redirecionará automaticamente ao detectar o user
+    } catch (err: any) {
+      console.error(err);
+      let message = "Ocorreu um erro na autenticação.";
+      if (err.code === 'auth/wrong-password') message = "Senha incorreta.";
+      if (err.code === 'auth/user-not-found') message = "Usuário não encontrado.";
+      if (err.code === 'auth/email-already-in-use') message = "E-mail já está sendo utilizado.";
+      if (err.code === 'auth/weak-password') message = "A senha deve ter no mínimo 6 caracteres.";
+      
+      toast({ 
+        title: "Erro de Acesso", 
+        description: message, 
+        variant: "destructive" 
+      });
       setIsLoading(false);
     }
   };
@@ -72,13 +86,13 @@ export default function AuthPage() {
             <div className="flex bg-black/40 p-1.5 rounded-2xl border border-white/5">
               <button 
                 onClick={() => setStep('login')}
-                className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${mode === 'login' ? 'bg-primary text-white shadow-lg' : 'text-white/30 hover:text-white'}`}
+                className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${mode === 'login' ? "bg-primary text-white shadow-lg" : "text-white/30 hover:text-white"}`}
               >
                 Entrar
               </button>
               <button 
                 onClick={() => setStep('register')}
-                className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${mode === 'register' ? 'bg-primary text-white shadow-lg' : 'text-white/30 hover:text-white'}`}
+                className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${mode === 'register' ? "bg-primary text-white shadow-lg" : "text-white/30 hover:text-white"}`}
               >
                 Cadastrar
               </button>

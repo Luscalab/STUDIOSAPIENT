@@ -19,9 +19,14 @@ service cloud.firestore {
       allow update: if false;
     }
 
-    // Candidatos a Vendas: permite criação pública para o processo de recrutamento.
+    // Perfis de Vendas: Usuário gerencia o seu próprio
+    match /sales_profiles/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Candidatos a Vendas (Dossiês): criação pública para o processo.
     match /sales_candidates/{candidateId} {
-      allow create: if true;
+      allow create: if request.auth != null;
       allow read, delete: if isAdmin();
       allow update: if false;
     }

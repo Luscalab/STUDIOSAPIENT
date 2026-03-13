@@ -18,28 +18,18 @@ import {
   ChevronLeft,
   Trophy,
   ShieldCheck,
-  TrendingUp,
-  Layout,
-  Palette,
-  Bot,
-  Users,
-  FileText,
   LogOut,
   Target,
   Search,
-  CheckCircle2,
   Activity,
-  Coins,
-  Gem,
-  Sparkles,
   Smartphone,
   Eye,
-  MessageSquare
+  MessageSquare,
+  FileText,
+  Users
 } from "lucide-react";
-import { useFirebase, useFirestore, initiateSignOut } from "@/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { errorEmitter } from "@/firebase/error-emitter";
-import { FirestorePermissionError } from "@/firebase/errors";
+import { useFirebase, useFirestore, useDoc, initiateSignOut, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
+import { collection, addDoc, serverTimestamp, doc } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -68,7 +58,8 @@ export function RecrutamentoClient() {
     ansAds: "",
     ansSites: "",
     ansDesign: "",
-    ansNarrativa: "",
+    ansChat: "",
+    ansSocial: "",
     ansNichos: "",
     ansPreco: "",
     audioObjeçãoAds: "",
@@ -82,9 +73,13 @@ export function RecrutamentoClient() {
   const db = useFirestore();
   const router = useRouter();
   
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
-  const streamRef = useRef<MediaStream | null>(null);
+  // Persistência de Perfil
+  const profileRef = useMemoFirebase(() => {
+    if (!db || !user) return null;
+    return doc(db, 'sales_profiles', user.uid);
+  }, [db, user]);
+
+  const { data: profile, isLoading: isProfileLoading } = useDoc(profileRef);
 
   useEffect(() => {
     if (!isUserLoading && !user) {
@@ -94,6 +89,23 @@ export function RecrutamentoClient() {
       setFormData(prev => ({ ...prev, email: user.email || "", name: user.displayName || "" }));
     }
   }, [user, isUserLoading, router]);
+
+  // Se o perfil já existe, pula a identificação
+  useEffect(() => {
+    if (profile && step === 1) {
+      setFormData(prev => ({
+        ...prev,
+        ...profile,
+        consentAccepted: true
+      }));
+      setConsentAccepted(true);
+      setStep(2); // Pula para o briefing
+    }
+  }, [profile]);
+
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const streamRef = useRef<MediaStream | null>(null);
 
   const handleSignOut = () => {
     initiateSignOut(auth);
@@ -149,9 +161,27 @@ export function RecrutamentoClient() {
   };
 
   const handleNextStep = () => {
-    if (step === 1 && (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !consentAccepted)) {
-      toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos.", variant: "destructive" });
-      return;
+    if (step === 1) {
+      if (!formData.name.trim() || !formData.email.trim() || !formData.phone.trim() || !consentAccepted) {
+        toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos.", variant: "destructive" });
+        return;
+      }
+      // Salva o perfil permanentemente ao avançar do passo 1
+      if (profileRef) {
+        const profileData = {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          instagram: formData.instagram,
+          linkedin: formData.linkedin,
+          cityState: formData.cityState,
+          currentOccupation: formData.currentOccupation,
+          experience: formData.experience,
+          consentAccepted: true,
+          consentTimestamp: new Date().toISOString()
+        };
+        setDocumentNonBlocking(profileRef, profileData, { merge: true });
+      }
     }
     if (step === 2 && !outboundAccepted) {
       toast({ title: "Confirmação Necessária", description: "Confirme que entende o modelo Outbound.", variant: "destructive" });
@@ -186,18 +216,14 @@ export function RecrutamentoClient() {
         setIsLoading(false);
         setStep(23);
       })
-      .catch((serverError) => {
+      .catch((err) => {
+        console.error(err);
+        toast({ title: "Erro ao Enviar", description: "Não foi possível salvar seu dossiê.", variant: "destructive" });
         setIsLoading(false);
-        const permissionError = new FirestorePermissionError({
-          path: colRef.path,
-          operation: 'create',
-          requestResourceData: candidateData,
-        });
-        errorEmitter.emit('permission-error', permissionError);
       });
   };
 
-  if (isUserLoading) {
+  if (isUserLoading || isProfileLoading) {
     return (
       <div className="min-h-screen bg-[#08070b] flex items-center justify-center">
         <Loader2 className="h-12 w-12 text-primary animate-spin" />
@@ -239,7 +265,7 @@ export function RecrutamentoClient() {
               <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="space-y-4">
                     <h2 className="text-2xl font-black uppercase tracking-tighter">1. Perfil do Colaborador</h2>
-                    <p className="text-white/40 text-sm">Confirme seus dados para iniciar o treinamento técnico.</p>
+                    <p className="text-white/40 text-sm">Preencha sua identificação profissional para começar.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Nome Completo" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
@@ -247,6 +273,8 @@ export function RecrutamentoClient() {
                   <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp (DDD + Número)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.instagram} onChange={(e) => setFormData({...formData, instagram: e.target.value})} placeholder="Instagram (@usuario)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.linkedin} onChange={(e) => setFormData({...formData, linkedin: e.target.value})} placeholder="LinkedIn (URL)" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.cityState} onChange={(e) => setFormData({...formData, cityState: e.target.value})} placeholder="Cidade/Estado" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
+                  <Input value={formData.currentOccupation} onChange={(e) => setFormData({...formData, currentOccupation: e.target.value})} placeholder="Ocupação Atual" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                   <Input value={formData.experience} onChange={(e) => setFormData({...formData, experience: e.target.value})} placeholder="Tempo em Vendas" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                 </div>
                 <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-4">
@@ -262,7 +290,7 @@ export function RecrutamentoClient() {
                   </div>
                 </div>
                 <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] shadow-xl w-full md:w-auto">
-                  Iniciar Treinamento Técnico <ChevronRight size={18} />
+                  Salvar Perfil e Iniciar <ChevronRight size={18} />
                 </Button>
               </div>
             )}

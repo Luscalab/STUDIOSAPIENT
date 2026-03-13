@@ -13,7 +13,7 @@
       }
     },
     "BlogPost": {
-      "title": "Blog Post",
+      "title": "BlogPost",
       "description": "Dossiê técnico ou artigo estratégico para a rede Sapient.",
       "type": "object",
       "properties": {
@@ -28,9 +28,9 @@
       },
       "required": ["title", "slug", "content"]
     },
-    "SalesCandidate": {
-      "title": "Sales Candidate",
-      "description": "Candidato a vendedor avaliado via ficha técnica e testes de locução.",
+    "SalesProfile": {
+      "title": "SalesProfile",
+      "description": "Perfil persistente do consultor de vendas.",
       "type": "object",
       "properties": {
         "name": { "type": "string" },
@@ -42,22 +42,40 @@
         "currentOccupation": { "type": "string" },
         "experience": { "type": "string" },
         "consentAccepted": { "type": "boolean" },
-        "consentTimestamp": { "type": "string", "format": "date-time" },
+        "consentTimestamp": { "type": "string", "format": "date-time" }
+      }
+    },
+    "SalesCandidate": {
+      "title": "SalesCandidate",
+      "description": "Candidato a vendedor avaliado via ficha técnica e testes de locução.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "instagram": { "type": "string" },
+        "linkedin": { "type": "string" },
+        "cityState": { "type": "string" },
+        "currentOccupation": { "type": "string" },
+        "experience": { "type": "string" },
         "ansAds": { "type": "string" },
         "ansSites": { "type": "string" },
+        "ansDesign": { "type": "string" },
         "ansChat": { "type": "string" },
         "ansSocial": { "type": "string" },
+        "ansNichos": { "type": "string" },
+        "ansPreco": { "type": "string" },
         "audioObjeçãoAds": { "type": "string" },
-        "audioCirurgiao": { "type": "string" },
-        "pitchAudioUri": { "type": "string", "description": "URI de dados Base64 do áudio do pitch final." },
+        "pitchAudioUri": { "type": "string" },
         "timestamp": { "type": "string", "format": "date-time" },
         "status": { "type": "string", "enum": ["PENDENTE_AVALIACAO_HUMANA", "APROVADO", "REPROVADO"] }
       },
-      "required": ["name", "email", "phone", "consentAccepted"]
+      "required": ["name", "email", "phone"]
     }
   },
   "auth": {
-    "providers": ["google", "anonymous"]
+    "providers": ["google", "email"]
   },
   "firestore": {
     "/leads/{leadId}": {
@@ -67,6 +85,10 @@
     "/blogPosts_public/{postId}": {
       "schema": "BlogPost",
       "description": "Artigos estratégicos abertos ao público."
+    },
+    "/sales_profiles/{userId}": {
+      "schema": "SalesProfile",
+      "description": "Perfis persistentes dos consultores."
     },
     "/sales_candidates/{candidateId}": {
       "schema": "SalesCandidate",
