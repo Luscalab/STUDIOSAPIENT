@@ -23,7 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/vendas/auth',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: new Date().toISOString(),
+    lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: route === '' ? 1 : 0.8,
   }))
