@@ -52,7 +52,10 @@ import {
   Info,
   Server,
   MousePointer2,
-  Sparkles
+  Sparkles,
+  ShieldAlert,
+  Globe,
+  BarChart3
 } from "lucide-react";
 import { useFirebase, useFirestore, useDoc, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
 import { collection, serverTimestamp, doc } from "firebase/firestore";
@@ -498,43 +501,50 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 01: ADS & GMN - TEORIA AMPLIADA */}
+                {/* MÓDULO 01: ADS & GMN */}
                 {step === 3 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 01: Inteligência de Tráfego</Badge>
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 01: Inteligência de Tráfego</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Teoria Avançada</Badge>
+                    </div>
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Performance Ads &amp; GMN</h2>
                     
                     <div className="space-y-12">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
                           <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Target size={20} /> O que vendemos?</h4>
-                          <p className="text-white/50 text-sm leading-relaxed">Não vendemos "cliques", vendemos <strong>Tráfego de Intenção</strong>. Capturamos o cliente no exato momento em que ele digita sua dor no Google. Se ele busca por "Médico em SP", ele precisa agora. Estar lá é obrigação estratégica.</p>
+                          <p className="text-white/50 text-sm leading-relaxed">Não vendemos "cliques", vendemos <strong>Tráfego de Intenção</strong>. Capturamos o cliente no exato momento em que ele digita sua dor no Google.</p>
                           <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
                             <p className="text-[9px] font-black text-white/30 uppercase">Glossário Técnico:</p>
-                            <p className="text-[10px] text-white/80 font-medium">
-                              <strong>CPC:</strong> Custo que o cliente paga por cada clique.<br/>
-                              <strong>GMN:</strong> Google Meu Negócio. O perfil local que aparece no mapa.<br/>
-                              <strong>ROAS:</strong> O quanto retornou em venda para cada R$ 1 investido.
+                            <p className="text-[10px] text-white/80 font-medium leading-relaxed">
+                              <strong>CPC:</strong> Custo Por Clique. O valor pago ao Google por cada visita.<br/>
+                              <strong>ROAS:</strong> Return on Ad Spend. Quantos reais voltaram para cada R$ 1,00 investido.<br/>
+                              <strong>GMN:</strong> Google Meu Negócio. Perfil de autoridade local nos mapas.<br/>
+                              <strong>Palavras Negativas:</strong> Filtrar buscas inúteis (ex: "grátis", "vagas") para não queimar verba.
                             </p>
                           </div>
                         </div>
                         
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Briefcase size={20} /> Briefing Diagnóstico</h4>
-                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Pergunte isso ao cliente:</p>
+                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Briefcase size={20} /> Briefing de Ouro (O que perguntar)</h4>
+                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Perguntas Gatilho:</p>
                           <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
                             <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Você sabe quanto custa cada cliente novo que chega hoje?</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Se eu buscar seu serviço no Google agora, você aparece no mapa?</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Seu site atual ajuda ou atrapalha a conversão dos anúncios?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Se eu buscar seu serviço agora, sua clínica aparece nos primeiros 3 resultados do mapa?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Qual a sua taxa de conversão atual de contatos de WhatsApp que viram vendas?</li>
                           </ul>
                         </div>
                       </div>
 
-                      <div className="p-10 rounded-[3rem] bg-primary/5 border border-primary/20">
-                        <h5 className="text-primary font-black uppercase text-[10px] mb-4 flex items-center gap-2"><Info size={14}/> Nuance de Elite: O Índice de Qualidade</h5>
-                        <p className="text-sm text-white/60 leading-relaxed">
-                          O Google pune sites lentos (WordPress mal feitos) cobrando mais caro por cada clique. Nossa **Engenharia Web** barateia o anúncio do cliente. Vendemos a economia de verba através da tecnologia.
-                        </p>
+                      <div className="p-10 rounded-[3rem] bg-primary/5 border border-primary/20 flex flex-col md:flex-row gap-8 items-center">
+                        <div className="h-16 w-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary shrink-0"><Info size={32}/></div>
+                        <div className="space-y-2">
+                          <h5 className="text-primary font-black uppercase text-[10px] tracking-widest">Nuance de Elite: O Índice de Qualidade</h5>
+                          <p className="text-sm text-white/60 leading-relaxed">
+                            O Google não olha apenas para o dinheiro. Ele olha para a **Experiência do Usuário**. Se o site é lento, o Google cobra **MAIS CARO** por cada clique. Nossa engenharia web barateia o anúncio do cliente através da velocidade extrema.
+                          </p>
+                        </div>
                       </div>
                     </div>
 
@@ -548,7 +558,7 @@ export function RecrutamentoClient() {
                 {step === 4 && (
                   <div className="space-y-8 animate-in fade-in">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio Técnico: Ads</h3>
-                    <p className="text-white/40">O cliente diz que "já faz anúncios mas não vê retorno". Como você utiliza o conceito de **Índice de Qualidade** e **GMN** para diagnosticar o erro dele?</p>
+                    <p className="text-white/40">O cliente diz que "já faz anúncios mas não vê retorno". Como você utiliza o conceito de **Índice de Qualidade** e **Tráfego de Intenção** para diagnosticar o erro dele?</p>
                     <Textarea value={formData.ansAds} onChange={(e) => setFormData({...formData, ansAds: e.target.value})} className="min-h-[180px] bg-white/5 border-white/10 rounded-[2rem] p-8 font-medium text-white" placeholder="Sua resposta estratégica..." />
                     <div className="flex gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
@@ -557,43 +567,50 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 02: SITES PREMIUM - TEORIA AMPLIADA */}
+                {/* MÓDULO 02: SITES PREMIUM */}
                 {step === 5 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 02: Engenharia de Conversão</Badge>
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 02: Engenharia de Conversão</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Teoria Avançada</Badge>
+                    </div>
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Engenharia vs Amadorismo</h2>
                     
                     <div className="space-y-12">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
                           <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Server size={20} /> Por que Next.js?</h4>
-                          <p className="text-white/50 text-sm leading-relaxed">Enquanto agências comuns usam WordPress (um sistema de 20 anos atrás cheio de falhas), nós usamos **Engenharia de Software (Next.js/React)**. Isso garante segurança militar e velocidade instantânea.</p>
+                          <p className="text-white/50 text-sm leading-relaxed">Enquanto agências comuns usam WordPress (um sistema de 20 anos atrás cheio de falhas de segurança), nós usamos **Engenharia de Software (Next.js/React)**.</p>
                           <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
                             <p className="text-[9px] font-black text-white/30 uppercase">Glossário Técnico:</p>
-                            <p className="text-[10px] text-white/80 font-medium">
-                              <strong>LCP:</strong> Largest Contentful Paint. O tempo que a parte principal do site leva para abrir. (Meta: &lt; 1.5s).<br/>
-                              <strong>SSR:</strong> Server-Side Rendering. O site já vem pronto do servidor, sem delay.<br/>
-                              <strong>On-page SEO:</strong> Código limpo que o Google entende perfeitamente.
+                            <p className="text-[10px] text-white/80 font-medium leading-relaxed">
+                              <strong>LCP:</strong> Tempo que leva para o conteúdo principal abrir. (Ideal &lt; 1.5s).<br/>
+                              <strong>SSR:</strong> Server-Side Rendering. O site já nasce pronto no servidor para o Google ler.<br/>
+                              <strong>Hydration:</strong> Processo onde o código estático se torna interativo.<br/>
+                              <strong>SSL &amp; Headers:</strong> Blindagem contra ataques e roubo de dados de clientes.
                             </p>
                           </div>
                         </div>
                         
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><MousePointer2 size={20} /> Briefing Diagnóstico</h4>
-                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Diagnóstico de Performance:</p>
+                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><MousePointer2 size={20} /> Briefing de Performance</h4>
+                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Diagnóstico Técnico:</p>
                           <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Você já testou a velocidade do seu site no 4G de um celular antigo?</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Seu site atual permite que o cliente agende uma consulta em 2 cliques?</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Quando seu site cai ou trava, quem resolve em menos de 10 minutos?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Você já testou a velocidade do seu site no 4G de um celular antigo na rua?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Quando seu site "cai" ou sai do ar, você tem um engenheiro para resolver em 5 minutos ou depende de um plugin?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Seu site atual gera leads automaticamente ou é apenas um cartão de visitas estático?</li>
                           </ul>
                         </div>
                       </div>
 
-                      <div className="p-10 rounded-[3rem] bg-cyan-500/5 border border-cyan-500/20">
-                        <h5 className="text-cyan-400 font-black uppercase text-[10px] mb-4 flex items-center gap-2"><Sparkles size={14}/> Argumento de Ouro: O Balde Furado</h5>
-                        <p className="text-sm text-white/60 leading-relaxed">
-                          Colocar dinheiro em anúncios levando para um site lento é jogar água em um balde furado. O cliente clica, o anúncio é cobrado, mas o site não abre e o cliente desiste. Nós primeiro consertamos o balde com **Engenharia**, depois abrimos a torneira do tráfego.
-                        </p>
+                      <div className="p-10 rounded-[3rem] bg-cyan-500/5 border border-cyan-500/20 flex flex-col md:flex-row gap-8 items-center">
+                        <div className="h-16 w-16 rounded-2xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0"><Sparkles size={32}/></div>
+                        <div className="space-y-2">
+                          <h5 className="text-cyan-400 font-black uppercase text-[10px] tracking-widest">O Argumento do "Balde Furado"</h5>
+                          <p className="text-sm text-white/60 leading-relaxed">
+                            Colocar dinheiro em Google Ads levando para um site lento é jogar água em um balde furado. O cliente clica (você paga), o site não abre (o cliente sai). Nós primeiro **soldamos o balde** com engenharia, depois abrimos a torneira do tráfego.
+                          </p>
+                        </div>
                       </div>
                     </div>
 
@@ -616,43 +633,50 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 03: DESIGN ESTRATÉGICO - TEORIA AMPLIADA */}
+                {/* MÓDULO 03: DESIGN ESTRATÉGICO */}
                 {step === 7 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 03: Psicologia de Valor</Badge>
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 03: Psicologia de Valor</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Teoria Avançada</Badge>
+                    </div>
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Design &amp; Semiótica</h2>
                     
                     <div className="space-y-12">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                          <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Gem size={20} /> Barreira de Confiança</h4>
-                          <p className="text-white/50 text-sm leading-relaxed">Design não é estética, é <strong>Semiótica</strong>. O cliente julga sua competência técnica pela sua aparência visual nos primeiros 3 segundos. Se sua marca parece amadora, ele assume que seu serviço também é.</p>
+                          <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Gem size={20} /> A Venda Silenciosa</h4>
+                          <p className="text-white/50 text-sm leading-relaxed">Design não é estética, é <strong>Semiótica</strong>. O cliente julga sua competência técnica pela sua aparência visual antes mesmo de você abrir a boca.</p>
                           <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
                             <p className="text-[9px] font-black text-white/30 uppercase">Glossário Técnico:</p>
-                            <p className="text-[10px] text-white/80 font-medium">
-                              <strong>Semiótica:</strong> Estudo de como as imagens comunicam mensagens subliminares.<br/>
-                              <strong>Brand Equity:</strong> O valor financeiro que a marca agrega ao produto.<br/>
-                              <strong>Hierarquia Visual:</strong> Guiar o olho do cliente para o botão de compra.
+                            <p className="text-[10px] text-white/80 font-medium leading-relaxed">
+                              <strong>Semiótica:</strong> Estudo de como cores e formas comunicam mensagens de luxo ou barateamento.<br/>
+                              <strong>Hierarquia Visual:</strong> Guiar o olho do decisor para o que gera faturamento.<br/>
+                              <strong>Brand Equity:</strong> O valor "invisível" que permite cobrar R$ 5.000 em vez de R$ 500.<br/>
+                              <strong>Gestalt:</strong> Como o cérebro agrupa informações para gerar confiança imediata.
                             </p>
                           </div>
                         </div>
                         
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Activity size={20} /> Briefing de Posicionamento</h4>
-                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Teste de Autoridade:</p>
+                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Activity size={20} /> Briefing de Autoridade</h4>
+                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Teste de Percepção:</p>
                           <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Sua marca atual condiz com o valor que você cobra hoje?</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> O cliente que te paga R$ 5.000 se sente seguro ao ver seu Instagram?</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Você é visto como "mais um" ou como a "autoridade máxima" do nicho?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Sua marca atual atrai o cliente que chora desconto ou o cliente que valoriza seu tempo?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Se você fosse um investidor, confiaria R$ 100.000 em uma empresa com a sua identidade visual atual?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Seu design comunica "Elite" ou "Genérico"?</li>
                           </ul>
                         </div>
                       </div>
 
-                      <div className="p-10 rounded-[3rem] bg-purple-500/5 border border-purple-500/20">
-                        <h5 className="text-purple-400 font-black uppercase text-[10px] mb-4 flex items-center gap-2"><ShieldCheck size={14}/> O Poder do Rebranding</h5>
-                        <p className="text-sm text-white/60 leading-relaxed">
-                          Um design profissional remove a fricção da venda. Quando a percepção de valor é alta, o cliente para de questionar o preço e começa a questionar se você tem agenda disponível. O design é a nossa **Venda Silenciosa**.
-                        </p>
+                      <div className="p-10 rounded-[3rem] bg-purple-500/5 border border-purple-500/20 flex flex-col md:flex-row gap-8 items-center">
+                        <div className="h-16 w-16 rounded-2xl bg-purple-500/20 flex items-center justify-center text-purple-400 shrink-0"><ShieldCheck size={32}/></div>
+                        <div className="space-y-2">
+                          <h5 className="text-purple-400 font-black uppercase text-[10px] tracking-widest">A Barreira de Confiança</h5>
+                          <p className="text-sm text-white/60 leading-relaxed">
+                            Um design amador gera **atrito**. O cliente precisa de mais provas, mais reuniões e mais tempo para confiar em você. Um design estratégico remove esse atrito, gerando o pensamento: "Eles sabem o que estão fazendo".
+                          </p>
+                        </div>
                       </div>
                     </div>
 
@@ -675,43 +699,50 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 04: CHAT IA - TEORIA AMPLIADA */}
+                {/* MÓDULO 04: CHAT IA */}
                 {step === 9 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 04: Automação Cognitiva</Badge>
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 04: Automação Cognitiva</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Teoria Avançada</Badge>
+                    </div>
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Agentes IA &amp; Qualificação</h2>
                     
                     <div className="space-y-12">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                          <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Brain size={20} /> Além dos Chatbots</h4>
-                          <p className="text-white/50 text-sm leading-relaxed">Esqueça os menus de "aperte 1 para vendas". Nós implementamos **Agentes Cognitivos** baseados em **LLMs** que entendem o contexto e a dor do cliente. Eles não apenas respondem, eles qualificam e convencem.</p>
+                          <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Brain size={20} /> Inteligência que Resolve</h4>
+                          <p className="text-white/50 text-sm leading-relaxed">Não instalamos "chatbots" de menus. Implementamos **Agentes Cognitivos** baseados em **LLMs** que conversam como seres humanos.</p>
                           <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
                             <p className="text-[9px] font-black text-white/30 uppercase">Glossário Técnico:</p>
-                            <p className="text-[10px] text-white/80 font-medium">
-                              <strong>LLM:</strong> Large Language Model. A tecnologia que permite a conversa humana.<br/>
-                              <strong>Lead Scoring:</strong> IA dando nota para o cliente baseado no potencial de compra.<br/>
-                              <strong>RAG:</strong> Alimentar a IA com dados específicos da empresa para que ela nunca erre.
+                            <p className="text-[10px] text-white/80 font-medium leading-relaxed">
+                              <strong>LLM:</strong> Large Language Model. O cérebro da IA (ex: Gemini, GPT).<br/>
+                              <strong>RAG:</strong> Retrieval-Augmented Generation. Alimentar a IA com dados da empresa para que ela não invente respostas.<br/>
+                              <strong>Scoring:</strong> IA dá nota de 0 a 10 para o interesse do cliente.<br/>
+                              <strong>Token:</strong> Unidade de medida de processamento da conversa.
                             </p>
                           </div>
                         </div>
                         
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Activity size={20} /> Briefing de Eficiência</h4>
-                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Teste de Tempo:</p>
+                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Activity size={20} /> Briefing de Escala</h4>
+                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Diagnóstico de Atendimento:</p>
                           <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Quanto tempo sua equipe perde respondendo dúvidas repetitivas?</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Você atende clientes de madrugada ou perde esses leads?</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Qual a porcentagem de curiosos que seu comercial atende hoje?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Quantos leads você perde por demorar mais de 10 minutos para responder no WhatsApp?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Seu comercial perde tempo atendendo gente que não tem dinheiro para pagar seu serviço?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Você atende 24h por dia ou fecha a porta para o cliente à noite?</li>
                           </ul>
                         </div>
                       </div>
 
-                      <div className="p-10 rounded-[3rem] bg-indigo-500/5 border border-indigo-500/20">
-                        <h5 className="text-indigo-400 font-black uppercase text-[10px] mb-4 flex items-center gap-2"><Zap size={14}/> O Filtro de Lucro</h5>
-                        <p className="text-sm text-white/60 leading-relaxed">
-                          A IA da Sapient é um filtro. Ela atende 1.000 pessoas por dia e entrega para o dono apenas os 10 que realmente têm dinheiro e urgência. Isso economiza salários e aumenta a conversão do time humano.
-                        </p>
+                      <div className="p-10 rounded-[3rem] bg-indigo-500/5 border border-indigo-500/20 flex flex-col md:flex-row gap-8 items-center">
+                        <div className="h-16 w-16 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0"><Zap size={32}/></div>
+                        <div className="space-y-2">
+                          <h5 className="text-indigo-400 font-black uppercase text-[10px] tracking-widest">O Filtro de Lucro</h5>
+                          <p className="text-sm text-white/60 leading-relaxed">
+                            A IA da Sapient é um **Filtro**. Ela atende 1.000 pessoas, tira todas as dúvidas e entrega para o dono apenas os 10 que realmente estão prontos para pagar. Isso economiza salários e multiplica a produtividade humana.
+                          </p>
+                        </div>
                       </div>
                     </div>
 
@@ -734,43 +765,50 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 05: GESTÃO SOCIAL - TEORIA AMPLIADA */}
+                {/* MÓDULO 05: GESTÃO SOCIAL */}
                 {step === 11 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Influência de Autoridade</Badge>
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 05: Influência de Autoridade</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Teoria Avançada</Badge>
+                    </div>
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Curadoria de Autoridade</h2>
                     
                     <div className="space-y-12">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                          <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Users size={20} /> Menos Posts, Mais Vendas</h4>
-                          <p className="text-white/50 text-sm leading-relaxed">Não fazemos "postagens". Fazemos **Curadoria de Autoridade**. Cada peça no feed do cliente é desenhada para educar o mercado e mostrar que ele é a escolha óbvia. O feed é o portfólio de luxo dele.</p>
+                          <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><Users size={20} /> O Funil Educativo</h4>
+                          <p className="text-white/50 text-sm leading-relaxed">Não fazemos "posts". Fazemos **Curadoria**. Cada peça no feed do cliente é desenhada para educar o mercado e mostrar que ele é a escolha óbvia.</p>
                           <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
                             <p className="text-[9px] font-black text-white/30 uppercase">Glossário Técnico:</p>
-                            <p className="text-[10px] text-white/80 font-medium">
-                              <strong>Autoridade Percebida:</strong> Quando o cliente assume que você é bom sem nunca ter falado com você.<br/>
-                              <strong>Social Proof:</strong> Prova social estruturada para gerar desejo.<br/>
-                              <strong>Growth Estratégico:</strong> Crescer com decisores, não com seguidores curiosos.
+                            <p className="text-[10px] text-white/80 font-medium leading-relaxed">
+                              <strong>Autoridade Percebida:</strong> Quando o cliente assume que você é o melhor sem nunca ter te visto.<br/>
+                              <strong>Social Proof:</strong> Prova social estruturada (prints, vídeos, resultados).<br/>
+                              <strong>Engagement Rate:</strong> A qualidade da interação do público.<br/>
+                              <strong>Bio-Optimization:</strong> Transformar a bio do Instagram em uma página de vendas.
                             </p>
                           </div>
                         </div>
                         
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Eye size={20} /> Briefing de Percepção</h4>
-                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Teste de Feed:</p>
+                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Eye size={20} /> Briefing de Conteúdo</h4>
+                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Diagnóstico de Perfil:</p>
                           <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Se um grande investidor abrir seu Instagram agora, ele te contrataria?</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Suas postagens educam o cliente sobre seu método ou são apenas frases motivacionais?</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Você está atraindo quem quer preço ou quem quer resultado?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Se um grande cliente abrir seu Instagram agora, ele vê um amador ou um especialista de elite?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Suas postagens resolvem dúvidas do seu cliente ou são apenas frases motivacionais genéricas?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Você está atraindo seguidores (número) ou decisores (dinheiro)?</li>
                           </ul>
                         </div>
                       </div>
 
-                      <div className="p-10 rounded-[3rem] bg-pink-500/5 border border-pink-500/20">
-                        <h5 className="text-pink-400 font-black uppercase text-[10px] mb-4 flex items-center gap-2"><Target size={14}/> O Imã de Decisores</h5>
-                        <p className="text-sm text-white/60 leading-relaxed">
-                          Nossa gestão social foca no **Decisor**. Não queremos 100 mil adolescentes curtindo, queremos 100 CEOs observando. O conteúdo Sapient é feito para gerar o pensamento: "Eu preciso desse cara no meu time".
-                        </p>
+                      <div className="p-10 rounded-[3rem] bg-pink-500/5 border border-pink-500/20 flex flex-col md:flex-row gap-8 items-center">
+                        <div className="h-16 w-16 rounded-2xl bg-pink-500/20 flex items-center justify-center text-pink-400 shrink-0"><Target size={32}/></div>
+                        <div className="space-y-2">
+                          <h5 className="text-pink-400 font-black uppercase text-[10px] tracking-widest">O Ímã de Decisores</h5>
+                          <p className="text-sm text-white/60 leading-relaxed">
+                            Nossa gestão foca no **Decisor**. Não queremos 100 mil curtidas de adolescentes, queremos 100 visualizações de CEOs. O conteúdo Sapient é feito para gerar o pensamento: "Esse cara sabe algo que eu não sei".
+                          </p>
+                        </div>
                       </div>
                     </div>
 
@@ -793,43 +831,49 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 06: NARRATIVA VISUAL - TEORIA AMPLIADA */}
+                {/* MÓDULO 06: NARRATIVA VISUAL */}
                 {step === 13 && (
                   <div className="space-y-10 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 06: Engenharia de Fechamento</Badge>
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo 06: Engenharia de Fechamento</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Teoria Avançada</Badge>
+                    </div>
                     <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">Narrativa Visual &amp; Dossiês</h2>
                     
                     <div className="space-y-12">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                          <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><FileText size={20} /> Matar a Objeção na Proposta</h4>
-                          <p className="text-white/50 text-sm leading-relaxed">Não enviamos orçamentos em PDF branco. Enviamos **Dossiês de Venda de Luxo**. O objetivo é remover a "Névoa Informacional". Se o cliente vê clareza no método, ele não sente medo do preço.</p>
+                          <h4 className="flex items-center gap-3 text-primary font-black uppercase text-xs"><FileText size={20} /> Matar a Objeção na Origem</h4>
+                          <p className="text-white/50 text-sm leading-relaxed">Não enviamos orçamentos em PDF branco. Enviamos **Dossiês de Venda de Luxo**. O objetivo é remover a "Névoa Informacional".</p>
                           <div className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-3">
                             <p className="text-[9px] font-black text-white/30 uppercase">Glossário Técnico:</p>
-                            <p className="text-[10px] text-white/80 font-medium">
-                              <strong>Névoa Informacional:</strong> Quando o cliente não entende o que você faz e foca apenas no preço.<br/>
-                              <strong>Storytelling Comercial:</strong> A sequência lógica de fatos que leva ao "sim".<br/>
-                              <strong>Infográfico de Valor:</strong> Desenhar o lucro do cliente para ele entender rápido.
+                            <p className="text-[10px] text-white/80 font-medium leading-relaxed">
+                              <strong>Névoa Informacional:</strong> Quando o cliente não entende o seu processo e foca apenas no preço.<br/>
+                              <strong>Emotional Anchoring:</strong> Conectar o benefício técnico a uma dor emocional do cliente.<br/>
+                              <strong>Information Scent:</strong> Deixar pistas visuais que levam o cliente ao próximo passo da venda.
                             </p>
                           </div>
                         </div>
                         
                         <div className="p-10 bg-white/5 rounded-[3.5rem] border border-white/10 space-y-6">
-                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Lightbulb size={20} /> Briefing de Apresentação</h4>
-                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Teste de Proposta:</p>
+                          <h4 className="flex items-center gap-3 text-cyan-400 font-black uppercase text-xs"><Lightbulb size={20} /> Briefing de Fechamento</h4>
+                          <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Perguntas Diagnósticas:</p>
                           <ul className="space-y-4 text-xs font-bold text-white/60 uppercase">
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Seu cliente entende seu diferencial técnico em menos de 1 minuto lendo sua proposta?</li>
-                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Sua proposta atual parece um boleto ou um passaporte para o próximo nível?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Seu cliente entende o seu valor técnico em menos de 1 minuto lendo sua proposta?</li>
                             <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Você envia o preço por texto no WhatsApp ou apresenta um documento de autoridade?</li>
+                            <li className="flex items-start gap-3"><CheckCircle2 className="h-4 w-4 text-primary shrink-0" /> Sua proposta parece um boleto a pagar ou um investimento a receber?</li>
                           </ul>
                         </div>
                       </div>
 
-                      <div className="p-10 rounded-[3rem] bg-orange-500/5 border border-orange-500/20">
-                        <h5 className="text-orange-400 font-black uppercase text-[10px] mb-4 flex items-center gap-2"><Activity size={14}/> A Arma do Fechamento</h5>
-                        <p className="text-sm text-white/60 leading-relaxed">
-                          O Dossiê da Sapient é feito para ser compartilhado entre sócios. Ele fala sozinho. Quando o dono da empresa mostra para o sócio, a narrativa visual já vendeu a ideia. Reduzimos o ciclo de decisão de semanas para minutos.
-                        </p>
+                      <div className="p-10 rounded-[3rem] bg-orange-500/5 border border-orange-500/20 flex flex-col md:flex-row gap-8 items-center">
+                        <div className="h-16 w-16 rounded-2xl bg-orange-500/20 flex items-center justify-center text-orange-400 shrink-0"><Activity size={32}/></div>
+                        <div className="space-y-2">
+                          <h5 className="text-orange-400 font-black uppercase text-[10px] tracking-widest">Clareza é Dinheiro</h5>
+                          <p className="text-sm text-white/60 leading-relaxed">
+                            O Dossiê da Sapient é feito para ser compartilhado entre sócios. Quando o dono da empresa mostra para o sócio, a narrativa visual já vendeu a ideia sozinha. Reduzimos o ciclo de decisão de semanas para minutos.
+                          </p>
+                        </div>
                       </div>
                     </div>
 
@@ -852,25 +896,32 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULOS DE FECHAMENTO - ESTRATÉGIA AMPLIADA */}
+                {/* MÓDULOS DE FECHAMENTO */}
                 {step === 15 && (
                   <div className="space-y-8 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest px-6 py-2">Módulo Final 01: Visão de Mercado</Badge>
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest px-6 py-2">Módulo Final 01: Visão de Mercado</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Estratégia</Badge>
+                    </div>
                     <h2 className="text-4xl font-black uppercase tracking-tighter">Estratégias de Nicho</h2>
                     <p className="text-white/40 text-sm max-w-2xl">Cada mercado tem um "sangramento" diferente. Aprenda a identificar onde dói para aplicar a cura Sapient correta.</p>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                       <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
-                        <h4 className="text-primary font-bold text-xs uppercase">Beleza &amp; Pet</h4>
-                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Agenda furada e baixa fidelização. <br/>Solução: IA Qualificadora + GMN Ativo para busca local + Design que comunica higiene e luxo.</p>
+                        <div className="flex items-center gap-3 text-primary"><ShieldAlert size={20}/> <h4 className="font-bold text-xs uppercase">Beleza &amp; Saúde (Médicos/Estética)</h4></div>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Agenda furada e dependência de indicação.<br/>Solução: IA Qualificadora + GMN Ativo + Design que comunica higiene e confiança.</p>
                       </div>
                       <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
-                        <h4 className="text-cyan-400 font-bold text-xs uppercase">Saúde &amp; Direito</h4>
-                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Imagem amadora e dependência de indicação. <br/>Solução: Semiótica de Autoridade + Dossiês Visuais + Google Ads Cirúrgico.</p>
+                        <div className="flex items-center gap-3 text-cyan-400"><Globe size={20}/> <h4 className="font-bold text-xs uppercase">Direito &amp; Consultoria (Serviços)</h4></div>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Imagem amadora e dificuldade em cobrar caro.<br/>Solução: Semiótica de Autoridade + Dossiês Visuais + Google Ads Cirúrgico.</p>
                       </div>
                       <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
-                        <h4 className="text-amber-400 font-bold text-xs uppercase">Varejo &amp; Tech</h4>
+                        <div className="flex items-center gap-3 text-amber-400"><TrendingUp size={20}/> <h4 className="font-bold text-xs uppercase">Varejo &amp; Tech (Lojas/Software)</h4></div>
                         <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Conversão baixa no site e suporte lento. <br/>Solução: Engenharia de Sites (LCP &lt; 1.5s) + IA de suporte 24/7 + Ads de Urgência.</p>
+                      </div>
+                      <div className="p-8 bg-white/5 rounded-3xl border border-white/10 space-y-4">
+                        <div className="flex items-center gap-3 text-indigo-400"><BarChart3 size={20}/> <h4 className="font-bold text-xs uppercase">Imóveis &amp; Indústria</h4></div>
+                        <p className="text-[11px] text-white/40 leading-relaxed">Gargalo: Ciclo de venda longo e leads desqualificados.<br/>Solução: Narrativa Visual + Sistemas de Qualificação IA + Performance Local.</p>
                       </div>
                     </div>
                     <div className="flex gap-4">
@@ -894,7 +945,10 @@ export function RecrutamentoClient() {
 
                 {step === 17 && (
                   <div className="space-y-8 animate-in fade-in">
-                    <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest px-6 py-2">Módulo Final 02: Matemática do Lucro</Badge>
+                    <div className="flex items-center gap-4">
+                      <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest px-6 py-2">Módulo Final 02: Matemática do Lucro</Badge>
+                      <Badge variant="outline" className="border-cyan-500/20 text-cyan-400 text-[8px] uppercase tracking-widest">Ancoragem</Badge>
+                    </div>
                     <h2 className="text-4xl font-black uppercase tracking-tighter">Ancoragem de Valor</h2>
                     <p className="text-white/40 text-sm">Não cobramos pelo tempo gasto, mas pelo ROI entregue. Use esta tabela como base de ancoragem:</p>
                     <div className="overflow-x-auto">
