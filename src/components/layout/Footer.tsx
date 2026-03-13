@@ -79,7 +79,8 @@ export function Footer() {
               {[
                 { name: "UrbeLudo", href: "/urbeludo" },
                 { name: "Metodologia", href: "/#metodologia" },
-                { name: "Início", href: "/" }
+                { name: "Início", href: "/" },
+                { name: "Área do Colaborador", href: "/vendas/auth" }
               ].map((item) => (
                 <li key={item.name}>
                   <Link href={item.href} className="text-white/30 hover:text-primary text-[10px] md:text-xs font-bold uppercase tracking-widest transition-colors">
