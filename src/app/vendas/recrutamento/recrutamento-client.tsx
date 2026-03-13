@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from "react";
@@ -139,6 +140,10 @@ export function RecrutamentoClient() {
   const audioChunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleSignOut = () => {
     initiateSignOut(auth);
     router.push("/vendas/auth");
@@ -218,12 +223,12 @@ export function RecrutamentoClient() {
       return;
     }
     setStep(prev => prev + 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   };
 
   const handlePrevStep = () => {
     setStep(prev => prev - 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   };
 
   const handleSubmit = () => {
@@ -245,6 +250,7 @@ export function RecrutamentoClient() {
       .then(() => {
         setIsLoading(false);
         setStep(63);
+        scrollToTop();
       })
       .catch((err) => {
         console.error(err);
@@ -260,7 +266,7 @@ export function RecrutamentoClient() {
       setStep(2);
     }
     setView('training');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   };
 
   if (isUserLoading || isProfileLoading) {
@@ -388,7 +394,7 @@ export function RecrutamentoClient() {
                     onClick={() => { 
                       setStep(m.step); 
                       setView('training');
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      scrollToTop();
                     }}
                     className={cn(
                       "p-8 rounded-[2.5rem] border transition-all duration-500 text-left group relative overflow-hidden h-[240px] flex flex-col justify-between",
