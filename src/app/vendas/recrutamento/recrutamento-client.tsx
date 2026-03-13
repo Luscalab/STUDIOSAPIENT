@@ -239,12 +239,12 @@ export function RecrutamentoClient() {
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div className="text-left">
-              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">Dashboard de Treinamento studiosapient</Badge>
+              <Badge className="mb-6 bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">Portal de Imersão Comercial studiosapient</Badge>
               <h1 className="font-headline text-4xl md:text-7xl font-black tracking-tighter uppercase leading-none">Imersão <span className="text-primary italic lowercase">comercial.</span></h1>
             </div>
             <div className="flex items-center gap-4 bg-white/5 p-4 rounded-3xl border border-white/10">
                <div className="text-right">
-                 <p className="text-[8px] font-black uppercase text-white/20 tracking-widest">Bem-vindo,</p>
+                 <p className="text-[8px] font-black uppercase text-white/20 tracking-widest">Consultor ativo,</p>
                  <p className="text-[10px] font-bold text-white uppercase">{user?.displayName || user?.email?.split('@')[0]}</p>
                </div>
                <button onClick={handleSignOut} className="h-10 w-10 rounded-xl bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all">

@@ -64,7 +64,7 @@ export default function AuthPage() {
         <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
           <div className="text-center space-y-4">
             <Badge className="bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">
-              Portal do Colaborador
+              Portal de Imersão Sapient
             </Badge>
             <h1 className="font-headline text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none">
               Sapient <span className="text-primary italic lowercase">studio.</span>
@@ -115,7 +115,7 @@ export default function AuthPage() {
               <Button disabled={isLoading} className="w-full h-16 bg-primary hover:bg-primary/90 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-xl shadow-primary/20">
                 {isLoading ? <Loader2 className="animate-spin h-5 w-5" /> : (
                   <span className="flex items-center gap-2">
-                    {mode === 'login' ? 'Acessar Dashboard' : 'Criar minha Conta'} 
+                    {mode === 'login' ? 'Acessar Imersão' : 'Criar minha Conta'} 
                     <ArrowRight size={16} />
                   </span>
                 )}
