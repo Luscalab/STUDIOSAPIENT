@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from "react";
@@ -26,7 +25,11 @@ import {
   Eye,
   MessageSquare,
   FileText,
-  Users
+  Users,
+  Briefcase,
+  Gem,
+  Palette,
+  TrendingUp
 } from "lucide-react";
 import { useFirebase, useFirestore, useDoc, initiateSignOut, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
 import { collection, addDoc, serverTimestamp, doc } from "firebase/firestore";
@@ -73,7 +76,6 @@ export function RecrutamentoClient() {
   const db = useFirestore();
   const router = useRouter();
   
-  // Persistência de Perfil
   const profileRef = useMemoFirebase(() => {
     if (!db || !user) return null;
     return doc(db, 'sales_profiles', user.uid);
@@ -90,7 +92,6 @@ export function RecrutamentoClient() {
     }
   }, [user, isUserLoading, router]);
 
-  // Se o perfil já existe, pula a identificação
   useEffect(() => {
     if (profile && step === 1) {
       setFormData(prev => ({
@@ -99,7 +100,7 @@ export function RecrutamentoClient() {
         consentAccepted: true
       }));
       setConsentAccepted(true);
-      setStep(2); // Pula para o briefing
+      setStep(2);
     }
   }, [profile]);
 
@@ -166,7 +167,6 @@ export function RecrutamentoClient() {
         toast({ title: "Dados Incompletos", description: "Preencha sua identificação e aceite os termos.", variant: "destructive" });
         return;
       }
-      // Salva o perfil permanentemente ao avançar do passo 1
       if (profileRef) {
         const profileData = {
           name: formData.name,
@@ -325,25 +325,21 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* Módulo 01: Performance Ads & GMN */}
             {step === 3 && (
               <div className="space-y-8 animate-in fade-in">
                 <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 01</Badge>
-                <h2 className="text-4xl font-black uppercase tracking-tighter">O Ecossistema de Urgência</h2>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Performance Ads & GMN</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-6">
-                    <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
-                      <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs mb-4"><Search size={16} /> Google Ads (O Ouro)</h4>
-                      <p className="text-white/50 text-sm leading-relaxed">Capturamos quem está com dor <strong>agora</strong>. Se o cliente busca "dentista 24h", ele precisa de uma solução, não de conteúdo.</p>
-                    </div>
-                    <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
-                      <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs mb-4"><Target size={16} /> GMN (A Fachada)</h4>
-                      <p className="text-white/50 text-sm leading-relaxed">O Google Meu Negócio é a fachada digital. Otimizar GMN é limpar o vidro, organizar as avaliações e garantir que o telefone toque.</p>
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><Search size={16} /> Capturando Urgência</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">No Google Ads, pescamos o cliente no momento da dor. Se ele busca por sua solução, ele é um decisor pronto.</p>
+                    <div className="p-4 rounded-xl bg-black/40 border border-white/5 text-[10px] text-primary font-bold italic">
+                      "É como ter um outdoor na frente de quem acabou de furar o pneu."
                     </div>
                   </div>
-                  <div className="p-8 bg-primary/10 rounded-[3rem] border border-primary/20 space-y-4">
-                    <p className="text-[10px] font-black uppercase text-primary tracking-widest">Analogia para o Cliente:</p>
-                    <p className="text-lg italic text-white/80 leading-relaxed">"Sua empresa está invisível no momento em que seu cliente mais precisa. É como ter a melhor loja do mundo num beco sem saída."</p>
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs"><Target size={16} /> Ouro no GMN</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">O Google Meu Negócio é a recepção digital. Otimizamos fotos, avaliações e palavras-chave locais para gerar chamadas diretas.</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
@@ -365,24 +361,21 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* Módulo 02: Sites Premium & LCP */}
             {step === 5 && (
               <div className="space-y-8 animate-in fade-in">
                 <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 02</Badge>
-                <h2 className="text-4xl font-black uppercase tracking-tighter">Sites: A Porta Emperrada</h2>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Sites Premium: A Porta de Vidro</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
-                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><Activity size={16} /> O Gargalo: LCP (Velocidade)</h4>
-                    <p className="text-white/50 text-sm leading-relaxed">Se o site demora mais de 3s para carregar (LCP), 50% das pessoas desistem. <strong>Isso é dinheiro jogado no lixo dos Ads.</strong></p>
+                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><Activity size={16} /> O Gargalo do LCP</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">LCP é o tempo que a maior parte do site leva para carregar. Se for alto, o cliente desiste antes de ver seu rosto.</p>
                     <div className="p-4 rounded-xl bg-black/40 border border-white/5 text-[10px] text-primary font-bold italic">
-                      Analogia: "Um site lento é como uma loja com a porta de vidro trancada. O cliente vê o produto, mas não consegue entrar."
+                      "Um site lento é uma porta de vidro trancada: o cliente vê o que quer, mas não consegue entrar."
                     </div>
                   </div>
-                  <div className="space-y-6">
-                    <div className="p-6 rounded-3xl bg-white/5 border border-white/10">
-                      <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs mb-4"><Smartphone size={16} /> Mobile-First</h4>
-                      <p className="text-white/50 text-sm leading-relaxed">Não basta ser bonito no PC. 90% dos fechamentos de urgência vêm do celular. Nosso código é artesanal, sem templates lentos.</p>
-                    </div>
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs"><Smartphone size={16} /> Engenharia Proprietária</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">Não usamos templates pesados. Criamos o código do zero para garantir velocidade máxima no celular, onde 90% das vendas ocorrem.</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
@@ -404,19 +397,21 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* Módulo 03: Design & Semiótica */}
             {step === 7 && (
               <div className="space-y-8 animate-in fade-in">
                 <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 03</Badge>
-                <h2 className="text-4xl font-black uppercase tracking-tighter">Design: A Barreira de Confiança</h2>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Design & Semiótica de Valor</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
-                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><Eye size={16} /> Semiótica de Valor</h4>
-                    <p className="text-white/50 text-sm leading-relaxed">Não vendemos logo. Vendemos <strong>percepção de preço</strong>. Se o visual é amador, o cliente vai pedir desconto. Se é premium, ele paga o que você pedir.</p>
+                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><Eye size={16} /> Barreira de Confiança</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">Não fazemos logo. Fazemos barreira de confiança. O design certo encurta o ciclo de venda porque o cliente já sente que você é o melhor.</p>
+                    <div className="p-4 rounded-xl bg-black/40 border border-white/5 text-[10px] text-primary font-bold italic">
+                      "Sua marca está vestida de pijama para uma reunião de gala? O design premium justifica o preço alto."
+                    </div>
                   </div>
-                  <div className="p-8 bg-primary/10 rounded-[3rem] border border-primary/20 space-y-4">
-                    <p className="text-[10px] font-black uppercase text-primary tracking-widest">Tradutor Leigo:</p>
-                    <p className="text-lg italic text-white/80 leading-relaxed">"Sua marca está vestida de pijama para uma reunião de gala. O design certo remove a dúvida do cliente antes dele falar com você."</p>
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs"><Gem size={16} /> Autoridade Visual</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">Cada cor e fonte é escolhida para comunicar prestígio. Removemos a dúvida do decisor através da excelência estética.</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
@@ -438,19 +433,21 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* Módulo 04: IA & Atendimento */}
             {step === 9 && (
               <div className="space-y-8 animate-in fade-in">
                 <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 04</Badge>
-                <h2 className="text-4xl font-black uppercase tracking-tighter">IA: O Segurança Qualificador</h2>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">IA: Atendimento Inteligente</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
-                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><MessageSquare size={16} /> Lead Scoring Automatizado</h4>
-                    <p className="text-white/50 text-sm leading-relaxed">Nossa IA no WhatsApp não apenas responde, ela <strong>qualifica</strong>. Ela separa o "curioso" do "decisor" antes de passar para o humano.</p>
+                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><MessageSquare size={16} /> Segurança Qualificador</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">Nossa IA no WhatsApp não apenas responde, ela separa o "curioso" do "decisor". É um filtro de tempo para o dono do negócio.</p>
+                    <div className="p-4 rounded-xl bg-black/40 border border-white/5 text-[10px] text-primary font-bold italic">
+                      "É como ter um segurança na porta que só deixa entrar quem tem o convite do fechamento."
+                    </div>
                   </div>
-                  <div className="p-8 bg-cyan-400/10 rounded-[3rem] border border-cyan-400/20 space-y-4 text-cyan-400">
-                    <p className="text-[10px] font-black uppercase tracking-widest">Vantagem:</p>
-                    <p className="text-lg italic text-white/80 leading-relaxed">"Pare de perder 4 horas por dia respondendo quem não tem dinheiro. Deixe a IA filtrar o joio do trigo 24h por dia."</p>
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs"><Activity size={16} /> Escala 24/7</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">O negócio nunca para. Enquanto o cliente dorme, a IA qualifica e já agenda a reunião estratégica no CRM.</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
@@ -472,24 +469,26 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* Módulo 05: Gestão Social & Narrativa */}
             {step === 11 && (
               <div className="space-y-8 animate-in fade-in">
                 <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 05</Badge>
-                <h2 className="text-4xl font-black uppercase tracking-tighter">Social: Curadoria de Autoridade</h2>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Gestão Social & Dossiês</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
-                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><Users size={16} /> Menos Seguidores, Mais Decisores</h4>
-                    <p className="text-white/50 text-sm leading-relaxed">Não fazemos "postzinho". Criamos curadoria de autoridade. O perfil do cliente deve ser um portfólio de competência, não uma coleção de memes.</p>
+                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><Users size={16} /> Curadoria de Autoridade</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">Não fazemos "postzinho". Criamos curadoria estratégica que educa o seguidor para se tornar um cliente pagador.</p>
+                    <div className="p-4 rounded-xl bg-black/40 border border-white/5 text-[10px] text-primary font-bold italic">
+                      "É melhor ter 100 seguidores que compram do que 100 mil que dão parabéns."
+                    </div>
                   </div>
                   <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
-                    <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs"><FileText size={16} /> Dossiês de Venda</h4>
-                    <p className="text-white/50 text-sm leading-relaxed">Transformamos propostas comerciais em ativos de luxo. A Narrativa Visual faz o cliente entender que está comprando um <strong>ecossistema</strong>, não um serviço isolado.</p>
+                    <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs"><FileText size={16} /> Narrativas de Venda</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">Transformamos propostas comerciais em Dossiês de Luxo. O cliente entende visualmente o ROI antes mesmo de ler o texto.</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Teste Final de Serviços <ChevronRight size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Teste de Social <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
@@ -506,11 +505,10 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* Módulo 06: Especialização por Nicho */}
             {step === 13 && (
               <div className="space-y-8 animate-in fade-in">
                 <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 06</Badge>
-                <h2 className="text-4xl font-black uppercase tracking-tighter">Estratégias por Nicho</h2>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Estratégias de Nicho (Parte 1)</h2>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                   <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-3">
                     <h4 className="text-primary font-bold text-xs uppercase">Beleza & Pet Shop</h4>
@@ -527,12 +525,33 @@ export function RecrutamentoClient() {
                 </div>
                 <div className="flex gap-4">
                   <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
-                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Teste de Nicho <ChevronRight size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Ver Mais Nichos <ChevronRight size={16}/></Button>
                 </div>
               </div>
             )}
 
             {step === 14 && (
+              <div className="space-y-8 animate-in fade-in">
+                <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 07</Badge>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Estratégias de Nicho (Parte 2)</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-primary font-black uppercase text-xs"><Briefcase size={16} /> Mercado de Alimentos</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">A dependência de taxas de delivery mata o lucro. Ensinamos a vender a transição para canais próprios via WhatsApp + IA.</p>
+                  </div>
+                  <div className="p-8 bg-white/5 rounded-[3rem] border border-white/10 space-y-6">
+                    <h4 className="flex items-center gap-2 text-cyan-400 font-black uppercase text-xs"><Zap size={16} /> Lounges & Eventos</h4>
+                    <p className="text-white/50 text-sm leading-relaxed">O gargalo é a reserva. Atendimento lento perde o cliente para o concorrente. Solução: IA Qualificadora de Reservas.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={16}/></Button>
+                  <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Teste de Nicho <ChevronRight size={16}/></Button>
+                </div>
+              </div>
+            )}
+
+            {step === 15 && (
               <div className="space-y-8 animate-in fade-in">
                 <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Nichos Específicos</h3>
                 <p className="text-white/40">Como você abordaria um dono de Pet Shop que tem muitas curtidas, mas a agenda está sempre com buracos?</p>
@@ -544,11 +563,10 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* Módulo 07: Precificação & Tabela */}
-            {step === 15 && (
+            {step === 16 && (
               <div className="space-y-8 animate-in fade-in">
-                <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 07</Badge>
-                <h2 className="text-4xl font-black uppercase tracking-tighter">Combos & Precificação</h2>
+                <Badge className="bg-primary/10 text-primary uppercase text-[9px] tracking-widest">Mini-Curso 08</Badge>
+                <h2 className="text-4xl font-black uppercase tracking-tighter">Precificação Estratégica</h2>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
@@ -587,7 +605,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 16 && (
+            {step === 17 && (
               <div className="space-y-8 animate-in fade-in">
                 <h3 className="text-2xl font-black uppercase tracking-tighter">Desafio: Negociação</h3>
                 <p className="text-white/40">O cliente diz: "Achei caro, fulano faz por R$ 300". Como você defende o valor do ecossistema Sapient?</p>
@@ -599,8 +617,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {/* Desafio Final: Áudios */}
-            {step === 17 && (
+            {step === 18 && (
               <div className="space-y-8 animate-in fade-in">
                 <div className="text-center space-y-4">
                   <div className="h-16 w-16 rounded-full bg-primary/20 text-primary flex items-center justify-center mx-auto mb-6"><Mic size={32} /></div>
@@ -625,7 +642,7 @@ export function RecrutamentoClient() {
               </div>
             )}
 
-            {step === 18 && (
+            {step === 19 && (
               <div className="space-y-8 animate-in fade-in">
                 <div className="text-center space-y-4">
                   <h2 className="text-3xl font-black uppercase">Último Teste: O Pitch Final</h2>

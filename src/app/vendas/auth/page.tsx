@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from "react";
@@ -7,10 +6,10 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { useFirebase, initiateGoogleSignIn } from "@/firebase";
+import { useFirebase } from "@/firebase";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { Mail, Lock, Chrome, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function AuthPage() {
@@ -39,11 +38,10 @@ export default function AuthPage() {
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
       }
-      // O useEffect redirecionará automaticamente ao detectar o user
     } catch (err: any) {
-      console.error(err);
       let message = "Ocorreu um erro na autenticação.";
       if (err.code === 'auth/wrong-password') message = "Senha incorreta.";
+      if (err.code === 'auth/invalid-credential') message = "Credenciais inválidas. Verifique e-mail e senha.";
       if (err.code === 'auth/user-not-found') message = "Usuário não encontrado.";
       if (err.code === 'auth/email-already-in-use') message = "E-mail já está sendo utilizado.";
       if (err.code === 'auth/weak-password') message = "A senha deve ter no mínimo 6 caracteres.";
@@ -53,15 +51,6 @@ export default function AuthPage() {
         description: message, 
         variant: "destructive" 
       });
-      setIsLoading(false);
-    }
-  };
-
-  const handleGoogleAuth = () => {
-    setIsLoading(true);
-    try {
-      initiateGoogleSignIn(auth);
-    } catch (err) {
       setIsLoading(false);
     }
   };
@@ -131,23 +120,6 @@ export default function AuthPage() {
                 )}
               </Button>
             </form>
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/5"></div></div>
-              <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.4em] text-white/20">
-                <span className="bg-[#0d0c14] px-4">Ou continue com</span>
-              </div>
-            </div>
-
-            <Button 
-              type="button"
-              onClick={handleGoogleAuth}
-              disabled={isLoading}
-              variant="outline" 
-              className="w-full h-16 border-white/10 hover:bg-white/5 rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3"
-            >
-              <Chrome size={18} className="text-primary" /> Login com Google
-            </Button>
           </div>
 
           <p className="text-center text-[9px] text-white/20 font-bold uppercase tracking-widest leading-relaxed">
