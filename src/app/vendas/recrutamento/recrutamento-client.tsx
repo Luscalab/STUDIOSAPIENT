@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from "react";
@@ -261,6 +260,7 @@ export function RecrutamentoClient() {
       setStep(2);
     }
     setView('training');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (isUserLoading || isProfileLoading) {
@@ -385,7 +385,11 @@ export function RecrutamentoClient() {
                 {modules.map((m, idx) => (
                   <button 
                     key={idx}
-                    onClick={() => { setStep(m.step); setView('training'); }}
+                    onClick={() => { 
+                      setStep(m.step); 
+                      setView('training');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
                     className={cn(
                       "p-8 rounded-[2.5rem] border transition-all duration-500 text-left group relative overflow-hidden h-[240px] flex flex-col justify-between",
                       m.done 
