@@ -16,6 +16,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import { 
   Mic, 
   MicOff, 
@@ -66,7 +73,10 @@ import {
   BookMarked,
   Filter,
   ExternalLink,
-  Mail
+  Mail,
+  Star,
+  MapPin,
+  Quote
 } from "lucide-react";
 import { useFirebase, useFirestore, useDoc, useCollection, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
 import { collection, serverTimestamp, doc, query, orderBy } from "firebase/firestore";
@@ -84,8 +94,8 @@ export function RecrutamentoClient() {
   
   const [isLoading, setIsLoading] = useState(false);
   const [consentAccepted, setConsentAccepted] = useState(false);
-  const [outboundAccepted, setOutboundAccepted] = useState(false);
   const [leadSearch, setLeadSearch] = useState("");
+  const [selectedLead, setSelectedLead] = useState<any | null>(null);
   
   const [formData, setFormData] = useState({
     name: "",
@@ -125,7 +135,7 @@ export function RecrutamentoClient() {
 
   const leadsQuery = useMemoFirebase(() => {
     if (!db || !profile?.leadsEnabled) return null;
-    return query(collection(db, 'commercial_leads'), orderBy('category', 'asc'));
+    return query(collection(db, 'commercial_leads'), orderBy('createdAt', 'desc'));
   }, [db, profile?.leadsEnabled]);
 
   const { data: leads, isLoading: isLeadsLoading } = useCollection(leadsQuery);
@@ -189,37 +199,6 @@ export function RecrutamentoClient() {
     reader.readAsDataURL(file);
   };
 
-  const startRecording = async (target: 'audio1' | 'final') => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      streamRef.current = stream;
-      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-      mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = [];
-      mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunksRef.current.push(e.data); };
-      mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        const reader = new FileReader();
-        reader.readAsDataURL(audioBlob);
-        reader.onloadend = () => {
-          const b64 = reader.result as string;
-          if (target === 'audio1') { setAudio1Base64(b64); setFormData(prev => ({ ...prev, audioObjeçãoAds: b64 })); }
-          else { setAudioFinalBase64(b64); setFormData(prev => ({ ...prev, pitchAudioUri: b64 })); }
-        };
-      };
-      mediaRecorder.start();
-      setIsRecording(true);
-    } catch (err) {
-      toast({ title: "ERRO DE MICROFONE", variant: "destructive" });
-    }
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') mediaRecorderRef.current.stop();
-    if (streamRef.current) streamRef.current.getTracks().forEach(track => track.stop());
-    setIsRecording(false);
-  };
-
   const handleNextStep = () => {
     if (step === 1 && (!formData.name.trim() || !consentAccepted)) {
       toast({ title: "Dados Incompletos", variant: "destructive" });
@@ -232,12 +211,9 @@ export function RecrutamentoClient() {
     scrollToTop();
   };
 
-  const handleSubmit = () => {
-    if (!audioFinalBase64) return;
-    setIsLoading(true);
-    addDocumentNonBlocking(collection(db, 'sales_candidates'), { ...formData, userId: user?.uid, timestamp: serverTimestamp(), status: 'PENDENTE_AVALIACAO_HUMANA' })
-      .then(() => { setIsLoading(false); setStep(63); scrollToTop(); })
-      .catch(() => { setIsLoading(false); toast({ title: "Erro ao Enviar", variant: "destructive" }); });
+  const handlePrevStep = () => {
+    setStep(prev => Math.max(1, prev - 1));
+    scrollToTop();
   };
 
   const modules = [
@@ -249,13 +225,11 @@ export function RecrutamentoClient() {
     { title: "Narrativa Visual", icon: <FileText size={24} />, step: 33, done: !!formData.ansNarrativa },
     { title: "Estratégia de Nicho", icon: <Target size={24} />, step: 39, done: !!formData.ansNichos },
     { title: "Negociação de Valor", icon: <PieChart size={24} />, step: 45, done: !!formData.ansPreco },
-    { title: "Audição Técnica", icon: <Mic size={24} />, step: 51, done: !!audio1Base64 },
-    { title: "Pitch de Elite", icon: <Trophy size={24} />, step: 57, done: !!audioFinalBase64 },
   ];
 
   const filteredLeads = leads?.filter(l => 
-    l.companyName.toLowerCase().includes(leadSearch.toLowerCase()) || 
-    l.category.toLowerCase().includes(leadSearch.toLowerCase())
+    (l.companyName || "").toLowerCase().includes(leadSearch.toLowerCase()) || 
+    (l.category || "").toLowerCase().includes(leadSearch.toLowerCase())
   );
 
   if (isUserLoading || isProfileLoading) {
@@ -317,7 +291,7 @@ export function RecrutamentoClient() {
                   <div className="relative z-10 space-y-4">
                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/60">Formação Ativa</p>
                     <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">Mestre em <br/>Estratégia.</h3>
-                    <Button onClick={() => setView('training')} className="bg-white text-black hover:bg-white/90 rounded-full font-black uppercase text-[10px] px-8 h-12">Continuar Imersão <ChevronRight size={14} /></Button>
+                    <Button onClick={() => setView('training')} className="bg-white text-black hover:bg-white/90 rounded-full font-black uppercase text-[10px] px-8 h-12 shadow-xl">Continuar Imersão <ChevronRight size={14} /></Button>
                   </div>
                 </div>
 
@@ -327,7 +301,7 @@ export function RecrutamentoClient() {
                     <div className="relative z-10 space-y-4">
                       <p className="text-[10px] font-black uppercase tracking-[0.3em] text-black/40">Base de Prospecção</p>
                       <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">Painel de <br/>Leads Elite.</h3>
-                      <Button onClick={() => setView('leads')} className="bg-black text-white hover:bg-black/90 rounded-full font-black uppercase text-[10px] px-8 h-12">Acessar Leads <ChevronRight size={14} /></Button>
+                      <Button onClick={() => setView('leads')} className="bg-black text-white hover:bg-black/90 rounded-full font-black uppercase text-[10px] px-8 h-12 shadow-xl">Acessar Leads <ChevronRight size={14} /></Button>
                     </div>
                   </div>
                 )}
@@ -365,29 +339,161 @@ export function RecrutamentoClient() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredLeads?.length === 0 ? (
                   <div className="col-span-full p-20 text-center bg-white/5 border border-dashed border-white/10 rounded-[3rem] space-y-4">
                     <Database size={40} className="mx-auto text-white/10" />
-                    <p className="text-white/20 font-black uppercase tracking-widest text-xs">Nenhum lead disponível no momento.</p>
+                    <p className="text-white/20 font-black uppercase tracking-widest text-xs">Nenhum lead estratégico disponível.</p>
                   </div>
                 ) : filteredLeads?.map((l) => (
-                  <div key={l.id} className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 space-y-6 hover:bg-white/10 transition-all group">
+                  <div key={l.id} className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 space-y-6 hover:bg-white/10 transition-all group relative overflow-hidden border-t-4 border-t-primary/20">
                     <div className="flex justify-between items-start">
                       <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase tracking-widest">{l.category}</Badge>
-                      <Badge variant="outline" className="border-white/10 text-white/40 text-[7px] font-black uppercase">{l.status}</Badge>
+                      <Badge className={cn("text-[8px] font-black py-1 px-3 border-none", (l.googleRating || 0) >= 4.5 ? "bg-green-500 text-white" : "bg-amber-500 text-black")}>
+                        <Star size={8} className="mr-1 fill-current" /> {l.googleRating || "4.0"}
+                      </Badge>
                     </div>
-                    <div>
-                      <h3 className="text-xl font-black uppercase tracking-tighter text-white">{l.companyName}</h3>
-                      <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{l.contactName}</p>
+                    
+                    <div className="space-y-2">
+                      <h3 className="text-2xl font-black uppercase tracking-tighter text-white leading-none">{l.companyName}</h3>
+                      <div className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+                        <UserCircle size={12} className="text-primary" /> {l.contactName}
+                      </div>
+                      <div className="flex items-center gap-2 text-[10px] font-bold text-white/20 uppercase tracking-widest">
+                        <MapPin size={12} /> {l.region || "Geral"}
+                      </div>
                     </div>
-                    <div className="pt-6 border-t border-white/5 grid grid-cols-2 gap-3">
-                      <a href={`https://wa.me/${l.phone.replace(/\D/g, '')}`} target="_blank" className="h-12 bg-green-500/10 text-green-500 rounded-xl flex items-center justify-center gap-2 font-black uppercase text-[8px] hover:bg-green-500 hover:text-white transition-all"><MessageCircle size={14} /> WhatsApp</a>
-                      <a href={`mailto:${l.email}`} className="h-12 bg-white/5 text-white/40 rounded-xl flex items-center justify-center gap-2 font-black uppercase text-[8px] hover:bg-white/10 hover:text-white transition-all"><Mail size={14} /> E-mail</a>
-                    </div>
+
+                    <Button 
+                      onClick={() => setSelectedLead(l)}
+                      className="w-full h-14 bg-white text-black hover:bg-primary hover:text-white rounded-2xl font-black uppercase text-[9px] tracking-widest shadow-xl transition-all"
+                    >
+                      Ver Estratégia Completa <ChevronRight size={14} className="ml-2" />
+                    </Button>
                   </div>
                 ))}
               </div>
+
+              {/* Drawer de Detalhamento Estratégico */}
+              <Sheet open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
+                <SheetContent className="bg-[#08070b] border-l-white/10 text-white p-0 sm:max-w-xl w-full overflow-y-auto no-scrollbar">
+                  {selectedLead && (
+                    <div className="space-y-0">
+                      {/* Top Block: Dados Frios */}
+                      <div className="p-8 md:p-12 space-y-8 bg-gradient-to-b from-white/5 to-transparent">
+                        <div className="space-y-4">
+                          <button onClick={() => setSelectedLead(null)} className="text-primary font-black uppercase text-[10px] tracking-[0.3em] flex items-center gap-2 mb-6">
+                            <ChevronLeft size={14} /> Voltar aos Leads
+                          </button>
+                          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">{selectedLead.companyName}</h2>
+                          <p className="text-white/40 text-sm font-medium leading-relaxed max-w-sm">Dossiê de inteligência comercial focado em captura de autoridade e ROI.</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-4">
+                          <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/5">
+                            <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary"><UserCircle size={20} /></div>
+                            <div>
+                              <p className="text-[7px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">Decisor Principal</p>
+                              <p className="text-xs font-black uppercase tracking-tight">{selectedLead.contactName}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/5">
+                            <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary"><MapPin size={20} /></div>
+                            <div>
+                              <p className="text-[7px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">Localização & Raio</p>
+                              <p className="text-xs font-black uppercase tracking-tight">{selectedLead.region || "Geral"} — {selectedLead.address || "Endereço não informado"}</p>
+                            </div>
+                          </div>
+                          {selectedLead.website && (
+                            <a href={selectedLead.website.startsWith('http') ? selectedLead.website : `https://${selectedLead.website}`} target="_blank" className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all">
+                              <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary"><Globe size={20} /></div>
+                              <div>
+                                <p className="text-[7px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">Vitrine Digital</p>
+                                <p className="text-xs font-black uppercase tracking-tight text-primary">Acessar Site Oficial <ExternalLink size={10} className="inline ml-1" /></p>
+                              </div>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Seção O Diagnóstico (Gargalos) */}
+                      <div className="p-8 md:p-12 space-y-6">
+                        <div className="flex items-center gap-3">
+                          <div className="h-px flex-1 bg-white/10" />
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">O Diagnóstico</h3>
+                          <div className="h-px flex-1 bg-white/10" />
+                        </div>
+                        
+                        <div className="p-8 rounded-[2rem] bg-white/[0.03] border-l-4 border-l-primary space-y-4">
+                          <div className="text-white/60 text-sm md:text-base leading-relaxed font-medium">
+                            {selectedLead.bottlenecks ? (
+                              <div className="space-y-4">
+                                {selectedLead.bottlenecks.split('\n').map((line: string, i: number) => (
+                                  <div key={i} className="flex gap-3">
+                                    <div className="mt-2 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                                    <p>{line}</p>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="italic text-white/20">Nenhum gargalo técnico identificado preliminarmente.</p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Seção A Solução (Serviços) */}
+                      <div className="px-8 md:px-12 pb-12 space-y-6">
+                        <div className="flex items-center gap-3">
+                          <div className="h-px flex-1 bg-white/10" />
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Plano de Ataque</h3>
+                          <div className="h-px flex-1 bg-white/10" />
+                        </div>
+                        
+                        <div className="flex flex-wrap gap-2">
+                          {(selectedLead.suggestedServices || ["Sites Premium", "Performance Ads", "Sistemas IA"]).map((service: string, i: number) => (
+                            <Badge key={i} className="bg-primary text-white border-none px-4 py-2 text-[9px] font-black uppercase tracking-widest shadow-lg shadow-primary/10">
+                              {service}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Seção Script de Guerra (Dicas) */}
+                      <div className="px-8 md:px-12 pb-24 space-y-6">
+                        <div className="flex items-center gap-3">
+                          <div className="h-px flex-1 bg-white/10" />
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Script de Guerra</h3>
+                          <div className="h-px flex-1 bg-white/10" />
+                        </div>
+                        
+                        <blockquote className="relative p-8 rounded-[2.5rem] bg-white/5 border border-white/5 overflow-hidden">
+                          <Quote className="absolute -top-4 -left-4 h-24 w-24 text-white/[0.02] -z-0" />
+                          <p className="relative z-10 text-lg md:text-xl text-white italic font-medium leading-relaxed tracking-tight">
+                            {selectedLead.salesScript || "Foque na autoridade visual e na dor de não ser encontrado localmente quando o cliente mais precisa."}
+                          </p>
+                        </blockquote>
+
+                        <div className="pt-8 grid grid-cols-2 gap-4">
+                          <a 
+                            href={`https://wa.me/${selectedLead.phone.replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.contactName}, sou consultor da studiosapient. Estava analisando a presença digital da ${selectedLead.companyName}...`)}`} 
+                            target="_blank"
+                            className="flex-1 h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-2xl shadow-green-500/20 hover:scale-105 transition-all"
+                          >
+                            <MessageCircle size={18} /> Iniciar WhatsApp
+                          </a>
+                          <a 
+                            href={`mailto:${selectedLead.email}`}
+                            className="flex-1 h-16 bg-white text-black rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-xl hover:bg-primary hover:text-white transition-all"
+                          >
+                            <Mail size={18} /> Enviar E-mail
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </SheetContent>
+              </Sheet>
             </div>
           ) : (
             <div className="animate-in fade-in slide-in-from-bottom-8">
@@ -411,21 +517,19 @@ export function RecrutamentoClient() {
                       <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp *" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                     </div>
                     <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 flex items-start gap-4"><Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} className="mt-1" /><label htmlFor="consent" className="text-[11px] text-white/60 font-bold leading-tight cursor-pointer uppercase">Aceito os protocolos de proteção de dados e conduta ética Sapient. *</label></div>
-                    <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] w-full md:w-auto">Gravar Dados & Iniciar <ChevronRight size={16} className="ml-2" /></Button>
+                    <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] w-full md:w-auto shadow-2xl shadow-primary/20">Gravar Dados & Iniciar <ChevronRight size={16} className="ml-2" /></Button>
                   </div>
                 )}
 
-                {/* Os outros passos seguem o mesmo padrão anterior, removido aqui para brevidade do XML mas preservando a funcionalidade total */}
                 {step > 1 && step < 63 && (
                   <div className="space-y-8 animate-in fade-in">
                     <div className="flex items-center gap-4"><Badge className="bg-primary/10 text-primary uppercase text-[10px] tracking-widest px-6 py-2">Módulo Progressivo: Passo {step}/63</Badge></div>
                     <div className="space-y-6">
-                      {/* O conteúdo dinâmico dos passos de treinamento deve ser mantido conforme a implementação original */}
-                      <p className="text-lg text-white/60 leading-relaxed italic">Conteúdo em carregamento para o passo técnico selecionado...</p>
+                      <p className="text-lg text-white/60 leading-relaxed italic">Carregando conteúdo técnico especializado...</p>
                     </div>
                     <div className="flex gap-4">
-                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px]"><ChevronLeft size={14}/></Button>
-                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px]">Próximo Conteúdo <ChevronRight size={14} className="ml-2"/></Button>
+                      <Button variant="outline" onClick={handlePrevStep} className="h-16 px-8 rounded-full border-white/10 font-black uppercase text-[9px] hover:bg-white/5"><ChevronLeft size={14}/></Button>
+                      <Button onClick={handleNextStep} className="h-16 flex-1 bg-primary rounded-full font-black uppercase text-[10px] shadow-xl">Próximo Conteúdo <ChevronRight size={14} className="ml-2"/></Button>
                     </div>
                   </div>
                 )}
@@ -434,7 +538,7 @@ export function RecrutamentoClient() {
                   <div className="space-y-12 animate-in zoom-in duration-700 text-center py-10">
                     <div className="h-24 w-24 rounded-full bg-green-500 flex items-center justify-center mx-auto shadow-2xl animate-glow-pulse"><Trophy size={32} className="text-white" /></div>
                     <div className="space-y-4"><h2 className="text-6xl font-black uppercase tracking-tighter leading-none">Imersão Concluída.</h2><p className="text-xl text-white/50 font-medium">Seu dossiê técnico foi enviado com sucesso. Aguarde a análise em até 48h.</p></div>
-                    <Button onClick={() => { setView('dashboard'); scrollToTop(); }} className="h-16 px-12 border border-white/10 bg-transparent rounded-full font-black uppercase text-[10px] hover:bg-white/5">Voltar ao Painel</Button>
+                    <Button onClick={() => { setView('dashboard'); setStep(1); scrollToTop(); }} className="h-16 px-12 border border-white/10 bg-transparent rounded-full font-black uppercase text-[10px] hover:bg-white/5">Voltar ao Painel</Button>
                   </div>
                 )}
               </div>

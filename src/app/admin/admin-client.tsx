@@ -49,7 +49,10 @@ import {
   Database,
   Edit3,
   Filter,
-  Trash2
+  Trash2,
+  Star,
+  Globe,
+  Plus
 } from "lucide-react";
 import { useFirebase, useFirestore, useCollection, useMemoFirebase, initiateSignOut, updateDocumentNonBlocking, addDocumentNonBlocking, deleteDocumentNonBlocking } from "@/firebase";
 import { collection, query, orderBy, doc, serverTimestamp, where } from "firebase/firestore";
@@ -104,8 +107,6 @@ export function AdminClient() {
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
 
-  const currentCandidate = candidates?.find(c => c.id === selectedCandidate?.id) || selectedCandidate;
-
   const handleSignOut = () => {
     initiateSignOut(auth);
     router.push("/vendas/auth");
@@ -138,12 +139,19 @@ export function AdminClient() {
       
       const newLeads = lines.slice(1).filter(l => l.trim()).map(line => {
         const values = line.split(',').map(v => v.trim());
+        const rating = parseFloat(values[headers.indexOf('nota')]) || 4.0;
         return {
           companyName: values[headers.indexOf('empresa')] || values[0] || "Sem Nome",
           contactName: values[headers.indexOf('contato')] || values[1] || "-",
           email: values[headers.indexOf('email')] || values[2] || "-",
           phone: values[headers.indexOf('telefone')] || values[3] || "-",
           category: values[headers.indexOf('categoria')] || values[4] || "Geral",
+          googleRating: rating,
+          region: values[headers.indexOf('regiao')] || "-",
+          website: values[headers.indexOf('site')] || "",
+          bottlenecks: values[headers.indexOf('gargalos')] || "",
+          salesScript: values[headers.indexOf('script')] || "",
+          suggestedServices: (values[headers.indexOf('servicos')] || "").split(';').map(s => s.trim()).filter(Boolean),
           status: "NOVO",
           notes: "",
           createdAt: new Date().toISOString()
@@ -154,7 +162,7 @@ export function AdminClient() {
         await addDocumentNonBlocking(collection(db, 'commercial_leads'), lead);
       }
 
-      toast({ title: "Importação Concluída", description: `${newLeads.length} leads foram adicionados à base.` });
+      toast({ title: "Importação Concluída", description: `${newLeads.length} leads estratégicos adicionados.` });
       if (fileInputRef.current) fileInputRef.current.value = "";
     };
     reader.readAsText(file);
@@ -166,26 +174,14 @@ export function AdminClient() {
     const { id, ...data } = editingLead;
     updateDocumentNonBlocking(docRef, data);
     setEditingLead(null);
-    toast({ title: "Lead Atualizado", description: "Alterações salvas com sucesso." });
+    toast({ title: "Lead Atualizado", description: "Dados estratégicos salvos." });
   };
 
   const deleteLead = (id: string) => {
-    if (confirm("Tem certeza que deseja excluir este lead?")) {
+    if (confirm("Deseja realmente remover este lead estratégico?")) {
       const docRef = doc(db, 'commercial_leads', id);
       deleteDocumentNonBlocking(docRef);
       toast({ title: "Lead Removido", variant: "destructive" });
-    }
-  };
-
-  const formatDate = (timestamp: any) => {
-    if (!timestamp) return "-";
-    try {
-      if (typeof timestamp.toDate === 'function') {
-        return timestamp.toDate().toLocaleDateString('pt-BR');
-      }
-      return new Date(timestamp).toLocaleDateString('pt-BR');
-    } catch (e) {
-      return "-";
     }
   };
 
@@ -223,10 +219,10 @@ export function AdminClient() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
             <div className="space-y-4">
               <Badge className="bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">
-                Gestão de Talentos Sapient
+                Gestão Sapient Elite
               </Badge>
               <h1 className="font-headline text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none text-white">
-                Painel <span className="text-primary italic lowercase">administrativo.</span>
+                Painel <span className="text-primary italic lowercase">admin.</span>
               </h1>
             </div>
             
@@ -235,7 +231,7 @@ export function AdminClient() {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20 group-focus-within:text-primary transition-colors" />
                 <input 
                   type="text" 
-                  placeholder="Buscar..."
+                  placeholder="Buscar na base..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full bg-white/5 border border-white/10 h-14 pl-12 pr-6 rounded-2xl font-bold focus:ring-primary/20 outline-none transition-all text-sm"
@@ -247,11 +243,11 @@ export function AdminClient() {
             </div>
           </div>
 
-          <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/10 mb-12 max-w-lg">
+          <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/10 mb-12 max-w-lg overflow-x-auto no-scrollbar">
             <button 
               onClick={() => { setActiveTab('candidates'); setSelectedCandidate(null); }}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                "flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap",
                 activeTab === 'candidates' ? "bg-primary text-white shadow-lg" : "text-white/30 hover:text-white"
               )}
             >
@@ -260,7 +256,7 @@ export function AdminClient() {
             <button 
               onClick={() => { setActiveTab('profiles'); setSelectedCandidate(null); }}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                "flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap",
                 activeTab === 'profiles' ? "bg-primary text-white shadow-lg" : "text-white/30 hover:text-white"
               )}
             >
@@ -269,7 +265,7 @@ export function AdminClient() {
             <button 
               onClick={() => { setActiveTab('leads'); setSelectedCandidate(null); }}
               className={cn(
-                "flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                "flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap",
                 activeTab === 'leads' ? "bg-primary text-white shadow-lg" : "text-white/30 hover:text-white"
               )}
             >
@@ -280,10 +276,10 @@ export function AdminClient() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {activeTab === 'candidates' && (
               <>
-                <div className={cn("space-y-4", currentCandidate ? "lg:col-span-4 hidden lg:block" : "lg:col-span-12")}>
+                <div className={cn("space-y-4", selectedCandidate ? "lg:col-span-4 hidden lg:block" : "lg:col-span-12")}>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
                     {filteredCandidates?.map((c) => (
-                      <button key={c.id} onClick={() => setSelectedCandidate(c)} className={cn("w-full text-left p-6 rounded-[2rem] border transition-all duration-500 group relative overflow-hidden", currentCandidate?.id === c.id ? "bg-primary border-primary shadow-2xl shadow-primary/20" : "bg-white/5 border-white/10 hover:border-white/30")}>
+                      <button key={c.id} onClick={() => setSelectedCandidate(c)} className={cn("w-full text-left p-6 rounded-[2rem] border transition-all duration-500 group relative overflow-hidden", selectedCandidate?.id === c.id ? "bg-primary border-primary shadow-2xl shadow-primary/20" : "bg-white/5 border-white/10 hover:border-white/30")}>
                         <div className="relative z-10 flex justify-between items-start">
                           <div className="flex gap-4">
                             <div className="h-12 w-12 rounded-xl bg-black/20 overflow-hidden border border-white/10 shrink-0">
@@ -291,40 +287,38 @@ export function AdminClient() {
                             </div>
                             <div className="space-y-1">
                               <h3 className="font-black uppercase tracking-tight text-sm text-white truncate max-w-[150px]">{c.name || "Sem Nome"}</h3>
-                              <p className={cn("text-[10px] font-bold uppercase tracking-widest", currentCandidate?.id === c.id ? "text-white/60" : "text-white/30")}>{c.cityState || 'Sem Local'}</p>
+                              <p className={cn("text-[10px] font-bold uppercase tracking-widest", selectedCandidate?.id === c.id ? "text-white/60" : "text-white/30")}>{c.cityState || 'Sem Local'}</p>
                             </div>
                           </div>
-                          <div className="flex flex-col items-end gap-2">
-                            <Badge className={cn("text-[7px] font-black px-2 py-0.5 uppercase border-none", c.status === 'APROVADO' ? "bg-green-500 text-white" : c.status === 'REPROVADO' ? "bg-red-500 text-white" : "bg-amber-500 text-black")}>
-                              {c.status?.replace(/_/g, ' ') || 'PENDENTE'}
-                            </Badge>
-                          </div>
+                          <Badge className={cn("text-[7px] font-black px-2 py-0.5 uppercase border-none", c.status === 'APROVADO' ? "bg-green-500 text-white" : c.status === 'REPROVADO' ? "bg-red-500 text-white" : "bg-amber-500 text-black")}>
+                            {c.status?.replace(/_/g, ' ') || 'PENDENTE'}
+                          </Badge>
                         </div>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {currentCandidate ? (
+                {selectedCandidate ? (
                   <div className="lg:col-span-8 animate-in fade-in slide-in-from-right-4">
                     <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-12 backdrop-blur-3xl shadow-2xl space-y-12">
                       <div className="flex flex-col md:flex-row justify-between gap-8 items-start">
                         <div className="flex flex-col sm:flex-row gap-8">
                           <div className="h-32 w-32 md:h-48 md:w-48 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden relative shadow-2xl">
-                            {currentCandidate.photoUri ? <img src={currentCandidate.photoUri} alt={currentCandidate.name} className="object-cover w-full h-full" /> : <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-4xl">{getInitials(currentCandidate.name || "")}</div>}
+                            {selectedCandidate.photoUri ? <img src={selectedCandidate.photoUri} alt={selectedCandidate.name} className="object-cover w-full h-full" /> : <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-4xl">{getInitials(selectedCandidate.name || "")}</div>}
                           </div>
                           <div className="space-y-6">
                             <button onClick={() => setSelectedCandidate(null)} className="lg:hidden flex items-center gap-2 text-primary font-black uppercase text-[10px] tracking-widest mb-4"><ArrowLeft size={14} /> Voltar</button>
-                            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">{currentCandidate.name || 'Sem nome'}</h2>
+                            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">{selectedCandidate.name || 'Sem nome'}</h2>
                             <div className="flex flex-wrap gap-3">
-                              <a href={`https://wa.me/${currentCandidate.phone?.replace(/\D/g, '')}`} target="_blank" className="h-12 px-6 bg-green-500/10 text-green-500 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all"><MessageCircle size={16} /> WhatsApp</a>
-                              {currentCandidate.resumeUri && <a href={currentCandidate.resumeUri} download={`curriculo-${currentCandidate.name}.pdf`} className="h-12 px-6 bg-cyan-500/10 text-cyan-400 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-cyan-500 hover:text-white transition-all"><Download size={16} /> CV</a>}
+                              <a href={`https://wa.me/${selectedCandidate.phone?.replace(/\D/g, '')}`} target="_blank" className="h-12 px-6 bg-green-500/10 text-green-500 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all"><MessageCircle size={16} /> WhatsApp</a>
+                              {selectedCandidate.resumeUri && <a href={selectedCandidate.resumeUri} download={`curriculo-${selectedCandidate.name}.pdf`} className="h-12 px-6 bg-cyan-500/10 text-cyan-400 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-cyan-500 hover:text-white transition-all"><Download size={16} /> CV</a>}
                             </div>
                           </div>
                         </div>
                         <div className="flex flex-col gap-2 w-full md:w-48">
-                          <button onClick={() => updateCandidateStatus(currentCandidate.id, 'APROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-green-500/10 text-green-500 border border-green-500/20 hover:bg-green-500 hover:text-white transition-all text-[9px] font-black uppercase">Aprovar <CheckCircle2 size={14} /></button>
-                          <button onClick={() => updateCandidateStatus(currentCandidate.id, 'REPROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all text-[9px] font-black uppercase">Reprovar <XCircle size={14} /></button>
+                          <button onClick={() => updateCandidateStatus(selectedCandidate.id, 'APROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-green-500/10 text-green-500 border border-green-500/20 hover:bg-green-500 hover:text-white transition-all text-[9px] font-black uppercase">Aprovar <CheckCircle2 size={14} /></button>
+                          <button onClick={() => updateCandidateStatus(selectedCandidate.id, 'REPROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all text-[9px] font-black uppercase">Reprovar <XCircle size={14} /></button>
                         </div>
                       </div>
                     </div>
@@ -360,9 +354,7 @@ export function AdminClient() {
                           className="data-[state=checked]:bg-green-500"
                         />
                       </div>
-                      <div className="flex gap-2">
-                        <a href={`https://wa.me/${p.phone?.replace(/\D/g, '')}`} target="_blank" className="flex-1 h-12 bg-green-500/10 text-green-500 rounded-xl flex items-center justify-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all"><MessageCircle size={16} /> WhatsApp</a>
-                      </div>
+                      <a href={`https://wa.me/${p.phone?.replace(/\D/g, '')}`} target="_blank" className="w-full h-12 bg-green-500/10 text-green-500 rounded-xl flex items-center justify-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all"><MessageCircle size={16} /> WhatsApp</a>
                     </div>
                   </div>
                 ))}
@@ -373,8 +365,8 @@ export function AdminClient() {
               <div className="lg:col-span-12 space-y-8 animate-in fade-in">
                 <div className="flex flex-col md:flex-row justify-between gap-6 bg-white/5 p-8 rounded-[3rem] border border-white/10">
                   <div className="space-y-2">
-                    <h3 className="text-2xl font-black uppercase tracking-tighter">Gestão de Prospecção</h3>
-                    <p className="text-white/40 text-xs font-medium">Importe arquivos .CSV para distribuir leads entre os consultores.</p>
+                    <h3 className="text-2xl font-black uppercase tracking-tighter">Prospecção Estratégica</h3>
+                    <p className="text-white/40 text-xs font-medium">Importe diagnósticos frios para distribuição entre o time de elite.</p>
                   </div>
                   <div className="flex gap-4">
                     <input type="file" accept=".csv" ref={fileInputRef} onChange={handleCSVUpload} className="hidden" />
@@ -386,20 +378,33 @@ export function AdminClient() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {filteredLeads?.map((l) => (
-                    <div key={l.id} className="p-6 rounded-[2rem] bg-white/5 border border-white/10 space-y-4 hover:border-primary/30 transition-all group">
+                    <div key={l.id} className="p-6 rounded-[2rem] bg-white/5 border border-white/10 space-y-4 hover:border-primary/30 transition-all group relative overflow-hidden">
                       <div className="flex justify-between items-start">
                         <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase">{l.category}</Badge>
-                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => setEditingLead(l)} className="h-8 w-8 rounded-lg bg-white/5 flex items-center justify-center text-white/40 hover:text-white"><Edit3 size={14}/></button>
-                          <button onClick={() => deleteLead(l.id)} className="h-8 w-8 rounded-lg bg-red-500/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white"><Trash2 size={14}/></button>
+                        <div className="flex gap-2">
+                          <button onClick={() => setEditingLead(l)} className="h-8 w-8 rounded-lg bg-white/5 flex items-center justify-center text-white/40 hover:text-white transition-colors"><Edit3 size={14}/></button>
+                          <button onClick={() => deleteLead(l.id)} className="h-8 w-8 rounded-lg bg-red-500/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-colors"><Trash2 size={14}/></button>
                         </div>
                       </div>
-                      <div>
-                        <h4 className="font-black uppercase tracking-tight text-white">{l.companyName}</h4>
-                        <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{l.contactName}</p>
+                      
+                      <div className="space-y-1">
+                        <h4 className="font-black uppercase tracking-tight text-white text-lg">{l.companyName}</h4>
+                        <div className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+                          <UserCircle size={12} /> {l.contactName}
+                        </div>
                       </div>
-                      <div className="pt-4 border-t border-white/5 flex flex-wrap gap-2">
-                        <div className="flex items-center gap-2 text-[9px] font-bold text-white/40 uppercase"><Mail size={12}/> {l.email}</div>
+
+                      <div className="flex items-center gap-3">
+                        <Badge className={cn("text-[8px] font-black py-1 px-3 border-none", (l.googleRating || 0) >= 4.5 ? "bg-green-500 text-white" : "bg-amber-500 text-black")}>
+                          <Star size={8} className="mr-1 fill-current" /> {l.googleRating || "4.0"}
+                        </Badge>
+                        <div className="flex items-center gap-1 text-[9px] font-black text-white/20 uppercase">
+                          <MapPin size={10} /> {l.region || "Geral"}
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-white/5 flex flex-wrap gap-3">
+                        <div className="flex items-center gap-2 text-[9px] font-bold text-white/40 uppercase truncate max-w-[150px]"><Mail size={12}/> {l.email}</div>
                         <div className="flex items-center gap-2 text-[9px] font-bold text-white/40 uppercase"><MessageCircle size={12}/> {l.phone}</div>
                       </div>
                     </div>
@@ -411,45 +416,56 @@ export function AdminClient() {
         </div>
       </section>
 
-      {/* Dialog de Edição de Lead */}
+      {/* Dialog de Edição de Lead Estratégico */}
       {editingLead && (
         <Dialog open={!!editingLead} onOpenChange={() => setEditingLead(null)}>
-          <DialogContent className="bg-[#0c0a1a] border-white/10 text-white rounded-[3rem] p-10">
+          <DialogContent className="bg-[#0c0a1a] border-white/10 text-white rounded-[3rem] p-10 max-w-3xl max-h-[90vh] overflow-y-auto no-scrollbar">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-black uppercase tracking-tighter">Editar Lead</DialogTitle>
+              <DialogTitle className="text-2xl font-black uppercase tracking-tighter">Dossiê Estratégico</DialogTitle>
             </DialogHeader>
-            <div className="grid grid-cols-1 gap-4 py-6">
-              <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase text-white/30">Empresa</Label>
-                <Input value={editingLead.companyName} onChange={(e) => setEditingLead({...editingLead, companyName: e.target.value})} className="bg-white/5 border-white/10" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-6">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase text-white/30">Empresa</Label>
+                  <Input value={editingLead.companyName} onChange={(e) => setEditingLead({...editingLead, companyName: e.target.value})} className="bg-white/5 border-white/10 h-12" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase text-white/30">Contato Decisor</Label>
+                  <Input value={editingLead.contactName} onChange={(e) => setEditingLead({...editingLead, contactName: e.target.value})} className="bg-white/5 border-white/10 h-12" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase text-white/30">Nota Google</Label>
+                    <Input type="number" step="0.1" value={editingLead.googleRating} onChange={(e) => setEditingLead({...editingLead, googleRating: parseFloat(e.target.value)})} className="bg-white/5 border-white/10" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase text-white/30">Região</Label>
+                    <Input value={editingLead.region} onChange={(e) => setEditingLead({...editingLead, region: e.target.value})} className="bg-white/5 border-white/10" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase text-white/30">Site Oficial</Label>
+                  <Input value={editingLead.website} onChange={(e) => setEditingLead({...editingLead, website: e.target.value})} className="bg-white/5 border-white/10" />
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+
+              <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase text-white/30">Contato</Label>
-                  <Input value={editingLead.contactName} onChange={(e) => setEditingLead({...editingLead, contactName: e.target.value})} className="bg-white/5 border-white/10" />
+                  <Label className="text-[10px] font-black uppercase text-primary">Diagnóstico (Gargalos)</Label>
+                  <Textarea value={editingLead.bottlenecks} onChange={(e) => setEditingLead({...editingLead, bottlenecks: e.target.value})} className="bg-white/5 border-white/10 min-h-[100px] text-sm" placeholder="Liste os problemas encontrados..." />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase text-white/30">Categoria</Label>
-                  <Input value={editingLead.category} onChange={(e) => setEditingLead({...editingLead, category: e.target.value})} className="bg-white/5 border-white/10" />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase text-white/30">E-mail</Label>
-                  <Input value={editingLead.email} onChange={(e) => setEditingLead({...editingLead, email: e.target.value})} className="bg-white/5 border-white/10" />
+                  <Label className="text-[10px] font-black uppercase text-primary">Script de Guerra (Dicas)</Label>
+                  <Textarea value={editingLead.salesScript} onChange={(e) => setEditingLead({...editingLead, salesScript: e.target.value})} className="bg-white/5 border-white/10 min-h-[100px] text-sm" placeholder="Qual a melhor abordagem para este lead?" />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase text-white/30">Telefone</Label>
-                  <Input value={editingLead.phone} onChange={(e) => setEditingLead({...editingLead, phone: e.target.value})} className="bg-white/5 border-white/10" />
+                  <Label className="text-[10px] font-black uppercase text-white/30">Notas Internas</Label>
+                  <Textarea value={editingLead.notes} onChange={(e) => setEditingLead({...editingLead, notes: e.target.value})} className="bg-white/5 border-white/10 min-h-[80px] text-xs" />
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase text-white/30">Notas Internas</Label>
-                <Textarea value={editingLead.notes} onChange={(e) => setEditingLead({...editingLead, notes: e.target.value})} className="bg-white/5 border-white/10 min-h-[100px]" />
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={saveLeadEdits} className="w-full h-14 bg-primary rounded-2xl font-black uppercase tracking-widest text-[10px]">Salvar Alterações</Button>
+              <Button onClick={saveLeadEdits} className="w-full h-14 bg-primary rounded-2xl font-black uppercase tracking-widest text-[10px]">Salvar Configurações de Elite</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

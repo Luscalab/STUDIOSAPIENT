@@ -13,7 +13,7 @@
     },
     "CommercialLead": {
       "title": "CommercialLead",
-      "description": "Lead de prospecção importado via CSV para os consultores.",
+      "description": "Lead de prospecção estratégica com diagnóstico para os consultores.",
       "type": "object",
       "properties": {
         "companyName": { "type": "string" },
@@ -21,7 +21,14 @@
         "email": { "type": "string" },
         "phone": { "type": "string" },
         "category": { "type": "string" },
+        "googleRating": { "type": "number" },
+        "region": { "type": "string" },
+        "address": { "type": "string" },
+        "website": { "type": "string" },
         "status": { "type": "string", "enum": ["NOVO", "EM_CONTATO", "NEGOCIACAO", "FECHADO", "PERDIDO"] },
+        "bottlenecks": { "type": "string" },
+        "suggestedServices": { "type": "array", "items": { "type": "string" } },
+        "salesScript": { "type": "string" },
         "notes": { "type": "string" },
         "createdAt": { "type": "string", "format": "date-time" }
       }
@@ -47,7 +54,7 @@
     },
     "SalesCandidate": {
       "title": "SalesCandidate",
-      "description": "Candidato a vendedor avaliado via ficha técnica e testes de locução.",
+      "description": "Candidato a vendedor avaliado via ficha técnica.",
       "type": "object",
       "properties": {
         "userId": { "type": "string" },
@@ -86,7 +93,7 @@
     },
     "/commercial_leads/{leadId}": {
       "schema": "CommercialLead",
-      "description": "Base de dados de prospecção gerenciada pelo admin."
+      "description": "Base de dados de prospecção estratégica."
     },
     "/sales_profiles/{userId}": {
       "schema": "SalesProfile",
