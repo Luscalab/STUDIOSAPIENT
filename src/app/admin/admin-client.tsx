@@ -34,7 +34,9 @@ import {
   UserCheck,
   Contact2,
   Download,
-  ExternalLink
+  ExternalLink,
+  UserCircle,
+  Camera
 } from "lucide-react";
 import { useFirebase, useFirestore, useCollection, useMemoFirebase, initiateSignOut, updateDocumentNonBlocking } from "@/firebase";
 import { collection, query, orderBy, doc } from "firebase/firestore";
