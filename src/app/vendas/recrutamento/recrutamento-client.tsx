@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { 
   Dialog,
   DialogContent,
@@ -77,7 +78,8 @@ import {
   Quote,
   MessageCircle,
   CalendarDays,
-  History
+  History,
+  AlertCircle
 } from "lucide-react";
 import { useFirebase, useFirestore, useDoc, useCollection, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, updateDocumentNonBlocking } from "@/firebase";
 import { collection, doc, query, orderBy } from "firebase/firestore";
@@ -237,6 +239,37 @@ export function RecrutamentoClient() {
     setIsMeetingAgendamentoOpen(false);
     toast({ title: "Reunião Registrada", description: "O setor administrativo foi notificado." });
     setSelectedLead((prev: any) => prev ? { ...prev, status: 'REUNIAO_AGENDADA', meetingDate: meetingIso } : null);
+  };
+
+  const getAlgorithmInsight = (rating: number) => {
+    if (rating >= 4.8) return {
+      label: "AUTORIDADE DE ELITE",
+      color: "text-green-400",
+      bg: "bg-green-400/10",
+      desc: "O algoritmo do Google já prioriza esta empresa. O erro aqui é a estagnação por excesso de confiança.",
+      focus: "Escala agressiva via Ads e manutenção de prestígio visual."
+    };
+    if (rating >= 4.5) return {
+      label: "ALTO PADRÃO COMPETITIVO",
+      color: "text-cyan-400",
+      bg: "bg-cyan-400/10",
+      desc: "Empresa bem posicionada, mas brigando por preço nos detalhes. O algoritmo exige diferenciação visual.",
+      focus: "Narrativa de Luxo e Design Autoral para filtrar clientes de maior ticket."
+    };
+    if (rating >= 4.0) return {
+      label: "ZONA DE CONFORTO",
+      color: "text-amber-400",
+      bg: "bg-amber-400/10",
+      desc: "Risco alto de perda de posição para novos players. O algoritmo entrega alcance, mas a conversão está caindo.",
+      focus: "Engenharia de Conversão e Gestão Social ativa para reter autoridade."
+    };
+    return {
+      label: "BARREIRA DE CONFIANÇA",
+      color: "text-red-400",
+      bg: "bg-red-400/10",
+      desc: "O algoritmo penaliza o alcance orgânico devido à nota baixa. Existe um atrito de confiança imediato.",
+      focus: "Gestão de Reputação Urgente e Reestruturação completa da vitrine digital."
+    };
   };
 
   const modules = [
@@ -423,9 +456,14 @@ export function RecrutamentoClient() {
                             <ChevronLeft size={14} /> Voltar aos Leads
                           </button>
                           <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">{selectedLead.companyName}</h2>
-                          <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 uppercase tracking-widest font-black text-[9px]">
-                            Status: {getStatusLabel(selectedLead.status)}
-                          </Badge>
+                          <div className="flex flex-wrap gap-3 items-center">
+                            <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 uppercase tracking-widest font-black text-[9px]">
+                              {getStatusLabel(selectedLead.status)}
+                            </Badge>
+                            <Badge className={cn("px-4 py-2 uppercase tracking-widest font-black text-[9px] border-none", (selectedLead.googleRating || 0) >= 4.5 ? "bg-green-500 text-white" : "bg-amber-500 text-black")}>
+                              <Star size={10} className="mr-1 fill-current inline" /> {selectedLead.googleRating || "4.0"} Google Maps
+                            </Badge>
+                          </div>
                         </div>
 
                         <div className="grid grid-cols-1 gap-4">
@@ -455,7 +493,36 @@ export function RecrutamentoClient() {
                         </div>
                       </div>
 
+                      {/* NOVO: BLOCO DE ANÁLISE DE ALGORITMO GMB */}
                       <div className="px-8 md:px-12 space-y-6">
+                        <div className="flex items-center gap-3">
+                          <div className="h-px flex-1 bg-white/10" />
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">Algoritmo Google Maps</h3>
+                          <div className="h-px flex-1 bg-white/10" />
+                        </div>
+                        
+                        {(() => {
+                          const insight = getAlgorithmInsight(selectedLead.googleRating || 4.0);
+                          return (
+                            <div className={cn("p-6 rounded-[2.5rem] border border-white/5 space-y-4", insight.bg)}>
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                  <AlertCircle className={cn("h-5 w-5", insight.color)} />
+                                  <span className={cn("text-[10px] font-black uppercase tracking-widest", insight.color)}>{insight.label}</span>
+                                </div>
+                                <div className="h-1 w-12 bg-white/10 rounded-full" />
+                              </div>
+                              <p className="text-sm text-white/70 font-medium leading-relaxed italic">{insight.desc}</p>
+                              <div className="pt-2 border-t border-white/5">
+                                <p className="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">Foco da Negociação:</p>
+                                <p className="text-xs font-bold text-white uppercase">{insight.focus}</p>
+                              </div>
+                            </div>
+                          );
+                        })()}
+                      </div>
+
+                      <div className="px-8 md:px-12 pt-8 space-y-6">
                         <div className="flex items-center gap-3">
                           <div className="h-px flex-1 bg-white/10" />
                           <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">Gestão de Progresso</h3>
