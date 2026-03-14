@@ -21,6 +21,9 @@ import {
 import {
   Sheet,
   SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
 } from "@/components/ui/sheet";
 import { 
   Mic, 
@@ -212,6 +215,7 @@ export function RecrutamentoClient() {
   };
 
   const updateLeadStatus = (leadId: string, status: string) => {
+    if (!leadId) return;
     const leadRef = doc(db, 'commercial_leads', leadId);
     updateDocumentNonBlocking(leadRef, { 
       status, 
@@ -223,8 +227,8 @@ export function RecrutamentoClient() {
   };
 
   const handleScheduleMeeting = () => {
-    if (!meetingData.date || !meetingData.time) {
-      toast({ title: "Preencha data e hora", variant: "destructive" });
+    if (!selectedLead || !meetingData.date || !meetingData.time) {
+      toast({ title: "Dados incompletos", variant: "destructive" });
       return;
     }
     const meetingIso = new Date(`${meetingData.date}T${meetingData.time}`).toISOString();
@@ -241,22 +245,23 @@ export function RecrutamentoClient() {
     setSelectedLead((prev: any) => prev ? { ...prev, status: 'REUNIAO_AGENDADA', meetingDate: meetingIso } : null);
   };
 
-  const getAlgorithmInsight = (rating: number) => {
-    if (rating >= 4.8) return {
+  const getAlgorithmInsight = (rating: any) => {
+    const r = parseFloat(String(rating).replace(',', '.')) || 4.0;
+    if (r >= 4.8) return {
       label: "AUTORIDADE DE ELITE",
       color: "text-green-400",
       bg: "bg-green-400/10",
       desc: "O algoritmo do Google já prioriza esta empresa. O erro aqui é a estagnação por excesso de confiança.",
       focus: "Escala agressiva via Ads e manutenção de prestígio visual."
     };
-    if (rating >= 4.5) return {
+    if (r >= 4.5) return {
       label: "ALTO PADRÃO COMPETITIVO",
       color: "text-cyan-400",
       bg: "bg-cyan-400/10",
       desc: "Empresa bem posicionada, mas brigando por preço nos detalhes. O algoritmo exige diferenciação visual.",
       focus: "Narrativa de Luxo e Design Autoral para filtrar clientes de maior ticket."
     };
-    if (rating >= 4.0) return {
+    if (r >= 4.0) return {
       label: "ZONA DE CONFORTO",
       color: "text-amber-400",
       bg: "bg-amber-400/10",
@@ -421,7 +426,7 @@ export function RecrutamentoClient() {
                   <div key={l.id} className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 space-y-6 hover:bg-white/10 transition-all group relative overflow-hidden border-t-4 border-t-primary/20">
                     <div className="flex justify-between items-start">
                       <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase tracking-widest">{getStatusLabel(l.status)}</Badge>
-                      <Badge className={cn("text-[8px] font-black py-1 px-3 border-none", (l.googleRating || 0) >= 4.5 ? "bg-green-500 text-white" : "bg-amber-500 text-black")}>
+                      <Badge className={cn("text-[8px] font-black py-1 px-3 border-none", (parseFloat(String(l.googleRating).replace(',','.')) || 0) >= 4.5 ? "bg-green-500 text-white" : "bg-amber-500 text-black")}>
                         <Star size={8} className="mr-1 fill-current" /> {l.googleRating || "4.0"}
                       </Badge>
                     </div>
@@ -450,6 +455,11 @@ export function RecrutamentoClient() {
                 <SheetContent className="bg-[#08070b] border-l-white/10 text-white p-0 sm:max-w-xl w-full overflow-y-auto no-scrollbar">
                   {selectedLead && (
                     <div className="space-y-0 pb-32">
+                      <SheetHeader className="sr-only">
+                        <SheetTitle>{selectedLead.companyName}</SheetTitle>
+                        <SheetDescription>Dossiê estratégico de prospecção</SheetDescription>
+                      </SheetHeader>
+
                       <div className="p-8 md:p-12 space-y-8 bg-gradient-to-b from-white/5 to-transparent">
                         <div className="space-y-4">
                           <button onClick={() => setSelectedLead(null)} className="text-primary font-black uppercase text-[10px] tracking-[0.3em] flex items-center gap-2 mb-6">
@@ -460,7 +470,7 @@ export function RecrutamentoClient() {
                             <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 uppercase tracking-widest font-black text-[9px]">
                               {getStatusLabel(selectedLead.status)}
                             </Badge>
-                            <Badge className={cn("px-4 py-2 uppercase tracking-widest font-black text-[9px] border-none", (selectedLead.googleRating || 0) >= 4.5 ? "bg-green-500 text-white" : "bg-amber-500 text-black")}>
+                            <Badge className={cn("px-4 py-2 uppercase tracking-widest font-black text-[9px] border-none", (parseFloat(String(selectedLead.googleRating).replace(',','.')) || 0) >= 4.5 ? "bg-green-500 text-white" : "bg-amber-500 text-black")}>
                               <Star size={10} className="mr-1 fill-current inline" /> {selectedLead.googleRating || "4.0"} Google Maps
                             </Badge>
                           </div>
@@ -481,7 +491,7 @@ export function RecrutamentoClient() {
                               <p className="text-xs font-black uppercase tracking-tight">{selectedLead.region || "Geral"} — {selectedLead.address || "Endereço não informado"}</p>
                             </div>
                           </div>
-                          {selectedLead.website && (
+                          {selectedLead.website && selectedLead.website !== "-" && (
                             <a href={selectedLead.website.startsWith('http') ? selectedLead.website : `https://${selectedLead.website}`} target="_blank" className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all">
                               <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary"><Globe size={20} /></div>
                               <div>
@@ -493,7 +503,6 @@ export function RecrutamentoClient() {
                         </div>
                       </div>
 
-                      {/* NOVO: BLOCO DE ANÁLISE DE ALGORITMO GMB */}
                       <div className="px-8 md:px-12 space-y-6">
                         <div className="flex items-center gap-3">
                           <div className="h-px flex-1 bg-white/10" />
@@ -561,9 +570,9 @@ export function RecrutamentoClient() {
                         </div>
                         <div className="p-8 rounded-[2rem] bg-white/[0.03] border-l-4 border-l-primary space-y-4">
                           <div className="text-white/60 text-sm md:text-base leading-relaxed font-medium">
-                            {selectedLead.bottlenecks ? (
+                            {selectedLead.bottlenecks && selectedLead.bottlenecks !== "-" ? (
                               <div className="space-y-4">
-                                {selectedLead.bottlenecks.split('\n').map((line: string, i: number) => (
+                                {selectedLead.bottlenecks.split('\n').map((line: string, i: number) => line.trim() && (
                                   <div key={i} className="flex gap-3">
                                     <div className="mt-2 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
                                     <p>{line}</p>
@@ -584,7 +593,7 @@ export function RecrutamentoClient() {
                           <div className="h-px flex-1 bg-white/10" />
                         </div>
                         <div className="flex flex-wrap gap-2">
-                          {(selectedLead.suggestedServices || ["Sites Premium", "Performance Ads"]).map((service: string, i: number) => (
+                          {(Array.isArray(selectedLead.suggestedServices) ? selectedLead.suggestedServices : ["Sites Premium", "Performance Ads"]).map((service: string, i: number) => (
                             <Badge key={i} className="bg-primary text-white border-none px-4 py-2 text-[9px] font-black uppercase tracking-widest shadow-lg shadow-primary/10">{service}</Badge>
                           ))}
                         </div>
@@ -599,13 +608,15 @@ export function RecrutamentoClient() {
                         <blockquote className="relative p-8 rounded-[2.5rem] bg-white/5 border border-white/5 overflow-hidden">
                           <Quote className="absolute -top-4 -left-4 h-24 w-24 text-white/[0.02] -z-0" />
                           <p className="relative z-10 text-lg md:text-xl text-white italic font-medium leading-relaxed tracking-tight">
-                            {selectedLead.salesScript || "Foque na autoridade visual e na dor de não ser encontrado localmente."}
+                            {selectedLead.salesScript && selectedLead.salesScript !== "-" ? selectedLead.salesScript : "Foque na autoridade visual e na dor de não ser encontrado localmente."}
                           </p>
                         </blockquote>
 
                         <div className="pt-8 grid grid-cols-2 gap-4">
-                          <a href={`https://wa.me/${(selectedLead.phone || "").replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.decisionMaker || selectedLead.contactName || "Responsável"}, sou consultor da studiosapient...`)}`} target="_blank" className="flex-1 h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-2xl shadow-green-500/20 hover:scale-105 transition-all"><MessageCircle size={18} /> Iniciar WhatsApp</a>
-                          <a href={`mailto:${selectedLead.email || ""}`} className="flex-1 h-16 bg-white text-black rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-xl hover:bg-primary hover:text-white transition-all"><Mail size={18} /> Enviar E-mail</a>
+                          <a href={`https://wa.me/${(String(selectedLead.phone || "")).replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.decisionMaker || selectedLead.contactName || "Responsável"}, sou consultor da studiosapient...`)}`} target="_blank" className="flex-1 h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-2xl shadow-green-500/20 hover:scale-105 transition-all"><MessageCircle size={18} /> Iniciar WhatsApp</a>
+                          {selectedLead.email && selectedLead.email !== "-" && (
+                            <a href={`mailto:${selectedLead.email}`} className="flex-1 h-16 bg-white text-black rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-xl hover:bg-primary hover:text-white transition-all"><Mail size={18} /> Enviar E-mail</a>
+                          )}
                         </div>
                       </div>
                     </div>
