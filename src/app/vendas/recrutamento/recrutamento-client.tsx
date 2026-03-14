@@ -19,9 +19,6 @@ import {
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
 } from "@/components/ui/sheet";
 import { 
   Mic, 
@@ -76,10 +73,11 @@ import {
   Mail,
   Star,
   MapPin,
-  Quote
+  Quote,
+  MessageCircle
 } from "lucide-react";
-import { useFirebase, useFirestore, useDoc, useCollection, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
-import { collection, serverTimestamp, doc, query, orderBy } from "firebase/firestore";
+import { useFirebase, useFirestore, useDoc, useCollection, initiateSignOut, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
+import { collection, doc, query, orderBy } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -87,16 +85,6 @@ import { useRouter } from "next/navigation";
 export function RecrutamentoClient() {
   const [view, setView] = useState<'dashboard' | 'training' | 'profile' | 'leads'>('dashboard');
   const [step, setStep] = useState(1);
-  const [isRecording, setIsRecording] = useState(false);
-  
-  const [audio1Base64, setAudio1Base64] = useState<string | null>(null);
-  const [audioFinalBase64, setAudioFinalBase64] = useState<string | null>(null);
-  
-  const [isLoading, setIsLoading] = useState(false);
-  const [consentAccepted, setConsentAccepted] = useState(false);
-  const [leadSearch, setLeadSearch] = useState("");
-  const [selectedLead, setSelectedLead] = useState<any | null>(null);
-  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -120,6 +108,10 @@ export function RecrutamentoClient() {
     consentAccepted: false,
     consentTimestamp: ""
   });
+
+  const [leadSearch, setLeadSearch] = useState("");
+  const [selectedLead, setSelectedLead] = useState<any | null>(null);
+  const [consentAccepted, setConsentAccepted] = useState(false);
 
   const { toast } = useToast();
   const { auth, user, isUserLoading } = useFirebase();
@@ -147,7 +139,7 @@ export function RecrutamentoClient() {
     if (user && formData.email === "") {
       setFormData(prev => ({ ...prev, email: user.email || "" }));
     }
-  }, [user, isUserLoading, router]);
+  }, [user, isUserLoading, router, formData.email]);
 
   useEffect(() => {
     if (profile) {
@@ -159,10 +151,6 @@ export function RecrutamentoClient() {
       setConsentAccepted(true);
     }
   }, [profile]);
-
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
-  const streamRef = useRef<MediaStream | null>(null);
 
   const getInitials = (name: string) => {
     if (!name) return "??";
@@ -233,7 +221,11 @@ export function RecrutamentoClient() {
   );
 
   if (isUserLoading || isProfileLoading) {
-    return <div className="min-h-screen bg-[#08070b] flex items-center justify-center"><Loader2 className="h-12 w-12 text-primary animate-spin" /></div>;
+    return (
+      <div className="min-h-screen bg-[#08070b] flex items-center justify-center">
+        <Loader2 className="h-12 w-12 text-primary animate-spin" />
+      </div>
+    );
   }
 
   return (
@@ -348,7 +340,7 @@ export function RecrutamentoClient() {
                 ) : filteredLeads?.map((l) => (
                   <div key={l.id} className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 space-y-6 hover:bg-white/10 transition-all group relative overflow-hidden border-t-4 border-t-primary/20">
                     <div className="flex justify-between items-start">
-                      <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase tracking-widest">{l.category}</Badge>
+                      <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase tracking-widest">{l.category || "Geral"}</Badge>
                       <Badge className={cn("text-[8px] font-black py-1 px-3 border-none", (l.googleRating || 0) >= 4.5 ? "bg-green-500 text-white" : "bg-amber-500 text-black")}>
                         <Star size={8} className="mr-1 fill-current" /> {l.googleRating || "4.0"}
                       </Badge>
@@ -357,7 +349,7 @@ export function RecrutamentoClient() {
                     <div className="space-y-2">
                       <h3 className="text-2xl font-black uppercase tracking-tighter text-white leading-none">{l.companyName}</h3>
                       <div className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-                        <UserCircle size={12} className="text-primary" /> {l.contactName}
+                        <UserCircle size={12} className="text-primary" /> {l.contactName || "Responsável"}
                       </div>
                       <div className="flex items-center gap-2 text-[10px] font-bold text-white/20 uppercase tracking-widest">
                         <MapPin size={12} /> {l.region || "Geral"}
@@ -379,7 +371,6 @@ export function RecrutamentoClient() {
                 <SheetContent className="bg-[#08070b] border-l-white/10 text-white p-0 sm:max-w-xl w-full overflow-y-auto no-scrollbar">
                   {selectedLead && (
                     <div className="space-y-0">
-                      {/* Top Block: Dados Frios */}
                       <div className="p-8 md:p-12 space-y-8 bg-gradient-to-b from-white/5 to-transparent">
                         <div className="space-y-4">
                           <button onClick={() => setSelectedLead(null)} className="text-primary font-black uppercase text-[10px] tracking-[0.3em] flex items-center gap-2 mb-6">
@@ -394,7 +385,7 @@ export function RecrutamentoClient() {
                             <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary"><UserCircle size={20} /></div>
                             <div>
                               <p className="text-[7px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">Decisor Principal</p>
-                              <p className="text-xs font-black uppercase tracking-tight">{selectedLead.contactName}</p>
+                              <p className="text-xs font-black uppercase tracking-tight">{selectedLead.contactName || "Responsável"}</p>
                             </div>
                           </div>
                           <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/5">
@@ -416,7 +407,6 @@ export function RecrutamentoClient() {
                         </div>
                       </div>
 
-                      {/* Seção O Diagnóstico (Gargalos) */}
                       <div className="p-8 md:p-12 space-y-6">
                         <div className="flex items-center gap-3">
                           <div className="h-px flex-1 bg-white/10" />
@@ -442,7 +432,6 @@ export function RecrutamentoClient() {
                         </div>
                       </div>
 
-                      {/* Seção A Solução (Serviços) */}
                       <div className="px-8 md:px-12 pb-12 space-y-6">
                         <div className="flex items-center gap-3">
                           <div className="h-px flex-1 bg-white/10" />
@@ -459,7 +448,6 @@ export function RecrutamentoClient() {
                         </div>
                       </div>
 
-                      {/* Seção Script de Guerra (Dicas) */}
                       <div className="px-8 md:px-12 pb-24 space-y-6">
                         <div className="flex items-center gap-3">
                           <div className="h-px flex-1 bg-white/10" />
@@ -476,14 +464,14 @@ export function RecrutamentoClient() {
 
                         <div className="pt-8 grid grid-cols-2 gap-4">
                           <a 
-                            href={`https://wa.me/${selectedLead.phone.replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.contactName}, sou consultor da studiosapient. Estava analisando a presença digital da ${selectedLead.companyName}...`)}`} 
+                            href={`https://wa.me/${(selectedLead.phone || "").replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.contactName || "Responsável"}, sou consultor da studiosapient. Estava analisando a presença digital da ${selectedLead.companyName}...`)}`} 
                             target="_blank"
                             className="flex-1 h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-2xl shadow-green-500/20 hover:scale-105 transition-all"
                           >
                             <MessageCircle size={18} /> Iniciar WhatsApp
                           </a>
                           <a 
-                            href={`mailto:${selectedLead.email}`}
+                            href={`mailto:${selectedLead.email || ""}`}
                             className="flex-1 h-16 bg-white text-black rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-xl hover:bg-primary hover:text-white transition-all"
                           >
                             <Mail size={18} /> Enviar E-mail
