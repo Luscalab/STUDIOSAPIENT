@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import {
   Sheet,
@@ -74,9 +75,11 @@ import {
   Star,
   MapPin,
   Quote,
-  MessageCircle
+  MessageCircle,
+  CalendarDays,
+  History
 } from "lucide-react";
-import { useFirebase, useFirestore, useDoc, useCollection, initiateSignOut, useMemoFirebase, setDocumentNonBlocking } from "@/firebase";
+import { useFirebase, useFirestore, useDoc, useCollection, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, updateDocumentNonBlocking } from "@/firebase";
 import { collection, doc, query, orderBy } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -112,6 +115,8 @@ export function RecrutamentoClient() {
   const [leadSearch, setLeadSearch] = useState("");
   const [selectedLead, setSelectedLead] = useState<any | null>(null);
   const [consentAccepted, setConsentAccepted] = useState(false);
+  const [isMeetingDialogOpen, setIsMeetingAgendamentoOpen] = useState(false);
+  const [meetingData, setMeetingData] = useState({ date: "", time: "", notes: "" });
 
   const { toast } = useToast();
   const { auth, user, isUserLoading } = useFirebase();
@@ -204,6 +209,36 @@ export function RecrutamentoClient() {
     scrollToTop();
   };
 
+  const updateLeadStatus = (leadId: string, status: string) => {
+    const leadRef = doc(db, 'commercial_leads', leadId);
+    updateDocumentNonBlocking(leadRef, { 
+      status, 
+      updatedBy: user?.uid,
+      lastUpdateAt: new Date().toISOString()
+    });
+    toast({ title: "Status Atualizado", description: `Progresso salvo para ${status.replace(/_/g, ' ')}.` });
+    setSelectedLead((prev: any) => prev ? { ...prev, status } : null);
+  };
+
+  const handleScheduleMeeting = () => {
+    if (!meetingData.date || !meetingData.time) {
+      toast({ title: "Preencha data e hora", variant: "destructive" });
+      return;
+    }
+    const meetingIso = new Date(`${meetingData.date}T${meetingData.time}`).toISOString();
+    const leadRef = doc(db, 'commercial_leads', selectedLead.id);
+    updateDocumentNonBlocking(leadRef, { 
+      status: 'REUNIAO_AGENDADA',
+      meetingDate: meetingIso,
+      meetingNotes: meetingData.notes,
+      updatedBy: user?.uid,
+      lastUpdateAt: new Date().toISOString()
+    });
+    setIsMeetingAgendamentoOpen(false);
+    toast({ title: "Reunião Registrada", description: "O setor administrativo foi notificado." });
+    setSelectedLead((prev: any) => prev ? { ...prev, status: 'REUNIAO_AGENDADA', meetingDate: meetingIso } : null);
+  };
+
   const modules = [
     { title: "Performance Ads", icon: <TrendingUp size={24} />, step: 3, done: !!formData.ansAds },
     { title: "Engenharia Web", icon: <Code size={24} />, step: 9, done: !!formData.ansSites },
@@ -219,6 +254,18 @@ export function RecrutamentoClient() {
     (l.companyName || "").toLowerCase().includes(leadSearch.toLowerCase()) || 
     (l.category || "").toLowerCase().includes(leadSearch.toLowerCase())
   );
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'CONTATO_INICIADO': return 'Contato Iniciado';
+      case 'NEGOCIACAO': return 'Em Negociação';
+      case 'AGUARDANDO_RETORNO': return 'Aguardando Retorno';
+      case 'REUNIAO_AGENDADA': return 'Reunião Agendada';
+      case 'FECHADO': return 'Fechado / Ganho';
+      case 'PERDIDO': return 'Perdido';
+      default: return 'Novo Lead';
+    }
+  };
 
   if (isUserLoading || isProfileLoading) {
     return (
@@ -340,7 +387,7 @@ export function RecrutamentoClient() {
                 ) : filteredLeads?.map((l) => (
                   <div key={l.id} className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 space-y-6 hover:bg-white/10 transition-all group relative overflow-hidden border-t-4 border-t-primary/20">
                     <div className="flex justify-between items-start">
-                      <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase tracking-widest">{l.category || "Geral"}</Badge>
+                      <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase tracking-widest">{getStatusLabel(l.status)}</Badge>
                       <Badge className={cn("text-[8px] font-black py-1 px-3 border-none", (l.googleRating || 0) >= 4.5 ? "bg-green-500 text-white" : "bg-amber-500 text-black")}>
                         <Star size={8} className="mr-1 fill-current" /> {l.googleRating || "4.0"}
                       </Badge>
@@ -366,18 +413,19 @@ export function RecrutamentoClient() {
                 ))}
               </div>
 
-              {/* Drawer de Detalhamento Estratégico */}
               <Sheet open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
                 <SheetContent className="bg-[#08070b] border-l-white/10 text-white p-0 sm:max-w-xl w-full overflow-y-auto no-scrollbar">
                   {selectedLead && (
-                    <div className="space-y-0">
+                    <div className="space-y-0 pb-32">
                       <div className="p-8 md:p-12 space-y-8 bg-gradient-to-b from-white/5 to-transparent">
                         <div className="space-y-4">
                           <button onClick={() => setSelectedLead(null)} className="text-primary font-black uppercase text-[10px] tracking-[0.3em] flex items-center gap-2 mb-6">
                             <ChevronLeft size={14} /> Voltar aos Leads
                           </button>
                           <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">{selectedLead.companyName}</h2>
-                          <p className="text-white/40 text-sm font-medium leading-relaxed max-w-sm">Dossiê de inteligência comercial focado em captura de autoridade e ROI.</p>
+                          <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 uppercase tracking-widest font-black text-[9px]">
+                            Status: {getStatusLabel(selectedLead.status)}
+                          </Badge>
                         </div>
 
                         <div className="grid grid-cols-1 gap-4">
@@ -388,15 +436,6 @@ export function RecrutamentoClient() {
                               <p className="text-xs font-black uppercase tracking-tight">{selectedLead.decisionMaker || selectedLead.contactName || "Responsável"}</p>
                             </div>
                           </div>
-                          {selectedLead.contactName && selectedLead.contactName !== selectedLead.decisionMaker && (
-                            <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/5">
-                              <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-white/40"><Users size={20} /></div>
-                              <div>
-                                <p className="text-[7px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">Sócio / Dono</p>
-                                <p className="text-xs font-black uppercase tracking-tight">{selectedLead.contactName}</p>
-                              </div>
-                            </div>
-                          )}
                           <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/5">
                             <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary"><MapPin size={20} /></div>
                             <div>
@@ -416,13 +455,43 @@ export function RecrutamentoClient() {
                         </div>
                       </div>
 
+                      <div className="px-8 md:px-12 space-y-6">
+                        <div className="flex items-center gap-3">
+                          <div className="h-px flex-1 bg-white/10" />
+                          <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">Gestão de Progresso</h3>
+                          <div className="h-px flex-1 bg-white/10" />
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-3">
+                          <button onClick={() => updateLeadStatus(selectedLead.id, 'CONTATO_INICIADO')} className={cn("py-4 rounded-xl font-black uppercase text-[8px] tracking-widest border transition-all", selectedLead.status === 'CONTATO_INICIADO' ? "bg-primary border-primary text-white" : "bg-white/5 border-white/10 text-white/40 hover:bg-white/10")}>Contato Iniciado</button>
+                          <button onClick={() => updateLeadStatus(selectedLead.id, 'NEGOCIACAO')} className={cn("py-4 rounded-xl font-black uppercase text-[8px] tracking-widest border transition-all", selectedLead.status === 'NEGOCIACAO' ? "bg-primary border-primary text-white" : "bg-white/5 border-white/10 text-white/40 hover:bg-white/10")}>Em Negociação</button>
+                          <button onClick={() => updateLeadStatus(selectedLead.id, 'AGUARDANDO_RETORNO')} className={cn("py-4 rounded-xl font-black uppercase text-[8px] tracking-widest border transition-all", selectedLead.status === 'AGUARDANDO_RETORNO' ? "bg-primary border-primary text-white" : "bg-white/5 border-white/10 text-white/40 hover:bg-white/10")}>Aguardando Retorno</button>
+                          
+                          <Dialog open={isMeetingDialogOpen} onOpenChange={setIsMeetingAgendamentoOpen}>
+                            <DialogTrigger asChild>
+                              <button className={cn("py-4 rounded-xl font-black uppercase text-[8px] tracking-widest border transition-all", selectedLead.status === 'REUNIAO_AGENDADA' ? "bg-green-500 border-green-500 text-white" : "bg-green-500/10 border-green-500/20 text-green-500 hover:bg-green-500 hover:text-white")}>Registrar Reunião</button>
+                            </DialogTrigger>
+                            <DialogContent className="bg-[#0c0a1a] border-white/10 text-white rounded-[3rem] p-10">
+                              <DialogHeader><DialogTitle className="text-2xl font-black uppercase">Agendar Fechamento</DialogTitle></DialogHeader>
+                              <div className="space-y-4 py-6">
+                                <div className="grid grid-cols-2 gap-4">
+                                  <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-white/30">Data</Label><Input type="date" value={meetingData.date} onChange={(e) => setMeetingData({...meetingData, date: e.target.value})} className="bg-white/5 border-white/10" /></div>
+                                  <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-white/30">Hora</Label><Input type="time" value={meetingData.time} onChange={(e) => setMeetingData({...meetingData, time: e.target.value})} className="bg-white/5 border-white/10" /></div>
+                                </div>
+                                <div className="space-y-2"><Label className="text-[10px] font-black uppercase text-white/30">Pauta / Observações</Label><Textarea value={meetingData.notes} onChange={(e) => setMeetingData({...meetingData, notes: e.target.value})} className="bg-white/5 border-white/10" placeholder="Ex: Apresentação de dossiê visual e proposta comercial..." /></div>
+                              </div>
+                              <DialogFooter><Button onClick={handleScheduleMeeting} className="w-full h-14 bg-green-500 hover:bg-green-600 rounded-2xl font-black uppercase text-[10px]">Gravar Reunião na Base</Button></DialogFooter>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
+                      </div>
+
                       <div className="p-8 md:p-12 space-y-6">
                         <div className="flex items-center gap-3">
                           <div className="h-px flex-1 bg-white/10" />
                           <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">O Diagnóstico</h3>
                           <div className="h-px flex-1 bg-white/10" />
                         </div>
-                        
                         <div className="p-8 rounded-[2rem] bg-white/[0.03] border-l-4 border-l-primary space-y-4">
                           <div className="text-white/60 text-sm md:text-base leading-relaxed font-medium">
                             {selectedLead.bottlenecks ? (
@@ -447,12 +516,9 @@ export function RecrutamentoClient() {
                           <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Plano de Ataque</h3>
                           <div className="h-px flex-1 bg-white/10" />
                         </div>
-                        
                         <div className="flex flex-wrap gap-2">
-                          {(selectedLead.suggestedServices || ["Sites Premium", "Performance Ads", "Sistemas IA"]).map((service: string, i: number) => (
-                            <Badge key={i} className="bg-primary text-white border-none px-4 py-2 text-[9px] font-black uppercase tracking-widest shadow-lg shadow-primary/10">
-                              {service}
-                            </Badge>
+                          {(selectedLead.suggestedServices || ["Sites Premium", "Performance Ads"]).map((service: string, i: number) => (
+                            <Badge key={i} className="bg-primary text-white border-none px-4 py-2 text-[9px] font-black uppercase tracking-widest shadow-lg shadow-primary/10">{service}</Badge>
                           ))}
                         </div>
                       </div>
@@ -463,28 +529,16 @@ export function RecrutamentoClient() {
                           <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Script de Guerra</h3>
                           <div className="h-px flex-1 bg-white/10" />
                         </div>
-                        
                         <blockquote className="relative p-8 rounded-[2.5rem] bg-white/5 border border-white/5 overflow-hidden">
                           <Quote className="absolute -top-4 -left-4 h-24 w-24 text-white/[0.02] -z-0" />
                           <p className="relative z-10 text-lg md:text-xl text-white italic font-medium leading-relaxed tracking-tight">
-                            {selectedLead.salesScript || "Foque na autoridade visual e na dor de não ser encontrado localmente quando o cliente mais precisa."}
+                            {selectedLead.salesScript || "Foque na autoridade visual e na dor de não ser encontrado localmente."}
                           </p>
                         </blockquote>
 
                         <div className="pt-8 grid grid-cols-2 gap-4">
-                          <a 
-                            href={`https://wa.me/${(selectedLead.phone || "").replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.decisionMaker || selectedLead.contactName || "Responsável"}, sou consultor da studiosapient. Estava analisando a presença digital da ${selectedLead.companyName}...`)}`} 
-                            target="_blank"
-                            className="flex-1 h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-2xl shadow-green-500/20 hover:scale-105 transition-all"
-                          >
-                            <MessageCircle size={18} /> Iniciar WhatsApp
-                          </a>
-                          <a 
-                            href={`mailto:${selectedLead.email || ""}`}
-                            className="flex-1 h-16 bg-white text-black rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-xl hover:bg-primary hover:text-white transition-all"
-                          >
-                            <Mail size={18} /> Enviar E-mail
-                          </a>
+                          <a href={`https://wa.me/${(selectedLead.phone || "").replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.decisionMaker || selectedLead.contactName || "Responsável"}, sou consultor da studiosapient...`)}`} target="_blank" className="flex-1 h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-2xl shadow-green-500/20 hover:scale-105 transition-all"><MessageCircle size={18} /> Iniciar WhatsApp</a>
+                          <a href={`mailto:${selectedLead.email || ""}`} className="flex-1 h-16 bg-white text-black rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-xl hover:bg-primary hover:text-white transition-all"><Mail size={18} /> Enviar E-mail</a>
                         </div>
                       </div>
                     </div>
@@ -514,7 +568,7 @@ export function RecrutamentoClient() {
                       <Input value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="WhatsApp *" className="bg-white/5 border-white/10 h-16 rounded-2xl font-bold" />
                     </div>
                     <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 flex items-start gap-4"><Checkbox id="consent" checked={consentAccepted} onCheckedChange={(c) => setConsentAccepted(c === true)} className="mt-1" /><label htmlFor="consent" className="text-[11px] text-white/60 font-bold leading-tight cursor-pointer uppercase">Aceito os protocolos de proteção de dados e conduta ética Sapient. *</label></div>
-                    <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] w-full md:w-auto shadow-2xl shadow-primary/20">Gravar Dados & Iniciar <ChevronRight size={16} className="ml-2" /></Button>
+                    <Button onClick={handleNextStep} className="h-20 px-12 bg-primary rounded-full font-black uppercase text-[11px] w-full md:w-auto shadow-2xl shadow-primary/30">Gravar Dados & Iniciar <ChevronRight size={16} className="ml-2" /></Button>
                   </div>
                 )}
 

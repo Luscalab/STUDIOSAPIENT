@@ -52,7 +52,8 @@ import {
   Trash2,
   Star,
   Globe,
-  Plus
+  Plus,
+  CalendarDays
 } from "lucide-react";
 import { useFirebase, useFirestore, useCollection, useMemoFirebase, initiateSignOut, updateDocumentNonBlocking, addDocumentNonBlocking, deleteDocumentNonBlocking } from "@/firebase";
 import { collection, query, orderBy, doc, serverTimestamp, where } from "firebase/firestore";
@@ -160,11 +161,6 @@ export function AdminClient() {
         return;
       }
 
-      // Colunas Esperadas (Exatamente nesta ordem):
-      // 0: Nome da Empresa, 1: Endereço e região, 2: Nota no google Maps, 
-      // 3: Gargalos, 4: Serviços, 5: dicas de venda, 6: nome de socio ou dono, 
-      // 7: site oficial, 8: contato, 9: contato decisor, 10: dicas, 11: notas internas
-
       const newLeads = lines.slice(1).map(line => {
         const values = parseCSVLine(line);
         
@@ -181,8 +177,8 @@ export function AdminClient() {
           bottlenecks: values[3] || "",
           suggestedServices: servicesArray.length > 0 ? servicesArray : ["Sites Premium", "Performance Ads"],
           salesScript: combinedScript || "Foco na autoridade visual e ROI.",
-          contactName: values[6] || "Responsável", // Sócio / Dono
-          decisionMaker: values[9] || "", // Contato Decisor (Coluna 9)
+          contactName: values[6] || "Responsável", 
+          decisionMaker: values[9] || "", 
           website: values[7] || "",
           phone: values[8] || values[9] || "-", 
           email: values[8]?.includes('@') ? values[8] : "-",
@@ -201,7 +197,7 @@ export function AdminClient() {
 
       toast({ 
         title: "Importação Concluída", 
-        description: `${count} leads estratégicos adicionados com sucesso seguindo a ordem das 12 colunas.` 
+        description: `${count} leads estratégicos adicionados com sucesso.` 
       });
       
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -223,6 +219,18 @@ export function AdminClient() {
       const docRef = doc(db, 'commercial_leads', id);
       deleteDocumentNonBlocking(docRef);
       toast({ title: "Lead Removido", variant: "destructive" });
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'CONTATO_INICIADO': return 'bg-blue-500 text-white';
+      case 'NEGOCIACAO': return 'bg-purple-500 text-white';
+      case 'AGUARDANDO_RETORNO': return 'bg-amber-500 text-black';
+      case 'REUNIAO_AGENDADA': return 'bg-green-500 text-white';
+      case 'FECHADO': return 'bg-emerald-600 text-white';
+      case 'PERDIDO': return 'bg-red-500 text-white';
+      default: return 'bg-white/10 text-white/40';
     }
   };
 
@@ -407,7 +415,7 @@ export function AdminClient() {
                 <div className="flex flex-col md:flex-row justify-between gap-6 bg-white/5 p-8 rounded-[3rem] border border-white/10">
                   <div className="space-y-2">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Prospecção Estratégica</h3>
-                    <p className="text-white/40 text-xs font-medium">Formato exigido: Empresa, Região, Nota, Gargalos, Serviços, Script, Sócio, Site, Contato, Decisor, Dicas, Notas.</p>
+                    <p className="text-white/40 text-xs font-medium">Formato: Empresa, Região, Nota, Gargalos, Serviços, Script, Sócio, Site, Contato, Decisor, Dicas, Notas.</p>
                   </div>
                   <div className="flex gap-4">
                     <input type="file" accept=".csv" ref={fileInputRef} onChange={handleCSVUpload} className="hidden" />
@@ -421,7 +429,9 @@ export function AdminClient() {
                   {filteredLeads?.map((l) => (
                     <div key={l.id} className="p-6 rounded-[2rem] bg-white/5 border border-white/10 space-y-4 hover:border-primary/30 transition-all group relative overflow-hidden">
                       <div className="flex justify-between items-start">
-                        <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase">{l.category}</Badge>
+                        <Badge className={cn("border-none text-[8px] font-black uppercase", getStatusColor(l.status))}>
+                          {l.status?.replace(/_/g, ' ') || 'NOVO'}
+                        </Badge>
                         <div className="flex gap-2">
                           <button onClick={() => setEditingLead(l)} className="h-8 w-8 rounded-lg bg-white/5 flex items-center justify-center text-white/40 hover:text-white transition-colors"><Edit3 size={14}/></button>
                           <button onClick={() => deleteLead(l.id)} className="h-8 w-8 rounded-lg bg-red-500/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white transition-colors"><Trash2 size={14}/></button>
@@ -434,6 +444,16 @@ export function AdminClient() {
                           <UserCircle size={12} /> {l.decisionMaker || l.contactName || "Responsável"}
                         </div>
                       </div>
+
+                      {l.status === 'REUNIAO_AGENDADA' && l.meetingDate && (
+                        <div className="p-3 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center gap-3">
+                          <CalendarDays size={14} className="text-green-500" />
+                          <div>
+                            <p className="text-[7px] font-black text-green-500/60 uppercase">Reunião de Fechamento</p>
+                            <p className="text-[10px] font-bold text-green-500">{new Date(l.meetingDate).toLocaleString('pt-BR')}</p>
+                          </div>
+                        </div>
+                      )}
 
                       <div className="flex items-center gap-3">
                         <Badge className={cn("text-[8px] font-black py-1 px-3 border-none", (l.googleRating || 0) >= 4.5 ? "bg-green-500 text-white" : "bg-amber-500 text-black")}>
@@ -457,7 +477,6 @@ export function AdminClient() {
         </div>
       </section>
 
-      {/* Dialog de Edição de Lead Estratégico */}
       {editingLead && (
         <Dialog open={!!editingLead} onOpenChange={() => setEditingLead(null)}>
           <DialogContent className="bg-[#0c0a1a] border-white/10 text-white rounded-[3rem] p-10 max-w-3xl max-h-[90vh] overflow-y-auto no-scrollbar">
@@ -491,12 +510,20 @@ export function AdminClient() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase text-white/30">Site Oficial</Label>
-                  <Input value={editingLead.website} onChange={(e) => setEditingLead({...editingLead, website: e.target.value})} className="bg-white/5 border-white/10" />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase text-white/30">Contato (Fone/Email)</Label>
-                  <Input value={editingLead.phone} onChange={(e) => setEditingLead({...editingLead, phone: e.target.value})} className="bg-white/5 border-white/10 h-12" />
+                  <Label className="text-[10px] font-black uppercase text-white/30">Status Atual</Label>
+                  <select 
+                    value={editingLead.status} 
+                    onChange={(e) => setEditingLead({...editingLead, status: e.target.value})}
+                    className="w-full bg-white/5 border-white/10 h-12 rounded-xl px-4 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  >
+                    <option value="NOVO">NOVO</option>
+                    <option value="CONTATO_INICIADO">CONTATO INICIADO</option>
+                    <option value="NEGOCIACAO">EM NEGOCIAÇÃO</option>
+                    <option value="AGUARDANDO_RETORNO">AGUARDANDO RETORNO</option>
+                    <option value="REUNIAO_AGENDADA">REUNIÃO AGENDADA</option>
+                    <option value="FECHADO">FECHADO</option>
+                    <option value="PERDIDO">PERDIDO</option>
+                  </select>
                 </div>
               </div>
 

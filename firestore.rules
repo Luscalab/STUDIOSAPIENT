@@ -21,10 +21,10 @@ service cloud.firestore {
         get(/databases/$(database)/documents/sales_profiles/$(request.auth.uid)).data.leadsEnabled == true;
     }
 
-    // Leads de prospecção: Admin total, Colaborador apenas leitura se liberado
+    // Leads de prospecção: Admin total, Colaborador apenas leitura e atualização de status se liberado
     match /commercial_leads/{leadId} {
       allow read, write: if isAdmin();
-      allow read: if hasLeadsEnabled();
+      allow read, update: if hasLeadsEnabled();
     }
 
     // Leads do Site: apenas criação pública. Admin lê tudo.

@@ -26,11 +26,14 @@
         "region": { "type": "string" },
         "address": { "type": "string" },
         "website": { "type": "string" },
-        "status": { "type": "string", "enum": ["NOVO", "EM_CONTATO", "NEGOCIACAO", "FECHADO", "PERDIDO"] },
+        "status": { "type": "string", "enum": ["NOVO", "CONTATO_INICIADO", "NEGOCIACAO", "AGUARDANDO_RETORNO", "REUNIAO_AGENDADA", "FECHADO", "PERDIDO"] },
         "bottlenecks": { "type": "string" },
         "suggestedServices": { "type": "array", "items": { "type": "string" } },
         "salesScript": { "type": "string" },
         "notes": { "type": "string" },
+        "meetingDate": { "type": "string", "format": "date-time" },
+        "meetingNotes": { "type": "string" },
+        "updatedBy": { "type": "string" },
         "createdAt": { "type": "string", "format": "date-time" }
       }
     },
