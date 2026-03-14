@@ -135,34 +135,62 @@ export function AdminClient() {
     reader.onload = async (event) => {
       const text = event.target?.result as string;
       const lines = text.split('\n');
+      if (lines.length < 2) return;
+
       const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
       
+      const findIndex = (keywords: string[]) => {
+        return headers.findIndex(h => keywords.some(k => h.includes(k.toLowerCase())));
+      };
+
+      const idxEmpresa = findIndex(['nome da empresa', 'empresa', 'cliente']);
+      const idxRegiao = findIndex(['endereço e região', 'região', 'endereco', 'local']);
+      const idxNota = findIndex(['nota no google maps', 'nota', 'rating', 'google maps']);
+      const idxGargalos = findIndex(['gargalos', 'problemas', 'diagnostico']);
+      const idxServicos = findIndex(['serviços', 'servicos', 'soluções']);
+      const idxScript = findIndex(['dicas de venda', 'script', 'dicas']);
+      const idxDono = findIndex(['nome de socio ou dono', 'dono', 'socio', 'contato', 'decisor']);
+      const idxEmail = findIndex(['email', 'e-mail']);
+      const idxTelefone = findIndex(['telefone', 'celular', 'whatsapp', 'fone']);
+      const idxCategoria = findIndex(['categoria', 'nicho', 'setor']);
+
       const newLeads = lines.slice(1).filter(l => l.trim()).map(line => {
         const values = line.split(',').map(v => v.trim());
-        const rating = parseFloat(values[headers.indexOf('nota')]) || 4.0;
+        
+        const rating = parseFloat(values[idxNota]) || 4.0;
+        const rawServices = values[idxServicos] || "";
+        const servicesArray = rawServices.split(';').map(s => s.trim()).filter(Boolean);
+
         return {
-          companyName: values[headers.indexOf('empresa')] || values[0] || "Sem Nome",
-          contactName: values[headers.indexOf('contato')] || values[1] || "-",
-          email: values[headers.indexOf('email')] || values[2] || "-",
-          phone: values[headers.indexOf('telefone')] || values[3] || "-",
-          category: values[headers.indexOf('categoria')] || values[4] || "Geral",
+          companyName: values[idxEmpresa] || values[0] || "Empresa Sem Nome",
+          contactName: values[idxDono] || values[1] || "-",
+          email: values[idxEmail] || "-",
+          phone: values[idxTelefone] || "-",
+          category: values[idxCategoria] || "Geral",
           googleRating: rating,
-          region: values[headers.indexOf('regiao')] || "-",
-          website: values[headers.indexOf('site')] || "",
-          bottlenecks: values[headers.indexOf('gargalos')] || "",
-          salesScript: values[headers.indexOf('script')] || "",
-          suggestedServices: (values[headers.indexOf('servicos')] || "").split(';').map(s => s.trim()).filter(Boolean),
+          region: values[idxRegiao] || "-",
+          address: values[idxRegiao] || "-",
+          website: "",
+          bottlenecks: values[idxGargalos] || "",
+          salesScript: values[idxScript] || "",
+          suggestedServices: servicesArray.length > 0 ? servicesArray : ["Sites Premium", "Performance Ads"],
           status: "NOVO",
           notes: "",
           createdAt: new Date().toISOString()
         };
       });
 
+      let count = 0;
       for (const lead of newLeads) {
         await addDocumentNonBlocking(collection(db, 'commercial_leads'), lead);
+        count++;
       }
 
-      toast({ title: "Importação Concluída", description: `${newLeads.length} leads estratégicos adicionados.` });
+      toast({ 
+        title: "Importação Concluída", 
+        description: `${count} leads estratégicos adicionados com sucesso.` 
+      });
+      
       if (fileInputRef.current) fileInputRef.current.value = "";
     };
     reader.readAsText(file);
@@ -366,7 +394,7 @@ export function AdminClient() {
                 <div className="flex flex-col md:flex-row justify-between gap-6 bg-white/5 p-8 rounded-[3rem] border border-white/10">
                   <div className="space-y-2">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Prospecção Estratégica</h3>
-                    <p className="text-white/40 text-xs font-medium">Importe diagnósticos frios para distribuição entre o time de elite.</p>
+                    <p className="text-white/40 text-xs font-medium">Importe diagnósticos com as colunas: Empresa, Região, Nota, Gargalos, Serviços, Script, Dono.</p>
                   </div>
                   <div className="flex gap-4">
                     <input type="file" accept=".csv" ref={fileInputRef} onChange={handleCSVUpload} className="hidden" />
