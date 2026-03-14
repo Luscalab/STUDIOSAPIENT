@@ -69,7 +69,6 @@ import { collection, serverTimestamp, doc } from "firebase/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { LocalBrain } from "@/components/ai/LocalBrain";
 
 export function RecrutamentoClient() {
   const [view, setView] = useState<'dashboard' | 'training' | 'profile'>('dashboard');
@@ -157,7 +156,6 @@ export function RecrutamentoClient() {
     const file = e.target.files?.[0];
     if (!file) return;
     
-    // Trava de 800KB para evitar estourar o limite de 1MB do Firestore em Base64
     if (file.size > 800000) {
       toast({ 
         title: "Arquivo muito grande", 
@@ -514,7 +512,6 @@ export function RecrutamentoClient() {
                         <p className="text-white/40 text-xs md:text-sm">Vincule seu desempenho ao seu perfil oficial.</p>
                     </div>
                     
-                    {/* SEÇÃO DE ARQUIVOS */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 md:p-8 rounded-[2rem] bg-white/5 border border-white/10">
                       <div className="space-y-4">
                         <p className="text-[10px] font-black uppercase text-primary tracking-widest">Foto de Perfil</p>
@@ -610,7 +607,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 01: ADS & GMN (5 SEÇÕES) */}
                 {step === 3 && (
                   <div className="space-y-8 md:space-y-10 animate-in fade-in">
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -709,14 +705,12 @@ export function RecrutamentoClient() {
                     <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Desafio Técnico: Ads & GMN</h3>
                     <p className="text-white/40 text-xs md:text-sm">Um cliente investe R$ 2.000/mês, mas o site dele demora 10s para carregar. Como você usa o conceito de **Índice de Qualidade** e **Hemorragia de Verba** para convencê-lo de que ele está perdendo dinheiro?</p>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
-                      <div className="lg:col-span-8">
-                        <Textarea value={formData.ansAds} onChange={(e) => setFormData({...formData, ansAds: e.target.value})} className="min-h-[200px] md:min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" placeholder="Sua resposta estratégica..." />
-                      </div>
-                      <div className="lg:col-span-4">
-                        <LocalBrain text={formData.ansAds} />
-                      </div>
-                    </div>
+                    <Textarea 
+                      value={formData.ansAds} 
+                      onChange={(e) => setFormData({...formData, ansAds: e.target.value})} 
+                      className="min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" 
+                      placeholder="Sua resposta estratégica..." 
+                    />
 
                     <div className="flex gap-3 md:gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-14 md:h-16 px-6 md:px-8 rounded-full border-white/10 font-black uppercase text-[8px] md:text-[9px]"><ChevronLeft size={14}/></Button>
@@ -725,7 +719,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 02: ENGENHARIA WEB (5 SEÇÕES) */}
                 {step === 9 && (
                   <div className="space-y-8 md:space-y-10 animate-in fade-in">
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -824,14 +817,12 @@ export function RecrutamentoClient() {
                     <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Desafio: Engenharia Web</h3>
                     <p className="text-white/40 text-xs md:text-sm">Como você provaria para um cliente que o site dele feito no WordPress está, na verdade, fazendo ele perder dinheiro todos os meses no Google Ads?</p>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
-                      <div className="lg:col-span-8">
-                        <Textarea value={formData.ansSites} onChange={(e) => setFormData({...formData, ansSites: e.target.value})} className="min-h-[200px] md:min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" placeholder="Defesa técnica..." />
-                      </div>
-                      <div className="lg:col-span-4">
-                        <LocalBrain text={formData.ansSites} />
-                      </div>
-                    </div>
+                    <Textarea 
+                      value={formData.ansSites} 
+                      onChange={(e) => setFormData({...formData, ansSites: e.target.value})} 
+                      className="min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" 
+                      placeholder="Defesa técnica..." 
+                    />
 
                     <div className="flex gap-3 md:gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-14 md:h-16 px-6 md:px-8 rounded-full border-white/10 font-black uppercase text-[8px] md:text-[9px]"><ChevronLeft size={14}/></Button>
@@ -840,7 +831,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 03: DESIGN & SEMIÓTICA (5 SEÇÕES) */}
                 {step === 15 && (
                   <div className="space-y-8 md:space-y-10 animate-in fade-in">
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -939,14 +929,12 @@ export function RecrutamentoClient() {
                     <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Desafio: Barreira de Confiança</h3>
                     <p className="text-white/40 text-xs md:text-sm">Como você explicaria ao cliente que o logotipo dele feito no Canva está impedindo-o de cobrar 3x mais caro pelo serviço?</p>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
-                      <div className="lg:col-span-8">
-                        <Textarea value={formData.ansDesign} onChange={(e) => setFormData({...formData, ansDesign: e.target.value})} className="min-h-[200px] md:min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" placeholder="Sua explicação de valor..." />
-                      </div>
-                      <div className="lg:col-span-4">
-                        <LocalBrain text={formData.ansDesign} />
-                      </div>
-                    </div>
+                    <Textarea 
+                      value={formData.ansDesign} 
+                      onChange={(e) => setFormData({...formData, ansDesign: e.target.value})} 
+                      className="min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" 
+                      placeholder="Sua explicação de valor..." 
+                    />
 
                     <div className="flex gap-3 md:gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-14 md:h-16 px-6 md:px-8 rounded-full border-white/10 font-black uppercase text-[8px] md:text-[9px]"><ChevronLeft size={14}/></Button>
@@ -955,7 +943,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 04: SISTEMAS IA (5 SEÇÕES) */}
                 {step === 21 && (
                   <div className="space-y-8 md:space-y-10 animate-in fade-in">
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -1054,14 +1041,12 @@ export function RecrutamentoClient() {
                     <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Desafio: IA & Escala</h3>
                     <p className="text-white/40 text-xs md:text-sm">Como você venderia uma IA para um dono de negócio que acha que "o atendimento humano é insubstituível", provando que ele está perdendo vendas por demora?</p>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
-                      <div className="lg:col-span-8">
-                        <Textarea value={formData.ansChat} onChange={(e) => setFormData({...formData, ansChat: e.target.value})} className="min-h-[200px] md:min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" placeholder="Sua resposta estratégica..." />
-                      </div>
-                      <div className="lg:col-span-4">
-                        <LocalBrain text={formData.ansChat} />
-                      </div>
-                    </div>
+                    <Textarea 
+                      value={formData.ansChat} 
+                      onChange={(e) => setFormData({...formData, ansChat: e.target.value})} 
+                      className="min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" 
+                      placeholder="Sua resposta estratégica..." 
+                    />
 
                     <div className="flex gap-3 md:gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-14 md:h-16 px-6 md:px-8 rounded-full border-white/10 font-black uppercase text-[8px] md:text-[9px]"><ChevronLeft size={14}/></Button>
@@ -1070,7 +1055,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 05: GESTÃO SOCIAL (5 SEÇÕES) */}
                 {step === 27 && (
                   <div className="space-y-8 md:space-y-10 animate-in fade-in">
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -1169,14 +1153,12 @@ export function RecrutamentoClient() {
                     <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Desafio: Social & Autoridade</h3>
                     <p className="text-white/40 text-xs md:text-sm">Como você convenceria um cliente que postar 3x ao dia sem estratégia visual está na verdade destruindo a autoridade dele?</p>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
-                      <div className="lg:col-span-8">
-                        <Textarea value={formData.ansSocial} onChange={(e) => setFormData({...formData, ansSocial: e.target.value})} className="min-h-[200px] md:min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" placeholder="Sua análise estratégica..." />
-                      </div>
-                      <div className="lg:col-span-4">
-                        <LocalBrain text={formData.ansSocial} />
-                      </div>
-                    </div>
+                    <Textarea 
+                      value={formData.ansSocial} 
+                      onChange={(e) => setFormData({...formData, ansSocial: e.target.value})} 
+                      className="min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" 
+                      placeholder="Sua análise estratégica..." 
+                    />
 
                     <div className="flex gap-3 md:gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-14 md:h-16 px-6 md:px-8 rounded-full border-white/10 font-black uppercase text-[8px] md:text-[9px]"><ChevronLeft size={14}/></Button>
@@ -1185,7 +1167,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 06: NARRATIVA VISUAL (5 SEÇÕES) */}
                 {step === 33 && (
                   <div className="space-y-8 md:space-y-10 animate-in fade-in">
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -1284,14 +1265,12 @@ export function RecrutamentoClient() {
                     <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Desafio: Dossiê de Elite</h3>
                     <p className="text-white/40 text-xs md:text-sm">O cliente diz: "Me manda os valores pelo WhatsApp mesmo". Como você reverte isso para apresentar um **Dossiê de Venda** e não ser comparado por preço?</p>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
-                      <div className="lg:col-span-8">
-                        <Textarea value={formData.ansNarrativa} onChange={(e) => setFormData({...formData, ansNarrativa: e.target.value})} className="min-h-[200px] md:min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" placeholder="Sua resposta estratégica..." />
-                      </div>
-                      <div className="lg:col-span-4">
-                        <LocalBrain text={formData.ansNarrativa} />
-                      </div>
-                    </div>
+                    <Textarea 
+                      value={formData.ansNarrativa} 
+                      onChange={(e) => setFormData({...formData, ansNarrativa: e.target.value})} 
+                      className="min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" 
+                      placeholder="Sua resposta estratégica..." 
+                    />
 
                     <div className="flex gap-3 md:gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-14 md:h-16 px-6 md:px-8 rounded-full border-white/10 font-black uppercase text-[8px] md:text-[9px]"><ChevronLeft size={14}/></Button>
@@ -1300,7 +1279,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 07: ESTRATÉGIA DE NICHO (5 SEÇÕES) */}
                 {step === 39 && (
                   <div className="space-y-8 md:space-y-10 animate-in fade-in">
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -1393,14 +1371,12 @@ export function RecrutamentoClient() {
                     <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Desafio: Nichos Estratégicos</h3>
                     <p className="text-white/40 text-xs md:text-sm">Escolha um dos nichos acima e descreva qual o primeiro "gargalo" que você atacaria em uma ligação de 30 segundos usando os termos técnicos que aprendeu.</p>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
-                      <div className="lg:col-span-8">
-                        <Textarea value={formData.ansNichos} onChange={(e) => setFormData({...formData, ansNichos: e.target.value})} className="min-h-[200px] md:min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" placeholder="Sua estratégia de abordagem..." />
-                      </div>
-                      <div className="lg:col-span-4">
-                        <LocalBrain text={formData.ansNichos} />
-                      </div>
-                    </div>
+                    <Textarea 
+                      value={formData.ansNichos} 
+                      onChange={(e) => setFormData({...formData, ansNichos: e.target.value})} 
+                      className="min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" 
+                      placeholder="Sua estratégia de abordagem..." 
+                    />
 
                     <div className="flex gap-3 md:gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-14 md:h-16 px-6 md:px-8 rounded-full border-white/10 font-black uppercase text-[8px] md:text-[9px]"><ChevronLeft size={14}/></Button>
@@ -1409,7 +1385,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 08: NEGOCIAÇÃO DE VALOR (5 SEÇÕES) */}
                 {step === 45 && (
                   <div className="space-y-8 md:space-y-10 animate-in fade-in">
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -1508,14 +1483,12 @@ export function RecrutamentoClient() {
                     <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Desafio: Objeção de Preço</h3>
                     <p className="text-white/40 text-xs md:text-sm">O cliente diz: "O site está caro". Como você utiliza o argumento do **Lucro Cessante** (o dinheiro que ele já está perdendo) para ancorar o preço da Sapient?</p>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
-                      <div className="lg:col-span-8">
-                        <Textarea value={formData.ansPreco} onChange={(e) => setFormData({...formData, ansPreco: e.target.value})} className="min-h-[200px] md:min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" placeholder="Sua defesa comercial de elite..." />
-                      </div>
-                      <div className="lg:col-span-4">
-                        <LocalBrain text={formData.ansPreco} />
-                      </div>
-                    </div>
+                    <Textarea 
+                      value={formData.ansPreco} 
+                      onChange={(e) => setFormData({...formData, ansPreco: e.target.value})} 
+                      className="min-h-[250px] bg-white/5 border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 font-medium text-white text-base md:text-lg" 
+                      placeholder="Sua defesa comercial de elite..." 
+                    />
 
                     <div className="flex gap-3 md:gap-4">
                       <Button variant="outline" onClick={handlePrevStep} className="h-14 md:h-16 px-6 md:px-8 rounded-full border-white/10 font-black uppercase text-[8px] md:text-[9px]"><ChevronLeft size={14}/></Button>
@@ -1524,7 +1497,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 09: PREPARAÇÃO VOCAL (5 SEÇÕES) */}
                 {step === 51 && (
                   <div className="space-y-8 md:space-y-10 animate-in fade-in">
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -1612,7 +1584,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* TESTE DE VOZ 01 (ETAPA 56) */}
                 {step === 56 && (
                   <div className="space-y-6 md:space-y-8 animate-in fade-in">
                     <div className="text-center space-y-4">
@@ -1654,7 +1625,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* MÓDULO 10: TRILHA DE PITCH (5 SEÇÕES) */}
                 {step === 57 && (
                   <div className="space-y-8 md:space-y-10 animate-in fade-in">
                     <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -1742,7 +1712,6 @@ export function RecrutamentoClient() {
                   </div>
                 )}
 
-                {/* TESTE DE VOZ 02 (ETAPA 62) */}
                 {step === 62 && (
                   <div className="space-y-6 md:space-y-8 animate-in fade-in">
                     <div className="text-center space-y-4">
