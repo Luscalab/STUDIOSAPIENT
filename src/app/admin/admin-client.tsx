@@ -74,6 +74,13 @@ export function AdminClient() {
     }
   }, [user, isUserLoading, isAdmin, router]);
 
+  const getInitials = (name: string) => {
+    if (!name) return "??";
+    const parts = name.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
+
   // Sincroniza o candidato selecionado com os dados mais recentes da lista
   const currentCandidate = candidates?.find(c => c.id === selectedCandidate?.id) || selectedCandidate;
 
@@ -209,7 +216,9 @@ export function AdminClient() {
                                 {c.photoUri ? (
                                   <img src={c.photoUri} alt="" className="object-cover w-full h-full" />
                                 ) : (
-                                  <div className="w-full h-full flex items-center justify-center text-white/10"><Users size={20} /></div>
+                                  <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-xs">
+                                    {getInitials(c.name || "")}
+                                  </div>
                                 )}
                               </div>
                               <div className="space-y-1">
@@ -245,7 +254,9 @@ export function AdminClient() {
                             {currentCandidate.photoUri ? (
                               <img src={currentCandidate.photoUri} alt={currentCandidate.name} className="object-cover w-full h-full" />
                             ) : (
-                              <div className="w-full h-full flex items-center justify-center text-white/5"><Camera size={48} /></div>
+                              <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-4xl">
+                                {getInitials(currentCandidate.name || "")}
+                              </div>
                             )}
                           </div>
                           
@@ -397,7 +408,9 @@ export function AdminClient() {
                               {p.photoUri ? (
                                 <img src={p.photoUri} alt="" className="object-cover w-full h-full" />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center text-white/10"><UserCircle size={32} /></div>
+                                <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-xl">
+                                  {getInitials(p.name || "")}
+                                </div>
                               )}
                             </div>
                             <div className="space-y-1">

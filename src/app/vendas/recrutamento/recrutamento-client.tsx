@@ -62,7 +62,8 @@ import {
   Smile,
   Megaphone,
   Camera,
-  Upload
+  Upload,
+  BookMarked
 } from "lucide-react";
 import { useFirebase, useFirestore, useDoc, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, addDocumentNonBlocking } from "@/firebase";
 import { collection, serverTimestamp, doc } from "firebase/firestore";
@@ -74,7 +75,6 @@ export function RecrutamentoClient() {
   const [view, setView] = useState<'dashboard' | 'training' | 'profile'>('dashboard');
   const [step, setStep] = useState(1);
   const [isRecording, setIsRecording] = useState(false);
-  const [isProcessingAudio, setIsProcessingAudio] = useState(false);
   
   const [audio1Base64, setAudio1Base64] = useState<string | null>(null);
   const [audioFinalBase64, setAudioFinalBase64] = useState<string | null>(null);
@@ -143,6 +143,13 @@ export function RecrutamentoClient() {
   const audioChunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
 
+  const getInitials = (name: string) => {
+    if (!name) return "??";
+    const parts = name.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -167,7 +174,14 @@ export function RecrutamentoClient() {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setFormData(prev => ({ ...prev, [field]: reader.result as string }));
+      const result = reader.result as string;
+      setFormData(prev => ({ ...prev, [field]: result }));
+      
+      // Salva automaticamente se já tiver perfil
+      if (profileRef) {
+        setDocumentNonBlocking(profileRef, { [field]: result }, { merge: true });
+      }
+      
       toast({ title: "UPLOAD CONCLUÍDO", description: "Arquivo anexado com sucesso." });
     };
     reader.readAsDataURL(file);
@@ -186,7 +200,6 @@ export function RecrutamentoClient() {
       };
 
       mediaRecorder.onstop = async () => {
-        setIsProcessingAudio(true);
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         const reader = new FileReader();
         reader.readAsDataURL(audioBlob);
@@ -199,7 +212,6 @@ export function RecrutamentoClient() {
             setAudioFinalBase64(b64);
             setFormData(prev => ({ ...prev, pitchAudioUri: b64 }));
           }
-          setIsProcessingAudio(false);
         };
       };
 
@@ -342,8 +354,14 @@ export function RecrutamentoClient() {
                <div className="flex gap-2">
                  <Dialog>
                    <DialogTrigger asChild>
-                     <button className="h-10 w-10 md:h-12 md:w-12 rounded-xl md:rounded-2xl bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-all shadow-lg">
-                       <UserCircle size={20} />
+                     <button className="h-10 w-10 md:h-12 md:w-12 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary transition-all shadow-lg overflow-hidden group">
+                       {formData.photoUri ? (
+                         <img src={formData.photoUri} alt="Perfil" className="w-full h-full object-cover" />
+                       ) : (
+                         <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-xs">
+                           {getInitials(formData.name || profile?.name || user?.email?.split('@')[0] || "")}
+                         </div>
+                       )}
                      </button>
                    </DialogTrigger>
                    <DialogContent className="bg-[#0c0a1a] border-white/10 text-white rounded-[2rem] md:rounded-[3rem] max-w-[90vw] md:max-w-md p-6 md:p-10">
@@ -351,28 +369,44 @@ export function RecrutamentoClient() {
                        <DialogTitle className="text-xl md:text-2xl font-black uppercase tracking-tighter">Ficha Técnica</DialogTitle>
                      </DialogHeader>
                      <div className="space-y-4 md:space-y-6 py-4 md:py-6">
-                       <div className="grid grid-cols-1 gap-4 md:gap-6">
-                         <div className="flex justify-center mb-4">
-                           <div className="h-24 w-24 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden relative group">
-                             {formData.photoUri ? (
-                               <img src={formData.photoUri} alt="Foto" className="object-cover w-full h-full" />
-                             ) : (
-                               <Camera className="text-white/20 h-8 w-8" />
-                             )}
-                           </div>
+                       <div className="flex flex-col items-center gap-4">
+                         <div className="h-24 w-24 rounded-[2rem] bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden relative group">
+                           {formData.photoUri ? (
+                             <img src={formData.photoUri} alt="Foto" className="object-cover w-full h-full" />
+                           ) : (
+                             <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-2xl">
+                               {getInitials(formData.name || profile?.name || "")}
+                             </div>
+                           )}
+                           <label className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center cursor-pointer transition-opacity">
+                             <Camera size={20} className="text-white" />
+                             <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, 'photoUri')} className="hidden" />
+                           </label>
                          </div>
-                         <div className="space-y-1 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/5">
-                           <p className="text-[7px] md:text-[8px] font-black uppercase text-white/30 tracking-widest">Nome Completo</p>
-                           <p className="text-xs md:text-sm font-bold">{formData.name || '-'}</p>
+                         <p className="text-[8px] font-black uppercase text-white/30 tracking-widest">Clique para alterar foto</p>
+                       </div>
+
+                       <div className="grid grid-cols-1 gap-3">
+                         <div className="space-y-1 p-3 rounded-xl bg-white/5 border border-white/5">
+                           <p className="text-[7px] font-black uppercase text-white/30 tracking-widest">Nome Completo</p>
+                           <p className="text-xs font-bold">{formData.name || '-'}</p>
                          </div>
-                         <div className="space-y-1 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/5">
-                           <p className="text-[7px] md:text-[8px] font-black uppercase text-white/30 tracking-widest">WhatsApp</p>
-                           <p className="text-xs md:text-sm font-bold">{formData.phone || '-'}</p>
+                         <div className="space-y-1 p-3 rounded-xl bg-white/5 border border-white/5">
+                           <p className="text-[7px] font-black uppercase text-white/30 tracking-widest">WhatsApp</p>
+                           <p className="text-xs font-bold">{formData.phone || '-'}</p>
                          </div>
-                         <div className="space-y-1 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/5 border border-white/5">
-                           <p className="text-[7px] md:text-[8px] font-black uppercase text-white/30 tracking-widest">Localização</p>
-                           <p className="text-xs md:text-sm font-bold">{formData.cityState || '-'}</p>
+                         <div className="space-y-1 p-3 rounded-xl bg-white/5 border border-white/5">
+                           <p className="text-[7px] font-black uppercase text-white/30 tracking-widest">Localização</p>
+                           <p className="text-xs font-bold">{formData.cityState || '-'}</p>
                          </div>
+                         
+                         <label className="mt-2 h-14 border-2 border-dashed border-white/10 rounded-xl flex items-center justify-center gap-3 cursor-pointer hover:bg-white/5 transition-all">
+                           <Upload size={16} className="text-primary" />
+                           <span className="text-[9px] font-black uppercase tracking-widest text-white/40">
+                             {formData.resumeUri ? "Atualizar Currículo" : "Anexar Currículo"}
+                           </span>
+                           <input type="file" accept=".pdf,.doc,.docx" onChange={(e) => handleFileChange(e, 'resumeUri')} className="hidden" />
+                         </label>
                        </div>
                      </div>
                    </DialogContent>
@@ -386,7 +420,7 @@ export function RecrutamentoClient() {
           </div>
 
           {view === 'dashboard' ? (
-            <div className="space-y-8 md:space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <div className="space-y-12 md:space-y-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                 <div className="p-8 md:p-10 rounded-3xl md:rounded-[3rem] bg-primary text-white space-y-6 shadow-2xl shadow-primary/20 relative overflow-hidden group">
@@ -424,42 +458,54 @@ export function RecrutamentoClient() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                {modules.map((m, idx) => (
-                  <button 
-                    key={idx}
-                    onClick={() => { 
-                      setStep(m.step); 
-                      setView('training');
-                      scrollToTop();
-                    }}
-                    className={cn(
-                      "p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border transition-all duration-500 text-left group relative overflow-hidden h-[180px] md:h-[240px] flex flex-col justify-between",
-                      m.done 
-                        ? "bg-green-500/5 border-green-500/20 hover:bg-green-500/10" 
-                        : "bg-white/5 border-white/10 hover:border-primary/30 hover:bg-white/10"
-                    )}
-                  >
-                    <div className="relative z-10 flex justify-between items-start">
-                      <div className={cn(
-                        "h-10 w-10 md:h-12 md:w-12 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-500 shadow-lg",
-                        m.done ? "bg-green-500 text-white" : "bg-white/5 text-white/40 group-hover:bg-primary group-hover:text-white"
-                      )}>
-                        {m.done ? <CheckCircle2 size={20} className="md:w-6 md:h-6" /> : m.icon}
-                      </div>
-                      {m.done && <Badge className="bg-green-500 text-white border-none text-[6px] md:text-[7px] font-black uppercase px-2 py-0.5 md:px-3 md:py-1">Validado</Badge>}
-                    </div>
-                    
-                    <div className="relative z-10">
-                      <p className="text-[7px] md:text-[8px] font-black uppercase tracking-widest text-white/20 mb-1">Módulo {String(idx + 1).padStart(2, '0')}</p>
-                      <h5 className="text-base md:text-lg font-black uppercase tracking-tighter leading-tight group-hover:text-primary transition-colors">{m.title}</h5>
-                    </div>
+              {/* CATEGORIA DE TREINAMENTOS */}
+              <div className="space-y-8">
+                <div className="flex items-center gap-4">
+                  <div className="h-px flex-1 bg-white/10" />
+                  <div className="flex items-center gap-3">
+                    <BookMarked className="h-4 w-4 text-primary" />
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">Treinamentos & Imersão Técnica</h4>
+                  </div>
+                  <div className="h-px flex-1 bg-white/10" />
+                </div>
 
-                    <div className="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700">
-                      {m.icon}
-                    </div>
-                  </button>
-                ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                  {modules.map((m, idx) => (
+                    <button 
+                      key={idx}
+                      onClick={() => { 
+                        setStep(m.step); 
+                        setView('training');
+                        scrollToTop();
+                      }}
+                      className={cn(
+                        "p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border transition-all duration-500 text-left group relative overflow-hidden h-[180px] md:h-[240px] flex flex-col justify-between",
+                        m.done 
+                          ? "bg-green-500/5 border-green-500/20 hover:bg-green-500/10" 
+                          : "bg-white/5 border-white/10 hover:border-primary/30 hover:bg-white/10"
+                      )}
+                    >
+                      <div className="relative z-10 flex justify-between items-start">
+                        <div className={cn(
+                          "h-10 w-10 md:h-12 md:w-12 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-500 shadow-lg",
+                          m.done ? "bg-green-500 text-white" : "bg-white/5 text-white/40 group-hover:bg-primary group-hover:text-white"
+                        )}>
+                          {m.done ? <CheckCircle2 size={20} className="md:w-6 md:h-6" /> : m.icon}
+                        </div>
+                        {m.done && <Badge className="bg-green-500 text-white border-none text-[6px] md:text-[7px] font-black uppercase px-2 py-0.5 md:px-3 md:py-1">Validado</Badge>}
+                      </div>
+                      
+                      <div className="relative z-10">
+                        <p className="text-[7px] md:text-[8px] font-black uppercase tracking-widest text-white/20 mb-1">Módulo {String(idx + 1).padStart(2, '0')}</p>
+                        <h5 className="text-base md:text-lg font-black uppercase tracking-tighter leading-tight group-hover:text-primary transition-colors">{m.title}</h5>
+                      </div>
+
+                      <div className="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700">
+                        {m.icon}
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="p-6 md:p-8 rounded-[2rem] md:rounded-[3rem] bg-amber-500/5 border border-amber-500/10 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
@@ -520,7 +566,9 @@ export function RecrutamentoClient() {
                             {formData.photoUri ? (
                               <img src={formData.photoUri} alt="Preview" className="object-cover w-full h-full" />
                             ) : (
-                              <Camera className="text-white/20 h-8 w-8" />
+                              <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-xl uppercase">
+                                {getInitials(formData.name || profile?.name || "")}
+                              </div>
                             )}
                           </div>
                           <div className="flex-1">
@@ -703,7 +751,7 @@ export function RecrutamentoClient() {
                 {step === 8 && (
                   <div className="space-y-6 md:space-y-8 animate-in fade-in">
                     <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter">Desafio Técnico: Ads & GMN</h3>
-                    <p className="text-white/40 text-xs md:text-sm">Um cliente investe R$ 2.000/mês, mas o site dele demora 10s para carregar. Como você usa o conceito de **Índice de Qualidade** e **Hemorragia de Verba** para convencê-lo de que ele está perdendo dinheiro?</p>
+                    <p className="text-white/40 text-xs md:text-sm">Um cliente investere R$ 2.000/mês, mas o site dele demora 10s para carregar. Como você usa o conceito de **Índice de Qualidade** e **Hemorragia de Verba** para convencê-lo de que ele está perdendo dinheiro?</p>
                     
                     <Textarea 
                       value={formData.ansAds} 
