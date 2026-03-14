@@ -126,6 +126,26 @@ export function AdminClient() {
     });
   };
 
+  // Parser de CSV robusto que lida com aspas
+  const parseCSVLine = (text: string) => {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        result.push(current.trim());
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current.trim());
+    return result;
+  };
+
   const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -134,22 +154,26 @@ export function AdminClient() {
     reader.onload = async (event) => {
       const text = event.target?.result as string;
       const lines = text.split('\n').filter(l => l.trim());
-      if (lines.length < 2) return;
+      if (lines.length < 2) {
+        toast({ title: "Arquivo Inválido", description: "O CSV precisa ter pelo menos um cabeçalho e uma linha de dados.", variant: "destructive" });
+        return;
+      }
 
-      // Colunas Esperadas: 
+      // Colunas Esperadas (Exatamente nesta ordem):
       // 0: Nome da Empresa, 1: Endereço e região, 2: Nota no google Maps, 
       // 3: Gargalos, 4: Serviços, 5: dicas de venda, 6: nome de socio ou dono, 
       // 7: site oficial, 8: contato, 9: contato decisor, 10: dicas, 11: notas internas
 
       const newLeads = lines.slice(1).map(line => {
-        const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, '')); // Limpa aspas se houver
+        const values = parseCSVLine(line);
         
-        const rating = parseFloat(values[2]) || 4.0;
+        const rating = parseFloat(values[2]?.replace(',', '.')) || 4.0;
         const rawServices = values[4] || "";
-        const servicesArray = rawServices.split(';').map(s => s.trim()).filter(Boolean);
+        // Aceita serviços separados por ; ou vírgula
+        const servicesArray = rawServices.split(/[;,]/).map(s => s.trim()).filter(Boolean);
 
         // Mescla dicas de venda (5) com dicas adicionais (10)
-        const combinedScript = `${values[5] || ""}${values[10] ? `\n\nTips: ${values[10]}` : ""}`.trim();
+        const combinedScript = `${values[5] || ""}${values[10] ? `\n\nAbordagem Adicional: ${values[10]}` : ""}`.trim();
 
         return {
           companyName: values[0] || "Empresa Sem Nome",
@@ -159,9 +183,9 @@ export function AdminClient() {
           bottlenecks: values[3] || "",
           suggestedServices: servicesArray.length > 0 ? servicesArray : ["Sites Premium", "Performance Ads"],
           salesScript: combinedScript || "Foco na autoridade visual e ROI.",
-          contactName: values[9] || values[6] || "-", // Prioriza contato decisor (9), senão socio/dono (6)
+          contactName: values[9] || values[6] || "Responsável", // Prioriza contato decisor (9), senão socio/dono (6)
           website: values[7] || "",
-          phone: values[8] || "-",
+          phone: values[8] || values[9] || "-",
           email: values[8]?.includes('@') ? values[8] : "-",
           category: "Geral",
           status: "NOVO",
@@ -178,7 +202,7 @@ export function AdminClient() {
 
       toast({ 
         title: "Importação Concluída", 
-        description: `${count} leads estratégicos adicionados com sucesso seguindo o modelo rígido.` 
+        description: `${count} leads estratégicos adicionados com sucesso seguindo a ordem das 12 colunas.` 
       });
       
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -384,12 +408,12 @@ export function AdminClient() {
                 <div className="flex flex-col md:flex-row justify-between gap-6 bg-white/5 p-8 rounded-[3rem] border border-white/10">
                   <div className="space-y-2">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Prospecção Estratégica</h3>
-                    <p className="text-white/40 text-xs font-medium">Use o formato: Empresa, Região, Nota, Gargalos, Serviços, Script, Dono, Site, Contato, Decisor, Dicas, Notas.</p>
+                    <p className="text-white/40 text-xs font-medium">Formato exigido: Empresa, Região, Nota, Gargalos, Serviços, Script, Sócio, Site, Contato, Decisor, Dicas, Notas.</p>
                   </div>
                   <div className="flex gap-4">
                     <input type="file" accept=".csv" ref={fileInputRef} onChange={handleCSVUpload} className="hidden" />
                     <Button onClick={() => fileInputRef.current?.click()} className="h-14 px-8 bg-primary rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-xl shadow-primary/20">
-                      <Upload size={16} className="mr-2" /> Importar CSV
+                      <Upload size={16} className="mr-2" /> Importar 12 Colunas
                     </Button>
                   </div>
                 </div>
