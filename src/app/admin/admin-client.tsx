@@ -1,11 +1,23 @@
 
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { 
   Users, 
   Search, 
@@ -14,7 +26,7 @@ import {
   ShieldCheck, 
   ArrowLeft,
   MessageCircle,
-  Instagram,
+  Mail,
   MapPin,
   Clock,
   CheckCircle2,
@@ -23,9 +35,6 @@ import {
   LogOut,
   Zap,
   Mic,
-  Mail,
-  Brain,
-  Code,
   FileText,
   TrendingUp,
   Palette,
@@ -35,38 +44,52 @@ import {
   Download,
   ExternalLink,
   UserCircle,
-  Camera
+  Camera,
+  Upload,
+  Database,
+  Edit3,
+  Filter,
+  Trash2
 } from "lucide-react";
-import { useFirebase, useFirestore, useCollection, useMemoFirebase, initiateSignOut, updateDocumentNonBlocking } from "@/firebase";
-import { collection, query, orderBy, doc } from "firebase/firestore";
+import { useFirebase, useFirestore, useCollection, useMemoFirebase, initiateSignOut, updateDocumentNonBlocking, addDocumentNonBlocking, deleteDocumentNonBlocking } from "@/firebase";
+import { collection, query, orderBy, doc, serverTimestamp, where } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 export function AdminClient() {
   const { auth, user, isUserLoading } = useFirebase();
   const db = useFirestore();
   const router = useRouter();
+  const { toast } = useToast();
   
-  const [activeTab, setActiveTab] = useState<'candidates' | 'profiles'>('candidates');
+  const [activeTab, setActiveTab] = useState<'candidates' | 'profiles' | 'leads'>('candidates');
   const [selectedCandidate, setSelectedCandidate] = useState<any | null>(null);
+  const [editingLead, setEditingLead] = useState<any | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const isAdmin = user?.email === "lucassouza.sou@gmail.com" || user?.email === "contato@studiosapient.com.br";
 
-  // Query para Dossiês (Sales Candidates)
+  // Queries
   const candidatesQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'sales_candidates'), orderBy('timestamp', 'desc'));
   }, [db]);
 
-  // Query para Usuários (Sales Profiles)
   const profilesQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(collection(db, 'sales_profiles'), orderBy('consentTimestamp', 'desc'));
   }, [db]);
 
+  const leadsQuery = useMemoFirebase(() => {
+    if (!db) return null;
+    return query(collection(db, 'commercial_leads'), orderBy('createdAt', 'desc'));
+  }, [db]);
+
   const { data: candidates, isLoading: isCandidatesLoading } = useCollection(candidatesQuery);
   const { data: profiles, isLoading: isProfilesLoading } = useCollection(profilesQuery);
+  const { data: leads, isLoading: isLeadsLoading } = useCollection(leadsQuery);
 
   useEffect(() => {
     if (!isUserLoading && (!user || !isAdmin)) {
@@ -81,10 +104,92 @@ export function AdminClient() {
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
 
-  // Sincroniza o candidato selecionado com os dados mais recentes da lista
   const currentCandidate = candidates?.find(c => c.id === selectedCandidate?.id) || selectedCandidate;
 
-  if (isUserLoading || isCandidatesLoading || isProfilesLoading) {
+  const handleSignOut = () => {
+    initiateSignOut(auth);
+    router.push("/vendas/auth");
+  };
+
+  const updateCandidateStatus = (id: string, status: string) => {
+    const docRef = doc(db, 'sales_candidates', id);
+    updateDocumentNonBlocking(docRef, { status });
+    toast({ title: "Status Atualizado", description: `Candidato movido para ${status}.` });
+  };
+
+  const toggleLeadsAccess = (userId: string, currentStatus: boolean) => {
+    const docRef = doc(db, 'sales_profiles', userId);
+    updateDocumentNonBlocking(docRef, { leadsEnabled: !currentStatus });
+    toast({ 
+      title: !currentStatus ? "Acesso Liberado" : "Acesso Revogado", 
+      description: `O colaborador ${!currentStatus ? 'agora' : 'não'} pode visualizar leads.` 
+    });
+  };
+
+  const handleCSVUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const text = event.target?.result as string;
+      const lines = text.split('\n');
+      const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+      
+      const newLeads = lines.slice(1).filter(l => l.trim()).map(line => {
+        const values = line.split(',').map(v => v.trim());
+        return {
+          companyName: values[headers.indexOf('empresa')] || values[0] || "Sem Nome",
+          contactName: values[headers.indexOf('contato')] || values[1] || "-",
+          email: values[headers.indexOf('email')] || values[2] || "-",
+          phone: values[headers.indexOf('telefone')] || values[3] || "-",
+          category: values[headers.indexOf('categoria')] || values[4] || "Geral",
+          status: "NOVO",
+          notes: "",
+          createdAt: new Date().toISOString()
+        };
+      });
+
+      for (const lead of newLeads) {
+        await addDocumentNonBlocking(collection(db, 'commercial_leads'), lead);
+      }
+
+      toast({ title: "Importação Concluída", description: `${newLeads.length} leads foram adicionados à base.` });
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    };
+    reader.readAsText(file);
+  };
+
+  const saveLeadEdits = () => {
+    if (!editingLead) return;
+    const docRef = doc(db, 'commercial_leads', editingLead.id);
+    const { id, ...data } = editingLead;
+    updateDocumentNonBlocking(docRef, data);
+    setEditingLead(null);
+    toast({ title: "Lead Atualizado", description: "Alterações salvas com sucesso." });
+  };
+
+  const deleteLead = (id: string) => {
+    if (confirm("Tem certeza que deseja excluir este lead?")) {
+      const docRef = doc(db, 'commercial_leads', id);
+      deleteDocumentNonBlocking(docRef);
+      toast({ title: "Lead Removido", variant: "destructive" });
+    }
+  };
+
+  const formatDate = (timestamp: any) => {
+    if (!timestamp) return "-";
+    try {
+      if (typeof timestamp.toDate === 'function') {
+        return timestamp.toDate().toLocaleDateString('pt-BR');
+      }
+      return new Date(timestamp).toLocaleDateString('pt-BR');
+    } catch (e) {
+      return "-";
+    }
+  };
+
+  if (isUserLoading || isCandidatesLoading || isProfilesLoading || isLeadsLoading) {
     return (
       <div className="min-h-screen bg-[#08070b] flex items-center justify-center">
         <Loader2 className="h-12 w-12 text-primary animate-spin" />
@@ -104,30 +209,10 @@ export function AdminClient() {
     (p.email || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const updateStatus = (id: string, status: string) => {
-    const docRef = doc(db, 'sales_candidates', id);
-    updateDocumentNonBlocking(docRef, { status });
-    if (selectedCandidate?.id === id) {
-      setSelectedCandidate({ ...selectedCandidate, status });
-    }
-  };
-
-  const handleSignOut = () => {
-    initiateSignOut(auth);
-    router.push("/vendas/auth");
-  };
-
-  const formatDate = (timestamp: any) => {
-    if (!timestamp) return "-";
-    try {
-      if (typeof timestamp.toDate === 'function') {
-        return timestamp.toDate().toLocaleDateString('pt-BR');
-      }
-      return new Date(timestamp).toLocaleDateString('pt-BR');
-    } catch (e) {
-      return "-";
-    }
-  };
+  const filteredLeads = leads?.filter(l => 
+    (l.companyName || "").toLowerCase().includes(searchTerm.toLowerCase()) || 
+    (l.category || "").toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <main className="min-h-screen bg-[#08070b] text-white selection:bg-primary/30 pb-32">
@@ -150,24 +235,19 @@ export function AdminClient() {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20 group-focus-within:text-primary transition-colors" />
                 <input 
                   type="text" 
-                  placeholder={activeTab === 'candidates' ? "Buscar dossiê..." : "Buscar usuário..."}
+                  placeholder="Buscar..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full bg-white/5 border border-white/10 h-14 pl-12 pr-6 rounded-2xl font-bold focus:ring-primary/20 outline-none transition-all text-sm"
                 />
               </div>
-              <div className="flex gap-2">
-                <Button onClick={() => router.push('/vendas/recrutamento')} variant="outline" className="h-14 px-6 border-white/10 bg-white/5 text-white hover:bg-white/10 rounded-2xl font-black uppercase text-[9px] tracking-widest">
-                  <Zap className="h-4 w-4 mr-2 text-primary" /> Treinamento
-                </Button>
-                <button onClick={handleSignOut} className="h-14 w-14 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all">
-                  <LogOut size={20} />
-                </button>
-              </div>
+              <button onClick={handleSignOut} className="h-14 w-14 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all">
+                <LogOut size={20} />
+              </button>
             </div>
           </div>
 
-          <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/10 mb-12 max-w-md">
+          <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/10 mb-12 max-w-lg">
             <button 
               onClick={() => { setActiveTab('candidates'); setSelectedCandidate(null); }}
               className={cn(
@@ -186,63 +266,43 @@ export function AdminClient() {
             >
               <Users size={14} /> Usuários ({profiles?.length || 0})
             </button>
+            <button 
+              onClick={() => { setActiveTab('leads'); setSelectedCandidate(null); }}
+              className={cn(
+                "flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                activeTab === 'leads' ? "bg-primary text-white shadow-lg" : "text-white/30 hover:text-white"
+              )}
+            >
+              <Database size={14} /> Leads ({leads?.length || 0})
+            </button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {activeTab === 'candidates' ? (
+            {activeTab === 'candidates' && (
               <>
                 <div className={cn("space-y-4", currentCandidate ? "lg:col-span-4 hidden lg:block" : "lg:col-span-12")}>
-                  {filteredCandidates?.length === 0 ? (
-                    <div className="p-20 text-center bg-white/5 border border-white/10 rounded-[3rem] space-y-4">
-                      <Users className="h-12 w-12 text-white/10 mx-auto" />
-                      <p className="text-white/30 font-bold uppercase tracking-widest text-[10px]">Nenhum dossiê encontrado.</p>
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-                      {filteredCandidates?.map((c) => (
-                        <button 
-                          key={c.id}
-                          onClick={() => setSelectedCandidate(c)}
-                          className={cn(
-                            "w-full text-left p-6 rounded-[2rem] border transition-all duration-500 group relative overflow-hidden",
-                            currentCandidate?.id === c.id 
-                              ? "bg-primary border-primary shadow-2xl shadow-primary/20" 
-                              : "bg-white/5 border-white/10 hover:border-white/30"
-                          )}
-                        >
-                          <div className="relative z-10 flex justify-between items-start">
-                            <div className="flex gap-4">
-                              <div className="h-12 w-12 rounded-xl bg-black/20 overflow-hidden border border-white/10 shrink-0">
-                                {c.photoUri ? (
-                                  <img src={c.photoUri} alt="" className="object-cover w-full h-full" />
-                                ) : (
-                                  <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-xs">
-                                    {getInitials(c.name || "")}
-                                  </div>
-                                )}
-                              </div>
-                              <div className="space-y-1">
-                                <h3 className="font-black uppercase tracking-tight text-sm text-white truncate max-w-[150px]">{c.name || "Candidato sem nome"}</h3>
-                                <p className={cn("text-[10px] font-bold uppercase tracking-widest", currentCandidate?.id === c.id ? "text-white/60" : "text-white/30")}>
-                                  {c.cityState || 'Sem localização'}
-                                </p>
-                              </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
+                    {filteredCandidates?.map((c) => (
+                      <button key={c.id} onClick={() => setSelectedCandidate(c)} className={cn("w-full text-left p-6 rounded-[2rem] border transition-all duration-500 group relative overflow-hidden", currentCandidate?.id === c.id ? "bg-primary border-primary shadow-2xl shadow-primary/20" : "bg-white/5 border-white/10 hover:border-white/30")}>
+                        <div className="relative z-10 flex justify-between items-start">
+                          <div className="flex gap-4">
+                            <div className="h-12 w-12 rounded-xl bg-black/20 overflow-hidden border border-white/10 shrink-0">
+                              {c.photoUri ? <img src={c.photoUri} alt="" className="object-cover w-full h-full" /> : <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-xs">{getInitials(c.name || "")}</div>}
                             </div>
-                            <div className="flex flex-col items-end gap-2">
-                              <ChevronRight className={cn("h-5 w-5 transition-transform", currentCandidate?.id === c.id ? "translate-x-1" : "text-white/20")} />
-                              <Badge className={cn(
-                                "text-[7px] font-black px-2 py-0.5 uppercase border-none",
-                                c.status === 'APROVADO' ? "bg-green-500 text-white" : 
-                                c.status === 'REPROVADO' ? "bg-red-500 text-white" : "bg-amber-500 text-black"
-                              )}>
-                                {c.status?.replace(/_/g, ' ') || 'PENDENTE'}
-                              </Badge>
+                            <div className="space-y-1">
+                              <h3 className="font-black uppercase tracking-tight text-sm text-white truncate max-w-[150px]">{c.name || "Sem Nome"}</h3>
+                              <p className={cn("text-[10px] font-bold uppercase tracking-widest", currentCandidate?.id === c.id ? "text-white/60" : "text-white/30")}>{c.cityState || 'Sem Local'}</p>
                             </div>
                           </div>
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                          <div className="flex flex-col items-end gap-2">
+                            <Badge className={cn("text-[7px] font-black px-2 py-0.5 uppercase border-none", c.status === 'APROVADO' ? "bg-green-500 text-white" : c.status === 'REPROVADO' ? "bg-red-500 text-white" : "bg-amber-500 text-black")}>
+                              {c.status?.replace(/_/g, ' ') || 'PENDENTE'}
+                            </Badge>
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {currentCandidate ? (
@@ -251,214 +311,149 @@ export function AdminClient() {
                       <div className="flex flex-col md:flex-row justify-between gap-8 items-start">
                         <div className="flex flex-col sm:flex-row gap-8">
                           <div className="h-32 w-32 md:h-48 md:w-48 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden relative shadow-2xl">
-                            {currentCandidate.photoUri ? (
-                              <img src={currentCandidate.photoUri} alt={currentCandidate.name} className="object-cover w-full h-full" />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-4xl">
-                                {getInitials(currentCandidate.name || "")}
-                              </div>
-                            )}
+                            {currentCandidate.photoUri ? <img src={currentCandidate.photoUri} alt={currentCandidate.name} className="object-cover w-full h-full" /> : <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-4xl">{getInitials(currentCandidate.name || "")}</div>}
                           </div>
-                          
                           <div className="space-y-6">
-                            <button onClick={() => setSelectedCandidate(null)} className="lg:hidden flex items-center gap-2 text-primary font-black uppercase text-[10px] tracking-widest mb-4">
-                              <ArrowLeft size={14} /> Voltar
-                            </button>
-                            <div className="space-y-2">
-                              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none text-white">{currentCandidate.name || 'Sem nome'}</h2>
-                              <div className="flex flex-wrap gap-4 text-white/40 text-xs font-bold uppercase tracking-widest">
-                                <span className="flex items-center gap-2"><Clock size={14} /> {formatDate(currentCandidate.timestamp)}</span>
-                                <span className="flex items-center gap-2"><MapPin size={14} /> {currentCandidate.cityState || "-"}</span>
-                              </div>
-                            </div>
-                            
+                            <button onClick={() => setSelectedCandidate(null)} className="lg:hidden flex items-center gap-2 text-primary font-black uppercase text-[10px] tracking-widest mb-4"><ArrowLeft size={14} /> Voltar</button>
+                            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">{currentCandidate.name || 'Sem nome'}</h2>
                             <div className="flex flex-wrap gap-3">
-                              <a href={`https://wa.me/${currentCandidate.phone?.replace(/\D/g, '')}`} target="_blank" className="h-12 px-6 bg-green-500/10 text-green-500 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all">
-                                <MessageCircle size={16} /> WhatsApp
-                              </a>
-                              <a href={`mailto:${currentCandidate.email}`} className="h-12 px-6 bg-primary/10 text-primary rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-primary hover:text-white transition-all">
-                                <Mail size={16} /> E-mail
-                              </a>
-                              {currentCandidate.resumeUri && (
-                                <a 
-                                  href={currentCandidate.resumeUri} 
-                                  download={`curriculo-${currentCandidate.name}.pdf`}
-                                  className="h-12 px-6 bg-cyan-500/10 text-cyan-400 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-cyan-500 hover:text-white transition-all"
-                                >
-                                  <Download size={16} /> Baixar CV
-                                </a>
-                              )}
+                              <a href={`https://wa.me/${currentCandidate.phone?.replace(/\D/g, '')}`} target="_blank" className="h-12 px-6 bg-green-500/10 text-green-500 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all"><MessageCircle size={16} /> WhatsApp</a>
+                              {currentCandidate.resumeUri && <a href={currentCandidate.resumeUri} download={`curriculo-${currentCandidate.name}.pdf`} className="h-12 px-6 bg-cyan-500/10 text-cyan-400 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-cyan-500 hover:text-white transition-all"><Download size={16} /> CV</a>}
                             </div>
                           </div>
                         </div>
-
                         <div className="flex flex-col gap-2 w-full md:w-48">
-                          <p className="text-[8px] font-black uppercase text-white/20 tracking-[0.3em] mb-2">Alterar Status</p>
-                          <button onClick={() => updateStatus(currentCandidate.id, 'APROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-green-500/10 text-green-500 border border-green-500/20 hover:bg-green-500 hover:text-white transition-all text-[9px] font-black uppercase">
-                            Aprovar <CheckCircle2 size={14} />
-                          </button>
-                          <button onClick={() => updateStatus(currentCandidate.id, 'REPROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all text-[9px] font-black uppercase">
-                            Reprovar <XCircle size={14} />
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-white/5">
-                        <div className="space-y-6">
-                          <h4 className="text-primary font-black uppercase text-[10px] tracking-[0.4em] flex items-center gap-3">
-                            <ShieldCheck size={16} /> Respostas Técnicas
-                          </h4>
-                          {[
-                            { label: "Performance Ads & GMN", val: currentCandidate.ansAds, icon: <TrendingUp size={12}/> },
-                            { label: "Engenharia de Sites", val: currentCandidate.ansSites, icon: <Code size={12}/> },
-                            { label: "Design & Semiótica", val: currentCandidate.ansDesign, icon: <Palette size={12}/> },
-                            { label: "IA & Atendimento", val: currentCandidate.ansChat, icon: <Brain size={12}/> },
-                            { label: "Social & Autoridade", val: currentCandidate.ansSocial, icon: <Users size={12}/> },
-                            { label: "Narrativa & Dossiês", val: currentCandidate.ansNarrativa, icon: <FileText size={12}/> },
-                            { label: "Estratégia de Nicho", val: currentCandidate.ansNichos, icon: <Target size={12}/> },
-                            { label: "Negociação de Valor", val: currentCandidate.ansPreco, icon: <PieChart size={12}/> },
-                          ].map((ans, i) => (
-                            <div key={i} className="space-y-2 p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all">
-                              <div className="flex items-center gap-2">
-                                <span className="text-primary">{ans.icon}</span>
-                                <p className="text-[8px] font-black uppercase text-white/30 tracking-widest">{ans.label}</p>
-                              </div>
-                              <p className="text-sm font-medium leading-relaxed text-white/80">{ans.val || 'Não respondido.'}</p>
-                            </div>
-                          ))}
-                        </div>
-
-                        <div className="space-y-8">
-                          <h4 className="text-primary font-black uppercase text-[10px] tracking-[0.4em] flex items-center gap-3">
-                            <Mic size={16} /> Provas Vocais
-                          </h4>
-                          
-                          <div className="space-y-6">
-                            <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-6">
-                              <div className="space-y-1">
-                                <p className="text-[9px] font-black uppercase text-primary">01. O Desafio do Cirurgião</p>
-                                <p className="text-[10px] text-white/40 font-medium">Abordagem de diagnóstico imediato.</p>
-                              </div>
-                              {currentCandidate.audioObjeçãoAds ? (
-                                <audio controls className="w-full h-10 filter invert opacity-80">
-                                  <source src={currentCandidate.audioObjeçãoAds} type="audio/webm" />
-                                </audio>
-                              ) : <p className="text-xs text-red-400/50 font-bold uppercase italic">Sem áudio 01.</p>}
-                            </div>
-
-                            <div className="p-8 rounded-[2.5rem] bg-primary/5 border border-primary/20 space-y-6">
-                              <div className="space-y-1">
-                                <p className="text-[9px] font-black uppercase text-primary">02. Pitch Final de Elite</p>
-                                <p className="text-[10px] text-white/40 font-medium">Venda do próprio perfil.</p>
-                              </div>
-                              {currentCandidate.pitchAudioUri ? (
-                                <audio controls className="w-full h-10 filter invert opacity-80">
-                                  <source src={currentCandidate.pitchAudioUri} type="audio/webm" />
-                                </audio>
-                              ) : <p className="text-xs text-red-400/50 font-bold uppercase italic">Sem áudio final.</p>}
-                            </div>
-                          </div>
-
-                          <div className="p-8 rounded-[2.5rem] bg-amber-500/5 border border-amber-500/10 space-y-4">
-                            <h5 className="flex items-center gap-2 text-amber-400 font-black uppercase text-[10px]"><AlertCircle size={14} /> Histórico</h5>
-                            <div className="grid grid-cols-2 gap-4 text-[10px]">
-                              <div>
-                                <p className="text-white/20 font-bold uppercase">Experiência</p>
-                                <p className="font-bold text-white">{currentCandidate.experience || '-'}</p>
-                              </div>
-                              <div>
-                                <p className="text-white/20 font-bold uppercase">Ocupação</p>
-                                <p className="font-bold text-white">{currentCandidate.currentOccupation || '-'}</p>
-                              </div>
-                            </div>
-                          </div>
+                          <button onClick={() => updateCandidateStatus(currentCandidate.id, 'APROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-green-500/10 text-green-500 border border-green-500/20 hover:bg-green-500 hover:text-white transition-all text-[9px] font-black uppercase">Aprovar <CheckCircle2 size={14} /></button>
+                          <button onClick={() => updateCandidateStatus(currentCandidate.id, 'REPROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all text-[9px] font-black uppercase">Reprovar <XCircle size={14} /></button>
                         </div>
                       </div>
                     </div>
                   </div>
                 ) : (
                   <div className="lg:col-span-8 hidden lg:flex flex-col items-center justify-center bg-white/5 border border-dashed border-white/10 rounded-[3rem] p-20 text-center space-y-6">
-                    <div className="h-20 w-20 rounded-full bg-white/5 flex items-center justify-center text-white/10">
-                      <FileText size={40} />
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="text-2xl font-black uppercase tracking-tighter text-white/20">Selecione um dossiê</h3>
-                      <p className="text-white/10 font-bold uppercase tracking-widest text-[10px]">Para iniciar a auditoria técnica.</p>
-                    </div>
+                    <FileText size={40} className="text-white/10" />
+                    <h3 className="text-2xl font-black uppercase tracking-tighter text-white/20">Selecione um dossiê</h3>
                   </div>
                 )}
               </>
-            ) : (
-              <div className="lg:col-span-12 space-y-6 animate-in fade-in slide-in-from-bottom-4">
-                {filteredProfiles?.length === 0 ? (
-                  <div className="p-20 text-center bg-white/5 border border-white/10 rounded-[3rem] space-y-4">
-                    <Users className="h-12 w-12 text-white/10 mx-auto" />
-                    <p className="text-white/30 font-bold uppercase tracking-widest text-[10px]">Nenhum consultor registrado.</p>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredProfiles?.map((p) => (
-                      <div key={p.id} className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 space-y-6 hover:bg-white/10 transition-all group relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-6 opacity-[0.03] group-hover:rotate-12 transition-transform duration-1000">
-                          <UserCheck size={80} />
-                        </div>
-                        <div className="space-y-4 relative z-10">
-                          <div className="flex gap-4 items-center">
-                            <div className="h-16 w-16 rounded-2xl bg-black/40 overflow-hidden border border-white/10">
-                              {p.photoUri ? (
-                                <img src={p.photoUri} alt="" className="object-cover w-full h-full" />
-                              ) : (
-                                <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-xl">
-                                  {getInitials(p.name || "")}
-                                </div>
-                              )}
-                            </div>
-                            <div className="space-y-1">
-                              <h3 className="text-xl font-black uppercase tracking-tighter text-white truncate max-w-[180px]">{p.name || 'Sem nome'}</h3>
-                              <p className="text-[10px] font-black uppercase tracking-widest text-primary">{p.currentOccupation || 'Consultor Sapient'}</p>
-                            </div>
-                          </div>
-                          
-                          <div className="space-y-3 pt-4 border-t border-white/5">
-                            <div className="flex items-center gap-3 text-[10px] font-bold text-white/40 uppercase">
-                              <Mail size={14} className="text-primary" /> {p.email}
-                            </div>
-                            <div className="flex items-center gap-3 text-[10px] font-bold text-white/40 uppercase">
-                              <MapPin size={14} className="text-primary" /> {p.cityState || 'Local não informado'}
-                            </div>
-                            <div className="flex items-center gap-3 text-[10px] font-bold text-white/40 uppercase">
-                              <Clock size={14} className="text-primary" /> {formatDate(p.consentTimestamp)}
-                            </div>
-                          </div>
+            )}
 
-                          <div className="flex gap-2 pt-4">
-                            <a 
-                              href={`https://wa.me/${p.phone?.replace(/\D/g, '')}`} 
-                              target="_blank" 
-                              className="flex-1 h-12 bg-green-500/10 text-green-500 rounded-xl flex items-center justify-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all"
-                            >
-                              <MessageCircle size={16} /> WhatsApp
-                            </a>
-                            {p.resumeUri && (
-                              <a 
-                                href={p.resumeUri} 
-                                download={`cv-${p.name}.pdf`}
-                                className="h-12 w-12 bg-cyan-500/10 text-cyan-400 rounded-xl flex items-center justify-center hover:bg-cyan-500 hover:text-white transition-all"
-                              >
-                                <Download size={18} />
-                              </a>
-                            )}
-                          </div>
+            {activeTab === 'profiles' && (
+              <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4">
+                {filteredProfiles?.map((p) => (
+                  <div key={p.id} className="bg-white/5 border border-white/10 rounded-[2.5rem] p-8 space-y-6 hover:bg-white/10 transition-all">
+                    <div className="flex gap-4 items-center">
+                      <div className="h-16 w-16 rounded-2xl bg-black/40 overflow-hidden border border-white/10">
+                        {p.photoUri ? <img src={p.photoUri} alt="" className="object-cover w-full h-full" /> : <div className="w-full h-full flex items-center justify-center bg-primary/20 text-primary font-black text-xl">{getInitials(p.name || "")}</div>}
+                      </div>
+                      <div className="space-y-1">
+                        <h3 className="text-xl font-black uppercase tracking-tighter text-white truncate max-w-[180px]">{p.name || 'Sem nome'}</h3>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-primary">{p.currentOccupation || 'Consultor Sapient'}</p>
+                      </div>
+                    </div>
+                    <div className="pt-4 border-t border-white/5 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[9px] font-black uppercase text-white/30 tracking-widest">Acesso a Leads</span>
+                        <Switch 
+                          checked={p.leadsEnabled || false} 
+                          onCheckedChange={() => toggleLeadsAccess(p.id, p.leadsEnabled || false)}
+                          className="data-[state=checked]:bg-green-500"
+                        />
+                      </div>
+                      <div className="flex gap-2">
+                        <a href={`https://wa.me/${p.phone?.replace(/\D/g, '')}`} target="_blank" className="flex-1 h-12 bg-green-500/10 text-green-500 rounded-xl flex items-center justify-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all"><MessageCircle size={16} /> WhatsApp</a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {activeTab === 'leads' && (
+              <div className="lg:col-span-12 space-y-8 animate-in fade-in">
+                <div className="flex flex-col md:flex-row justify-between gap-6 bg-white/5 p-8 rounded-[3rem] border border-white/10">
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-black uppercase tracking-tighter">Gestão de Prospecção</h3>
+                    <p className="text-white/40 text-xs font-medium">Importe arquivos .CSV para distribuir leads entre os consultores.</p>
+                  </div>
+                  <div className="flex gap-4">
+                    <input type="file" accept=".csv" ref={fileInputRef} onChange={handleCSVUpload} className="hidden" />
+                    <Button onClick={() => fileInputRef.current?.click()} className="h-14 px-8 bg-primary rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-xl shadow-primary/20">
+                      <Upload size={16} className="mr-2" /> Importar CSV
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {filteredLeads?.map((l) => (
+                    <div key={l.id} className="p-6 rounded-[2rem] bg-white/5 border border-white/10 space-y-4 hover:border-primary/30 transition-all group">
+                      <div className="flex justify-between items-start">
+                        <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase">{l.category}</Badge>
+                        <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => setEditingLead(l)} className="h-8 w-8 rounded-lg bg-white/5 flex items-center justify-center text-white/40 hover:text-white"><Edit3 size={14}/></button>
+                          <button onClick={() => deleteLead(l.id)} className="h-8 w-8 rounded-lg bg-red-500/10 flex items-center justify-center text-red-500 hover:bg-red-500 hover:text-white"><Trash2 size={14}/></button>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                )}
+                      <div>
+                        <h4 className="font-black uppercase tracking-tight text-white">{l.companyName}</h4>
+                        <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{l.contactName}</p>
+                      </div>
+                      <div className="pt-4 border-t border-white/5 flex flex-wrap gap-2">
+                        <div className="flex items-center gap-2 text-[9px] font-bold text-white/40 uppercase"><Mail size={12}/> {l.email}</div>
+                        <div className="flex items-center gap-2 text-[9px] font-bold text-white/40 uppercase"><MessageCircle size={12}/> {l.phone}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
         </div>
       </section>
+
+      {/* Dialog de Edição de Lead */}
+      {editingLead && (
+        <Dialog open={!!editingLead} onOpenChange={() => setEditingLead(null)}>
+          <DialogContent className="bg-[#0c0a1a] border-white/10 text-white rounded-[3rem] p-10">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-black uppercase tracking-tighter">Editar Lead</DialogTitle>
+            </DialogHeader>
+            <div className="grid grid-cols-1 gap-4 py-6">
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase text-white/30">Empresa</Label>
+                <Input value={editingLead.companyName} onChange={(e) => setEditingLead({...editingLead, companyName: e.target.value})} className="bg-white/5 border-white/10" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase text-white/30">Contato</Label>
+                  <Input value={editingLead.contactName} onChange={(e) => setEditingLead({...editingLead, contactName: e.target.value})} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase text-white/30">Categoria</Label>
+                  <Input value={editingLead.category} onChange={(e) => setEditingLead({...editingLead, category: e.target.value})} className="bg-white/5 border-white/10" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase text-white/30">E-mail</Label>
+                  <Input value={editingLead.email} onChange={(e) => setEditingLead({...editingLead, email: e.target.value})} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase text-white/30">Telefone</Label>
+                  <Input value={editingLead.phone} onChange={(e) => setEditingLead({...editingLead, phone: e.target.value})} className="bg-white/5 border-white/10" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[10px] font-black uppercase text-white/30">Notas Internas</Label>
+                <Textarea value={editingLead.notes} onChange={(e) => setEditingLead({...editingLead, notes: e.target.value})} className="bg-white/5 border-white/10 min-h-[100px]" />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button onClick={saveLeadEdits} className="w-full h-14 bg-primary rounded-2xl font-black uppercase tracking-widest text-[10px]">Salvar Alterações</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
 
       <Footer />
     </main>

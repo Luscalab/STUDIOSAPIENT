@@ -11,6 +11,21 @@
         "timestamp": { "type": "string", "format": "date-time" }
       }
     },
+    "CommercialLead": {
+      "title": "CommercialLead",
+      "description": "Lead de prospecção importado via CSV para os consultores.",
+      "type": "object",
+      "properties": {
+        "companyName": { "type": "string" },
+        "contactName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string", "enum": ["NOVO", "EM_CONTATO", "NEGOCIACAO", "FECHADO", "PERDIDO"] },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
     "SalesProfile": {
       "title": "SalesProfile",
       "description": "Perfil persistente do consultor de vendas.",
@@ -26,7 +41,8 @@
         "photoUri": { "type": "string" },
         "resumeUri": { "type": "string" },
         "consentAccepted": { "type": "boolean" },
-        "consentTimestamp": { "type": "string", "format": "date-time" }
+        "consentTimestamp": { "type": "string", "format": "date-time" },
+        "leadsEnabled": { "type": "boolean", "default": false }
       }
     },
     "SalesCandidate": {
@@ -67,6 +83,10 @@
     "/leads/{leadId}": {
       "schema": "Lead",
       "description": "Leads de consultoria capturados via chat inteligente."
+    },
+    "/commercial_leads/{leadId}": {
+      "schema": "CommercialLead",
+      "description": "Base de dados de prospecção gerenciada pelo admin."
     },
     "/sales_profiles/{userId}": {
       "schema": "SalesProfile",

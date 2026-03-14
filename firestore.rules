@@ -15,17 +15,28 @@ service cloud.firestore {
       );
     }
 
-    // Leads: permite apenas criação pública. Leitura e exclusão restritas ao admin.
+    // Auxiliar para verificar se o usuário tem leads liberados
+    function hasLeadsEnabled() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/sales_profiles/$(request.auth.uid)).data.leadsEnabled == true;
+    }
+
+    // Leads de prospecção: Admin total, Colaborador apenas leitura se liberado
+    match /commercial_leads/{leadId} {
+      allow read, write: if isAdmin();
+      allow read: if hasLeadsEnabled();
+    }
+
+    // Leads do Site: apenas criação pública. Admin lê tudo.
     match /leads/{leadId} {
       allow create: if true;
       allow read, delete: if isAdmin();
-      allow update: if false;
     }
 
     // Perfis de Vendas: Usuário gerencia o seu próprio, Admin lê tudo
     match /sales_profiles/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
-      allow read: if isAdmin();
+      allow read, update: if isAdmin();
     }
 
     // Candidatos a Vendas (Dossiês): criação pública para o processo, Admin gerencia.
