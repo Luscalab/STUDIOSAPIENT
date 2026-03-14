@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useRef } from "react";
@@ -134,48 +133,39 @@ export function AdminClient() {
     const reader = new FileReader();
     reader.onload = async (event) => {
       const text = event.target?.result as string;
-      const lines = text.split('\n');
+      const lines = text.split('\n').filter(l => l.trim());
       if (lines.length < 2) return;
 
-      const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-      
-      const findIndex = (keywords: string[]) => {
-        return headers.findIndex(h => keywords.some(k => h.includes(k.toLowerCase())));
-      };
+      // Colunas Esperadas: 
+      // 0: Nome da Empresa, 1: Endereço e região, 2: Nota no google Maps, 
+      // 3: Gargalos, 4: Serviços, 5: dicas de venda, 6: nome de socio ou dono, 
+      // 7: site oficial, 8: contato, 9: contato decisor, 10: dicas, 11: notas internas
 
-      const idxEmpresa = findIndex(['nome da empresa', 'empresa', 'cliente']);
-      const idxRegiao = findIndex(['endereço e região', 'região', 'endereco', 'local']);
-      const idxNota = findIndex(['nota no google maps', 'nota', 'rating', 'google maps']);
-      const idxGargalos = findIndex(['gargalos', 'problemas', 'diagnostico']);
-      const idxServicos = findIndex(['serviços', 'servicos', 'soluções']);
-      const idxScript = findIndex(['dicas de venda', 'script', 'dicas']);
-      const idxDono = findIndex(['nome de socio ou dono', 'dono', 'socio', 'contato', 'decisor']);
-      const idxEmail = findIndex(['email', 'e-mail']);
-      const idxTelefone = findIndex(['telefone', 'celular', 'whatsapp', 'fone']);
-      const idxCategoria = findIndex(['categoria', 'nicho', 'setor']);
-
-      const newLeads = lines.slice(1).filter(l => l.trim()).map(line => {
-        const values = line.split(',').map(v => v.trim());
+      const newLeads = lines.slice(1).map(line => {
+        const values = line.split(',').map(v => v.trim().replace(/^"|"$/g, '')); // Limpa aspas se houver
         
-        const rating = parseFloat(values[idxNota]) || 4.0;
-        const rawServices = values[idxServicos] || "";
+        const rating = parseFloat(values[2]) || 4.0;
+        const rawServices = values[4] || "";
         const servicesArray = rawServices.split(';').map(s => s.trim()).filter(Boolean);
 
+        // Mescla dicas de venda (5) com dicas adicionais (10)
+        const combinedScript = `${values[5] || ""}${values[10] ? `\n\nTips: ${values[10]}` : ""}`.trim();
+
         return {
-          companyName: values[idxEmpresa] || values[0] || "Empresa Sem Nome",
-          contactName: values[idxDono] || values[1] || "-",
-          email: values[idxEmail] || "-",
-          phone: values[idxTelefone] || "-",
-          category: values[idxCategoria] || "Geral",
+          companyName: values[0] || "Empresa Sem Nome",
+          region: values[1] || "Geral",
+          address: values[1] || "-",
           googleRating: rating,
-          region: values[idxRegiao] || "-",
-          address: values[idxRegiao] || "-",
-          website: "",
-          bottlenecks: values[idxGargalos] || "",
-          salesScript: values[idxScript] || "",
+          bottlenecks: values[3] || "",
           suggestedServices: servicesArray.length > 0 ? servicesArray : ["Sites Premium", "Performance Ads"],
+          salesScript: combinedScript || "Foco na autoridade visual e ROI.",
+          contactName: values[9] || values[6] || "-", // Prioriza contato decisor (9), senão socio/dono (6)
+          website: values[7] || "",
+          phone: values[8] || "-",
+          email: values[8]?.includes('@') ? values[8] : "-",
+          category: "Geral",
           status: "NOVO",
-          notes: "",
+          notes: values[11] || "",
           createdAt: new Date().toISOString()
         };
       });
@@ -188,7 +178,7 @@ export function AdminClient() {
 
       toast({ 
         title: "Importação Concluída", 
-        description: `${count} leads estratégicos adicionados com sucesso.` 
+        description: `${count} leads estratégicos adicionados com sucesso seguindo o modelo rígido.` 
       });
       
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -394,7 +384,7 @@ export function AdminClient() {
                 <div className="flex flex-col md:flex-row justify-between gap-6 bg-white/5 p-8 rounded-[3rem] border border-white/10">
                   <div className="space-y-2">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Prospecção Estratégica</h3>
-                    <p className="text-white/40 text-xs font-medium">Importe diagnósticos com as colunas: Empresa, Região, Nota, Gargalos, Serviços, Script, Dono.</p>
+                    <p className="text-white/40 text-xs font-medium">Use o formato: Empresa, Região, Nota, Gargalos, Serviços, Script, Dono, Site, Contato, Decisor, Dicas, Notas.</p>
                   </div>
                   <div className="flex gap-4">
                     <input type="file" accept=".csv" ref={fileInputRef} onChange={handleCSVUpload} className="hidden" />
@@ -474,6 +464,10 @@ export function AdminClient() {
                 <div className="space-y-2">
                   <Label className="text-[10px] font-black uppercase text-white/30">Site Oficial</Label>
                   <Input value={editingLead.website} onChange={(e) => setEditingLead({...editingLead, website: e.target.value})} className="bg-white/5 border-white/10" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase text-white/30">Contato (Fone/Email)</Label>
+                  <Input value={editingLead.phone} onChange={(e) => setEditingLead({...editingLead, phone: e.target.value})} className="bg-white/5 border-white/10 h-12" />
                 </div>
               </div>
 
