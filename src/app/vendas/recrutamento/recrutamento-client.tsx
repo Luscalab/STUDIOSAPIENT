@@ -82,7 +82,8 @@ import {
   MessageCircle,
   CalendarDays,
   History,
-  AlertCircle
+  AlertCircle,
+  Copy
 } from "lucide-react";
 import { useFirebase, useFirestore, useDoc, useCollection, initiateSignOut, useMemoFirebase, setDocumentNonBlocking, updateDocumentNonBlocking } from "@/firebase";
 import { collection, doc, query, orderBy } from "firebase/firestore";
@@ -176,6 +177,16 @@ export function RecrutamentoClient() {
   const handleSignOut = () => {
     initiateSignOut(auth);
     router.push("/vendas/auth");
+  };
+
+  const handleCopy = (text: string, label: string) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    toast({
+      title: `[ ${label.toUpperCase()} COPIADO ]`,
+      description: "Pronto para uso na sua área de transferência.",
+      className: "bg-black border-primary text-white font-black uppercase tracking-widest text-[9px]"
+    });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: 'photoUri' | 'resumeUri') => {
@@ -612,11 +623,20 @@ export function RecrutamentoClient() {
                           </p>
                         </blockquote>
 
-                        <div className="pt-8 grid grid-cols-2 gap-4">
-                          <a href={`https://wa.me/${(String(selectedLead.phone || "")).replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.decisionMaker || selectedLead.contactName || "Responsável"}, sou consultor da studiosapient...`)}`} target="_blank" className="flex-1 h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-2xl shadow-green-500/20 hover:scale-105 transition-all"><MessageCircle size={18} /> Iniciar WhatsApp</a>
-                          {selectedLead.email && selectedLead.email !== "-" && (
-                            <a href={`mailto:${selectedLead.email}`} className="flex-1 h-16 bg-white text-black rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-xl hover:bg-primary hover:text-white transition-all"><Mail size={18} /> Enviar E-mail</a>
-                          )}
+                        <div className="pt-8 space-y-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="flex flex-col gap-2">
+                              <a href={`https://wa.me/${(String(selectedLead.phone || "")).replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.decisionMaker || selectedLead.contactName || "Responsável"}, sou consultor da studiosapient...`)}`} target="_blank" className="h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-2xl shadow-green-500/20 hover:scale-105 transition-all"><MessageCircle size={18} /> Iniciar WhatsApp</a>
+                              <Button onClick={() => handleCopy(selectedLead.phone, "Número")} variant="outline" className="h-12 border-white/10 bg-white/5 text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white/10"><Copy size={14} className="mr-2" /> Copiar Número</Button>
+                            </div>
+                            
+                            {selectedLead.email && selectedLead.email !== "-" && (
+                              <div className="flex flex-col gap-2">
+                                <a href={`mailto:${selectedLead.email}`} className="h-16 bg-white text-black rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-xl hover:bg-primary hover:text-white transition-all"><Mail size={18} /> Enviar E-mail</a>
+                                <Button onClick={() => handleCopy(selectedLead.email, "E-mail")} variant="outline" className="h-12 border-white/10 bg-white/5 text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white/10"><Copy size={14} className="mr-2" /> Copiar E-mail</Button>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
