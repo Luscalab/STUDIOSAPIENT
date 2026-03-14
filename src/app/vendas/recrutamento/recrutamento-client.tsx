@@ -349,7 +349,7 @@ export function RecrutamentoClient() {
                     <div className="space-y-2">
                       <h3 className="text-2xl font-black uppercase tracking-tighter text-white leading-none">{l.companyName}</h3>
                       <div className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-                        <UserCircle size={12} className="text-primary" /> {l.contactName || "Responsável"}
+                        <UserCircle size={12} className="text-primary" /> {l.decisionMaker || l.contactName || "Responsável"}
                       </div>
                       <div className="flex items-center gap-2 text-[10px] font-bold text-white/20 uppercase tracking-widest">
                         <MapPin size={12} /> {l.region || "Geral"}
@@ -385,9 +385,18 @@ export function RecrutamentoClient() {
                             <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary"><UserCircle size={20} /></div>
                             <div>
                               <p className="text-[7px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">Decisor Principal</p>
-                              <p className="text-xs font-black uppercase tracking-tight">{selectedLead.contactName || "Responsável"}</p>
+                              <p className="text-xs font-black uppercase tracking-tight">{selectedLead.decisionMaker || selectedLead.contactName || "Responsável"}</p>
                             </div>
                           </div>
+                          {selectedLead.contactName && selectedLead.contactName !== selectedLead.decisionMaker && (
+                            <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/5">
+                              <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-white/40"><Users size={20} /></div>
+                              <div>
+                                <p className="text-[7px] font-black text-white/20 uppercase tracking-widest leading-none mb-1">Sócio / Dono</p>
+                                <p className="text-xs font-black uppercase tracking-tight">{selectedLead.contactName}</p>
+                              </div>
+                            </div>
+                          )}
                           <div className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 border border-white/5">
                             <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary"><MapPin size={20} /></div>
                             <div>
@@ -464,7 +473,7 @@ export function RecrutamentoClient() {
 
                         <div className="pt-8 grid grid-cols-2 gap-4">
                           <a 
-                            href={`https://wa.me/${(selectedLead.phone || "").replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.contactName || "Responsável"}, sou consultor da studiosapient. Estava analisando a presença digital da ${selectedLead.companyName}...`)}`} 
+                            href={`https://wa.me/${(selectedLead.phone || "").replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.decisionMaker || selectedLead.contactName || "Responsável"}, sou consultor da studiosapient. Estava analisando a presença digital da ${selectedLead.companyName}...`)}`} 
                             target="_blank"
                             className="flex-1 h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-2xl shadow-green-500/20 hover:scale-105 transition-all"
                           >

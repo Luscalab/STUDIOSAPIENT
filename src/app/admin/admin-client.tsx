@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useRef } from "react";
@@ -169,10 +170,7 @@ export function AdminClient() {
         
         const rating = parseFloat(values[2]?.replace(',', '.')) || 4.0;
         const rawServices = values[4] || "";
-        // Aceita serviços separados por ; ou vírgula
         const servicesArray = rawServices.split(/[;,]/).map(s => s.trim()).filter(Boolean);
-
-        // Mescla dicas de venda (5) com dicas adicionais (10)
         const combinedScript = `${values[5] || ""}${values[10] ? `\n\nAbordagem Adicional: ${values[10]}` : ""}`.trim();
 
         return {
@@ -183,9 +181,10 @@ export function AdminClient() {
           bottlenecks: values[3] || "",
           suggestedServices: servicesArray.length > 0 ? servicesArray : ["Sites Premium", "Performance Ads"],
           salesScript: combinedScript || "Foco na autoridade visual e ROI.",
-          contactName: values[9] || values[6] || "Responsável", // Prioriza contato decisor (9), senão socio/dono (6)
+          contactName: values[6] || "Responsável", // Sócio / Dono
+          decisionMaker: values[9] || "", // Contato Decisor (Coluna 9)
           website: values[7] || "",
-          phone: values[8] || values[9] || "-",
+          phone: values[8] || values[9] || "-", 
           email: values[8]?.includes('@') ? values[8] : "-",
           category: "Geral",
           status: "NOVO",
@@ -432,7 +431,7 @@ export function AdminClient() {
                       <div className="space-y-1">
                         <h4 className="font-black uppercase tracking-tight text-white text-lg">{l.companyName}</h4>
                         <div className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-widest">
-                          <UserCircle size={12} /> {l.contactName}
+                          <UserCircle size={12} /> {l.decisionMaker || l.contactName || "Responsável"}
                         </div>
                       </div>
 
@@ -471,9 +470,15 @@ export function AdminClient() {
                   <Label className="text-[10px] font-black uppercase text-white/30">Empresa</Label>
                   <Input value={editingLead.companyName} onChange={(e) => setEditingLead({...editingLead, companyName: e.target.value})} className="bg-white/5 border-white/10 h-12" />
                 </div>
-                <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase text-white/30">Contato Decisor</Label>
-                  <Input value={editingLead.contactName} onChange={(e) => setEditingLead({...editingLead, contactName: e.target.value})} className="bg-white/5 border-white/10 h-12" />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase text-white/30">Decisor Principal</Label>
+                    <Input value={editingLead.decisionMaker || ""} onChange={(e) => setEditingLead({...editingLead, decisionMaker: e.target.value})} className="bg-white/5 border-white/10 h-12" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase text-white/30">Sócio / Dono</Label>
+                    <Input value={editingLead.contactName} onChange={(e) => setEditingLead({...editingLead, contactName: e.target.value})} className="bg-white/5 border-white/10 h-12" />
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">

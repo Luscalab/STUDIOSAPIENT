@@ -18,6 +18,7 @@
       "properties": {
         "companyName": { "type": "string" },
         "contactName": { "type": "string" },
+        "decisionMaker": { "type": "string" },
         "email": { "type": "string" },
         "phone": { "type": "string" },
         "category": { "type": "string" },
