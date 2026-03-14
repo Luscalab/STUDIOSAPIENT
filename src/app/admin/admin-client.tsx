@@ -32,7 +32,6 @@ import {
   Target,
   PieChart,
   UserCheck,
-  Contact2,
   Download,
   ExternalLink,
   UserCircle,
@@ -75,6 +74,9 @@ export function AdminClient() {
     }
   }, [user, isUserLoading, isAdmin, router]);
 
+  // Sincroniza o candidato selecionado com os dados mais recentes da lista
+  const currentCandidate = candidates?.find(c => c.id === selectedCandidate?.id) || selectedCandidate;
+
   if (isUserLoading || isCandidatesLoading || isProfilesLoading) {
     return (
       <div className="min-h-screen bg-[#08070b] flex items-center justify-center">
@@ -86,13 +88,13 @@ export function AdminClient() {
   if (!isAdmin) return null;
 
   const filteredCandidates = candidates?.filter(c => 
-    c.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    c.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    (c.name || "").toLowerCase().includes(searchTerm.toLowerCase()) || 
+    (c.email || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const filteredProfiles = profiles?.filter(p => 
-    p.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    p.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    (p.name || "").toLowerCase().includes(searchTerm.toLowerCase()) || 
+    (p.email || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const updateStatus = (id: string, status: string) => {
@@ -158,7 +160,6 @@ export function AdminClient() {
             </div>
           </div>
 
-          {/* BARRA DE NAVEGAÇÃO INTERNA */}
           <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/10 mb-12 max-w-md">
             <button 
               onClick={() => { setActiveTab('candidates'); setSelectedCandidate(null); }}
@@ -183,7 +184,7 @@ export function AdminClient() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {activeTab === 'candidates' ? (
               <>
-                <div className={cn("space-y-4", selectedCandidate ? "lg:col-span-4 hidden lg:block" : "lg:col-span-12")}>
+                <div className={cn("space-y-4", currentCandidate ? "lg:col-span-4 hidden lg:block" : "lg:col-span-12")}>
                   {filteredCandidates?.length === 0 ? (
                     <div className="p-20 text-center bg-white/5 border border-white/10 rounded-[3rem] space-y-4">
                       <Users className="h-12 w-12 text-white/10 mx-auto" />
@@ -197,7 +198,7 @@ export function AdminClient() {
                           onClick={() => setSelectedCandidate(c)}
                           className={cn(
                             "w-full text-left p-6 rounded-[2rem] border transition-all duration-500 group relative overflow-hidden",
-                            selectedCandidate?.id === c.id 
+                            currentCandidate?.id === c.id 
                               ? "bg-primary border-primary shadow-2xl shadow-primary/20" 
                               : "bg-white/5 border-white/10 hover:border-white/30"
                           )}
@@ -213,13 +214,13 @@ export function AdminClient() {
                               </div>
                               <div className="space-y-1">
                                 <h3 className="font-black uppercase tracking-tight text-sm text-white truncate max-w-[150px]">{c.name || "Candidato sem nome"}</h3>
-                                <p className={cn("text-[10px] font-bold uppercase tracking-widest", selectedCandidate?.id === c.id ? "text-white/60" : "text-white/30")}>
+                                <p className={cn("text-[10px] font-bold uppercase tracking-widest", currentCandidate?.id === c.id ? "text-white/60" : "text-white/30")}>
                                   {c.cityState || 'Sem localização'}
                                 </p>
                               </div>
                             </div>
                             <div className="flex flex-col items-end gap-2">
-                              <ChevronRight className={cn("h-5 w-5 transition-transform", selectedCandidate?.id === c.id ? "translate-x-1" : "text-white/20")} />
+                              <ChevronRight className={cn("h-5 w-5 transition-transform", currentCandidate?.id === c.id ? "translate-x-1" : "text-white/20")} />
                               <Badge className={cn(
                                 "text-[7px] font-black px-2 py-0.5 uppercase border-none",
                                 c.status === 'APROVADO' ? "bg-green-500 text-white" : 
@@ -235,14 +236,14 @@ export function AdminClient() {
                   )}
                 </div>
 
-                {selectedCandidate ? (
+                {currentCandidate ? (
                   <div className="lg:col-span-8 animate-in fade-in slide-in-from-right-4">
                     <div className="bg-white/5 border border-white/10 rounded-[3rem] p-8 md:p-12 backdrop-blur-3xl shadow-2xl space-y-12">
                       <div className="flex flex-col md:flex-row justify-between gap-8 items-start">
                         <div className="flex flex-col sm:flex-row gap-8">
                           <div className="h-32 w-32 md:h-48 md:w-48 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden relative shadow-2xl">
-                            {selectedCandidate.photoUri ? (
-                              <img src={selectedCandidate.photoUri} alt={selectedCandidate.name} className="object-cover w-full h-full" />
+                            {currentCandidate.photoUri ? (
+                              <img src={currentCandidate.photoUri} alt={currentCandidate.name} className="object-cover w-full h-full" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-white/5"><Camera size={48} /></div>
                             )}
@@ -253,24 +254,24 @@ export function AdminClient() {
                               <ArrowLeft size={14} /> Voltar
                             </button>
                             <div className="space-y-2">
-                              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none text-white">{selectedCandidate.name}</h2>
+                              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none text-white">{currentCandidate.name || 'Sem nome'}</h2>
                               <div className="flex flex-wrap gap-4 text-white/40 text-xs font-bold uppercase tracking-widest">
-                                <span className="flex items-center gap-2"><Clock size={14} /> {formatDate(selectedCandidate.timestamp)}</span>
-                                <span className="flex items-center gap-2"><MapPin size={14} /> {selectedCandidate.cityState || "-"}</span>
+                                <span className="flex items-center gap-2"><Clock size={14} /> {formatDate(currentCandidate.timestamp)}</span>
+                                <span className="flex items-center gap-2"><MapPin size={14} /> {currentCandidate.cityState || "-"}</span>
                               </div>
                             </div>
                             
                             <div className="flex flex-wrap gap-3">
-                              <a href={`https://wa.me/${selectedCandidate.phone?.replace(/\D/g, '')}`} target="_blank" className="h-12 px-6 bg-green-500/10 text-green-500 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all">
+                              <a href={`https://wa.me/${currentCandidate.phone?.replace(/\D/g, '')}`} target="_blank" className="h-12 px-6 bg-green-500/10 text-green-500 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-green-500 hover:text-white transition-all">
                                 <MessageCircle size={16} /> WhatsApp
                               </a>
-                              <a href={`mailto:${selectedCandidate.email}`} className="h-12 px-6 bg-primary/10 text-primary rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-primary hover:text-white transition-all">
+                              <a href={`mailto:${currentCandidate.email}`} className="h-12 px-6 bg-primary/10 text-primary rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-primary hover:text-white transition-all">
                                 <Mail size={16} /> E-mail
                               </a>
-                              {selectedCandidate.resumeUri && (
+                              {currentCandidate.resumeUri && (
                                 <a 
-                                  href={selectedCandidate.resumeUri} 
-                                  download={`curriculo-${selectedCandidate.name}.pdf`}
+                                  href={currentCandidate.resumeUri} 
+                                  download={`curriculo-${currentCandidate.name}.pdf`}
                                   className="h-12 px-6 bg-cyan-500/10 text-cyan-400 rounded-xl flex items-center gap-2 font-black uppercase text-[9px] tracking-widest hover:bg-cyan-500 hover:text-white transition-all"
                                 >
                                   <Download size={16} /> Baixar CV
@@ -282,10 +283,10 @@ export function AdminClient() {
 
                         <div className="flex flex-col gap-2 w-full md:w-48">
                           <p className="text-[8px] font-black uppercase text-white/20 tracking-[0.3em] mb-2">Alterar Status</p>
-                          <button onClick={() => updateStatus(selectedCandidate.id, 'APROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-green-500/10 text-green-500 border border-green-500/20 hover:bg-green-500 hover:text-white transition-all text-[9px] font-black uppercase">
+                          <button onClick={() => updateStatus(currentCandidate.id, 'APROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-green-500/10 text-green-500 border border-green-500/20 hover:bg-green-500 hover:text-white transition-all text-[9px] font-black uppercase">
                             Aprovar <CheckCircle2 size={14} />
                           </button>
-                          <button onClick={() => updateStatus(selectedCandidate.id, 'REPROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all text-[9px] font-black uppercase">
+                          <button onClick={() => updateStatus(currentCandidate.id, 'REPROVADO')} className="flex items-center justify-between p-4 rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all text-[9px] font-black uppercase">
                             Reprovar <XCircle size={14} />
                           </button>
                         </div>
@@ -297,14 +298,14 @@ export function AdminClient() {
                             <ShieldCheck size={16} /> Respostas Técnicas
                           </h4>
                           {[
-                            { label: "Performance Ads & GMN", val: selectedCandidate.ansAds, icon: <TrendingUp size={12}/> },
-                            { label: "Engenharia de Sites", val: selectedCandidate.ansSites, icon: <Code size={12}/> },
-                            { label: "Design & Semiótica", val: selectedCandidate.ansDesign, icon: <Palette size={12}/> },
-                            { label: "IA & Atendimento", val: selectedCandidate.ansChat, icon: <Brain size={12}/> },
-                            { label: "Social & Autoridade", val: selectedCandidate.ansSocial, icon: <Users size={12}/> },
-                            { label: "Narrativa & Dossiês", val: selectedCandidate.ansNarrativa, icon: <FileText size={12}/> },
-                            { label: "Estratégia de Nicho", val: selectedCandidate.ansNichos, icon: <Target size={12}/> },
-                            { label: "Negociação de Valor", val: selectedCandidate.ansPreco, icon: <PieChart size={12}/> },
+                            { label: "Performance Ads & GMN", val: currentCandidate.ansAds, icon: <TrendingUp size={12}/> },
+                            { label: "Engenharia de Sites", val: currentCandidate.ansSites, icon: <Code size={12}/> },
+                            { label: "Design & Semiótica", val: currentCandidate.ansDesign, icon: <Palette size={12}/> },
+                            { label: "IA & Atendimento", val: currentCandidate.ansChat, icon: <Brain size={12}/> },
+                            { label: "Social & Autoridade", val: currentCandidate.ansSocial, icon: <Users size={12}/> },
+                            { label: "Narrativa & Dossiês", val: currentCandidate.ansNarrativa, icon: <FileText size={12}/> },
+                            { label: "Estratégia de Nicho", val: currentCandidate.ansNichos, icon: <Target size={12}/> },
+                            { label: "Negociação de Valor", val: currentCandidate.ansPreco, icon: <PieChart size={12}/> },
                           ].map((ans, i) => (
                             <div key={i} className="space-y-2 p-6 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all">
                               <div className="flex items-center gap-2">
@@ -327,9 +328,9 @@ export function AdminClient() {
                                 <p className="text-[9px] font-black uppercase text-primary">01. O Desafio do Cirurgião</p>
                                 <p className="text-[10px] text-white/40 font-medium">Abordagem de diagnóstico imediato.</p>
                               </div>
-                              {selectedCandidate.audioObjeçãoAds ? (
+                              {currentCandidate.audioObjeçãoAds ? (
                                 <audio controls className="w-full h-10 filter invert opacity-80">
-                                  <source src={selectedCandidate.audioObjeçãoAds} type="audio/webm" />
+                                  <source src={currentCandidate.audioObjeçãoAds} type="audio/webm" />
                                 </audio>
                               ) : <p className="text-xs text-red-400/50 font-bold uppercase italic">Sem áudio 01.</p>}
                             </div>
@@ -339,9 +340,9 @@ export function AdminClient() {
                                 <p className="text-[9px] font-black uppercase text-primary">02. Pitch Final de Elite</p>
                                 <p className="text-[10px] text-white/40 font-medium">Venda do próprio perfil.</p>
                               </div>
-                              {selectedCandidate.pitchAudioUri ? (
+                              {currentCandidate.pitchAudioUri ? (
                                 <audio controls className="w-full h-10 filter invert opacity-80">
-                                  <source src={selectedCandidate.pitchAudioUri} type="audio/webm" />
+                                  <source src={currentCandidate.pitchAudioUri} type="audio/webm" />
                                 </audio>
                               ) : <p className="text-xs text-red-400/50 font-bold uppercase italic">Sem áudio final.</p>}
                             </div>
@@ -352,11 +353,11 @@ export function AdminClient() {
                             <div className="grid grid-cols-2 gap-4 text-[10px]">
                               <div>
                                 <p className="text-white/20 font-bold uppercase">Experiência</p>
-                                <p className="font-bold text-white">{selectedCandidate.experience || '-'}</p>
+                                <p className="font-bold text-white">{currentCandidate.experience || '-'}</p>
                               </div>
                               <div>
                                 <p className="text-white/20 font-bold uppercase">Ocupação</p>
-                                <p className="font-bold text-white">{selectedCandidate.currentOccupation || '-'}</p>
+                                <p className="font-bold text-white">{currentCandidate.currentOccupation || '-'}</p>
                               </div>
                             </div>
                           </div>

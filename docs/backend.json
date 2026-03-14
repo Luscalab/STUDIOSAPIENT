@@ -49,6 +49,7 @@
         "ansDesign": { "type": "string" },
         "ansChat": { "type": "string" },
         "ansSocial": { "type": "string" },
+        "ansNarrativa": { "type": "string" },
         "ansNichos": { "type": "string" },
         "ansPreco": { "type": "string" },
         "audioObjeçãoAds": { "type": "string" },
