@@ -54,8 +54,7 @@ const nextConfig: NextConfig = {
       base-uri 'self';
       form-action 'self';
       frame-ancestors 'none';
-      connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.google-analytics.com https://vlibras.gov.br;
-      upgrade-insecure-requests;
+      connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.google-analytics.com https://vlibras.gov.br https://*.cloudworkstations.dev wss://*.cloudworkstations.dev;
     `.replace(/\s{2,}/g, ' ').trim();
 
     return [
@@ -92,11 +91,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Cross-Origin-Opener-Policy',
-            value: 'same-origin',
-          },
-          {
-            key: 'Cross-Origin-Embedder-Policy',
-            value: 'credentialless',
+            value: 'same-origin-allow-popups',
           }
         ],
       },
