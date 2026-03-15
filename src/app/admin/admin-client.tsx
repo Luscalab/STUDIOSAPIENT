@@ -167,31 +167,39 @@ export function AdminClient() {
       const newLeadsData = lines.slice(1).map(line => {
         const values = parseCSVLine(line);
         
+        // Mapeamento Robusto de 12 Colunas
+        const companyName = (values[0] || "Empresa Sem Nome").trim();
+        const region = (values[1] || "Geral").trim();
         const rating = parseFloat(values[2]?.replace(',', '.')) || 4.0;
+        const bottlenecks = values[3] || "";
         const rawServices = values[4] || "";
         const servicesArray = rawServices.split(/[;,]/).map(s => s.trim()).filter(Boolean);
-        const combinedScript = `${values[5] || ""}${values[10] ? `\n\nAbordagem Adicional: ${values[10]}` : ""}`.trim();
-
+        const scriptBase = values[5] || "";
         const socio = values[6]?.trim();
-        const decisor = values[9]?.trim();
-        const contato = values[8]?.trim() || "";
+        const website = values[7] || "";
+        const telefone = values[8]?.trim(); // Coluna 9
+        const emailVal = values[9]?.trim();   // Coluna 10
+        const decisor = values[10]?.trim(); // Coluna 11
+        const dicasAdicionais = values[11] || ""; // Coluna 12 (Notas/Dicas)
+
+        const combinedScript = `${scriptBase}${dicasAdicionais ? `\n\nAbordagem Estratégica: ${dicasAdicionais}` : ""}`.trim();
 
         return {
-          companyName: (values[0] || "Empresa Sem Nome").trim(),
-          region: (values[1] || "Geral").trim(),
-          address: values[1] || "-",
+          companyName,
+          region,
+          address: region,
           googleRating: rating,
-          bottlenecks: values[3] || "",
+          bottlenecks,
           suggestedServices: servicesArray.length > 0 ? servicesArray : ["Sites Premium", "Performance Ads"],
           salesScript: combinedScript || "Foco na autoridade visual e ROI.",
           contactName: socio || decisor || "Responsável", 
           decisionMaker: decisor || socio || "", 
-          website: values[7] || "",
-          phone: contato && !contato.includes('@') ? contato : "-", 
-          email: contato && contato.includes('@') ? contato : "-",
+          website,
+          phone: telefone || "-", 
+          email: emailVal || "-",
           category: "Geral",
           status: "NOVO",
-          notes: values[11] || "",
+          notes: "",
           createdAt: new Date().toISOString()
         };
       });
@@ -204,25 +212,18 @@ export function AdminClient() {
         
         if (!existingKeys.has(key)) {
           await addDocumentNonBlocking(collection(db, 'commercial_leads'), lead);
-          existingKeys.add(key); // Evita duplicados no mesmo arquivo
+          existingKeys.add(key);
           countAdded++;
         } else {
           countIgnored++;
         }
       }
 
-      if (countAdded > 0) {
-        toast({ 
-          title: "Importação Concluída", 
-          description: `${countAdded} novos leads estratégicos adicionados. ${countIgnored} duplicados ignorados.` 
-        });
-      } else {
-        toast({ 
-          title: "Importação Ignorada", 
-          description: `Todos os ${countIgnored} leads do arquivo já existem na base estratégica.`,
-          variant: "destructive"
-        });
-      }
+      toast({ 
+        title: countAdded > 0 ? "Importação Concluída" : "Importação Ignorada", 
+        description: `${countAdded} novos leads adicionados. ${countIgnored} duplicados ignorados.`,
+        variant: countAdded > 0 ? "default" : "destructive"
+      });
       
       if (fileInputRef.current) fileInputRef.current.value = "";
     };
@@ -442,7 +443,7 @@ export function AdminClient() {
                 <div className="flex flex-col md:flex-row justify-between gap-6 bg-white/5 p-8 rounded-[3rem] border border-white/10">
                   <div className="space-y-2">
                     <h3 className="text-2xl font-black uppercase tracking-tighter">Prospecção Estratégica</h3>
-                    <p className="text-white/40 text-xs font-medium">Formato: Empresa, Região, Nota, Gargalos, Serviços, Script, Sócio, Site, Contato, Decisor, Dicas, Notas.</p>
+                    <p className="text-white/40 text-xs font-medium">Formato: Empresa, Região, Nota, Gargalos, Serviços, Script, Sócio, Site, Telefone, Email, Decisor, Dicas.</p>
                   </div>
                   <div className="flex gap-4">
                     <input type="file" accept=".csv" ref={fileInputRef} onChange={handleCSVUpload} className="hidden" />
@@ -524,6 +525,16 @@ export function AdminClient() {
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase text-white/30">Sócio / Dono</Label>
                     <Input value={editingLead.contactName} onChange={(e) => setEditingLead({...editingLead, contactName: e.target.value})} className="bg-white/5 border-white/10 h-12" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase text-white/30">Telefone</Label>
+                    <Input value={editingLead.phone} onChange={(e) => setEditingLead({...editingLead, phone: e.target.value})} className="bg-white/5 border-white/10 h-12" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black uppercase text-white/30">E-mail</Label>
+                    <Input value={editingLead.email} onChange={(e) => setEditingLead({...editingLead, email: e.target.value})} className="bg-white/5 border-white/10 h-12" />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
