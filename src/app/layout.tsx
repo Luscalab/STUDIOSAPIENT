@@ -1,4 +1,3 @@
-
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
@@ -6,6 +5,7 @@ import { VLibras } from "@/components/accessibility/VLibras";
 import { AccessibilityMenu } from "@/components/accessibility/AccessibilityMenu";
 import { FirebaseClientProvider } from "@/firebase";
 import { SecurityHardening } from "@/components/security/SecurityHardening";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: {
@@ -39,25 +39,27 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased bg-background text-foreground overflow-x-hidden">
         <FirebaseClientProvider>
-          {/* Blindagem de Segurança */}
-          <SecurityHardening />
+          <LanguageProvider>
+            {/* Blindagem de Segurança */}
+            <SecurityHardening />
 
-          {/* Atalho de Acessibilidade - Pular para Conteúdo */}
-          <a 
-            href="#main-content" 
-            className="sr-only focus:not-sr-only fixed top-4 left-4 z-[999] bg-primary text-white px-8 py-4 rounded-full font-black uppercase tracking-widest text-[10px] shadow-2xl"
-          >
-            Pular para o conteúdo
-          </a>
+            {/* Atalho de Acessibilidade - Pular para Conteúdo */}
+            <a 
+              href="#main-content" 
+              className="sr-only focus:not-sr-only fixed top-4 left-4 z-[999] bg-primary text-white px-8 py-4 rounded-full font-black uppercase tracking-widest text-[10px] shadow-2xl"
+            >
+              Pular para o conteúdo
+            </a>
 
-          {/* Componentes de Acessibilidade */}
-          <div className="relative z-[200]">
-            <VLibras />
-            <AccessibilityMenu />
-          </div>
+            {/* Componentes de Acessibilidade */}
+            <div className="relative z-[200]">
+              <VLibras />
+              <AccessibilityMenu />
+            </div>
 
-          {children}
-          <Toaster />
+            {children}
+            <Toaster />
+          </LanguageProvider>
         </FirebaseClientProvider>
       </body>
     </html>

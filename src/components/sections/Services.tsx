@@ -13,6 +13,7 @@ import {
   Layout
 } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 import {
   Carousel,
   CarouselContent,
@@ -21,55 +22,35 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 
-const services = [
-  {
-    title: "Vendas & Anúncios",
-    slug: "performance-ads",
-    description: "Atraia as pessoas certas para o seu negócio com campanhas no Google e redes sociais focadas em trazer clientes reais.",
-    icon: <TrendingUp className="h-4 w-4 md:h-6 md:w-6" />,
-    features: ["Apareça no topo do Google", "Anúncios para seu bairro", "Mais chamadas no WhatsApp"]
-  },
-  {
-    title: "Criação de Sites",
-    slug: "sites-premium",
-    description: "Desenvolvemos sites modernos e rápidos que funcionam como sua vitrine de luxo na internet, prontos para converter visitantes em clientes.",
-    icon: <Layout className="h-4 w-4 md:h-6 md:w-6" />,
-    features: ["Sites Rápidos e Seguros", "Design que Encanta", "Otimizado para Celular"]
-  },
-  {
-    title: "Design de Marca",
-    slug: "design-estrategico",
-    description: "Crie um visual profissional que passa confiança e mostra que você é a melhor escolha do seu mercado.",
-    icon: <Palette className="h-4 w-4 md:h-6 md:w-6" />,
-    features: ["Logotipos Profissionais", "Visual que vende mais", "Cores que passam credibilidade"]
-  },
-  {
-    title: "Atendimento Automático",
-    slug: "chat-ia",
-    description: "Tenha um assistente inteligente no seu site ou WhatsApp que responde dúvidas e atende clientes 24 horas por dia.",
-    icon: <Bot className="h-4 w-4 md:h-6 md:w-6" />,
-    features: ["WhatsApp que responde só", "Filtro de curiosos", "Atendimento sem demora"]
-  },
-  {
-    title: "Redes Sociais",
-    slug: "gestao-social",
-    description: "Deixe seu perfil no Instagram e LinkedIn com cara de empresa grande, postando conteúdos que atraem quem realmente compra.",
-    icon: <Users className="h-4 w-4 md:h-6 md:w-6" />,
-    features: ["Postagens que educam", "Visual de dar inveja", "Crescimento de seguidores reais"]
-  },
-  {
-    title: "Apresentações & Dossiês",
-    slug: "narrativa-visual",
-    description: "Transforme seus serviços ou propostas em apresentações lindas e fáceis de entender, que ajudam a fechar vendas maiores.",
-    icon: <FileText className="h-4 w-4 md:h-6 md:w-6" />,
-    features: ["Propostas de Luxo", "Explicação visual simples", "Clareza total de valor"]
-  }
-];
-
 export function Services() {
+  const { t } = useLanguage();
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
+
+  const services = [
+    {
+      title: t('services.items.ads.title'),
+      slug: "performance-ads",
+      description: t('services.items.ads.desc'),
+      icon: <TrendingUp className="h-4 w-4 md:h-6 md:w-6" />,
+      features: [t('services.items.ads.f1'), t('services.items.ads.f2'), t('services.items.ads.f3')]
+    },
+    {
+      title: t('services.items.web.title'),
+      slug: "sites-premium",
+      description: t('services.items.web.desc'),
+      icon: <Layout className="h-4 w-4 md:h-6 md:w-6" />,
+      features: [t('services.items.web.f1'), t('services.items.web.f2'), t('services.items.web.f3')]
+    },
+    {
+      title: t('services.items.brand.title'),
+      slug: "design-estrategico",
+      description: t('services.items.brand.desc'),
+      icon: <Palette className="h-4 w-4 md:h-6 md:w-6" />,
+      features: [t('services.items.brand.f1'), t('services.items.brand.f2'), t('services.items.brand.f3')]
+    }
+  ];
 
   React.useEffect(() => {
     if (!api) return;
@@ -86,10 +67,10 @@ export function Services() {
         
         <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-12 mb-12 md:mb-16">
           <div className="max-w-2xl text-center lg:text-left">
-            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-primary/60 mb-2">Soluções para crescer</p>
+            <p className="text-[9px] font-black uppercase tracking-[0.4em] text-primary/60 mb-2">{t('services.badge')}</p>
             <h2 className="font-headline text-3xl md:text-6xl font-black text-black tracking-tighter leading-[0.9] uppercase">
-              Como podemos <br />
-              <span className="text-primary italic font-medium">Ajudar.</span>
+              {t('services.title')} <br />
+              <span className="text-primary italic font-medium">{t('services.title_italic')}</span>
             </h2>
           </div>
         </div>
@@ -136,7 +117,7 @@ export function Services() {
                     href={`/servicos/${service.slug}`} 
                     className="flex items-center justify-between p-3.5 md:p-5 rounded-2xl bg-white text-black hover:bg-black hover:text-white transition-all duration-500 text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em] border border-muted shadow-sm mt-auto"
                   >
-                    Explorar Solução <ArrowUpRight className="h-3.5 w-3.5" />
+                    {t('services.explore')} <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </Card>
               </CarouselItem>
@@ -156,7 +137,7 @@ export function Services() {
               />
             ))}
           </div>
-          <p className="text-[7px] font-black uppercase tracking-[0.4em] text-slate-300 animate-pulse">Deslize para navegar</p>
+          <p className="text-[7px] font-black uppercase tracking-[0.4em] text-slate-300 animate-pulse">{t('services.swipe')}</p>
         </div>
       </div>
     </section>

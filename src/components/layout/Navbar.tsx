@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -7,6 +6,8 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Menu, X, Languages, ChevronDown, Check } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { useLanguage } from "@/context/LanguageContext";
+import { Language } from "@/lib/i18n/translations";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const languages = [
+const languagesList = [
   { code: 'pt-BR', name: 'Português (BR)', flag: '🇧🇷' },
   { code: 'pt-PT', name: 'Português (PT)', flag: '🇵🇹' },
   { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -23,7 +24,9 @@ const languages = [
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [currentLang, setCurrentLang] = useState(languages[0]);
+  const { language, setLanguage, t } = useLanguage();
+
+  const currentLangObj = languagesList.find(l => l.code === language) || languagesList[0];
 
   const handleOpenChat = () => {
     setIsMobileMenuOpen(false);
@@ -31,10 +34,10 @@ export function Navbar() {
   };
 
   const navLinks = [
-    { name: "Serviços", href: "/#servicos" },
-    { name: "UrbeLudo", href: "/urbeludo" },
-    { name: "Metodologia", href: "/#metodologia" },
-    { name: "Contato", href: "/#contato" },
+    { name: t('nav.services'), href: "/#servicos" },
+    { name: t('nav.urbeludo'), href: "/urbeludo" },
+    { name: t('nav.methodology'), href: "/#metodologia" },
+    { name: t('nav.contact'), href: "/#contato" },
   ];
 
   const logoData = PlaceHolderImages.find(img => img.id === "main-logo");
@@ -46,26 +49,26 @@ export function Navbar() {
         className
       )}>
         <Languages size={14} className="text-primary" />
-        <span className="hidden sm:inline">{currentLang.code.split('-')[0]}</span>
+        <span className="hidden sm:inline">{currentLangObj.code.split('-')[0]}</span>
         <ChevronDown size={10} className="opacity-40" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="bg-[#08070b] border-white/10 text-white rounded-2xl p-2 min-w-[160px] backdrop-blur-xl">
-        {languages.map((lang) => (
+        {languagesList.map((lang) => (
           <DropdownMenuItem 
             key={lang.code}
-            onClick={() => setCurrentLang(lang)}
+            onClick={() => setLanguage(lang.code as Language)}
             className="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-primary/20 cursor-pointer transition-colors group"
           >
             <div className="flex items-center gap-3">
               <span className="text-base">{lang.flag}</span>
               <span className={cn(
                 "text-[10px] font-bold uppercase tracking-tight",
-                currentLang.code === lang.code ? "text-primary" : "text-white/60 group-hover:text-white"
+                language === lang.code ? "text-primary" : "text-white/60 group-hover:text-white"
               )}>
                 {lang.name}
               </span>
             </div>
-            {currentLang.code === lang.code && <Check size={12} className="text-primary" />}
+            {language === lang.code && <Check size={12} className="text-primary" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -106,7 +109,7 @@ export function Navbar() {
             onClick={handleOpenChat} 
             className="text-[9px] uppercase tracking-[0.4em] font-black text-primary hover:text-white transition-all relative group py-1"
           >
-            Consultoria
+            {t('nav.consultancy')}
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-500 group-hover:w-full" />
           </button>
 
@@ -146,16 +149,16 @@ export function Navbar() {
               onClick={handleOpenChat}
               className="block text-2xl font-black text-primary tracking-tighter uppercase text-left w-full"
             >
-              Consultoria
+              {t('nav.consultancy')}
             </button>
           </div>
           
           <div className="mt-auto space-y-6">
             <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
-              <p className="text-[8px] font-black uppercase text-white/30 tracking-[0.3em] mb-4">Idioma Selecionado</p>
+              <p className="text-[8px] font-black uppercase text-white/30 tracking-[0.3em] mb-4">Idioma / Language</p>
               <div className="flex items-center gap-3">
-                <span className="text-2xl">{currentLang.flag}</span>
-                <span className="text-xl font-black text-white uppercase tracking-tighter">{currentLang.name}</span>
+                <span className="text-2xl">{currentLangObj.flag}</span>
+                <span className="text-xl font-black text-white uppercase tracking-tighter">{currentLangObj.name}</span>
               </div>
             </div>
             
