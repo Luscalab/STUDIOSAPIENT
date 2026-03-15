@@ -26,28 +26,11 @@ interface Message {
   isMultiSelect?: boolean;
 }
 
-const INITIAL_MESSAGE: Message = {
-  role: 'model',
-  content: "Olá! Para a gente começar, qual é a sua área de atuação hoje?",
-  actions: [
-    "Saúde (Médico/Clínica)", 
-    "Direito (Advocacia)", 
-    "Alimentação / Restaurante",
-    "Estética / Beleza", 
-    "Vendas / Loja",
-    "Tecnologia / Software", 
-    "Imóveis / Arquitetura",
-    "Serviços (Geral)",
-    "Outros"
-  ],
-  isMultiSelect: false
-};
-
 export function AIChat() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showRedirect, setShowRedirect] = useState(false);
@@ -57,6 +40,18 @@ export function AIChat() {
   const db = useFirestore();
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Inicializar ou traduzir mensagem inicial quando o idioma muda e o chat está vazio
+  useEffect(() => {
+    if (messages.length === 0) {
+      setMessages([{
+        role: 'model',
+        content: t('chat_flow.step1.q'),
+        actions: t('chat_flow.step1.options'),
+        isMultiSelect: false
+      }]);
+    }
+  }, [language, messages.length, t]);
 
   useEffect(() => {
     const handleOpen = () => setIsOpen(true);
@@ -82,7 +77,7 @@ export function AIChat() {
       await addDoc(collection(db, 'leads'), {
         conversation: history.map(h => `${h.role}: ${h.content}`).join('\n'),
         timestamp: serverTimestamp(),
-        source: 'Chat Inteligente (Plano de Negócio)'
+        source: `Chat Inteligente - Lang: ${language}`
       });
     } catch (e) {
       console.error("Erro ao salvar contato:", e);
@@ -103,7 +98,8 @@ export function AIChat() {
     try {
       const result = await recommendServices({
         history: currentHistory.map(m => ({ role: m.role, content: m.content })),
-        currentMessage: userMsg
+        currentMessage: userMsg,
+        language: language
       });
 
       if (result) {
@@ -125,7 +121,7 @@ export function AIChat() {
       console.error(error);
       setMessages(prev => [...prev, { 
         role: 'model', 
-        content: "Opa, tive um probleminha técnico. Vamos continuar pelo WhatsApp?" 
+        content: language.startsWith('en') ? "Ops, technical issue. Let's talk on WhatsApp?" : "Opa, tive um probleminha técnico. Vamos pelo WhatsApp?" 
       }]);
       setShowRedirect(true);
     } finally {
@@ -146,7 +142,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = `Olá! Acabei de preencher as informações no chat do site e quero falar sobre meu negócio.`;
+    const text = `Olá! Acabei de preencher as informações no chat do site e quero falar sobre meu negócio. (Lang: ${language})`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
   };
 

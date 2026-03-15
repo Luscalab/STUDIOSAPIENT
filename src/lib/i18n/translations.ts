@@ -122,6 +122,38 @@ export const translations = {
       analyze: "Analisando...",
       cta: "FALAR COM ESTRATEGISTA",
       confirm: "Confirmar Opções"
+    },
+    chat_flow: {
+      step1: {
+        q: "Para a gente começar, qual é a sua área de atuação hoje?",
+        options: ["Saúde (Médico/Clínica)", "Direito (Advocacia)", "Alimentação / Restaurante", "Estética / Beleza", "Vendas / Loja", "Tecnologia / Software", "Imóveis / Arquitetura", "Serviços (Geral)", "Outros"]
+      },
+      step2: {
+        q: "Entendi. E como os novos clientes chegam até você hoje?",
+        options: ["Pelo Instagram", "Pelo Google", "Só por Indicação", "Panfleto / Local", "Ainda não tenho clientes"]
+      },
+      step3: {
+        q: "Você já tem um site ou uma página para apresentar seu trabalho?",
+        options: ["Sim, já tenho", "Não tenho", "Tenho, mas não gosto dele", "Não preciso de um"]
+      },
+      step4: {
+        q: "Qual é o seu maior 'gargalo' hoje? O que mais te impede de crescer?",
+        options: [] // Dinâmico via flow
+      },
+      step5: {
+        q: "Se a gente pudesse resolver um problema nos próximos 90 dias, qual seria?",
+        options: ["Vender mais", "Aparecer para mais gente", "Organizar o atendimento", "Ter uma marca mais profissional"]
+      },
+      step6: {
+        q: "Certo. E qual é o nome da sua empresa ou da sua marca?",
+        options: []
+      },
+      step7: {
+        q: "Perfeito! Já tenho um rascunho do que podemos fazer. Clique no botão abaixo para falar com nosso estrategista no WhatsApp e receber sua proposta personalizada.",
+        options: []
+      },
+      others_q: "Sem problemas! Qual seria a sua área específica?",
+      others_label: "Outros"
     }
   },
   'pt-PT': {
@@ -245,6 +277,38 @@ export const translations = {
       analyze: "Analisando...",
       cta: "FALAR COM ESTRATEGISTA",
       confirm: "Confirmar Opções"
+    },
+    chat_flow: {
+      step1: {
+        q: "Para começarmos, qual é a sua área de atuação hoje?",
+        options: ["Saúde (Médico/Clínica)", "Direito (Advocacia)", "Alimentação / Restaurante", "Estética / Beleza", "Vendas / Loja", "Tecnologia / Software", "Imóveis / Arquitetura", "Serviços (Geral)", "Outros"]
+      },
+      step2: {
+        q: "Entendi. E como chegam até si os novos clientes hoje?",
+        options: ["Pelo Instagram", "Pelo Google", "Apenas por Indicação", "Panfleto / Local", "Ainda não tenho clientes"]
+      },
+      step3: {
+        q: "Já tem um site ou uma página para apresentar o seu trabalho?",
+        options: ["Sim, já tenho", "Não tenho", "Tenho, mas não gosto dele", "Não preciso de um"]
+      },
+      step4: {
+        q: "Qual é o seu maior 'gargalo' hoje? O que mais o impede de crescer?",
+        options: []
+      },
+      step5: {
+        q: "Se pudéssemos resolver um problema nos próximos 90 dias, qual seria?",
+        options: ["Vender mais", "Aparecer para mais gente", "Organizar o atendimento", "Ter uma marca mais profissional"]
+      },
+      step6: {
+        q: "Certo. E qual é o nome da sua empresa ou da sua marca?",
+        options: []
+      },
+      step7: {
+        q: "Perfeito! Já tenho um rascunho do que podemos fazer. Clique no botão abaixo para falar com o nosso estrategista no WhatsApp e receber a sua proposta personalizada.",
+        options: []
+      },
+      others_q: "Sem problemas! Qual seria a sua área específica?",
+      others_label: "Outros"
     }
   },
   'en': {
@@ -368,6 +432,38 @@ export const translations = {
       analyze: "Analyzing...",
       cta: "TALK TO STRATEGIST",
       confirm: "Confirm Options"
+    },
+    chat_flow: {
+      step1: {
+        q: "To get started, what is your area of expertise today?",
+        options: ["Health (Medical/Clinic)", "Law (Legal)", "Food / Restaurant", "Aesthetics / Beauty", "Sales / Retail", "Technology / Software", "Real Estate / Architecture", "Services (General)", "Others"]
+      },
+      step2: {
+        q: "Understood. And how do new customers reach you today?",
+        options: ["From Instagram", "From Google", "Referral only", "Local / Flyers", "I don't have customers yet"]
+      },
+      step3: {
+        q: "Do you already have a website or page to showcase your work?",
+        options: ["Yes, I have one", "No, I don't", "I have one, but I don't like it", "I don't need one"]
+      },
+      step4: {
+        q: "What is your biggest 'bottleneck' today? What stops you from growing?",
+        options: []
+      },
+      step5: {
+        q: "If we could solve one problem in the next 90 days, what would it be?",
+        options: ["Sell more", "Reach more people", "Organize customer service", "Have a more professional brand"]
+      },
+      step6: {
+        q: "Great. And what is the name of your company or brand?",
+        options: []
+      },
+      step7: {
+        q: "Perfect! I already have a draft of what we can do. Click the button below to talk to our strategist on WhatsApp and receive your custom proposal.",
+        options: []
+      },
+      others_q: "No problem! What would be your specific area?",
+      others_label: "Others"
     }
   },
   'es': {
@@ -388,7 +484,7 @@ export const translations = {
       cta_secondary: "Nuestra Metodología"
     },
     services: {
-      badge: "Soluciones para crecer",
+      badge: "Soluções para crescer",
       title: "Cómo podemos",
       title_italic: "Ayudar.",
       explore: "Explorar Solución",
@@ -401,7 +497,7 @@ export const translations = {
         },
         web: {
           title: "Creación de Sitios",
-          desc: "Desarrollamos sitios modernos y rápidos que funcionan como su escaparate de lujo en internet, listos para convertir.",
+          desc: "Desarrollamos sitios modernos y rápidos que funcionan como su escaparate de lujo en internet, listos para converter.",
           f1: "Rápido y Seguro", f2: "Diseño de Autor", f3: "Primero Móvil"
         },
         brand: {
@@ -418,18 +514,18 @@ export const translations = {
       steps: [
         { title: "Entendimiento", desc: "Hablamos para entender sus objetivos, desafíos y el público que deseja alcanzar." },
         { title: "Planeamiento", desc: "Creamos uma hoja de ruta estratégica enfocada en las soluciones que tengan más sentido para su negocio." },
-        { title: "Ejecución", desc: "Desarrollamos el proyecto con atención a los detalles, garantizando calidad técnica y visual." },
+        { title: "Ejecución", desc: "Desenvolvemos el proyecto con atención a los detalles, garantizando calidad técnica y visual." },
         { title: "Seguimiento", desc: "Analizamos los resultados obtenidos y sugerimos mejoras continuas para su crecimiento constante." }
       ]
     },
     faq: {
       badge: "Soporte Técnico",
       title: "Dudas",
-      title_italic: "Frecuentes.",
+      title_italic: "Frequentes.",
       items: [
-        { q: "¿Cuánto tiempo toma ver resultados?", a: "Los resultados varían según el servicio. Las campañas de anuncios pueden generar contactos en pocos días, mientras que el branding tarda de 3 a 6 meses." },
+        { q: "¿Cuánto tiempo toma ver resultados?", a: "Los resultados varían según el servicio. Las campañas de anuncios podem generar contactos en pocos días, mientras que el branding tarda de 3 a 6 meses." },
         { q: "¿Cómo se integra la IA en mi negocio?", a: "Usamos IA para crear ecosistemas de atención automatizada que califican leads 24/7." },
-        { q: "¿Qué es el proyecto UrbeLudo?", a: "Es nuestra iniciativa de impacto social y tecnológico. Una plataforma de rehabilitación neuro-motora." },
+        { q: "¿Qué é el proyecto UrbeLudo?", a: "Es nuestra iniciativa de impacto social y tecnológico. Una plataforma de rehabilitación neuro-motora." },
         { q: "¿Cómo posso apoiar o invertir en UrbeLudo?", a: "Existen caminos como inversor estratégico, donaciones o como colaborador especialista." },
         { q: "¿Sapient atiende a cualquier empresa?", a: "Nos enfocamos en negocios que buscan autoridad y diferenciación." }
       ]
@@ -440,13 +536,13 @@ export const translations = {
       title_italic: "Conversar.",
       whatsapp: { title: "WhatsApp", desc: "Diálogo inmediato y consultoría técnica.", action: "Iniciar" },
       email: { title: "Correo", desc: "Solicitudes y documentación de proyectos.", action: "Enviar", copy: "Copiar Dirección" },
-      phone: { title: "Teléfono", desc: "Conexión directa para estrategia y escala.", action: "Llamar" }
+      phone: { title: "Teléfono", desc: "Conexión direta para estrategia y escala.", action: "Llamar" }
     },
     footer: {
       mission: "Transformamos negocios en referencias a través de ecosistemas digitales de alta claridad y autoridad visual.",
       solutions: "Soluciones",
-      navigation: "Navegación",
-      contacts: "Contactos Oficiales",
+      navigation: "Navegação",
+      contacts: "Contactos Oficiais",
       email_label: "Correo Corporativo",
       whatsapp_label: "WhatsApp Business",
       rights: "© 2026 STUDIOSAPIENT. TODOS LOS DERECHOS RESERVADOS.",
@@ -475,7 +571,7 @@ export const translations = {
       description: "Utilizamos cookies para mejorar su experiencia y analizar nuestro tráfico.",
       accept: "Aceptar Todo",
       decline: "Rechazar",
-      policy: "Política de Privacidad"
+      policy: "Política de Privacidade"
     },
     urbeludo_banner: {
       badge: "Biociencia & Tech",
@@ -490,7 +586,39 @@ export const translations = {
       lock_placeholder: "Elija una opción arriba...",
       analyze: "Analizando...",
       cta: "HABLAR CON ESTRATEGA",
-      confirm: "Confirmar Opciones"
+      confirm: "Confirmar Opções"
+    },
+    chat_flow: {
+      step1: {
+        q: "Para empezar, ¿cuál es su área de especialización hoy?",
+        options: ["Salud (Médico/Clínica)", "Derecho (Abogacía)", "Alimentación / Restaurante", "Estética / Belleza", "Ventas / Tienda", "Tecnología / Software", "Inmuebles / Arquitectura", "Servicios (General)", "Otros"]
+      },
+      step2: {
+        q: "Entiendo. ¿Y cómo le llegan los nuevos clientes hoy?",
+        options: ["Por Instagram", "Por Google", "Solo por indicación", "Folleto / Local", "Aún no tengo clientes"]
+      },
+      step3: {
+        q: "¿Ya tiene un sitio web o una página para presentar su trabajo?",
+        options: ["Sí, ya tengo", "No tengo", "Tengo, pero no me gusta", "No necesito uno"]
+      },
+      step4: {
+        q: "¿Cuál es su mayor 'cuello de botella' hoy? ¿Qué es lo que más le impide crecer?",
+        options: []
+      },
+      step5: {
+        q: "Si pudiéramos resolver un problema en los próximos 90 dias, ¿cuál sería?",
+        options: ["Vender más", "Aparecer para más gente", "Organizar la atención", "Tener una marca más profesional"]
+      },
+      step6: {
+        q: "Perfecto. ¿Y cuál es el nombre de su empresa o marca?",
+        options: []
+      },
+      step7: {
+        q: "¡Excelente! Ya tengo un borrador de lo que podemos hacer. Haga clic en el botón de abajo para hablar con nuestro estratega en WhatsApp y recibir su propuesta personalizada.",
+        options: []
+      },
+      others_q: "¡No hay problema! ¿Cuál sería su área específica?",
+      others_label: "Otros"
     }
   }
 };

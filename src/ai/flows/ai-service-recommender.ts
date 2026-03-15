@@ -1,11 +1,11 @@
 'use server';
 
 /**
- * @fileOverview Motor de Diagnóstico Sapient - Fluxo Determinístico.
- * Coleta informações para identificar gargalos sem uso de modelos LLM externos.
+ * @fileOverview Motor de Diagnóstico Sapient - Fluxo Determinístico Internacionalizado.
  */
 
 import { z } from 'genkit';
+import { translations, Language } from '@/lib/i18n/translations';
 
 const RecommenderOutputSchema = z.object({
   reply: z.string().describe('A pergunta ou comentário do consultor.'),
@@ -23,61 +23,29 @@ const RecommenderInputSchema = z.object({
     role: z.enum(['user', 'model']),
     content: z.string()
   })),
-  currentMessage: z.string()
+  currentMessage: z.string(),
+  language: z.string().optional().default('pt-BR')
 });
 
 export type RecommenderInput = z.infer<typeof RecommenderInputSchema>;
 
-const STEPS = [
-  {
-    id: 1,
-    question: "Para a gente começar, qual é a sua área de atuação hoje?",
-    options: ["Saúde (Médico/Clínica)", "Direito (Advocacia)", "Alimentação / Restaurante", "Estética / Beleza", "Vendas / Loja", "Tecnologia / Software", "Imóveis / Arquitetura", "Serviços (Geral)", "Outros"],
-    isMulti: false
-  },
-  {
-    id: 2,
-    question: "Entendi. E como os novos clientes chegam até você hoje?",
-    options: ["Pelo Instagram", "Pelo Google", "Só por Indicação", "Panfleto / Local", "Ainda não tenho clientes"],
-    isMulti: true
-  },
-  {
-    id: 3,
-    question: "Você já tem um site ou uma página para apresentar seu trabalho?",
-    options: ["Sim, já tenho", "Não tenho", "Tenho, mas não gosto dele", "Não preciso de um"],
-    isMulti: false
-  },
-  {
-    id: 4,
-    question: "Qual é o seu maior 'gargalo' hoje? O que mais te impede de crescer?",
-    options: [], 
-    isMulti: true
-  },
-  {
-    id: 5,
-    question: "Se a gente pudesse resolver um problema nos próximos 90 dias, qual seria?",
-    options: ["Vender mais", "Aparecer para mais gente", "Organizar o atendimento", "Ter uma marca mais profissional"],
-    isMulti: false
-  },
-  {
-    id: 6,
-    question: "Certo. E qual é o nome da sua empresa ou da sua marca?",
-    options: [],
-    isMulti: false,
-    forceText: true
-  },
-  {
-    id: 7,
-    question: "Perfeito! Já tenho um rascunho do que podemos fazer. Clique no botão abaixo para falar com nosso estrategista no WhatsApp e receber sua proposta personalizada.",
-    options: [],
-    isMulti: false,
-    isEnd: true
-  }
-];
-
 export async function recommendServices(input: RecommenderInput): Promise<RecommenderOutput> {
+  const langCode = (input.language as Language) || 'pt-BR';
+  const t = translations[langCode] || translations['pt-BR'];
+  const flow = t.chat_flow;
+
   const userResponses = input.history.filter(m => m.role === 'user');
   const stepIndex = userResponses.length;
+
+  const STEPS = [
+    { id: 1, question: flow.step1.q, options: flow.step1.options, isMulti: false },
+    { id: 2, question: flow.step2.q, options: flow.step2.options, isMulti: true },
+    { id: 3, question: flow.step3.q, options: flow.step3.options, isMulti: false },
+    { id: 4, question: flow.step4.q, options: [], isMulti: true },
+    { id: 5, question: flow.step5.q, options: flow.step5.options, isMulti: false },
+    { id: 6, question: flow.step6.q, options: [], isMulti: false, forceText: true },
+    { id: 7, question: flow.step7.q, options: [], isMulti: false, isEnd: true }
+  ];
 
   if (stepIndex >= STEPS.length) {
     return {
@@ -95,10 +63,11 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
   let options = [...currentStep.options];
   let forceText = currentStep.forceText || false;
 
-  if (stepIndex === 1 && input.history[0]?.content === "Outros") {
-    if (input.currentMessage === "Outros") {
+  // Lógica de "Outros"
+  if (stepIndex === 1 && input.history[0]?.content === flow.others_label) {
+    if (input.currentMessage === flow.others_label) {
        return {
-        reply: "Sem problemas! Qual seria a sua área específica?",
+        reply: flow.others_q,
         suggestedActions: [],
         isMultiSelect: false,
         isTextInputEnabled: true,
@@ -108,17 +77,20 @@ export async function recommendServices(input: RecommenderInput): Promise<Recomm
     }
   }
 
+  // Lógica de Gargalos Específicos por Nicho (Passo 4)
   if (stepIndex === 3) {
     const niche = userResponses[0]?.content || "";
-    if (niche.includes("Saúde") || niche.includes("Direito") || niche.includes("Estética")) {
-      options = ["Clientes só perguntam preço", "Minha imagem parece amadora", "Demoro a responder no WhatsApp", "Não apareço quando buscam no Google", "Tenho vergonha de postar"];
-    } else if (niche.includes("Alimentação")) {
-      options = ["Poucos pedidos no delivery", "Salão vazio no meio da semana", "Minhas fotos não abrem o apetite", "Não apareço quando buscam 'onde comer'", "Demoro a responder no WhatsApp/iFood"];
-    } else if (niche.includes("Vendas") || niche.includes("Tecnologia")) {
-      options = ["Pouca gente visita meu site", "As pessoas não confiam na marca", "Perco vendas por falta de suporte", "Anúncios estão caros e sem retorno", "Meu site é lento/ruim"];
-    } else {
-      options = ["Preciso de mais contatos", "Quero ser visto como autoridade", "Falta de tempo para marketing", "Atendimento muito bagunçado", "Minha marca está desatualizada"];
-    }
+    
+    // Mapeamento de gargalos por idioma
+    const bottlenecks: Record<string, string[]> = {
+      'pt-BR': ["Clientes só perguntam preço", "Minha imagem parece amadora", "Demoro a responder no WhatsApp", "Não apareço quando buscam no Google", "Tenho vergonha de postar"],
+      'pt-PT': ["Clientes apenas perguntam preço", "A minha imagem parece amadora", "Demoro a responder no WhatsApp", "Não apareço quando pesquisam no Google", "Tenho vergonha de publicar"],
+      'en': ["Clients only ask for price", "My image looks amateur", "Slow response on WhatsApp", "I don't show up on Google searches", "I'm afraid to post"],
+      'es': ["Clientes solo preguntan precio", "Mi imagen parece amateur", "Tardo en responder por WhatsApp", "No aparezco en las búsquedas de Google", "Tengo vergüenza de publicar"]
+    };
+
+    const currentBottlenecks = bottlenecks[langCode] || bottlenecks['pt-BR'];
+    options = currentBottlenecks;
   }
 
   return {
