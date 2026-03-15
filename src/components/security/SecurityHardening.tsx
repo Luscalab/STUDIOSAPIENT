@@ -11,11 +11,15 @@ export function SecurityHardening() {
   useEffect(() => {
     // 1. Bloqueia Menu de Contexto (Botão Direito)
     const handleContextMenu = (e: MouseEvent) => {
+      // Permite em ambiente de desenvolvimento se for necessário
+      if (process.env.NODE_ENV === 'development') return;
       e.preventDefault();
     };
 
     // 2. Bloqueia Atalhos de Inspeção e Cópia
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (process.env.NODE_ENV === 'development') return;
+      
       const isMac = typeof navigator !== 'undefined' && navigator.platform.toUpperCase().indexOf('MAC') >= 0;
       const isCmdOrCtrl = isMac ? e.metaKey : e.ctrlKey;
 
