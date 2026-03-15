@@ -189,15 +189,23 @@ export function RecrutamentoClient() {
     });
   };
 
-  const maskEmail = (email: string) => {
-    if (!email || email === "-") return "-";
-    const [user, domain] = email.split('@');
-    return `${user.substring(0, 3)}***@***.${domain.split('.').pop()}`;
+  const maskEmail = (email: any) => {
+    const sEmail = String(email || "");
+    if (!sEmail || sEmail === "-" || !sEmail.includes('@')) return sEmail || "-";
+    const parts = sEmail.split('@');
+    if (parts.length < 2) return sEmail;
+    const userPart = parts[0];
+    const domainPart = parts[1];
+    const maskedUser = userPart.length > 3 ? userPart.substring(0, 3) + "***" : userPart + "***";
+    return `${maskedUser}@***.${domainPart.split('.').pop()}`;
   };
 
-  const maskPhone = (phone: string) => {
-    if (!phone || phone === "-") return "-";
-    return phone.replace(/(\d{2})(\d{2})(\d{4})(\d{4})/, '$1 $2 ****-$4');
+  const maskPhone = (phone: any) => {
+    const sPhone = String(phone || "");
+    if (!sPhone || sPhone === "-") return "-";
+    const digits = sPhone.replace(/\D/g, '');
+    if (digits.length < 8) return sPhone;
+    return `${sPhone.substring(0, 4)} **** ${sPhone.slice(-2)}`;
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: 'photoUri' | 'resumeUri') => {
@@ -459,7 +467,7 @@ export function RecrutamentoClient() {
                         <UserCircle size={12} className="text-primary" /> {l.decisionMaker || l.contactName || "Responsável"}
                       </div>
                       <div className="flex items-center gap-2 text-[10px] font-bold text-white/20 uppercase tracking-widest">
-                        <Lock size={10} className="text-primary/40" /> {maskPhone(l.phone || "")}
+                        <Lock size={10} className="text-primary/40" /> {maskEmail(l.email)}
                       </div>
                     </div>
 

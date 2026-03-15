@@ -16,7 +16,7 @@ export function SecurityHardening() {
 
     // 2. Bloqueia Atalhos de Inspeção e Cópia
     const handleKeyDown = (e: KeyboardEvent) => {
-      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const isMac = typeof navigator !== 'undefined' && navigator.platform.toUpperCase().indexOf('MAC') >= 0;
       const isCmdOrCtrl = isMac ? e.metaKey : e.ctrlKey;
 
       if (
@@ -42,7 +42,13 @@ export function SecurityHardening() {
     // 4. Limpeza de Clipboard em PrintScreen
     const handleKeyUp = (e: KeyboardEvent) => {
       if (e.key === 'PrintScreen' || e.key === 'PrtSc') {
-        navigator.clipboard.writeText("Conteúdo Protegido por studiosapient.");
+        try {
+          if (typeof navigator !== 'undefined' && navigator.clipboard) {
+            navigator.clipboard.writeText("Conteúdo Protegido por studiosapient.");
+          }
+        } catch (err) {
+          // Silenciosamente falha se a API de Clipboard não for permitida ou indisponível
+        }
       }
     };
 
