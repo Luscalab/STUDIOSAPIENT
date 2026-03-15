@@ -69,6 +69,13 @@ export const translations = {
       terms_section1_content: "É concedida permissão para baixar temporariamente uma cópia dos materiais no site da studiosapient apenas para visualização transitória pessoal e não comercial.",
       terms_section2_title: "2. Propriedade Intelectual",
       terms_section2_content: "Todo o design, código e diagnósticos estratégicos apresentados são propriedade intelectual da studiosapient e não podem ser replicados sem autorização prévia."
+    },
+    cookie: {
+      title: "Privacidade e Cookies",
+      description: "Utilizamos cookies para melhorar sua experiência e analisar nosso tráfego.",
+      accept: "Aceitar Tudo",
+      decline: "Recusar",
+      policy: "Política de Privacidade"
     }
   },
   'pt-PT': {
@@ -139,6 +146,13 @@ export const translations = {
       terms_section1_content: "É concedida permissão para baixar temporariamente uma cópia dos materiais no site da studiosapient apenas para visualização transitória pessoal e não comercial.",
       terms_section2_title: "2. Propriedade Intelectual",
       terms_section2_content: "Todo o design, código e diagnósticos estratégicos apresentados são propriedade intelectual da studiosapient e não podem ser replicados sem autorização prévia."
+    },
+    cookie: {
+      title: "Privacidade e Cookies",
+      description: "Utilizamos cookies para melhorar a sua experiência e analisar o nosso tráfego.",
+      accept: "Aceitar Tudo",
+      decline: "Recusar",
+      policy: "Política de Privacidade"
     }
   },
   'en': {
@@ -209,6 +223,13 @@ export const translations = {
       terms_section1_content: "Permission is granted to temporarily download one copy of the materials on studiosapient's website for personal, non-commercial transitory viewing only.",
       terms_section2_title: "2. Intellectual Property",
       terms_section2_content: "All design, code, and strategic diagnostics presented are intellectual property of studiosapient and may not be replicated without prior authorization."
+    },
+    cookie: {
+      title: "Privacy and Cookies",
+      description: "We use cookies to improve your experience and analyze our traffic.",
+      accept: "Accept All",
+      decline: "Decline",
+      policy: "Privacy Policy"
     }
   },
   'es': {
@@ -225,7 +246,7 @@ export const translations = {
       title_italic: "& resultados.",
       description: "Apoyamos el crecimiento de su marca a través de una comunicación visual clara y estrategias enfocadas en resultados reales.",
       partnership: "Una alianza verdadera.",
-      cta_primary: "CONOCER SOLUCIONES",
+      cta_primary: "CONOCER SOLUÇÕES",
       cta_secondary: "Nuestra Metodología"
     },
     services: {
@@ -279,6 +300,13 @@ export const translations = {
       terms_section1_content: "Se otorga permiso para descargar temporalmente una copia de los materiales en el sitio web de studiosapient solo para visualización transitoria personal y no comercial.",
       terms_section2_title: "2. Propiedad Intelectual",
       terms_section2_content: "Todo el diseño, código y diagnósticos estratégicos presentados son propiedad intelectual de studiosapient y no pueden ser replicados sin autorización previa."
+    },
+    cookie: {
+      title: "Privacidad y Cookies",
+      description: "Utilizamos cookies para mejorar su experiencia y analizar nuestro tráfico.",
+      accept: "Aceptar Todo",
+      decline: "Rechazar",
+      policy: "Política de Privacidad"
     }
   }
 };

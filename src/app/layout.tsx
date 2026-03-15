@@ -6,6 +6,7 @@ import { AccessibilityMenu } from "@/components/accessibility/AccessibilityMenu"
 import { FirebaseClientProvider } from "@/firebase";
 import { SecurityHardening } from "@/components/security/SecurityHardening";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { CookieConsent } from "@/components/layout/CookieConsent";
 
 export const metadata: Metadata = {
   title: {
@@ -56,6 +57,9 @@ export default function RootLayout({
               <VLibras />
               <AccessibilityMenu />
             </div>
+
+            {/* Consentimento de Cookies */}
+            <CookieConsent />
 
             {children}
             <Toaster />
