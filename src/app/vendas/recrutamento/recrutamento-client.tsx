@@ -170,23 +170,25 @@ export function RecrutamentoClient() {
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const handleSignOut = () => {
     initiateSignOut(auth);
     router.push("/vendas/auth");
   };
 
   const handleCopy = (text: string, label: string) => {
-    if (!text) return;
-    navigator.clipboard.writeText(text);
-    toast({
-      title: `[ ${label.toUpperCase()} COPIADO ]`,
-      description: "Pronto para uso na sua área de transferência.",
-      className: "bg-black border-primary text-white font-black uppercase tracking-widest text-[9px]"
-    });
+    if (!text || text === "-") return;
+    try {
+      if (typeof navigator !== 'undefined' && navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+        toast({
+          title: `[ ${label.toUpperCase()} COPIADO ]`,
+          description: "Pronto para uso na sua área de transferência.",
+          className: "bg-black border-primary text-white font-black uppercase tracking-widest text-[9px]"
+        });
+      }
+    } catch (err) {
+      console.error("Falha ao copiar:", err);
+    }
   };
 
   const maskEmail = (email: any) => {
@@ -194,11 +196,12 @@ export function RecrutamentoClient() {
     if (!sEmail || sEmail === "-" || !sEmail.includes('@')) return sEmail || "-";
     try {
       const parts = sEmail.split('@');
-      if (parts.length < 2) return sEmail;
-      const userPart = parts[0];
-      const domainPart = parts[1];
+      const userPart = parts[0] || "";
+      const domainPart = parts[1] || "";
       const maskedUser = userPart.length > 3 ? userPart.substring(0, 3) + "***" : userPart + "***";
-      return `${maskedUser}@***.${domainPart.split('.').pop()}`;
+      const domainParts = domainPart.split('.');
+      const tld = domainParts.pop() || "com";
+      return `${maskedUser}@***.${tld}`;
     } catch {
       return sEmail;
     }
@@ -244,12 +247,12 @@ export function RecrutamentoClient() {
       setDocumentNonBlocking(profileRef, { ...formData, consentAccepted: true, consentTimestamp: new Date().toISOString() }, { merge: true });
     }
     setStep(prev => prev + 1);
-    scrollToTop();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handlePrevStep = () => {
     setStep(prev => Math.max(1, prev - 1));
-    scrollToTop();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const updateLeadStatus = (leadId: string, status: string) => {
@@ -269,18 +272,22 @@ export function RecrutamentoClient() {
       toast({ title: "Dados incompletos", variant: "destructive" });
       return;
     }
-    const meetingIso = new Date(`${meetingData.date}T${meetingData.time}`).toISOString();
-    const leadRef = doc(db, 'commercial_leads', selectedLead.id);
-    updateDocumentNonBlocking(leadRef, { 
-      status: 'REUNIAO_AGENDADA',
-      meetingDate: meetingIso,
-      meetingNotes: meetingData.notes,
-      updatedBy: user?.uid,
-      lastUpdateAt: new Date().toISOString()
-    });
-    setIsMeetingAgendamentoOpen(false);
-    toast({ title: "Reunião Registrada", description: "O setor administrativo foi notificado." });
-    setSelectedLead((prev: any) => prev ? { ...prev, status: 'REUNIAO_AGENDADA', meetingDate: meetingIso } : null);
+    try {
+      const meetingIso = new Date(`${meetingData.date}T${meetingData.time}`).toISOString();
+      const leadRef = doc(db, 'commercial_leads', selectedLead.id);
+      updateDocumentNonBlocking(leadRef, { 
+        status: 'REUNIAO_AGENDADA',
+        meetingDate: meetingIso,
+        meetingNotes: meetingData.notes,
+        updatedBy: user?.uid,
+        lastUpdateAt: new Date().toISOString()
+      });
+      setIsMeetingAgendamentoOpen(false);
+      toast({ title: "Reunião Registrada", description: "O setor administrativo foi notificado." });
+      setSelectedLead((prev: any) => prev ? { ...prev, status: 'REUNIAO_AGENDADA', meetingDate: meetingIso } : null);
+    } catch (e) {
+      toast({ title: "Erro na Data", description: "Verifique o formato inserido.", variant: "destructive" });
+    }
   };
 
   const getAlgorithmInsight = (rating: any) => {
@@ -436,7 +443,7 @@ export function RecrutamentoClient() {
                 <div className="flex items-center gap-4"><div className="h-px flex-1 bg-white/10" /><div className="flex items-center gap-3 text-white/40"><BookMarked size={16} className="text-primary" /><h4 className="text-[10px] font-black uppercase tracking-[0.4em]">Treinamentos & Imersão Técnica</h4></div><div className="h-px flex-1 bg-white/10" /></div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {modules.map((m, idx) => (
-                    <button key={idx} onClick={() => { setStep(m.step); setView('training'); scrollToTop(); }} className={cn("p-8 rounded-[2.5rem] border transition-all duration-500 text-left group relative overflow-hidden h-[240px] flex flex-col justify-between", m.done ? "bg-green-500/5 border-green-500/20 hover:bg-green-500/10" : "bg-white/5 border-white/10 hover:border-primary/30")}>
+                    <button key={idx} onClick={() => { setStep(m.step); setView('training'); window.scrollTo({top:0, behavior:'smooth'}); }} className={cn("p-8 rounded-[2.5rem] border transition-all duration-500 text-left group relative overflow-hidden h-[240px] flex flex-col justify-between", m.done ? "bg-green-500/5 border-green-500/20 hover:bg-green-500/10" : "bg-white/5 border-white/10 hover:border-primary/30")}>
                       <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center transition-all shadow-lg", m.done ? "bg-green-500 text-white" : "bg-white/5 text-white/40 group-hover:bg-primary group-hover:text-white")}>{m.done ? <CheckCircle2 size={24} /> : m.icon}</div>
                       <div className="relative z-10"><p className="text-[8px] font-black uppercase tracking-widest text-white/20 mb-1">Módulo {String(idx + 1).padStart(2, '0')}</p><h5 className="text-lg font-black uppercase tracking-tighter group-hover:text-primary transition-colors">{m.title}</h5></div>
                     </button>
@@ -718,7 +725,7 @@ export function RecrutamentoClient() {
                   <div className="space-y-12 animate-in zoom-in duration-700 text-center py-10">
                     <div className="h-24 w-24 rounded-full bg-green-500 flex items-center justify-center mx-auto shadow-2xl animate-glow-pulse"><Trophy size={32} className="text-white" /></div>
                     <div className="space-y-4"><h2 className="text-6xl font-black uppercase tracking-tighter leading-none">Imersão Concluída.</h2><p className="text-xl text-white/50 font-medium">Seu dossiê técnico foi enviado com sucesso. Aguarde a análise em até 48h.</p></div>
-                    <Button onClick={() => { setView('dashboard'); setStep(1); scrollToTop(); }} className="h-16 px-12 border border-white/10 bg-transparent rounded-full font-black uppercase text-[10px] hover:bg-white/5">Voltar ao Painel</Button>
+                    <Button onClick={() => { setView('dashboard'); setStep(1); window.scrollTo({top:0, behavior:'smooth'}); }} className="h-16 px-12 border border-white/10 bg-transparent rounded-full font-black uppercase text-[10px] hover:bg-white/5">Voltar ao Painel</Button>
                   </div>
                 )}
               </div>

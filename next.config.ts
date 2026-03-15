@@ -40,10 +40,12 @@ const nextConfig: NextConfig = {
   experimental: {
     allowedDevOrigins: [
       '9000-firebase-studio-1772921422114.cluster-mdgxqvvkkbfpqrfigfiuugu5pk.cloudworkstations.dev',
-      '6000-firebase-studio-1772921422114.cluster-mdgxqvvkkbfpqrfigfiuugu5pk.cloudworkstations.dev'
+      '6000-firebase-studio-1772921422114.cluster-mdgxqvvkkbfpqrfigfiuugu5pk.cloudworkstations.dev',
+      '*.cloudworkstations.dev'
     ]
   },
   async headers() {
+    // Simplificado para evitar bloqueios no ambiente de desenvolvimento do Firebase Studio
     const cspHeader = `
       default-src 'self';
       script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vlibras.gov.br https://www.gstatic.com https://apis.google.com https://*.cloudworkstations.dev;
@@ -53,7 +55,6 @@ const nextConfig: NextConfig = {
       object-src 'none';
       base-uri 'self';
       form-action 'self';
-      frame-ancestors 'none';
       connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.google-analytics.com https://vlibras.gov.br https://*.cloudworkstations.dev wss://*.cloudworkstations.dev https://*.cloudworkstations.dev:* wss://*.cloudworkstations.dev:*;
     `.replace(/\s{2,}/g, ' ').trim();
 
@@ -66,20 +67,12 @@ const nextConfig: NextConfig = {
             value: 'nosniff',
           },
           {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
-          },
-          {
             key: 'X-XSS-Protection',
             value: '1; mode=block',
           },
           {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains; preload',
           },
           {
             key: 'Content-Security-Policy',
