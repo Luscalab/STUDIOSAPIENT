@@ -189,6 +189,17 @@ export function RecrutamentoClient() {
     });
   };
 
+  const maskEmail = (email: string) => {
+    if (!email || email === "-") return "-";
+    const [user, domain] = email.split('@');
+    return `${user.substring(0, 3)}***@***.${domain.split('.').pop()}`;
+  };
+
+  const maskPhone = (phone: string) => {
+    if (!phone || phone === "-") return "-";
+    return phone.replace(/(\d{2})(\d{2})(\d{4})(\d{4})/, '$1 $2 ****-$4');
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: 'photoUri' | 'resumeUri') => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -448,7 +459,7 @@ export function RecrutamentoClient() {
                         <UserCircle size={12} className="text-primary" /> {l.decisionMaker || l.contactName || "Responsável"}
                       </div>
                       <div className="flex items-center gap-2 text-[10px] font-bold text-white/20 uppercase tracking-widest">
-                        <MapPin size={12} /> {l.region || "Geral"}
+                        <Lock size={10} className="text-primary/40" /> {maskPhone(l.phone || "")}
                       </div>
                     </div>
 
@@ -476,6 +487,10 @@ export function RecrutamentoClient() {
                           <button onClick={() => setSelectedLead(null)} className="text-primary font-black uppercase text-[10px] tracking-[0.3em] flex items-center gap-2 mb-6">
                             <ChevronLeft size={14} /> Voltar aos Leads
                           </button>
+                          <div className="flex items-center gap-3 text-red-500 mb-2">
+                            <ShieldAlert size={16} />
+                            <span className="text-[8px] font-black uppercase tracking-widest">Acesso Restrito - Área Monitorada</span>
+                          </div>
                           <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none">{selectedLead.companyName}</h2>
                           <div className="flex flex-wrap gap-3 items-center">
                             <Badge className="bg-primary/20 text-primary border-primary/30 px-4 py-2 uppercase tracking-widest font-black text-[9px]">

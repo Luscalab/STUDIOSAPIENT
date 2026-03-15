@@ -53,7 +53,8 @@ import {
   Star,
   Globe,
   Plus,
-  CalendarDays
+  CalendarDays,
+  ShieldAlert
 } from "lucide-react";
 import { useFirebase, useFirestore, useCollection, useMemoFirebase, initiateSignOut, updateDocumentNonBlocking, addDocumentNonBlocking, deleteDocumentNonBlocking } from "@/firebase";
 import { collection, query, orderBy, doc, serverTimestamp, where } from "firebase/firestore";
@@ -267,9 +268,12 @@ export function AdminClient() {
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
             <div className="space-y-4">
-              <Badge className="bg-primary/10 text-primary border-primary/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">
-                Gestão Sapient Elite
-              </Badge>
+              <div className="flex items-center gap-3 text-red-500">
+                <ShieldAlert size={18} />
+                <Badge className="bg-red-500/10 text-red-500 border-red-500/20 px-6 py-2 text-[9px] font-black uppercase tracking-widest">
+                  Acesso Restrito - Admin Elite
+                </Badge>
+              </div>
               <h1 className="font-headline text-4xl md:text-6xl font-black tracking-tighter uppercase leading-none text-white">
                 Painel <span className="text-primary italic lowercase">admin.</span>
               </h1>

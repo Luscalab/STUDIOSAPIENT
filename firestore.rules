@@ -23,20 +23,28 @@ service cloud.firestore {
 
     // Leads de prospecção: Admin total, Colaborador apenas leitura e atualização de status se liberado
     match /commercial_leads/{leadId} {
-      allow read, write: if isAdmin();
-      allow read, update: if hasLeadsEnabled();
+      allow read: if isAdmin() || hasLeadsEnabled();
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || (
+        hasLeadsEnabled() && 
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['status', 'meetingDate', 'meetingNotes', 'updatedBy', 'lastUpdateAt'])
+      );
     }
 
     // Leads do Site: apenas criação pública. Admin lê tudo.
     match /leads/{leadId} {
       allow create: if true;
-      allow read, delete: if isAdmin();
+      allow read, delete, update: if isAdmin();
     }
 
-    // Perfis de Vendas: Usuário gerencia o seu próprio, Admin lê tudo
+    // Perfis de Vendas: Usuário gerencia o seu próprio (sem alterar permissões), Admin lê tudo
     match /sales_profiles/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-      allow read, update: if isAdmin();
+      allow read: if (request.auth != null && request.auth.uid == userId) || isAdmin();
+      allow create: if request.auth != null && request.auth.uid == userId && 
+        (!request.resource.data.keys().hasAny(['leadsEnabled']) || request.resource.data.leadsEnabled == false);
+      allow update: if (request.auth != null && request.auth.uid == userId && 
+        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['leadsEnabled', 'email'])) || isAdmin();
     }
 
     // Candidatos a Vendas (Dossiês): criação pública para o processo, Admin gerencia.
