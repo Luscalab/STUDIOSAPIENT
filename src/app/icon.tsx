@@ -2,7 +2,7 @@
 import { ImageResponse } from 'next/og';
 
 /**
- * @fileOverview Gerador dinâmico de Favicon (48x48) para a studiosapient.
+ * Gerador dinâmico de Favicon (48x48) para a studiosapient.
  * Google recomenda múltiplos de 48px para exibição nos resultados de busca.
  */
 

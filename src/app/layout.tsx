@@ -9,7 +9,9 @@ import { SecurityHardening } from "@/components/security/SecurityHardening";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { CookieConsent } from "@/components/layout/CookieConsent";
 
+// O metadataBase é crucial para que o Vercel resolva caminhos de ícones e open-graph corretamente
 export const metadata: Metadata = {
+  metadataBase: new URL('https://studiosapient.com.br'),
   title: {
     default: 'studiosapient. | Estratégia, Design e Performance Digital',
     template: '%s | studiosapient.'
@@ -23,18 +25,6 @@ export const metadata: Metadata = {
     email: false,
     address: false,
     telephone: false,
-  },
-  metadataBase: new URL('https://studiosapient.com.br'),
-  alternates: {
-    canonical: '/',
-  },
-  icons: {
-    icon: [
-      { url: '/icon', sizes: '48x48', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/apple-icon', sizes: '180x180', type: 'image/png' },
-    ],
   },
   robots: {
     index: true,
