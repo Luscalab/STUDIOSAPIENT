@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -7,8 +6,10 @@ import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, ArrowRight, Search, Activity, PieChart, ChevronDown, Zap, Target, Database, BarChart3 } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function PerformanceAdsClient() {
+  const { t } = useLanguage();
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
 
   return (
@@ -23,21 +24,21 @@ export function PerformanceAdsClient() {
 
         <div className="container mx-auto px-6 relative z-10 text-center">
           <Badge className="mb-8 bg-primary/10 text-primary border-primary/20 px-8 py-2 text-[10px] font-black uppercase tracking-[0.5em] rounded-full backdrop-blur-md animate-pulse">
-            Domínio de Busca Local
+            {t('service_pages.ads.badge')}
           </Badge>
           <h1 className="font-headline text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-12 py-4">
-            Domine as <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary italic font-medium block">Buscas de Urgência.</span>
+            {t('service_pages.ads.title')} <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-primary italic font-medium block">{t('service_pages.ads.title_italic')}</span>
           </h1>
           <p className="text-lg md:text-2xl text-white/50 font-medium max-w-4xl mx-auto leading-relaxed tracking-tight text-balance mb-16">
-            Tráfego digital cirúrgico focado em capturar a demanda no momento exato da necessidade. <span className="text-white font-bold">Onde o clique se torna contrato.</span>
+            {t('service_pages.ads.desc')}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
             <Button onClick={handleOpenChat} className="h-20 px-12 bg-white text-black hover:bg-primary hover:text-white rounded-full font-black uppercase tracking-[0.4em] text-[11px] transition-all duration-500 shadow-2xl">
-              SOLICITAR DIAGNÓSTICO
+              {t('service_pages.ads.cta')}
             </Button>
             <button onClick={() => document.getElementById('manifesto')?.scrollIntoView({behavior:'smooth'})} className="text-white/30 hover:text-white transition-all text-[9px] font-black uppercase tracking-[0.6em] flex items-center gap-4 group">
-              Explorar Método <ChevronDown className="h-4 w-4 animate-bounce group-hover:text-primary" />
+              {t('service_pages.ads.method')} <ChevronDown className="h-4 w-4 animate-bounce group-hover:text-primary" />
             </button>
           </div>
         </div>
@@ -47,24 +48,24 @@ export function PerformanceAdsClient() {
         <div className="container mx-auto px-6">
           <div className="max-w-5xl mx-auto space-y-16">
             <h2 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-[0.9]">
-              Tráfego de Intenção: <span className="text-primary italic">Onde o ROI Acontece.</span>
+              {t('service_pages.ads.manifesto_title')} <span className="text-primary italic">{t('service_pages.ads.manifesto_italic')}</span>
             </h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
               <blockquote className="text-xl md:text-3xl text-slate-900 font-medium leading-tight tracking-tight italic border-l-[8px] border-primary pl-8">
-                "Não geramos apenas 'leads'. Geramos oportunidades prontas para o fechamento. Capturamos a dor ativa de quem precisa da sua solução agora."
+                "{t('service_pages.ads.manifesto_quote')}"
               </blockquote>
               <div className="space-y-8">
                 <p className="text-lg text-slate-600 font-medium leading-relaxed">
-                  Substitua a dependência incerta de indicações por uma fonte constante e previsível de novos contratos. Nossa estratégia de Performance Ads é desenhada para negócios que não podem esperar o longo prazo do SEO orgânico.
+                  {t('service_pages.ads.manifesto_p')}
                 </p>
                 <div className="grid grid-cols-2 gap-8">
                    <div className="space-y-2">
                       <p className="text-4xl font-black text-primary tracking-tighter">95%</p>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Precisão de Segmentação</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">{t('service_pages.ads.stat1')}</p>
                    </div>
                    <div className="space-y-2">
                       <p className="text-4xl font-black text-primary tracking-tighter">24/7</p>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Monitoramento Ativo</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">{t('service_pages.ads.stat2')}</p>
                    </div>
                 </div>
               </div>
@@ -76,7 +77,7 @@ export function PerformanceAdsClient() {
       <section className="py-24 md:py-48 relative">
         <div className="container mx-auto px-6">
           <div className="mb-24 text-center md:text-left max-w-3xl">
-            <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none text-white uppercase">Engenharia de <br/>Conversão.</h3>
+            <h3 className="font-headline text-4xl md:text-7xl font-black tracking-tighter leading-none text-white uppercase">{t('service_pages.ads.pillar_title')} <br/>{t('service_pages.ads.pillar_italic')}</h3>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 max-w-6xl mx-auto">
@@ -86,8 +87,8 @@ export function PerformanceAdsClient() {
                    <Target className="h-8 w-8" />
                  </div>
                  <div className="space-y-4">
-                    <h4 className="font-headline text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none">Arquitetura GMN</h4>
-                    <p className="text-lg text-white/50 font-medium max-w-lg">Transformamos seu Google Meu Negócio em uma máquina de chamadas e direções, focando em buscas locais de alta conversão.</p>
+                    <h4 className="font-headline text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none">{t('service_pages.ads.p1_title')}</h4>
+                    <p className="text-lg text-white/50 font-medium max-w-lg">{t('service_pages.ads.p1_desc')}</p>
                  </div>
                </div>
             </div>
@@ -97,25 +98,25 @@ export function PerformanceAdsClient() {
                  <Zap className="h-8 w-8" />
                </div>
                <div className="space-y-4">
-                  <h4 className="font-headline text-2xl md:text-3xl font-black tracking-tighter uppercase leading-none">Escala com Dados</h4>
-                  <p className="text-base text-white/80">Focamos em ROAS real. Cada centavo investido é rastreado para garantir o maior retorno possível.</p>
+                  <h4 className="font-headline text-2xl md:text-3xl font-black tracking-tighter uppercase leading-none">{t('service_pages.ads.p2_title')}</h4>
+                  <p className="text-base text-white/80">{t('service_pages.ads.p2_desc')}</p>
                </div>
             </div>
 
             <div className="md:col-span-6 p-10 rounded-[3rem] bg-[#121216] border border-white/5 space-y-6">
                 <div className="flex items-center gap-4">
                   <Search className="h-6 w-6 text-primary" />
-                  <h4 className="font-bold text-xl tracking-tighter uppercase">Negativação Estratégica</h4>
+                  <h4 className="font-bold text-xl tracking-tighter uppercase">{t('service_pages.ads.p3_title')}</h4>
                 </div>
-                <p className="text-white/40 leading-relaxed text-sm">Eliminamos o desperdício de verba através de uma curadoria técnica de termos de pesquisa irrelevantes.</p>
+                <p className="text-white/40 leading-relaxed text-sm">{t('service_pages.ads.p3_desc')}</p>
             </div>
 
             <div className="md:col-span-6 p-10 rounded-[3rem] bg-[#121216] border border-white/5 space-y-6">
                 <div className="flex items-center gap-4">
                   <Activity className="h-6 w-6 text-primary" />
-                  <h4 className="font-bold text-xl tracking-tighter uppercase">Otimização Contínua</h4>
+                  <h4 className="font-bold text-xl tracking-tighter uppercase">{t('service_pages.ads.p4_title')}</h4>
                 </div>
-                <p className="text-white/40 leading-relaxed text-sm">Ajustes diários de lances e criativos baseados no comportamento real do seu cliente ideal.</p>
+                <p className="text-white/40 leading-relaxed text-sm">{t('service_pages.ads.p4_desc')}</p>
             </div>
           </div>
         </div>
@@ -125,14 +126,14 @@ export function PerformanceAdsClient() {
         <div className="container mx-auto px-6">
           <div className="text-center max-w-4xl mx-auto space-y-12">
             <h3 className="font-headline text-4xl md:text-8xl font-black tracking-tighter leading-[0.9] text-slate-950">
-              Pronto para a <span className="text-primary italic">Escala Previsível?</span>
+              {t('service_pages.ads.cta_final_title')} <span className="text-primary italic">{t('service_pages.ads.cta_final_italic')}</span>
             </h3>
             <p className="text-xl md:text-2xl text-slate-600 font-medium tracking-tight">
-              Agende agora seu diagnóstico de performance e descubra o real potencial de busca do seu negócio.
+              {t('service_pages.ads.cta_final_p')}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-8 pt-8">
               <Button onClick={handleOpenChat} className="h-24 px-16 bg-primary text-white hover:bg-primary/90 rounded-full font-black uppercase tracking-[0.4em] text-[12px] transition-all shadow-2xl shadow-primary/30">
-                FALAR COM ESTRATEGISTA <ArrowRight className="ml-4" />
+                {t('service_pages.ads.cta_final_btn')} <ArrowRight className="ml-4" />
               </Button>
             </div>
           </div>

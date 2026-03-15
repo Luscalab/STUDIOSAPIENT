@@ -6,8 +6,10 @@ import { AIChat } from "@/components/ai/AIChat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Cpu, ArrowRight, Smartphone, Zap, BrainCircuit, ChevronDown, Database, ShieldCheck } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ChatIAPage() {
+  const { t } = useLanguage();
   const handleOpenChat = () => window.dispatchEvent(new CustomEvent('open-ai-chat'));
 
   return (

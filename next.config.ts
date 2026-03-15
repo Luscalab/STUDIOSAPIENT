@@ -1,4 +1,3 @@
-
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
@@ -39,11 +38,29 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     allowedDevOrigins: [
-      '9000-firebase-studio-1772921422114.cluster-mdgxqvvkkbfpqrfigfiuugu5pk.cloudworkstations.dev',
-      '6000-firebase-studio-1772921422114.cluster-mdgxqvvkkbfpqrfigfiuugu5pk.cloudworkstations.dev',
-      '*.cloudworkstations.dev'
+      '*.cloudworkstations.dev',
+      'localhost:9002',
+      'localhost:9000',
+      'localhost:6000'
     ]
-  }
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
