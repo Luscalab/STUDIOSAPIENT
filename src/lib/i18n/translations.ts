@@ -42,6 +42,37 @@ export const translations = {
         }
       }
     },
+    process: {
+      badge: "Caminho do ROI",
+      title: "Nossa",
+      title_italic: "Metodologia.",
+      steps: [
+        { title: "Entendimento", desc: "Conversamos para entender seus objetivos, desafios e o público que você deseja alcançar." },
+        { title: "Planejamento", desc: "Criamos um roteiro estratégico focado nas soluções que farão mais sentido para o seu negócio." },
+        { title: "Execução", desc: "Desenvolvemos o projeto com atenção aos detalhes, garantindo qualidade técnica e visual." },
+        { title: "Acompanhamento", desc: "Analisamos os resultados obtidos e sugerimos melhorias contínuas para o seu crescimento constante." }
+      ]
+    },
+    faq: {
+      badge: "Suporte Técnico",
+      title: "Dúvidas",
+      title_italic: "Frequentes.",
+      items: [
+        { q: "Quanto tempo leva para ver resultados?", a: "Os resultados variam conforme o serviço. Campanhas de anúncios podem gerar contatos em poucos dias, enquanto projetos de design e posicionamento de marca costumam amadurecer entre 3 a 6 meses de trabalho consistente." },
+        { q: "Como a IA é integrada ao meu negócio?", a: "Utilizamos IA para criar ecossistemas de atendimento automatizado (WhatsApp e Web) que qualificam leads 24/7, além de aplicar inteligência de dados para otimizar a performance de anúncios em tempo real." },
+        { q: "O que é o projeto UrbeLudo?", a: "É a nossa iniciativa de impacto social e tecnológico. Uma plataforma de reabilitação neuro-motora que utiliza jogos imersivos e biofeedback para auxiliar em tratamentos clínicos." },
+        { q: "Como posso apoiar ou investir no UrbeLudo?", a: "Existem caminhos como investidor estratégico, doações diretas via PIX ou como colaborador especialista nas áreas de saúde e tecnologia que deseje atuar pro bono." },
+        { q: "A Sapient atende qualquer tipo de empresa?", a: "Focamos em negócios que buscam autoridade e diferenciação. Atendemos profissionais liberais de alto padrão e empresas em expansão." }
+      ]
+    },
+    contact: {
+      badge: "Canais de Consultoria",
+      title: "Vamos",
+      title_italic: "Conversar.",
+      whatsapp: { title: "WhatsApp", desc: "Diálogo imediato e consultoria técnica.", action: "Iniciar" },
+      email: { title: "E-mail", desc: "Solicitações e documentação de projetos.", action: "Enviar", copy: "Copiar Endereço" },
+      phone: { title: "Telefone", desc: "Conexão direta para estratégia e escala.", action: "Ligar" }
+    },
     footer: {
       mission: "Transformamos negócios em referências através de ecossistemas digitais de alta clareza e autoridade visual.",
       solutions: "Soluções",
@@ -76,6 +107,21 @@ export const translations = {
       accept: "Aceitar Tudo",
       decline: "Recusar",
       policy: "Política de Privacidade"
+    },
+    urbeludo_banner: {
+      badge: "Biociência & Tech",
+      title: "UrbeLudo:",
+      title_italic: "Ciência.",
+      explore: "Explorar"
+    },
+    chat: {
+      title: "Consultor Sapient",
+      subtitle: "Raio-X de Performance",
+      placeholder: "Escreva aqui...",
+      lock_placeholder: "Escolha uma opção acima...",
+      analyze: "Analisando...",
+      cta: "FALAR COM ESTRATEGISTA",
+      confirm: "Confirmar Opções"
     }
   },
   'pt-PT': {
@@ -119,6 +165,37 @@ export const translations = {
         }
       }
     },
+    process: {
+      badge: "Caminho do ROI",
+      title: "Nossa",
+      title_italic: "Metodologia.",
+      steps: [
+        { title: "Entendimento", desc: "Conversamos para entender os seus objetivos, desafios e o público que deseja alcançar." },
+        { title: "Planeamento", desc: "Criamos um roteiro estratégico focado nas soluções que farão mais sentido para o seu negócio." },
+        { title: "Execução", desc: "Desenvolvemos o projeto com atenção aos detalhes, garantindo qualidade técnica e visual." },
+        { title: "Acompanhamento", desc: "Analisamos os resultados obtidos e sugerimos melhorias contínuas para o seu crescimento constante." }
+      ]
+    },
+    faq: {
+      badge: "Suporte Técnico",
+      title: "Dúvidas",
+      title_italic: "Frequentes.",
+      items: [
+        { q: "Quanto tempo demora para ver resultados?", a: "Os resultados variam conforme o serviço. Campanhas de anúncios podem gerar contactos em poucos dias, enquanto projetos de design e posicionamento de marca costumam amadurecer entre 3 a 6 meses." },
+        { q: "Como a IA é integrada ao meu negócio?", a: "Utilizamos IA para criar ecossistemas de atendimento automatizado que qualificam leads 24/7." },
+        { q: "O que é o projeto UrbeLudo?", a: "É a nossa iniciativa de impacto social e tecnológico. Uma plataforma de reabilitação neuro-motora que utiliza jogos imersivos." },
+        { q: "Como posso apoiar ou investir no UrbeLudo?", a: "Existem caminhos como investidor estratégico, doações diretas ou como colaborador especialista." },
+        { q: "A Sapient atende qualquer tipo de empresa?", a: "Focamos em negócios que procuram autoridade e diferenciação." }
+      ]
+    },
+    contact: {
+      badge: "Canais de Consultoria",
+      title: "Vamos",
+      title_italic: "Conversar.",
+      whatsapp: { title: "WhatsApp", desc: "Diálogo imediato e consultoria técnica.", action: "Iniciar" },
+      email: { title: "E-mail", desc: "Solicitações e documentação de projetos.", action: "Enviar", copy: "Copiar Endereço" },
+      phone: { title: "Telemóvel", desc: "Conexão direta para estratégia e escala.", action: "Ligar" }
+    },
     footer: {
       mission: "Transformamos negócios em referências através de ecossistemas digitais de alta clareza e autoridade visual.",
       solutions: "Soluções",
@@ -153,6 +230,21 @@ export const translations = {
       accept: "Aceitar Tudo",
       decline: "Recusar",
       policy: "Política de Privacidade"
+    },
+    urbeludo_banner: {
+      badge: "Biociência & Tech",
+      title: "UrbeLudo:",
+      title_italic: "Ciência.",
+      explore: "Explorar"
+    },
+    chat: {
+      title: "Consultor Sapient",
+      subtitle: "Raio-X de Performance",
+      placeholder: "Escreva aqui...",
+      lock_placeholder: "Escolha uma opção acima...",
+      analyze: "Analisando...",
+      cta: "FALAR COM ESTRATEGISTA",
+      confirm: "Confirmar Opções"
     }
   },
   'en': {
@@ -196,6 +288,37 @@ export const translations = {
         }
       }
     },
+    process: {
+      badge: "ROI Path",
+      title: "Our",
+      title_italic: "Methodology.",
+      steps: [
+        { title: "Understanding", desc: "We talk to understand your goals, challenges and the audience you want to reach." },
+        { title: "Planning", desc: "We create a strategic roadmap focused on the solutions that will make the most sense for your business." },
+        { title: "Execution", desc: "We develop the project with attention to detail, ensuring technical and visual quality." },
+        { title: "Monitoring", desc: "We analyze the results obtained and suggest continuous improvements for your constant growth." }
+      ]
+    },
+    faq: {
+      badge: "Technical Support",
+      title: "Frequently Asked",
+      title_italic: "Questions.",
+      items: [
+        { q: "How long does it take to see results?", a: "Results vary by service. Ad campaigns can generate leads in a few days, while design and branding projects usually mature within 3 to 6 months." },
+        { q: "How is AI integrated into my business?", a: "We use AI to create automated customer service ecosystems that qualify leads 24/7." },
+        { q: "What is the UrbeLudo project?", a: "It is our social and technological impact initiative. A neuro-motor rehabilitation platform that uses immersive games." },
+        { q: "How can I support or invest in UrbeLudo?", a: "There are paths as a strategic investor, direct donations, or as a pro bono specialist collaborator." },
+        { q: "Does Sapient serve any type of company?", a: "We focus on businesses seeking authority and differentiation." }
+      ]
+    },
+    contact: {
+      badge: "Consultancy Channels",
+      title: "Let's",
+      title_italic: "Talk.",
+      whatsapp: { title: "WhatsApp", desc: "Immediate dialogue and technical consultancy.", action: "Start" },
+      email: { title: "Email", desc: "Project requests and documentation.", action: "Send", copy: "Copy Address" },
+      phone: { title: "Phone", desc: "Direct connection for strategy and scale.", action: "Call" }
+    },
     footer: {
       mission: "We transform businesses into references through high-clarity digital ecosystems and visual authority.",
       solutions: "Solutions",
@@ -230,6 +353,21 @@ export const translations = {
       accept: "Accept All",
       decline: "Decline",
       policy: "Privacy Policy"
+    },
+    urbeludo_banner: {
+      badge: "Bioscience & Tech",
+      title: "UrbeLudo:",
+      title_italic: "Science.",
+      explore: "Explore"
+    },
+    chat: {
+      title: "Sapient Consultant",
+      subtitle: "Performance X-Ray",
+      placeholder: "Write here...",
+      lock_placeholder: "Choose an option above...",
+      analyze: "Analyzing...",
+      cta: "TALK TO STRATEGIST",
+      confirm: "Confirm Options"
     }
   },
   'es': {
@@ -246,7 +384,7 @@ export const translations = {
       title_italic: "& resultados.",
       description: "Apoyamos el crecimiento de su marca a través de una comunicación visual clara y estrategias enfocadas en resultados reales.",
       partnership: "Una alianza verdadera.",
-      cta_primary: "CONOCER SOLUÇÕES",
+      cta_primary: "CONOCER SOLUCIONES",
       cta_secondary: "Nuestra Metodología"
     },
     services: {
@@ -273,10 +411,41 @@ export const translations = {
         }
       }
     },
+    process: {
+      badge: "Camino del ROI",
+      title: "Nuestra",
+      title_italic: "Metodología.",
+      steps: [
+        { title: "Entendimiento", desc: "Hablamos para entender sus objetivos, desafíos y el público que deseja alcanzar." },
+        { title: "Planeamiento", desc: "Creamos uma hoja de ruta estratégica enfocada en las soluciones que tengan más sentido para su negocio." },
+        { title: "Ejecución", desc: "Desarrollamos el proyecto con atención a los detalles, garantizando calidad técnica y visual." },
+        { title: "Seguimiento", desc: "Analizamos los resultados obtenidos y sugerimos mejoras continuas para su crecimiento constante." }
+      ]
+    },
+    faq: {
+      badge: "Soporte Técnico",
+      title: "Dudas",
+      title_italic: "Frecuentes.",
+      items: [
+        { q: "¿Cuánto tiempo toma ver resultados?", a: "Los resultados varían según el servicio. Las campañas de anuncios pueden generar contactos en pocos días, mientras que el branding tarda de 3 a 6 meses." },
+        { q: "¿Cómo se integra la IA en mi negocio?", a: "Usamos IA para crear ecosistemas de atención automatizada que califican leads 24/7." },
+        { q: "¿Qué es el proyecto UrbeLudo?", a: "Es nuestra iniciativa de impacto social y tecnológico. Una plataforma de rehabilitación neuro-motora." },
+        { q: "¿Cómo posso apoiar o invertir en UrbeLudo?", a: "Existen caminos como inversor estratégico, donaciones o como colaborador especialista." },
+        { q: "¿Sapient atiende a cualquier empresa?", a: "Nos enfocamos en negocios que buscan autoridad y diferenciación." }
+      ]
+    },
+    contact: {
+      badge: "Canales de Consultoría",
+      title: "Vamos a",
+      title_italic: "Conversar.",
+      whatsapp: { title: "WhatsApp", desc: "Diálogo inmediato y consultoría técnica.", action: "Iniciar" },
+      email: { title: "Correo", desc: "Solicitudes y documentación de proyectos.", action: "Enviar", copy: "Copiar Dirección" },
+      phone: { title: "Teléfono", desc: "Conexión directa para estrategia y escala.", action: "Llamar" }
+    },
     footer: {
       mission: "Transformamos negocios en referencias a través de ecosistemas digitales de alta claridad y autoridad visual.",
       solutions: "Soluciones",
-      navigation: "Navegação",
+      navigation: "Navegación",
       contacts: "Contactos Oficiales",
       email_label: "Correo Corporativo",
       whatsapp_label: "WhatsApp Business",
@@ -293,7 +462,7 @@ export const translations = {
       privacy_section2_title: "2. Uso de la Información",
       privacy_section2_content: "Los datos se utilizan exclusivamente para personalizar nuestras recomendaciones de servicios, contactarlo comercialmente y mejorar la experiencia del usuario en nuestro portal.",
       privacy_section3_title: "3. Protección y Seguridad",
-      privacy_section3_content: "Implementamos blindaje digital y protocolos de cifrado para garantizar que su información patentada y datos de prospección estén seguros.",
+      privacy_section3_content: "Implementamos blindagem digital y protocolos de cifrado para garantizar que su información patentada y datos de prospección estén seguros.",
       terms_title: "Términos de Uso",
       terms_intro: "Al acceder al sitio web de studiosapient, usted acepta cumplir con estos términos de servicio, todas las leyes y regulaciones aplicables.",
       terms_section1_title: "1. Licencia de Uso",
@@ -307,6 +476,21 @@ export const translations = {
       accept: "Aceptar Todo",
       decline: "Rechazar",
       policy: "Política de Privacidad"
+    },
+    urbeludo_banner: {
+      badge: "Biociencia & Tech",
+      title: "UrbeLudo:",
+      title_italic: "Ciencia.",
+      explore: "Explorar"
+    },
+    chat: {
+      title: "Consultor Sapient",
+      subtitle: "Radiografía de Rendimiento",
+      placeholder: "Escriba aquí...",
+      lock_placeholder: "Elija una opción arriba...",
+      analyze: "Analizando...",
+      cta: "HABLAR CON ESTRATEGA",
+      confirm: "Confirmar Opciones"
     }
   }
 };

@@ -2,25 +2,22 @@
 
 import { useState, useEffect, useRef } from "react";
 import { 
-  Bot, 
   X, 
   Send, 
   MessageCircle,
   ArrowRight,
-  Zap,
   Check,
   Maximize2,
   Minimize2,
   Lock,
   ChevronRight,
-  Loader2,
-  Sparkles,
-  TrendingUp
+  Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { recommendServices } from "@/ai/flows/ai-service-recommender";
 import { useFirestore } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface Message {
   role: 'user' | 'model';
@@ -47,6 +44,7 @@ const INITIAL_MESSAGE: Message = {
 };
 
 export function AIChat() {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
@@ -154,7 +152,6 @@ export function AIChat() {
 
   if (!isOpen) {
     return (
-      /* BOTÃO FLUTUANTE - POSIÇÃO NO TOPO DA PILHA (EM CIMA DA ACESSIBILIDADE) */
       <button 
         onClick={() => setIsOpen(true)}
         className="fixed bottom-40 right-4 md:bottom-48 md:right-6 z-[200] h-14 w-14 md:h-20 md:w-20 rounded-full bg-primary text-white flex items-center justify-center shadow-[0_20px_50px_rgba(139,92,246,0.3)] hover:scale-110 active:scale-95 transition-all border-2 border-white/20 animate-glow-pulse"
@@ -183,8 +180,8 @@ export function AIChat() {
             <MessageCircle className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h3 className="font-headline font-black text-[10px] uppercase tracking-widest text-white leading-none">Consultor Sapient</h3>
-            <p className="text-[7px] text-white/40 uppercase font-bold mt-1 tracking-[0.2em]">Raio-X de Performance</p>
+            <h3 className="font-headline font-black text-[10px] uppercase tracking-widest text-white leading-none">{t('chat.title')}</h3>
+            <p className="text-[7px] text-white/40 uppercase font-bold mt-1 tracking-[0.2em]">{t('chat.subtitle')}</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
@@ -235,7 +232,7 @@ export function AIChat() {
                       selectedChips.length > 0 ? "bg-[#08070b] text-white shadow-xl" : "bg-slate-200 text-slate-400 cursor-not-allowed"
                     )}
                   >
-                    Confirmar Opções <ChevronRight className="h-4 w-4" />
+                    {t('chat.confirm')} <ChevronRight className="h-4 w-4" />
                   </button>
                 )}
               </div>
@@ -246,14 +243,14 @@ export function AIChat() {
         {isLoading && (
           <div className="flex items-center gap-2 text-slate-300">
             <Loader2 className="h-4 w-4 animate-spin text-primary" />
-            <span className="text-[9px] font-black uppercase tracking-widest">Analisando...</span>
+            <span className="text-[9px] font-black uppercase tracking-widest">{t('chat.analyze')}</span>
           </div>
         )}
 
         {showRedirect && (
           <div className="pt-4 animate-in zoom-in duration-500">
             <button onClick={handleWhatsAppRedirect} className="w-full py-6 bg-green-500 hover:bg-green-600 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 transition-all shadow-[0_20px_40px_-10px_rgba(34,197,94,0.4)]">
-              <MessageCircle className="h-6 w-6" /> FALAR COM ESTRATEGISTA <ArrowRight className="h-4 w-4" />
+              <MessageCircle className="h-6 w-6" /> {t('chat.cta')} <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         )}
@@ -266,7 +263,7 @@ export function AIChat() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={!isTextInputEnabled || isLoading}
-            placeholder={isTextInputEnabled ? "Escreva aqui..." : "Escolha uma opção acima..."}
+            placeholder={isTextInputEnabled ? t('chat.placeholder') : t('chat.lock_placeholder')}
             className={cn(
               "w-full h-14 pl-6 pr-16 border rounded-2xl text-sm font-bold transition-all",
               isTextInputEnabled 

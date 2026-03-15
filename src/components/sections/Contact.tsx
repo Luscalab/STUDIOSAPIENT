@@ -1,12 +1,12 @@
-
 "use client";
 
 import { Mail, MessageCircle, Phone, Copy, Send, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Contact() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   
   const contactData = {
     email: "contato@studiosapient.com.br",
@@ -34,10 +34,10 @@ export function Contact() {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-10 md:mb-20">
-          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60 mb-2">Canais de Consultoria</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60 mb-2">{t('contact.badge')}</p>
           <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] text-white uppercase">
-            Vamos <br />
-            <span className="text-primary italic font-medium">Conversar.</span>
+            {t('contact.title')} <br />
+            <span className="text-primary italic font-medium">{t('contact.title_italic')}</span>
           </h2>
         </div>
 
@@ -49,8 +49,8 @@ export function Contact() {
                 <MessageCircle className="h-5 w-5 md:h-6 md:w-6" />
               </div>
               <div>
-                <h4 className="font-headline text-lg md:text-2xl font-black tracking-tighter uppercase mb-2">WhatsApp</h4>
-                <p className="text-black/50 font-medium text-[10px] md:text-base leading-relaxed">Diálogo imediato e consultoria técnica.</p>
+                <h4 className="font-headline text-lg md:text-2xl font-black tracking-tighter uppercase mb-2">{t('contact.whatsapp.title')}</h4>
+                <p className="text-black/50 font-medium text-[10px] md:text-base leading-relaxed">{t('contact.whatsapp.desc')}</p>
               </div>
             </div>
             <a 
@@ -59,7 +59,7 @@ export function Contact() {
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-3.5 md:py-5 rounded-xl bg-primary text-white hover:bg-primary/90 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] transition-all"
             >
-              <ExternalLink className="h-3 w-3" /> Iniciar
+              <ExternalLink className="h-3 w-3" /> {t('contact.whatsapp.action')}
             </a>
           </div>
 
@@ -70,8 +70,8 @@ export function Contact() {
                 <Mail className="h-5 w-5 md:h-6 md:w-6" />
               </div>
               <div>
-                <h4 className="font-headline text-lg md:text-2xl font-black tracking-tighter uppercase mb-2">E-mail</h4>
-                <p className="text-white/40 font-medium text-[10px] md:text-base leading-relaxed">Solicitações e documentação de projetos.</p>
+                <h4 className="font-headline text-lg md:text-2xl font-black tracking-tighter uppercase mb-2">{t('contact.email.title')}</h4>
+                <p className="text-white/40 font-medium text-[10px] md:text-base leading-relaxed">{t('contact.email.desc')}</p>
               </div>
             </div>
             <div className="flex flex-col gap-2">
@@ -79,13 +79,13 @@ export function Contact() {
                 href={`mailto:${contactData.email}`}
                 className="flex items-center justify-center gap-2 w-full py-3.5 md:py-5 rounded-xl bg-white text-black hover:bg-white/90 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] transition-all"
               >
-                <Send className="h-3 w-3" /> Enviar
+                <Send className="h-3 w-3" /> {t('contact.email.action')}
               </a>
               <button 
                 onClick={() => handleCopy(contactData.email, 'E-mail')}
                 className="flex items-center justify-center gap-2 w-full py-3 md:py-4 rounded-xl bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-white/10 text-[7px] md:text-[9px] font-black uppercase tracking-[0.3em] transition-all"
               >
-                <Copy className="h-3 w-3" /> Copiar Endereço
+                <Copy className="h-3 w-3" /> {t('contact.email.copy')}
               </button>
             </div>
           </div>
@@ -97,15 +97,15 @@ export function Contact() {
                 <Phone className="h-5 w-5 md:h-6 md:w-6" />
               </div>
               <div>
-                <h4 className="font-headline text-lg md:text-2xl font-black tracking-tighter uppercase mb-2">Telefone</h4>
-                <p className="text-black/50 font-medium text-[10px] md:text-base leading-relaxed">Conexão direta para estratégia e escala.</p>
+                <h4 className="font-headline text-lg md:text-2xl font-black tracking-tighter uppercase mb-2">{t('contact.phone.title')}</h4>
+                <p className="text-black/50 font-medium text-[10px] md:text-base leading-relaxed">{t('contact.phone.desc')}</p>
               </div>
             </div>
             <a 
               href={`tel:${contactData.phoneDigits}`}
               className="flex items-center justify-center gap-2 w-full py-3.5 md:py-5 rounded-xl bg-black text-white hover:bg-black/90 text-[8px] md:text-[10px] font-black uppercase tracking-[0.3em] transition-all"
             >
-              <Phone className="h-3 w-3" /> Ligar
+              <Phone className="h-3 w-3" /> {t('contact.phone.action')}
             </a>
           </div>
         </div>
