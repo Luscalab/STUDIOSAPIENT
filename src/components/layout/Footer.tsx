@@ -122,8 +122,8 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5 text-[7px] md:text-[8px] font-black tracking-[0.5em] uppercase text-center md:text-left gap-6 md:gap-8">
           <p className="text-primary/60">{t('footer.rights')}</p>
           <div className="flex items-center gap-6 md:gap-10">
-            <Link href="#" className="hover:text-primary transition-colors text-white/10">{t('footer.privacy')}</Link>
-            <Link href="#" className="hover:text-primary transition-colors text-white/10">{t('footer.terms')}</Link>
+            <Link href="/privacidade" className="hover:text-primary transition-colors text-white/10">{t('footer.privacy')}</Link>
+            <Link href="/termos" className="hover:text-primary transition-colors text-white/10">{t('footer.terms')}</Link>
           </div>
         </div>
       </div>

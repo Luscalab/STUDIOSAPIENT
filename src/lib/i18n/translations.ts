@@ -53,6 +53,22 @@ export const translations = {
       privacy: "PRIVACIDADE",
       terms: "TERMOS",
       colab_area: "Área do Colaborador"
+    },
+    legal: {
+      privacy_title: "Política de Privacidade",
+      privacy_intro: "A studiosapient valoriza a sua privacidade. Esta política descreve como tratamos seus dados coletados através de nossos sistemas de IA e formulários de contato.",
+      privacy_section1_title: "1. Coleta de Dados",
+      privacy_section1_content: "Coletamos informações básicas de contato (nome, e-mail, telefone) e dados sobre seu negócio através de nosso chat inteligente para fornecer diagnósticos estratégicos precisos.",
+      privacy_section2_title: "2. Uso das Informações",
+      privacy_section2_content: "Os dados são utilizados exclusivamente para personalizar nossas recomendações de serviços, entrar em contato comercial e melhorar a experiência do usuário em nosso portal.",
+      privacy_section3_title: "3. Proteção e Segurança",
+      privacy_section3_content: "Implementamos blindagem digital e protocolos de criptografia para garantir que suas informações proprietárias e dados de prospecção estejam seguros.",
+      terms_title: "Termos de Uso",
+      terms_intro: "Ao acessar o site da studiosapient, você concorda em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis.",
+      terms_section1_title: "1. Licença de Uso",
+      terms_section1_content: "É concedida permissão para baixar temporariamente uma cópia dos materiais no site da studiosapient apenas para visualização transitória pessoal e não comercial.",
+      terms_section2_title: "2. Propriedade Intelectual",
+      terms_section2_content: "Todo o design, código e diagnósticos estratégicos apresentados são propriedade intelectual da studiosapient e não podem ser replicados sem autorização prévia."
     }
   },
   'pt-PT': {
@@ -107,6 +123,22 @@ export const translations = {
       privacy: "PRIVACIDADE",
       terms: "TERMOS",
       colab_area: "Área do Colaborador"
+    },
+    legal: {
+      privacy_title: "Política de Privacidade",
+      privacy_intro: "A studiosapient valoriza a sua privacidade. Esta política descreve como tratamos os seus dados recolhidos através dos nossos sistemas de IA e formulários de contacto.",
+      privacy_section1_title: "1. Recolha de Dados",
+      privacy_section1_content: "Recolhemos informações básicas de contacto (nome, e-mail, telefone) e dados sobre o seu negócio através do nosso chat inteligente para fornecer diagnósticos estratégicos precisos.",
+      privacy_section2_title: "2. Uso das Informações",
+      privacy_section2_content: "Os dados são utilizados exclusivamente para personalizar as nossas recomendações de serviços, entrar em contacto comercial e melhorar a experiência do utilizador no nosso portal.",
+      privacy_section3_title: "3. Proteção e Segurança",
+      privacy_section3_content: "Implementamos blindagem digital e protocolos de criptografia para garantir que as suas informações proprietárias e dados de prospeção estejam seguros.",
+      terms_title: "Termos de Utilização",
+      terms_intro: "Ao aceder ao site da studiosapient, concorda em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis.",
+      terms_section1_title: "1. Licença de Utilização",
+      terms_section1_content: "É concedida permissão para baixar temporariamente uma cópia dos materiais no site da studiosapient apenas para visualização transitória pessoal e não comercial.",
+      terms_section2_title: "2. Propriedade Intelectual",
+      terms_section2_content: "Todo o design, código e diagnósticos estratégicos apresentados são propriedade intelectual da studiosapient e não podem ser replicados sem autorização prévia."
     }
   },
   'en': {
@@ -161,6 +193,22 @@ export const translations = {
       privacy: "PRIVACY",
       terms: "TERMS",
       colab_area: "Collaborator Area"
+    },
+    legal: {
+      privacy_title: "Privacy Policy",
+      privacy_intro: "studiosapient values your privacy. This policy describes how we handle your data collected through our AI systems and contact forms.",
+      privacy_section1_title: "1. Data Collection",
+      privacy_section1_content: "We collect basic contact information (name, email, phone) and data about your business through our intelligent chat to provide accurate strategic diagnostics.",
+      privacy_section2_title: "2. Information Use",
+      privacy_section2_content: "Data is used exclusively to customize our service recommendations, contact you commercially, and improve the user experience on our portal.",
+      privacy_section3_title: "3. Protection and Security",
+      privacy_section3_content: "We implement digital shielding and encryption protocols to ensure that your proprietary information and prospecting data are secure.",
+      terms_title: "Terms of Use",
+      terms_intro: "By accessing the studiosapient website, you agree to comply with these terms of service, all applicable laws and regulations.",
+      terms_section1_title: "1. Use License",
+      terms_section1_content: "Permission is granted to temporarily download one copy of the materials on studiosapient's website for personal, non-commercial transitory viewing only.",
+      terms_section2_title: "2. Intellectual Property",
+      terms_section2_content: "All design, code, and strategic diagnostics presented are intellectual property of studiosapient and may not be replicated without prior authorization."
     }
   },
   'es': {
@@ -207,7 +255,7 @@ export const translations = {
     footer: {
       mission: "Transformamos negocios en referencias a través de ecosistemas digitales de alta claridad y autoridad visual.",
       solutions: "Soluciones",
-      navigation: "Navegación",
+      navigation: "Navegação",
       contacts: "Contactos Oficiales",
       email_label: "Correo Corporativo",
       whatsapp_label: "WhatsApp Business",
@@ -215,6 +263,22 @@ export const translations = {
       privacy: "PRIVACIDAD",
       terms: "TÉRMINOS",
       colab_area: "Área del Colaborador"
+    },
+    legal: {
+      privacy_title: "Política de Privacidad",
+      privacy_intro: "studiosapient valora su privacidad. Esta política describe cómo manejamos sus datos recopilados a través de nuestros sistemas de IA y formularios de contacto.",
+      privacy_section1_title: "1. Recopilación de Datos",
+      privacy_section1_content: "Recopilamos información básica de contacto (nombre, correo electrónico, teléfono) y datos sobre su negocio a través de nuestro chat inteligente para proporcionar diagnósticos estratégicos precisos.",
+      privacy_section2_title: "2. Uso de la Información",
+      privacy_section2_content: "Los datos se utilizan exclusivamente para personalizar nuestras recomendaciones de servicios, contactarlo comercialmente y mejorar la experiencia del usuario en nuestro portal.",
+      privacy_section3_title: "3. Protección y Seguridad",
+      privacy_section3_content: "Implementamos blindaje digital y protocolos de cifrado para garantizar que su información patentada y datos de prospección estén seguros.",
+      terms_title: "Términos de Uso",
+      terms_intro: "Al acceder al sitio web de studiosapient, usted acepta cumplir con estos términos de servicio, todas las leyes y regulaciones aplicables.",
+      terms_section1_title: "1. Licencia de Uso",
+      terms_section1_content: "Se otorga permiso para descargar temporalmente una copia de los materiales en el sitio web de studiosapient solo para visualización transitoria personal y no comercial.",
+      terms_section2_title: "2. Propiedad Intelectual",
+      terms_section2_content: "Todo el diseño, código y diagnósticos estratégicos presentados son propiedad intelectual de studiosapient y no pueden ser replicados sin autorización previa."
     }
   }
 };
