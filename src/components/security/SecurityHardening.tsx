@@ -43,7 +43,7 @@ export function SecurityHardening() {
     const handleKeyUp = (e: KeyboardEvent) => {
       if (e.key === 'PrintScreen' || e.key === 'PrtSc') {
         try {
-          if (typeof navigator !== 'undefined' && navigator.clipboard) {
+          if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText("Conteúdo Protegido por studiosapient.");
           }
         } catch (err) {

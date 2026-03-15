@@ -192,20 +192,28 @@ export function RecrutamentoClient() {
   const maskEmail = (email: any) => {
     const sEmail = String(email || "");
     if (!sEmail || sEmail === "-" || !sEmail.includes('@')) return sEmail || "-";
-    const parts = sEmail.split('@');
-    if (parts.length < 2) return sEmail;
-    const userPart = parts[0];
-    const domainPart = parts[1];
-    const maskedUser = userPart.length > 3 ? userPart.substring(0, 3) + "***" : userPart + "***";
-    return `${maskedUser}@***.${domainPart.split('.').pop()}`;
+    try {
+      const parts = sEmail.split('@');
+      if (parts.length < 2) return sEmail;
+      const userPart = parts[0];
+      const domainPart = parts[1];
+      const maskedUser = userPart.length > 3 ? userPart.substring(0, 3) + "***" : userPart + "***";
+      return `${maskedUser}@***.${domainPart.split('.').pop()}`;
+    } catch {
+      return sEmail;
+    }
   };
 
   const maskPhone = (phone: any) => {
     const sPhone = String(phone || "");
     if (!sPhone || sPhone === "-") return "-";
-    const digits = sPhone.replace(/\D/g, '');
-    if (digits.length < 8) return sPhone;
-    return `${sPhone.substring(0, 4)} **** ${sPhone.slice(-2)}`;
+    try {
+      const digits = sPhone.replace(/\D/g, '');
+      if (digits.length < 8) return sPhone;
+      return `${sPhone.substring(0, 4)} **** ${sPhone.slice(-2)}`;
+    } catch {
+      return sPhone;
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: 'photoUri' | 'resumeUri') => {
@@ -276,7 +284,7 @@ export function RecrutamentoClient() {
   };
 
   const getAlgorithmInsight = (rating: any) => {
-    const r = parseFloat(String(rating).replace(',', '.')) || 4.0;
+    const r = parseFloat(String(rating || "4.0").replace(',', '.')) || 4.0;
     if (r >= 4.8) return {
       label: "AUTORIDADE DE ELITE",
       color: "text-green-400",
@@ -545,7 +553,7 @@ export function RecrutamentoClient() {
                         </div>
                         
                         {(() => {
-                          const insight = getAlgorithmInsight(selectedLead.googleRating || 4.0);
+                          const insight = getAlgorithmInsight(selectedLead.googleRating);
                           return (
                             <div className={cn("p-6 rounded-[2.5rem] border border-white/5 space-y-4", insight.bg)}>
                               <div className="flex items-center justify-between">
