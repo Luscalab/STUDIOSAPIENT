@@ -6,8 +6,6 @@ import { ImageResponse } from 'next/og';
  * Google recomenda múltiplos de 48px para exibição nos resultados de busca.
  */
 
-export const runtime = 'edge';
-
 export const size = {
   width: 48,
   height: 48,

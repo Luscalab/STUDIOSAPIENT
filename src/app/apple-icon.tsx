@@ -5,8 +5,6 @@ import { ImageResponse } from 'next/og';
  * @fileOverview Gerador dinâmico de ícone para Apple/iOS (180x180).
  */
 
-export const runtime = 'edge';
-
 export const size = {
   width: 180,
   height: 180,
