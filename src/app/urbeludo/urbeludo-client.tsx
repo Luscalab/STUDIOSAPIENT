@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Navbar } from "@/components/layout/Navbar";
@@ -43,9 +42,11 @@ import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function UrbeLudoClient() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   
   useEffect(() => {
@@ -81,46 +82,16 @@ export function UrbeLudoClient() {
   const pixKey = "contato@studiosapient.com.br";
 
   const faqs = [
-    {
-      q: "01. O UrbeLudo é indicado para quais perfis dentro da neurodiversidade?",
-      a: "Acreditamos que cada cérebro processa o mundo de uma forma única. Por isso, o UrbeLudo foi desenhado para abraçar a pluralidade: desde crianças no Espectro Autista (TEA), que buscam previsibilidade e estímulos sensoriais organizados, até perfis com TDAH, que se beneficiam de mecânicas de foco e recompensa. Também atuamos com foco em Dispraxia, Síndrome de Down e atrasos globais do desenvolvimento, onde a organização do movimento e a consciência corporal são as chaves para a autonomia."
-    },
-    {
-      q: "02. Como uma tela digital consegue estimular o movimento físico e corporal?",
-      a: "Este é o nosso maior diferencial. Não usamos a tecnologia para o entretenimento passivo, mas como um catalisador da ação. Através de conceitos da Psicomotricidade, as atividades no app exigem planejamento motor (praxia), coordenação visomotora e ritmo. A tela funciona como um espelho interativo: a criança projeta sua intenção no digital e executa o movimento no mundo real, fortalecendo seu esquema corporal e sua imagem de si mesma."
-    },
-    {
-      q: "03. O que torna o sistema SPSP \"Preditivo\" e não apenas um banco de dados?",
-      a: "Diferente de apps que apenas registram se a tarefa foi feita, o SPSP (Sistema Preditivo de Suporte Psicomotor) analisa a qualidade da interação. Ele observa latências de resposta, padrões de toque e precisão fonológica ao longo do tempo. Com isso, o sistema consegue identificar uma tendência de estagnação ou um salto de evolução antes mesmo da próxima sessão clínica, enviando um insight ao terapeuta para que ele possa ajustar a conduta de forma antecipada e personalizada."
-    },
-    {
-      q: "04. Existe um risco de aumentar o \"tempo de tela\" prejudicial da criança?",
-      a: "Nossa filosofia separa o \"tempo de tela passivo\" (consumo de vídeos) do \"tempo de tela ativo/terapêutico\". No UrbeLudo, a criança é a protagonista da ação. Cada minuto de interação é desenhado para gerar estímulo cognitivo e motor. Além disso, incentivamos que o uso seja um momento de conexão entre pais e filhos ou terapeuta e paciente, transformando o dispositivo em uma ferramenta de mediação social, e não de isolamento."
-    },
-    {
-      q: "05. Como o UrbeLudo auxilia especificamente na jornada do terapeuta?",
-      a: "O terapeuta muitas vezes trabalha no escuro sobre o que acontece nos seis dias da semana em que o paciente não está na clínica. O UrbeLudo ilumina esse intervalo. Ao acessar o dashboard, o profissional visualiza dados estruturados que confirmam se as metas de fala, coordenação ou atenção estão sendo atingidas no ambiente domiciliar. Isso reduz o tempo de \"investigação\" no início da sessão e permite focar no que realmente importa: a intervenção direta."
-    },
-    {
-      q: "06. O app pode ser utilizado em contextos de inclusão escolar?",
-      a: "Com certeza. O UrbeLudo é uma ferramenta poderosa para o ambiente escolar, auxiliando mediadores e professores no suporte a alunos neurodivergentes. Ele pode ser usado para trabalhar funções executivas e organização espacial dentro da rotina pedagógica, servindo como um elo de comunicação entre a escola, a família e a equipe de saúde que acompanha a criança."
-    },
-    {
-      q: "07. Como o foco na ludicidade ajuda em casos de resistência terapêutica?",
-      a: "Muitas crianças chegam à reabilitação exaustas por rotinas rígidas. O \"Ludo\" em nosso nome é o antídoto para isso. Ao entrar em uma narrativa de jogo, a criança baixa suas defesas e se permite errar e tentar de novo sem a pressão do \"ambiente médico\". O prazer do jogo libera neurotransmissores que facilitam a neuroplasticidade, tornando o aprendizado do movimento algo orgânico e desejado pelo paciente."
-    },
-    {
-      q: "08. De que forma o projeto garante a segurança e privacidade de dados sensíveis?",
-      a: "Tratamos dados de saúde com o rigor máximo exigido pela LGPD (Lei Geral de Proteção de Dados). Todas as interações são criptografadas e os relatórios de desempenho são de acesso exclusivo dos responsáveis legais e dos profissionais de saúde autorizados. No UrbeLudo, a privacidade é um pilar da ética clínica, e não apenas uma conformidade técnica."
-    },
-    {
-      q: "09. O que significa o modelo de colaboração Pro Bono e impacto social do projeto?",
-      a: "O UrbeLudo nasceu da vontade de democratizar a tecnologia assistiva de ponta. Por isso, mantemos uma rede de especialistas que doam sua expertise para que o sistema evolua constantemente. Esse modelo nos permite oferecer o ecossistema gratuitamente para ONGs e famílias em situação de vulnerabilidade, garantindo que o CEP ou a condição financeira não sejam barreiras para o desenvolvimento de uma criança."
-    },
-    {
-      q: "10. Como o UrbeLudo se adapta a diferentes necessidades sensoriais?",
-      a: "Sabemos que o que estimula uma criança pode sobrecarregar outra. Por isso, a interface do UrbeLudo é pensada para ser sensorialmente amigável. O terapeuta ou responsável pode ajustar níveis de estímulo visual e auditivo, garantindo que o ambiente digital seja seguro e confortável tanto para crianças com hipersensibilidade quanto para aquelas que buscam maior intensidade de estímulo."
-    }
+    { q: "01. " + t('urbeludo.hero.cta_faq') + " - Perfis", a: "Acreditamos que cada cérebro processa o mundo de uma forma única. Por isso, o UrbeLudo foi desenhado para abraçar a pluralidade: desde crianças no Espectro Autista (TEA), até perfis com TDAH e neurodiversidade em geral." },
+    { q: "02. Estimulação Motora", a: "A tela funciona como um espelho interativo: a criança projeta sua intenção no digital e executa o movimento no mundo real, fortalecendo seu esquema corporal." },
+    { q: "03. Sistema SPSP Preditivo", a: "O SPSP analisa latências de resposta, padrões de toque e precisão fonológica ao longo do tempo para gerar insights antecipados ao terapeuta." },
+    { q: "04. Tempo de Tela", a: "Diferenciamos o consumo passivo do ativo. No UrbeLudo, o tempo de tela é terapêutico, focado em estímulo cognitivo e motor mediado por profissionais ou família." },
+    { q: "05. Apoio ao Terapeuta", a: "O UrbeLudo ilumina o intervalo entre as sessões clínicas, fornecendo dados estruturados sobre o desempenho domiciliar do paciente." },
+    { q: "06. Inclusão Escolar", a: "É uma ferramenta poderosa para mediadores escolares, auxiliando no suporte a funções executivas dentro da rotina pedagógica." },
+    { q: "07. Resistência Terapêutica", a: "O 'Ludo' baixa as defesas da criança através da diversão, facilitando a neuroplasticidade de forma orgânica e prazerosa." },
+    { q: "08. Segurança de Dados", a: "Tratamos dados de saúde com o rigor máximo exigido pela LGPD, com criptografia de ponta a ponta e acesso restrito." },
+    { q: "09. Modelo Pro Bono", a: "Nascemos para democratizar a tecnologia assistiva, oferecendo o ecossistema gratuitamente para ONGs e famílias em vulnerabilidade." },
+    { q: "10. Adaptação Sensorial", a: "A interface permite ajustar níveis de estímulo visual e auditivo para acolher hipersensibilidades individuais." }
   ];
 
   if (!mounted) return null;
@@ -138,35 +109,35 @@ export function UrbeLudoClient() {
           <div className="space-y-8">
             <div className="flex items-center gap-3">
               <Badge className="bg-primary/10 text-primary border-primary/20 px-8 py-2 text-[9px] font-black uppercase tracking-[0.4em] rounded-full backdrop-blur-md">
-                Biociência & Conexão
+                {t('urbeludo.hero.badge')}
               </Badge>
               <Badge variant="outline" className="border-cyan-400 text-cyan-400 px-4 py-2 text-[8px] font-black uppercase tracking-[0.3em] rounded-full animate-pulse">
-                Em Breve
+                {t('urbeludo.hero.soon')}
               </Badge>
             </div>
             <h1 className="font-headline text-3xl md:text-5xl lg:text-7xl font-black text-white tracking-tighter leading-[0.85] uppercase">
-              UrbeLudo: <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary italic font-medium lowercase">desenvolvimento neuropsicomotor.</span>
+              {t('urbeludo.hero.title')} <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-cyan-400 to-primary italic font-medium lowercase">{t('urbeludo.hero.title_italic')}</span>
             </h1>
             <p className="text-sm md:text-xl text-white/40 font-medium leading-relaxed max-w-xl">
-              Um ecossistema digital (iOS, Android e Web) desenhado para apoiar o desenvolvimento de crianças e jovens, respeitando a singularidade de cada cérebro. Unimos o rigor clínico ao engajamento lúdico.
+              {t('urbeludo.hero.desc')}
             </p>
             
             <div className="flex flex-wrap gap-3">
               <Button onClick={() => scrollToSection('essencia')} className="h-14 px-8 bg-primary text-white rounded-full font-black uppercase tracking-widest text-[9px] border-none shadow-2xl shadow-primary/30 hover:scale-105 transition-all">
-                Conhecer Projeto
+                {t('urbeludo.hero.cta_project')}
               </Button>
               <Button onClick={() => scrollToSection('ciencia')} variant="outline" className="h-14 px-8 border-white/10 text-white hover:bg-white/5 rounded-full font-black uppercase tracking-widest text-[9px] hover:scale-105 transition-all">
-                <Brain className="h-4 w-4 mr-2 text-primary" /> Nossa Ciência
+                <Brain className="h-4 w-4 mr-2 text-primary" /> {t('urbeludo.hero.cta_science')}
               </Button>
               <Button onClick={() => scrollToSection('colaboradores')} variant="outline" className="h-14 px-8 border-white/10 text-white hover:bg-white/5 rounded-full font-black uppercase tracking-widest text-[9px] hover:scale-105 transition-all">
-                <Users className="h-4 w-4 mr-2 text-primary" /> Colaborar
+                <Users className="h-4 w-4 mr-2 text-primary" /> {t('urbeludo.hero.cta_colab')}
               </Button>
               <Button onClick={() => scrollToSection('apoio')} variant="outline" className="h-14 px-8 border-white/10 text-white hover:bg-white/5 rounded-full font-black uppercase tracking-widest text-[9px] hover:scale-105 transition-all">
-                <Heart className="h-4 w-4 mr-2 text-primary" /> Apoiar Social
+                <Heart className="h-4 w-4 mr-2 text-primary" /> {t('urbeludo.hero.cta_support')}
               </Button>
               <Button onClick={() => scrollToSection('faq')} variant="outline" className="h-14 px-8 border-white/10 text-white hover:bg-white/5 rounded-full font-black uppercase tracking-widest text-[9px] hover:scale-105 transition-all">
-                <HelpCircle className="h-4 w-4 mr-2 text-primary" /> FAQ
+                <HelpCircle className="h-4 w-4 mr-2 text-primary" /> {t('urbeludo.hero.cta_faq')}
               </Button>
             </div>
           </div>
@@ -191,7 +162,7 @@ export function UrbeLudoClient() {
           <div className="lg:w-1/3 relative aspect-square w-full max-w-[400px]">
             <Image 
               src={lucasData?.imageUrl || ""} 
-              alt={lucasData?.description || "Lucas Souza - Fundador UrbeLudo"} 
+              alt={lucasData?.description || "Founder"} 
               fill 
               className="object-cover rounded-[3rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
             />
@@ -199,16 +170,16 @@ export function UrbeLudoClient() {
           <div className="lg:w-2/3 space-y-10">
             <div className="flex items-center gap-4">
               <div className="h-1 w-12 bg-primary rounded-full" />
-              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">Da Estratégia ao Cuidado</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">{t('urbeludo.essence.badge')}</span>
             </div>
-            <h2 className="font-headline text-2xl md:text-5xl font-black tracking-tighter leading-none text-slate-950 uppercase">Nossa <br/><span className="text-primary italic font-medium lowercase">essência.</span></h2>
+            <h2 className="font-headline text-2xl md:text-5xl font-black tracking-tighter leading-none text-slate-950 uppercase">{t('urbeludo.essence.title')} <br/><span className="text-primary italic font-medium lowercase">{t('urbeludo.essence.title_italic')}</span></h2>
             <div className="relative">
               <Quote className="absolute -top-6 -left-8 h-12 w-12 text-slate-100 -z-10" />
               <p className="text-lg md:text-2xl text-slate-600 font-medium leading-relaxed italic">
-                "Eu sou o Lucas Souza. Minha base no design estratégico me ensinou que soluções reais nascem da empatia. Ao entrar na Psicomotricidade, entendi que a reabilitação precisa sair do consultório e ganhar a vida real. O UrbeLudo nasceu dessa fusão: usar a tecnologia para criar uma ponte entre o terapeuta, a família e a criança."
+                "{t('urbeludo.essence.quote')}"
               </p>
             </div>
-            <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Lucas Souza — Fundador & Designer Estratégico</p>
+            <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">{t('urbeludo.essence.founder')}</p>
           </div>
         </div>
       </section>
@@ -217,8 +188,8 @@ export function UrbeLudoClient() {
       <section id="filosofia" className="py-20 md:py-48 bg-slate-50 text-slate-950 rounded-[2.5rem] md:rounded-[6rem] mx-4 relative z-20 shadow-2xl px-6 border border-slate-100 overflow-hidden">
         <div className="container mx-auto max-w-5xl space-y-20">
           <div className="text-center space-y-4">
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Pilar do Projeto</span>
-            <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">Filosofia <br /><span className="text-primary italic font-medium lowercase">urbeludo.</span></h2>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">{t('urbeludo.philosophy.badge')}</span>
+            <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">{t('urbeludo.philosophy.title')} <br /><span className="text-primary italic font-medium lowercase">{t('urbeludo.philosophy.title_italic')}</span></h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
@@ -226,16 +197,16 @@ export function UrbeLudoClient() {
                <div className="h-16 w-16 rounded-2xl bg-slate-50 flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:text-white transition-all">
                  <Box className="h-8 w-8" />
                </div>
-               <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">URBE (Estrutura)</h3>
-               <p className="text-slate-500 text-sm md:text-lg leading-relaxed font-medium">Entendemos o corpo como o nosso primeiro territory, a nossa \"cidade interna\". Organizar a Urbe é ajudar a criança a mapear seu esquema corporal e se sentir segura em seu espaço.</p>
+               <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">{t('urbeludo.philosophy.urbe_title')}</h3>
+               <p className="text-slate-500 text-sm md:text-lg leading-relaxed font-medium">{t('urbeludo.philosophy.urbe_desc')}</p>
             </div>
             
             <div className="p-10 md:p-16 rounded-[3rem] bg-white border border-slate-100 space-y-6 group hover:border-primary/20 transition-all duration-700 shadow-sm">
                <div className="h-16 w-16 rounded-2xl bg-slate-50 flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:text-white transition-all">
                  <Smile className="h-8 w-8" />
                </div>
-               <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">LUDO (Fluidez)</h3>
-               <p className="text-slate-500 text-sm md:text-lg leading-relaxed font-medium">O jogo é a linguagem universal do aprendizado. Através do lúdico, acessamos motivações profundas, facilitando a superação de barreiras motoras e cognitivas de forma natural.</p>
+               <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter">{t('urbeludo.philosophy.ludo_title')}</h3>
+               <p className="text-slate-500 text-sm md:text-lg leading-relaxed font-medium">{t('urbeludo.philosophy.ludo_desc')}</p>
             </div>
           </div>
         </div>
@@ -246,17 +217,17 @@ export function UrbeLudoClient() {
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-32 items-start">
              <div className="lg:w-1/2 space-y-8">
-                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Rigor Clínico</span>
-                <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">Rigor que nos <br /><span className="text-primary italic font-medium lowercase">sustenta.</span></h2>
-                <p className="text-slate-500 text-sm md:text-lg font-medium leading-relaxed">Nosso desenvolvimento é pautado por conceitos científicos que respeitam a neurodiversidade e garantem ganhos terapêuticos sólidos.</p>
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">{t('urbeludo.science.badge')}</span>
+                <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">{t('urbeludo.science.title')} <br /><span className="text-primary italic font-medium lowercase">{t('urbeludo.science.title_italic')}</span></h2>
+                <p className="text-slate-500 text-sm md:text-lg font-medium leading-relaxed">{t('urbeludo.science.desc')}</p>
              </div>
              
              <div className="lg:w-1/2 space-y-6">
                 {[
-                  { title: "Integração Sensorial", desc: "Estímulos desenhados para acolher hipersensibilidades e organizar o processamento sensorial.", icon: <Fingerprint className="h-5 w-5" /> },
-                  { title: "Funções Executivas", desc: "Atividades que treinam o foco, a memória de trabalho e o controle inibitório (essencial para TDAH e perfis similares).", icon: <Brain className="h-5 w-5" /> },
-                  { title: "Praxia e Coordenação", desc: "Foco na organização do movimento complexo, auxiliando na autonomia de tarefas diárias.", icon: <Zap className="h-5 w-5" /> },
-                  { title: "Neuroplasticidade Motivada", desc: "O prazer no jogo libera neurotransmissores que facilitam a criação de novas rotas neurais.", icon: <Sparkles className="h-5 w-5" /> }
+                  { title: t('urbeludo.science.item1_title'), desc: t('urbeludo.science.item1_desc'), icon: <Fingerprint className="h-5 w-5" /> },
+                  { title: t('urbeludo.science.item2_title'), desc: t('urbeludo.science.item2_desc'), icon: <Brain className="h-5 w-5" /> },
+                  { title: t('urbeludo.science.item3_title'), desc: t('urbeludo.science.item3_desc'), icon: <Zap className="h-5 w-5" /> },
+                  { title: t('urbeludo.science.item4_title'), desc: t('urbeludo.science.item4_desc'), icon: <Sparkles className="h-5 w-5" /> }
                 ].map((item, idx) => (
                   <div key={idx} className="flex gap-6 p-8 rounded-[2rem] bg-slate-50 border border-slate-200 group hover:shadow-lg transition-all">
                     <div className="h-12 w-12 rounded-xl bg-white flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shrink-0">
@@ -281,30 +252,30 @@ export function UrbeLudoClient() {
                <Cpu className="h-8 w-8" />
              </div>
              <div className="space-y-4">
-               <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none">Motor <br />SPSP.</h3>
-               <p className="text-white/40 text-sm md:text-lg font-medium leading-relaxed">Enquanto a criança interage, o Sistema Preditivo de Suporte Psicomotor observa padrões individuais de evolução.</p>
+               <h3 className="text-3xl md:text-5xl font-black uppercase tracking-tighter leading-none">{t('urbeludo.spsp.card_title')}</h3>
+               <p className="text-white/40 text-sm md:text-lg font-medium leading-relaxed">{t('urbeludo.spsp.card_desc')}</p>
              </div>
              <div className="grid grid-cols-2 gap-6 pt-4">
                 <div className="space-y-2">
-                  <p className="text-2xl font-black text-primary">Foco Individual</p>
-                  <p className="text-[9px] text-white/30 uppercase font-black">Comparação com o próprio histórico</p>
+                  <p className="text-2xl font-black text-primary">{t('urbeludo.spsp.card_feat1')}</p>
+                  <p className="text-[9px] text-white/30 uppercase font-black">{t('urbeludo.spsp.card_feat1_sub')}</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-2xl font-black text-cyan-400">Insights Clínicos</p>
-                  <p className="text-[9px] text-white/30 uppercase font-black">Ajustes preditivos na conduta</p>
+                  <p className="text-2xl font-black text-cyan-400">{t('urbeludo.spsp.card_feat2')}</p>
+                  <p className="text-[9px] text-white/30 uppercase font-black">{t('urbeludo.spsp.card_feat2_sub')}</p>
                 </div>
              </div>
           </div>
           
           <div className="space-y-10 text-left">
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Cérebro Analítico</span>
-            <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-white">Inteligência ao <br /><span className="text-primary italic font-medium lowercase">terapeuta.</span></h2>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">{t('urbeludo.spsp.badge')}</span>
+            <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-white">{t('urbeludo.spsp.title')} <br /><span className="text-primary italic font-medium lowercase">{t('urbeludo.spsp.title_italic')}</span></h2>
             <p className="text-white/40 text-sm md:text-lg font-medium leading-relaxed">
-              O SPSP gera relatórios detalhados para o profissional de saúde, permitindo ajustes preditivos na conduta terapêutica com base em dados reais coletados diretamente do ambiente domiciliar.
+              {t('urbeludo.spsp.desc')}
             </p>
             <div className="flex items-center gap-4 p-6 rounded-2xl bg-white/5 border border-white/10">
                <Activity className="h-6 w-6 text-primary" />
-               <p className="text-[10px] md:text-xs font-bold text-white/30 uppercase tracking-widest italic">A serviço da evolução humana.</p>
+               <p className="text-[10px] md:text-xs font-bold text-white/30 uppercase tracking-widest italic">{t('urbeludo.spsp.motto')}</p>
             </div>
           </div>
         </div>
@@ -314,15 +285,15 @@ export function UrbeLudoClient() {
       <section id="frentes" className="py-20 md:py-48 bg-white px-6">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center space-y-6 mb-24">
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Trilhas Clínicas</span>
-            <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">Frentes de <br /><span className="text-primary italic font-medium lowercase">cuidado.</span></h2>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">{t('urbeludo.frentes.badge')}</span>
+            <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">{t('urbeludo.frentes.title')} <br /><span className="text-primary italic font-medium lowercase">{t('urbeludo.frentes.title_italic')}</span></h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
             {[
-              { title: "Fonoaudiologia", desc: "Incentivo à intenção comunicativa, articulação sonora e linguagem expressiva através de interações que reagem à voz.", icon: <Mic className="h-10 w-10" /> },
-              { title: "Terapia Ocupacional", desc: "Atividades focadas na autonomia funcional, atenção visual e planejamento motor fino.", icon: <MousePointer2 className="h-10 w-10" /> },
-              { title: "Reabilitação Motora", desc: "Foco no equilíbrio, consciência corporal global, tônus e ritmo.", icon: <Stethoscope className="h-10 w-10" /> }
+              { title: t('urbeludo.frentes.fono_title'), desc: t('urbeludo.frentes.fono_desc'), icon: <Mic className="h-10 w-10" /> },
+              { title: t('urbeludo.frentes.to_title'), desc: t('urbeludo.frentes.to_desc'), icon: <MousePointer2 className="h-10 w-10" /> },
+              { title: t('urbeludo.frentes.reab_title'), desc: t('urbeludo.frentes.reab_desc'), icon: <Stethoscope className="h-10 w-10" /> }
             ].map((frente, idx) => (
               <div key={idx} className="p-12 rounded-[3.5rem] bg-slate-50 border border-slate-100 space-y-8 shadow-sm hover:shadow-2xl transition-all group flex flex-col h-full text-left">
                 <div className="h-20 w-20 rounded-3xl bg-white flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
@@ -342,8 +313,8 @@ export function UrbeLudoClient() {
       <section id="faq" className="py-20 md:py-48 bg-slate-50 px-6 rounded-[3rem] md:rounded-[6rem] mx-4 border border-slate-100">
         <div className="container mx-auto max-w-4xl space-y-16">
           <div className="text-center space-y-4">
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Conhecimento Compartilhado</span>
-            <h2 className="font-headline text-2xl md:text-6xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">FAQ <br /><span className="text-primary italic font-medium lowercase">ecossistema.</span></h2>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">{t('faq.badge')}</span>
+            <h2 className="font-headline text-2xl md:text-6xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">FAQ <br /><span className="text-primary italic font-medium lowercase">{t('urbeludo.hero.cta_faq')}</span></h2>
           </div>
           
           <Accordion type="single" collapsible className="space-y-4">
@@ -366,44 +337,28 @@ export function UrbeLudoClient() {
         <div className="container mx-auto max-w-7xl">
           <div className="flex flex-col lg:flex-row items-start justify-between gap-12 mb-24">
             <div className="max-w-2xl">
-              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">Propósito em Rede</span>
-              <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">Ecossistema de <br /><span className="text-primary italic font-medium lowercase">colaboração.</span></h2>
+              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary/60">{t('urbeludo.colab.badge')}</span>
+              <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase text-slate-950">{t('urbeludo.colab.title')} <br /><span className="text-primary italic font-medium lowercase">{t('urbeludo.colab.title_italic')}</span></h2>
             </div>
             <div className="max-w-md space-y-6">
               <p className="text-slate-400 text-lg md:text-2xl font-medium leading-tight tracking-tight">
-                O UrbeLudo está em fase final de desenvolvimento. Para que este ecossistema chegue às famílias e clínicas o quanto antes, buscamos profissionais dispostos a contribuir com sua expertise.
+                {t('urbeludo.colab.desc')}
               </p>
               <a 
                 href={`mailto:${contactEmail}?subject=Colaboração UrbeLudo`}
                 className="inline-flex items-center gap-4 px-10 py-6 bg-primary text-white rounded-full font-black uppercase tracking-widest text-[10px] shadow-xl hover:scale-105 transition-all"
               >
-                <Mail className="h-4 w-4" /> Seja um Colaborador
+                <Mail className="h-4 w-4" /> {t('urbeludo.colab.btn')}
               </a>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { 
-                title: "Desenvolvimento de Jogos", 
-                desc: "Programadores e designers que transformam mecânicas terapêuticas em experiências imersivas.",
-                icon: <Gamepad2 className="h-6 w-6" />
-              },
-              { 
-                title: "Psicologia & Neurociência", 
-                desc: "Especialistas que garantem o suporte emocional e a validação dos processos cognitivos.",
-                icon: <HeartPulse className="h-6 w-6" />
-              },
-              { 
-                title: "Fonoaudiologia", 
-                desc: "Profissionais focados na comunicação, voz e linguagem dentro do ambiente digital.",
-                icon: <MessageSquare className="h-6 w-6" />
-              },
-              { 
-                title: "Psicomotricidade", 
-                desc: "A base do nosso projeto, orientando cada movimento e interação para o ganho real.",
-                icon: <Move className="h-6 w-6" />
-              }
+              { title: t('urbeludo.colab.role1'), desc: t('urbeludo.colab.role1_desc'), icon: <Gamepad2 className="h-6 w-6" /> },
+              { title: t('urbeludo.colab.role2'), desc: t('urbeludo.colab.role2_desc'), icon: <HeartPulse className="h-6 w-6" /> },
+              { title: t('urbeludo.colab.role3'), desc: t('urbeludo.colab.role3_desc'), icon: <MessageSquare className="h-6 w-6" /> },
+              { title: t('urbeludo.colab.role4'), desc: t('urbeludo.colab.role4_desc'), icon: <Move className="h-6 w-6" /> }
             ].map((colab, idx) => (
               <div key={idx} className="p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 space-y-6 group hover:bg-white hover:shadow-2xl transition-all duration-500 h-full flex flex-col">
                 <div className="h-14 w-14 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:text-white transition-all">
@@ -414,7 +369,7 @@ export function UrbeLudoClient() {
                   <p className="text-slate-500 text-[11px] md:text-sm font-medium leading-relaxed">{colab.desc}</p>
                 </div>
                 <div className="pt-4">
-                  <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase tracking-widest">Colaborador Pro Bono</Badge>
+                  <Badge className="bg-primary/10 text-primary border-none text-[8px] font-black uppercase tracking-widest">{t('urbeludo.colab.badge_tag')}</Badge>
                 </div>
               </div>
             ))}
@@ -429,18 +384,18 @@ export function UrbeLudoClient() {
           <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center text-primary mx-auto mb-8 animate-pulse">
             <Heart className="h-8 w-8" />
           </div>
-          <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">Mova o <br /><span className="text-primary italic font-medium lowercase">futuro.</span></h2>
+          <h2 className="font-headline text-2xl md:text-7xl font-black tracking-tighter leading-[0.85] uppercase">{t('urbeludo.support.title')} <br /><span className="text-primary italic font-medium lowercase">{t('urbeludo.support.title_italic')}</span></h2>
           <p className="text-white/40 text-sm md:text-xl font-medium leading-relaxed">
-            Oferecemos versões gratuitas para ONGs e famílias de baixa renda através do nosso fundo de apoio. Sua contribuição mantém o UrbeLudo acessível.
+            {t('urbeludo.support.desc')}
           </p>
           <div className="p-8 md:p-12 rounded-[3rem] bg-white/5 border border-white/10 space-y-6">
-             <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">Apoio via PIX</p>
+             <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">{t('urbeludo.support.pix_label')}</p>
              <p className="text-2xl md:text-4xl font-black tracking-tighter text-white">{pixKey}</p>
              <Button 
               onClick={() => copyToClipboard(pixKey, "PIX")} 
               className="h-20 px-12 bg-primary text-white hover:bg-primary/90 rounded-full font-black uppercase tracking-widest text-[9px] border-none shadow-2xl"
             >
-              Copiar Chave PIX
+              {t('urbeludo.support.pix_btn')}
             </Button>
           </div>
         </div>

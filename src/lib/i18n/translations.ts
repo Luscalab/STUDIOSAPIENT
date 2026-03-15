@@ -65,6 +65,97 @@ export const translations = {
         { q: "A Sapient atende qualquer tipo de empresa?", a: "Focamos em negócios que buscam autoridade e diferenciação. Atendemos profissionais liberais de alto padrão e empresas em expansão." }
       ]
     },
+    urbeludo: {
+      hero: {
+        badge: "Biociência & Conexão",
+        soon: "Em Breve",
+        title: "UrbeLudo:",
+        title_italic: "desenvolvimento neuropsicomotor.",
+        desc: "Um ecossistema digital (iOS, Android e Web) desenhado para apoiar o desenvolvimento de crianças e jovens, respeitando a singularidade de cada cérebro. Unimos o rigor clínico ao engajamento lúdico.",
+        cta_project: "Conhecer Projeto",
+        cta_science: "Nossa Ciência",
+        cta_colab: "Colaborar",
+        cta_support: "Apoiar Social",
+        cta_faq: "FAQ"
+      },
+      essence: {
+        badge: "Da Estratégia ao Cuidado",
+        title: "Nossa",
+        title_italic: "essência.",
+        quote: "Eu sou o Lucas Souza. Minha base no design estratégico me ensinou que soluções reais nascem da empatia. Ao entrar na Psicomotricidade, entendi que a reabilitação precisa sair do consultório e ganhar a vida real. O UrbeLudo nasceu dessa fusão: usar a tecnologia para criar uma ponte entre o terapeuta, a família e a criança.",
+        founder: "Lucas Souza — Fundador & Designer Estratégico"
+      },
+      philosophy: {
+        badge: "Pilar do Projeto",
+        title: "Filosofia",
+        title_italic: "urbeludo.",
+        urbe_title: "URBE (Estrutura)",
+        urbe_desc: "Entendemos o corpo como o nosso primeiro território, a nossa 'cidade interna'. Organizar a Urbe é ajudar a criança a mapear seu esquema corporal e se sentir segura em seu espaço.",
+        ludo_title: "LUDO (Fluidez)",
+        ludo_desc: "O jogo é a linguagem universal do aprendizado. Através do lúdico, acessamos motivações profundas, facilitando a superação de barreiras motoras e cognitivas de forma natural."
+      },
+      science: {
+        badge: "Rigor Clínico",
+        title: "Rigor que nos",
+        title_italic: "sustenta.",
+        desc: "Nosso desenvolvimento é pautado por conceitos científicos que respeitam a neurodiversidade e garantem ganhos terapêuticos sólidos.",
+        item1_title: "Integração Sensorial",
+        item1_desc: "Estímulos desenhados para acolher hipersensibilidades e organizar o processamento sensorial.",
+        item2_title: "Funções Executivas",
+        item2_desc: "Atividades que treinam o foco, a memória de trabalho e o controle inibitório.",
+        item3_title: "Praxia e Coordenação",
+        item3_desc: "Foco na organização do movimento complexo, auxiliando na autonomia de tarefas diárias.",
+        item4_title: "Neuroplasticidade Motivada",
+        item4_desc: "O prazer no jogo libera neurotransmissores que facilitam a criação de novas rotas neurais."
+      },
+      spsp: {
+        badge: "Cérebro Analítico",
+        title: "Inteligência ao",
+        title_italic: "terapeuta.",
+        desc: "O SPSP gera relatórios detalhados para o profissional de saúde, permitindo ajustes preditivos na conduta terapêutica com base em dados reais coletados diretamente do ambiente domiciliar.",
+        motto: "A serviço da evolução humana.",
+        card_title: "Motor SPSP.",
+        card_desc: "Enquanto a criança interage, o Sistema Preditivo de Suporte Psicomotor observa padrões individuais de evolução.",
+        card_feat1: "Foco Individual",
+        card_feat1_sub: "Comparação com o próprio histórico",
+        card_feat2: "Insights Clínicos",
+        card_feat2_sub: "Ajustes preditivos na conduta"
+      },
+      frentes: {
+        badge: "Trilhas Clínicas",
+        title: "Frentes de",
+        title_italic: "cuidado.",
+        fono_title: "Fonoaudiologia",
+        fono_desc: "Incentivo à intenção comunicativa, articulação sonora e linguagem expressiva através de interações que reagem à voz.",
+        to_title: "Terapia Ocupacional",
+        to_desc: "Atividades focadas na autonomia funcional, atenção visual e planejamento motor fino.",
+        reab_title: "Reabilitação Motora",
+        reab_desc: "Foco no equilíbrio, consciência corporal global, tônus e ritmo."
+      },
+      colab: {
+        badge: "Propósito em Rede",
+        title: "Ecossistema de",
+        title_italic: "colaboração.",
+        desc: "O UrbeLudo está em fase final de desenvolvimento. Para que este ecossistema chegue às famílias e clínicas o quanto antes, buscamos profissionais dispostos a contribuir com sua expertise.",
+        btn: "Seja um Colaborador",
+        role1: "Desenvolvimento de Jogos",
+        role1_desc: "Programadores e designers que transformam mecânicas terapêuticas em experiências imersivas.",
+        role2: "Psicologia & Neurociência",
+        role2_desc: "Especialistas que garantem o suporte emocional e a validação dos processos cognitivos.",
+        role3: "Fonoaudiologia",
+        role3_desc: "Profissionais focados na comunicação, voz e linguagem dentro do ambiente digital.",
+        role4: "Psicomotricidade",
+        role4_desc: "A base do nosso projeto, orientando cada movimento e interação para o ganho real.",
+        badge_tag: "Colaborador Pro Bono"
+      },
+      support: {
+        title: "Mova o",
+        title_italic: "futuro.",
+        desc: "Oferecemos versões gratuitas para ONGs e famílias de baixa renda através do nosso fundo de apoio. Sua contribuição mantém o UrbeLudo acessível.",
+        pix_label: "Apoio via PIX",
+        pix_btn: "Copiar Chave PIX"
+      }
+    },
     contact: {
       badge: "Canais de Consultoria",
       title: "Vamos",
@@ -138,7 +229,7 @@ export const translations = {
       },
       step4: {
         q: "Qual é o seu maior 'gargalo' hoje? O que mais te impede de crescer?",
-        options: [] // Dinâmico via flow
+        options: []
       },
       step5: {
         q: "Se a gente pudesse resolver um problema nos próximos 90 dias, qual seria?",
@@ -213,12 +304,103 @@ export const translations = {
       title: "Dúvidas",
       title_italic: "Frequentes.",
       items: [
-        { q: "Quanto tempo demora para ver resultados?", a: "Os resultados variam conforme o serviço. Campanhas de anúncios podem gerar contactos em poucos dias, enquanto projetos de design e posicionamento de marca costumam amadurecer entre 3 a 6 meses." },
-        { q: "Como a IA é integrada ao meu negócio?", a: "Utilizamos IA para criar ecossistemas de atendimento automatizado que qualificam leads 24/7." },
-        { q: "O que é o projeto UrbeLudo?", a: "É a nossa iniciativa de impacto social e tecnológico. Uma plataforma de reabilitação neuro-motora que utiliza jogos imersivos." },
-        { q: "Como posso apoiar ou investir no UrbeLudo?", a: "Existem caminhos como investidor estratégico, doações diretas ou como colaborador especialista." },
-        { q: "A Sapient atende qualquer tipo de empresa?", a: "Focamos em negócios que procuram autoridade e diferenciação." }
+        { q: "Quanto tempo demora para ver resultados?", a: "Os resultados variam conforme o serviço. Campanhas de anúncios podem gerar contactos em poucos dias, enquanto projetos de design e posicionamento de marca costumam amadurecer entre 3 a 6 meses de trabalho consistente." },
+        { q: "Como a IA é integrada ao meu negócio?", a: "Utilizamos IA para criar ecossistemas de atendimento automatizado que qualificam leads 24/7, além de aplicar inteligência de dados para optimizar a performance de anúncios em tempo real." },
+        { q: "O que é o projeto UrbeLudo?", a: "É a nossa iniciativa de impacto social e tecnológico. Uma plataforma de reabilitação neuro-motora que utiliza jogos imersivos e biofeedback para auxiliar em tratamentos clínicos." },
+        { q: "Como posso apoiar ou investir no UrbeLudo?", a: "Existem caminhos como investidor estratégico, doações diretas ou como colaborador especialista nas áreas de saúde e tecnologia que deseje atuar pro bono." },
+        { q: "A Sapient atende qualquer tipo de empresa?", a: "Focamos em negócios que procuram autoridade e diferenciação. Atendemos profissionais liberais de alto padrão e empresas em expansão." }
       ]
+    },
+    urbeludo: {
+      hero: {
+        badge: "Biociência & Conexão",
+        soon: "Brevemente",
+        title: "UrbeLudo:",
+        title_italic: "desenvolvimento neuropsicomotor.",
+        desc: "Um ecossistema digital (iOS, Android e Web) desenhado para apoiar o desenvolvimento de crianças e jovens, respeitando a singularidade de cada cérebro. Unimos o rigor clínico ao envolvimento lúdico.",
+        cta_project: "Conhecer Projeto",
+        cta_science: "Nossa Ciência",
+        cta_colab: "Colaborar",
+        cta_support: "Apoiar Social",
+        cta_faq: "FAQ"
+      },
+      essence: {
+        badge: "Da Estratégia ao Cuidado",
+        title: "Nossa",
+        title_italic: "essência.",
+        quote: "Eu sou o Lucas Souza. A minha base no design estratégico ensinou-me que soluções reais nascem da empatia. Ao entrar na Psicomotricidade, entendi que a reabilitação precisa de sair do consultório e ganhar a vida real. O UrbeLudo nasceu desta fusão: usar a tecnologia para criar uma ponte entre o terapeuta, a família e a criança.",
+        founder: "Lucas Souza — Fundador & Designer Estratégico"
+      },
+      philosophy: {
+        badge: "Pilar do Projeto",
+        title: "Filosofia",
+        title_italic: "urbeludo.",
+        urbe_title: "URBE (Estrutura)",
+        urbe_desc: "Entendemos o corpo como o nosso primeiro território, a nossa 'cidade interna'. Organizar a Urbe é ajudar a criança a mapear o seu esquema corporal e a sentir-se segura no seu espaço.",
+        ludo_title: "LUDO (Fluidez)",
+        ludo_desc: "O jogo é a linguagem universal da aprendizagem. Através do lúdico, acedemos a motivações profundas, facilitando a superação de barreiras motoras e cognitivas de forma natural."
+      },
+      science: {
+        badge: "Rigor Clínico",
+        title: "Rigor que nos",
+        title_italic: "sustenta.",
+        desc: "O nosso desenvolvimento é pautado por conceitos científicos que respeitam a neurodiversidade e garantem ganhos terapêuticos sólidos.",
+        item1_title: "Integração Sensorial",
+        item1_desc: "Estímulos desenhados para acolher hipersensibilidades e organizar o processamento sensorial.",
+        item2_title: "Funções Executivas",
+        item2_desc: "Atividades que treinam o foco, a memória de trabalho e o controlo inibitório.",
+        item3_title: "Praxia e Coordenação",
+        item3_desc: "Foco na organização do movimento complexo, auxiliando na autonomia de tarefas diárias.",
+        item4_title: "Neuroplasticidade Motivada",
+        item4_desc: "O prazer no jogo liberta neurotransmissores que facilitam a criação de novas rotas neurais."
+      },
+      spsp: {
+        badge: "Cérebro Analítico",
+        title: "Inteligência ao",
+        title_italic: "terapeuta.",
+        desc: "O SPSP gera relatórios detalhados para o profissional de saúde, permitindo ajustes preditivos na conduta terapêutica com base em dados reais recolhidos diretamente do ambiente domiciliar.",
+        motto: "Ao serviço da evolução humana.",
+        card_title: "Motor SPSP.",
+        card_desc: "Enquanto a criança interage, o Sistema Preditivo de Suporte Psicomotor observa padrões individuais de evolução.",
+        card_feat1: "Foco Individual",
+        card_feat1_sub: "Comparação com o próprio histórico",
+        card_feat2: "Insights Clínicos",
+        card_feat2_sub: "Ajustes preditivos na conduta"
+      },
+      frentes: {
+        badge: "Trilhas Clínicas",
+        title: "Frentes de",
+        title_italic: "cuidado.",
+        fono_title: "Terapeuta da Fala",
+        fono_desc: "Incentivo à intenção comunicativa, articulação sonora e linguagem expressiva através de interações que reagem à voz.",
+        to_title: "Terapia Ocupacional",
+        to_desc: "Atividades focadas na autonomia funcional, atenção visual e planeamento motor fino.",
+        reab_title: "Reabilitação Motora",
+        reab_desc: "Foco no equilíbrio, consciência corporal global, tónus e ritmo."
+      },
+      colab: {
+        badge: "Propósito em Rede",
+        title: "Ecossistema de",
+        title_italic: "colaboração.",
+        desc: "O UrbeLudo está em fase final de desenvolvimento. Para que este ecossistema chegue às famílias e clínicas o quanto antes, procuramos profissionais dispostos a contribuir com a sua especialidade.",
+        btn: "Seja um Colaborador",
+        role1: "Desenvolvimento de Jogos",
+        role1_desc: "Programadores e designers que transformam mecânicas terapêuticas em experiências imersivas.",
+        role2: "Psicologia & Neurociência",
+        role2_desc: "Especialistas que garantem o suporte emocional e a validação dos processos cognitivos.",
+        role3: "Terapeuta da Fala",
+        role3_desc: "Profissionais focados na comunicação, voz e linguagem dentro do ambiente digital.",
+        role4: "Psicomotricidade",
+        role4_desc: "A base do nosso projeto, orientando cada movimento e interação para o ganho real.",
+        badge_tag: "Colaborador Pro Bono"
+      },
+      support: {
+        title: "Mova o",
+        title_italic: "futuro.",
+        desc: "Oferecemos versões gratuitas para ONGs e famílias de baixo rendimento através do nosso fundo de apoio. A sua contribuição mantém o UrbeLudo acessível.",
+        pix_label: "Apoio via Transferência",
+        pix_btn: "Copiar Chave de Apoio"
+      }
     },
     contact: {
       badge: "Canais de Consultoria",
@@ -252,7 +434,7 @@ export const translations = {
       terms_title: "Termos de Utilização",
       terms_intro: "Ao aceder ao site da studiosapient, concorda em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis.",
       terms_section1_title: "1. Licença de Utilização",
-      terms_section1_content: "É concedida permissão para baixar temporariamente uma cópia dos materiais no site da studiosapient apenas para visualização transitória pessoal e não comercial.",
+      terms_section1_content: "É concedida permissão para descarregar temporariamente uma cópia dos materiais no site da studiosapient apenas para visualização transitória pessoal e não comercial.",
       terms_section2_title: "2. Propriedade Intelectual",
       terms_section2_content: "Todo o design, código e diagnósticos estratégicos apresentados são propriedade intelectual da studiosapient e não podem ser replicados sem autorização prévia."
     },
@@ -284,7 +466,7 @@ export const translations = {
         options: ["Saúde (Médico/Clínica)", "Direito (Advocacia)", "Alimentação / Restaurante", "Estética / Beleza", "Vendas / Loja", "Tecnologia / Software", "Imóveis / Arquitetura", "Serviços (Geral)", "Outros"]
       },
       step2: {
-        q: "Entendi. E como chegam até si os novos clientes hoje?",
+        q: "Entendi. E como é que os novos clientes chegam até si hoje?",
         options: ["Pelo Instagram", "Pelo Google", "Apenas por Indicação", "Panfleto / Local", "Ainda não tenho clientes"]
       },
       step3: {
@@ -374,6 +556,97 @@ export const translations = {
         { q: "How can I support or invest in UrbeLudo?", a: "There are paths as a strategic investor, direct donations, or as a pro bono specialist collaborator." },
         { q: "Does Sapient serve any type of company?", a: "We focus on businesses seeking authority and differentiation." }
       ]
+    },
+    urbeludo: {
+      hero: {
+        badge: "Bioscience & Connection",
+        soon: "Coming Soon",
+        title: "UrbeLudo:",
+        title_italic: "neuropsychomotor development.",
+        desc: "A digital ecosystem (iOS, Android, and Web) designed to support the development of children and youth, respecting the uniqueness of every brain. We combine clinical rigor with playful engagement.",
+        cta_project: "Explore Project",
+        cta_science: "Our Science",
+        cta_colab: "Collaborate",
+        cta_support: "Social Support",
+        cta_faq: "FAQ"
+      },
+      essence: {
+        badge: "From Strategy to Care",
+        title: "Our",
+        title_italic: "essence.",
+        quote: "I'm Lucas Souza. My foundation in strategic design taught me that real solutions are born from empathy. Upon entering Psychomotricity, I understood that rehabilitation needs to leave the office and enter real life. UrbeLudo was born from this fusion: using technology to create a bridge between the therapist, the family, and the child.",
+        founder: "Lucas Souza — Founder & Strategic Designer"
+      },
+      philosophy: {
+        badge: "Project Pillar",
+        title: "Philosophy",
+        title_italic: "urbeludo.",
+        urbe_title: "URBE (Structure)",
+        urbe_desc: "We understand the body as our first territory, our 'inner city'. Organizing the Urbe is helping the child map their body schema and feel safe in their space.",
+        ludo_title: "LUDO (Fluidity)",
+        ludo_desc: "Play is the universal language of learning. Through play, we access deep motivations, facilitating the overcoming of motor and cognitive barriers naturally."
+      },
+      science: {
+        badge: "Clinical Rigor",
+        title: "Rigor that",
+        title_italic: "sustains us.",
+        desc: "Our development is guided by scientific concepts that respect neurodiversity and ensure solid therapeutic gains.",
+        item1_title: "Sensory Integration",
+        item1_desc: "Stimuli designed to welcome hypersensitivities and organize sensory processing.",
+        item2_title: "Executive Functions",
+        item2_desc: "Activities that train focus, working memory, and inhibitory control.",
+        item3_title: "Praxis and Coordination",
+        item3_desc: "Focus on the organization of complex movement, aiding autonomy in daily tasks.",
+        item4_title: "Motivated Neuroplasticity",
+        item4_desc: "Pleasure in the game releases neurotransmitters that facilitate the creation of new neural pathways."
+      },
+      spsp: {
+        badge: "Analytical Brain",
+        title: "Intelligence for the",
+        title_italic: "therapist.",
+        desc: "SPSP generates detailed reports for the health professional, allowing predictive adjustments in therapeutic conduct based on real data collected directly from the home environment.",
+        motto: "At the service of human evolution.",
+        card_title: "SPSP Engine.",
+        card_desc: "While the child interacts, the Predictive Psychomotor Support System observes individual evolution patterns.",
+        card_feat1: "Individual Focus",
+        card_feat1_sub: "Comparison with own history",
+        card_feat2: "Clinical Insights",
+        card_feat2_sub: "Predictive adjustments in conduct"
+      },
+      frentes: {
+        badge: "Clinical Tracks",
+        title: "Fronts of",
+        title_italic: "care.",
+        fono_title: "Speech Therapy",
+        fono_desc: "Incentive for communicative intention, sound articulation, and expressive language through interactions that react to voice.",
+        to_title: "Occupational Therapy",
+        to_desc: "Activities focused on functional autonomy, visual attention, and fine motor planning.",
+        reab_title: "Motor Rehabilitation",
+        reab_desc: "Focus on balance, global body awareness, muscle tone, and rhythm."
+      },
+      colab: {
+        badge: "Network Purpose",
+        title: "Ecosystem of",
+        title_italic: "collaboration.",
+        desc: "UrbeLudo is in the final phase of development. To ensure this ecosystem reaches families and clinics as soon as possible, we seek professionals willing to contribute their expertise.",
+        btn: "Be a Collaborator",
+        role1: "Game Development",
+        role1_desc: "Programmers and designers who transform therapeutic mechanics into immersive experiences.",
+        role2: "Psychology & Neuroscience",
+        role2_desc: "Specialists who ensure emotional support and validation of cognitive processes.",
+        role3: "Speech Therapy",
+        role3_desc: "Professionals focused on communication, voice, and language within the digital environment.",
+        role4: "Psychomotricity",
+        role4_desc: "The foundation of our project, guiding every movement and interaction for real gain.",
+        badge_tag: "Pro Bono Collaborator"
+      },
+      support: {
+        title: "Move the",
+        title_italic: "future.",
+        desc: "We offer free versions for NGOs and low-income families through our support fund. Your contribution keeps UrbeLudo accessible.",
+        pix_label: "Support via Transfer",
+        pix_btn: "Copy Support Key"
+      }
     },
     contact: {
       badge: "Consultancy Channels",
@@ -484,7 +757,7 @@ export const translations = {
       cta_secondary: "Nuestra Metodología"
     },
     services: {
-      badge: "Soluções para crescer",
+      badge: "Soluciones para crecer",
       title: "Cómo podemos",
       title_italic: "Ayudar.",
       explore: "Explorar Solución",
@@ -501,7 +774,7 @@ export const translations = {
           f1: "Rápido y Seguro", f2: "Diseño de Autor", f3: "Primero Móvil"
         },
         brand: {
-          title: "Diseño de Marca",
+          title: "Design de Marca",
           desc: "Cree una imagen profesional que transmita confianza y demuestre que es la mejor opción en su mercado.",
           f1: "Logotipos Premium", f2: "Visual de Impacto", f3: "Credibilidad"
         }
@@ -530,13 +803,104 @@ export const translations = {
         { q: "¿Sapient atiende a cualquier empresa?", a: "Nos enfocamos en negocios que buscan autoridad y diferenciación." }
       ]
     },
+    urbeludo: {
+      hero: {
+        badge: "Biociencia & Conexión",
+        soon: "Próximamente",
+        title: "UrbeLudo:",
+        title_italic: "desarrollo neuropsicomotor.",
+        desc: "Un ecosistema digital (iOS, Android y Web) diseñado para apoyar el desarrollo de niños y jóvenes, respetando la singularidad de cada cerebro. Unimos el rigor clínico al compromiso lúdico.",
+        cta_project: "Conocer Proyecto",
+        cta_science: "Nuestra Ciencia",
+        cta_colab: "Colaborar",
+        cta_support: "Apoyo Social",
+        cta_faq: "FAQ"
+      },
+      essence: {
+        badge: "De la Estrategia al Cuidado",
+        title: "Nuestra",
+        title_italic: "esencia.",
+        quote: "Soy Lucas Souza. Mi base en el diseño estratégico me enseñó que las soluciones reales nacen de la empatía. Al entrar en la Psicomotricidad, entendí que la rehabilitación debe salir del consultorio y ganar la vida real. UrbeLudo nació de esta fusión: usar la tecnología para crear un puente entre el terapeuta, la familia y el niño.",
+        founder: "Lucas Souza — Fundador & Diseñador Estratégico"
+      },
+      philosophy: {
+        badge: "Pilar del Proyecto",
+        title: "Filosofía",
+        title_italic: "urbeludo.",
+        urbe_title: "URBE (Estructura)",
+        urbe_desc: "Entendemos el cuerpo como nuestro primer territorio, nuestra 'ciudad interna'. Organizar la Urbe es ayudar al niño a mapear su esquema corporal y sentirse seguro en su espacio.",
+        ludo_title: "LUDO (Fluidez)",
+        ludo_desc: "El juego es el lenguaje universal del aprendizaje. A través de lo lúdico, accedemos a motivaciones profundas, facilitando la superación de barreras motoras y cognitivas de forma natural."
+      },
+      science: {
+        badge: "Rigor Clínico",
+        title: "Rigor que nos",
+        title_italic: "sustenta.",
+        desc: "Nuestro desarrollo se basa en conceptos científicos que respetan la neurodiversidad y garantizan ganancias terapéuticas sólidas.",
+        item1_title: "Integración Sensorial",
+        item1_desc: "Estímulos diseñados para acoger hipersensibilidades y organizar el procesamiento sensorial.",
+        item2_title: "Funciones Ejecutivas",
+        item2_desc: "Actividades que entrenan el enfoque, la memoria de trabajo y el control inhibitorio.",
+        item3_title: "Praxia y Coordinación",
+        item3_desc: "Enfoque en la organización del movimiento complejo, ayudando en la autonomía de tareas diarias.",
+        item4_title: "Neuroplasticidad Motivada",
+        item4_desc: "El placer en el juego libera neurotransmisores que facilitan la creación de nuevas rutas neurales."
+      },
+      spsp: {
+        badge: "Cerebro Analítico",
+        title: "Inteligencia para el",
+        title_italic: "terapeuta.",
+        desc: "El SPSP genera informes detallados para el profesional de salud, permitiendo ajustes predictivos en la conducta terapéutica basados en datos reales recolectados directamente del hogar.",
+        motto: "Al servicio de la evolución humana.",
+        card_title: "Motor SPSP.",
+        card_desc: "Mientras el niño interactúa, el Sistema Predictivo de Soporte Psicomotor observa patrones individuales de evolución.",
+        card_feat1: "Enfoque Individual",
+        card_feat1_sub: "Comparación con el historial propio",
+        card_feat2: "Insights Clínicos",
+        card_feat2_sub: "Ajustes predictivos en la conducta"
+      },
+      frentes: {
+        badge: "Rutas Clínicas",
+        title: "Frentes de",
+        title_italic: "cuidado.",
+        fono_title: "Fonoaudiología",
+        fono_desc: "Incentivo a la intención comunicativa, articulación sonora y lenguaje expresivo mediante interacciones que reaccionan a la voz.",
+        to_title: "Terapia Ocupacional",
+        to_desc: "Actividades enfocadas en la autonomía funcional, atención visual y planificación motriz fina.",
+        reab_title: "Rehabilitación Motora",
+        reab_desc: "Enfoque en el equilibrio, conciencia corporal global, tono y ritmo."
+      },
+      colab: {
+        badge: "Propósito en Red",
+        title: "Ecosistema de",
+        title_italic: "colaboración.",
+        desc: "UrbeLudo está en fase final de desarrollo. Para que este ecosistema llegue a las familias y clínicas lo antes posible, buscamos profesionales dispuestos a contribuir con su experiencia.",
+        btn: "Sea un Colaborador",
+        role1: "Desarrollo de Juegos",
+        role1_desc: "Programadores y diseñadores que transforman mecánicas terapéuticas en experiencias inmersivas.",
+        role2: "Psicología & Neurociencia",
+        role2_desc: "Especialistas que garantizan el soporte emocional y la validación de los procesos cognitivos.",
+        role3: "Fonoaudiología",
+        role3_desc: "Profesionales enfocados en la comunicación, voz y lenguaje dentro del entorno digital.",
+        role4: "Psicomotricidad",
+        role4_desc: "La base de nuestro proyecto, orientando cada movimiento e interacción para el progreso real.",
+        badge_tag: "Colaborador Pro Bono"
+      },
+      support: {
+        title: "Mueve el",
+        title_italic: "futuro.",
+        desc: "Ofrecemos versiones gratuitas para ONGs y familias de bajos ingresos a través de nuestro fondo de apoyo. Tu contribución mantiene UrbeLudo accesible.",
+        pix_label: "Apoyo vía Transferencia",
+        pix_btn: "Copiar Clave de Apoyo"
+      }
+    },
     contact: {
-      badge: "Canales de Consultoría",
+      badge: "Canales de Consultoria",
       title: "Vamos a",
       title_italic: "Conversar.",
-      whatsapp: { title: "WhatsApp", desc: "Diálogo inmediato y consultoría técnica.", action: "Iniciar" },
+      whatsapp: { title: "WhatsApp", desc: "Diálogo imediato e consultoria técnica.", action: "Iniciar" },
       email: { title: "Correo", desc: "Solicitudes y documentación de proyectos.", action: "Enviar", copy: "Copiar Dirección" },
-      phone: { title: "Teléfono", desc: "Conexión direta para estrategia y escala.", action: "Llamar" }
+      phone: { title: "Teléfono", desc: "Conexión direta para estrategia e escala.", action: "Llamar" }
     },
     footer: {
       mission: "Transformamos negocios en referencias a través de ecosistemas digitales de alta claridad y autoridad visual.",
@@ -558,7 +922,7 @@ export const translations = {
       privacy_section2_title: "2. Uso de la Información",
       privacy_section2_content: "Los datos se utilizan exclusivamente para personalizar nuestras recomendaciones de servicios, contactarlo comercialmente y mejorar la experiencia del usuario en nuestro portal.",
       privacy_section3_title: "3. Protección y Seguridad",
-      privacy_section3_content: "Implementamos blindagem digital y protocolos de cifrado para garantizar que su información patentada y datos de prospección estén seguros.",
+      privacy_section3_content: "Implementamos blindagem digital e protocolos de cifrado para garantizar que su información patentada y datos de prospección estén seguros.",
       terms_title: "Términos de Uso",
       terms_intro: "Al acceder al sitio web de studiosapient, usted acepta cumplir con estos términos de servicio, todas las leyes y regulaciones aplicables.",
       terms_section1_title: "1. Licencia de Uso",
@@ -583,7 +947,7 @@ export const translations = {
       title: "Consultor Sapient",
       subtitle: "Radiografía de Rendimiento",
       placeholder: "Escriba aquí...",
-      lock_placeholder: "Elija una opción arriba...",
+      lock_placeholder: "Elija una opção arriba...",
       analyze: "Analizando...",
       cta: "HABLAR CON ESTRATEGA",
       confirm: "Confirmar Opções"
