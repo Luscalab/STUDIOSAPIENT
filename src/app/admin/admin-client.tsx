@@ -165,10 +165,17 @@ export function AdminClient() {
       const newLeads = lines.slice(1).map(line => {
         const values = parseCSVLine(line);
         
+        // Mapeamento baseado na estrutura de 12 colunas informada
+        // 0: Empresa, 1: Região, 2: Nota, 3: Gargalos, 4: Serviços, 5: Script, 6: Sócio, 7: Site, 8: Contato, 9: Decisor, 10: Dicas, 11: Notas
+        
         const rating = parseFloat(values[2]?.replace(',', '.')) || 4.0;
         const rawServices = values[4] || "";
         const servicesArray = rawServices.split(/[;,]/).map(s => s.trim()).filter(Boolean);
         const combinedScript = `${values[5] || ""}${values[10] ? `\n\nAbordagem Adicional: ${values[10]}` : ""}`.trim();
+
+        const socio = values[6]?.trim();
+        const decisor = values[9]?.trim();
+        const contato = values[8]?.trim() || "";
 
         return {
           companyName: values[0] || "Empresa Sem Nome",
@@ -178,11 +185,11 @@ export function AdminClient() {
           bottlenecks: values[3] || "",
           suggestedServices: servicesArray.length > 0 ? servicesArray : ["Sites Premium", "Performance Ads"],
           salesScript: combinedScript || "Foco na autoridade visual e ROI.",
-          contactName: values[6] || "Responsável", 
-          decisionMaker: values[9] || "", 
+          contactName: socio || decisor || "Responsável", 
+          decisionMaker: decisor || socio || "", 
           website: values[7] || "",
-          phone: values[8] || values[9] || "-", 
-          email: values[8]?.includes('@') ? values[8] : "-",
+          phone: contato && !contato.includes('@') ? contato : "-", 
+          email: contato && contato.includes('@') ? contato : "-",
           category: "Geral",
           status: "NOVO",
           notes: values[11] || "",
