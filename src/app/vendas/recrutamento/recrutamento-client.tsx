@@ -662,7 +662,7 @@ export function RecrutamentoClient() {
                         <div className="pt-8 space-y-4">
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="flex flex-col gap-2">
-                              <a href={`https://wa.me/${(String(selectedLead.phone || "")).replace(/\D/g, '')}?text=${encodeURIComponent(`Olá ${selectedLead.decisionMaker || selectedLead.contactName || "Responsável"}, sou consultor da studiosapient...`)}`} target="_blank" className="h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-2xl shadow-green-500/20 hover:scale-105 transition-all"><MessageCircle size={18} /> Iniciar WhatsApp</a>
+                              <a href={`https://wa.me/${(String(selectedLead.phone || "")).replace(/\D/g, '')}`} target="_blank" className="h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center gap-3 font-black uppercase text-[10px] tracking-widest shadow-2xl shadow-green-500/20 hover:scale-105 transition-all"><MessageCircle size={18} /> Iniciar WhatsApp</a>
                               <Button onClick={() => handleCopy(selectedLead.phone, "Número")} variant="outline" className="h-12 border-white/10 bg-white/5 text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-white/10"><Copy size={14} className="mr-2" /> Copiar Número</Button>
                             </div>
                             

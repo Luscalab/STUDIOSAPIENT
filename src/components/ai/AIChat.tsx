@@ -142,8 +142,7 @@ export function AIChat() {
 
   const handleWhatsAppRedirect = () => {
     const phone = "5511959631870";
-    const text = `Olá! Acabei de preencher as informações no chat do site e quero falar sobre meu negócio. (Lang: ${language})`;
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(`https://wa.me/${phone}`, '_blank');
   };
 
   if (!isOpen) {

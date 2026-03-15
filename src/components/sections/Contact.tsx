@@ -11,8 +11,7 @@ export function Contact() {
   const contactData = {
     email: "contato@studiosapient.com.br",
     phone: "+55 11 95963-1870",
-    phoneDigits: "5511959631870",
-    whatsappMsg: "Olá! Gostaria de saber mais sobre os serviços da studiosapient."
+    phoneDigits: "5511959631870"
   };
 
   const handleCopy = (text: string, label: string) => {
@@ -24,7 +23,7 @@ export function Contact() {
     });
   };
 
-  const whatsappUrl = `https://wa.me/${contactData.phoneDigits}?text=${encodeURIComponent(contactData.whatsappMsg)}`;
+  const whatsappUrl = `https://wa.me/${contactData.phoneDigits}`;
 
   return (
     <section id="contato" className="py-16 md:py-32 bg-[#0c0a1a] text-white relative rounded-[2.5rem] md:rounded-[5rem] mx-4 mb-16 shadow-2xl overflow-hidden">
