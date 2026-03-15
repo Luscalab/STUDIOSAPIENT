@@ -176,15 +176,16 @@ export function RecrutamentoClient() {
   };
 
   const handleCopy = (text: string, label: string) => {
-    if (!text || text === "-") return;
+    if (!text || text === "-" || typeof window === 'undefined') return;
     try {
-      if (typeof navigator !== 'undefined' && navigator.clipboard) {
-        navigator.clipboard.writeText(text);
-        toast({
-          title: `[ ${label.toUpperCase()} COPIADO ]`,
-          description: "Pronto para uso na sua área de transferência.",
-          className: "bg-black border-primary text-white font-black uppercase tracking-widest text-[9px]"
-        });
+      if (navigator && navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          toast({
+            title: `[ ${label.toUpperCase()} COPIADO ]`,
+            description: "Pronto para uso na sua área de transferência.",
+            className: "bg-black border-primary text-white font-black uppercase tracking-widest text-[9px]"
+          });
+        }).catch(e => console.warn("Clipboard access denied", e));
       }
     } catch (err) {
       console.error("Falha ao copiar:", err);
@@ -192,30 +193,28 @@ export function RecrutamentoClient() {
   };
 
   const maskEmail = (email: any) => {
-    const sEmail = String(email || "");
-    if (!sEmail || sEmail === "-" || !sEmail.includes('@')) return sEmail || "-";
     try {
+      const sEmail = String(email || "");
+      if (!sEmail || sEmail === "-" || !sEmail.includes('@')) return sEmail || "-";
       const parts = sEmail.split('@');
       const userPart = parts[0] || "";
       const domainPart = parts[1] || "";
       const maskedUser = userPart.length > 3 ? userPart.substring(0, 3) + "***" : userPart + "***";
-      const domainParts = domainPart.split('.');
-      const tld = domainParts.pop() || "com";
-      return `${maskedUser}@***.${tld}`;
+      return `${maskedUser}@***.com`;
     } catch {
-      return sEmail;
+      return String(email || "-");
     }
   };
 
   const maskPhone = (phone: any) => {
-    const sPhone = String(phone || "");
-    if (!sPhone || sPhone === "-") return "-";
     try {
+      const sPhone = String(phone || "");
+      if (!sPhone || sPhone === "-") return "-";
       const digits = sPhone.replace(/\D/g, '');
       if (digits.length < 8) return sPhone;
       return `${sPhone.substring(0, 4)} **** ${sPhone.slice(-2)}`;
     } catch {
-      return sPhone;
+      return String(phone || "-");
     }
   };
 
