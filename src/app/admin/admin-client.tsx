@@ -129,7 +129,6 @@ export function AdminClient() {
     });
   };
 
-  // Parser de CSV robusto que lida com aspas
   const parseCSVLine = (text: string) => {
     const result = [];
     let current = '';
@@ -162,11 +161,11 @@ export function AdminClient() {
         return;
       }
 
-      const newLeads = lines.slice(1).map(line => {
+      // PREVENÇÃO DE DUPLICADOS: Criar Set de chaves (Nome + Região)
+      const existingKeys = new Set(leads?.map(l => `${l.companyName?.toLowerCase().trim()}|${l.region?.toLowerCase().trim()}`) || []);
+
+      const newLeadsData = lines.slice(1).map(line => {
         const values = parseCSVLine(line);
-        
-        // Mapeamento baseado na estrutura de 12 colunas informada
-        // 0: Empresa, 1: Região, 2: Nota, 3: Gargalos, 4: Serviços, 5: Script, 6: Sócio, 7: Site, 8: Contato, 9: Decisor, 10: Dicas, 11: Notas
         
         const rating = parseFloat(values[2]?.replace(',', '.')) || 4.0;
         const rawServices = values[4] || "";
@@ -178,8 +177,8 @@ export function AdminClient() {
         const contato = values[8]?.trim() || "";
 
         return {
-          companyName: values[0] || "Empresa Sem Nome",
-          region: values[1] || "Geral",
+          companyName: (values[0] || "Empresa Sem Nome").trim(),
+          region: (values[1] || "Geral").trim(),
           address: values[1] || "-",
           googleRating: rating,
           bottlenecks: values[3] || "",
@@ -197,16 +196,33 @@ export function AdminClient() {
         };
       });
 
-      let count = 0;
-      for (const lead of newLeads) {
-        await addDocumentNonBlocking(collection(db, 'commercial_leads'), lead);
-        count++;
+      let countAdded = 0;
+      let countIgnored = 0;
+
+      for (const lead of newLeadsData) {
+        const key = `${lead.companyName.toLowerCase()}|${lead.region.toLowerCase()}`;
+        
+        if (!existingKeys.has(key)) {
+          await addDocumentNonBlocking(collection(db, 'commercial_leads'), lead);
+          existingKeys.add(key); // Evita duplicados no mesmo arquivo
+          countAdded++;
+        } else {
+          countIgnored++;
+        }
       }
 
-      toast({ 
-        title: "Importação Concluída", 
-        description: `${count} leads estratégicos adicionados com sucesso.` 
-      });
+      if (countAdded > 0) {
+        toast({ 
+          title: "Importação Concluída", 
+          description: `${countAdded} novos leads estratégicos adicionados. ${countIgnored} duplicados ignorados.` 
+        });
+      } else {
+        toast({ 
+          title: "Importação Ignorada", 
+          description: `Todos os ${countIgnored} leads do arquivo já existem na base estratégica.`,
+          variant: "destructive"
+        });
+      }
       
       if (fileInputRef.current) fileInputRef.current.value = "";
     };
